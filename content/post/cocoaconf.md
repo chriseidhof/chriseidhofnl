@@ -1,0 +1,26 @@
+---
+date: 2014-11-22
+title: CocoaConf
+headline: Why I'm Not Speaking There
+---
+
+
+This summer, I was in touch with CocoaConf about speaking at their Boston edition. After they checked their schedules, they confirmed me as a speaker, and asked me if I could swing a second talk so that they could cover my flight from NY and my hotel. I've never given two talks at a single conference, but I was happy to do it: challenge accepted.  I started organizing my flight to the US around this, I had started planning my two talks, and got super excited about meeting all these awesome people.
+
+Just three weeks before the conference, I got an email that both of my talks were cancelled, because they had overbooked on speakers. I felt like it could have been an honest mistake, but it did make me feel sad, because I was really looking forward to this. However, these things can happen.
+
+At the same time, I saw that another speaker (who works for one of the sponsors) had just been announced. It turns out that he works for one of the sponsors (he's a great guy, and deserves no blame in this story).
+It wasn't clear at the time, but after asking about it specifically, I found out I got bumped because of a sponsored talk. 
+CocoaConf offered me a free ticket to make up for it, but I gave it away.
+
+Bumping speakers is not so cool, but I imagine it can happen sometimes. Bumping me without telling me upfront that they were doing it to make room for a sponsored speaker made me feel really shitty. About a week ago they asked my if I wanted to speak in Atlanta, and I told them in clear words that this experience made me never want to speak at CocoaConf again. A similar thing happened with the GOTO conference once, but at least they told me directly that I was being bumped because of a sponsored talk.
+
+I don't mind if conference organizers make an honest mistake. I've slept in really bad hotels, had to wait at airports for a really long time, have experienced bad tech setups and it's all fine. I know how tough it is to be a conference organizer. Mistakes happen. If this had happened at a small indie conference, I would've been less upset (but probably still not come back). However, because this came from a professional organization who have been doing this for years, just the bumping made me feel really sad. The fact that they did not tell me up front that it was because of a sponsored talk and that I had to figure it out myself made me feel very disrespected.
+
+
+### [Update](https://github.com/chriseidhof/chris.eidhof.nl/commit/87a4feff9a30c510b7e5714f60a8d78504b0b9f8)
+Dave from CocoaConf send me an email asking to clarify some misinformation:
+
+*As I told you when you asked, we had promised [him] spots in Boston and Atlanta long before you contacted us, but we had forgotten to add him to the site.  The same thing happened with another speaker.  Also, [his company] was not even signed up as a sponsor at the time that we agreed to have him speak.  His speaking slots are not tied, in any way, to [their] sponsorship and never have been.  In fact, we do not have any sponsored speakers, other than lunch time, optional demos.  You can see our sponsorship prospectus online.  There are no speaking slots included with any sponsorship level.*
+
+I edited it to remove the name of the sponsor because it doesn't matter.  Also, Dave mentions that they are part-time family business, and barely covering costs.  It could very well be that my interpretation of the events was wrong.

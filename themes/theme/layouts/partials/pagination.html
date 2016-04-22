@@ -1,0 +1,10 @@
+{{ if or (.Paginator.HasPrev) (.Paginator.HasNext) }}
+  <footer id="post-list-footer">
+    {{ if .Paginator.HasNext }}
+    <a id="archive-link" href="{{ .URL }}page/{{ .Paginator.Next.PageNumber }}"><span class="arrow">&larr;</span> Older posts </a>
+    {{ end }}
+  {{ if .Paginator.HasPrev }}
+    <a id="archive-link" href="{{ .URL }}page/{{ .Paginator.Prev.PageNumber }}">Newer posts <span class="arrow">&rarr;</span> </a>
+  {{ end }}
+  </footer>
+{{ end }}

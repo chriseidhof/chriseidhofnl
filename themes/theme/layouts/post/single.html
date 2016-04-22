@@ -1,0 +1,46 @@
+{{ partial "default_head.html" . }}
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+  <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="{{ .Site.BaseURL }}"/>
+  <meta itemprop="dateModified" content="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}">
+  <meta itemprop="headline" content="{{ .Title }}">
+  <meta itemprop="description" content="{{ .Summary }}">
+  <meta itemprop="url" content="{{ .Permalink }}">
+    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="{{ .Site.BaseURL }}images/logo.png">
+      <meta itemprop="width" content="100">
+      <meta itemprop="height" content="100">
+    </div>
+    <meta itemprop="name" content="{{ .Site.Title }}">
+  </div>
+  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="{{ .Site.Params.Author }}">
+  </div>
+
+  <header>
+    <h1>{{ .Title }}</h1>
+    <h2 class="headline"> {{ .Params.headline }} </h2>
+  </header>
+
+  <section class="postbody">
+    {{ .Content }}
+  </section>
+
+  <footer id="post-meta" class="group">
+    <div>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}">{{ with .Site.Params.DateForm }}{{ $.Date.Format . }}{{ else }}{{ $.Date.Format "Mon, Jan 2, 2006" }}{{ end }}</time>
+      by <a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a>
+
+    </div>
+  <section id="sharing">
+    <a class="twitter" href="https://twitter.com/share"><span class="icon-twitter-circled"></span></a>
+  </section> <!--sharing-->
+  </footer> <!--post-meta-->
+  
+
+</article>
+
+<footer><nav id="post-nav"></nav></footer>
+
+{{ partial "shared_foot.html" . }}

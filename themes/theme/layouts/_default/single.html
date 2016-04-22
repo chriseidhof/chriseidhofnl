@@ -1,0 +1,20 @@
+{{ partial "default_head.html" . }}
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+  <header>
+    <h1>{{ .Title }}</h1>
+    <h2 class="headline"> {{ .Params.headline }} </h2>
+  </header>
+
+  <section class="postbody">
+    {{ .Content }}
+  </section>
+
+  <footer>
+  </footer>
+  
+
+</article>
+
+{{ partial "default_foot.html" . }}

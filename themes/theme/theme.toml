@@ -1,0 +1,5 @@
+name = "Theme"
+tags = ["blog"]
+features = ["blog"]
+min_version = 0.15
+

@@ -1,0 +1,20 @@
+{{ partial "default_head.html" . }}
+
+  <ul id="post-list">
+    {{ range first 5 .Data.Pages }}
+      {{ .Render "li" }}
+    {{ end }}
+  </ul> <!--post-list-->
+  
+  <footer id="post-list-footer">
+    <a id="archive-link" href="/post"> <span class="arrow">&larr;</span> Older posts</a>
+  </footer>
+
+  <footer id="about-me">
+    I'm Chris Eidhof. I wrote <a href="http://www.objc.io/books/functional-swift">Functional Programming in Swift</a> and <a href="http://www.objc.io/books/advanced-swift">Advanced Swift</a> at <a href="http://www.objc.io">objc.io</a>. 
+  
+    I built iOS and Mac apps, such as <a href="http://www.decksetapp.com">Deckset</a> and <a href="http://www.getscenery.com">Scenery</a>. More <a href="/about.html">about me</a>.
+  </footer>
+  
+
+  {{ partial "default_foot.html" . }}

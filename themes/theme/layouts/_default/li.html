@@ -1,0 +1,7 @@
+  	<li> 
+      <a href='{{ .Permalink }}'>
+        <aside class="dates">{{ with .Site.Params.DateForm }}{{ $.Date.Format . }}{{ else }}{{ $.Date.Format "Jan 2" }}{{ end }}</aside>
+      </a>
+      <a href='{{ .Permalink }}'>{{ .Title }} <h2> {{ .Params.headline }} </h2></a>
+  	</li>
+
