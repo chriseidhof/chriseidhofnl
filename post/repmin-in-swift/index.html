@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.15" />
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <script type="text/javascript" src="//use.typekit.net/bwu1cse.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+	<link rel="shortcut icon" href="/images/favicon.ico">	
+	<link rel="stylesheet" href="/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://chris.eidhof.nl//index.xml">
+
+    
+    <title>Repmin in Swift - Chris Eidhof</title>
+    <meta property='og:title' content="Repmin in Swift - Chris Eidhof">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://chris.eidhof.nl/post/repmin-in-swift/">
+    
+    
+
+  </head>
+
+  <body>
+
+<section id="content">
+<section id="outer-container">
+<section id="wrapper">
+
+<header id="header">
+<a id="title" href="/"><img src="/images/logo.png" style="width: 2em"></a>
+</header> 
+
+    
+
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+  <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
+  <meta itemprop="dateModified" content="2015-01-10T00:00:00&#43;00:00">
+  <meta itemprop="headline" content="Repmin in Swift">
+  <meta itemprop="description" content="This might be my most obscure functional programming post yet. Yesterday, I attended the Dutch Functional Programming Day, and it was very nice to see many old friends. Doaitse&rsquo;s talk was about different solutions to the repmin problem (and related problems). Repmin is a slightly obscure problem (but famous amoung a small group of functional programmers): Given a binary tree with integers at the leaves, replace each leave&rsquo;s value by the minimum value in the tree.">
+  <meta itemprop="url" content="http://chris.eidhof.nl/post/repmin-in-swift/">
+    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
+      <meta itemprop="width" content="100">
+      <meta itemprop="height" content="100">
+    </div>
+    <meta itemprop="name" content="Chris Eidhof">
+  </div>
+  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="">
+  </div>
+
+  <header>
+    <h1>Repmin in Swift</h1>
+    <h2 class="headline"> Combining Tree Traversals </h2>
+  </header>
+
+  <section class="postbody">
+    <p>This might be my most obscure functional programming post yet.</p>
+
+<p>Yesterday, I attended the Dutch Functional Programming Day, and it was very nice to see many old friends. <a href="http://foswiki.cs.uu.nl/foswiki/Swierstra/WebHome">Doaitse</a>&rsquo;s talk was about different solutions to the repmin problem (and related problems). Repmin is a slightly obscure problem (but famous amoung a small group of functional programmers):</p>
+
+<p><em>Given a binary tree with integers at the leaves, replace each leave&rsquo;s value by the minimum value in the tree.</em></p>
+
+<p>For example, given the following tree:</p>
+
+<pre><code>(1 2) (3 (4 5))
+</code></pre>
+
+<p>The result would be:</p>
+
+<pre><code>(1 1) (1 (1 1))
+</code></pre>
+
+<p>The simplest solution would take two steps: in step 1, we iterate over the tree, finding the minimum value. In step 2, we iterate over the tree again, replacing every leaf with the minimum value. Let&rsquo;s build that. In Swift, we can define a tree like this:</p>
+
+<pre><code>enum Tree {
+    case Node(Tree, Tree)
+    case Leaf(Int)
+}
+</code></pre>
+
+<p>Finding the minimum is simple, in case of a leaf we return the leaf&rsquo;s value, in case of a node we return the minimum of both branches:</p>
+
+<pre><code>func minimum(t: Tree) -&gt; Int {
+    switch t {
+    case let .Node(l, r):
+        return min(minimum(l), minimum(r))
+    case .Leaf(let x):
+        return x
+    }
+}
+</code></pre>
+
+<p>For replacing, we can write another function:</p>
+
+<pre><code>func replaceAllLeaves(t: Tree, newValue: Int) -&gt; Tree {
+    switch t {
+    case .Node(let l, let r):
+        return .Node(replaceAllLeaves(l, newValue), replaceAllLeaves(r, newValue))
+    case .Leaf(_):
+        return .Leaf(newValue)
+    }
+}
+</code></pre>
+
+<p>Now, we can write our solution like this:</p>
+
+<pre><code>repmin = { tree in replaceAllLeaves(tree, minimum(tree)) }
+</code></pre>
+
+<p>We compute the minimum of <code>tree</code> and then replace all values in the leaves with that result, and everything is fine. However, in 1984, Richard Bird came up with <a href="http://link.springer.com/article/10.1007/BF00264249#page-1">a solution</a> that uses a single inspection. In a single pass, we compute both the minimum of a tree, and a function that, given the minimum, returns the new tree. That function looks like this:</p>
+
+<pre><code>func repMinHelper(t: Tree) -&gt; (Int, Int -&gt; Tree) {
+    switch t {
+    case .Node(let l, let r):
+        let (lMin, lBuild) = repMinHelper(l)
+        let (rMin, rBuild) = repMinHelper(r)
+        return (min(lMin,rMin), 
+                { x in .Node(lBuild(x), rBuild(x)) })
+    case .Leaf(let value):
+        return (value, { x in .Leaf(x) })
+    }
+}
+</code></pre>
+
+<p>Then, we can solve the repmin problem by creating a new function <code>repMin</code> that wraps the helper:</p>
+
+<pre><code>func repMin(t: Tree) -&gt; Tree {
+    let (min, builder) = repMinHelper(t)
+    return builder(min)
+}
+</code></pre>
+
+<p>This is pretty cool: in a single inspection, we compute both the minimum value and a function to build the new tree. This relates strongly to <a href="http://en.wikipedia.org/wiki/Attribute_grammar">attribute grammars</a>: we can think of the minimum as a synthesized attribute, and the new tree uses that synthesized attributed as an inherited attribute.</p>
+
+<p>In a way, it also reminds me of <a href="https://github.com/mbrandonw/learn-transducers-playground">transducers</a>: transducers combine multiple functions that operate on lists, but compute everything using a single pass. The technique above is a little bit similar, but for tree-structures. I can&rsquo;t really see a useful way to apply this in my production code, but it&rsquo;s an interesting exercise nonetheless.</p>
+
+<p>The full code is <a href="https://gist.github.com/chriseidhof/6b4d1c8a542003d60cb9">available as a gist</a>, and uses <code>Box</code> to work around Swift&rsquo;s limitations with recursive enums.</p>
+
+  </section>
+
+  <footer id="post-meta" class="group">
+    <div>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="2015-01-10T00:00:00&#43;00:00">Sat, Jan 10, 2015</time>
+      by <a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a>
+
+    </div>
+  <section id="sharing">
+    <a class="twitter" href="https://twitter.com/share"><span class="icon-twitter-circled"></span></a>
+  </section> 
+  </footer> 
+  
+
+</article>
+
+<footer><nav id="post-nav"></nav></footer>
+
+</section> 
+</section> 
+
+</section> 
+
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="/js/main.js/"></script>
+   <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24867064-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+</body>
+</html>
+

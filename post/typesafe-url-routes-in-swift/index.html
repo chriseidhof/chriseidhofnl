@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.15" />
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <script type="text/javascript" src="//use.typekit.net/bwu1cse.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+	<link rel="shortcut icon" href="/images/favicon.ico">	
+	<link rel="stylesheet" href="/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://chris.eidhof.nl//index.xml">
+
+    
+    <title>Type-safe URL routes in Swift - Chris Eidhof</title>
+    <meta property='og:title' content="Type-safe URL routes in Swift - Chris Eidhof">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://chris.eidhof.nl/post/typesafe-url-routes-in-swift/">
+    
+    
+
+  </head>
+
+  <body>
+
+<section id="content">
+<section id="outer-container">
+<section id="wrapper">
+
+<header id="header">
+<a id="title" href="/"><img src="/images/logo.png" style="width: 2em"></a>
+</header> 
+
+    
+
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+  <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
+  <meta itemprop="dateModified" content="2014-08-18T00:00:00&#43;00:00">
+  <meta itemprop="headline" content="Type-safe URL routes in Swift">
+  <meta itemprop="description" content="While Ash Furrow is working on his Moya project, I got inspired by his approach, and decided to write a little bit of code to demonstrate a technique I used in Haskell a few years ago. It uses Swift enums to describe API endpoints. Instead of describing endpoints this with strings, you can use Swift&rsquo;s enums to make it type-safe and well-documented. Let&rsquo;s build an example that wraps a very small part of the GitHub API.">
+  <meta itemprop="url" content="http://chris.eidhof.nl/post/typesafe-url-routes-in-swift/">
+    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
+      <meta itemprop="width" content="100">
+      <meta itemprop="height" content="100">
+    </div>
+    <meta itemprop="name" content="Chris Eidhof">
+  </div>
+  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="">
+  </div>
+
+  <header>
+    <h1>Type-safe URL routes in Swift</h1>
+    <h2 class="headline"> A micro library </h2>
+  </header>
+
+  <section class="postbody">
+    <p>While Ash Furrow is working on his <a href="https://github.com/AshFurrow/Moya">Moya</a> project, I got inspired by his approach, and decided to write a little bit of code to demonstrate a technique I used in Haskell a few years ago.</p>
+
+<p>It uses Swift enums to describe API endpoints. Instead of describing endpoints this with strings, you can use Swift&rsquo;s enums to make it type-safe and well-documented. Let&rsquo;s build an example that wraps a very small part of the <a href="https://developer.github.com/v3/">GitHub API</a>.</p>
+
+<p>There&rsquo;s an API endpoint &ldquo;zen&rdquo;, which works like this:</p>
+
+<pre><code>$ curl 'https://api.github.com/zen'
+Favor focus over features.~
+</code></pre>
+
+<p>There&rsquo;s a different API endpoint &ldquo;/users/name&rdquo;, which works like this:</p>
+
+<pre><code>$ curl 'https://api.github.com/users/chriseidhof'
+{
+  &quot;login&quot;: &quot;chriseidhof&quot;,
+  &quot;id&quot;: 5382,
+  ...
+}
+</code></pre>
+
+<p>Now, what we can do is define an enum with a case for all endpoints. Note that the &ldquo;zen&rdquo; endpoint doesn&rsquo;t take any parameters, where as the &ldquo;users&rdquo; endpoint takes a string parameter (the user name):</p>
+
+<pre><code>enum Github {
+    case Zen
+    case UserProfile(String)
+}
+</code></pre>
+
+<p>We can then define a protocol <code>Path</code> that, for a given type, describes how to turn this into a <code>String</code> value.</p>
+
+<pre><code>protocol Path {
+    var path : String { get }
+}
+</code></pre>
+
+<p>Now we can make our Github enum conform to the Path protocol. Because this is just a proof of concept, we don&rsquo;t escape the user&rsquo;s name (which should definitely be done in production code).</p>
+
+<pre><code>extension Github : Path {
+    var path: String {
+        switch self {
+        case .Zen: return &quot;/zen&quot;
+        case .UserProfile(let name): return &quot;/users/\(name)&quot;
+        }
+    }
+}
+</code></pre>
+
+<p>Having done this work, we can create a route, and get the path out:</p>
+
+<pre><code>let sample = Github.UserProfile(&quot;ashfurrow&quot;)
+println(sample.path) 
+// Prints &quot;/users/ashfurrow&quot;
+</code></pre>
+
+<p>In Ash&rsquo;s library, generates full URLs, and also has sample data included for each endpoint (which makes it really convenient when doing TDD). We can create a protocol that helps us with both:</p>
+
+<pre><code>protocol Moya : Path {
+    var baseURL: NSURL { get }
+    var sampleData: String { get } // Probably JSON would be better than String
+}
+</code></pre>
+
+<p>The above protocol says that there has to be a base URL of type NSURL, and that for each value of <code>Moya</code> there should be sample data available in string form (this string would probably contain JSON data).</p>
+
+<p>Implementing this for the Github API is simple. For the sample data, we use a switch and depending on the case, we return different sample data. We can even use the user&rsquo;s name in the sample data:</p>
+
+<pre><code>extension Github : Moya {
+    var baseURL: NSURL { return NSURL(string: &quot;https://api.github.com&quot;) }
+    var sampleData: String {
+        switch self {
+        case .Zen: return &quot;Half measures are as bad as nothing at all.&quot;
+        case .UserProfile(let name): return &quot;{login: \&quot;\(name)\&quot;, id: 100}&quot;
+        }
+    }
+}
+</code></pre>
+
+<p>Now we have all the pieces to write a function <code>url</code> that, given an object conforming to the <code>Moya</code> protocol, will return us a URL. Note that this doesn&rsquo;t depend on the Github enum at all, it&rsquo;ll work on any type that conforms to the <code>Moya</code> protocol:</p>
+
+<pre><code>func url(route: Moya) -&gt; NSURL {
+    return route.baseURL.URLByAppendingPathComponent(route.path)
+}
+</code></pre>
+
+<p>We can use it like this:</p>
+
+<pre><code>println(url(sample)) 
+// prints https://api.github.com/users/ashfurrow
+</code></pre>
+
+<p>I think it&rsquo;s a really nice way of building APIs. The Github enum makes it very clear which endpoints are available, and the form of their parameters. By defining these things once, we can make it much harder for users of this API to make mistakes. For example, it&rsquo;s not possible to pass in a <code>nil</code> username, because the <code>UserProfile</code> takes a non-optional string. If we wanted to add optional parameters, we have to be explicit about that.</p>
+
+<p>The other nice thing is that all of the above code is independent of any networking library. It&rsquo;s so simple that it could be used with any library, be it <a href="https://github.com/Alamofire/Alamofire">AlamoFire</a>, <a href="http://allseeing-i.com/ASIHTTPRequest/">ASIHTTPRequest</a> (remember that?) or just plain <code>NSURLSession</code>. Enjoy!</p>
+
+<p>The full code is available as a gist <a href="https://gist.github.com/chriseidhof/1fc977ffb856dbcdc113">here</a>.</p>
+
+  </section>
+
+  <footer id="post-meta" class="group">
+    <div>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="2014-08-18T00:00:00&#43;00:00">Mon, Aug 18, 2014</time>
+      by <a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a>
+
+    </div>
+  <section id="sharing">
+    <a class="twitter" href="https://twitter.com/share"><span class="icon-twitter-circled"></span></a>
+  </section> 
+  </footer> 
+  
+
+</article>
+
+<footer><nav id="post-nav"></nav></footer>
+
+</section> 
+</section> 
+
+</section> 
+
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="/js/main.js/"></script>
+   <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24867064-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+</body>
+</html>
+

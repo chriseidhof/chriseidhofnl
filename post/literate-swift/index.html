@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.15" />
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <script type="text/javascript" src="//use.typekit.net/bwu1cse.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+	<link rel="shortcut icon" href="/images/favicon.ico">	
+	<link rel="stylesheet" href="/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://chris.eidhof.nl//index.xml">
+
+    
+    <title>Literate Swift - Chris Eidhof</title>
+    <meta property='og:title' content="Literate Swift - Chris Eidhof">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://chris.eidhof.nl/post/literate-swift/">
+    
+    
+
+  </head>
+
+  <body>
+
+<section id="content">
+<section id="outer-container">
+<section id="wrapper">
+
+<header id="header">
+<a id="title" href="/"><img src="/images/logo.png" style="width: 2em"></a>
+</header> 
+
+    
+
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+  <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
+  <meta itemprop="dateModified" content="2015-07-31T00:00:00&#43;00:00">
+  <meta itemprop="headline" content="Literate Swift">
+  <meta itemprop="description" content="Last year, when we started writing Functional Programming in Swift, we realized that the language would change every few weeks. We didn&rsquo;t anticipate the pace, but we were ready for change. Rather than manually updating every article, we used a technique called literate programming. In literate programming, you write the code and text at the same time. The code in the text can be executed. To do this, we wrote a small utility called Literate Swift.">
+  <meta itemprop="url" content="http://chris.eidhof.nl/post/literate-swift/">
+    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
+      <meta itemprop="width" content="100">
+      <meta itemprop="height" content="100">
+    </div>
+    <meta itemprop="name" content="Chris Eidhof">
+  </div>
+  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="">
+  </div>
+
+  <header>
+    <h1>Literate Swift</h1>
+    <h2 class="headline"> A Tool for Writing Swift and Markdown </h2>
+  </header>
+
+  <section class="postbody">
+    <p>Last year, when we started writing <a href="http://www.objc.io/books/fpinswift/">Functional Programming in Swift</a>, we realized that the language would change every few weeks. We didn&rsquo;t anticipate the pace, but we were ready for change. Rather than manually updating every article, we used a technique called <a href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a>. In literate programming, you write the code and text at the same time. The code in the text can be executed. To do this, we wrote a small utility called Literate Swift.</p>
+
+<p>For our two new books, <a href="http://www.objc.io/books/core-data/">Core Data</a> and <a href="http://www.objc.io/books/advanced-swift/">Advanced Swift</a>, we are using the same technique, except with a newer version of the tool. Literate Swift is a library (and comes with a GUI or command-line tool) that takes a Markdown file, extracts all the code blocks marked with <code>swift</code>, and compiles those. The awesome thing about it is that you can compile your Markdown: you can statically check that the code in your blog posts (or in our case, our books) is correct.</p>
+
+<p>Not only does it compile the code blocks marked as Swift, it also takes code blocks marked as <code>print-swift</code>, and replaces them by the code <em>and</em> the result of executing that code. For example, the following block after running it through Literate Swift:</p>
+
+<pre><code>```print-swift
+(1..&lt;10).reduce(0, combine: +)
+```
+</code></pre>
+
+<p>Will get replaced by the following block:</p>
+
+<pre><code>```swift
+(1..&lt;10).reduce(0, combine: +)
+&gt; 45
+```
+</code></pre>
+
+<p>We support just highlighting code by marking a block as <code>highlight-swift</code>. This way, it gets highlighted, but not compiled (which is also a danger, because that code might easily get outdated).</p>
+
+<p>Finally, sometimes you just want to work in a Swift file. For this, we support embeds. If you have the following block, Literate Swift will look at all Swift files in that directory (and all its subdirectories, recursively), and see if there are lines that are surrounded by <code>// &lt;&lt;MySnippet&gt;&gt;</code> and <code>// &lt;&lt;/MySnippet&gt;&gt;</code>, and embed the contents of that into the output (without executing it). This way, you can write separate Swift files that are easy to edit using Xcode and still make sure it gets embedded into the output.</p>
+
+<pre><code>```highlight-swift
+&lt;&lt;MySnippet&gt;&gt;
+```
+</code></pre>
+
+<p>The Literate Swift tool can currently generate a number of outputs: HTML, Markdown and LaTeX. The <a href="https://github.com/chriseidhof/LiterateSwiftGUI">GUI tool</a> renders the HTML directly into a web view, which is great for previewing while writing. It also has tabs for Markdown, Playground syntax and just the Swift code (for easy copy-pasting). The entire tool chain is still very immature (and a bit hacky at some points), but it has proven to be a great help during writing already. It should also be very simple to integrate this into blogging workflows, and other publishing formats.</p>
+
+  </section>
+
+  <footer id="post-meta" class="group">
+    <div>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="2015-07-31T00:00:00&#43;00:00">Fri, Jul 31, 2015</time>
+      by <a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a>
+
+    </div>
+  <section id="sharing">
+    <a class="twitter" href="https://twitter.com/share"><span class="icon-twitter-circled"></span></a>
+  </section> 
+  </footer> 
+  
+
+</article>
+
+<footer><nav id="post-nav"></nav></footer>
+
+</section> 
+</section> 
+
+</section> 
+
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="/js/main.js/"></script>
+   <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24867064-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+</body>
+</html>
+
