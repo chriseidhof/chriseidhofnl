@@ -1,5 +1,15 @@
 #!/bin/bash
 
+branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
+branch_name=${branch_name##refs/heads/}
+
+
+if [ $branch_name != "master" ];
+then 
+  echo "Not on master"
+  exit -1
+fi
+
 echo -e "\033[0;32mDeploying updates to GitHub...\033[0m"
 
 # Build the project.
