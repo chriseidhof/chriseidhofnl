@@ -52,7 +52,7 @@ This proposal wants to make it easier to build Swift strings from C strings.
 
 Just like before, it seems like big changes will happen to the `String` type.
 
-## [Optional Value Setter `??=`](https://github.com/apple/swift-evolution/blob/master/proposals/0024-optional-value-setter.md)
+## [SE-0024 Optional Value Setter `??=`](https://github.com/apple/swift-evolution/blob/master/proposals/0024-optional-value-setter.md)
 
 This proposal wants to add another setter, `??=`, which sets the left-hand side to the value of the right-hand side (but only if the left-hand side is `nil`).
 
