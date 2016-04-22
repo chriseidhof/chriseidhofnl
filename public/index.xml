@@ -5,9 +5,110 @@
     <link>http://chris.eidhof.nl/</link>
     <language>en-us</language>
     <author></author>
-    <rights>(C) 2015</rights>
-    <updated>2015-08-30 00:00:00 &#43;0000 UTC</updated>
+    <rights>(C) 2016</rights>
+    <updated>2016-04-22 15:46:42 &#43;0200 CEST</updated>
 
+    
+      
+        <item>
+          <title>Rejected Swift Proposals</title>
+          <link>http://chris.eidhof.nl/post/rejected-swift-proposals/</link>
+          <pubDate>Fri, 22 Apr 2016 15:46:42 CEST</pubDate>
+          <author></author>
+          <guid>http://chris.eidhof.nl/post/rejected-swift-proposals/</guid>
+          <description>
+
+&lt;p&gt;Not too long ago, we finally shipped &lt;a href=&#34;http://www.objc.io/books/advanced-swift&#34;&gt;Advanced Swift&lt;/a&gt;. It was a long process, but I&amp;rsquo;m really happy about the result. Just before we finished it, Swift became open-source, the mailing lists opened up, and many GitHub repositories appeared.&lt;/p&gt;
+
+&lt;p&gt;At first, I subscribed to all the mailing lists, and added a filter to move them into a separate folder. There was so much discussion that I couldn&amp;rsquo;t keep up at all - at least not while finishing the book. I was so overwhelmed that I completely stopped reading the lists, let alone participate in the discussions.&lt;/p&gt;
+
+&lt;p&gt;In the next edition of Advanced Swift (the update for Swift 3) we want to include a chapter about the history of Swift. At the beginning of this week, I set aside a day to read through all current proposals in detail. Not only to understand what is coming up, but also to learn what got rejected. With most rejections, the core team included a good rationale that can help us understand how they see the language evolve.&lt;/p&gt;
+
+&lt;p&gt;One interesting thing I found while going through all proposals is the ever-present discussion about &amp;ldquo;readability&amp;rdquo;. I&amp;rsquo;m convinced more than ever that readability is subjective in many cases.&lt;/p&gt;
+
+&lt;p&gt;I am going to write a series of posts about all the proposals. First off, let&amp;rsquo;s start with all the rejected proposals. Here, it&amp;rsquo;s especially interesting to see why they got rejected, and I&amp;rsquo;ve selectively quoted the rationales given by the core team.&lt;/p&gt;
+
+&lt;h2 id=&#34;se-0009-require-self-for-accessing-instance-members-https-github-com-apple-swift-evolution-blob-master-proposals-0009-require-self-for-accessing-instance-members-md:ad100045d96cd9f53c3487c82b32217f&#34;&gt;&lt;a href=&#34;https://github.com/apple/swift-evolution/blob/master/proposals/0009-require-self-for-accessing-instance-members.md&#34;&gt;SE-0009 Require self for accessing instance members&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;This proposal wants to make &lt;code&gt;self.&lt;/code&gt; mandatory for all instance members. The author feels that requiring &lt;code&gt;self.&lt;/code&gt; increases readability, and make everything more consistent.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Mandatory “self.” introduces a significant amount of verbosity that does not justify itself with added clarity. While it is true that mandatory “self.” may prevent a class of bugs, the cost of eliminating those bugs is fairly high in terms of visual clutter, which goes against the generally uncluttered feel of Swift. Paul Cantrell put it well in his review &lt;a href=&#34;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/002910.html&#34;&gt;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/002910.html&lt;/a&gt; when he said, “anything that is widely repeated becomes invisible.” Swift aims to avoid such boilerplate and repetition in its design, a principle also espoused by the Swift API Design Guidelines &lt;a href=&#34;https://swift.org/documentation/api-design-guidelines.html&#34;&gt;https://swift.org/documentation/api-design-guidelines.html&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The requirement to use “self.” within potentially-escaping closures is a useful indicator of the potential for retain cycles that we don’t want to lose. Additionally, developers can optionally use “self.” when they feel it improves clarity (e.g., when similar operations are being performed on several different instances, of which “self” is one).&lt;/p&gt;
+
+&lt;p&gt;The name-shadowing concerns behind the mandatory “self.” apply equally well to anything found by unqualified name lookup, including names found in the global scope. To call out members of types as requiring qualification while global names do not (even when global names tend to be far more numerous) feels inconsistent, but requiring qualification for everything (e.g., “Swift.print”, “self.name”) exacerbates the problem of visual clutter.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160104/005478.html&#34;&gt;Rationale&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The author of the proposal feels that requiring &lt;code&gt;self.&lt;/code&gt; makes the code more readable. I can see why, yet still feel the opposite. This is one of those cases where we can hardly say anything objective about it being more readable, instead, we should probably say &amp;ldquo;it&amp;rsquo;s more readable for me&amp;rdquo;.&lt;/p&gt;
+
+&lt;h2 id=&#34;se-0010-add-staticstring-unicodescalarview-https-github-com-apple-swift-evolution-blob-master-proposals-0010-add-staticstring-unicodescalarview-md:ad100045d96cd9f53c3487c82b32217f&#34;&gt;&lt;a href=&#34;https://github.com/apple/swift-evolution/blob/master/proposals/0010-add-staticstring-unicodescalarview.md&#34;&gt;SE-0010 Add StaticString.UnicodeScalarView&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;This proposal wants to make it possible to make static substrings of &lt;code&gt;StaticString&lt;/code&gt; by adding a new type &lt;code&gt;StaticString.UnicodeScalarView&lt;/code&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;While the addition of StaticString.UnicodeScalarView is a useful feature by itself, the core team felt that it would be inconsistent just to add this narrow set of APIs for Unicode scalars. (&amp;hellip;) If StaticString is to gain Unicode support, it should be done comprehensively, not piecemeal. Moreover, &lt;em&gt;with the aforementioned String re-evaluation underway&lt;/em&gt;, it is possible that StaticString itself might change considerably or even be obsoleted.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://thread.gmane.org/gmane.comp.lang.swift.evolution/7697&#34;&gt;Rationale&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Emphasis mine: strings are being re-evaluated. I&amp;rsquo;m not sure what will happen to the &lt;code&gt;String&lt;/code&gt; type. I can imagine that it could get simpler somehow.&lt;/p&gt;
+
+&lt;h2 id=&#34;se-0027-expose-code-unit-initializers-on-string-https-github-com-apple-swift-evolution-blob-master-proposals-0027-string-from-code-units-md:ad100045d96cd9f53c3487c82b32217f&#34;&gt;&lt;a href=&#34;https://github.com/apple/swift-evolution/blob/master/proposals/0027-string-from-code-units.md&#34;&gt;SE-0027 Expose code unit initializers on String&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;This proposal wants to make it easier to build Swift strings from C strings.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;At this point, the core team feels that we have not fully explored the design space here, and that known alternatives (e.g., making the UTF-16 and UTF-32 views of a String mutable collections) might provide a better long-term solution. Moreover, the String type itself is undergoing a significant re-evaluation, so the core team feels that improvements to String should be delayed until the newer design is better understood.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://thread.gmane.org/gmane.comp.lang.swift.evolution/7695&#34;&gt;Rationale&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Just like before, it seems like big changes will happen to the &lt;code&gt;String&lt;/code&gt; type.&lt;/p&gt;
+
+&lt;h2 id=&#34;optional-value-setter-https-github-com-apple-swift-evolution-blob-master-proposals-0024-optional-value-setter-md:ad100045d96cd9f53c3487c82b32217f&#34;&gt;&lt;a href=&#34;https://github.com/apple/swift-evolution/blob/master/proposals/0024-optional-value-setter.md&#34;&gt;Optional Value Setter &lt;code&gt;??=&lt;/code&gt;&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;This proposal wants to add another setter, &lt;code&gt;??=&lt;/code&gt;, which sets the left-hand side to the value of the right-hand side (but only if the left-hand side is &lt;code&gt;nil&lt;/code&gt;).&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The proposal is rejected. While the ‘??=‘ operator’s semantics are clear and fit with other compound assignment operators, the use cases are not strong enough to motivate inclusion of this operator. &lt;a href=&#34;http://thread.gmane.org/gmane.comp.lang.swift.evolution/6895&#34;&gt;Radek’s lukewarm +0.5 review&lt;/a&gt; captures the sentiment of the core team fairly well (as was echoed by others): one very common use case in the Ruby’s similar ||= operator is to assign a default value to an optional parameter or a local variable. However, neither case works well in Swift because ??= does not erase the optionality of the variable (and cannot be used to change a parameter now that var has been removed from parameters). Property access and subscripting could still benefit from ??=, but the latter case is likely to be handled better by a Dictionary subscript operator that can substitute a default value (see, e.g., &lt;a href=&#34;http://thread.gmane.org/gmane.comp.lang.swift.evolution/6895&#34;&gt;Joe Groff’s suggestion&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://article.gmane.org/gmane.comp.lang.swift.evolution/7694&#34;&gt;Rationale&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I&amp;rsquo;ve used &lt;code&gt;||=&lt;/code&gt; in Ruby as well, and really like it there. But with Swift&amp;rsquo;s Optionals, I never felt the need for this. As an aside, the mentioned dictionary subscript operator is really cool. We use it in the functions chapter of Advanced Swift, in a way very similar to this: &lt;a href=&#34;https://twitter.com/AirspeedSwift/status/626701244455895044&#34;&gt;https://twitter.com/AirspeedSwift/status/626701244455895044&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;se-0018-flexible-memberwise-initialization-https-github-com-apple-swift-evolution-blob-master-proposals-0018-flexible-memberwise-initialization-md-draft:ad100045d96cd9f53c3487c82b32217f&#34;&gt;&lt;a href=&#34;https://github.com/apple/swift-evolution/blob/master/proposals/0018-flexible-memberwise-initialization.md&#34;&gt;SE-0018 Flexible Memberwise Initialization&lt;/a&gt; (Draft)&lt;/h2&gt;
+
+&lt;p&gt;This was a really long proposal, and really long rejection &lt;a href=&#34;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160111/006469.html&#34;&gt;rationale&lt;/a&gt; mail. It&amp;rsquo;s about the automatic memberwise initializers that get generated (e.g. when you create a struct). The proposal wants to make this possible in more places, and make it easier to control this. The core team decided that it isn&amp;rsquo;t in scope for Swift 3. An interesting meta-point they raised it that the length of the proposal was off-putting for many people. Another thing I learned is that the Swift team really strives for predictable models. You can also see this in the accepted proposals, there are a few that really make the language more predictable and consistent (e.g. &lt;a href=&#34;https://github.com/apple/swift-evolution/blob/master/proposals/0046-first-label.md&#34;&gt;named first parameters&lt;/a&gt;).&lt;/p&gt;
+
+&lt;h1 id=&#34;allow-trailing-closures-in-guard-conditions-https-github-com-apple-swift-evolution-blob-master-proposals-0056-trailing-closures-in-guard-md:ad100045d96cd9f53c3487c82b32217f&#34;&gt;&lt;a href=&#34;https://github.com/apple/swift-evolution/blob/master/proposals/0056-trailing-closures-in-guard.md&#34;&gt;Allow trailing closures in guard conditions&lt;/a&gt;&lt;/h1&gt;
+
+&lt;p&gt;This proposal is about letting trailing closures in &lt;code&gt;guard&lt;/code&gt; conditions compile. For example, like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;guard let object = someSequence.findElement { $0.passesTest() } else {
+  return
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Currently, it doesn&amp;rsquo;t like the trailing closure when using a &lt;code&gt;guard&lt;/code&gt; (or &lt;code&gt;if&lt;/code&gt;/&lt;code&gt;while&lt;/code&gt;), and it needs to be written with parentheses around the closure.&lt;/p&gt;
+
+&lt;p&gt;The proposal was &lt;a href=&#34;https://lists.swift.org/pipermail/swift-evolution-announce/2016-April/000108.html&#34;&gt;rejected&lt;/a&gt; with a very short sentence:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The core team felt that the benefits from this change were outweighed by the inconsistency it would introduce with &lt;code&gt;if&lt;/code&gt; and &lt;code&gt;while&lt;/code&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Interestingly, it was proposed by Chris Lattner, a member of the core team. Again, I can see how they made the decision. If you look at it from being able to write it in a &lt;code&gt;guard&lt;/code&gt;, it seems like a logical proposal. However, once you can write trailing closures in a &lt;code&gt;guard&lt;/code&gt; condition, you&amp;rsquo;ll probably be surprised that you can&amp;rsquo;t write them in &lt;code&gt;if&lt;/code&gt;/&lt;code&gt;while&lt;/code&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;In the next post, we&amp;rsquo;ll look at accepted proposals. Stay tuned!&lt;/p&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -3171,24 +3272,6 @@ StackMob - 5571 / 1835, 32 [1015] @ SF
 &amp;#8220;Don&amp;#8217;t criticize, condemn or complain&amp;#8221;, &amp;#8220;The only way to get the best of an argument is to avoid it&amp;#8221; and &amp;#8220;Show respect for the other person&amp;#8217;s opinions. Never say, &amp;#8216;You&amp;#8217;re wrong.&amp;#8217;&amp;#8221;. In a way, you could interpret these statements as: don&amp;#8217;t be honest when you disagree with somebody.&lt;/p&gt;
 
 &lt;p&gt;Recently, I was reading &lt;a href=&#34;http://www.amazon.com/How-Proust-Change-Your-Life/dp/0679779159&#34;&gt;How Proust Can Change Your Life&lt;/a&gt; by my favorite modern philosopher Alain de Botton. He writes that Proust deliberately tried to avoid truth in friendship, lavishing his friends with compliments, sincere or not. This is pretty much the exact opposite of radical honesty, and equally exciting for me. A very interesting approach, although I don&amp;#8217;t think I&amp;#8217;ll use it.&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
-          <title>Starting new projects</title>
-          <link>http://chris.eidhof.nl/post/starting-new-projects/</link>
-          <pubDate>Fri, 27 Apr 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://chris.eidhof.nl/post/starting-new-projects/</guid>
-          <description>&lt;p&gt;One of the most exciting things for me is starting new projects. Each time I start to build a new app, I get way too excited and see rainbows and ponies everywhere. &amp;#8220;This time it&amp;#8217;s going to beautiful, easy, quick to finish and lots of fun&amp;#8221;. There is a blank slate and in my mind everything fits together perfectly.&lt;/p&gt;
-
-&lt;p&gt;However, in reality, after I&amp;#8217;ve spent some time on a project, I start to see the design mistakes I made. Sometimes I even realize that the product/project itself isn&amp;#8217;t a good idea. The longer I work on something, the harder it is to finish it. It definitely helps to work with a team, as you can pull each other through the hard times. When working with clients, it&amp;#8217;s a lot easier to push yourself to finish something.&lt;/p&gt;
-
-&lt;p&gt;I might have found a way to utilize the starting of new projects in order to be more productive. In an &lt;a href=&#34;http://chris.eidhof.nl/post/9624114465/lots-of-test-projects&#34;&gt;earlier post&lt;/a&gt;, I wrote about how I create lots of test projects. I still do this, and sometimes when I am not looking forward to implementing some new feature, I instead start implementing it in a blank slate test project. As an additional advantage, the new code will probably be nicely isolated and loosely coupled.&lt;/p&gt;
-
-&lt;p&gt;Anyway, to get back to starting new projects: I think I will struggle with this throughout the rest of my life. It will always be more attractive to start something new than to finish something. However, realizing this problem is the first step in combatting it. And by using tricks like the one above I think it could even be bent to an advantage.&lt;/p&gt;
 </description>
         </item>
       
