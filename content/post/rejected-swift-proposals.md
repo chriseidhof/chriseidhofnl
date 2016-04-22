@@ -67,7 +67,7 @@ I've used `||=` in Ruby as well, and really like it there. But with Swift's Opti
 
 This was a really long proposal, and really long rejection [rationale](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160111/006469.html) mail. It's about the automatic memberwise initializers that get generated (e.g. when you create a struct). The proposal wants to make this possible in more places, and make it easier to control this. The core team decided that it isn't in scope for Swift 3. An interesting meta-point they raised it that the length of the proposal was off-putting for many people. Another thing I learned is that the Swift team really strives for predictable models. You can also see this in the accepted proposals, there are a few that really make the language more predictable and consistent (e.g. [named first parameters](https://github.com/apple/swift-evolution/blob/master/proposals/0046-first-label.md)). 
 
-# [Allow trailing closures in guard conditions](https://github.com/apple/swift-evolution/blob/master/proposals/0056-trailing-closures-in-guard.md)
+## [Allow trailing closures in guard conditions](https://github.com/apple/swift-evolution/blob/master/proposals/0056-trailing-closures-in-guard.md)
 
 This proposal is about letting trailing closures in `guard` conditions compile. For example, like this:
 
