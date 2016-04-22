@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/tuples-structs-enums.html
 date: 2014-08-29
 title: Tuples, Structs and Enums
 headline: What are the differences?

@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/functional-view-controllers.html
 date: 2015-01-13
 title: Functional View Controllers
 headline: Wrapping View Controllers in a Functional Way

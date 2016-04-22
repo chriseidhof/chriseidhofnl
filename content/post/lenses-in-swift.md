@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/lenses-in-swift.html
 date: 2014-11-11
 title: Lenses in Swift
 headline: Combining getters and setters for great glory

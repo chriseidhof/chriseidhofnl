@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/race-report-munich-marathon.html
 date: 2014-10-13
 title: "Race Report: Munich Marathon"
 headline: Coming back from quitting

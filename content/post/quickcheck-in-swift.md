@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/quickcheck-in-swift.html
 date: 2014-06-11
 title: QuickCheck in Swift
 headline: Experimenting with Swift

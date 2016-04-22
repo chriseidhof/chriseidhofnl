@@ -1,4 +1,7 @@
 +++
+aliases = [
+  "/posts/rejected-swift-proposals.html"
+]
 date = "2016-04-22T15:46:42+02:00"
 headline = "What we can learn from the rejections"
 title = "Rejected Swift Proposals"

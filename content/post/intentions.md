@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/intentions.html
 date: 2014-04-15
 title: Intentions
 headline: An experiment in Ultralight View Controllers

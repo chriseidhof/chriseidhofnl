@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/advanced-swift.html
 date: 2015-07-21
 title: Advanced Swift
 headline: Our New Book

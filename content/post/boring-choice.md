@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/boring-choice.html
 date: 2015-03-05
 title: The Boring Choice
 headline: It's not all glitters and rainbows

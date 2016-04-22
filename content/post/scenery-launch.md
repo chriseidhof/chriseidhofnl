@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/scenery-launch.html
 date: 2015-03-24
 title: "Swift in Production: Scenery"
 headline: We shipped our new app

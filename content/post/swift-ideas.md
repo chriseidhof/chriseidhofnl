@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/swift-ideas.html
 date: 2014-08-27
 title: Some ideas for projects in Swift
 headline: If you're looking for a cool library to build

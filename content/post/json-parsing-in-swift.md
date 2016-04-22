@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/json-parsing-in-swift.html
 date: 2014-07-28
 title: Parsing JSON in Swift
 ---

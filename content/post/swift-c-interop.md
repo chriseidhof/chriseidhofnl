@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/swift-c-interop.html
 date: 2015-07-31
 title: Swift and C functions
 headline: A short look at wrapping qsort

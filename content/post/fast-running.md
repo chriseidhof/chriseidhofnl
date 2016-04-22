@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/fast-running.html
 title: Fast Running
 headline: How to run a 10K in under 40 minutes
 date: 2014-03-12

@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/functional-programming-in-swift.html
 date: 2014-07-14
 title: Functional Programming in Swift
 headline: We're writing a book

@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/finding-designers.html
 title: Finding designers
 headline: And how to decide whether you want to work with them
 date: 2014-02-24

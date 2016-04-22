@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/blub-paradox-in-swift.html
 date: 2014-08-17
 title: The Blub Paradox in Swift
 headline: Why all the new features look like overkill

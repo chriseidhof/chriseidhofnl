@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/cocoaconf.html
 date: 2014-11-22
 title: CocoaConf
 headline: Why I'm Not Speaking There

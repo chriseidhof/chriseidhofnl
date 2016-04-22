@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/monads-in-swift.html
 date: 2015-06-01
 title: Monads in Swift
 headline: A very short explanation

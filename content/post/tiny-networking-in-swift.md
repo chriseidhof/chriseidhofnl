@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/tiny-networking-in-swift.html
 date: 2014-11-07
 title: A tiny networking library
 headline: Composing functions out of functions

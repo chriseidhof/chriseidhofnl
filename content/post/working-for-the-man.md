@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/working-for-the-man.html
 title: Working for the man
 headline: How I started being my own boss
 date: 2014-03-05

@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/how-i-write-for-objcio.html
 date: 2014-02-17
 title: Behind the scenes
 ---

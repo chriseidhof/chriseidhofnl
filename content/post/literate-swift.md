@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/literate-swift.html
 date: 2015-07-31
 title: Literate Swift
 headline: A Tool for Writing Swift and Markdown

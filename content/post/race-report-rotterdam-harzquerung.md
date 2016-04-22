@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/race-report-rotterdam-harzquerung.html
 date: 2015-04-29
 title: "Race Report: Rotterdam Marathon"
 headline: My first marathon and an ultra-trail

@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/typesafe-url-routes-in-swift.html
 date: 2014-08-18
 title: Type-safe URL routes in Swift
 headline: A micro library

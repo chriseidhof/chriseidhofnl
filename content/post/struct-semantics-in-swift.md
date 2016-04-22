@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/struct-semantics-in-swift.html
 date: 2015-08-30
 title: Struct Semantics in Swift
 headline: Implementing Copy-on-Write efficiently

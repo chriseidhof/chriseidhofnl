@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/repmin-in-swift.html
 date: 2015-01-10
 title: Repmin in Swift
 headline: Combining Tree Traversals

@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/we-launched-deckset.html
 date: 2014-04-08
 title: We launched Deckset
 headline: What I love about our new Mac app

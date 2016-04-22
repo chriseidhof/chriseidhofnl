@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/burnout-five-years-later.html
 date: 2014-11-30
 title: "Burnout: five years later"
 headline: What happened in between getting a burnout and being happy again

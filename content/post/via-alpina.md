@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/via-alpina.html
 date: 2015-06-23
 title: Via Alpina
 headline: I'll be running across the Alps for a month

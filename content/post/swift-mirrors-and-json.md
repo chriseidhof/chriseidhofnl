@@ -1,4 +1,6 @@
 ---
+aliases:
+  - /posts/swift-mirrors-and-json.html
 date: 2015-06-15
 title: Swift Mirrors and JSON
 headline: Generating JSON dictionaries with reflection
