@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.15" />
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <script type="text/javascript" src="//use.typekit.net/bwu1cse.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+	<link rel="shortcut icon" href="/images/favicon.ico">	
+	<link rel="stylesheet" href="/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://chris.eidhof.nl//index.xml">
+
+    
+    <title>Tuples, Structs and Enums - Chris Eidhof</title>
+    <meta property='og:title' content="Tuples, Structs and Enums - Chris Eidhof">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://chris.eidhof.nl/post/tuples-structs-enums/">
+    
+    
+
+  </head>
+
+  <body>
+
+<section id="content">
+<section id="outer-container">
+<section id="wrapper">
+
+<header id="header">
+<a id="title" href="/"><img src="/images/logo.png" style="width: 2em"></a>
+</header> 
+
+    
+
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+  <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
+  <meta itemprop="dateModified" content="2014-08-29T00:00:00&#43;00:00">
+  <meta itemprop="headline" content="Tuples, Structs and Enums">
+  <meta itemprop="description" content="Swift has lots of different ways of storing your data. You can use enums, tuples, structs, classes (or even just use malloc and manage it yourself)! In this article, we&rsquo;ll compare enums, tuples and structs. Let&rsquo;s start with the simplest: tuples. A tuple is a typed list of values. For example, you can define a tuple that holds an integer and a string: let amount = (100, &quot;EUR&quot;) This is very useful when you want to return multiple values from a function.">
+  <meta itemprop="url" content="http://chris.eidhof.nl/post/tuples-structs-enums/">
+    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
+      <meta itemprop="width" content="100">
+      <meta itemprop="height" content="100">
+    </div>
+    <meta itemprop="name" content="Chris Eidhof">
+  </div>
+  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="">
+  </div>
+
+  <header>
+    <h1>Tuples, Structs and Enums</h1>
+    <h2 class="headline"> What are the differences? </h2>
+  </header>
+
+  <section class="postbody">
+    
+
+<p>Swift has lots of different ways of storing your data. You can use enums, tuples, structs, classes (or even just use malloc and manage it yourself)! In this article, we&rsquo;ll compare enums, tuples and structs. Let&rsquo;s start with the simplest: tuples.</p>
+
+<p>A tuple is a typed list of values. For example, you can define a tuple that holds an integer and a string:</p>
+
+<pre><code>let amount = (100, &quot;EUR&quot;)
+</code></pre>
+
+<p>This is very useful when you want to return multiple values from a function. To get the values out, you can use <code>.0</code>, <code>.1</code> (and so on), or pattern matching. For example:</p>
+
+<pre><code>let currency = money.1 // &quot;USD&quot;
+</code></pre>
+
+<p>If you want to, you can also name the individual elements, to have a bit more documentation:</p>
+
+<pre><code>let money = (amount: 100, currency: &quot;USD&quot;)
+</code></pre>
+
+<p>Now, you can still use <code>.1</code>, but alternatively, you can also use <code>.currency</code>:</p>
+
+<pre><code>let currency = money.currency // &quot;USD&quot;
+</code></pre>
+
+<p>If we want to write a formatter for currencies, we can now do that:</p>
+
+<pre><code>func format(input: (Int,String)) -&gt; String {
+    return &quot;I have \(input.0) \(input.1) in my wallet&quot;
+}
+
+println(format(money)) // This prints &quot;I have 100 USD in my wallet&quot;
+</code></pre>
+
+<p>Our format function works on any <code>(Int,String)</code> tuple:</p>
+
+<pre><code>let mass = (1, &quot;kg&quot;)
+
+let formatted = format(mass) // &quot;I have 1 kg in my wallet&quot;
+</code></pre>
+
+<p>Clearly, having 1 kg in your wallet doesn&rsquo;t make sense. Therefore, let&rsquo;s introduce a struct. A struct can hold exactly the same kind of a data as a tuple. In addition, you can also define functions on the struct itself (whereas with tuples, you can only define top-level functions). Let&rsquo;s consider the following struct:</p>
+
+<pre><code>struct Money {
+    let amount: Int
+    let currency: String
+}
+
+let wallet = Money(amount: 100, currency: &quot;USD&quot;)
+</code></pre>
+
+<p>This can hold exactly the same kind of data as a tuple, but now we can also define a function on it:</p>
+
+<pre><code>extension Money {
+  func format() -&gt; String {
+    return &quot;I have \(self.amount) \(self.currency) in my wallet&quot;
+  }
+}
+
+println(wallet.format())
+</code></pre>
+
+<p>If we want to make a distinctive type for mass, we can now do that:</p>
+
+<pre><code>struct Mass {
+    let quantity: Int
+    let unit: String
+
+    func format() -&gt; String {
+        return &quot;I have \(self.quantity) \(self.unit) in my backpack.&quot;
+    }
+}
+</code></pre>
+
+<p>Not only do we now have functions on our <code>Money</code> type, we also have given it an explicit name. In other parts of our code, we can be certain that we don&rsquo;t accidentally pass in a mass pair (like <code>(1, &quot;kg&quot;)</code>). A struct is also called a <a href="http://en.wikipedia.org/wiki/Nominal_type_system">nominal type</a>: it gives an explicit name to a type, and values only have the same type if they share that name. In the example above, <code>mass</code> and the first definition of <code>wallet</code> have the same type, but values of type <code>Money</code> and <code>Mass</code> have different types. If we call <code>format</code> on them, we get different results.</p>
+
+<h3 id="enums:2c00a73d9297f5a7602ca73bea68234e">Enums</h3>
+
+<p>If we want to store some values together, we now know that we can use a tuple or a struct, depending on the use-case. We can also use classes, but that&rsquo;s beyond the scope of this article. However, sometimes we want to represent a choice between some values. For example, let&rsquo;s consider currencies. In the previous example, we&rsquo;ve used <code>String</code> to use the currency, but what if we want to restrict our program to only currencies we know about? This is where we can use an enum. For example, if we want to restrict our program to only euros, US dollars and yen, we can write the following enum:</p>
+
+<pre><code>enum Currency {
+   case EUR
+   case USD
+   case YEN
+}
+</code></pre>
+
+<p>Now, if we have a value of type <code>Currency</code>, we know that it will be either <code>EUR</code>, <code>USD</code> or <code>YEN</code>. There is no way it can be of any other value, or multiple of these values at the same time. Just like with structs, you can also define functions on enums:</p>
+
+<pre><code>extension Currency {
+    func symbol() -&gt; String {
+        switch self {
+            case .EUR: return &quot;€&quot;
+            case .USD: return &quot;$&quot;
+            case .YEN: return &quot;¥&quot;
+        }
+    }
+}
+</code></pre>
+
+<p>We can add as many cases as we want. However, we could also have an enum with a single case:</p>
+
+<pre><code>enum Angle {
+   case Radian(radians: Double)
+}
+</code></pre>
+
+<p>This is equivalent to having a struct: we can add functions, and it is impossible to accidentally confuse <code>Angle</code> values with other <code>Double</code> values. However, if we decide that we want to add more cases in the future, we can do this.</p>
+
+<h3 id="what-should-i-use:2c00a73d9297f5a7602ca73bea68234e">What should I use?</h3>
+
+<p>Now we have a good overview of how to choose between tuples, structs and enums. Start with a tuple and see if it does the job. If two values with the same type structure are the same (e.g. String and Int pairs), excellent. If you want more type-safety and a nominal type, use structs. For example, if you want to disambiguate between currency and mass. Finally, if you need multiple mutually exclusive cases (for example, either EUR or USD or YEN), use enums.</p>
+
+  </section>
+
+  <footer id="post-meta" class="group">
+    <div>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="2014-08-29T00:00:00&#43;00:00">Fri, Aug 29, 2014</time>
+      by <a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a>
+
+    </div>
+  <section id="sharing">
+    <a class="twitter" href="https://twitter.com/share"><span class="icon-twitter-circled"></span></a>
+  </section> 
+  </footer> 
+  
+
+</article>
+
+<footer><nav id="post-nav"></nav></footer>
+
+</section> 
+</section> 
+
+</section> 
+
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="/js/main.js/"></script>
+   <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24867064-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+</body>
+</html>
+

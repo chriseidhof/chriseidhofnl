@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.15" />
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <script type="text/javascript" src="//use.typekit.net/bwu1cse.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+	<link rel="shortcut icon" href="/images/favicon.ico">	
+	<link rel="stylesheet" href="/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://chris.eidhof.nl//index.xml">
+
+    
+    <title>Analyzing a MySQL database with R - Chris Eidhof</title>
+    <meta property='og:title' content="Analyzing a MySQL database with R - Chris Eidhof">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://chris.eidhof.nl/post/analyzing-a-mysql-database-with-r/">
+    
+    
+
+  </head>
+
+  <body>
+
+<section id="content">
+<section id="outer-container">
+<section id="wrapper">
+
+<header id="header">
+<a id="title" href="/"><img src="/images/logo.png" style="width: 2em"></a>
+</header> 
+
+    
+
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+  <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
+  <meta itemprop="dateModified" content="2011-07-22T00:00:00&#43;00:00">
+  <meta itemprop="headline" content="Analyzing a MySQL database with R">
+  <meta itemprop="description" content="In this article, we analyze a MySQL database which contains soccer transfer data, using the R environment, on OS X. We show in a few simple steps how you can link the two together. Prerequisites Make sure you have a recent version of MySQL, and the latest version of R installed. As our graphical user interface, we use RStudio. From RStudio you can install the MySQL package: install.packages(&#34;RMySQL&#34;). If this doesn&#8217;t work for you, please refer to the installation instructions.">
+  <meta itemprop="url" content="http://chris.eidhof.nl/post/analyzing-a-mysql-database-with-r/">
+    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
+      <meta itemprop="width" content="100">
+      <meta itemprop="height" content="100">
+    </div>
+    <meta itemprop="name" content="Chris Eidhof">
+  </div>
+  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="">
+  </div>
+
+  <header>
+    <h1>Analyzing a MySQL database with R</h1>
+    <h2 class="headline">  </h2>
+  </header>
+
+  <section class="postbody">
+    <p>In this article, we analyze a MySQL database which contains soccer transfer data, using the R environment, on OS X. We show in a few simple steps how you can link the two together.</p>
+<p><strong><span> </span></strong> <strong>Prerequisites</strong></p>
+<p>Make sure you have a recent version of MySQL, and the latest version of R installed. As our graphical user interface, we use <a href="http://rstudio.org/">RStudio</a>. From RStudio you can install the MySQL package: <code>install.packages("RMySQL")</code>. If this doesn&#8217;t work for you, please refer to the <a href="http://biostat.mc.vanderbilt.edu/wiki/Main/RMySQL">installation instructions</a>. For plotting, install the ggplot2 library by issueing a <code>install.packages("ggplot2")</code> in RStudio. Alternatively, you can use the graphical interface: in the bottom right panel, choose &#8216;Packages&#8217; and click &#8216;Install Packages&#8217;. This presents you with a dialog to choose a <a href="http://cran.r-project.org/">CRAN</a> mirror, and a prompt where you can enter the package name.</p>
+<p><strong>Analysis</strong></p>
+<p>Our MySQL database contains a table <code>transactions</code>, which contains transaction data. The <code>transactions</code> table has a column <code>transfer_value</code> of type <code>float</code>, which is what we are interested in. First, we generate a big list of all the transactions: <code>SELECT transfer_value FROM transactions</code>, which generates a MySQL table with a single column that contains the transaction data.</p>
+<p>First, let&#8217;s make sure the MySQL library is imported:</p>
+<pre><code>&gt; library(RMySQL)
+</code></pre>
+<p>Next, we connect to our database, which is named <code>soccer</code>:</p>
+<pre><code>&gt; con &lt;- dbConnect(MySQL(), dbname="soccer")
+</code></pre>
+<p>Now we can start to issue queries:</p>
+<pre><code>&gt; transfer_values &lt;- dbGetQuery(con, "select transfer_value from transactions")
+&gt; summary(transfer_values)
+transfer_value    
+Min.   :    5900  
+1st Qu.:  500000  
+Median : 1700000  
+Mean   : 3688301  
+3rd Qu.: 4500000  
+Max.   :94000000
+</code></pre>
+<p>This shows us a summary of the transfer values. The maximum is 94 million, which was Cristiano Ronaldo&#8217;s transfer to Real Madrid. To look at how the numbers are distributed, we can plot them in a graph, using the <code>qplot</code> function from the <code>ggplot2</code> library, which is a convenience function that quickly generates <code>ggplot</code> plot objects.</p>
+<pre><code>&gt; library(ggplot2)
+&gt; qplot(transfer_values$transfer_value)
+</code></pre>
+<p>This gives us a nice picture, which looks like a <a href="http://en.wikipedia.org/wiki/Power_law">Power Law</a>:</p>
+<p><img src="http://media.tumblr.com/tumblr_loqsvzES871ql6bph.png"/></p>
+<p>If we zoom in on the transfers up to 10 million, we get a more detailed picture, showing peaks at regular intervals: apparently, the soccer negotiators like nice round numbers too.</p>
+<pre><code>&gt; qplot(transfer_values$transfer_value, xlim=c(0,1e07), binwidth=1e05, ylim=c(0,500))
+</code></pre>
+<p><img src="http://media.tumblr.com/tumblr_loqswmkrnV1ql6bph.png"/></p>
+<p>For more info on the <code>qplot</code> command, you can type <code>help(qplot)</code>, and RStudio will show you the relevant help page on the bottom right.</p>
+<p><strong>Conclusion</strong></p>
+<p>Even though we did very basic analysis of the data, we have seen how to connect R to MySQL and how to use the <code>ggplot2</code> library to visualize the data.</p>
+<p>Thanks to <a href="http://ptegelaar.nl/">Peter Tegelaar</a> for reading a draft of this post and helping with the code.</p>
+<p><em>Update: </em>see <a href="http://news.ycombinator.com/item?id=2828176">Hacker News</a> for the discussion.</p>
+
+  </section>
+
+  <footer id="post-meta" class="group">
+    <div>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="2011-07-22T00:00:00&#43;00:00">Fri, Jul 22, 2011</time>
+      by <a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a>
+
+    </div>
+  <section id="sharing">
+    <a class="twitter" href="https://twitter.com/share"><span class="icon-twitter-circled"></span></a>
+  </section> 
+  </footer> 
+  
+
+</article>
+
+<footer><nav id="post-nav"></nav></footer>
+
+</section> 
+</section> 
+
+</section> 
+
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="/js/main.js/"></script>
+   <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24867064-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.15" />
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <script type="text/javascript" src="//use.typekit.net/bwu1cse.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+	<link rel="shortcut icon" href="/images/favicon.ico">	
+	<link rel="stylesheet" href="/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://chris.eidhof.nl//index.xml">
+
+    
+    <title>Some ideas for projects in Swift - Chris Eidhof</title>
+    <meta property='og:title' content="Some ideas for projects in Swift - Chris Eidhof">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://chris.eidhof.nl/post/swift-ideas/">
+    
+    
+
+  </head>
+
+  <body>
+
+<section id="content">
+<section id="outer-container">
+<section id="wrapper">
+
+<header id="header">
+<a id="title" href="/"><img src="/images/logo.png" style="width: 2em"></a>
+</header> 
+
+    
+
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+  <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
+  <meta itemprop="dateModified" content="2014-08-27T00:00:00&#43;00:00">
+  <meta itemprop="headline" content="Some ideas for projects in Swift">
+  <meta itemprop="description" content="If you are looking for some programming projects to port to Swift, my list is way bigger than I can tackle. Most ideas here are ports of libraries from other languages, some are different. I would love to build all of these, but can&rsquo;t possibly do even ten percent of this list. The list is in random order. An SVG Parser that can parse SVG, turn it into an abstract syntax tree, and has support to render it.">
+  <meta itemprop="url" content="http://chris.eidhof.nl/post/swift-ideas/">
+    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
+      <meta itemprop="width" content="100">
+      <meta itemprop="height" content="100">
+    </div>
+    <meta itemprop="name" content="Chris Eidhof">
+  </div>
+  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="">
+  </div>
+
+  <header>
+    <h1>Some ideas for projects in Swift</h1>
+    <h2 class="headline"> If you&#39;re looking for a cool library to build </h2>
+  </header>
+
+  <section class="postbody">
+    <p>If you are looking for some programming projects to port to Swift, my list is way bigger than I can tackle. Most ideas here are ports of libraries from other languages, some are different. I would love to build all of these, but can&rsquo;t possibly do even ten percent of this list. The list is in random order.</p>
+
+<ul>
+<li>An <strong>SVG Parser</strong> that can parse SVG, turn it into an abstract syntax tree, and has support to render it.</li>
+<li>A full version of <a href="https://hackage.haskell.org/package/QuickCheck-2.4.2">QuickCheck</a>. I created a very rough <a href="http://chris.eidhof.nl/posts/quickcheck-in-swift.html">example</a></li>
+<li>A full wrapper of Core Image, see <a href="http://www.objc.io/books/">our book</a> or <a href="https://speakerdeck.com/chriseidhof/functional-swift-1">my presentation</a> for the basic idea.</li>
+<li>A routing library that takes enums and builds URLs, like described <a href="http://chris.eidhof.nl/posts/typesafe-url-routes-in-swift.html">here</a> and <a href="https://github.com/AshFurrow/Moya">here</a>, but independent of any networking framework.</li>
+<li>Some functional wrappers around UIControls. Not sure how this would work, maybe something like <a href="http://conal.net/papers/Eros/">tangible values</a>?</li>
+<li>A drawing library like <a href="http://projects.haskell.org/diagrams/">diagrams</a></li>
+<li>A variant of <a href="http://www.haskell.org/hoogle/">Hoogle</a> for Swift. This would allow you to find Swift functions by their type, not by name. Should work together with the standard libraries, and eventually also with CocoaPods.</li>
+<li>A web framework (like Rails or like Sinatra). Some people have already been experimenting in this direction.</li>
+<li>A simple implementation of <a href="http://mustache.github.io">Mustache</a>. The <a href="https://github.com/janl/mustache.js/blob/master/mustache.js">Javascript version</a> is short (under 600 lines).</li>
+<li>A wrapper around GCD. For example, it&rsquo;s possible to write a <code>parallel</code> function that executes a bunch of functions in parallel: <a href="https://gist.github.com/chriseidhof/c62e45554c2394bb6871">gcd.swift</a>.</li>
+<li>A port of <a href="http://www.haskell.org/haskellwiki/Software_transactional_memory">Software Transactional Memory</a></li>
+<li>A parser/pretty-printer combinator library, maybe like <a href="http://hackage.haskell.org/package/boomerang">Boomerang</a>. It would generate both a parser and a pretty-printer from a single grammar.</li>
+<li>A library for binary serialisation (like <a href="http://hackage.haskell.org/package/cereal">cereal</a>)</li>
+<li>A library for generating or processing XML (maybe built on top of NSXMLParser?)</li>
+<li>A library for dealing with HTML (like <a href="http://hackage.haskell.org/package/tagsoup">tagsoup</a> or <a href="http://nokogiri.org">nokogiri</a>)</li>
+<li>A library for generating PDFs in a combinatoric way (like <a href="https://github.com/prawnpdf/prawn">Prawn</a>, but built on top of Cocoa goodness)</li>
+<li>A native Markdown parsing library (or really good wrapper around <a href="https://github.com/vmg/sundown">sundown</a> or another C library)</li>
+</ul>
+
+<p><br/> If you are starting one of these and would like feedback, ping me!</p>
+
+  </section>
+
+  <footer id="post-meta" class="group">
+    <div>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="2014-08-27T00:00:00&#43;00:00">Wed, Aug 27, 2014</time>
+      by <a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a>
+
+    </div>
+  <section id="sharing">
+    <a class="twitter" href="https://twitter.com/share"><span class="icon-twitter-circled"></span></a>
+  </section> 
+  </footer> 
+  
+
+</article>
+
+<footer><nav id="post-nav"></nav></footer>
+
+</section> 
+</section> 
+
+</section> 
+
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="/js/main.js/"></script>
+   <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24867064-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+</body>
+</html>
+

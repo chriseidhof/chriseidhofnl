@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.15" />
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <script type="text/javascript" src="//use.typekit.net/bwu1cse.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+	<link rel="shortcut icon" href="/images/favicon.ico">	
+	<link rel="stylesheet" href="/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://chris.eidhof.nl//index.xml">
+
+    
+    <title>A tiny networking library - Chris Eidhof</title>
+    <meta property='og:title' content="A tiny networking library - Chris Eidhof">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://chris.eidhof.nl/post/tiny-networking-in-swift/">
+    
+    
+
+  </head>
+
+  <body>
+
+<section id="content">
+<section id="outer-container">
+<section id="wrapper">
+
+<header id="header">
+<a id="title" href="/"><img src="/images/logo.png" style="width: 2em"></a>
+</header> 
+
+    
+
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+  <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
+  <meta itemprop="dateModified" content="2014-11-07T00:00:00&#43;00:00">
+  <meta itemprop="headline" content="A tiny networking library">
+  <meta itemprop="description" content="For a new project we&rsquo;ve been working on at Unsigned Integer, the company behind Deckset, we needed to wrap a webservice API. I had a look at both Alamofire and Moya. Alamofire is a full-featured networking library, and if I would need something with more features, I would almost certainly use it. Moya is also very nice, and is built on top of Alomofire, and provides some extra safety. However, neither of them provide a simple way to parse results, so I started to experiment a bit.">
+  <meta itemprop="url" content="http://chris.eidhof.nl/post/tiny-networking-in-swift/">
+    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
+      <meta itemprop="width" content="100">
+      <meta itemprop="height" content="100">
+    </div>
+    <meta itemprop="name" content="Chris Eidhof">
+  </div>
+  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="">
+  </div>
+
+  <header>
+    <h1>A tiny networking library</h1>
+    <h2 class="headline"> Composing functions out of functions </h2>
+  </header>
+
+  <section class="postbody">
+    <p>For a new project we&rsquo;ve been working on at Unsigned Integer, the company behind <a href="http://www.decksetapp.com">Deckset</a>, we needed to wrap a webservice API. I had a look at both <a href="https://github.com/Alamofire/Alamofire">Alamofire</a> and <a href="https://github.com/AshFurrow/Moya">Moya</a>. Alamofire is a full-featured networking library, and if I would need something with more features, I would almost certainly use it. Moya is also very nice, and is built on top of Alomofire, and provides some extra safety. However, neither of them provide a simple way to parse results, so I started to experiment a bit. The library&rsquo;s source is <a href="https://gist.github.com/chriseidhof/26bda788f13b3e8a279c">available as a gist</a>.</p>
+
+<p>My design goal was to have a way of describing API endpoints in such a way that I don&rsquo;t have to use any strings when calling them, and I wanted both the input data and output data converted automatically. After a couple of iterations, I ended up with a simple struct to describe a resource that returns a value of type <code>A</code>. It contains an endpoint&rsquo;s path, the HTTP method, an optional request body, and some headers specific to the request. The last parameter is the most interesting: it&rsquo;s a way to parse the response: a function that produces an <code>A</code> from the response data. Because this parsing might fail, the result is an optional.</p>
+
+<pre><code>struct Resource&lt;A&gt; {
+    let path: String
+    let method : Method
+    let requestBody: NSData?
+    let headers : [String:String]
+    let parse: NSData -&gt; A?
+}
+</code></pre>
+
+<p>As an example, we can construct a resource for the Github <a href="https://developer.github.com/guides/getting-started/">zen endpoint</a>. It says the path is &ldquo;zen&rdquo;, it uses the <code>GET</code> method, has no request body or headers, and simply parses the data as an UTF-8 encoded string:</p>
+
+<pre><code>func parseString(data: NSData) -&gt; String? {
+    return NSString(data: data, encoding: NSUTF8StringEncoding)
+}
+
+func zen() -&gt; Resource&lt;String&gt; {
+    return Resource(path: &quot;zen&quot;, method: Method.GET, 
+                    requestBody: nil, headers: [:], parseString)
+}
+</code></pre>
+
+<p>To fetch this resource, there&rsquo;s another function called <code>apiRequest</code>. As we will see later on, we will wrap this function for our purposes, but for now, we&rsquo;ll call it directly. The implementation is not too important, in order to understand it we only need to look at the type signature. It takes a <code>modifyRequest</code> function, which we&rsquo;ll ignore, a base URL (e.g. <code>https://api.github.com</code>), a resource (e.g. <code>zen()</code>), and then it takes two callback functions: one for the failure case, which provides a reason and an optional response body, and one for the success case. The completion handler is only called when the request returns a status code of 200, and when the parse function returns a non-nil result.</p>
+
+<pre><code>func apiRequest&lt;A&gt;(modifyRequest: NSMutableURLRequest -&gt; (), 
+                   baseURL: NSURL,
+                   resource: Resource&lt;A&gt;,
+                   failure: (Reason, NSData?) -&gt; (),
+                   completion: A -&gt; ())
+</code></pre>
+
+<p>Now we can construct a call. At first, we don&rsquo;t need to modify the request, so we just pass in a function that does nothing. For the failure handler, we define a function that logs the failure to the console.</p>
+
+<pre><code>func defaultFailureHandler(failureReason: Reason, data: NSData?) {
+    let string = NSString(data: data!, encoding: NSUTF8StringEncoding)
+    println(&quot;Failure: \(failureReason) \(string)&quot;)
+}
+
+let baseURL = NSURL(string: &quot;https://api.github.com&quot;)!
+
+apiRequest({ _ in }, baseURL, zen(), defaultFailureHandler) { message in
+    println(&quot;Got a message: \(message)&quot;)
+}
+</code></pre>
+
+<p>If we run this code, we&rsquo;ll get the following output:</p>
+
+<pre><code>Got a message: Encourage flow.
+</code></pre>
+
+<p>This works perfectly. Now, let&rsquo;s try our hand at something a bit more difficult: getting and parsing a JSON result. In this case, we set some headers (the content-type, and the authorization token). Then instead of passing in the <code>parseString</code> function that we used earlier, we pass in the <code>decodeJSON</code> function.</p>
+
+<pre><code>func decodeJSON(data: NSData) -&gt; JSONDictionary? {
+    return NSJSONSerialization.JSONObjectWithData(data, options: 
+              NSJSONReadingOptions.allZeros, error: nil) 
+      as? [String:AnyObject]
+}
+
+func authenticatedUser() -&gt; Resource&lt;JSONDictionary&gt; {
+    let headers = [&quot;Content-Type&quot;: &quot;application/json&quot;]
+    return Resource(path: &quot;user&quot;, method: Method.GET, requestBody: nil, 
+                    headers: headers, decodeJSON)
+}
+</code></pre>
+
+<p>Because we expect to have lots of times where we would like to encode and decode JSON for an API call, we can make a <em>smart constructor</em>. This is a wrapper around the <code>Resource</code> init function which will do the extra work of encoding JSON, decoding JSON and setting the right headers:</p>
+
+<pre><code>public func jsonResource&lt;A&gt;(path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -&gt; A?) -&gt; Resource&lt;A&gt; {
+    let f = { decodeJSON($0) &gt;&gt;= parse }
+    let jsonBody = encodeJSON(requestParameters)
+    let headers = [&quot;Content-Type&quot;: &quot;application/json&quot;]
+    return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: f)
+}
+</code></pre>
+
+<p>Now, we can rewrite our <code>authenticatedUser</code> as follows:</p>
+
+<pre><code>func authenticatedUser() -&gt; Resource&lt;JSONDictionary&gt; {
+    return jsonResource(path: &quot;user&quot;, method: Method.GET, 
+                        requestParameters: [:]) { $0 }
+}
+</code></pre>
+
+<p>However, instead of a dictionary, we would really like to parse this into a <code>GithubProfile</code> value:</p>
+
+<pre><code>struct GithubProfile {
+    let login: String
+    let id: Int
+    let avatarURL: NSURL
+}
+
+let makeGithubProfile = { GithubProfile(login: $0, id: $1, avatarURL: $2) }
+</code></pre>
+
+<p>We can use the <a href="/posts/json-parsing-in-swift.html">JSON parsing</a> technique to write a small parsing function and rewrite our <code>authenticatedUser</code> function:</p>
+
+<pre><code>func parseGithubProfile(dict: JSONDictionary) -&gt; GithubProfile? {
+    return curry(makeGithubProfile) &lt;*&gt; string(dict, &quot;login&quot;)
+                                    &lt;*&gt; int(dict, &quot;id&quot;)
+                                    &lt;*&gt; url(dict, &quot;avatar_url&quot;)
+}
+
+func authenticatedUser() -&gt; Resource&lt;GithubProfile&gt; {
+    return jsonResource(&quot;user&quot;, .GET, [:], parseGithubProfile)
+}
+</code></pre>
+
+<p>For me, this is the power of functional programming. We wrote one <code>apiRequest</code> function and one <code>Resource</code> datatype, and never changed it again. We can provide this in a library. We then created a couple of small functions for encoding and decoding JSON, and wrapped the existing functions to create our own convenience functions. The <code>authenticatedUser</code> is now very tiny.</p>
+
+<p>As a final step, we&rsquo;ll wrap the <code>apiRequest</code> function in a new function that&rsquo;s tied to the Github API. It sets the authorization token, and provides the base URL. The completion handler is called only in case of success:</p>
+
+<pre><code>func request&lt;A&gt;(resource: Resource&lt;A&gt;, completionHandler: A -&gt; ()) {
+    func setAuthToken(request: NSMutableURLRequest) {
+        request.setValue(&quot;token \(authorizationToken)&quot;, forHTTPHeaderField: &quot;Authorization&quot;)
+    }
+    let baseURL = NSURL(string: &quot;https://api.github.com&quot;)!
+    apiRequest(setAuthToken, baseURL, resource, defaultFailureHandler, completionHandler)
+}
+</code></pre>
+
+<p>Now we can test our API with the following simple statement:</p>
+
+<pre><code>request(authenticatedUser()) { user in
+    println(&quot;User's avatar URL: \(user.avatarURL)&quot;)
+}
+</code></pre>
+
+<p>I think designing a library like this has a lot of benefits. We provided some base functionality, and then by composing and wrapping functions into new functions we quickly made it very specific to our app without having to put in much effort. There are no complicated configuration steps, just simple function composition.</p>
+
+<p>If you want to learn more about how to design APIs in a functional way, do consider reading our book on <a href="http://www.objc.io/books/">Functional Programming in Swift</a>.</p>
+
+  </section>
+
+  <footer id="post-meta" class="group">
+    <div>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="2014-11-07T00:00:00&#43;00:00">Fri, Nov 7, 2014</time>
+      by <a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a>
+
+    </div>
+  <section id="sharing">
+    <a class="twitter" href="https://twitter.com/share"><span class="icon-twitter-circled"></span></a>
+  </section> 
+  </footer> 
+  
+
+</article>
+
+<footer><nav id="post-nav"></nav></footer>
+
+</section> 
+</section> 
+
+</section> 
+
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="/js/main.js/"></script>
+   <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24867064-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+</body>
+</html>
+
