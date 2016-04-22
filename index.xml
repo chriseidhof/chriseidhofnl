@@ -68,7 +68,7 @@
 
 &lt;p&gt;Just like before, it seems like big changes will happen to the &lt;code&gt;String&lt;/code&gt; type.&lt;/p&gt;
 
-&lt;h2 id=&#34;optional-value-setter-https-github-com-apple-swift-evolution-blob-master-proposals-0024-optional-value-setter-md:ad100045d96cd9f53c3487c82b32217f&#34;&gt;&lt;a href=&#34;https://github.com/apple/swift-evolution/blob/master/proposals/0024-optional-value-setter.md&#34;&gt;Optional Value Setter &lt;code&gt;??=&lt;/code&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&#34;se-0024-optional-value-setter-https-github-com-apple-swift-evolution-blob-master-proposals-0024-optional-value-setter-md:ad100045d96cd9f53c3487c82b32217f&#34;&gt;&lt;a href=&#34;https://github.com/apple/swift-evolution/blob/master/proposals/0024-optional-value-setter.md&#34;&gt;SE-0024 Optional Value Setter &lt;code&gt;??=&lt;/code&gt;&lt;/a&gt;&lt;/h2&gt;
 
 &lt;p&gt;This proposal wants to add another setter, &lt;code&gt;??=&lt;/code&gt;, which sets the left-hand side to the value of the right-hand side (but only if the left-hand side is &lt;code&gt;nil&lt;/code&gt;).&lt;/p&gt;
 
