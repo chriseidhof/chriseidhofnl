@@ -6,8 +6,47 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-04-22 15:46:42 &#43;0200 CEST</updated>
+    <updated>2016-05-26 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>Dynamic Swift</title>
+          <link>http://chris.eidhof.nl/post/dynamic-swift/</link>
+          <pubDate>Thu, 26 May 2016 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://chris.eidhof.nl/post/dynamic-swift/</guid>
+          <description>&lt;p&gt;Recently, &lt;a href=&#34;http://inessential.com&#34;&gt;Brent&lt;/a&gt; and others wrote a lot about the lack of dynamic features&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:eca700892ef12307dd459097b17519d2:1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:eca700892ef12307dd459097b17519d2:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; in Swift. I tried distilling Brent&amp;rsquo;s thoughts, and came up with the following summary:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;It&amp;rsquo;s easy to write code in AppKit and UIKit, because many things just work, without having to write a lot of code.&lt;/li&gt;
+&lt;li&gt;AppKit/UIKit are written in Objective-C, and use runtime programming to remove boilerplate.&lt;/li&gt;
+&lt;li&gt;Therefore, we either need these same features in Swift, or need to find a different way of solving some problems.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I think we don&amp;rsquo;t need all the runtime programming features from Objective-C.&lt;/p&gt;
+
+&lt;p&gt;As long as AppKit and UIKit will be around, we&amp;rsquo;ll have Objective-C and its runtime. If Apple releases a Swift-only successor to either one of these frameworks, I&amp;rsquo;m confident that they will do a good job: they&amp;rsquo;ll make us write less boilerplate, rather than more.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s look at a completely different context: web programming. I&amp;rsquo;ve seen amazing web frameworks that rely a lot on runtime programming (stuff like Rails, but also &lt;a href=&#34;http://seaside.st&#34;&gt;Seaside&lt;/a&gt;, back in its day). But, there are web frameworks in languages like Haskell, Scala and C# that use features like protocols, datatype-generic programming&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:eca700892ef12307dd459097b17519d2:2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:eca700892ef12307dd459097b17519d2:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; and passing around functions to reduce boilerplate. With both approaches you can get short, simple, maintanable code that&amp;rsquo;s easy to write.&lt;/p&gt;
+
+&lt;p&gt;Yet, techniques you don&amp;rsquo;t know will almost always seem more complicated at first. I tried arguing with a Haskell programmer that runtime programming can be useful. I tried arguing with a Ruby programmer that static types can be helpful. To both, it seemed unnecessary and complicated. They&amp;rsquo;ve been writing great code without those features.&lt;/p&gt;
+
+&lt;p&gt;Brent, if you read this, I&amp;rsquo;d like to offer you a free copy of my books. Just send me an email. There are some techniques in there that will show how to replace runtime programming with things like functions, or protocols. These techniques definitely won&amp;rsquo;t solve all your problems. I do think they will show you some ways in which you can write short, simple, and maintainable code in Swift today, without having to resort to runtime programming.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:eca700892ef12307dd459097b17519d2:1&#34;&gt;To have a productive discussion, I think it&amp;rsquo;s important to understand about which dynamic features we are speaking. Dynamic can mean so many different things: KVO/KVC, late binding, subclassing, swizzling, dependency injection, reflection, runtime casting, and so on. Because the word dynamic means different things to different people, the discussion has been (and will be) hand-wavy. Swift has a lot of dynamic features, but they are different: protocols, safe runtime casting, passing around functions, and so on.
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:eca700892ef12307dd459097b17519d2:1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:eca700892ef12307dd459097b17519d2:2&#34;&gt;Datatype-generic programming is a cool technique in functional programming. It allows you to write methods that operate on the structure of the data. For example, it would let you write something like an NSCoder implementation that works on all structs and classes. It&amp;rsquo;s much the same as writing it using runtime introspection, except that it&amp;rsquo;s type-safe, and more importantly, the compiler can help you catch mistakes. Unfortunately, datatype-generic programming isn&amp;rsquo;t yet (but almost!) possible in Swift.
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:eca700892ef12307dd459097b17519d2:2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -3255,23 +3294,6 @@ StackMob - 5571 / 1835, 32 [1015] @ SF
 &lt;p&gt;To pull this off will be a huge and hard job, but I look forward to it. I&amp;#8217;m still in the exploratory phase, and not sure whether I will actually do it, but at this moment in time I&amp;#8217;m talking with people in both industry and academia to see whether it&amp;#8217;s feasible. Instead of a bachelor&amp;#8217;s program, a very good first step might be to organize a Hacker&amp;#8217;s Summer School: 6 weeks of learning and hacking together with other talented hackers and awesome teachers.&lt;/p&gt;
 
 &lt;p&gt;Part of me thinks I&amp;#8217;m too young, inexperienced and not connected enough to do this. But I still think I should at least explore whether it&amp;#8217;s possible and should try. I have no idea in which form exactly. I don&amp;#8217;t know what the topics are going to be, who the teachers are or even what the team should look like. I&amp;#8217;ll keep you posted!&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
-          <title>Radical Friendship</title>
-          <link>http://chris.eidhof.nl/post/radical-friendship/</link>
-          <pubDate>Tue, 15 May 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://chris.eidhof.nl/post/radical-friendship/</guid>
-          <description>&lt;p&gt;A few months ago I wrote about &lt;a href=&#34;http://chris.eidhof.nl/post/14911964453/radical-honesty&#34;&gt;radical honesty&lt;/a&gt;. I tried being more honest, but in practice it&amp;#8217;s quite awkward. Our society isn&amp;#8217;t really used to being completely honest and open. For example, if a friend wears something I really dislike, I won&amp;#8217;t tell him. It&amp;#8217;s just my opinion, and by expressing it I don&amp;#8217;t think I&amp;#8217;ll help anybody.&lt;/p&gt;
-
-&lt;p&gt;In &lt;a href=&#34;http://en.wikipedia.org/wiki/How_to_Win_Friends_and_Influence_People&#34;&gt;How To Win Friends and Influence People&lt;/a&gt;, Dale Carnegie says things like &amp;#8221;
-&amp;#8220;Don&amp;#8217;t criticize, condemn or complain&amp;#8221;, &amp;#8220;The only way to get the best of an argument is to avoid it&amp;#8221; and &amp;#8220;Show respect for the other person&amp;#8217;s opinions. Never say, &amp;#8216;You&amp;#8217;re wrong.&amp;#8217;&amp;#8221;. In a way, you could interpret these statements as: don&amp;#8217;t be honest when you disagree with somebody.&lt;/p&gt;
-
-&lt;p&gt;Recently, I was reading &lt;a href=&#34;http://www.amazon.com/How-Proust-Change-Your-Life/dp/0679779159&#34;&gt;How Proust Can Change Your Life&lt;/a&gt; by my favorite modern philosopher Alain de Botton. He writes that Proust deliberately tried to avoid truth in friendship, lavishing his friends with compliments, sincere or not. This is pretty much the exact opposite of radical honesty, and equally exciting for me. A very interesting approach, although I don&amp;#8217;t think I&amp;#8217;ll use it.&lt;/p&gt;
 </description>
         </item>
       
