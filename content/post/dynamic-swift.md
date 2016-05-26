@@ -14,7 +14,7 @@ I think we don't need all the runtime programming features from Objective-C.
 
 As long as AppKit and UIKit will be around, we'll have Objective-C and its runtime. If Apple releases a Swift-only successor to either one of these frameworks, I'm confident that they will do a good job: they'll make us write less boilerplate, rather than more. 
 
-Let's look at a completely different context: web programming. I've seen amazing web frameworks that rely a lot on runtime programming (stuff like Rails, but also [Seaside](http://seaside.st), back in its day). But, there are web frameworks in languages like Haskell, Scala and C# that use features like protocols, datatype-generic programming[^2] and passing around functions to reduce boilerplate. With both approaches you can get short, simple, maintanable code that's easy to write. 
+Let's look at a completely different context: web programming. I've seen amazing web frameworks that rely a lot on runtime programming (stuff like Rails, but also [Seaside](http://seaside.st), back in its day). But, there are web frameworks in languages like Haskell, Scala and C# that use features like protocols, datatype-generic programming[^2] and passing around functions to reduce boilerplate. With both approaches you can get short, simple, maintainable code that's easy to write. 
 
 Yet, techniques you don't know will almost always seem more complicated at first. I tried arguing with a Haskell programmer that runtime programming can be useful. I tried arguing with a Ruby programmer that static types can be helpful. To both, it seemed unnecessary and complicated. They've been writing great code without those features.
 
