@@ -45,7 +45,7 @@ General Spacing
 margin-bottom: 20px;
 }
 
-.postbody li	{ list-style-type:disc; list-style-position:outside; }
+.postbody ul li	{ list-style-type:disc; list-style-position:outside; }
 
 /*=========================================
 Base
@@ -101,7 +101,7 @@ a,
 }
 
 ul 	{ margin:0; padding:0; }
-li	{ list-style-type:circle; list-style-position:inside; }
+ul li	{ list-style-type:circle; list-style-position:inside; }
 
 /* Line Height */
 .postbody, p { line-height:1.7; }
@@ -322,6 +322,14 @@ Post Page
 	margin:80px 0 0 0;
 }
 
+.footnotes {
+	font-size:13px;
+}
+
+.postbody .footnotes ol {
+  list-style-type:number;
+}
+
 #post-meta {
 	font-size:13px;
 	color:#aaa;
@@ -338,6 +346,10 @@ Post Page
 	color:#333;
 	color:#aaa;
 	display:block;
+}
+
+.postbody ol {
+  margin-bottom: 20px;
 }
 
 #post-meta div {
@@ -485,3 +497,34 @@ h7 { max-width: 80%; }
 h7 { max-width: 100%; }
 }
 
+/* Footnotes */
+/*=============*/
+
+sub, sup {
+  /* Specified in % so that the sup/sup is the
+     right size relative to the surrounding text */
+  font-size: 75%;
+
+  /* Zero out the line-height so that it doesn't
+     interfere with the positioning that follows */
+  line-height: 0;
+
+  /* Where the magic happens: makes all browsers position
+     the sup/sup properly, relative to the surrounding text */
+  position: relative;
+
+  /* Note that if you're using Eric Meyer's reset.css, this
+     is already set and you can remove this rule */
+  vertical-align: baseline;
+}
+
+sup {
+  /* Move the superscripted text up */
+  top: -0.5em;
+}
+
+sub {
+  /* Move the subscripted text down, but only
+     half as far down as the superscript moved up */
+  bottom: -0.25em;
+}

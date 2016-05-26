@@ -1,7 +1,7 @@
 I'm Chris Eidhof. Dutch, and living in Berlin.
 
 
-I wrote two books: [Functional Programming in Swift](http://www.objc.io/books/functional-swift) and [Advanced Swift](http://www.objc.io/books/advanced-swift) at [objc.io](http://www.objc.io).
+I wrote two books: [Functional Swift](http://www.objc.io/books/functional-swift) and [Advanced Swift](http://www.objc.io/books/advanced-swift) at [objc.io](http://www.objc.io).
 
 I built iOS and Mac apps. In 2014, we released [Deckset](http://www.decksetapp.com). It's a Mac app that lets you create beautiful presentations, straight from Markdown. In 2015, we built [Scenery](http://www.getscenery.com), which lets you present your app designs using great photography.
 
