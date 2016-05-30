@@ -6,8 +6,138 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-05-26 00:00:00 &#43;0000 UTC</updated>
+    <updated>2016-05-30 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>Undo History in Swift</title>
+          <link>http://chris.eidhof.nl/post/undo-history-in-swift/</link>
+          <pubDate>Mon, 30 May 2016 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://chris.eidhof.nl/post/undo-history-in-swift/</guid>
+          <description>&lt;p&gt;Over the last weeks, there have been a number of blog posts that want to add dynamic behavior to Swift. Swift is already a very dynamic language: it has generics, protocols, first-class functions, and the standard library is filled with functions like &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;filter&lt;/code&gt;, which dynamically get their operation (not using a string like with KVC, but using a function, which is safer and more flexible). Most of the people that say they want dynamic behavior mean that they &lt;a href=&#34;http://inessential.com/2016/05/26/a_definition_of_dynamic_programming_in_t&#34;&gt;want reflection&lt;/a&gt; specifically: they want to analyze and modify the program at runtime.&lt;/p&gt;
+
+&lt;p&gt;In Swift, there is only a very limited reflection mechanism, although you can already inspect and generate code at runtime. For example, here&amp;rsquo;s how to generate a dictionary ready for &lt;code&gt;NSCoding&lt;/code&gt; or JSON serialization: &lt;a href=&#34;http://chris.eidhof.nl/post/swift-mirrors-and-json/&#34;&gt;Swift mirrors and JSON&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Today, we&amp;rsquo;ll have a look at implementing undo functionality in Swift. One of the examples people keep bringing up to make the case for reflection (the way Objective-C) supports it is &lt;code&gt;NSUndoManager&lt;/code&gt;.  With struct semantics, we can add undo support to our apps in a different way. Before we get started, make sure that you understand how structs work in Swift (most importantly, how they are all unique copies). Clearly, this post will not remove the need for runtime programming in Swift, nor is it a replacement for &lt;code&gt;NSUndoManager&lt;/code&gt;. It&amp;rsquo;s just a simple example of how to think different.&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;ll build a struct called &lt;code&gt;UndoHistory&lt;/code&gt;. It&amp;rsquo;s generic, with the caveat that it only works when &lt;code&gt;A&lt;/code&gt; is a struct. To keep a history of all the states, we can store every value in an array. Whenever we want to change something, we just push onto the array, and whenever we want to undo, we pop from the array. We always want to start with an initial state, so we create an initializer for that:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;struct UndoHistory&amp;lt;A&amp;gt; {
+    private let initialValue: A
+    private var history: [A] = []
+    init(initialValue: A) {
+        self.initialValue = initialValue
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For example, if we want to add undo support to a table view controller that&amp;rsquo;s backed by an array, we can create a value of this struct:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;var history = UndoHistory(initialValue: [1, 2, 3])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To support undo for a different struct, we just start with a different initial value:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;struct Person {
+    var name: String
+    var age: Int
+}
+
+var personHistory = UndoHistory(initialValue: Person(name: &amp;quot;Chris&amp;quot;, age: 31))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Of course, we want to have a way of getting the current state, and setting the current state (in other words: adding an item to our history). To get the current state, we simply return the last item in our &lt;code&gt;history&lt;/code&gt; array, and if the array is empty, we return the initial value. To set the current state, we simply append to our &lt;code&gt;history&lt;/code&gt; array.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;extension UndoHistory {
+    var currentItem: A {
+        get {
+            return history.last ?? initialValue
+        }
+        set {
+            history.append(newValue)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For example, if we want to change the person&amp;rsquo;s age, we can easily do that through our new computed property:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;personHistory.currentItem.age += 1
+personHistory.currentItem.age // Prints 32
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Of course, the code isn&amp;rsquo;t complete without an &lt;code&gt;undo&lt;/code&gt; method. This is as simple as removing the last item from the array. Depending on your preference, you could also make it &lt;code&gt;throw&lt;/code&gt; when the undo stack is empty, but I&amp;rsquo;ve chosen not to do that.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;extension UndoHistory {
+    mutating func undo() {
+        guard !history.isEmpty else { return }
+        history.removeLast()
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Using it is easy:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;personHistory.undo()
+personHistory.currentItem.age // Prints 31 again
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Of course, our &lt;code&gt;UndoHistory&lt;/code&gt; works on more than just simple &lt;code&gt;Person&lt;/code&gt; structs. For example, if we want to create a table view controller that&amp;rsquo;s backed by an &lt;code&gt;Array&lt;/code&gt;, we can use the &lt;code&gt;currentItem&lt;/code&gt; property to get the array out &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:4f7f6a73fd4549ae772cf1c92915d55d:1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:4f7f6a73fd4549ae772cf1c92915d55d:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;final class MyTableViewController&amp;lt;Item&amp;gt;: UITableViewController {
+    var data: UndoHistory&amp;lt;[Item]&amp;gt;
+    
+    init(value: [Item]) {
+        data = UndoHistory(initialValue: value)
+        super.init(style: .Plain)
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -&amp;gt; Int {
+        return data.currentItem.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&amp;gt; UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(&amp;quot;Identifier&amp;quot;, forIndexPath: indexPath)
+        let item = data.currentItem[indexPath.row]
+        // configure `cell` with `item`
+        return cell
+    }
+
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        guard editingStyle == .Delete else { return }
+        data.currentItem.removeAtIndex(indexPath.row)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Another thing that is really cool with struct semantics: we get observation for free. For example, we could change the definition of &lt;code&gt;data&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;var data: UndoHistory&amp;lt;[Item]&amp;gt; {
+    didSet {
+        tableView.reloadData()
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Even if we change something deep inside the array (e.g. &lt;code&gt;data.currentItem[17].name = &amp;quot;John&amp;quot;&lt;/code&gt;) our &lt;code&gt;didSet&lt;/code&gt; will get triggered. Of course, we probably want to do something a little bit smarter than &lt;code&gt;reloadData&lt;/code&gt;. For example, we could use the &lt;a href=&#34;https://github.com/osteslag/Changeset&#34;&gt;Changeset&lt;/a&gt; library to compute a diff and have insert/delete/move animations&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:4f7f6a73fd4549ae772cf1c92915d55d:2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:4f7f6a73fd4549ae772cf1c92915d55d:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the &lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&#34;&gt;runtime programming guide&lt;/a&gt;, you only need to have a good grasp of structs and generics to come up with this solution.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:4f7f6a73fd4549ae772cf1c92915d55d:1&#34;&gt;It would probably be nice to define a computed property &lt;code&gt;items&lt;/code&gt; which just gets and sets &lt;code&gt;data.currentItem&lt;/code&gt;. This makes the data source / delegate method implementations much nicer.
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:4f7f6a73fd4549ae772cf1c92915d55d:1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:4f7f6a73fd4549ae772cf1c92915d55d:2&#34;&gt;If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you&amp;rsquo;ll end up with two entries in your undo history.
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:4f7f6a73fd4549ae772cf1c92915d55d:2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -3272,28 +3402,6 @@ NetBlueWeb - 6651 / 5520, 82 [9] @ British Columbia
 andreisavu - 6648 / 6497, 97 [11496] @ Bucharest, Romania
 StackMob - 5571 / 1835, 32 [1015] @ SF
 &lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
-          <title>Changing Tech Education</title>
-          <link>http://chris.eidhof.nl/post/changing-tech-education/</link>
-          <pubDate>Wed, 16 May 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://chris.eidhof.nl/post/changing-tech-education/</guid>
-          <description>&lt;p&gt;Sometimes I talk to my friends about why I want to become rich. It&amp;#8217;s to solve the money problem, and once it&amp;#8217;s solved, I hope to have the time, connections  and status to work on bigger problems. I already know exactly what I want to try once I&amp;#8217;m there: change tech education.&lt;/p&gt;
-
-&lt;p&gt;When I did my bachelor&amp;#8217;s degree in computer science, I was quite bored most of the time. Officially, you were supposed to work on it at least 40 hours per week, but for me and most of my friends it was closer to 10 hours. The other time we would spend working, or having a hangover.&lt;/p&gt;
-
-&lt;p&gt;One of the causes why I didn&amp;#8217;t have to work so hard at university is the different levels of experience. When I started, I already had a few years of building websites under my belt. For example: I worked as the main developer at one of biggest soccer sites, and at the same time I had to take a course on the basics of HTML. Obviously, this disconnect was a problem for me, and for a lot of other motivated students around me. I want to solve this problem.&lt;/p&gt;
-
-&lt;p&gt;My solution is a program similar to a bachelor&amp;#8217;s degree in length, but a lot more intense. In order to enter this program, you have to show your aptitude at programming. The program will have teachers from both academia and industry, because I think both theory and practice are very important. Only the best students and teachers can participate. Students have to study theory, but will also spent a lot of time doing internships and real projects. They will learn standard theory, but also topics such as node.js, statistics for big data analysis, native mobile programming, HTML5, git internals, et cetera. For each batch of students, I want to get financing from big companies who then get access to the talent.&lt;/p&gt;
-
-&lt;p&gt;To pull this off will be a huge and hard job, but I look forward to it. I&amp;#8217;m still in the exploratory phase, and not sure whether I will actually do it, but at this moment in time I&amp;#8217;m talking with people in both industry and academia to see whether it&amp;#8217;s feasible. Instead of a bachelor&amp;#8217;s program, a very good first step might be to organize a Hacker&amp;#8217;s Summer School: 6 weeks of learning and hacking together with other talented hackers and awesome teachers.&lt;/p&gt;
-
-&lt;p&gt;Part of me thinks I&amp;#8217;m too young, inexperienced and not connected enough to do this. But I still think I should at least explore whether it&amp;#8217;s possible and should try. I have no idea in which form exactly. I don&amp;#8217;t know what the topics are going to be, who the teachers are or even what the team should look like. I&amp;#8217;ll keep you posted!&lt;/p&gt;
 </description>
         </item>
       
