@@ -121,9 +121,10 @@ var data: UndoHistory<[Item]> {
 
 Even if we change something deep inside the array (e.g. `data.currentItem[17].name = "John"`) our `didSet` will get triggered. Of course, we probably want to do something a little bit smarter than `reloadData`. For example, we could use the [Changeset](https://github.com/osteslag/Changeset) library to compute a diff and have insert/delete/move animations[^2].
 
-Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the [runtime programming guide](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html), you only need to have a good grasp of structs and generics to come up with this solution.
+Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the [runtime programming guide](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html), you only need to have a good grasp of structs and generics to come up with this solution [^3].
 
 [^1]: It would probably be nice to define a computed property `items` which just gets and sets `data.currentItem`. This makes the data source / delegate method implementations much nicer.
 
 [^2]: If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you'll end up with two entries in your undo history. 
 
+[^3]: In [Advanced Swift](https://www.objc.io/books/advanced-swift/) we go into way much more detail on these and many other topics.
