@@ -6,8 +6,45 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-05-30 00:00:00 &#43;0000 UTC</updated>
+    <updated>2016-06-03 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>Responder Chain Alternatives</title>
+          <link>http://chris.eidhof.nl/post/responder-chain-alternative/</link>
+          <pubDate>Fri, 03 Jun 2016 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://chris.eidhof.nl/post/responder-chain-alternative/</guid>
+          <description>&lt;p&gt;There&amp;rsquo;s been some recent talk about the &lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/EventOverview/EventArchitecture/EventArchitecture.html#//apple_ref/doc/uid/10000060i-CH3-SW2&#34;&gt;responder chain&lt;/a&gt;. The responder chain works on a tree structure: the view hierarchy plus some other things. An event or action gets sent to a certain view (a node in the tree structure). Until it gets handled, it moves up the tree towards the root, going through all superviews, all the way until the &lt;code&gt;NSWindow&lt;/code&gt;, up to the &lt;code&gt;NSWindowController&lt;/code&gt;. You can even modify this tree structure, and insert your own responders. Depending on what you&amp;rsquo;re building (e.g. a document-based application), the responder chain can even be more advanced.&lt;/p&gt;
+
+&lt;p&gt;The responder chain is really powerful, and saves you from writing boilerplate. It is built on top of runtime programming. For example, an action consists of a selector (in other words: a string) and the sender object. Using introspection, the application tries to dispatch an action through the responder chain, starting with the first responder, all the way up until some object handles the event.&lt;/p&gt;
+
+&lt;p&gt;When you create a new Mac application, it comes with a menu by default. The menu items in send actions, for example, &lt;code&gt;paste:&lt;/code&gt;. If you want to implement paste support, it&amp;rsquo;s really easy. The only thing you&amp;rsquo;ll have to do (besides the domain logic of pasting) is implement a &lt;code&gt;paste:&lt;/code&gt; method somewhere in an object that will be in the responder chain. That&amp;rsquo;s it. Menu items can even be enabled and disabled automatically if you implement &lt;code&gt;validateMenuItem:&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is easy to write, but you do pay a price: maintaining these actions is more difficult than writing them. It&amp;rsquo;s hard to change code: if you ever want to refactor (for example, if you choose to rename the action), you&amp;rsquo;ll have to be very careful to change it in all places in your code, and in the Interface Builder file. If you forget to change things in one place, Interface Builder might be able to tell you this sometimes. But other times, you&amp;rsquo;re out of luck.&lt;/p&gt;
+
+&lt;p&gt;The responder chain is easy, but it&amp;rsquo;s not simple&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:a7fde0fcc15b7c1f7933118c107161c5:simpleasy&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:a7fde0fcc15b7c1f7933118c107161c5:simpleasy&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. There is a lot of magic behind the scenes. It makes it hard to change your code. In addition, the responder chain on the Mac is complex: you need to have the order of the chain in your head (or read the documentation) to work effectively. You need to know your view hierarchy, and changes you intend to be local can accidentally be global.&lt;/p&gt;
+
+&lt;p&gt;The responder chain is cool, but I&amp;rsquo;m not sure if we need to replicate it in Swift. Rather, we could try to think of a way that is just as easy as the responder chain, but also &lt;em&gt;simple&lt;/em&gt;. It should be easy to refactor code. It should be easy to understand. It should be easy to debug. In order to make a local change, you shouldn&amp;rsquo;t have to worry about the global effects. I&amp;rsquo;m not sure if we can solve all these issues, but I&amp;rsquo;m pretty sure we can solve a few of them.&lt;/p&gt;
+
+&lt;p&gt;Functional Reactive Programming might be one solution to this. I&amp;rsquo;m not sure, because I have never applied FRP in production. The idea behind FRP is simple (and easy), but all implementations I&amp;rsquo;ve tried aren&amp;rsquo;t easy, nor simple. I think a React-like architecture is really cool, it&amp;rsquo;s simple, it&amp;rsquo;s easy, but then you want to do animations: not so easy.&lt;/p&gt;
+
+&lt;p&gt;In short, I don&amp;rsquo;t know a good alternative to the responder chain. I don&amp;rsquo;t think FRP will be a silver bullet. For now, we can keep using the responder chain anyway, because Cocoa and Objective-C are probably not going anywhere&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:a7fde0fcc15b7c1f7933118c107161c5:lindy&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:a7fde0fcc15b7c1f7933118c107161c5:lindy&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;. Sometimes, I hope that the answer comes when the Interface Builder team starts talking to the SourceKit API, and really leverage all this deep knowledge about the current program. In the mean time, we can try to come up with solutions ourselves, by keeping the following in mind: it should not only be easy, but also simple.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:a7fde0fcc15b7c1f7933118c107161c5:simpleasy&#34;&gt;See Rich Hickey&amp;rsquo;s amazing &lt;a href=&#34;https://www.infoq.com/presentations/Simple-Made-Easy&#34;&gt;presentation&lt;/a&gt;, or read the &lt;a href=&#34;https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md&#34;&gt;transcript&lt;/a&gt;.
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:a7fde0fcc15b7c1f7933118c107161c5:simpleasy&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:a7fde0fcc15b7c1f7933118c107161c5:lindy&#34;&gt;If I understand the &lt;a href=&#34;https://en.wikipedia.org/wiki/Lindy_effect&#34;&gt;Lindy effect&lt;/a&gt; correctly, Cocoa might be around for 30 more years&amp;hellip;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:a7fde0fcc15b7c1f7933118c107161c5:lindy&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -123,7 +160,7 @@ personHistory.currentItem.age // Prints 31 again
 
 &lt;p&gt;Even if we change something deep inside the array (e.g. &lt;code&gt;data.currentItem[17].name = &amp;quot;John&amp;quot;&lt;/code&gt;) our &lt;code&gt;didSet&lt;/code&gt; will get triggered. Of course, we probably want to do something a little bit smarter than &lt;code&gt;reloadData&lt;/code&gt;. For example, we could use the &lt;a href=&#34;https://github.com/osteslag/Changeset&#34;&gt;Changeset&lt;/a&gt; library to compute a diff and have insert/delete/move animations&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:4f7f6a73fd4549ae772cf1c92915d55d:2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:4f7f6a73fd4549ae772cf1c92915d55d:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
-&lt;p&gt;Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the &lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&#34;&gt;runtime programming guide&lt;/a&gt;, you only need to have a good grasp of structs and generics to come up with this solution.&lt;/p&gt;
+&lt;p&gt;Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the &lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&#34;&gt;runtime programming guide&lt;/a&gt;, you only need to have a good grasp of structs and generics to come up with this solution &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:4f7f6a73fd4549ae772cf1c92915d55d:3&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:4f7f6a73fd4549ae772cf1c92915d55d:3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;div class=&#34;footnotes&#34;&gt;
 
 &lt;hr /&gt;
@@ -133,6 +170,8 @@ personHistory.currentItem.age // Prints 31 again
  &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:4f7f6a73fd4549ae772cf1c92915d55d:1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&#34;fn:4f7f6a73fd4549ae772cf1c92915d55d:2&#34;&gt;If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you&amp;rsquo;ll end up with two entries in your undo history.
  &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:4f7f6a73fd4549ae772cf1c92915d55d:2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:4f7f6a73fd4549ae772cf1c92915d55d:3&#34;&gt;In &lt;a href=&#34;https://www.objc.io/books/advanced-swift/&#34;&gt;Advanced Swift&lt;/a&gt; we go into way much more detail on these and many other topics.
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:4f7f6a73fd4549ae772cf1c92915d55d:3&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 </description>

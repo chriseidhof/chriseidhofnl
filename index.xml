@@ -6,8 +6,45 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-05-30 00:00:00 &#43;0000 UTC</updated>
+    <updated>2016-06-03 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>Responder Chain Alternatives</title>
+          <link>http://chris.eidhof.nl/post/responder-chain-alternative/</link>
+          <pubDate>Fri, 03 Jun 2016 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://chris.eidhof.nl/post/responder-chain-alternative/</guid>
+          <description>&lt;p&gt;There&amp;rsquo;s been some recent talk about the &lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/EventOverview/EventArchitecture/EventArchitecture.html#//apple_ref/doc/uid/10000060i-CH3-SW2&#34;&gt;responder chain&lt;/a&gt;. The responder chain works on a tree structure: the view hierarchy plus some other things. An event or action gets sent to a certain view (a node in the tree structure). Until it gets handled, it moves up the tree towards the root, going through all superviews, all the way until the &lt;code&gt;NSWindow&lt;/code&gt;, up to the &lt;code&gt;NSWindowController&lt;/code&gt;. You can even modify this tree structure, and insert your own responders. Depending on what you&amp;rsquo;re building (e.g. a document-based application), the responder chain can even be more advanced.&lt;/p&gt;
+
+&lt;p&gt;The responder chain is really powerful, and saves you from writing boilerplate. It is built on top of runtime programming. For example, an action consists of a selector (in other words: a string) and the sender object. Using introspection, the application tries to dispatch an action through the responder chain, starting with the first responder, all the way up until some object handles the event.&lt;/p&gt;
+
+&lt;p&gt;When you create a new Mac application, it comes with a menu by default. The menu items in send actions, for example, &lt;code&gt;paste:&lt;/code&gt;. If you want to implement paste support, it&amp;rsquo;s really easy. The only thing you&amp;rsquo;ll have to do (besides the domain logic of pasting) is implement a &lt;code&gt;paste:&lt;/code&gt; method somewhere in an object that will be in the responder chain. That&amp;rsquo;s it. Menu items can even be enabled and disabled automatically if you implement &lt;code&gt;validateMenuItem:&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is easy to write, but you do pay a price: maintaining these actions is more difficult than writing them. It&amp;rsquo;s hard to change code: if you ever want to refactor (for example, if you choose to rename the action), you&amp;rsquo;ll have to be very careful to change it in all places in your code, and in the Interface Builder file. If you forget to change things in one place, Interface Builder might be able to tell you this sometimes. But other times, you&amp;rsquo;re out of luck.&lt;/p&gt;
+
+&lt;p&gt;The responder chain is easy, but it&amp;rsquo;s not simple&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:a7fde0fcc15b7c1f7933118c107161c5:simpleasy&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:a7fde0fcc15b7c1f7933118c107161c5:simpleasy&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. There is a lot of magic behind the scenes. It makes it hard to change your code. In addition, the responder chain on the Mac is complex: you need to have the order of the chain in your head (or read the documentation) to work effectively. You need to know your view hierarchy, and changes you intend to be local can accidentally be global.&lt;/p&gt;
+
+&lt;p&gt;The responder chain is cool, but I&amp;rsquo;m not sure if we need to replicate it in Swift. Rather, we could try to think of a way that is just as easy as the responder chain, but also &lt;em&gt;simple&lt;/em&gt;. It should be easy to refactor code. It should be easy to understand. It should be easy to debug. In order to make a local change, you shouldn&amp;rsquo;t have to worry about the global effects. I&amp;rsquo;m not sure if we can solve all these issues, but I&amp;rsquo;m pretty sure we can solve a few of them.&lt;/p&gt;
+
+&lt;p&gt;Functional Reactive Programming might be one solution to this. I&amp;rsquo;m not sure, because I have never applied FRP in production. The idea behind FRP is simple (and easy), but all implementations I&amp;rsquo;ve tried aren&amp;rsquo;t easy, nor simple. I think a React-like architecture is really cool, it&amp;rsquo;s simple, it&amp;rsquo;s easy, but then you want to do animations: not so easy.&lt;/p&gt;
+
+&lt;p&gt;In short, I don&amp;rsquo;t know a good alternative to the responder chain. I don&amp;rsquo;t think FRP will be a silver bullet. For now, we can keep using the responder chain anyway, because Cocoa and Objective-C are probably not going anywhere&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:a7fde0fcc15b7c1f7933118c107161c5:lindy&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:a7fde0fcc15b7c1f7933118c107161c5:lindy&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;. Sometimes, I hope that the answer comes when the Interface Builder team starts talking to the SourceKit API, and really leverage all this deep knowledge about the current program. In the mean time, we can try to come up with solutions ourselves, by keeping the following in mind: it should not only be easy, but also simple.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:a7fde0fcc15b7c1f7933118c107161c5:simpleasy&#34;&gt;See Rich Hickey&amp;rsquo;s amazing &lt;a href=&#34;https://www.infoq.com/presentations/Simple-Made-Easy&#34;&gt;presentation&lt;/a&gt;, or read the &lt;a href=&#34;https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md&#34;&gt;transcript&lt;/a&gt;.
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:a7fde0fcc15b7c1f7933118c107161c5:simpleasy&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:a7fde0fcc15b7c1f7933118c107161c5:lindy&#34;&gt;If I understand the &lt;a href=&#34;https://en.wikipedia.org/wiki/Lindy_effect&#34;&gt;Lindy effect&lt;/a&gt; correctly, Cocoa might be around for 30 more years&amp;hellip;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:a7fde0fcc15b7c1f7933118c107161c5:lindy&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -123,7 +160,7 @@ personHistory.currentItem.age // Prints 31 again
 
 &lt;p&gt;Even if we change something deep inside the array (e.g. &lt;code&gt;data.currentItem[17].name = &amp;quot;John&amp;quot;&lt;/code&gt;) our &lt;code&gt;didSet&lt;/code&gt; will get triggered. Of course, we probably want to do something a little bit smarter than &lt;code&gt;reloadData&lt;/code&gt;. For example, we could use the &lt;a href=&#34;https://github.com/osteslag/Changeset&#34;&gt;Changeset&lt;/a&gt; library to compute a diff and have insert/delete/move animations&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:4f7f6a73fd4549ae772cf1c92915d55d:2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:4f7f6a73fd4549ae772cf1c92915d55d:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
-&lt;p&gt;Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the &lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&#34;&gt;runtime programming guide&lt;/a&gt;, you only need to have a good grasp of structs and generics to come up with this solution.&lt;/p&gt;
+&lt;p&gt;Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the &lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&#34;&gt;runtime programming guide&lt;/a&gt;, you only need to have a good grasp of structs and generics to come up with this solution &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:4f7f6a73fd4549ae772cf1c92915d55d:3&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:4f7f6a73fd4549ae772cf1c92915d55d:3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;div class=&#34;footnotes&#34;&gt;
 
 &lt;hr /&gt;
@@ -133,6 +170,8 @@ personHistory.currentItem.age // Prints 31 again
  &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:4f7f6a73fd4549ae772cf1c92915d55d:1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&#34;fn:4f7f6a73fd4549ae772cf1c92915d55d:2&#34;&gt;If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you&amp;rsquo;ll end up with two entries in your undo history.
  &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:4f7f6a73fd4549ae772cf1c92915d55d:2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:4f7f6a73fd4549ae772cf1c92915d55d:3&#34;&gt;In &lt;a href=&#34;https://www.objc.io/books/advanced-swift/&#34;&gt;Advanced Swift&lt;/a&gt; we go into way much more detail on these and many other topics.
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:4f7f6a73fd4549ae772cf1c92915d55d:3&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 </description>
@@ -3276,132 +3315,6 @@ on Interface Builder, so if you have any tips let me know!&lt;/p&gt;
 &lt;p&gt;There is the obligatory quote: &amp;#8220;happiness is only real when shared&amp;#8221;, which is very true. Traveling with friends is just as awesome. However, you&amp;#8217;ll meet people along the way with who you will share the moments. For me, it&amp;#8217;s easier to meet people when I&amp;#8217;m traveling alone than when I&amp;#8217;m traveling with friends: with friends, I tend to isolate a bit more, and don&amp;#8217;t make many new friends.&lt;/p&gt;
 
 &lt;p&gt;Safe travels!&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
-          <title>Finding My Most Influential Twitter Followers</title>
-          <link>http://chris.eidhof.nl/post/finding-my-most-influential-twitter-followers/</link>
-          <pubDate>Tue, 29 May 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://chris.eidhof.nl/post/finding-my-most-influential-twitter-followers/</guid>
-          <description>&lt;p&gt;I spent an afternoon trying to find out who of my Twitter followers is the most influential. I wrote the script to fetch the data in Ruby, and stored the data in MongoDB.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Setup&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;First, we&amp;#8217;ll need to set up some things. Make sure you have a recent version of Ruby installed, and install the following gems:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;gem install twitter mongo bson_ext
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Although the &lt;code&gt;bson_ext&lt;/code&gt; isn&amp;#8217;t really necessary, it will make things a bit faster.&lt;/p&gt;
-
-&lt;p&gt;Also install mongodb. One of the easier ways to do this is using &lt;a href=&#34;http://mxcl.github.com/homebrew/&#34;&gt;homebrew&lt;/a&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;brew install mongodb
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Make sure to fire up mongodb, and we&amp;#8217;re all set on the client.&lt;/p&gt;
-
-&lt;p&gt;The last step is to get an API key at Twitter. Go to &lt;a href=&#34;https://dev.twitter.com/&#34;&gt;&lt;a href=&#34;https://dev.twitter.com/&#34;&gt;https://dev.twitter.com/&lt;/a&gt;&lt;/a&gt; and create a new application. Don&amp;#8217;t worry about the details too much.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Fetching a list of Twitter follower IDs&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;First, we will write a file called &lt;code&gt;twitter-config.rb&lt;/code&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Twitter.configure do |config|
-  config.consumer_key = &#39;CONSUMER_KEY&#39;
-  config.consumer_secret = &#39;CONSUMER_SECRET&#39;
-  config.oauth_token = &#39;OAUTH_TOKEN&#39;
-  config.oauth_token_secret = &#39;O_AUTH_TOKEN_SECRET&#39;
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Make sure to replace the right-hand sides by the appropriate values (they should match the twitter application you just created).&lt;/p&gt;
-
-&lt;p&gt;The script for fetching your Twitter follower ids is now extremely simple:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;require &#39;rubygems&#39;
-require &#39;twitter&#39;
-require &#39;twitter-config.rb&#39;
-
-follower_ids = Twitter.follower_ids
-File.open(&#34;followers&#34;, &#39;w&#39;) { |f| 
-  f.write(follower_ids.collection.join(&#34;\n&#34;)) 
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We are just using the Twitter API to fetch the follower ids and store them in a file. The last part is essential when working with APIs and larger datasets: make sure you store intermediate results. Often, computations can take a long time, and by storing intermediate results you can resume where you&amp;#8217;ve left off.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Write the script to fetch the data&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Again, this script is very simple. We iterate over the list of followers, and make the corresponding Twitter API call. One thing to note here is that you will hit the rate limit if you have more than 350 followers. Therefore, the script checks if you already have fetched the data for a follower, and skips fetching the data. If you hit the rate limit, simply wait some minutes and run the script again. Eventually, it will finish.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;require &#39;rubygems&#39;
-require &#39;twitter&#39;
-require &#39;database-config.rb&#39;
-require &#39;twitter-config.rb&#39;
-
-File.open(&#34;followers&#34;).each_line {|follower_id_s| 
-  follower_id = follower_id_s.to_i
-
-  if COLL.find(&#34;id&#34; =&amp;gt; follower_id).count &amp;gt; 0 then
-    puts &#34;Already have data for #{follower_id}&#34;
-  else
-    puts &#34;Fetching data for #{follower_id}&#34;
-    follower_hash = Twitter.user(follower_id).attrs
-    COLL.insert follower_hash
-  end
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The &lt;code&gt;database-config.rb&lt;/code&gt; file looks like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;require &#39;mongo&#39;
-
-connection = Mongo::Connection.new
-db = Mongo::Connection.new.db(&#34;twitterinsight&#34;)
-COLL = db.collection(&#34;followers&#34;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;It sets up a global variable &lt;code&gt;COLL&lt;/code&gt; that you can use in the scripts for analyzing and populating the database.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Analyze the data&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Once you have filled your database with data, you can analyze it by running queries on it. The reason I wrote this code is because I wanted to know who my most influential followers were:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;require &#39;rubygems&#39;
-require &#39;database-config.rb&#39;
-
-COLL.find().
-  sort([&#39;followers_count&#39;, :desc]).
-  limit(50).
-  to_a.map { |x| 
-  ratio = (100 * (x[&#39;friends_count&#39;].to_f / 
-                x[&#39;followers_count&#39;].to_f)).to_i
-  statuses = x[&#39;statuses_count&#39;]
-  puts &#34;#{x[&#39;screen_name&#39;]} - &#34; +
-       &#34;#{x[&#39;followers_count&#39;]} / #{x[&#39;friends_count&#39;]}&#34; +
-       &#34;, #{ratio} [#{statuses}] @ #{x[&#39;location&#39;]}&#34; 
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;As you can see, this script prints the screen name, number of followers, number of friends, the
-friends/followers ratio, the amount they tweet and the location. Here&amp;#8217;s some example output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;copumpkin - 22397 / 368, 1 [3597] @ Boston, MA
-DotSauce - 15641 / 12400, 79 [7377] @ NC, USA
-dominiek - 14487 / 1085, 7 [5342] @ AMS, SFO, TYO
-TivoliUtrecht - 10935 / 442, 4 [3950] @ Utrecht, The Netherlands
-theSeanCook - 10006 / 1137, 11 [2345] @ San Francisco
-Duetschpire - 8194 / 584, 7 [2112] @ Australia
-Polledemaagt - 7518 / 2563, 34 [37721] @ Gent, London, Amsterdam
-NetBlueWeb - 6651 / 5520, 82 [9] @ British Columbia
-andreisavu - 6648 / 6497, 97 [11496] @ Bucharest, Romania
-StackMob - 5571 / 1835, 32 [1015] @ SF
-&lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>
       
