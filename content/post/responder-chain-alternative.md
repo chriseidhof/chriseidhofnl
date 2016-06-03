@@ -17,7 +17,7 @@ The responder chain is easy, but it's not simple[^simpleasy]. There is a lot of 
 
 The responder chain is cool, but I'm not sure if we need to replicate it in Swift. Rather, we could try to think of a way that is just as easy as the responder chain, but also *simple*. It should be easy to refactor code. It should be easy to understand. It should be easy to debug. In order to make a local change, you shouldn't have to worry about the global effects. I'm not sure if we can solve all these issues, but I'm pretty sure we can solve a few of them.
 
-Functional Reactive Programming might be one solution to this. I'm not sure, because I have never applied FRP in production. The idea behind FRP is simple (and easy), but all implementations I've tried aren't easy, nor simple. I think a React-like architecture is really cool, it's simple, it's easy, but then you want to do animations: not so easy.
+(Functional) Reactive Programming[^3] might be one solution to this. I'm not sure, because I have never applied FRP in production. The idea behind FRP is simple (and easy), but all implementations I've tried aren't easy, nor simple. I think a React-like architecture is really cool, it's simple, it's easy, but then you want to do animations: not so easy.
 
 In short, I don't know a good alternative to the responder chain. I don't think FRP will be a silver bullet. For now, we can keep using the responder chain anyway, because Cocoa and Objective-C are probably not going anywhere[^lindy]. Sometimes, I hope that the answer comes when the Interface Builder team starts talking to the SourceKit API, and really leverage all this deep knowledge about the current program. In the mean time, we can try to come up with solutions ourselves, by keeping the following in mind: it should not only be easy, but also simple.
 
@@ -25,3 +25,4 @@ In short, I don't know a good alternative to the responder chain. I don't think 
 
 [^lindy]: If I understand the [Lindy effect](https://en.wikipedia.org/wiki/Lindy_effect) correctly, Cocoa might be around for 30 more years...
 
+[^3]: It's not so much about the functional part of FRP, but more about the reactive part, as pointed out by [JP](https://twitter.com/simjp/status/738830379298131969).
