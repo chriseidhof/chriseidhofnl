@@ -16,11 +16,7 @@
           <pubDate>Fri, 12 Aug 2016 00:00:00 UTC</pubDate>
           <author></author>
           <guid>http://chris.eidhof.nl/post/protocols-in-swift/</guid>
-          <description>
-
-&lt;h1 id=&#34;protocols-in-swift:f2742db1afc6707856689c8df80d46c9&#34;&gt;Protocols in Swift&lt;/h1&gt;
-
-&lt;p&gt;Let&amp;rsquo;s say we are writing our own data-structure, a singly linked list:&lt;/p&gt;
+          <description>&lt;p&gt;Let&amp;rsquo;s say we are writing our own data-structure, a singly linked list:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;enum ListNode&amp;lt;A&amp;gt; {
     case end
@@ -28,14 +24,14 @@
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Today&amp;rsquo;s goal is to make &lt;code&gt;ListNode&lt;/code&gt; conform to the &lt;code&gt;Collection&lt;/code&gt; protocol. It&amp;rsquo;s actually fairly easy, but it&amp;rsquo;s almost impossible to figure it out by just looking at the documentation. Even though the protocol is clearly specified, it&amp;rsquo;s not so easy to see this. Let&amp;rsquo;s start doing it and see what the compiler tells us:&lt;/p&gt;
+&lt;p&gt;Today&amp;rsquo;s goal is to make &lt;code&gt;ListNode&lt;/code&gt; conform to the &lt;code&gt;Collection&lt;/code&gt; protocol. It&amp;rsquo;s actually fairly easy, but it&amp;rsquo;s almost impossible to figure it out by just looking at the documentation. Even though the protocol is clearly specified, it&amp;rsquo;s not so easy to see what you need to do. Let&amp;rsquo;s give it a try without doing anything, and see what the compiler tells us:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;extension ListNode: Collection { }
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;The compiler tells us we don&amp;rsquo;t conform to the following three protocols: &lt;code&gt;Sequence&lt;/code&gt;, &lt;code&gt;IndexableBase&lt;/code&gt;, and &lt;code&gt;Collection&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;Looking at all these protocols, you might get overwhelmed. The most complicated one, &lt;code&gt;Collection&lt;/code&gt;, comes in at a whopping four associated types, two subscripts, four computed properties and seven methods. A protocol is a formal &amp;ldquo;todo-list&amp;rdquo; of all the things your type needs to do in order to conform.&lt;/p&gt;
+&lt;p&gt;Looking at all these protocols, you might get overwhelmed. The most complicated one, &lt;code&gt;Collection&lt;/code&gt;, comes in at a whopping four associated types, two subscripts, four computed properties and seven methods. A protocol is a formal &amp;ldquo;todo-list&amp;rdquo; of all the things your type needs to do in order to conform. I copy/pasted this from the Standard Library, and removed all the documentation comments. With the documentation comments, it gets even harder to see!&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;public protocol Collection : Indexable, Sequence {
     associatedtype IndexDistance : SignedInteger = Int
@@ -126,7 +122,7 @@ extension Collection where Iterator == IndexingIterator&amp;lt;Self&amp;gt; {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Because all three apply, we can get rid of three more TODOs. Our list is getting shorter.&lt;/p&gt;
+&lt;p&gt;Because all three apply, we can get rid of three more todos. Our list is getting shorter.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;public protocol Collection : Indexable, Sequence {
     public subscript(position: Self.Index) -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;.Element { get }
@@ -136,7 +132,7 @@ extension Collection where Iterator == IndexingIterator&amp;lt;Self&amp;gt; {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;If we start adding the &lt;code&gt;Indexable&lt;/code&gt; requirements to our TODO list, we end up with a long list again. We now also need to conform to IndexableBase.&lt;/p&gt;
+&lt;p&gt;If we start adding the &lt;code&gt;Indexable&lt;/code&gt; requirements to our todo-list, we end up with a long list again. We now also need to conform to IndexableBase.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;public protocol Collection : IndexableBase, Sequence {
     public subscript(position: Self.Index) -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;.Element { get }
@@ -194,7 +190,7 @@ extension Collection where Iterator == IndexingIterator&amp;lt;Self&amp;gt; {
 
 &lt;p&gt;Rather than waiting for Apple to fix this, maybe someone in the community could do this? I imagine it&amp;rsquo;s a few days of hard work: first you need to parse all the protocols in the standard library (or better: use SourceKit, because then you can also make it work on your own protocols). Then you need to have some kind of evaluation system that checks which extensions can be applied. It might need to be interactive, for example, once you specify that the &lt;code&gt;Index&lt;/code&gt; associated type will be an &lt;code&gt;Int&lt;/code&gt;, it could tell you what you still need to implement.&lt;/p&gt;
 
-&lt;p&gt;I&amp;rsquo;d love to build this myself, however, I&amp;rsquo;m currently too busy writing the update of &lt;a href=&#34;https://www.objc.io/books/advanced-swift/&#34;&gt;Advanced Swift&lt;/a&gt;, and preparing new &lt;a href=&#34;https://talk.objc.io&#34;&gt;Swift Talk episodes&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;d love to build this myself, however, I&amp;rsquo;m currently too busy writing the update of &lt;a href=&#34;https://www.objc.io/books/advanced-swift/&#34;&gt;Advanced Swift&lt;/a&gt;, and preparing new &lt;a href=&#34;https://talk.objc.io&#34;&gt;Swift Talk episodes&lt;/a&gt;. It would be the perfect procrastination project&amp;hellip;&lt;/p&gt;
 </description>
         </item>
       
