@@ -24,7 +24,7 @@
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Today&amp;rsquo;s goal is to make &lt;code&gt;ListNode&lt;/code&gt; conform to the &lt;code&gt;Collection&lt;/code&gt; protocol. It&amp;rsquo;s actually fairly easy, but it&amp;rsquo;s almost impossible to figure it out by just looking at the documentation. Even though the protocol is clearly specified, it&amp;rsquo;s not so easy to see what you need to do. Let&amp;rsquo;s give it a try without doing anything, and see what the compiler tells us:&lt;/p&gt;
+&lt;p&gt;Today&amp;rsquo;s goal is to make &lt;code&gt;ListNode&lt;/code&gt; conform to the &lt;code&gt;Collection&lt;/code&gt; protocol. It&amp;rsquo;s actually fairly easy, but it&amp;rsquo;s almost impossible to figure it out by just looking at the types. The documentation tells us which methods to implement, but why is it like that? Even though the protocol is clearly specified, it&amp;rsquo;s not so easy to see what you need to do. Let&amp;rsquo;s give it a try without looking at the documentation, and see what the compiler tells us:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;extension ListNode: Collection { }
 &lt;/code&gt;&lt;/pre&gt;
@@ -165,6 +165,7 @@ extension Collection where Iterator == IndexingIterator&amp;lt;Self&amp;gt; {
 
 &lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;extension ListNode: Collection {
     var startIndex: Int { return 0 }
+    /// This is 0(n), not the expected O(1) from `Collection`.
     var endIndex: Int {
         switch self {
         case .end: return 0
@@ -174,6 +175,7 @@ extension Collection where Iterator == IndexingIterator&amp;lt;Self&amp;gt; {
     func index(after: Int) -&amp;gt; Int {
         return after+1
     }
+    /// This is 0(n), not the expected O(1) from `Collection`.
     subscript(position: Int) -&amp;gt; A {
         switch (self, position) {
         case (.end, _): fatalError(&amp;quot;Index out of bounds&amp;quot;)
@@ -191,6 +193,8 @@ extension Collection where Iterator == IndexingIterator&amp;lt;Self&amp;gt; {
 &lt;p&gt;Rather than waiting for Apple to fix this, maybe someone in the community could do this? I imagine it&amp;rsquo;s a few days of hard work: first you need to parse all the protocols in the standard library (or better: use SourceKit, because then you can also make it work on your own protocols). Then you need to have some kind of evaluation system that checks which extensions can be applied. It might need to be interactive, for example, once you specify that the &lt;code&gt;Index&lt;/code&gt; associated type will be an &lt;code&gt;Int&lt;/code&gt;, it could tell you what you still need to implement.&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;d love to build this myself, however, I&amp;rsquo;m currently too busy writing the update of &lt;a href=&#34;https://www.objc.io/books/advanced-swift/&#34;&gt;Advanced Swift&lt;/a&gt;, and preparing new &lt;a href=&#34;https://talk.objc.io&#34;&gt;Swift Talk episodes&lt;/a&gt;. It would be the perfect procrastination project&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Update: Nicola &lt;a href=&#34;https://twitter.com/NSalmoria/status/764158023124258817&#34;&gt;writes in&lt;/a&gt; that &amp;ldquo;Conforming to the Collection Protocol&amp;rdquo; is actually a section of the &lt;a href=&#34;https://developer.apple.com/reference/swift/collection&#34;&gt;API documentation&lt;/a&gt;. Very good point. He also raises the point that my &lt;code&gt;endIndex&lt;/code&gt; and &lt;code&gt;subscript&lt;/code&gt; implementations aren&amp;rsquo;t &lt;code&gt;O(1)&lt;/code&gt;, which is the expected complexity as described in the &lt;code&gt;Collection&lt;/code&gt; protocol.&lt;/p&gt;
 </description>
         </item>
       
