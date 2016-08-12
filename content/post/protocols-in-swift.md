@@ -14,7 +14,7 @@ enum ListNode<A> {
 }
 ```
 
-Today's goal is to make `ListNode` conform to the `Collection` protocol. It's actually fairly easy, but it's almost impossible to figure it out by just looking at the documentation. Even though the protocol is clearly specified, it's not so easy to see what you need to do. Let's give it a try without doing anything, and see what the compiler tells us:
+Today's goal is to make `ListNode` conform to the `Collection` protocol. It's actually fairly easy, but it's almost impossible to figure it out by just looking at the types. The documentation tells us which methods to implement, but why is it like that? Even though the protocol is clearly specified, it's not so easy to see what you need to do. Let's give it a try without looking at the documentation, and see what the compiler tells us:
 
 
 ```swift
@@ -167,6 +167,7 @@ Lo and behold, we can make `ListNode` conform:
 ```swift
 extension ListNode: Collection {
     var startIndex: Int { return 0 }
+    /// This is 0(n), not the expected O(1) from `Collection`.
     var endIndex: Int {
         switch self {
         case .end: return 0
@@ -176,6 +177,7 @@ extension ListNode: Collection {
     func index(after: Int) -> Int {
         return after+1
     }
+    /// This is 0(n), not the expected O(1) from `Collection`.
     subscript(position: Int) -> A {
         switch (self, position) {
         case (.end, _): fatalError("Index out of bounds")
@@ -193,3 +195,5 @@ Long story short: it's really hard to see what you need to conform to. Or to be 
 Rather than waiting for Apple to fix this, maybe someone in the community could do this? I imagine it's a few days of hard work: first you need to parse all the protocols in the standard library (or better: use SourceKit, because then you can also make it work on your own protocols). Then you need to have some kind of evaluation system that checks which extensions can be applied. It might need to be interactive, for example, once you specify that the `Index` associated type will be an `Int`, it could tell you what you still need to implement. 
 
 I'd love to build this myself, however, I'm currently too busy writing the update of [Advanced Swift](https://www.objc.io/books/advanced-swift/), and preparing new [Swift Talk episodes](https://talk.objc.io). It would be the perfect procrastination project...
+
+Update: Nicola [writes in](https://twitter.com/NSalmoria/status/764158023124258817) that "Conforming to the Collection Protocol" is actually a section of the [API documentation](https://developer.apple.com/reference/swift/collection). Very good point. He also raises the point that my `endIndex` and `subscript` implementations aren't `O(1)`, which is the expected complexity as described in the `Collection` protocol.
