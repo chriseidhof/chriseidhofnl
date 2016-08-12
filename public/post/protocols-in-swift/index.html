@@ -45,7 +45,7 @@
   <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
   <meta itemprop="dateModified" content="2016-08-12T00:00:00&#43;00:00">
   <meta itemprop="headline" content="Protocols in Swift">
-  <meta itemprop="description" content="Let&rsquo;s say we are writing our own data-structure, a singly linked list: enum ListNode&lt;A&gt; { case end indirect case cons(A, ListNode) } Today&rsquo;s goal is to make ListNode conform to the Collection protocol. It&rsquo;s actually fairly easy, but it&rsquo;s almost impossible to figure it out by just looking at the documentation. Even though the protocol is clearly specified, it&rsquo;s not so easy to see what you need to do. Let&rsquo;s give it a try without doing anything, and see what the compiler tells us: extension ListNode: Collection { } The compiler tells us we don&rsquo;t conform to the following three protocols: Sequence, IndexableBase, and Collection.">
+  <meta itemprop="description" content="Let&rsquo;s say we are writing our own data-structure, a singly linked list: enum ListNode&lt;A&gt; { case end indirect case cons(A, ListNode) } Today&rsquo;s goal is to make ListNode conform to the Collection protocol. It&rsquo;s actually fairly easy, but it&rsquo;s almost impossible to figure it out by just looking at the types. The documentation tells us which methods to implement, but why is it like that? Even though the protocol is clearly specified, it&rsquo;s not so easy to see what you need to do.">
   <meta itemprop="url" content="http://chris.eidhof.nl/post/protocols-in-swift/">
     <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
       <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
@@ -72,7 +72,7 @@
 }
 </code></pre>
 
-<p>Today&rsquo;s goal is to make <code>ListNode</code> conform to the <code>Collection</code> protocol. It&rsquo;s actually fairly easy, but it&rsquo;s almost impossible to figure it out by just looking at the documentation. Even though the protocol is clearly specified, it&rsquo;s not so easy to see what you need to do. Let&rsquo;s give it a try without doing anything, and see what the compiler tells us:</p>
+<p>Today&rsquo;s goal is to make <code>ListNode</code> conform to the <code>Collection</code> protocol. It&rsquo;s actually fairly easy, but it&rsquo;s almost impossible to figure it out by just looking at the types. The documentation tells us which methods to implement, but why is it like that? Even though the protocol is clearly specified, it&rsquo;s not so easy to see what you need to do. Let&rsquo;s give it a try without looking at the documentation, and see what the compiler tells us:</p>
 
 <pre><code class="language-swift">extension ListNode: Collection { }
 </code></pre>
@@ -213,6 +213,7 @@ extension Collection where Iterator == IndexingIterator&lt;Self&gt; {
 
 <pre><code class="language-swift">extension ListNode: Collection {
     var startIndex: Int { return 0 }
+    /// This is 0(n), not the expected O(1) from `Collection`.
     var endIndex: Int {
         switch self {
         case .end: return 0
@@ -222,6 +223,7 @@ extension Collection where Iterator == IndexingIterator&lt;Self&gt; {
     func index(after: Int) -&gt; Int {
         return after+1
     }
+    /// This is 0(n), not the expected O(1) from `Collection`.
     subscript(position: Int) -&gt; A {
         switch (self, position) {
         case (.end, _): fatalError(&quot;Index out of bounds&quot;)
@@ -239,6 +241,8 @@ extension Collection where Iterator == IndexingIterator&lt;Self&gt; {
 <p>Rather than waiting for Apple to fix this, maybe someone in the community could do this? I imagine it&rsquo;s a few days of hard work: first you need to parse all the protocols in the standard library (or better: use SourceKit, because then you can also make it work on your own protocols). Then you need to have some kind of evaluation system that checks which extensions can be applied. It might need to be interactive, for example, once you specify that the <code>Index</code> associated type will be an <code>Int</code>, it could tell you what you still need to implement.</p>
 
 <p>I&rsquo;d love to build this myself, however, I&rsquo;m currently too busy writing the update of <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>, and preparing new <a href="https://talk.objc.io">Swift Talk episodes</a>. It would be the perfect procrastination project&hellip;</p>
+
+<p>Update: Nicola <a href="https://twitter.com/NSalmoria/status/764158023124258817">writes in</a> that &ldquo;Conforming to the Collection Protocol&rdquo; is actually a section of the <a href="https://developer.apple.com/reference/swift/collection">API documentation</a>. Very good point. He also raises the point that my <code>endIndex</code> and <code>subscript</code> implementations aren&rsquo;t <code>O(1)</code>, which is the expected complexity as described in the <code>Collection</code> protocol.</p>
 
   </section>
 
