@@ -45,7 +45,7 @@ b += 1
 &lt;pre&gt;&lt;code class=&#34;language-highlight-swift&#34;&gt;origin.x = 10 // error
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Even though we defined &lt;code&gt;x&lt;/code&gt; within the struct as a &lt;code&gt;var&lt;/code&gt; property, we cannot change it, because &lt;code&gt;origin&lt;/code&gt; is defined using &lt;code&gt;let&lt;/code&gt;. This has some large advantages. For example, if you read a line like &lt;code&gt;let point = ...&lt;/code&gt;, and you know that &lt;code&gt;point&lt;/code&gt; is a struct variable, then you also know that it will never, ever, change. This is a great help when reading through code.&lt;/p&gt;
+&lt;p&gt;Even though we defined &lt;code&gt;x&lt;/code&gt; within the struct as a &lt;code&gt;var&lt;/code&gt; property, we cannot change it, because &lt;code&gt;origin&lt;/code&gt; is defined using &lt;code&gt;let&lt;/code&gt;. This has some major advantages. For example, if you read a line like &lt;code&gt;let point = ...&lt;/code&gt;, and you know that &lt;code&gt;point&lt;/code&gt; is a struct variable, then you also know that it will never, ever, change. This is a great help when reading through code.&lt;/p&gt;
 
 &lt;p&gt;To create a variable that we can mutate, we need to create it using &lt;code&gt;var&lt;/code&gt;:&lt;/p&gt;
 
