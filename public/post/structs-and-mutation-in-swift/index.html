@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.15" />
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <script type="text/javascript" src="//use.typekit.net/bwu1cse.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+	<link rel="shortcut icon" href="/images/favicon.ico">	
+	<link rel="stylesheet" href="/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://chris.eidhof.nl//index.xml">
+
+    
+    <title>Structs and mutation in Swift - Chris Eidhof</title>
+    <meta property='og:title' content="Structs and mutation in Swift - Chris Eidhof">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://chris.eidhof.nl/post/structs-and-mutation-in-swift/">
+    
+    
+
+  </head>
+
+  <body>
+
+<section id="content">
+<section id="outer-container">
+<section id="wrapper">
+
+<header id="header">
+<a id="title" href="/"><img src="/images/logo.png" style="width: 2em"></a>
+</header> 
+
+    
+
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+  <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
+  <meta itemprop="dateModified" content="2016-08-16T00:00:00&#43;00:00">
+  <meta itemprop="headline" content="Structs and mutation in Swift">
+  <meta itemprop="description" content="Note: This post is a draft-version of a new section in our book Advanced Swift. We&rsquo;re currently updating the book for Swift 3. It&rsquo;ll be a free update for everyone who has bought a digital version of the book. Thanks to Ole Begemann for suggestions and improvements. Value types imply that whenever a variable is copied, the value itself — and not just a reference to the value — is copied.">
+  <meta itemprop="url" content="http://chris.eidhof.nl/post/structs-and-mutation-in-swift/">
+    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
+      <meta itemprop="width" content="100">
+      <meta itemprop="height" content="100">
+    </div>
+    <meta itemprop="name" content="Chris Eidhof">
+  </div>
+  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="">
+  </div>
+
+  <header>
+    <h1>Structs and mutation in Swift</h1>
+    <h2 class="headline"> How I Learned To Stop Worrying and Love mutating </h2>
+  </header>
+
+  <section class="postbody">
+    <p><em>Note</em>: This post is a draft-version of a new section in our book <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>. We&rsquo;re currently updating the book for Swift 3. It&rsquo;ll be a free update for everyone who has bought a digital version of the book. Thanks to <a href="https://twitter.com/olebegemann">Ole Begemann</a> for suggestions and improvements.</p>
+
+<p>Value types imply that whenever a variable is copied, the value itself — and not just a reference to the value — is copied. For example, in almost all programming languages, scalar types are value types. This means that whenever a value is assigned to a new variable, it is copied rather than passed by reference:</p>
+
+<pre><code class="language-swift">var a = 42
+var b = a
+b += 1
+</code></pre>
+
+<p>After the code above executes, the value of <code>b</code> will be 43, but <code>a</code> will still be 42. This is so natural that it seems like stating the obvious. However, in Swift, all structs behave this way.</p>
+
+<p>Let&rsquo;s start with a simple struct that describes a <code>Point</code>. This is similar to <code>CGPoint</code>, except that it contains <code>Int</code>s, whereas <code>CGPoint</code> contains <code>CGFloat</code>s.</p>
+
+<pre><code class="language-swift">struct Point {
+    var x: Int
+    var y: Int
+}
+</code></pre>
+
+<p>For structs, Swift automatically adds a memberwise initializer. This means we can now initialize a new variable:</p>
+
+<pre><code class="language-swift">let origin = Point(x: 0, y: 0)
+</code></pre>
+
+<p>Because structs in Swift have value semantics, we cannot change any of the properties of a struct variable that&rsquo;s defined using let. For example, the following code will not work:</p>
+
+<pre><code class="language-highlight-swift">origin.x = 10 // error
+</code></pre>
+
+<p>Even though we defined <code>x</code> within the struct as a <code>var</code> property, we cannot change it, because <code>origin</code> is defined using <code>let</code>. This has some large advantages. For example, if you read a line like <code>let point = ...</code>, and you know that <code>point</code> is a struct variable, then you also know that it will never, ever, change. This is a great help when reading through code.</p>
+
+<p>To create a variable that we can mutate, we need to create it using <code>var</code>:</p>
+
+<pre><code class="language-swift">var otherPoint = Point(x: 0, y: 0)
+otherPoint.x += 10
+otherPoint
+</code></pre>
+
+<p>Once we create a variable using <code>var</code>, we can mutate it. However, unlike with objects, every struct variable is unique. For example, we can create a new variable <code>thirdPoint</code>, and assign the value of <code>origin</code> to it. Now we can change <code>thirdPoint</code>, but <code>origin</code> (which we defined as an immutable variable using <code>let</code>) will not change.</p>
+
+<pre><code class="language-swift">var thirdPoint = origin
+thirdPoint.x += 10
+thirdPoint
+origin
+</code></pre>
+
+<p>Once you assign a struct to a new variable, Swift automatically makes a copy. Even though this sounds very expensive, many of the copies can be optimized away by the compiler, and Swift tries hard to make the copies very cheap. In fact, many structs in the standard library are implemented using a technique called copy-on-write, which we will look at later.</p>
+
+<p>If we have struct values that we plan to use more often, we can define them in an extension as a static property. For example, we can define an <code>origin</code> property on <code>Point</code>, so that we can write <code>Point.origin</code> everywhere we need it:</p>
+
+<pre><code class="language-swift">extension Point {
+    static let origin = Point(x: 0, y: 0)
+}
+Point.origin
+</code></pre>
+
+<p>Structs can also contain other structs. For example, if we define a <code>Size</code> struct, we can create a <code>Rect</code> struct which is composed out of a point and a size:</p>
+
+<pre><code class="language-swift">struct Size {
+    var width: Int
+    var height: Int
+}
+
+struct Rectangle {
+    var origin: Point
+    var size: Size
+}
+</code></pre>
+
+<p>Just like before, we get a memberwise initializer for <code>Rectangle</code>. The order of the parameters matches the order of the property definitions:</p>
+
+<pre><code class="language-swift">Rectangle(origin: Point.origin, 
+          size: Size(width: 320, height: 480))
+</code></pre>
+
+<p>If we want a custom initializer for our struct, we can add it directly inside the struct definition. However, if the struct definition contains a custom initializer, Swift does not generate a memberwise initializer. By defining our custom initializer in an extension, we also get to keep the memberwise initializer.</p>
+
+<pre><code class="language-swift">extension Rectangle {
+    init(x: Int = 0, y: Int = 0, width: Int, height: Int) {
+        origin = Point(x: x, y: y)
+        size = Size(width: width, height: height)
+    }
+}
+</code></pre>
+
+<p>Instead of setting <code>origin</code> and <code>size</code> directly, we could have also called <code>self.init(origin:size:)</code>.</p>
+
+<p>If we define a mutable variable <code>screen</code>, we can add a <code>didSet</code> block that gets executed whenever <code>screen</code> changes. This <code>didSet</code> works for every definition of a struct, be it in a playground, in a class or when defining a global variable.</p>
+
+<pre><code class="language-swift">var screen = Rectangle(width: 320, height: 480) {
+    didSet {
+        print(&quot;Screen changed! \(screen)&quot;)
+    }
+}
+</code></pre>
+
+<p>Maybe somewhat surprisingly, even if we change something deep inside the struct, this will get triggered:</p>
+
+<pre><code class="language-swift">screen.origin.x = 10
+</code></pre>
+
+<p>Understanding why this works is key to understanding value types. Mutating a struct variable is semantically the same as assigning a new value to it. When we mutate something deep inside the struct, it still means we are mutating the struct, so <code>didSet</code> still needs to get triggered.</p>
+
+<p>With regular structs, the compiler will mutate the value in place, and not actually make a copy. With copy-on-write structs (which we&rsquo;ll discuss later), this works differently.</p>
+
+<p>It would make sense to add two <code>Points</code> together. We can use the <code>+</code> operator for this, add both members, and return a new <code>Point</code>.</p>
+
+<pre><code class="language-swift">func +(lhs: Point, rhs: Point) -&gt; Point {
+    return Point(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+}
+screen.origin + Point(x: 10, y: 10)
+</code></pre>
+
+<p>We could also lift this operation to rectangles, and add a <code>translate</code> method which moves the rectangle by a given offset. Our first attempt doesn&rsquo;t work:</p>
+
+<pre><code class="language-highlight-swift">extension Rectangle {
+    func translate(by offset: Point) {
+        origin = origin + offset
+    }
+}
+</code></pre>
+
+<p>The compiler tells us that we cannot assign to the <code>origin</code> property, because <code>self</code> is immutable (writing <code>origin =</code> is shorthand for <code>self.origin =</code>). We could think of <code>self</code> as an extra, implicit parameter that gets passed to every method on <code>Rectangle</code>. You never have to pass the parameter, but it&rsquo;s always there inside the method body. And it&rsquo;s defined as <code>let</code> by default. The reason this <code>let</code> restriction exists is so that value semantics can be guaranteed. If we want to be able to mutate <code>self</code>, or any property of <code>self</code>, or even nested properties (e.g. <code>self.origin.x</code>), we need to mark our method as <code>mutating</code>:</p>
+
+<pre><code class="language-swift">extension Rectangle {
+    mutating func translate(by offset: Point) {
+        origin = origin + offset
+    }
+}
+screen.translate(by: Point(x: 10, y: 10))
+</code></pre>
+
+<p>The compiler enforces the <code>mutating</code> keyword. Unless we use it, we are not allowed to mutate anything inside the method. By marking the method as <code>mutating</code>, we change the behavior of <code>self</code>. Instead of it being a <code>let</code>, it now works like a <code>var</code>: we can freely change any property. (To be precise, it&rsquo;s not even a <code>var</code>, but we will get to that in a little bit).</p>
+
+<p>If we define a <code>Rectangle</code> variable using <code>let</code>, we cannot call <code>translate</code> on it, because the only <code>Rectangle</code>s that are mutable are the ones defined using <code>var</code>:</p>
+
+<pre><code class="language-highlight-swift">let otherScreen = screen
+otherScreen.translate(by: Point(x: 10, y: 10)) // error
+</code></pre>
+
+<p>Thinking back to the collections chapter, we can now see how the difference between <code>let</code> and <code>var</code> applies to our collections as well. The <code>append</code> method on arrays is defined as <code>mutating</code>, and therefore we are not allowed to call it on an array defined with <code>let</code>.</p>
+
+<p>Likewise, if we think about a property setter on a struct, it makes sense that they are mutating. Because Swift automatically marks every setter as <code>mutating</code>, you cannot call a setter on a <code>let</code> variable.</p>
+
+<pre><code class="language-highlight-swift">let point = Point.origin
+// doesn't work, because the setter is mutating.
+point.x = 10 
+</code></pre>
+
+<p>In many cases, it makes sense to have both a <code>mutating</code> and a non-mutating variant of the same method. For example, arrays have both a <code>sort()</code> method (which is mutating and sorts in place) and a <code>sorted()</code> method (which returns a new array). We can also add a non-mutating variant of our <code>translate(by:_)</code> method. Instead of mutating <code>self</code>, we create a copy, mutate that, and return a new <code>Rectangle</code>:</p>
+
+<pre><code class="language-swift">extension Rectangle {
+    func translated(by offset: Point) -&gt; Rectangle {
+        var copy = self
+        copy.translate(by: offset)
+        return copy
+    }
+}
+screen.translated(by: Point(x: 20, y: 20))
+</code></pre>
+
+<blockquote>
+<p>The names <code>sort</code> and <code>sorted</code> are not chosen at random, but are names that conform to the Swift <a href="https://swift.org/documentation/api-design-guidelines/">API Design Guidelines</a>. Likewise, we applied these guidelines to <code>translate</code> and <code>translated</code>. There is even specific documentation for methods that have a mutating and a non-mutating variant: because <code>translate</code> has a side-effect, it should read as an imperative verb phrase. The non-mutating variant should have a -ed or -ing suffix.</p>
+</blockquote>
+
+<p>In functional programming, side-effects are often considered bad, because they might influence your code in unexpected ways. For example, if an object is referenced in multiple places, every change automatically happens in every place. As we have seen in the introduction, when dealing with multi-threaded code, this can easily lead to bugs: because the object you are just checking can be modified from a different thread, all your assumptions might be invalid.</p>
+
+<p>With Swift structs, <code>mutating</code> does not have the same problems. The mutation of the struct is a local side-effect, and only applies to the current struct variable. Because every struct variable is unique (or in other words: every struct value has exactly one owner), it&rsquo;s almost impossible to introduce bugs this way. Unless you&rsquo;re referring to a global struct variable across threads, that is.</p>
+
+<p>To understand how the <code>mutating</code> keyword works, we can look at the behavior of <code>inout</code>. In Swift, we can mark function parameters as <code>inout</code>. Before we do that, let&rsquo;s define a free function that moves a rectangle by ten points on both axes. We cannot simply call <code>translate</code> directly on the <code>rectangle</code> parameter, because all function parameters are immutable by default. In order to change it, we create a mutable copy using <code>var</code>, call <code>translate</code> and return the changed value. Then we need to re-assign it to <code>screen</code>:</p>
+
+<pre><code class="language-swift">func moveByTenTen(rectangle: Rectangle) -&gt; Rectangle {
+    var changed = rectangle
+    changed.translate(by: Point(x: 10, y: 10))
+    return changed
+}
+screen = moveByTenTen(rectangle: screen)
+</code></pre>
+
+<p>How could we write a function that changes the <code>rectangle</code> in place? Thinking back, the <code>mutating</code> keyword did exactly that. It makes the implicit <code>self</code> parameter mutable, and it changes the value of the variable.</p>
+
+<p>In functions, we can mark parameters as <code>inout</code>. Just like with a regular parameter, a copy of the value gets passed in to the function. However, we can change the copy (it&rsquo;s as if it were defined as a <code>var</code>). And once the function returns, the original value gets overwritten:</p>
+
+<pre><code class="language-swift">func moveByTwentyTwenty(rectangle: inout Rectangle) {
+    rectangle.translate(by: Point(x: 20, y: 20))
+}
+moveByTwentyTwenty(rectangle: &amp;screen)
+</code></pre>
+
+<p>The <code>moveByTwentyTwenty</code> function takes the <code>screen</code> rectangle, changes it locally, and copies the new value back (overriding the previous value of <code>screen</code>). This behavior is exactly the same as a <code>mutating</code> method. In fact, <code>mutating</code> methods are just like regular methods on struct, except that <code>self</code> is marked as <code>inout</code>.</p>
+
+<p>Just to make sure, we cannot call <code>moveByTwentyTwenty</code> on a rectangle that&rsquo;s defined using <code>let</code>. We can only use it with mutable values:</p>
+
+<pre><code class="language-highlight-swift">let immutableScreen = screen
+moveByTwentyTwenty(rectangle: &amp;immutableScreen) // error
+</code></pre>
+
+<p>Now it also makes sense how we could define a mutating operator like <code>+=</code>. Such operators modify the left-hand side by adding the right-hand side:</p>
+
+<pre><code class="language-swift">func +=(lhs: inout Point, rhs: Point) {
+    lhs = lhs + rhs
+}
+var myPoint = Point.origin
+myPoint += Point(x: 10, y: 10)
+</code></pre>
+
+<p>In the <a href="#functions">Functions</a> chapter, we will go into more detail about <code>inout</code>. For now, it suffices to say that <code>inout</code> is in lots of places. For example, it&rsquo;s now easy to understand how modifying a subscript works:</p>
+
+<pre><code class="language-swift">var array = [Point(x: 0, y: 0), Point(x: 10, y: 10)]
+array[0] += Point(x: 100, y: 100)
+</code></pre>
+
+<p>The expression <code>array[0]</code> is automatically passed in as an <code>inout</code> variable. In the Functions chapter, we will look in more detail at <code>inout</code> parameters, and see why we can use expressions like <code>array[0]</code> as an <code>inout</code> parameter.</p>
+
+  </section>
+
+  <footer id="post-meta" class="group">
+    <div>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="2016-08-16T00:00:00&#43;00:00">Tue, Aug 16, 2016</time>
+      by <a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a>
+
+    </div>
+  <section id="sharing">
+    <a class="twitter" href="https://twitter.com/share"><span class="icon-twitter-circled"></span></a>
+  </section> 
+  </footer> 
+  
+
+</article>
+
+<footer><nav id="post-nav"></nav></footer>
+
+</section> 
+</section> 
+
+</section> 
+
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="/js/main.js/"></script>
+   <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24867064-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+</body>
+</html>
+

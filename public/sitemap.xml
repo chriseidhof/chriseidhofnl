@@ -3,8 +3,13 @@
   
   <url>
     <loc>http://chris.eidhof.nl/</loc>
-    <lastmod>2016-08-12T00:00:00+00:00</lastmod>
+    <lastmod>2016-08-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://chris.eidhof.nl/post/structs-and-mutation-in-swift/</loc>
+    <lastmod>2016-08-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>

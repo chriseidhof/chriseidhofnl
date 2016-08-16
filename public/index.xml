@@ -6,8 +6,232 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-08-12 00:00:00 &#43;0000 UTC</updated>
+    <updated>2016-08-16 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>Structs and mutation in Swift</title>
+          <link>http://chris.eidhof.nl/post/structs-and-mutation-in-swift/</link>
+          <pubDate>Tue, 16 Aug 2016 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://chris.eidhof.nl/post/structs-and-mutation-in-swift/</guid>
+          <description>&lt;p&gt;&lt;em&gt;Note&lt;/em&gt;: This post is a draft-version of a new section in our book &lt;a href=&#34;https://www.objc.io/books/advanced-swift/&#34;&gt;Advanced Swift&lt;/a&gt;. We&amp;rsquo;re currently updating the book for Swift 3. It&amp;rsquo;ll be a free update for everyone who has bought a digital version of the book. Thanks to &lt;a href=&#34;https://twitter.com/olebegemann&#34;&gt;Ole Begemann&lt;/a&gt; for suggestions and improvements.&lt;/p&gt;
+
+&lt;p&gt;Value types imply that whenever a variable is copied, the value itself — and not just a reference to the value — is copied. For example, in almost all programming languages, scalar types are value types. This means that whenever a value is assigned to a new variable, it is copied rather than passed by reference:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;var a = 42
+var b = a
+b += 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After the code above executes, the value of &lt;code&gt;b&lt;/code&gt; will be 43, but &lt;code&gt;a&lt;/code&gt; will still be 42. This is so natural that it seems like stating the obvious. However, in Swift, all structs behave this way.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s start with a simple struct that describes a &lt;code&gt;Point&lt;/code&gt;. This is similar to &lt;code&gt;CGPoint&lt;/code&gt;, except that it contains &lt;code&gt;Int&lt;/code&gt;s, whereas &lt;code&gt;CGPoint&lt;/code&gt; contains &lt;code&gt;CGFloat&lt;/code&gt;s.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;struct Point {
+    var x: Int
+    var y: Int
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;For structs, Swift automatically adds a memberwise initializer. This means we can now initialize a new variable:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;let origin = Point(x: 0, y: 0)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Because structs in Swift have value semantics, we cannot change any of the properties of a struct variable that&amp;rsquo;s defined using let. For example, the following code will not work:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-highlight-swift&#34;&gt;origin.x = 10 // error
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Even though we defined &lt;code&gt;x&lt;/code&gt; within the struct as a &lt;code&gt;var&lt;/code&gt; property, we cannot change it, because &lt;code&gt;origin&lt;/code&gt; is defined using &lt;code&gt;let&lt;/code&gt;. This has some large advantages. For example, if you read a line like &lt;code&gt;let point = ...&lt;/code&gt;, and you know that &lt;code&gt;point&lt;/code&gt; is a struct variable, then you also know that it will never, ever, change. This is a great help when reading through code.&lt;/p&gt;
+
+&lt;p&gt;To create a variable that we can mutate, we need to create it using &lt;code&gt;var&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;var otherPoint = Point(x: 0, y: 0)
+otherPoint.x += 10
+otherPoint
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once we create a variable using &lt;code&gt;var&lt;/code&gt;, we can mutate it. However, unlike with objects, every struct variable is unique. For example, we can create a new variable &lt;code&gt;thirdPoint&lt;/code&gt;, and assign the value of &lt;code&gt;origin&lt;/code&gt; to it. Now we can change &lt;code&gt;thirdPoint&lt;/code&gt;, but &lt;code&gt;origin&lt;/code&gt; (which we defined as an immutable variable using &lt;code&gt;let&lt;/code&gt;) will not change.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;var thirdPoint = origin
+thirdPoint.x += 10
+thirdPoint
+origin
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once you assign a struct to a new variable, Swift automatically makes a copy. Even though this sounds very expensive, many of the copies can be optimized away by the compiler, and Swift tries hard to make the copies very cheap. In fact, many structs in the standard library are implemented using a technique called copy-on-write, which we will look at later.&lt;/p&gt;
+
+&lt;p&gt;If we have struct values that we plan to use more often, we can define them in an extension as a static property. For example, we can define an &lt;code&gt;origin&lt;/code&gt; property on &lt;code&gt;Point&lt;/code&gt;, so that we can write &lt;code&gt;Point.origin&lt;/code&gt; everywhere we need it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;extension Point {
+    static let origin = Point(x: 0, y: 0)
+}
+Point.origin
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Structs can also contain other structs. For example, if we define a &lt;code&gt;Size&lt;/code&gt; struct, we can create a &lt;code&gt;Rect&lt;/code&gt; struct which is composed out of a point and a size:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;struct Size {
+    var width: Int
+    var height: Int
+}
+
+struct Rectangle {
+    var origin: Point
+    var size: Size
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Just like before, we get a memberwise initializer for &lt;code&gt;Rectangle&lt;/code&gt;. The order of the parameters matches the order of the property definitions:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;Rectangle(origin: Point.origin, 
+          size: Size(width: 320, height: 480))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If we want a custom initializer for our struct, we can add it directly inside the struct definition. However, if the struct definition contains a custom initializer, Swift does not generate a memberwise initializer. By defining our custom initializer in an extension, we also get to keep the memberwise initializer.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;extension Rectangle {
+    init(x: Int = 0, y: Int = 0, width: Int, height: Int) {
+        origin = Point(x: x, y: y)
+        size = Size(width: width, height: height)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Instead of setting &lt;code&gt;origin&lt;/code&gt; and &lt;code&gt;size&lt;/code&gt; directly, we could have also called &lt;code&gt;self.init(origin:size:)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If we define a mutable variable &lt;code&gt;screen&lt;/code&gt;, we can add a &lt;code&gt;didSet&lt;/code&gt; block that gets executed whenever &lt;code&gt;screen&lt;/code&gt; changes. This &lt;code&gt;didSet&lt;/code&gt; works for every definition of a struct, be it in a playground, in a class or when defining a global variable.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;var screen = Rectangle(width: 320, height: 480) {
+    didSet {
+        print(&amp;quot;Screen changed! \(screen)&amp;quot;)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Maybe somewhat surprisingly, even if we change something deep inside the struct, this will get triggered:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;screen.origin.x = 10
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Understanding why this works is key to understanding value types. Mutating a struct variable is semantically the same as assigning a new value to it. When we mutate something deep inside the struct, it still means we are mutating the struct, so &lt;code&gt;didSet&lt;/code&gt; still needs to get triggered.&lt;/p&gt;
+
+&lt;p&gt;With regular structs, the compiler will mutate the value in place, and not actually make a copy. With copy-on-write structs (which we&amp;rsquo;ll discuss later), this works differently.&lt;/p&gt;
+
+&lt;p&gt;It would make sense to add two &lt;code&gt;Points&lt;/code&gt; together. We can use the &lt;code&gt;+&lt;/code&gt; operator for this, add both members, and return a new &lt;code&gt;Point&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;func +(lhs: Point, rhs: Point) -&amp;gt; Point {
+    return Point(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+}
+screen.origin + Point(x: 10, y: 10)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We could also lift this operation to rectangles, and add a &lt;code&gt;translate&lt;/code&gt; method which moves the rectangle by a given offset. Our first attempt doesn&amp;rsquo;t work:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-highlight-swift&#34;&gt;extension Rectangle {
+    func translate(by offset: Point) {
+        origin = origin + offset
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The compiler tells us that we cannot assign to the &lt;code&gt;origin&lt;/code&gt; property, because &lt;code&gt;self&lt;/code&gt; is immutable (writing &lt;code&gt;origin =&lt;/code&gt; is shorthand for &lt;code&gt;self.origin =&lt;/code&gt;). We could think of &lt;code&gt;self&lt;/code&gt; as an extra, implicit parameter that gets passed to every method on &lt;code&gt;Rectangle&lt;/code&gt;. You never have to pass the parameter, but it&amp;rsquo;s always there inside the method body. And it&amp;rsquo;s defined as &lt;code&gt;let&lt;/code&gt; by default. The reason this &lt;code&gt;let&lt;/code&gt; restriction exists is so that value semantics can be guaranteed. If we want to be able to mutate &lt;code&gt;self&lt;/code&gt;, or any property of &lt;code&gt;self&lt;/code&gt;, or even nested properties (e.g. &lt;code&gt;self.origin.x&lt;/code&gt;), we need to mark our method as &lt;code&gt;mutating&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;extension Rectangle {
+    mutating func translate(by offset: Point) {
+        origin = origin + offset
+    }
+}
+screen.translate(by: Point(x: 10, y: 10))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The compiler enforces the &lt;code&gt;mutating&lt;/code&gt; keyword. Unless we use it, we are not allowed to mutate anything inside the method. By marking the method as &lt;code&gt;mutating&lt;/code&gt;, we change the behavior of &lt;code&gt;self&lt;/code&gt;. Instead of it being a &lt;code&gt;let&lt;/code&gt;, it now works like a &lt;code&gt;var&lt;/code&gt;: we can freely change any property. (To be precise, it&amp;rsquo;s not even a &lt;code&gt;var&lt;/code&gt;, but we will get to that in a little bit).&lt;/p&gt;
+
+&lt;p&gt;If we define a &lt;code&gt;Rectangle&lt;/code&gt; variable using &lt;code&gt;let&lt;/code&gt;, we cannot call &lt;code&gt;translate&lt;/code&gt; on it, because the only &lt;code&gt;Rectangle&lt;/code&gt;s that are mutable are the ones defined using &lt;code&gt;var&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-highlight-swift&#34;&gt;let otherScreen = screen
+otherScreen.translate(by: Point(x: 10, y: 10)) // error
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Thinking back to the collections chapter, we can now see how the difference between &lt;code&gt;let&lt;/code&gt; and &lt;code&gt;var&lt;/code&gt; applies to our collections as well. The &lt;code&gt;append&lt;/code&gt; method on arrays is defined as &lt;code&gt;mutating&lt;/code&gt;, and therefore we are not allowed to call it on an array defined with &lt;code&gt;let&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Likewise, if we think about a property setter on a struct, it makes sense that they are mutating. Because Swift automatically marks every setter as &lt;code&gt;mutating&lt;/code&gt;, you cannot call a setter on a &lt;code&gt;let&lt;/code&gt; variable.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-highlight-swift&#34;&gt;let point = Point.origin
+// doesn&#39;t work, because the setter is mutating.
+point.x = 10 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In many cases, it makes sense to have both a &lt;code&gt;mutating&lt;/code&gt; and a non-mutating variant of the same method. For example, arrays have both a &lt;code&gt;sort()&lt;/code&gt; method (which is mutating and sorts in place) and a &lt;code&gt;sorted()&lt;/code&gt; method (which returns a new array). We can also add a non-mutating variant of our &lt;code&gt;translate(by:_)&lt;/code&gt; method. Instead of mutating &lt;code&gt;self&lt;/code&gt;, we create a copy, mutate that, and return a new &lt;code&gt;Rectangle&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;extension Rectangle {
+    func translated(by offset: Point) -&amp;gt; Rectangle {
+        var copy = self
+        copy.translate(by: offset)
+        return copy
+    }
+}
+screen.translated(by: Point(x: 20, y: 20))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The names &lt;code&gt;sort&lt;/code&gt; and &lt;code&gt;sorted&lt;/code&gt; are not chosen at random, but are names that conform to the Swift &lt;a href=&#34;https://swift.org/documentation/api-design-guidelines/&#34;&gt;API Design Guidelines&lt;/a&gt;. Likewise, we applied these guidelines to &lt;code&gt;translate&lt;/code&gt; and &lt;code&gt;translated&lt;/code&gt;. There is even specific documentation for methods that have a mutating and a non-mutating variant: because &lt;code&gt;translate&lt;/code&gt; has a side-effect, it should read as an imperative verb phrase. The non-mutating variant should have a -ed or -ing suffix.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In functional programming, side-effects are often considered bad, because they might influence your code in unexpected ways. For example, if an object is referenced in multiple places, every change automatically happens in every place. As we have seen in the introduction, when dealing with multi-threaded code, this can easily lead to bugs: because the object you are just checking can be modified from a different thread, all your assumptions might be invalid.&lt;/p&gt;
+
+&lt;p&gt;With Swift structs, &lt;code&gt;mutating&lt;/code&gt; does not have the same problems. The mutation of the struct is a local side-effect, and only applies to the current struct variable. Because every struct variable is unique (or in other words: every struct value has exactly one owner), it&amp;rsquo;s almost impossible to introduce bugs this way. Unless you&amp;rsquo;re referring to a global struct variable across threads, that is.&lt;/p&gt;
+
+&lt;p&gt;To understand how the &lt;code&gt;mutating&lt;/code&gt; keyword works, we can look at the behavior of &lt;code&gt;inout&lt;/code&gt;. In Swift, we can mark function parameters as &lt;code&gt;inout&lt;/code&gt;. Before we do that, let&amp;rsquo;s define a free function that moves a rectangle by ten points on both axes. We cannot simply call &lt;code&gt;translate&lt;/code&gt; directly on the &lt;code&gt;rectangle&lt;/code&gt; parameter, because all function parameters are immutable by default. In order to change it, we create a mutable copy using &lt;code&gt;var&lt;/code&gt;, call &lt;code&gt;translate&lt;/code&gt; and return the changed value. Then we need to re-assign it to &lt;code&gt;screen&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;func moveByTenTen(rectangle: Rectangle) -&amp;gt; Rectangle {
+    var changed = rectangle
+    changed.translate(by: Point(x: 10, y: 10))
+    return changed
+}
+screen = moveByTenTen(rectangle: screen)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;How could we write a function that changes the &lt;code&gt;rectangle&lt;/code&gt; in place? Thinking back, the &lt;code&gt;mutating&lt;/code&gt; keyword did exactly that. It makes the implicit &lt;code&gt;self&lt;/code&gt; parameter mutable, and it changes the value of the variable.&lt;/p&gt;
+
+&lt;p&gt;In functions, we can mark parameters as &lt;code&gt;inout&lt;/code&gt;. Just like with a regular parameter, a copy of the value gets passed in to the function. However, we can change the copy (it&amp;rsquo;s as if it were defined as a &lt;code&gt;var&lt;/code&gt;). And once the function returns, the original value gets overwritten:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;func moveByTwentyTwenty(rectangle: inout Rectangle) {
+    rectangle.translate(by: Point(x: 20, y: 20))
+}
+moveByTwentyTwenty(rectangle: &amp;amp;screen)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;moveByTwentyTwenty&lt;/code&gt; function takes the &lt;code&gt;screen&lt;/code&gt; rectangle, changes it locally, and copies the new value back (overriding the previous value of &lt;code&gt;screen&lt;/code&gt;). This behavior is exactly the same as a &lt;code&gt;mutating&lt;/code&gt; method. In fact, &lt;code&gt;mutating&lt;/code&gt; methods are just like regular methods on struct, except that &lt;code&gt;self&lt;/code&gt; is marked as &lt;code&gt;inout&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Just to make sure, we cannot call &lt;code&gt;moveByTwentyTwenty&lt;/code&gt; on a rectangle that&amp;rsquo;s defined using &lt;code&gt;let&lt;/code&gt;. We can only use it with mutable values:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-highlight-swift&#34;&gt;let immutableScreen = screen
+moveByTwentyTwenty(rectangle: &amp;amp;immutableScreen) // error
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now it also makes sense how we could define a mutating operator like &lt;code&gt;+=&lt;/code&gt;. Such operators modify the left-hand side by adding the right-hand side:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;func +=(lhs: inout Point, rhs: Point) {
+    lhs = lhs + rhs
+}
+var myPoint = Point.origin
+myPoint += Point(x: 10, y: 10)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the &lt;a href=&#34;#functions&#34;&gt;Functions&lt;/a&gt; chapter, we will go into more detail about &lt;code&gt;inout&lt;/code&gt;. For now, it suffices to say that &lt;code&gt;inout&lt;/code&gt; is in lots of places. For example, it&amp;rsquo;s now easy to understand how modifying a subscript works:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;var array = [Point(x: 0, y: 0), Point(x: 10, y: 10)]
+array[0] += Point(x: 100, y: 100)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The expression &lt;code&gt;array[0]&lt;/code&gt; is automatically passed in as an &lt;code&gt;inout&lt;/code&gt; variable. In the Functions chapter, we will look in more detail at &lt;code&gt;inout&lt;/code&gt; parameters, and see why we can use expressions like &lt;code&gt;array[0]&lt;/code&gt; as an &lt;code&gt;inout&lt;/code&gt; parameter.&lt;/p&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -3393,96 +3617,6 @@ end&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;p&gt;In order to do push notifications right, the client and server need to communicate a lot. Hopefully, in your next project, you can read this article so you don&amp;#8217;t have to find these things out while you are programming.&lt;/p&gt;
 
 &lt;p&gt;In a next article, I will sketch the application architecture I used for the app above.&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
-          <title>More Interface Builder</title>
-          <link>http://chris.eidhof.nl/post/more-interface-builder/</link>
-          <pubDate>Sun, 23 Sep 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://chris.eidhof.nl/post/more-interface-builder/</guid>
-          <description>&lt;p&gt;When I started iPhone programming, I built most of my interfaces in
-code. It was much easier: full control over your interface. Sometimes I
-would start in Interface Builder, but once I stumbled upon limitations I
-would rewrite the whole thing in code.&lt;/p&gt;
-
-&lt;p&gt;After learning some more things about Interface Builder, I started using
-it more and more. These days, I try to do almost every UI in Interface
-Builder. Apple has made it a lot easier for us, too: designing your
-table view cells in Interface Builder was quite easy already, but is even
-easier with Storyboards.&lt;/p&gt;
-
-&lt;p&gt;Here&amp;#8217;s one example where I used to revert to code, but now use nibs. One
-of the projects I worked on required a horizontally paging scrollview.
-Each page was for answering a question, and contained a description and
-a slider. If you want to play with the example, please download &lt;a href=&#34;https://github.com/chriseidhof/interface-builder-test&#34;&gt;the
-project&lt;/a&gt; from
-github. Let&amp;#8217;s see how to do this using mostly IB:&lt;/p&gt;
-
-&lt;p&gt;Start by creating a view controller and adding a scroll view to it.
-Create an outlet scrollView on the view controller.
-Then, create a new empty XIB. We add a single UIView to the XIB
-with nested subviews (the text label and the slider). Then, in the view
-controller, add a method to setup the pages and call it from
-&lt;code&gt;viewDidLoad&lt;/code&gt;. Note that the method is a bit long, normally you would
-probably factor it into components:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (void)setupPages {
-    pages = [NSMutableArray arrayWithCapacity:NUM_PAGES];
-
-    CGFloat pageWidth = self.scrollView.bounds.size.width;
-    CGRect pageFrame = self.scrollView.bounds;
-
-    self.scrollView.contentSize = CGSizeMake(pageWidth*NUM_PAGES, self.scrollView.bounds.size.height);
-
-    for(int i = 0; i &amp;lt; NUM_PAGES; i++) {
-        NSArray* topLevelObjects = [[NSBundle mainBundle] loadNibNamed:pageNibName owner:nil options:nil];
-        UIView* pageView = [topLevelObjects lastObject];
-        pageFrame.origin.x = pageWidth * i;
-        pageView.frame = pageFrame;
-        [self.scrollView addSubview:pageView];
-        [pages addObject:pageView];
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;For this code to work, it&amp;#8217;s important that there is only one view at the
-top-level of the xib.  The above code creates the pages and adds them to
-the subviews. However, the separate pages don&amp;#8217;t have a way to access the
-label and slider. A crude way to do this is give both of them a tag, and
-use something like &lt;code&gt;[pageView viewWithTag:LABEL_TAG]&lt;/code&gt;. Indeed, for small
-views this can work, but it gets messy and hard to maintain quickly.&lt;/p&gt;
-
-&lt;p&gt;A better way is to add a new subclass of UIView, named &lt;code&gt;CEPageView&lt;/code&gt; and
-change the root-element of PageView.xib to that &lt;code&gt;UIView&lt;/code&gt; subclass in the
-Identity Inspector. If you open the Assistant Editor, you can create
-outlets on that newly created class and connect them to the XIB. Note
-that normally, you would drag from a view to the File&amp;#8217;s Owner, now you
-drag to the root element in the Top Level Objects. Change the body of
-the for-loop to this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    NSArray* topLevelObjects = [[NSBundle mainBundle] loadNibNamed:pageNibName owner:nil options:nil];
-    CEPageView* pageView = [topLevelObjects lastObject]; // change
-    pageFrame.origin.x = pageWidth * i;
-    pageView.frame = pageFrame;
-    [self.scrollView addSubview:pageView];
-    [pages addObject:pageView];
-    // Add these lines:
-    pageView.title.text = [NSString stringWithFormat:@&#34;Page %d&#34;, i+1];
-    pageView.slider.value = i / 3.0;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You can also override the layoutSubviews of the UIView if you want some
-programmatic control over the layout.&lt;/p&gt;
-
-&lt;p&gt;I hope that this technique will make you more productive. I&amp;#8217;m no expert
-on Interface Builder, so if you have any tips let me know!&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Update&lt;/em&gt;: Ole Begemann recommends using UINib instead of &lt;code&gt;loadNibNamed:owner&lt;/code&gt;, it should be faster when loading a nib multiple times. I haven&amp;#8217;t tested it yet, but will check it out. See also: &lt;a href=&#34;http://oncocoa.blogspot.de/2011/02/nsbundle-vs-uinib-performance.html&#34;&gt;NSBundle vs. UINib performance
-&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
       
