@@ -93,7 +93,7 @@ b += 1
 <pre><code class="language-highlight-swift">origin.x = 10 // error
 </code></pre>
 
-<p>Even though we defined <code>x</code> within the struct as a <code>var</code> property, we cannot change it, because <code>origin</code> is defined using <code>let</code>. This has some large advantages. For example, if you read a line like <code>let point = ...</code>, and you know that <code>point</code> is a struct variable, then you also know that it will never, ever, change. This is a great help when reading through code.</p>
+<p>Even though we defined <code>x</code> within the struct as a <code>var</code> property, we cannot change it, because <code>origin</code> is defined using <code>let</code>. This has some major advantages. For example, if you read a line like <code>let point = ...</code>, and you know that <code>point</code> is a struct variable, then you also know that it will never, ever, change. This is a great help when reading through code.</p>
 
 <p>To create a variable that we can mutate, we need to create it using <code>var</code>:</p>
 
