@@ -38,7 +38,7 @@ Because structs in Swift have value semantics, we cannot change any of the prope
 origin.x = 10 // error
 ```
 
-Even though we defined `x` within the struct as a `var` property, we cannot change it, because `origin` is defined using `let`. This has some large advantages. For example, if you read a line like `let point = ...`, and you know that `point` is a struct variable, then you also know that it will never, ever, change. This is a great help when reading through code.
+Even though we defined `x` within the struct as a `var` property, we cannot change it, because `origin` is defined using `let`. This has some major advantages. For example, if you read a line like `let point = ...`, and you know that `point` is a struct variable, then you also know that it will never, ever, change. This is a great help when reading through code.
 
 To create a variable that we can mutate, we need to create it using `var`:
 
