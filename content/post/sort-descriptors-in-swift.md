@@ -17,7 +17,7 @@ This post is an excerpt from the Functions chapter in [Advanced
 Swift](https://www.objc.io/books/advanced-swift/), which we're currently
 rewriting (and making very good progress).  The text below was originally written by [Airspeed
 Velocity](https://twitter.com/airspeedswift). I took his text and code, updated
-everything for Swift 3 and made some heavy edits.
+everything for Swift 3 and made some heavy edits. Thanks to [Ole Begemann](https://twitter.com/olebegemann) for reading through a draft of this.
 
 ---
 
