@@ -14,7 +14,7 @@ var b = a
 b += 1
 ```
 
-After the code above executes, the value of `b` will be 43, but `a` will still be 42. This is so natural that it seems like stating the obvious. However, in Swift, all structs behave this way.
+After the code above executes, the value of `b` will be 43, but `a` will still be 42. This is so natural that it seems like stating the obvious. However, in Swift, all structs behave this way, not just scalar types.
 
 Let's start with a simple struct that describes a `Point`. This is similar to `CGPoint`, except that it contains `Int`s, whereas `CGPoint` contains `CGFloat`s.
 
