@@ -3,8 +3,13 @@
   
   <url>
     <loc>http://chris.eidhof.nl/</loc>
-    <lastmod>2016-08-16T00:00:00+00:00</lastmod>
+    <lastmod>2016-08-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://chris.eidhof.nl/post/sort-descriptors-in-swift/</loc>
+    <lastmod>2016-08-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -644,14 +649,6 @@
   
   <url>
     <loc>http://chris.eidhof.nl/page/about/</loc>
-  </url>
-  
-  <url>
-    <loc>http://chris.eidhof.nl/post/__book__/sort-descriptors-in-swift./</loc>
-  </url>
-  
-  <url>
-    <loc>http://chris.eidhof.nl/post/sort-descriptors-in-swift/</loc>
   </url>
   
 </urlset>

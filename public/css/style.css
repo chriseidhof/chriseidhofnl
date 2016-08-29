@@ -61,7 +61,7 @@ body {
 
 #wrapper {
 	padding:100px 40px 100px 40px;
-	max-width:600px;
+	max-width:800px;
 	margin:0 auto;
 }
 
@@ -188,7 +188,7 @@ code, span.code {
 span.code {  background-color:#EEE; }
 
 pre	{ font-family:Menlo, Monaco, Courier; border: 1px solid #ddd; padding:20px; 
-background-color:#fdfdfd; font-size:14px;  overflow:scroll; border-radius: 3px;
+background-color:#fdfdfd; font-size:14px;  overflow:auto; border-radius: 3px;
 }
 
 table {

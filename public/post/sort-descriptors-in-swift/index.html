@@ -16,8 +16,8 @@
   <link rel="alternate" type="application/rss+xml" title="RSS" href="http://chris.eidhof.nl//index.xml">
 
     
-    <title> - Chris Eidhof</title>
-    <meta property='og:title' content=" - Chris Eidhof">
+    <title>Sort Descriptors in Swift - Chris Eidhof</title>
+    <meta property='og:title' content="Sort Descriptors in Swift - Chris Eidhof">
     <meta property="og:type" content="article">
     
 
@@ -43,9 +43,9 @@
 <article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
 
   <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
-  <meta itemprop="dateModified" content="0001-01-01T00:00:00&#43;00:00">
-  <meta itemprop="headline" content="">
-  <meta itemprop="description" content="Sort Descriptors in Swift &#43;&#43;&#43; date = &ldquo;2016-08-29&rdquo; headline = &ldquo;From Runtime Magic To Functions&rdquo; title = &ldquo;Sort Descriptors in Swift&rdquo; &#43;&#43;&#43; Just last week, someone asked me &ldquo;in what respect does Swift fall short of the dynamic features of Objective-C&rdquo;? Dynamic programming means a lot of different things to different people, and I think they meant runtime programming. In this post, we&rsquo;ll look at replacing runtime programming (in NSSortDescriptor) with functions.">
+  <meta itemprop="dateModified" content="2016-08-29T00:00:00&#43;00:00">
+  <meta itemprop="headline" content="Sort Descriptors in Swift">
+  <meta itemprop="description" content="Just last week, someone asked me &ldquo;in what respect does Swift fall short of the dynamic features of Objective-C&rdquo;? Dynamic programming means a lot of different things to different people, and I think they meant runtime programming. In this post, we&rsquo;ll look at replacing runtime programming (in NSSortDescriptor) with functions. This post is an excerpt from the Functions chapter in Advanced Swift, which we&rsquo;re currently rewriting (and making very good progress).">
   <meta itemprop="url" content="http://chris.eidhof.nl/post/sort-descriptors-in-swift/">
     <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
       <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
@@ -59,36 +59,30 @@
   </div>
 
   <header>
-    <h1></h1>
-    <h2 class="headline">  </h2>
+    <h1>Sort Descriptors in Swift</h1>
+    <h2 class="headline"> From Runtime Magic To Functions </h2>
   </header>
 
   <section class="postbody">
     
 
-<h1 id="sort-descriptors-in-swift:a040caddcaf5bde1d49611db9681b29d">Sort Descriptors in Swift</h1>
-
-<p>+++
-date = &ldquo;2016-08-29&rdquo;
-headline = &ldquo;From Runtime Magic To Functions&rdquo;
-title = &ldquo;Sort Descriptors in Swift&rdquo;</p>
-
-<p>+++</p>
-
 <p>Just last week, someone asked me &ldquo;in what respect does Swift fall short of the
-dynamic features of Objective-C&rdquo;? Dynamic programming means a lot of different
+dynamic features of Objective-C&rdquo;?</p>
+
+<p>Dynamic programming means a lot of different
 things to different people, and I think they meant runtime programming. In this
 post, we&rsquo;ll look at replacing runtime programming (in <code>NSSortDescriptor</code>) with
-functions. It&rsquo;s from the Functions chapter in <a href="https://www.objc.io/books/advanced-swift/">Advanced
+functions.</p>
+
+<p>This post is an excerpt from the Functions chapter in <a href="https://www.objc.io/books/advanced-swift/">Advanced
 Swift</a>, which we&rsquo;re currently
-rewriting (and making very good progress).</p>
-
-<p>The text below was originally written by <a href="https://twitter.com/airspeedswift">Airspeed
+rewriting (and making very good progress).  The text below was originally written by <a href="https://twitter.com/airspeedswift">Airspeed
 Velocity</a>. I took his text and code, updated
-everything for Swift 3 and made some heavy edits. I am really happy with the way
-the rewrite turned out.</p>
+everything for Swift 3 and made some heavy edits.</p>
 
-<p>In the chapter on <a href="#collections">collections</a>, we talked about parameterizing
+<hr />
+
+<p>In the chapter on <a href="#collections">collections</a>, we talked about parametrizing
 behavior by passing functions as arguments. Let&rsquo;s look at another example of
 this: sorting.</p>
 
@@ -193,7 +187,8 @@ it starts by using the first sort descriptor, and uses that result. However, if
 two elements are equal according to the first descriptor, it uses the second
 descriptor, and so on.</p>
 
-<pre><code class="language-swift">(people as NSArray).sortedArray(using: [lastDescriptor, firstDescriptor, yearDescriptor]) // [Robert Jones (1970, Jo Smith (1970, Joanne smith (1970, Joanne smith (1985, Joe Smith (1970, Joe Smyth (1970]
+<pre><code class="language-swift">(people as NSArray).sortedArray(using: [lastDescriptor, firstDescriptor, yearDescriptor]) 
+// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]
 </code></pre>
 
 <p>A sort descriptor uses two runtime features of Objective-C: the <code>key</code> is a key
@@ -220,13 +215,14 @@ strings // [&quot;hallo&quot;, &quot;Hallo&quot;, &quot;Hello&quot;, &quot;hello
 <p>If you want to sort using just a single property of an object, that&rsquo;s also
 simple.</p>
 
-<pre><code class="language-swift">people.sorted { $0.yearOfBirth &lt; $1.yearOfBirth } // [Jo Smith (1970, Joe Smith (1970, Joe Smyth (1970, Joanne smith (1970, Robert Jones (1970, Joanne smith (1985]
+<pre><code class="language-swift">people.sorted { $0.yearOfBirth &lt; $1.yearOfBirth } 
+// [Jo Smith (1970), Joe Smith (1970), Joe Smyth (1970), Joanne smith (1970), Robert Jones (1970), Joanne smith (1985)]
 </code></pre>
 
 <p>This approach doesn&rsquo;t work so great when optional properties are combined with
 methods like <code>localizedCaseInsensitiveCompare</code>, though — it gets ugly fast. For
 example, consider sorting an array of filenames by file extension (using the
-<code>fileExtension</code> property from the <a href="#optionals">Optionals</a>) chapter:</p>
+<code>fileExtension</code> property from the <a href="#optionals">Optionals</a> chapter):</p>
 
 <pre><code class="language-swift">var files = [&quot;one&quot;, &quot;file.h&quot;, &quot;file.c&quot;, &quot;test.h&quot;]
 files.sort { l, r in r.fileExtension.flatMap { l.fileExtension?.localizedCaseInsensitiveCompare($0) } == .orderedAscending }
@@ -250,7 +246,7 @@ them. It also takes a function to perform the comparison. We&rsquo;ll put our us
         $0.localizedCaseInsensitiveCompare($1) == .orderedAscending
     }
 }
-sortedPeople // [Robert Jones (1970, Jo Smith (1970, Joanne smith (1985, Joanne smith (1970, Joe Smith (1970, Joe Smyth (1970]
+sortedPeople // [Robert Jones (1970), Jo Smith (1970), Joanne smith (1985), Joanne smith (1970), Joe Smith (1970), Joe Smyth (1970)]
 </code></pre>
 
 <p>At this point, we&rsquo;ve almost replicated the functionality of the original sort in
@@ -311,7 +307,8 @@ result type is a function as well, even though that is slightly obscured by the
 <p>This allows us to define <code>sortByYear</code> in a different way:</p>
 
 <pre><code class="language-swift">let sortByYearAlt: SortDescriptor&lt;Person&gt; = sortDescriptor(key: { $0.yearOfBirth }, &lt;)
-people.sorted(by: sortByYearAlt) // [Jo Smith (1970, Joe Smith (1970, Joe Smyth (1970, Joanne smith (1970, Robert Jones (1970, Joanne smith (1985]
+people.sorted(by: sortByYearAlt) 
+// [Jo Smith (1970), Joe Smith (1970), Joe Smyth (1970), Joanne smith (1970), Robert Jones (1970), Joanne smith (1985)]
 </code></pre>
 
 <p>We can even define an overloaded variant that works for all <code>Comparable</code> types:</p>
@@ -343,7 +340,8 @@ class has an initializer that takes a comparison function such as
 
 <pre><code class="language-swift">let sortByFirstName: SortDescriptor&lt;Person&gt; = 
   sortDescriptor(key: { $0.first }, String.localizedCaseInsensitiveCompare)
-people.sorted(by: sortByFirstName) // [Jo Smith (1970, Joanne smith (1985, Joanne smith (1970, Joe Smith (1970, Joe Smyth (1970, Robert Jones (1970]
+people.sorted(by: sortByFirstName) 
+// [Jo Smith (1970), Joanne smith (1985), Joanne smith (1970), Joe Smith (1970), Joe Smyth (1970), Robert Jones (1970)]
 </code></pre>
 
 <p>This <code>SortDescriptor</code> is just as expressive as its <code>NSSortDescriptor</code> variant,
@@ -378,7 +376,8 @@ equal, then it uses the second descriptor, and so on.</p>
 <pre><code class="language-swift">let combined: SortDescriptor&lt;Person&gt; = combine(
   sortDescriptors: [sortByLastName,sortByFirstName,sortByYear]
 )
-people.sorted(by: combined) // [Robert Jones (1970, Jo Smith (1970, Joanne smith (1970, Joanne smith (1985, Joe Smith (1970, Joe Smyth (1970]
+people.sorted(by: combined) 
+// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]
 </code></pre>
 
 <p>We ended up with the same behavior as before. However, the version using
@@ -417,7 +416,8 @@ they can be very powerful when used sparingly. The operator above allows us to
 rewrite our combined sort example like so:</p>
 
 <pre><code class="language-swift">let combinedAlt = sortByLastName &lt;||&gt; sortByFirstName &lt;||&gt; sortByYear
-people.sorted(by: combinedAlt) // [Robert Jones (1970, Jo Smith (1970, Joanne smith (1970, Joanne smith (1985, Joe Smith (1970, Joe Smyth (1970]
+people.sorted(by: combinedAlt) 
+// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]
 </code></pre>
 
 <p>That said, we prefer the <code>combine(sortDescriptors:)</code> function over the custom
@@ -494,7 +494,7 @@ equal according to the comparison function.</p>
 <p>But if you implemented a stable sort, the separation of the sort method from the
 comparison would allow you to swap it in easily:</p>
 
-<pre><code class="language-highlight-swift">/*show*/ people.stableSorted(by: combine(
+<pre><code class="language-swift">people.stableSorted(by: combine(
   sortDescriptors: [sortByLastName,sortByFirstName,sortByYear]
 ))
 </code></pre>
@@ -503,7 +503,7 @@ comparison would allow you to swap it in easily:</p>
 
   <footer id="post-meta" class="group">
     <div>
-      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="0001-01-01T00:00:00&#43;00:00">Mon, Jan 1, 0001</time>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="2016-08-29T00:00:00&#43;00:00">Mon, Aug 29, 2016</time>
       by <a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a>
 
     </div>
