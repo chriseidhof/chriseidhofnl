@@ -11,7 +11,7 @@ dynamic features of Objective-C"?
 Dynamic programming means a lot of different
 things to different people, and I think they meant runtime programming. In this
 post, we'll look at replacing Objective-C's runtime programming with
-Swift's functions.
+Swift's functions. 
 
 This post is an excerpt from the Functions chapter in [Advanced
 Swift](https://www.objc.io/books/advanced-swift/), which we're currently
