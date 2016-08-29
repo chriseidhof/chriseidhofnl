@@ -45,7 +45,7 @@
   <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
   <meta itemprop="dateModified" content="2016-08-29T00:00:00&#43;00:00">
   <meta itemprop="headline" content="Sort Descriptors in Swift">
-  <meta itemprop="description" content="Just last week, someone asked me &ldquo;in what respect does Swift fall short of the dynamic features of Objective-C&rdquo;? Dynamic programming means a lot of different things to different people, and I think they meant runtime programming. In this post, we&rsquo;ll look at replacing runtime programming (in NSSortDescriptor) with functions. This post is an excerpt from the Functions chapter in Advanced Swift, which we&rsquo;re currently rewriting (and making very good progress).">
+  <meta itemprop="description" content="Just last week, someone asked me &ldquo;in what respect does Swift fall short of the dynamic features of Objective-C&rdquo;? Dynamic programming means a lot of different things to different people, and I think they meant runtime programming. In this post, we&rsquo;ll look at replacing Objective-C&rsquo;s runtime programming with Swift&rsquo;s functions. This post is an excerpt from the Functions chapter in Advanced Swift, which we&rsquo;re currently rewriting (and making very good progress).">
   <meta itemprop="url" content="http://chris.eidhof.nl/post/sort-descriptors-in-swift/">
     <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
       <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
@@ -71,8 +71,8 @@ dynamic features of Objective-C&rdquo;?</p>
 
 <p>Dynamic programming means a lot of different
 things to different people, and I think they meant runtime programming. In this
-post, we&rsquo;ll look at replacing runtime programming (in <code>NSSortDescriptor</code>) with
-functions.</p>
+post, we&rsquo;ll look at replacing Objective-C&rsquo;s runtime programming with
+Swift&rsquo;s functions.</p>
 
 <p>This post is an excerpt from the Functions chapter in <a href="https://www.objc.io/books/advanced-swift/">Advanced
 Swift</a>, which we&rsquo;re currently

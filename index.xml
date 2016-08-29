@@ -23,8 +23,8 @@ dynamic features of Objective-C&amp;rdquo;?&lt;/p&gt;
 
 &lt;p&gt;Dynamic programming means a lot of different
 things to different people, and I think they meant runtime programming. In this
-post, we&amp;rsquo;ll look at replacing runtime programming (in &lt;code&gt;NSSortDescriptor&lt;/code&gt;) with
-functions.&lt;/p&gt;
+post, we&amp;rsquo;ll look at replacing Objective-C&amp;rsquo;s runtime programming with
+Swift&amp;rsquo;s functions.&lt;/p&gt;
 
 &lt;p&gt;This post is an excerpt from the Functions chapter in &lt;a href=&#34;https://www.objc.io/books/advanced-swift/&#34;&gt;Advanced
 Swift&lt;/a&gt;, which we&amp;rsquo;re currently
