@@ -25,7 +25,7 @@ var b = a
 b += 1
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;After the code above executes, the value of &lt;code&gt;b&lt;/code&gt; will be 43, but &lt;code&gt;a&lt;/code&gt; will still be 42. This is so natural that it seems like stating the obvious. However, in Swift, all structs behave this way.&lt;/p&gt;
+&lt;p&gt;After the code above executes, the value of &lt;code&gt;b&lt;/code&gt; will be 43, but &lt;code&gt;a&lt;/code&gt; will still be 42. This is so natural that it seems like stating the obvious. However, in Swift, all structs behave this way, not just scalar types.&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s start with a simple struct that describes a &lt;code&gt;Point&lt;/code&gt;. This is similar to &lt;code&gt;CGPoint&lt;/code&gt;, except that it contains &lt;code&gt;Int&lt;/code&gt;s, whereas &lt;code&gt;CGPoint&lt;/code&gt; contains &lt;code&gt;CGFloat&lt;/code&gt;s.&lt;/p&gt;
 
