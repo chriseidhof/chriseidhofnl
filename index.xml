@@ -6,8 +6,453 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-08-16 00:00:00 &#43;0000 UTC</updated>
+    <updated>2016-08-29 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>Sort Descriptors in Swift</title>
+          <link>http://chris.eidhof.nl/post/sort-descriptors-in-swift/</link>
+          <pubDate>Mon, 29 Aug 2016 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://chris.eidhof.nl/post/sort-descriptors-in-swift/</guid>
+          <description>
+
+&lt;p&gt;Just last week, someone asked me &amp;ldquo;in what respect does Swift fall short of the
+dynamic features of Objective-C&amp;rdquo;?&lt;/p&gt;
+
+&lt;p&gt;Dynamic programming means a lot of different
+things to different people, and I think they meant runtime programming. In this
+post, we&amp;rsquo;ll look at replacing runtime programming (in &lt;code&gt;NSSortDescriptor&lt;/code&gt;) with
+functions.&lt;/p&gt;
+
+&lt;p&gt;This post is an excerpt from the Functions chapter in &lt;a href=&#34;https://www.objc.io/books/advanced-swift/&#34;&gt;Advanced
+Swift&lt;/a&gt;, which we&amp;rsquo;re currently
+rewriting (and making very good progress).  The text below was originally written by &lt;a href=&#34;https://twitter.com/airspeedswift&#34;&gt;Airspeed
+Velocity&lt;/a&gt;. I took his text and code, updated
+everything for Swift 3 and made some heavy edits.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;In the chapter on &lt;a href=&#34;#collections&#34;&gt;collections&lt;/a&gt;, we talked about parametrizing
+behavior by passing functions as arguments. Let&amp;rsquo;s look at another example of
+this: sorting.&lt;/p&gt;
+
+&lt;p&gt;If you want to sort an array in Objective-C using Foundation, you are met with a
+long list of different options. These provide a lot of flexibility and power,
+but at the cost of complexity — even the simplest probably needs a trip to the
+documentation to know how to use it.&lt;/p&gt;
+
+&lt;p&gt;Sorting collections in Swift is simple:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;var myArray = [3, 1, 2]
+myArray.sorted() // [1, 2, 3]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are really four sort methods: &lt;code&gt;sorted(by:)&lt;/code&gt; and &lt;code&gt;sort(by:)&lt;/code&gt;, times two for
+the overloads that default to sorting comparable things in ascending order. But
+the overloading means that when you want the simplest case, &lt;code&gt;sorted()&lt;/code&gt; is all
+you need. If you want to sort in a different order, just supply a function:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;myArray.sorted(by: &amp;gt;) // [3, 2, 1]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can also supply a function if your elements don&amp;rsquo;t conform to &lt;code&gt;Equatable&lt;/code&gt; but
+&lt;em&gt;do&lt;/em&gt; have a &lt;code&gt;&amp;lt;&lt;/code&gt; operator, like tuples:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;var numberStrings = [(2, &amp;quot;two&amp;quot;), (1, &amp;quot;one&amp;quot;), (3, &amp;quot;three&amp;quot;)]
+numberStrings.sort(by: &amp;lt;)
+numberStrings // [(1, &amp;quot;one&amp;quot;), (2, &amp;quot;two&amp;quot;), (3, &amp;quot;three&amp;quot;)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or, you can supply a more complicated function if you want to sort by some
+arbitrary calculated criteria:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;let animals = [&amp;quot;elephant&amp;quot;, &amp;quot;zebra&amp;quot;, &amp;quot;dog&amp;quot;]
+let sortedAnimals = animals.sorted { lhs, rhs in
+    let l = lhs.characters.reversed()
+    let r = rhs.characters.reversed()
+    return l.lexicographicallyPrecedes(r)
+}
+sortedAnimals // [&amp;quot;zebra&amp;quot;, &amp;quot;dog&amp;quot;, &amp;quot;elephant&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It is this last ability — the ability to use any comparison function to sort a
+collection — that makes the Swift sort so powerful, and makes this one function
+able to replicate much (if not all) of the functionality of the various
+different sorting methods in Foundation.&lt;/p&gt;
+
+&lt;p&gt;To demonstrate this, let&amp;rsquo;s take a complex example inspired by the &lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/SortDescriptors/Articles/Creating.html&#34;&gt;Sort
+Descriptor Programming
+Topics&lt;/a&gt;.
+The &lt;code&gt;sortedArray(using:)&lt;/code&gt; method on &lt;code&gt;NSArray&lt;/code&gt; is very flexible and a great
+example of the power of Objective-C&amp;rsquo;s dynamic nature. Support for selectors and
+dynamic dispatch is still there in Swift, but the Swift standard library favors
+a more function-based approach instead. Later on, we&amp;rsquo;ll show a few techniques
+where functions as arguments, and treating functions as data, can be used to get
+the same dynamic effects.&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;ll start by defining a &lt;code&gt;Person&lt;/code&gt; object. Because we want to show how
+Objective-C&amp;rsquo;s powerful runtime system works, we&amp;rsquo;ll have to make it an &lt;code&gt;NSObject&lt;/code&gt;
+subclass (in pure Swift, a struct might have been a better choice):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;final class Person: NSObject {
+    var first: String
+    var last: String
+    var yearOfBirth: Int
+    init(first: String, last: String, yearOfBirth: Int) {
+        self.first = first
+        self.last = last
+        self.yearOfBirth = yearOfBirth
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let&amp;rsquo;s also define an array of people, with different names and birth years:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;let people = [
+    Person(first: &amp;quot;Jo&amp;quot;, last: &amp;quot;Smith&amp;quot;, yearOfBirth: 1970),
+    Person(first: &amp;quot;Joe&amp;quot;, last: &amp;quot;Smith&amp;quot;, yearOfBirth: 1970),
+    Person(first: &amp;quot;Joe&amp;quot;, last: &amp;quot;Smyth&amp;quot;, yearOfBirth: 1970),
+    Person(first: &amp;quot;Joanne&amp;quot;, last: &amp;quot;smith&amp;quot;, yearOfBirth: 1985),
+    Person(first: &amp;quot;Joanne&amp;quot;, last: &amp;quot;smith&amp;quot;, yearOfBirth: 1970),
+    Person(first: &amp;quot;Robert&amp;quot;, last: &amp;quot;Jones&amp;quot;, yearOfBirth: 1970),
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We want to sort this array first by last name, then by first name, and finally
+by birth year. We want to do this case insensitively and using the user&amp;rsquo;s
+locale. An &lt;code&gt;NSSortDescriptor&lt;/code&gt; object describes how to order objects, and we can
+use them to express the individual sorting criteria.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;let lastDescriptor = NSSortDescriptor(key: &amp;quot;last&amp;quot;, ascending: true,
+  selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
+let firstDescriptor = NSSortDescriptor(key: &amp;quot;first&amp;quot;, ascending: true, 
+  selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
+let yearDescriptor = NSSortDescriptor(key: &amp;quot;yearOfBirth&amp;quot;, ascending: true)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To sort the array, we can use the &lt;code&gt;sortedArray(using:)&lt;/code&gt; method on &lt;code&gt;NSArray&lt;/code&gt;.
+This takes a list of sort descriptors. To determine the order of two elements,
+it starts by using the first sort descriptor, and uses that result. However, if
+two elements are equal according to the first descriptor, it uses the second
+descriptor, and so on.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;(people as NSArray).sortedArray(using: [lastDescriptor, firstDescriptor, yearDescriptor]) 
+// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A sort descriptor uses two runtime features of Objective-C: the &lt;code&gt;key&lt;/code&gt; is a key
+path, and &lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueCoding/Articles/KeyValueCoding.html&#34;&gt;key-value
+coding&lt;/a&gt;
+is used to lookup the value of that key at runtime. The &lt;code&gt;selector&lt;/code&gt; parameter
+takes a selector (which is really just a &lt;code&gt;String&lt;/code&gt; describing a method name). At
+runtime, the selector is turned into a comparison function. When comparing two
+objects, the values for the key are compared using that comparison function.&lt;/p&gt;
+
+&lt;p&gt;This is a pretty cool use of runtime programming, especially when you realize
+the array of sort descriptors can be built at runtime, say based on a user
+clicking a column heading.&lt;/p&gt;
+
+&lt;p&gt;How can we replicate this functionality using Swift&amp;rsquo;s &lt;code&gt;sort&lt;/code&gt;? It&amp;rsquo;s simple to
+replicate &lt;em&gt;parts&lt;/em&gt; of the sort, for example, if you want to sort an array using
+&lt;code&gt;localizedCaseInsensitiveCompare&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;var strings = [&amp;quot;Hello&amp;quot;, &amp;quot;hallo&amp;quot;, &amp;quot;Hallo&amp;quot;, &amp;quot;hello&amp;quot;]
+strings.sort { $0.localizedCaseInsensitiveCompare($1) == .orderedAscending}
+strings // [&amp;quot;hallo&amp;quot;, &amp;quot;Hallo&amp;quot;, &amp;quot;Hello&amp;quot;, &amp;quot;hello&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you want to sort using just a single property of an object, that&amp;rsquo;s also
+simple.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;people.sorted { $0.yearOfBirth &amp;lt; $1.yearOfBirth } 
+// [Jo Smith (1970), Joe Smith (1970), Joe Smyth (1970), Joanne smith (1970), Robert Jones (1970), Joanne smith (1985)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This approach doesn&amp;rsquo;t work so great when optional properties are combined with
+methods like &lt;code&gt;localizedCaseInsensitiveCompare&lt;/code&gt;, though — it gets ugly fast. For
+example, consider sorting an array of filenames by file extension (using the
+&lt;code&gt;fileExtension&lt;/code&gt; property from the &lt;a href=&#34;#optionals&#34;&gt;Optionals&lt;/a&gt; chapter):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;var files = [&amp;quot;one&amp;quot;, &amp;quot;file.h&amp;quot;, &amp;quot;file.c&amp;quot;, &amp;quot;test.h&amp;quot;]
+files.sort { l, r in r.fileExtension.flatMap { l.fileExtension?.localizedCaseInsensitiveCompare($0) } == .orderedAscending }
+files // [&amp;quot;one&amp;quot;, &amp;quot;file.c&amp;quot;, &amp;quot;file.h&amp;quot;, &amp;quot;test.h&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Later on, we&amp;rsquo;ll make it easier to use optionals when sorting. However, for now,
+we haven&amp;rsquo;t even tried sorting by multiple properties. To sort by last name, then
+first name, we can use the standard library&amp;rsquo;s &lt;code&gt;lexicographicalCompare&lt;/code&gt; method.
+This takes two sequences and performs a phonebook-style comparison by moving
+through each pair of elements until it finds one that isn&amp;rsquo;t equal. So we can
+build two arrays of the elements and use &lt;code&gt;lexicographicalCompare&lt;/code&gt; to compare
+them. It also takes a function to perform the comparison. We&amp;rsquo;ll put our use of
+&lt;code&gt;localizedCaseInsensitiveCompare&lt;/code&gt; in the function:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;let sortedPeople = people.sorted { p0, p1 in
+    let left =  [p0.last, p0.first]
+    let right = [p1.last, p1.first]
+
+    return left.lexicographicallyPrecedes(right) {
+        $0.localizedCaseInsensitiveCompare($1) == .orderedAscending
+    }
+}
+sortedPeople // [Robert Jones (1970), Jo Smith (1970), Joanne smith (1985), Joanne smith (1970), Joe Smith (1970), Joe Smyth (1970)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;At this point, we&amp;rsquo;ve almost replicated the functionality of the original sort in
+roughly the same number of lines. But there&amp;rsquo;s still a lot of room for
+improvement: the building of arrays on every comparison is very inefficient, the
+comparison is hardcoded, and we can&amp;rsquo;t really sort by &lt;code&gt;yearOfBirth&lt;/code&gt; using this
+approach.&lt;/p&gt;
+
+&lt;h3 id=&#34;functions-as-data:a040caddcaf5bde1d49611db9681b29d&#34;&gt;Functions as Data&lt;/h3&gt;
+
+&lt;p&gt;Rather than writing an even more complicated function that we can use to sort,
+let&amp;rsquo;s take a step back. So far, the sort descriptors were much clearer, but they
+use runtime programming. The functions we wrote do not use runtime programming,
+but they are not so easy to write (and read).&lt;/p&gt;
+
+&lt;p&gt;A sort descriptor is a way of describing the ordering of objects. Instead of
+storing that information as a class, we can define a function to describe the
+ordering of objects. The simplest possible definition would take two objects,
+and returns &lt;code&gt;true&lt;/code&gt; if they are ordered. This is also exactly the type that the
+standard library&amp;rsquo;s &lt;code&gt;sort(by:)&lt;/code&gt; and &lt;code&gt;sorted(by:)&lt;/code&gt; methods take as an argument.
+It&amp;rsquo;s helpful to define a generic &lt;code&gt;typealias&lt;/code&gt; to describe sort descriptors:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;typealias SortDescriptor&amp;lt;Value&amp;gt; = (Value, Value) -&amp;gt; Bool
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As an example, we could define a sort descriptor that compares two &lt;code&gt;Person&lt;/code&gt;
+objects by year of birth, or a sort descriptor that sorts by last name:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;let sortByYear: SortDescriptor&amp;lt;Person&amp;gt; = { $0.yearOfBirth &amp;lt; $1.yearOfBirth }
+let sortByLastName: SortDescriptor&amp;lt;Person&amp;gt; = { 
+  $0.last.localizedCaseInsensitiveCompare($1.last) == .orderedAscending 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Rather than writing the sort descriptors by hand, we can write a function that
+generates them. It&amp;rsquo;s not nice that we to write the same property twice: in the
+&lt;code&gt;sortByLastName&lt;/code&gt;, we could have easily made a mistake and accidentally compared
+&lt;code&gt;$0.last&lt;/code&gt; with &lt;code&gt;$1.first&lt;/code&gt;. Also, it&amp;rsquo;s tedious to write these sort descriptors:
+to sort by first name, it&amp;rsquo;s probably easiest to copy and paste the
+&lt;code&gt;sortByLastName&lt;/code&gt; definition and modify it.&lt;/p&gt;
+
+&lt;p&gt;Rather than copying and pasting, we can define a function with an interface that
+is much like &lt;code&gt;NSSortDescriptor&lt;/code&gt;, but without the runtime programming. This
+function takes a key and a comparison method, and returns a sort descriptor (the
+function, not the class &lt;code&gt;NSSortDescriptor&lt;/code&gt;). Here, &lt;code&gt;key&lt;/code&gt; is not a string, but a
+function. To compare two keys, we use a function &lt;code&gt;isOrderedBefore&lt;/code&gt;. Finally, the
+result type is a function as well, even though that is slightly obscured by the
+&lt;code&gt;typealias&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;func sortDescriptor&amp;lt;Value, Key&amp;gt;(
+  key: @escaping (Value) -&amp;gt; Key,
+    _ isOrderedBefore: @escaping (Key, Key) -&amp;gt; Bool) 
+    -&amp;gt; SortDescriptor&amp;lt;Value&amp;gt; {
+    return { isOrderedBefore(key($0), key($1)) }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This allows us to define &lt;code&gt;sortByYear&lt;/code&gt; in a different way:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;let sortByYearAlt: SortDescriptor&amp;lt;Person&amp;gt; = sortDescriptor(key: { $0.yearOfBirth }, &amp;lt;)
+people.sorted(by: sortByYearAlt) 
+// [Jo Smith (1970), Joe Smith (1970), Joe Smyth (1970), Joanne smith (1970), Robert Jones (1970), Joanne smith (1985)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can even define an overloaded variant that works for all &lt;code&gt;Comparable&lt;/code&gt; types:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;func sortDescriptor&amp;lt;Value, Key&amp;gt;(key: @escaping (Value) -&amp;gt; Key)
+    -&amp;gt; SortDescriptor&amp;lt;Value&amp;gt; where Key: Comparable {
+    return { key($0) &amp;lt; key($1) }
+}
+let sortByYearAlt2: SortDescriptor&amp;lt;Person&amp;gt; = sortDescriptor(key: { $0.yearOfBirth })
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Both &lt;code&gt;sortDescriptor&lt;/code&gt; above work with boolean functions. The &lt;code&gt;NSSortDescriptor&lt;/code&gt;
+class has an initializer that takes a comparison function such as
+&lt;code&gt;localizedCaseInsensitiveCompare&lt;/code&gt;. Adding support for this is easy as well:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;func sortDescriptor&amp;lt;Value, Key&amp;gt;(
+    key: @escaping (Value) -&amp;gt; Key,
+    ascending: Bool = true,
+    _ comparator: @escaping (Key) -&amp;gt; (Key) -&amp;gt; ComparisonResult
+    ) -&amp;gt; SortDescriptor&amp;lt;Value&amp;gt; {
+    return { lhs, rhs in
+        let order: ComparisonResult = ascending ? .orderedAscending : .orderedDescending
+        return comparator(key(lhs))(key(rhs)) == order
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This allows us to write our &lt;code&gt;sortByFirstName&lt;/code&gt; in a much shorter and clearer way:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;let sortByFirstName: SortDescriptor&amp;lt;Person&amp;gt; = 
+  sortDescriptor(key: { $0.first }, String.localizedCaseInsensitiveCompare)
+people.sorted(by: sortByFirstName) 
+// [Jo Smith (1970), Joanne smith (1985), Joanne smith (1970), Joe Smith (1970), Joe Smyth (1970), Robert Jones (1970)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This &lt;code&gt;SortDescriptor&lt;/code&gt; is just as expressive as its &lt;code&gt;NSSortDescriptor&lt;/code&gt; variant,
+but it is typesafe, and it does not rely on runtime programming.&lt;/p&gt;
+
+&lt;p&gt;Currently, we can only use a single &lt;code&gt;SortDescriptor&lt;/code&gt; function to sort arrays. If
+you recall, we used the &lt;code&gt;NSArray.sortedArray(using:)&lt;/code&gt; method to sort an array
+with a number of comparison operators. We could easily add a similar method to
+&lt;code&gt;Array&lt;/code&gt;, or even to the &lt;code&gt;Sequence&lt;/code&gt; protocol. However, we would have to add it
+twice: once for the mutating variant, and once for the non-mutating variant.&lt;/p&gt;
+
+&lt;p&gt;We take a different approach so that we don&amp;rsquo;t have to write more extensions.
+Instead, we write a function that combines multiple sort descriptors into a
+single sort descriptor. It works just like the &lt;code&gt;sortedArray(using:)&lt;/code&gt; method: it
+first tries the first descriptor and uses that result. Unless the values are
+equal, then it uses the second descriptor, and so on.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;func combine&amp;lt;Value&amp;gt;
+    (sortDescriptors: [SortDescriptor&amp;lt;Value&amp;gt;]) -&amp;gt; SortDescriptor&amp;lt;Value&amp;gt; {
+    return { lhs, rhs in
+        for isOrderedBefore in sortDescriptors {
+            if isOrderedBefore(lhs,rhs) { return true }
+            if isOrderedBefore(rhs,lhs) { return false }
+        }
+        return false
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can now finally replicate the initial example we had using sort descriptors:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;let combined: SortDescriptor&amp;lt;Person&amp;gt; = combine(
+  sortDescriptors: [sortByLastName,sortByFirstName,sortByYear]
+)
+people.sorted(by: combined) 
+// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We ended up with the same behavior as before. However, the version using
+functions is type-safe and does not rely on runtime programming, so it can be
+optimized by the compiler as well. And we can use it with structs, or
+non-Objective-C Objects.&lt;/p&gt;
+
+&lt;p&gt;This approach of using functions as data — storing them in array and building
+those arrays at runtime — opens up a new level of dynamic behavior, and it is
+one way in which a statically typed compile-time-oriented language like Swift
+can still replicate some of the dynamic behavior of languages like Objective-C
+or Ruby.&lt;/p&gt;
+
+&lt;p&gt;Also, it is possible to write functions that combine other functions. For
+example, our &lt;code&gt;combine(sortDescriptors:)&lt;/code&gt; function took an array of sort
+descriptors, and combined them into a single sort descriptor. Alternatively, we
+could have written an operator to combine two sort functions:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;infix operator &amp;lt;||&amp;gt; : LogicalDisjunctionPrecedence
+func &amp;lt;||&amp;gt;&amp;lt;A&amp;gt;(lhs: @escaping (A,A) -&amp;gt; Bool, rhs: @escaping (A,A) -&amp;gt; Bool) -&amp;gt; (A,A) -&amp;gt; Bool {
+    return { x,y in
+        if lhs(x,y) { return true }
+        if lhs(y,x) { return false }
+        
+        // Otherwise, they&#39;re the same, so we check for the second condition
+        if rhs(x,y) { return true }
+        
+        return false
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Most of the time, writing a custom operator is a bad idea. Custom operators are
+often harder to read than functions, because the name isn&amp;rsquo;t explicit. However,
+they can be very powerful when used sparingly. The operator above allows us to
+rewrite our combined sort example like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;let combinedAlt = sortByLastName &amp;lt;||&amp;gt; sortByFirstName &amp;lt;||&amp;gt; sortByYear
+people.sorted(by: combinedAlt) 
+// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That said, we prefer the &lt;code&gt;combine(sortDescriptors:)&lt;/code&gt; function over the custom
+operator. It is clearer at the call-site, which makes for more readable code.
+Unless you are writing highly domain-specific code, a custom operator is
+probably overkill.&lt;/p&gt;
+
+&lt;p&gt;The Foundation version still has one functional advantage over our version. It
+can deal with optionals without having to write any more code. For example, if
+we would make the &lt;code&gt;last&lt;/code&gt; property on &lt;code&gt;Person&lt;/code&gt; an optional string, we wouldn&amp;rsquo;t
+have to change anything in our sorting code that uses &lt;code&gt;NSSortDescriptor&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;However, all is not lost. You can feel it coming: once again, we write a
+function which takes a function and returns a function. We can take a regular
+comparing function such as &lt;code&gt;localizedCaseInsensitiveCompare&lt;/code&gt;, which works on two
+&lt;code&gt;String&lt;/code&gt;s, and turn it into a function that takes two optional &lt;code&gt;String&lt;/code&gt;s. If
+both values are &lt;code&gt;nil&lt;/code&gt;, they are equal. If the left-hand side is nil, but the
+right-hand isn&amp;rsquo;t they&amp;rsquo;re ascending, and the other way around. Finally, if they
+are both non-&lt;code&gt;nil&lt;/code&gt;, we can use the &lt;code&gt;compare&lt;/code&gt; function to compare them.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;func lift&amp;lt;A&amp;gt;(_ compare: @escaping (A) -&amp;gt; (A) -&amp;gt; ComparisonResult) -&amp;gt; (A?) -&amp;gt; (A?) -&amp;gt; ComparisonResult {
+    return { lhs in { rhs in
+        switch (lhs, rhs) {
+        case (nil, nil): return .orderedSame
+        case (nil, _): return .orderedAscending
+        case (_, nil): return .orderedDescending
+        case let (l?, r?): return compare(l)(r)
+        default: fatalError() // Impossible case
+        }
+    } }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This allows us to &amp;ldquo;lift&amp;rdquo; a regular comparison function into the domain of
+optionals, and it can be used together with our sortDescriptor function. If you
+recall the &lt;code&gt;files&lt;/code&gt; array from before, sorting them by &lt;code&gt;fileExtension&lt;/code&gt; got really
+ugly because we had to deal with optionals. However, with our new &lt;code&gt;lift&lt;/code&gt;
+function, it&amp;rsquo;s very clean again:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;let lcic = lift(String.localizedCaseInsensitiveCompare)
+let result = files.sorted(by: sortDescriptor(key: { $0.fileExtension }, lcic))
+result // [&amp;quot;one&amp;quot;, &amp;quot;file.c&amp;quot;, &amp;quot;file.h&amp;quot;, &amp;quot;test.h&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;We can write a similar version of &lt;code&gt;lift&lt;/code&gt; for functions that return a &lt;code&gt;Bool&lt;/code&gt;.
+Before Swift 3, operators like &lt;code&gt;&amp;gt;&lt;/code&gt; were defined on optionals. They were
+removed because they can lead to accidental bugs. However, with a boolean
+&lt;code&gt;lift&lt;/code&gt; you can easily take an existing operator and make it work for
+optionals.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;One drawback of the function-based approach is that functions are opaque. We can
+take an &lt;code&gt;NSSortDescriptor&lt;/code&gt;, print it to the console, and we get some information
+about the sort descriptor: the key path, the selector name and whether it&amp;rsquo;s
+ascending. Our function-based approach cannot do this. For sort descriptors,
+this is not a problem in practice. If it&amp;rsquo;s important to have that information,
+we could wrap the functions in a struct or class, and store additional debug
+information.&lt;/p&gt;
+
+&lt;p&gt;This approach has also given us a clean separation between the sorting method
+and the comparison method. The algorithm that Swift&amp;rsquo;s sort uses is a hybrid of
+multiple sorting algorithms — as of writing, it is an
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Introsort&#34;&gt;introsort&lt;/a&gt; (which is itself a hybrid
+of a quicksort and a heapsort), but it switches to an &lt;a href=&#34;https://en.wikipedia.org/wiki/Insertion_sort&#34;&gt;insertion
+sort&lt;/a&gt; for small collections to
+avoid the upfront startup cost of the more complex sort algorithms.&lt;/p&gt;
+
+&lt;p&gt;Introsort is not a
+&amp;ldquo;&lt;a href=&#34;https://en.wikipedia.org/wiki/Category:Stable_sorts&#34;&gt;stable&lt;/a&gt;&amp;rdquo; sort. That is,
+it does not necessarily maintain relative ordering of values that are otherwise
+equal according to the comparison function.&lt;/p&gt;
+
+&lt;p&gt;But if you implemented a stable sort, the separation of the sort method from the
+comparison would allow you to swap it in easily:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;people.stableSorted(by: combine(
+  sortDescriptors: [sortByLastName,sortByFirstName,sortByYear]
+))
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -3593,30 +4038,6 @@ end&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
           <author></author>
           <guid>http://chris.eidhof.nl/post/my-presentation-at-the-berlin-hug/</guid>
           <description>&lt;p&gt;Last week I gave a short presentation about lenses and &lt;a href=&#34;http://hackage.haskell.org/package/fclabels&#34;&gt;fclabels&lt;/a&gt; at the Berlin Haskell Users Group. The source for the slides and some accompanying literate Haskell files are now in a &lt;a href=&#34;https://github.com/chriseidhof/presentation-lenses&#34;&gt;github repo&lt;/a&gt;.&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
-          <title>Adding push notifications to an app</title>
-          <link>http://chris.eidhof.nl/post/adding-push-notifications-to-an-app/</link>
-          <pubDate>Thu, 01 Nov 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://chris.eidhof.nl/post/adding-push-notifications-to-an-app/</guid>
-          <description>&lt;p&gt;Last week, I&amp;#8217;ve built an app that&amp;#8217;s quite simple: there are categories, and in the categories are messages. People can subscribe to a category and get a push notification when there&amp;#8217;s a new message in the category, or when a significant change was made to the message. The badge icon should update appropriately, showing the number of unread messages. There are lots of tricky things when implementing this, and the point of this article is to explore them.&lt;/p&gt;
-
-&lt;p&gt;In a naive approach, you can start by implement the application delegate&amp;#8217;s &lt;code&gt;application:didReceiveRemoteNotification&lt;/code&gt;. This method is called when you receive a push notification. However, it is only called when your application is running. When your application is not running, this method doesn&amp;#8217;t get called. You also need to implement &lt;code&gt;application:didFinishLaunchingWithOptions:&lt;/code&gt;, and check if there is a push notification in the options (this dictionary gets set when you open the app by clicking on the notification).&lt;/p&gt;
-
-&lt;p&gt;The problem, however, is that not all push notifications arrive. For example, if you get 5 push notifications, but open the app via the home screen, you will not get any notification in the options dictionary, and you won&amp;#8217;t get a &lt;code&gt;didReceiveRemoteNotification&lt;/code&gt; either.&lt;/p&gt;
-
-&lt;p&gt;To do push notifications correctly, you will need to keep a list on the server, and on application startup your app needs to synchronise with the server. That way, you can mark the right and also tell the server that you have seen the push notification.&lt;/p&gt;
-
-&lt;p&gt;Now, when you exit the app you can set the badge count based on the number of unread push notification. However, the server needs to know this number as well, so that it can correctly set the badge number in the next push notification that is sent. When you read a message that was marked by the push notification, you need to tell the server as well. (Edge-case: when you read the message in offline mode, you will need to tell the server once you&amp;#8217;re back online).&lt;/p&gt;
-
-&lt;p&gt;In order to do push notifications right, the client and server need to communicate a lot. Hopefully, in your next project, you can read this article so you don&amp;#8217;t have to find these things out while you are programming.&lt;/p&gt;
-
-&lt;p&gt;In a next article, I will sketch the application architecture I used for the app above.&lt;/p&gt;
 </description>
         </item>
       
