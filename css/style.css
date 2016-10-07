@@ -341,6 +341,12 @@ Post Page
 	color:#444;
 }
 
+#post-meta.promo {
+    background: #fafafa;
+    padding: 40px;
+    font-size: 17px;
+}
+
 #post-meta div span {
 	color:#666;
 	color:#333;
