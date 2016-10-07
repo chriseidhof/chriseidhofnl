@@ -2,6 +2,7 @@
 date = "2016-08-12"
 headline = "Conforming to the Collection protocol"
 title = "Protocols in Swift"
+advanced_swift = true
 
 +++
 

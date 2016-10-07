@@ -2,6 +2,7 @@
 date = "2016-06-03"
 title = "Responder Chain Alternatives"
 headline = "Simple vs. Easy"
+advanced_swift = true
 
 +++
 

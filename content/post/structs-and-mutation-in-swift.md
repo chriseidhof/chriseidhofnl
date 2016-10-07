@@ -2,6 +2,7 @@
 date = "2016-08-16"
 headline = "How I Learned To Stop Worrying and Love mutating"
 title = "Structs and mutation in Swift"
+advanced_swift = true
 +++
 
 *Note*: This post is a draft-version of a new section in our book [Advanced Swift](https://www.objc.io/books/advanced-swift/). We're currently updating the book for Swift 3. It'll be a free update for everyone who has bought a digital version of the book. Thanks to [Ole Begemann](https://twitter.com/olebegemann) for suggestions and improvements.

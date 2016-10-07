@@ -2,6 +2,7 @@
 date = "2016-08-29"
 headline = "From Runtime Magic To Functions"
 title = "Sort Descriptors in Swift"
+advanced_swift = true
 
 +++
 

@@ -2,6 +2,7 @@
 date = "2016-05-30"
 title = "Undo History in Swift"
 headline = "Use Value Semantics for Great Good"
+advanced_swift = true
 
 +++
 

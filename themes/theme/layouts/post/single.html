@@ -27,6 +27,17 @@
     {{ .Content }}
   </section>
 
+  {{ if .Params.advanced_swift }}
+  <footer id="post-meta" class="group promo">
+      <div>
+          <img src="{{ .Site.BaseURL }}images/advanced-swift.png" style="width: 90px;">
+      </div>
+      <p>
+      If you liked this article, check out my book <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>, or check out my video series <a href="https://talk.objc.io">Swift Talk</a>. The book is fully updated for Swift 3.<br/> <br/>
+      <em>Chris</em>
+      </p>
+  </footer> <!--post-meta-->
+  {{ end }}
   <footer id="post-meta" class="group">
     <div>
       <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}">{{ with .Site.Params.DateForm }}{{ $.Date.Format . }}{{ else }}{{ $.Date.Format "Mon, Jan 2, 2006" }}{{ end }}</time>
