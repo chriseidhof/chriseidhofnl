@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.15" />
+    <meta name="generator" content="Hugo 0.17" />
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -45,7 +45,8 @@
   <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
   <meta itemprop="dateModified" content="2016-04-22T15:46:42&#43;02:00">
   <meta itemprop="headline" content="Rejected Swift Proposals">
-  <meta itemprop="description" content="Not too long ago, we finally shipped Advanced Swift. It was a long process, but I&rsquo;m really happy about the result. Just before we finished it, Swift became open-source, the mailing lists opened up, and many GitHub repositories appeared. At first, I subscribed to all the mailing lists, and added a filter to move them into a separate folder. There was so much discussion that I couldn&rsquo;t keep up at all - at least not while finishing the book.">
+  <meta itemprop="description" content="Not too long ago, we finally shipped Advanced Swift. It was a long process, but I&rsquo;m really happy about the result. Just before we finished it, Swift became open-source, the mailing lists opened up, and many GitHub repositories appeared.
+At first, I subscribed to all the mailing lists, and added a filter to move them into a separate folder. There was so much discussion that I couldn&rsquo;t keep up at all - at least not while finishing the book.">
   <meta itemprop="url" content="http://chris.eidhof.nl/post/rejected-swift-proposals/">
     <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
       <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
@@ -76,7 +77,7 @@
 
 <p>I am going to write a series of posts about all the proposals. First off, let&rsquo;s start with all the rejected proposals. Here, it&rsquo;s especially interesting to see why they got rejected, and I&rsquo;ve selectively quoted the rationales given by the core team.</p>
 
-<h2 id="se-0009-require-self-for-accessing-instance-members-https-github-com-apple-swift-evolution-blob-master-proposals-0009-require-self-for-accessing-instance-members-md:ad100045d96cd9f53c3487c82b32217f"><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0009-require-self-for-accessing-instance-members.md">SE-0009 Require self for accessing instance members</a></h2>
+<h2 id="se-0009-require-self-for-accessing-instance-members-https-github-com-apple-swift-evolution-blob-master-proposals-0009-require-self-for-accessing-instance-members-md"><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0009-require-self-for-accessing-instance-members.md">SE-0009 Require self for accessing instance members</a></h2>
 
 <p>This proposal wants to make <code>self.</code> mandatory for all instance members. The author feels that requiring <code>self.</code> increases readability, and make everything more consistent.</p>
 
@@ -92,7 +93,7 @@
 
 <p>The author of the proposal feels that requiring <code>self.</code> makes the code more readable. I can see why, yet still feel the opposite. This is one of those cases where we can hardly say anything objective about it being more readable, instead, we should probably say &ldquo;it&rsquo;s more readable for me&rdquo;.</p>
 
-<h2 id="se-0010-add-staticstring-unicodescalarview-https-github-com-apple-swift-evolution-blob-master-proposals-0010-add-staticstring-unicodescalarview-md:ad100045d96cd9f53c3487c82b32217f"><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0010-add-staticstring-unicodescalarview.md">SE-0010 Add StaticString.UnicodeScalarView</a></h2>
+<h2 id="se-0010-add-staticstring-unicodescalarview-https-github-com-apple-swift-evolution-blob-master-proposals-0010-add-staticstring-unicodescalarview-md"><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0010-add-staticstring-unicodescalarview.md">SE-0010 Add StaticString.UnicodeScalarView</a></h2>
 
 <p>This proposal wants to make it possible to make static substrings of <code>StaticString</code> by adding a new type <code>StaticString.UnicodeScalarView</code>.</p>
 
@@ -104,7 +105,7 @@
 
 <p>Emphasis mine: strings are being re-evaluated. I&rsquo;m not sure what will happen to the <code>String</code> type. I can imagine that it could get simpler somehow.</p>
 
-<h2 id="se-0027-expose-code-unit-initializers-on-string-https-github-com-apple-swift-evolution-blob-master-proposals-0027-string-from-code-units-md:ad100045d96cd9f53c3487c82b32217f"><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0027-string-from-code-units.md">SE-0027 Expose code unit initializers on String</a></h2>
+<h2 id="se-0027-expose-code-unit-initializers-on-string-https-github-com-apple-swift-evolution-blob-master-proposals-0027-string-from-code-units-md"><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0027-string-from-code-units.md">SE-0027 Expose code unit initializers on String</a></h2>
 
 <p>This proposal wants to make it easier to build Swift strings from C strings.</p>
 
@@ -116,7 +117,7 @@
 
 <p>Just like before, it seems like big changes will happen to the <code>String</code> type.</p>
 
-<h2 id="se-0024-optional-value-setter-https-github-com-apple-swift-evolution-blob-master-proposals-0024-optional-value-setter-md:ad100045d96cd9f53c3487c82b32217f"><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0024-optional-value-setter.md">SE-0024 Optional Value Setter <code>??=</code></a></h2>
+<h2 id="se-0024-optional-value-setter-https-github-com-apple-swift-evolution-blob-master-proposals-0024-optional-value-setter-md"><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0024-optional-value-setter.md">SE-0024 Optional Value Setter <code>??=</code></a></h2>
 
 <p>This proposal wants to add another setter, <code>??=</code>, which sets the left-hand side to the value of the right-hand side (but only if the left-hand side is <code>nil</code>).</p>
 
@@ -128,11 +129,11 @@
 
 <p>I&rsquo;ve used <code>||=</code> in Ruby as well, and really like it there. But with Swift&rsquo;s Optionals, I never felt the need for this. As an aside, the mentioned dictionary subscript operator is really cool. We use it in the functions chapter of Advanced Swift, in a way very similar to this: <a href="https://twitter.com/AirspeedSwift/status/626701244455895044">https://twitter.com/AirspeedSwift/status/626701244455895044</a></p>
 
-<h2 id="se-0018-flexible-memberwise-initialization-https-github-com-apple-swift-evolution-blob-master-proposals-0018-flexible-memberwise-initialization-md-draft:ad100045d96cd9f53c3487c82b32217f"><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0018-flexible-memberwise-initialization.md">SE-0018 Flexible Memberwise Initialization</a> (Draft)</h2>
+<h2 id="se-0018-flexible-memberwise-initialization-https-github-com-apple-swift-evolution-blob-master-proposals-0018-flexible-memberwise-initialization-md-draft"><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0018-flexible-memberwise-initialization.md">SE-0018 Flexible Memberwise Initialization</a> (Draft)</h2>
 
 <p>This was a really long proposal, and really long rejection <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160111/006469.html">rationale</a> mail. It&rsquo;s about the automatic memberwise initializers that get generated (e.g. when you create a struct). The proposal wants to make this possible in more places, and make it easier to control this. The core team decided that it isn&rsquo;t in scope for Swift 3. An interesting meta-point they raised it that the length of the proposal was off-putting for many people. Another thing I learned is that the Swift team really strives for predictable models. You can also see this in the accepted proposals, there are a few that really make the language more predictable and consistent (e.g. <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0046-first-label.md">named first parameters</a>).</p>
 
-<h2 id="se-0056-allow-trailing-closures-in-guard-conditions-https-github-com-apple-swift-evolution-blob-master-proposals-0056-trailing-closures-in-guard-md:ad100045d96cd9f53c3487c82b32217f"><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0056-trailing-closures-in-guard.md">SE-0056 Allow trailing closures in guard conditions</a></h2>
+<h2 id="se-0056-allow-trailing-closures-in-guard-conditions-https-github-com-apple-swift-evolution-blob-master-proposals-0056-trailing-closures-in-guard-md"><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0056-trailing-closures-in-guard.md">SE-0056 Allow trailing closures in guard conditions</a></h2>
 
 <p>This proposal is about letting trailing closures in <code>guard</code> conditions compile. For example, like this:</p>
 

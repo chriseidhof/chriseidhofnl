@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.15" />
+    <meta name="generator" content="Hugo 0.17" />
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -45,7 +45,11 @@
   <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
   <meta itemprop="dateModified" content="2012-12-03T00:00:00&#43;00:00">
   <meta itemprop="headline" content="How to add a new Unit Test target and OCMock to an existing XCode project">
-  <meta itemprop="description" content="I had some trouble today trying to add Unit Tests to an existing project that uses CocoaPods. So I decided to do a quick writeup of how I got it working: Create a new project called &#8216;BetterTodoList&#8217; Create a new Podfile with the following contents platform :ios, 6.0 pod &#39;AFNetworking&#39; Close BetterTodoList in XCode, and open the workspace (as instructed by CocoaPods) Run, and see that everything still works Write some legacy code Realize you need Unit Tests: File -&gt; New -&gt; Target Choose Other -&gt; Cocoa Touch Unit Test Bundle Name it &#8220;BetterTodoListTests&#8221; Press Cmd&#43;U.">
+  <meta itemprop="description" content="I had some trouble today trying to add Unit Tests to an existing project that uses CocoaPods. So I decided to do a quick writeup of how I got it working:
+Create a new project called &#8216;BetterTodoList&#8217;
+ Create a new Podfile with the following contents
+ platform :ios, 6.0 pod &#39;AFNetworking&#39; Close BetterTodoList in XCode, and open the workspace (as instructed by CocoaPods)
+ Run, and see that everything still works">
   <meta itemprop="url" content="http://chris.eidhof.nl/post/how-to-add-a-new-unit-test-target-and-ocmock-to-an/">
     <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
       <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">

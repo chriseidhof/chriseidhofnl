@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.15" />
+    <meta name="generator" content="Hugo 0.17" />
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -132,7 +132,7 @@ personHistory.currentItem.age // Prints 32
 personHistory.currentItem.age // Prints 31 again
 </code></pre>
 
-<p>Of course, our <code>UndoHistory</code> works on more than just simple <code>Person</code> structs. For example, if we want to create a table view controller that&rsquo;s backed by an <code>Array</code>, we can use the <code>currentItem</code> property to get the array out <sup class="footnote-ref" id="fnref:4f7f6a73fd4549ae772cf1c92915d55d:1"><a rel="footnote" href="#fn:4f7f6a73fd4549ae772cf1c92915d55d:1">1</a></sup>:</p>
+<p>Of course, our <code>UndoHistory</code> works on more than just simple <code>Person</code> structs. For example, if we want to create a table view controller that&rsquo;s backed by an <code>Array</code>, we can use the <code>currentItem</code> property to get the array out <sup class="footnote-ref" id="fnref:1"><a rel="footnote" href="#fn:1">1</a></sup>:</p>
 
 <pre><code class="language-swift">final class MyTableViewController&lt;Item&gt;: UITableViewController {
     var data: UndoHistory&lt;[Item]&gt;
@@ -169,20 +169,20 @@ personHistory.currentItem.age // Prints 31 again
 }
 </code></pre>
 
-<p>Even if we change something deep inside the array (e.g. <code>data.currentItem[17].name = &quot;John&quot;</code>) our <code>didSet</code> will get triggered. Of course, we probably want to do something a little bit smarter than <code>reloadData</code>. For example, we could use the <a href="https://github.com/osteslag/Changeset">Changeset</a> library to compute a diff and have insert/delete/move animations<sup class="footnote-ref" id="fnref:4f7f6a73fd4549ae772cf1c92915d55d:2"><a rel="footnote" href="#fn:4f7f6a73fd4549ae772cf1c92915d55d:2">2</a></sup>.</p>
+<p>Even if we change something deep inside the array (e.g. <code>data.currentItem[17].name = &quot;John&quot;</code>) our <code>didSet</code> will get triggered. Of course, we probably want to do something a little bit smarter than <code>reloadData</code>. For example, we could use the <a href="https://github.com/osteslag/Changeset">Changeset</a> library to compute a diff and have insert/delete/move animations<sup class="footnote-ref" id="fnref:2"><a rel="footnote" href="#fn:2">2</a></sup>.</p>
 
-<p>Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html">runtime programming guide</a>, you only need to have a good grasp of structs and generics to come up with this solution <sup class="footnote-ref" id="fnref:4f7f6a73fd4549ae772cf1c92915d55d:3"><a rel="footnote" href="#fn:4f7f6a73fd4549ae772cf1c92915d55d:3">3</a></sup>.</p>
+<p>Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html">runtime programming guide</a>, you only need to have a good grasp of structs and generics to come up with this solution <sup class="footnote-ref" id="fnref:3"><a rel="footnote" href="#fn:3">3</a></sup>.</p>
 <div class="footnotes">
 
 <hr />
 
 <ol>
-<li id="fn:4f7f6a73fd4549ae772cf1c92915d55d:1">It would probably be nice to define a computed property <code>items</code> which just gets and sets <code>data.currentItem</code>. This makes the data source / delegate method implementations much nicer.
- <a class="footnote-return" href="#fnref:4f7f6a73fd4549ae772cf1c92915d55d:1"><sup>[return]</sup></a></li>
-<li id="fn:4f7f6a73fd4549ae772cf1c92915d55d:2">If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you&rsquo;ll end up with two entries in your undo history.
- <a class="footnote-return" href="#fnref:4f7f6a73fd4549ae772cf1c92915d55d:2"><sup>[return]</sup></a></li>
-<li id="fn:4f7f6a73fd4549ae772cf1c92915d55d:3">In <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a> we go into way much more detail on these and many other topics.
- <a class="footnote-return" href="#fnref:4f7f6a73fd4549ae772cf1c92915d55d:3"><sup>[return]</sup></a></li>
+<li id="fn:1">It would probably be nice to define a computed property <code>items</code> which just gets and sets <code>data.currentItem</code>. This makes the data source / delegate method implementations much nicer.
+ <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
+<li id="fn:2">If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you&rsquo;ll end up with two entries in your undo history.
+ <a class="footnote-return" href="#fnref:2"><sup>[return]</sup></a></li>
+<li id="fn:3">In <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a> we go into way much more detail on these and many other topics.
+ <a class="footnote-return" href="#fnref:3"><sup>[return]</sup></a></li>
 </ol>
 </div>
 

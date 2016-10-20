@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.15" />
+    <meta name="generator" content="Hugo 0.17" />
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -45,7 +45,9 @@
   <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
   <meta itemprop="dateModified" content="2014-08-29T00:00:00&#43;00:00">
   <meta itemprop="headline" content="Tuples, Structs and Enums">
-  <meta itemprop="description" content="Swift has lots of different ways of storing your data. You can use enums, tuples, structs, classes (or even just use malloc and manage it yourself)! In this article, we&rsquo;ll compare enums, tuples and structs. Let&rsquo;s start with the simplest: tuples. A tuple is a typed list of values. For example, you can define a tuple that holds an integer and a string: let amount = (100, &quot;EUR&quot;) This is very useful when you want to return multiple values from a function.">
+  <meta itemprop="description" content="Swift has lots of different ways of storing your data. You can use enums, tuples, structs, classes (or even just use malloc and manage it yourself)! In this article, we&rsquo;ll compare enums, tuples and structs. Let&rsquo;s start with the simplest: tuples.
+A tuple is a typed list of values. For example, you can define a tuple that holds an integer and a string:
+let amount = (100, &quot;EUR&quot;)  This is very useful when you want to return multiple values from a function.">
   <meta itemprop="url" content="http://chris.eidhof.nl/post/tuples-structs-enums/">
     <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
       <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
@@ -139,7 +141,7 @@ println(wallet.format())
 
 <p>Not only do we now have functions on our <code>Money</code> type, we also have given it an explicit name. In other parts of our code, we can be certain that we don&rsquo;t accidentally pass in a mass pair (like <code>(1, &quot;kg&quot;)</code>). A struct is also called a <a href="http://en.wikipedia.org/wiki/Nominal_type_system">nominal type</a>: it gives an explicit name to a type, and values only have the same type if they share that name. In the example above, <code>mass</code> and the first definition of <code>wallet</code> have the same type, but values of type <code>Money</code> and <code>Mass</code> have different types. If we call <code>format</code> on them, we get different results.</p>
 
-<h3 id="enums:2c00a73d9297f5a7602ca73bea68234e">Enums</h3>
+<h3 id="enums">Enums</h3>
 
 <p>If we want to store some values together, we now know that we can use a tuple or a struct, depending on the use-case. We can also use classes, but that&rsquo;s beyond the scope of this article. However, sometimes we want to represent a choice between some values. For example, let&rsquo;s consider currencies. In the previous example, we&rsquo;ve used <code>String</code> to use the currency, but what if we want to restrict our program to only currencies we know about? This is where we can use an enum. For example, if we want to restrict our program to only euros, US dollars and yen, we can write the following enum:</p>
 
@@ -172,7 +174,7 @@ println(wallet.format())
 
 <p>This is equivalent to having a struct: we can add functions, and it is impossible to accidentally confuse <code>Angle</code> values with other <code>Double</code> values. However, if we decide that we want to add more cases in the future, we can do this.</p>
 
-<h3 id="what-should-i-use:2c00a73d9297f5a7602ca73bea68234e">What should I use?</h3>
+<h3 id="what-should-i-use">What should I use?</h3>
 
 <p>Now we have a good overview of how to choose between tuples, structs and enums. Start with a tuple and see if it does the job. If two values with the same type structure are the same (e.g. String and Int pairs), excellent. If you want more type-safety and a nominal type, use structs. For example, if you want to disambiguate between currency and mass. Finally, if you need multiple mutually exclusive cases (for example, either EUR or USD or YEN), use enums.</p>
 

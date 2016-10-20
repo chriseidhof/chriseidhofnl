@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.15" />
+    <meta name="generator" content="Hugo 0.17" />
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -45,7 +45,9 @@
   <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
   <meta itemprop="dateModified" content="2016-08-29T00:00:00&#43;00:00">
   <meta itemprop="headline" content="Sort Descriptors in Swift">
-  <meta itemprop="description" content="Just last week, someone asked me &ldquo;in what respect does Swift fall short of the dynamic features of Objective-C&rdquo;? Dynamic programming means a lot of different things to different people, and I think they meant runtime programming. In this post, we&rsquo;ll look at replacing Objective-C&rsquo;s runtime programming with Swift&rsquo;s functions. This post is an excerpt from the Functions chapter in Advanced Swift, which we&rsquo;re currently rewriting (and making very good progress).">
+  <meta itemprop="description" content="Just last week, someone asked me &ldquo;in what respect does Swift fall short of the dynamic features of Objective-C&rdquo;?
+Dynamic programming means a lot of different things to different people, and I think they meant runtime programming. In this post, we&rsquo;ll look at replacing Objective-C&rsquo;s runtime programming with Swift&rsquo;s functions.
+This post is an excerpt from the Functions chapter in Advanced Swift, which we&rsquo;re currently rewriting (and making very good progress).">
   <meta itemprop="url" content="http://chris.eidhof.nl/post/sort-descriptors-in-swift/">
     <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
       <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
@@ -255,7 +257,7 @@ improvement: the building of arrays on every comparison is very inefficient, the
 comparison is hardcoded, and we can&rsquo;t really sort by <code>yearOfBirth</code> using this
 approach.</p>
 
-<h3 id="functions-as-data:a040caddcaf5bde1d49611db9681b29d">Functions as Data</h3>
+<h3 id="functions-as-data">Functions as Data</h3>
 
 <p>Rather than writing an even more complicated function that we can use to sort,
 let&rsquo;s take a step back. So far, the sort descriptors were much clearer, but they
