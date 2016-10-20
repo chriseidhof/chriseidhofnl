@@ -11,6 +11,12 @@ The following post is an excerpt from our book [Advanced Swift](https://www.objc
 Sometimes, we can use a protocol as a standalone type. However, with a protocol like `IteratorProtocol`, this isn't (yet) possible, because it has an associated type. The compile error says: "Protocol 'IteratorProtocol' can only be used as a generic constraint because it has Self or associated type requirements."
 
 ```swift
+struct ConstantIterator: IteratorProtocol {
+    mutating func next() -> Int? {
+        return 1
+    }
+}
+
 let iterator: IteratorProtocol = ConstantIterator() // Error
 ```
 
@@ -21,12 +27,6 @@ In a way, `IteratorProtocol` used as a type is incomplete; we'd have to specify 
 In a future version of Swift, we might be able to solve this by saying something like the following:
 
 ```swift
-struct ConstantIterator: IteratorProtocol {
-    mutating func next() -> Int? {
-        return 1
-    }
-}
-
 let iterator: Any<IteratorProtocol where .Element == Int> = ConstantIterator()
 ```
 
