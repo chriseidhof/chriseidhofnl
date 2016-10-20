@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.15" />
+    <meta name="generator" content="Hugo 0.17" />
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -45,7 +45,9 @@
   <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
   <meta itemprop="dateModified" content="2015-06-01T00:00:00&#43;00:00">
   <meta itemprop="headline" content="Monads in Swift">
-  <meta itemprop="description" content="Last year, many people have dipped their toes into functional programming. Unfortunately, one of the side-effects of learning functional programming is a great amount of people trying to explain monads. Many explanations I&rsquo;ve seen were bad and only add to the existing confusion. This makes me quite upset sometimes. So here&rsquo;s my very short (and slightly simplified) explanation: If you can define flatMap for a type, the type is often called a monad.">
+  <meta itemprop="description" content="Last year, many people have dipped their toes into functional programming. Unfortunately, one of the side-effects of learning functional programming is a great amount of people trying to explain monads. Many explanations I&rsquo;ve seen were bad and only add to the existing confusion. This makes me quite upset sometimes.
+So here&rsquo;s my very short (and slightly simplified) explanation:
+ If you can define flatMap for a type, the type is often called a monad.">
   <meta itemprop="url" content="http://chris.eidhof.nl/post/monads-in-swift/">
     <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
       <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
@@ -72,7 +74,7 @@
 <p>If you can define <a href="http://swiftdoc.org/func/flatMap/"><code>flatMap</code></a> for a type, the type is often called a monad.</p>
 </blockquote>
 
-<p>For example, you can define <code>flatMap</code> for <code>Array</code>. Array is a monad. You can define <code>flatMap</code> for optionals. <code>Optional</code> is a monad. You can also define <code>flatMap</code> for other types, such as functions, tuples, reactive cocoa signals, the <code>Result</code> type, and many more. Defining <code>flatMap</code> for a type often is really useful, even if it&rsquo;s not &ldquo;<a href="http://en.wikipedia.org/wiki/Monad_(functional_programming">officially</a>#Formal_definition)&rdquo; a monad. That&rsquo;s really all there&rsquo;s to it.</p>
+<p>For example, you can define <code>flatMap</code> for <code>Array</code>. Array is a monad. You can define <code>flatMap</code> for optionals. <code>Optional</code> is a monad. You can also define <code>flatMap</code> for other types, such as functions, tuples, reactive cocoa signals, the <code>Result</code> type, and many more. Defining <code>flatMap</code> for a type often is really useful, even if it&rsquo;s not &ldquo;<a href="http://en.wikipedia.org/wiki/Monad_(functional_programming)#Formal_definition">officially</a>&rdquo; a monad. That&rsquo;s really all there&rsquo;s to it.</p>
 
 <p>If you care for a longer explanation in Swift, then <a href="http://nomothetis.svbtle.com/the-culmination-i">Alexandros&rsquo;s articles</a> are pretty good. If you prefer video, have a look at <a href="http://2014.funswiftconf.com/speakers/john.html">John Gallagher&rsquo;s talk</a>. Finally, if you like reading books, you can read my book <a href="http://www.objc.io/books/">Functional Programming in Swift</a> or <a href="http://learnyouahaskell.com">Learn You a Haskell</a>.</p>
 

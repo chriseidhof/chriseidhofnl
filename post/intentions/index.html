@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.15" />
+    <meta name="generator" content="Hugo 0.17" />
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -70,13 +70,13 @@
 
 <p><img src="/static/images/person-app.png" style="width:217px; float: right; overflow: clear;"></p>
 
-<h2 id="the-application:a3a185cce2b9d9bcb1b1197b2cd6ffec">The Application</h2>
+<h2 id="the-application">The Application</h2>
 
 <p>The app is simple: it&rsquo;s an editor for a <code>Person</code> object, and currently the only editable field is the person&rsquo;s name. There are two buttons: <em>Reverse</em> reverses the person&rsquo;s name, and <em>Uppercase</em> makes it all uppercase. If you edit the person&rsquo;s name, and then press <em>Return</em>, the keyboard should dismiss.</p>
 
 <p><div style="clear: both;" /></p>
 
-<h2 id="a-regular-implementation-of-the-view-controller:a3a185cce2b9d9bcb1b1197b2cd6ffec">A regular implementation of the View Controller</h2>
+<h2 id="a-regular-implementation-of-the-view-controller">A regular implementation of the View Controller</h2>
 
 <p>I created the view controller&rsquo;s view in Interface Builder. The text field is hooked up as an <code>IBOutlet</code>, and the view controller is also the text field&rsquo;s delegate:</p>
 
@@ -135,13 +135,13 @@
 
 <p>Now, all of this is very simple. The view controller is just under 50 lines. However, as you add more and more logic, the view controller obviously becomes larger.</p>
 
-<h2 id="moving-to-intentions:a3a185cce2b9d9bcb1b1197b2cd6ffec">Moving to Intentions</h2>
+<h2 id="moving-to-intentions">Moving to Intentions</h2>
 
 <p>The idea of the article mentioned in the introduction is to take lighter view controllers to a whole new level. A view controller should only do work in the <code>viewDid*</code> methods, not implement any extra protocols, and not have any <code>IBActions</code>. That sounded pretty extreme to me, but I wanted to give it a try and see what it feels like.</p>
 
 <p>I created a sample project of the things below, and put <a href="https://github.com/chriseidhof/intentions">on github</a>.</p>
 
-<h3 id="dismiss-on-enter:a3a185cce2b9d9bcb1b1197b2cd6ffec">Dismiss on Enter</h3>
+<h3 id="dismiss-on-enter">Dismiss on Enter</h3>
 
 <p>The first thing we can do is to take out the dismiss on enter logic. To do this, we create a new object, which does only this:</p>
 
@@ -174,7 +174,7 @@ And that&rsquo;s all there is to it. When the view controller is loaded, the sto
 
 <p><em>Update</em>: <a href="https://twitter.com/toco91/status/456102320649293824">Several</a> <a href="https://twitter.com/christian_beer/status/456134551941566464">people</a> on Twitter point out you can use <code>textFieldShouldReturn:</code> instead, which is of course a lot better.</p>
 
-<h3 id="uppercase-a-name:a3a185cce2b9d9bcb1b1197b2cd6ffec">Uppercase a Name</h3>
+<h3 id="uppercase-a-name">Uppercase a Name</h3>
 
 <p>Uppercasing a name is a bit more difficult. We can start by creating a new object, <code>UppercaseIntention</code>. It will have an outlet called <code>textField</code>, and an IBAction, <code>uppercase</code>, which we just copy over from the view controller:</p>
 
@@ -186,7 +186,7 @@ And that&rsquo;s all there is to it. When the view controller is loaded, the sto
 
 <p>We can add a custom object to our view controller scene, hook up the text field and the action, but now we face a problem: how do we connect the <code>person</code> object? It turns out we can&rsquo;t: we don&rsquo;t know yet which person to edit. Instead, we first have to take a small sidestep and introduce an indirection: we create a container class that contains the person object. At first sight, this might seem to only complicate matters, but bear with me.</p>
 
-<h4 id="creating-a-person-container:a3a185cce2b9d9bcb1b1197b2cd6ffec">Creating a Person Container</h4>
+<h4 id="creating-a-person-container">Creating a Person Container</h4>
 
 <p>We create a custom object called <code>PersonContainer</code>, which doesn&rsquo;t do anything, except for having a <code>Person</code> property:</p>
 
@@ -221,7 +221,7 @@ And that&rsquo;s all there is to it. When the view controller is loaded, the sto
 
 <p>Our view controller is now lighter (it only has the <code>viewDidLoad</code> method left), but the question is: what have we gained? Is this really simpler to read? At this point, I think we have only complicated matters. There is a more clear separation into classes, but it&rsquo;s now harder to understand, and the new classes that we have made are very specific to our view controller. We can do better, and make our classes more reusable.</p>
 
-<h3 id="moving-to-a-generic-text-field-uppercase-intention:a3a185cce2b9d9bcb1b1197b2cd6ffec">Moving to a Generic Text Field Uppercase Intention</h3>
+<h3 id="moving-to-a-generic-text-field-uppercase-intention">Moving to a Generic Text Field Uppercase Intention</h3>
 
 <p>Let&rsquo;s say we want to reuse our uppercase intention in a different place, where we don&rsquo;t have a <code>Person</code> as the model, but a different class. First, we can change our <code>PersonContainer</code> to hold any kind of model, and rename it to <code>ModelContainer</code>:</p>
 
@@ -257,7 +257,7 @@ And that&rsquo;s all there is to it. When the view controller is loaded, the sto
 
 <p>This is quite cool: now, our uppercase intention doesn&rsquo;t know anything about the <code>Person</code> anymore. The only thing it does: it takes a model object and a text field, and whenever its action is fired, it updates the model with the uppercased string of the text field.</p>
 
-<h3 id="observe-intention:a3a185cce2b9d9bcb1b1197b2cd6ffec">Observe intention</h3>
+<h3 id="observe-intention">Observe intention</h3>
 
 <p>If you paid close attention, you noticed that we removed the following line in our uppercase intention:</p>
 
@@ -317,7 +317,7 @@ And that&rsquo;s all there is to it. When the view controller is loaded, the sto
 
 <p>And that&rsquo;s all there is to it. We can now create this object in Interface Builder, hook up the source to the model container, the target to the text field, set both key paths using runtime attributes, and the textfield automatically updates whenever the model changes.</p>
 
-<h4 id="adding-an-extra-label:a3a185cce2b9d9bcb1b1197b2cd6ffec">Adding an extra label</h4>
+<h4 id="adding-an-extra-label">Adding an extra label</h4>
 
 <p>It might still feel like we have done a lot of work for nothing. But to show how simple some things now get: we can add another label in our view controller&rsquo;s scene, duplicate our observe intention, but change the target to be our label. Now our label also automatically updates its text whenever the Person changes.</p>
 
@@ -325,7 +325,7 @@ And that&rsquo;s all there is to it. When the view controller is loaded, the sto
 
 <p><img src="/static/images/final-scene.png" style="width:269px;"></p>
 
-<h2 id="conclusion:a3a185cce2b9d9bcb1b1197b2cd6ffec">Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>I think this might become a very powerful technique. It comes at a cost: instead of having one complicated view controller, you will have a more complicated storyboard. For me, however, the main attraction is the reusability: I can reuse the observe intention in every project. The same holds for the dismiss on enter intention. I can imagine a whole library of these intentions slowly emerging.</p>
 

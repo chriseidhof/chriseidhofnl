@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.15" />
+    <meta name="generator" content="Hugo 0.17" />
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -45,7 +45,8 @@
   <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
   <meta itemprop="dateModified" content="2015-01-13T00:00:00&#43;00:00">
   <meta itemprop="headline" content="Functional View Controllers">
-  <meta itemprop="description" content="I&rsquo;m working on something new: a functional wrapper around view controllers. Making view controllers simpler has been a long obsession for me. I think functional view controllers might make them even simpler. This is still very much work in progress, but I hope that over the next months I can flesh out something nice. For this article, we&rsquo;ll work with artists and albums, and this is how they&rsquo;re defined: struct Album { let name: String } struct Artist { let name : String let albums: [Album] } And here&rsquo;s some example data: let artists : [Artist] = [ Artist(name: &quot;JS Bach&quot;, albums: [Album(name: &quot;The Art of Fugue&quot;)]), Artist(name: &quot;Simeon Ten Holt&quot;, albums: []) ] When working with UIKit, view controllers are the opposite of isolated: they are connected to everything.">
+  <meta itemprop="description" content="I&rsquo;m working on something new: a functional wrapper around view controllers. Making view controllers simpler has been a long obsession for me. I think functional view controllers might make them even simpler. This is still very much work in progress, but I hope that over the next months I can flesh out something nice. For this article, we&rsquo;ll work with artists and albums, and this is how they&rsquo;re defined:
+struct Album { let name: String } struct Artist { let name : String let albums: [Album] }  And here&rsquo;s some example data:">
   <meta itemprop="url" content="http://chris.eidhof.nl/post/functional-view-controllers/">
     <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
       <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">

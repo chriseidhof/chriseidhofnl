@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.15" />
+    <meta name="generator" content="Hugo 0.17" />
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -68,7 +68,7 @@
 
 <p>One of Swift&rsquo;s greatest strengths is the low friction when interoperating with C and Objective-C. Swift can automatically bridge Objective-C types, and can even bridge with many C types. This allows us to use existing libraries, and provide a nice interface on top. In our book <a href="http://www.objc.io/books/advanced-swift/">Advanced Swift</a>, we will write a wrapper around <a href="https://github.com/jgm/cmark">cmark</a>, and a wrapper around <a href="http://libuv.org">libuv</a>. This post is an excerpt from a first draft of one of the C interop chapters.</p>
 
-<h2 id="function-pointers:554e96a4e091a8f1900c21812295c7b2">Function Pointers</h2>
+<h2 id="function-pointers">Function Pointers</h2>
 
 <p>Rather than wrapping a larger library, let&rsquo;s have a look at wrapping the standard C <code>qsort</code> function. The type as it imported in Darwin is given below (we&rsquo;ve added the argument names back in, unfortunately they get lost during the import process):</p>
 
