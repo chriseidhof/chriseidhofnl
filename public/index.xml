@@ -6,8 +6,26 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-10-20 00:00:00 &#43;0000 UTC</updated>
+    <updated>2016-10-27 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>On Burnout</title>
+          <link>http://chris.eidhof.nl/post/burnout/</link>
+          <pubDate>Thu, 27 Oct 2016 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://chris.eidhof.nl/post/burnout/</guid>
+          <description>I&#39;ve seen a number of blogposts and talks recently that talk about depression, burn-out, and other mental problems.  One post recommended reading a book. Another one recommended talking to friends and family. These things might help, but I doubt that they actually solve the root cause (looking back, they definitely didn&#39;t solve my problems, at best suppress them).
+
+I recommend something different. If you have a mental issue, go see a professional. Take it seriously.  I know there&#39;s a stigma attached to this, let&#39;s try to break through that.
+
+If your leg is broken, you&#39;d probably go to the hospital. With mental issues, you often don&#39;t visually see that something is wrong. It might feel harder to justify seeing a professional. Some people are functioning very well while suffering from mental problems. For example, I can often turn my suppressed anger into productivity (alas, the anger still gets suppressed).
+
+It&#39;s scary to take that step. I started seeing a therapist about a year and a half ago, to deal with my depression. It&#39;s been one the best things I&#39;ve ever done for myself. If you&#39;re suffering from a mental issue, consider doing the same.
+</description>
+        </item>
+      
     
       
         <item>
@@ -4145,43 +4163,6 @@ method&lt;/li&gt;
 &lt;p&gt;The full code of the examples (without the &lt;code&gt;hash&lt;/code&gt; function) is &lt;a href=&#34;https://gist.github.com/78b3ce0edbcdf0d202e2&#34;&gt;on github&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Update&lt;/em&gt;: changed the &lt;code&gt;name&lt;/code&gt; attribute to be &lt;code&gt;copy&lt;/code&gt; instead of &lt;code&gt;strong&lt;/code&gt;, &lt;a href=&#34;https://twitter.com/CocoaPimper/status/280335607971074050&#34;&gt;thanks to Christian Kienle&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
-          <title>How to add a new Unit Test target and OCMock to an existing XCode project</title>
-          <link>http://chris.eidhof.nl/post/how-to-add-a-new-unit-test-target-and-ocmock-to-an/</link>
-          <pubDate>Mon, 03 Dec 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://chris.eidhof.nl/post/how-to-add-a-new-unit-test-target-and-ocmock-to-an/</guid>
-          <description>&lt;p&gt;I had some trouble today trying to add Unit Tests to an existing project that uses &lt;a href=&#34;http://cocoapods.org&#34;&gt;CocoaPods&lt;/a&gt;. So I decided to do a quick writeup of how I got it working:&lt;/p&gt;
-
-&lt;ol&gt;&lt;li&gt;&lt;p&gt;Create a new project called &amp;#8216;BetterTodoList&amp;#8217;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Create a new Podfile with the following contents&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;pre&gt;&lt;code&gt;platform :ios, 6.0
-pod &#39;AFNetworking&#39;&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ol&gt;&lt;li&gt;&lt;p&gt;Close BetterTodoList in XCode, and open the workspace (as instructed by CocoaPods)&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Run, and see that everything still works&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Write some legacy code&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Realize you need Unit Tests:&lt;/p&gt;
-
-&lt;ul&gt;&lt;li&gt;File -&amp;gt; New -&amp;gt; Target&lt;/li&gt;
-&lt;li&gt;Choose Other -&amp;gt; Cocoa Touch Unit Test Bundle&lt;/li&gt;
-&lt;li&gt;Name it &amp;#8220;BetterTodoListTests&amp;#8221;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Press Cmd+U. If nothing happens, check if Product &amp;gt; Test is grayed out in the menu. In that case, press Cmd+&amp;lt;, select Test and add the test using the + button.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Add the following lines to your Podfile, and re-run &amp;#8220;pod install&amp;#8221;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;target &#39;BetterTodoListTests&#39;, :exclusive =&amp;gt; true do
-pod &#39;OCMock&#39; 
-end&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Import &lt;code&gt;OCMock.h&lt;/code&gt; in one of your files and see that it&amp;#8217;s working.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;?&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Profit&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;Addendum: If you still have problems because the test target cannot access the compiled objects (e.g. &amp;#8220;Symbol Not Found&amp;#8221; errors), select the project in the organizer, then select the Test target, go to &amp;#8220;Bundle Loader&amp;#8221; and add the following values for both Debug and Release: &lt;code&gt;$(BUILT_PRODUCTS_DIR)/BetterTodoList.app/BetterTodoList&lt;/code&gt;&lt;/p&gt;
 </description>
         </item>
       
