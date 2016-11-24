@@ -6,8 +6,165 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-10-27 00:00:00 &#43;0000 UTC</updated>
+    <updated>2016-11-24 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>Protocol Oriented Programming is Not a Silver Bullet</title>
+          <link>http://chris.eidhof.nl/post/protocol-oriented-programming/</link>
+          <pubDate>Thu, 24 Nov 2016 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://chris.eidhof.nl/post/protocol-oriented-programming/</guid>
+          <description>
+
+&lt;p&gt;In Swift, protocol-oriented programming is in fashion. There&amp;rsquo;s a lot of Swift code out there that&amp;rsquo;s &amp;ldquo;protocol-oriented&amp;rdquo;, some open-source libraries even state it as a feature. I think protocols are heavily overused in Swift, and oftentimes the problem at hand can be solved in a much simpler way. In short: don&amp;rsquo;t be dogmatic about using (or avoiding) protocols.&lt;/p&gt;
+
+&lt;p&gt;One of the most influential sessions at WWDC 2015 was called &lt;a href=&#34;https://developer.apple.com/videos/play/wwdc2015/408/&#34;&gt;Protocol-Oriented Programming in Swift&lt;/a&gt;. It shows (among other things) that you can replace a class hierarchy (that is, a superclass and some subclasses) with a protocol-oriented solution (that is, a protocol and some types that conform to the protocol). The protocol-oriented solution is simpler, and more flexible. For example, a class can only have a single superclass, yet a type can conform to many protocols.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s look at the problem they solved in the WWDC talk. A series of drawing commands needed to be rendered as a graphic, as well as logged to the console. By putting the drawing commands in a protocol, any code that describes a drawing could be phrased in terms of the protocol&amp;rsquo;s methods. Protocol extensions allow you to define new drawing functionality in terms of the protocol&amp;rsquo;s base functionality, and every type that conforms gets the new functionality for free.&lt;/p&gt;
+
+&lt;p&gt;In the example above, protocols solve the problem of sharing code between multiple types. In Swift&amp;rsquo;s Standard Library, protocols are heavily used for collections, and they solve exactly the same problem. Because &lt;code&gt;dropFirst&lt;/code&gt; is defined on the &lt;code&gt;Collection&lt;/code&gt; type, all the collection types get this for free! At the same time, there are so many collection-related protocols and types, that it can be hard to find things. That&amp;rsquo;s one drawback of protocols, yet the advantages easily outweigh the disadvantages in the case of the Standard Library.&lt;/p&gt;
+
+&lt;p&gt;Now, let&amp;rsquo;s work our way through an example. Here, we have a Webservice class. It loads entities from the network using &lt;code&gt;URLSession&lt;/code&gt;. (It doesn&amp;rsquo;t actually load things, but you get the idea):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class Webservice {
+    func loadUser() -&amp;gt; User? {
+        let json = self.load(URL(string: &amp;quot;/users/current&amp;quot;)!)
+        return User(json: json)
+    }
+    
+    func loadEpisode() -&amp;gt; Episode? {
+        let json = self.load(URL(string: &amp;quot;/episodes/latest&amp;quot;)!)
+        return Episode(json: json)
+    }
+    
+    private func load(_ url: URL) -&amp;gt; [AnyHashable:Any] {
+        URLSession.shared.dataTask(with: url)
+        // etc.
+        return [:] // should come from the server
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The code above is short and works fine. There is no problem, until we want to test &lt;code&gt;loadUser&lt;/code&gt; and &lt;code&gt;loadEpisode&lt;/code&gt;. Now we either have to stub &lt;code&gt;load&lt;/code&gt;, or pass in a mock &lt;code&gt;URLSession&lt;/code&gt; using dependency injection. We could also define a protocol that &lt;code&gt;URLSession&lt;/code&gt; conforms to and then pass in a test instance. However, in this case, the solution is much simpler: we can pull the changing parts out of the &lt;code&gt;Webservice&lt;/code&gt; and into a struct (we also cover this in &lt;a href=&#34;https://talk.objc.io/episodes/S01E01-networking&#34;&gt;Swift Talk Episode 1&lt;/a&gt; and in &lt;a href=&#34;https://www.objc.io/books/advanced-swift/&#34;&gt;Advanced Swift&lt;/a&gt;):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct Resource&amp;lt;A&amp;gt; {
+    let url: URL
+    let parse: ([AnyHashable:Any]) -&amp;gt; A
+}
+
+class Webservice {
+    let user = Resource&amp;lt;User&amp;gt;(url: URL(string: &amp;quot;/users/current&amp;quot;)!, parse: User.init)
+    let episode = Resource&amp;lt;Episode&amp;gt;(url: URL(string: &amp;quot;/episodes/latest&amp;quot;)!, parse: Episode.init)
+    
+    private func load&amp;lt;A&amp;gt;(resource: Resource&amp;lt;A&amp;gt;) -&amp;gt; A {
+        URLSession.shared.dataTask(with: resource.url)
+        // load asynchronously, parse the JSON, etc. For the sake of the example, we directly return an empty result.
+        let json: [AnyHashable:Any] = [:] // should come from the server
+        return resource.parse(json)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, we can test &lt;code&gt;user&lt;/code&gt; and &lt;code&gt;episode&lt;/code&gt; without having to mock anything: they&amp;rsquo;re simple struct values. We still have to test &lt;code&gt;load&lt;/code&gt;, but that&amp;rsquo;s only one method (instead of for each resource). Now let&amp;rsquo;s add some protocols.&lt;/p&gt;
+
+&lt;p&gt;Instead of the &lt;code&gt;parse&lt;/code&gt; function, we could create a protocol for types that can be initialized from JSON.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;protocol FromJSON {
+    init(json: [AnyHashable:Any])
+}
+
+struct Resource&amp;lt;A: FromJSON&amp;gt; {
+    let url: URL
+}
+
+class Webservice {
+    let user = Resource&amp;lt;User&amp;gt;(url: URL(string: &amp;quot;/users/current&amp;quot;)!)
+    let episode = Resource&amp;lt;Episode&amp;gt;(url: URL(string: &amp;quot;/episodes/latest&amp;quot;)!)
+    
+    private func load&amp;lt;A&amp;gt;(resource: Resource&amp;lt;A&amp;gt;) -&amp;gt; A {
+        URLSession.shared.dataTask(with: resource.url)
+        // load asynchronously, parse the JSON, etc. For the sake of the example, we directly return an empty result.
+        let json: [AnyHashable:Any] = [:] // should come from the server
+        return A(json: json)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The code above might look simpler, but it&amp;rsquo;s also way less flexible. For example, how would you define a resource that has an array of &lt;code&gt;User&lt;/code&gt; values? (In the protocol-oriented example above, that&amp;rsquo;s not yet possible, and we&amp;rsquo;ll have to wait for Swift 4 or 5 until this is expressible). The protocol makes things simpler, but I think it doesn&amp;rsquo;t pay for itself, because it dramatically decreases the ways in which we can create a &lt;code&gt;Resource&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Instead of having the &lt;code&gt;user&lt;/code&gt; and &lt;code&gt;episode&lt;/code&gt; as &lt;code&gt;Resource&lt;/code&gt; values, we could also make &lt;code&gt;Resource&lt;/code&gt; a protocol and have &lt;code&gt;UserResource&lt;/code&gt; and &lt;code&gt;EpisodeResource&lt;/code&gt; structs. This seems to be a popular thing to do, because having a type instead of a value &amp;ldquo;just feels right&amp;rdquo;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;protocol Resource {
+    associatedtype Result
+    var url: URL { get }
+    func parse(json: [AnyHashable:Any]) -&amp;gt; Result
+}
+
+struct UserResource: Resource {
+    let url = URL(string: &amp;quot;/users/current&amp;quot;)!
+    func parse(json: [AnyHashable : Any]) -&amp;gt; User {
+        return User(json: json)
+    }
+}
+
+struct EpisodeResource: Resource {
+    let url = URL(string: &amp;quot;/episodes/latest&amp;quot;)!
+    func parse(json: [AnyHashable : Any]) -&amp;gt; Episode {
+        return Episode(json: json)
+    }
+}
+
+class Webservice {
+    private func load&amp;lt;R: Resource&amp;gt;(resource: R) -&amp;gt; R.Result {
+        URLSession.shared.dataTask(with: resource.url)
+        // load asynchronously, parse the JSON, etc. For the sake of the example, we directly return an empty result.
+        let json: [AnyHashable:Any] = [:]
+        return resource.parse(json: json)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But if we look at it critically, what did we really gain? The code became longer, more complex and less direct. And because of the associated type, we&amp;rsquo;ll probably end up defining an &lt;code&gt;AnyResource&lt;/code&gt; eventually. Is there any benefit to having an &lt;code&gt;EpisodeResource&lt;/code&gt; struct instead of an &lt;code&gt;episodeResource&lt;/code&gt; value? They are both global definitions. For the struct, the name starts with an uppercase letter, and for the value, a lowercase letter. Other than that, there really isn&amp;rsquo;t any advantage. You can both namespace them (for autocompletion). So in this case, having a value is definitely simpler and shorter.&lt;/p&gt;
+
+&lt;p&gt;There are many other examples I&amp;rsquo;ve seen in code around the internet. For example, I&amp;rsquo;ve seen a protocol like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;protocol URLStringConvertible {
+    var urlString: String { get }
+}
+
+// Somewhere later
+
+func sendRequest(urlString: URLStringConvertible, method: ...) {
+    let string = urlString.urlString
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;What does this buy you? Why not simply remove the protocol and pass in the &lt;code&gt;urlString&lt;/code&gt; directly? Much simpler. Or a protocol with a single method:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;protocol RequestAdapter {
+    func adapt(_ urlRequest: URLRequest) throws -&amp;gt; URLRequest
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A bit more controversial: why not simply remove the protocol, and pass in a function somewhere? Much simpler. (Unless your protocol is a class-only protocol and you want a weak reference it).&lt;/p&gt;
+
+&lt;p&gt;I can keep showing examples, but I hope the point is clear. Often, there are simpler choices. More abstractly, protocols are just one way to achieve polymorphic code. There are many other ways: subclassing, generics, values, functions, and so on. Values (e.g. a &lt;code&gt;String&lt;/code&gt; instead of a &lt;code&gt;URLStringConvertible&lt;/code&gt;) are the simplest way. Functions (e.g. &lt;code&gt;adapt&lt;/code&gt; instead of &lt;code&gt;RequestAdapter&lt;/code&gt;) are a bit more complex than values, but are still simple. Generics (without any constraints) are simpler than protocols. And to be complete, protocols are often simpler than class hierarchies.&lt;/p&gt;
+
+&lt;p&gt;A useful heuristic might be to think about whether your protocol models data or behavior. For data, a struct is probably easier. For complex behavior (e.g. a delegate with multiple methods), a protocol is often easier. (The standard library&amp;rsquo;s collection protocols are a bit special: they don&amp;rsquo;t really describe data, but rather, they describe data manipulation.)&lt;/p&gt;
+
+&lt;p&gt;That said, protocols can be very useful. But don&amp;rsquo;t start with a protocol just for the sake of protocol-oriented programming. Start by looking at your problem, and try to solve it in the simplest way possible. Let the problem drive the solution, not the other way around. Protocol-oriented programming isn&amp;rsquo;t inherently good or bad. Just like any other technique (functional programming, OO, dependency injection, subclassing) it can be used to solve a problem, and we should try to pick the right tool for the job. Sometimes that&amp;rsquo;s a protocol, but often, there&amp;rsquo;s a simpler way.&lt;/p&gt;
+
+&lt;h3 id=&#34;references&#34;&gt;References&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.thedotpost.com/2016/01/rob-napier-beyond-crusty-real-world-protocols&#34;&gt;http://www.thedotpost.com/2016/01/rob-napier-beyond-crusty-real-world-protocols&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.gamedev.net/page/resources/_/technical/game-programming/haskell-game-object-design-or-how-functions-can-get-you-apples-r3204&#34;&gt;http://www.gamedev.net/page/resources/_/technical/game-programming/haskell-game-object-design-or-how-functions-can-get-you-apples-r3204&lt;/a&gt; (Haskell)&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -4035,134 +4192,6 @@ that make things easier.&lt;/p&gt;
 &lt;p&gt;This is just a list of things that I could come up with and common
 refactorings I use. I&amp;#8217;m sure there are a lot of things I forgot, let me
 know your tips and I&amp;#8217;ll add them to the article.&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
-          <title>Implementing Value Objects in Objective C</title>
-          <link>http://chris.eidhof.nl/post/implementing-value-objects-in-objective-c/</link>
-          <pubDate>Sun, 16 Dec 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://chris.eidhof.nl/post/implementing-value-objects-in-objective-c/</guid>
-          <description>&lt;p&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/Value_object&#34;&gt;Value Objects&lt;/a&gt; are objects that hold simple data. This article is about creating such value objects. I use them a lot in my code, because they are robust and keep the code simple. Note that it&amp;#8217;s not about &lt;code&gt;NSValue&lt;/code&gt;, but about simple objects with simple data.&lt;/p&gt;
-
-&lt;p&gt;Implementing value objects should be easy, but there are some slightly
-tricky bits. So let&amp;#8217;s look at the requirements:&lt;/p&gt;
-
-&lt;ul&gt;&lt;li&gt;We want to create value objects quickly (i.e. an &lt;code&gt;initWith:&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;The created objects should be immutable&lt;/li&gt;
-&lt;li&gt;The created objects should be equal when they have equal values&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;Suppose we want to create &lt;code&gt;Person&lt;/code&gt; objects with properties &lt;code&gt;name&lt;/code&gt; and &lt;code&gt;birthDate&lt;/code&gt;, then our interface looks like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;@interface Person : NSObject
-- (id)initWithName:(NSString*)name birthDate:(NSDate*)birthDate;
-@property (nonatomic, copy, readonly) NSString* name;
-@property (nonatomic, strong, readonly) NSDate* birthDate;
-@end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The important thing to notice here is that the properties are
-&lt;code&gt;readonly&lt;/code&gt;. However, the modern runtime still generates instance
-variables for us, that are prefixed by a &lt;code&gt;_&lt;/code&gt;. Our implementation looks
-like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;@implementation Person
-
-- (id)initWithName:(NSString*)name birthDate:(NSDate*)birthDate {
-  self = [super init];
-  if(self) {
-    _name = [name copy];
-    _birthDate = birthDate;
-  }
-  return self;
-}
-@end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In the modern runtime, you don&amp;#8217;t have to use &lt;code&gt;synthesize&lt;/code&gt;. If you do,
-then your instance variables get different names (without the
-underscore).&lt;/p&gt;
-
-&lt;p&gt;Now for the equality, we implement the method &lt;code&gt;isEqual:&lt;/code&gt;. There is an
-&lt;a href=&#34;http://www.mikeash.com/pyblog/friday-qa-2010-06-18-implementing-equality-and-hashing.html&#34;&gt;excellent article&lt;/a&gt; by Mike Ash, however, there is a mistake in there. Following his advice, our first (incorrect) implementation looks like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (BOOL)isEqual:(id)obj {
-  if(![obj isKindOfClass:[Person class]]) return NO;
-
-  Person* other = (Person*)obj;
-  BOOL nameIsEqual = [_name isEqual:other-&amp;gt;_name];
-  BOOL dateIsEqual = [_date isEqual:other-&amp;gt;_date];
-  return nameIsEqual &amp;amp;&amp;amp; dateIsEqual;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;There is a problem here: if one of the two properties is &lt;code&gt;nil&lt;/code&gt;, then
-&lt;code&gt;isEqual:&lt;/code&gt; will return &lt;code&gt;NO&lt;/code&gt;. This is because methods sent to &lt;code&gt;nil&lt;/code&gt;
-always return &lt;code&gt;NO&lt;/code&gt;, &lt;code&gt;0&lt;/code&gt; or &lt;code&gt;nil&lt;/code&gt;. Even &lt;code&gt;[nil isEqual:nil]&lt;/code&gt; returns &lt;code&gt;NO&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Therefore, our second, correct implementation looks like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (BOOL)isEqual:(id)obj {
-  if(![obj isKindOfClass:[Person class]]) return NO;
-
-  Person* other = (Person*)obj;
-  BOOL nameIsEqual = _name == _other-&amp;gt;_name || [_name isEqual:other-&amp;gt;_name];
-  BOOL dateIsEqual = _date == _other-&amp;gt;_date || [_date isEqual:other-&amp;gt;_date];
-  return nameIsEqual &amp;amp;&amp;amp; dateIsEqual;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;To implement the hashing function, I would like to recommend following Mike&amp;#8217;s advice.&lt;/p&gt;
-
-&lt;h1&gt;Bonus&lt;/h1&gt;
-
-&lt;p&gt;Finally, as a bonus, let&amp;#8217;s also implement &lt;code&gt;NSCoding&lt;/code&gt;, so we can
-serialize our objects. First change the interface of &lt;code&gt;Person&lt;/code&gt; to this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;@interface Person : NSObject &amp;lt;NSCoding&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The implementation is now very simple:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (id)initWithCoder:(NSCoder*)aDecoder {
-  self = [super init];
-  if(self) {
-    _name = [aDecoder decodeObjectForKey:kName]; 
-    _date = [aDecoder decodeObjectForKey:kDate]; 
-  }
-  return self;
-}
-
-- (void)encodeWithCoder:(NSCoder*)aCoder {
-  [aCoder encodeObject:_name forKey:kName];
-  [aCoder encodeObject:_date forKey:kDate];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The two constants &lt;code&gt;kName&lt;/code&gt; and &lt;code&gt;kDate&lt;/code&gt; are declared in the implementation
-file, above the &lt;code&gt;@implementation&lt;/code&gt; directive:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;static NSString* const kName = @&#34;name&#34;;
-static NSString* const kDate = @&#34;date&#34;;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Voila, now we can create objects, read their properties, serialize them
-to disk and read them back in. Some catches: when you add a new
-property, you have to make sure to update the code in lots of places:&lt;/p&gt;
-
-&lt;ol&gt;&lt;li&gt;Add the property to the interface file&lt;/li&gt;
-&lt;li&gt;Add the parameter to &lt;code&gt;initWith:&lt;/code&gt;, and also update the callers of that
-method&lt;/li&gt;
-&lt;li&gt;Add a comparison to &lt;code&gt;isEqual:&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Update the &lt;code&gt;hash&lt;/code&gt; function&lt;/li&gt;
-&lt;li&gt;Add the method to both &lt;code&gt;initWithCoder:&lt;/code&gt; and &lt;code&gt;encodeWithCoder:&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;It helps to have some tests in place that check this for you.&lt;/p&gt;
-
-&lt;p&gt;The full code of the examples (without the &lt;code&gt;hash&lt;/code&gt; function) is &lt;a href=&#34;https://gist.github.com/78b3ce0edbcdf0d202e2&#34;&gt;on github&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Update&lt;/em&gt;: changed the &lt;code&gt;name&lt;/code&gt; attribute to be &lt;code&gt;copy&lt;/code&gt; instead of &lt;code&gt;strong&lt;/code&gt;, &lt;a href=&#34;https://twitter.com/CocoaPimper/status/280335607971074050&#34;&gt;thanks to Christian Kienle&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
       

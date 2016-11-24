@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.17" />
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <script type="text/javascript" src="//use.typekit.net/bwu1cse.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+	<link rel="shortcut icon" href="/images/favicon.ico">	
+	<link rel="stylesheet" href="/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://chris.eidhof.nl//index.xml">
+
+    
+    <title>Protocol Oriented Programming is Not a Silver Bullet - Chris Eidhof</title>
+    <meta property='og:title' content="Protocol Oriented Programming is Not a Silver Bullet - Chris Eidhof">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://chris.eidhof.nl/post/protocol-oriented-programming/">
+    
+    
+
+  </head>
+
+  <body>
+
+<section id="content">
+<section id="outer-container">
+<section id="wrapper">
+
+<header id="header">
+<a id="title" href="/"><img src="/images/logo.png" style="width: 2em"></a>
+</header> 
+
+    
+
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+  <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
+  <meta itemprop="dateModified" content="2016-11-24T00:00:00&#43;00:00">
+  <meta itemprop="headline" content="Protocol Oriented Programming is Not a Silver Bullet">
+  <meta itemprop="description" content="In Swift, protocol-oriented programming is in fashion. There&rsquo;s a lot of Swift code out there that&rsquo;s &ldquo;protocol-oriented&rdquo;, some open-source libraries even state it as a feature. I think protocols are heavily overused in Swift, and oftentimes the problem at hand can be solved in a much simpler way. In short: don&rsquo;t be dogmatic about using (or avoiding) protocols.
+One of the most influential sessions at WWDC 2015 was called Protocol-Oriented Programming in Swift.">
+  <meta itemprop="url" content="http://chris.eidhof.nl/post/protocol-oriented-programming/">
+    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
+      <meta itemprop="width" content="100">
+      <meta itemprop="height" content="100">
+    </div>
+    <meta itemprop="name" content="Chris Eidhof">
+  </div>
+  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="">
+  </div>
+
+  <header>
+    <h1>Protocol Oriented Programming is Not a Silver Bullet</h1>
+    <h2 class="headline"> Why we should be critical of using protocols </h2>
+  </header>
+
+  <section class="postbody">
+    
+
+<p>In Swift, protocol-oriented programming is in fashion. There&rsquo;s a lot of Swift code out there that&rsquo;s &ldquo;protocol-oriented&rdquo;, some open-source libraries even state it as a feature. I think protocols are heavily overused in Swift, and oftentimes the problem at hand can be solved in a much simpler way. In short: don&rsquo;t be dogmatic about using (or avoiding) protocols.</p>
+
+<p>One of the most influential sessions at WWDC 2015 was called <a href="https://developer.apple.com/videos/play/wwdc2015/408/">Protocol-Oriented Programming in Swift</a>. It shows (among other things) that you can replace a class hierarchy (that is, a superclass and some subclasses) with a protocol-oriented solution (that is, a protocol and some types that conform to the protocol). The protocol-oriented solution is simpler, and more flexible. For example, a class can only have a single superclass, yet a type can conform to many protocols.</p>
+
+<p>Let&rsquo;s look at the problem they solved in the WWDC talk. A series of drawing commands needed to be rendered as a graphic, as well as logged to the console. By putting the drawing commands in a protocol, any code that describes a drawing could be phrased in terms of the protocol&rsquo;s methods. Protocol extensions allow you to define new drawing functionality in terms of the protocol&rsquo;s base functionality, and every type that conforms gets the new functionality for free.</p>
+
+<p>In the example above, protocols solve the problem of sharing code between multiple types. In Swift&rsquo;s Standard Library, protocols are heavily used for collections, and they solve exactly the same problem. Because <code>dropFirst</code> is defined on the <code>Collection</code> type, all the collection types get this for free! At the same time, there are so many collection-related protocols and types, that it can be hard to find things. That&rsquo;s one drawback of protocols, yet the advantages easily outweigh the disadvantages in the case of the Standard Library.</p>
+
+<p>Now, let&rsquo;s work our way through an example. Here, we have a Webservice class. It loads entities from the network using <code>URLSession</code>. (It doesn&rsquo;t actually load things, but you get the idea):</p>
+
+<pre><code>class Webservice {
+    func loadUser() -&gt; User? {
+        let json = self.load(URL(string: &quot;/users/current&quot;)!)
+        return User(json: json)
+    }
+    
+    func loadEpisode() -&gt; Episode? {
+        let json = self.load(URL(string: &quot;/episodes/latest&quot;)!)
+        return Episode(json: json)
+    }
+    
+    private func load(_ url: URL) -&gt; [AnyHashable:Any] {
+        URLSession.shared.dataTask(with: url)
+        // etc.
+        return [:] // should come from the server
+    }
+}
+</code></pre>
+
+<p>The code above is short and works fine. There is no problem, until we want to test <code>loadUser</code> and <code>loadEpisode</code>. Now we either have to stub <code>load</code>, or pass in a mock <code>URLSession</code> using dependency injection. We could also define a protocol that <code>URLSession</code> conforms to and then pass in a test instance. However, in this case, the solution is much simpler: we can pull the changing parts out of the <code>Webservice</code> and into a struct (we also cover this in <a href="https://talk.objc.io/episodes/S01E01-networking">Swift Talk Episode 1</a> and in <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>):</p>
+
+<pre><code>struct Resource&lt;A&gt; {
+    let url: URL
+    let parse: ([AnyHashable:Any]) -&gt; A
+}
+
+class Webservice {
+    let user = Resource&lt;User&gt;(url: URL(string: &quot;/users/current&quot;)!, parse: User.init)
+    let episode = Resource&lt;Episode&gt;(url: URL(string: &quot;/episodes/latest&quot;)!, parse: Episode.init)
+    
+    private func load&lt;A&gt;(resource: Resource&lt;A&gt;) -&gt; A {
+        URLSession.shared.dataTask(with: resource.url)
+        // load asynchronously, parse the JSON, etc. For the sake of the example, we directly return an empty result.
+        let json: [AnyHashable:Any] = [:] // should come from the server
+        return resource.parse(json)
+    }
+}
+</code></pre>
+
+<p>Now, we can test <code>user</code> and <code>episode</code> without having to mock anything: they&rsquo;re simple struct values. We still have to test <code>load</code>, but that&rsquo;s only one method (instead of for each resource). Now let&rsquo;s add some protocols.</p>
+
+<p>Instead of the <code>parse</code> function, we could create a protocol for types that can be initialized from JSON.</p>
+
+<pre><code>protocol FromJSON {
+    init(json: [AnyHashable:Any])
+}
+
+struct Resource&lt;A: FromJSON&gt; {
+    let url: URL
+}
+
+class Webservice {
+    let user = Resource&lt;User&gt;(url: URL(string: &quot;/users/current&quot;)!)
+    let episode = Resource&lt;Episode&gt;(url: URL(string: &quot;/episodes/latest&quot;)!)
+    
+    private func load&lt;A&gt;(resource: Resource&lt;A&gt;) -&gt; A {
+        URLSession.shared.dataTask(with: resource.url)
+        // load asynchronously, parse the JSON, etc. For the sake of the example, we directly return an empty result.
+        let json: [AnyHashable:Any] = [:] // should come from the server
+        return A(json: json)
+    }
+}
+</code></pre>
+
+<p>The code above might look simpler, but it&rsquo;s also way less flexible. For example, how would you define a resource that has an array of <code>User</code> values? (In the protocol-oriented example above, that&rsquo;s not yet possible, and we&rsquo;ll have to wait for Swift 4 or 5 until this is expressible). The protocol makes things simpler, but I think it doesn&rsquo;t pay for itself, because it dramatically decreases the ways in which we can create a <code>Resource</code>.</p>
+
+<p>Instead of having the <code>user</code> and <code>episode</code> as <code>Resource</code> values, we could also make <code>Resource</code> a protocol and have <code>UserResource</code> and <code>EpisodeResource</code> structs. This seems to be a popular thing to do, because having a type instead of a value &ldquo;just feels right&rdquo;:</p>
+
+<pre><code>protocol Resource {
+    associatedtype Result
+    var url: URL { get }
+    func parse(json: [AnyHashable:Any]) -&gt; Result
+}
+
+struct UserResource: Resource {
+    let url = URL(string: &quot;/users/current&quot;)!
+    func parse(json: [AnyHashable : Any]) -&gt; User {
+        return User(json: json)
+    }
+}
+
+struct EpisodeResource: Resource {
+    let url = URL(string: &quot;/episodes/latest&quot;)!
+    func parse(json: [AnyHashable : Any]) -&gt; Episode {
+        return Episode(json: json)
+    }
+}
+
+class Webservice {
+    private func load&lt;R: Resource&gt;(resource: R) -&gt; R.Result {
+        URLSession.shared.dataTask(with: resource.url)
+        // load asynchronously, parse the JSON, etc. For the sake of the example, we directly return an empty result.
+        let json: [AnyHashable:Any] = [:]
+        return resource.parse(json: json)
+    }
+}
+</code></pre>
+
+<p>But if we look at it critically, what did we really gain? The code became longer, more complex and less direct. And because of the associated type, we&rsquo;ll probably end up defining an <code>AnyResource</code> eventually. Is there any benefit to having an <code>EpisodeResource</code> struct instead of an <code>episodeResource</code> value? They are both global definitions. For the struct, the name starts with an uppercase letter, and for the value, a lowercase letter. Other than that, there really isn&rsquo;t any advantage. You can both namespace them (for autocompletion). So in this case, having a value is definitely simpler and shorter.</p>
+
+<p>There are many other examples I&rsquo;ve seen in code around the internet. For example, I&rsquo;ve seen a protocol like this:</p>
+
+<pre><code>protocol URLStringConvertible {
+    var urlString: String { get }
+}
+
+// Somewhere later
+
+func sendRequest(urlString: URLStringConvertible, method: ...) {
+    let string = urlString.urlString
+}
+</code></pre>
+
+<p>What does this buy you? Why not simply remove the protocol and pass in the <code>urlString</code> directly? Much simpler. Or a protocol with a single method:</p>
+
+<pre><code>protocol RequestAdapter {
+    func adapt(_ urlRequest: URLRequest) throws -&gt; URLRequest
+}
+</code></pre>
+
+<p>A bit more controversial: why not simply remove the protocol, and pass in a function somewhere? Much simpler. (Unless your protocol is a class-only protocol and you want a weak reference it).</p>
+
+<p>I can keep showing examples, but I hope the point is clear. Often, there are simpler choices. More abstractly, protocols are just one way to achieve polymorphic code. There are many other ways: subclassing, generics, values, functions, and so on. Values (e.g. a <code>String</code> instead of a <code>URLStringConvertible</code>) are the simplest way. Functions (e.g. <code>adapt</code> instead of <code>RequestAdapter</code>) are a bit more complex than values, but are still simple. Generics (without any constraints) are simpler than protocols. And to be complete, protocols are often simpler than class hierarchies.</p>
+
+<p>A useful heuristic might be to think about whether your protocol models data or behavior. For data, a struct is probably easier. For complex behavior (e.g. a delegate with multiple methods), a protocol is often easier. (The standard library&rsquo;s collection protocols are a bit special: they don&rsquo;t really describe data, but rather, they describe data manipulation.)</p>
+
+<p>That said, protocols can be very useful. But don&rsquo;t start with a protocol just for the sake of protocol-oriented programming. Start by looking at your problem, and try to solve it in the simplest way possible. Let the problem drive the solution, not the other way around. Protocol-oriented programming isn&rsquo;t inherently good or bad. Just like any other technique (functional programming, OO, dependency injection, subclassing) it can be used to solve a problem, and we should try to pick the right tool for the job. Sometimes that&rsquo;s a protocol, but often, there&rsquo;s a simpler way.</p>
+
+<h3 id="references">References</h3>
+
+<ul>
+<li><a href="http://www.thedotpost.com/2016/01/rob-napier-beyond-crusty-real-world-protocols">http://www.thedotpost.com/2016/01/rob-napier-beyond-crusty-real-world-protocols</a></li>
+<li><a href="http://www.gamedev.net/page/resources/_/technical/game-programming/haskell-game-object-design-or-how-functions-can-get-you-apples-r3204">http://www.gamedev.net/page/resources/_/technical/game-programming/haskell-game-object-design-or-how-functions-can-get-you-apples-r3204</a> (Haskell)</li>
+</ul>
+
+  </section>
+
+  
+  <footer id="post-meta" class="group">
+    <div>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="2016-11-24T00:00:00&#43;00:00">Thu, Nov 24, 2016</time>
+      by <a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a>
+
+    </div>
+  <section id="sharing">
+    <a class="twitter" href="https://twitter.com/share"><span class="icon-twitter-circled"></span></a>
+  </section> 
+  </footer> 
+  
+
+</article>
+
+<footer><nav id="post-nav"></nav></footer>
+
+</section> 
+</section> 
+
+</section> 
+
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="/js/main.js/"></script>
+   <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24867064-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+</body>
+</html>
+
