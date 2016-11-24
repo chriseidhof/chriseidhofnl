@@ -2,6 +2,7 @@
 date: 2016-11-24
 title: Protocol Oriented Programming is Not a Silver Bullet
 headline: Why we should be critical of using protocols
+advanced_swift: true
 ---
 
 In Swift, protocol-oriented programming is in fashion. There's a lot of Swift code out there that's "protocol-oriented", some open-source libraries even state it as a feature. I think protocols are heavily overused in Swift, and oftentimes the problem at hand can be solved in a much simpler way. In short: don't be dogmatic about using (or avoiding) protocols.
@@ -150,7 +151,7 @@ A useful heuristic might be to think about whether your protocol models data or 
 
 That said, protocols can be very useful. But don't start with a protocol just for the sake of protocol-oriented programming. Start by looking at your problem, and try to solve it in the simplest way possible. Let the problem drive the solution, not the other way around. Protocol-oriented programming isn't inherently good or bad. Just like any other technique (functional programming, OO, dependency injection, subclassing) it can be used to solve a problem, and we should try to pick the right tool for the job. Sometimes that's a protocol, but often, there's a simpler way.
 
-### References
+### More
 
-- http://www.thedotpost.com/2016/01/rob-napier-beyond-crusty-real-world-protocols
+- http://www.thedotpost.com/2016/01/rob-napier-beyond-crusty-real-world-protocols (video)
 - http://www.gamedev.net/page/resources/_/technical/game-programming/haskell-game-object-design-or-how-functions-can-get-you-apples-r3204 (Haskell)
