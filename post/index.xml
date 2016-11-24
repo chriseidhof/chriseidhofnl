@@ -156,10 +156,10 @@ func sendRequest(urlString: URLStringConvertible, method: ...) {
 
 &lt;p&gt;That said, protocols can be very useful. But don&amp;rsquo;t start with a protocol just for the sake of protocol-oriented programming. Start by looking at your problem, and try to solve it in the simplest way possible. Let the problem drive the solution, not the other way around. Protocol-oriented programming isn&amp;rsquo;t inherently good or bad. Just like any other technique (functional programming, OO, dependency injection, subclassing) it can be used to solve a problem, and we should try to pick the right tool for the job. Sometimes that&amp;rsquo;s a protocol, but often, there&amp;rsquo;s a simpler way.&lt;/p&gt;
 
-&lt;h3 id=&#34;references&#34;&gt;References&lt;/h3&gt;
+&lt;h3 id=&#34;more&#34;&gt;More&lt;/h3&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.thedotpost.com/2016/01/rob-napier-beyond-crusty-real-world-protocols&#34;&gt;http://www.thedotpost.com/2016/01/rob-napier-beyond-crusty-real-world-protocols&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.thedotpost.com/2016/01/rob-napier-beyond-crusty-real-world-protocols&#34;&gt;http://www.thedotpost.com/2016/01/rob-napier-beyond-crusty-real-world-protocols&lt;/a&gt; (video)&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;http://www.gamedev.net/page/resources/_/technical/game-programming/haskell-game-object-design-or-how-functions-can-get-you-apples-r3204&#34;&gt;http://www.gamedev.net/page/resources/_/technical/game-programming/haskell-game-object-design-or-how-functions-can-get-you-apples-r3204&lt;/a&gt; (Haskell)&lt;/li&gt;
 &lt;/ul&gt;
 </description>
