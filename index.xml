@@ -5,9 +5,35 @@
     <link>http://chris.eidhof.nl/index.xml</link>
     <language>en-us</language>
     <author></author>
-    <rights>(C) 2016</rights>
-    <updated>2016-11-24 00:00:00 &#43;0000 UTC</updated>
+    <rights>(C) 2017</rights>
+    <updated>2017-01-12 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>Types vs TDD</title>
+          <link>http://chris.eidhof.nl/post/types-vs-tdd/</link>
+          <pubDate>Thu, 12 Jan 2017 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://chris.eidhof.nl/post/types-vs-tdd/</guid>
+          <description>&lt;p&gt;This morning, I read &lt;a href=&#34;http://blog.cleancoder.com/uncle-bob/2017/01/11/TheDarkPath.html&#34;&gt;an article&lt;/a&gt; against static typing. To be more precise: it argues against static typing in the way Swift/Kotlin implement it. I don&amp;rsquo;t know anything about Kotlin, so I&amp;rsquo;ll try to relate everything to Swift.  The main point of the article is that too much static typing is a bad thing. I agree: although my definition of &amp;ldquo;too much&amp;rdquo; is very different.&lt;/p&gt;
+
+&lt;p&gt;The main point of critique is that we can&amp;rsquo;t possibly keep adding features to a language to solve actual problems, because we would end up with too many features. Instead, we should solve everything by writing tests. I don&amp;rsquo;t think it&amp;rsquo;s an either/or situation at all: we can have a solid type system and write &amp;ldquo;manual&amp;rdquo; tests.&lt;/p&gt;
+
+&lt;p&gt;A type checker actually does testing for you. It&amp;rsquo;s not a replacement for TDD, but it allows you to completely get rid of a whole bunch of tests. For example, if you define a method &lt;code&gt;foo&lt;/code&gt; that returns an &lt;code&gt;Int&lt;/code&gt;, you can be sure it will only return &lt;code&gt;Int&lt;/code&gt;s. Not &lt;code&gt;String&lt;/code&gt;s, not &lt;code&gt;nil&lt;/code&gt; or &lt;code&gt;null&lt;/code&gt;, not anything else. No need to write a test.&lt;/p&gt;
+
+&lt;p&gt;The article argues that specifying a type such as &lt;code&gt;Int&lt;/code&gt; is very inflexible: what if you ever wanted to change &lt;code&gt;foo&lt;/code&gt; to return an optional?  According to the article, you have to know this before you write the system. (And if I interpret the article correctly, it argues that TDD would solve this).&lt;/p&gt;
+
+&lt;p&gt;I agree on at least one thing: at some point, code is going to change. However, I couldn&amp;rsquo;t disagree more on the statement that typing makes this hard.&lt;/p&gt;
+
+&lt;p&gt;In Swift, once you change &lt;code&gt;foo&lt;/code&gt; to return an &lt;code&gt;Int?&lt;/code&gt;, the compiler will now show an error for each time you call &lt;code&gt;foo&lt;/code&gt;. This makes it &lt;em&gt;easy&lt;/em&gt; to make that change, because until you have reviewed every single call to &lt;code&gt;foo&lt;/code&gt;, the program simply won&amp;rsquo;t compile. I think of the compile errors as a todo-list, not as a &lt;a href=&#34;https://twitter.com/unclebobmartin/status/819262224686546945&#34;&gt;speed bump&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;When you make changes (small or large ones), it&amp;rsquo;s good to have a system in place that checks whether your code still works. With many kinds of changes, the compiler can do this automatically. You don&amp;rsquo;t have to write tests for that.&lt;/p&gt;
+
+&lt;p&gt;Don&amp;rsquo;t get me wrong: types are not a silver bullet. You still need to test your code. But wouldn&amp;rsquo;t you rather test interesting parts, and leave the boring stuff to the compiler?&lt;/p&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -4073,125 +4099,6 @@ these projects will be a wild success, but you only have to win big once&amp;#82
 &lt;p&gt;Also, I want to work together with more people. One of the ways this will happen is having an office instead of working from home. Another way will be by hiring more people. If you&amp;#8217;re interested in learning iOS Development, or if you&amp;#8217;re a copywriter, get in touch.&lt;/p&gt;
 
 &lt;p&gt;I wonder how this strategy will work. I see it as something long-term, the payoff might only come in a decade. Let&amp;#8217;s see.&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
-          <title>Lighter UIViewControllers</title>
-          <link>http://chris.eidhof.nl/post/lighter-uiviewcontrollers/</link>
-          <pubDate>Mon, 17 Dec 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://chris.eidhof.nl/post/lighter-uiviewcontrollers/</guid>
-          <description>&lt;p&gt;Recently, I&amp;#8217;ve been a bit obsessed with writing simpler code. It
-happened because I passed on some projects to other programmers. I would
-like to feel minimally embarrassed when doing so.&lt;/p&gt;
-
-&lt;p&gt;In the projects I&amp;#8217;ve taken over from other people, one of the most
-common problems is that view controller code is big and complicated.
-In this article, we&amp;#8217;ll look at some ways to make the view controller
-smaller and thus simpler. In a project I&amp;#8217;m working on currently, we have
-about 150 classes, and almost none of them is larger than 100 lines. The
-ones that are larger than that are on the top of my refactoring list.&lt;/p&gt;
-
-&lt;h1&gt;Separate out UITableViewDataSource and UITableViewDelegate&lt;/h1&gt;
-
-&lt;p&gt;One of the first things I often do is create a separate class for the
-tableView&amp;#8217;s data source and delegate. Just create a new class, take all
-the methods that start with &lt;code&gt;tableView:&lt;/code&gt; and put them in there. The
-compiler will then show you which things are missing in that class (e.g.
-instance variables), and you pass them on. Then you can remove them from
-the view controller.&lt;/p&gt;
-
-&lt;h1&gt;Don&amp;#8217;t do domain logic&lt;/h1&gt;
-
-&lt;p&gt;Most of my apps are backed by a Core Data stack (but this is true for any
-kind of data store). I Try to do as little domain logic as possible. For
-Core Data, my favorite trick is to add a category to the generated
-models where I put my logic. For example, instead of doing this in your
-view controller:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (Department*)getRootDepartment:(Department*)department {
-  if(department.parent == nil) return department;
-  return [self getRootDepartment:department.parent];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Do this in &lt;code&gt;Department+Extensions.m&lt;/code&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- (Department*)rootDepartment {
-  if(self.parent == nil) return self;
-  return [self rootDepartment];
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Even for small methods like this, it helps a lot to keep your view
-controllers small. You also have the added benefit that it&amp;#8217;s much easier
-to reuse this code.&lt;/p&gt;
-
-&lt;h1&gt;Don&amp;#8217;t do webservice logic&lt;/h1&gt;
-
-&lt;p&gt;Don&amp;#8217;t call and parse a webservice request in your view controller.&lt;/p&gt;
-
-&lt;p&gt;I always create a separate set of classes that do the dealing with
-webservices. It depends how complicated your webservice / persistency
-is, but I mostly have a class called &lt;code&gt;Webservice&lt;/code&gt; that gives you
-high-level methods to call the webservice. Either the methods accept
-callbacks or I use KVO (more about that later). It uses the &amp;#8220;fire and
-forget&amp;#8221; approach: you tell the webservice that you want something and
-then forget, assume it will get back to you at some point.&lt;/p&gt;
-
-&lt;p&gt;The webservice class calls the API and turns the API results into domain
-objects. This functionality is often achieved by multiple classes that
-are used by the webservice, but that&amp;#8217;s a topic for a later post.&lt;/p&gt;
-
-&lt;h1&gt;Don&amp;#8217;t create complicated view hierarchies&lt;/h1&gt;
-
-&lt;p&gt;Don&amp;#8217;t set up complicated view hierarchies in your view controller.
-Personally, I&amp;#8217;m a big fan of designing my views in a nib/xib/storyboard.
-But even if you don&amp;#8217;t, I think it&amp;#8217;s better to compose several views into
-a new view. For example, if you want a date slider, it&amp;#8217;s better to
-create the view hierarchy for that (the labels at the axes, a label
-representing the current date and the UISlider) in a separate class.&lt;/p&gt;
-
-&lt;h1&gt;Create child view controllers&lt;/h1&gt;
-
-&lt;p&gt;Since iOS 5, it&amp;#8217;s very easy to create child view controllers. Use this
-functionality. It makes your life easier. This is mostly useful for iPad
-apps, but might be useful for iPhone apps as well. A classical example
-of this is the split view, but in any screen where you have components
-that are almost independent it might be useful.&lt;/p&gt;
-
-&lt;h1&gt;Use KVO&lt;/h1&gt;
-
-&lt;p&gt;Key value observing can make your life a lot easier. It&amp;#8217;s also a bit
-tricky sometimes, so you do need to spend some time to learn it, and you
-will probably make some mistakes (I still get tripped up every now and then).&lt;/p&gt;
-
-&lt;p&gt;One example
-where KVO really shines is the &lt;code&gt;NSFetchedResultsController&lt;/code&gt;. It listens
-to changes in core data objects and can be used to implement a
-&lt;code&gt;UITableViewDataSource&lt;/code&gt; or &lt;code&gt;UICollectionViewDataSource&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;For example, suppose you have a list of
-&lt;code&gt;Departments&lt;/code&gt;. Then you want to refresh that list from the API. In your
-view controller, you fire a off a request like &lt;code&gt;[webservice
-reloadDepartments]&lt;/code&gt; and then forget. Once the webservice updates the
-Core Data managed objects, magic happens: Because you implemented your
-&lt;code&gt;UITableViewDataSource&lt;/code&gt; using an &lt;code&gt;NSFetchedResultsController&lt;/code&gt;, it gets
-refreshed automatically.&lt;/p&gt;
-
-&lt;p&gt;KVO by itself can be a bit hairy sometimes, and there are small
-libraries like
-&lt;a href=&#34;https://github.com/th-in-gs/THObserversAndBinders&#34;&gt;THObserversAndBinders&lt;/a&gt;
-that make things easier.&lt;/p&gt;
-
-&lt;h1&gt;Other ideas?&lt;/h1&gt;
-
-&lt;p&gt;This is just a list of things that I could come up with and common
-refactorings I use. I&amp;#8217;m sure there are a lot of things I forgot, let me
-know your tips and I&amp;#8217;ll add them to the article.&lt;/p&gt;
 </description>
         </item>
       
