@@ -6,8 +6,60 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2017</rights>
-    <updated>2017-01-12 00:00:00 &#43;0000 UTC</updated>
+    <updated>2017-02-01 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>Classes That Conform To Protocols</title>
+          <link>http://chris.eidhof.nl/post/classes-and-protocols/</link>
+          <pubDate>Wed, 01 Feb 2017 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://chris.eidhof.nl/post/classes-and-protocols/</guid>
+          <description>&lt;p&gt;The other day, someone asked how to have a variable which stores a &lt;code&gt;UIView&lt;/code&gt; that also conforms to a protocol. In Objective-C, you would simply write &lt;code&gt;UIView&amp;lt;HeaderViewProtocol&amp;gt;&lt;/code&gt;. In  current Swift, you can&amp;rsquo;t write something like that. This posts shows a two workarounds.&lt;/p&gt;
+
+&lt;p&gt;First, let&amp;rsquo;s set the stage, and assume we have a &lt;code&gt;HeaderViewProtocol&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;protocol HeaderViewProtocol {
+    func setTitle(_ string: String)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Until &lt;a href=&#34;https://github.com/apple/swift/blob/master/docs/GenericsManifesto.md#generalized-existentials&#34;&gt;generalized existentials&lt;/a&gt; arrive, we&amp;rsquo;ll have to make do with a workaround. The most mechanical solution would be to write a struct which has two properties, one for the protocol and one for the &lt;code&gt;UIView&lt;/code&gt;. Both point to the same reference:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;struct AnyHeaderView {
+    let view: UIView
+    let headerView: HeaderViewProtocol
+    init&amp;lt;T: UIView&amp;gt;(view: T) where T: HeaderViewProtocol {
+        self.view = view
+        self.headerView = view
+    }
+}
+
+let header = AnyHeaderView(view: myView)
+header.headerView.setTitle(&amp;quot;hi&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Alternatively, we could also completely &lt;a href=&#34;http://chris.eidhof.nl/post/protocol-oriented-programming/&#34;&gt;get rid of the protocol&lt;/a&gt;, and create a &lt;code&gt;HeaderView&lt;/code&gt; struct which simply stores a view and a way to set the title:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;struct HeaderView {
+    let view: UIView
+    let setTitle: (String) -&amp;gt; ()
+}
+
+var label = UILabel()
+let header = HeaderView(view: label) { str in
+    label.text = str
+}
+header.setTitle(&amp;quot;hello&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;One benefit of this solution is that there are no protocols involved. More importantly, we can have multiple &amp;ldquo;implementations&amp;rdquo; of &lt;code&gt;HeaderView&lt;/code&gt; for a single class. This eliminates the need to subclass. I prefer this solution, as it&amp;rsquo;s really simple: just bundle up a function and a view.&lt;/p&gt;
+
+&lt;p&gt;(If your protocol has associated types or a &lt;code&gt;Self&lt;/code&gt; constraint, it will be a bit more work to write the type-eraser, see &lt;a href=&#34;http://chris.eidhof.nl/post/type-erasers-in-swift/&#34;&gt;here&lt;/a&gt; for an explanation).&lt;/p&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -4069,36 +4121,6 @@ open it with an app like &lt;a href=&#34;http://www.graphviz.org&#34;&gt;GraphVi
 &lt;p&gt;Put the above line in a file or in a shell alias, run it and pipe the output to
 a file that you can open with GraphViz. I&amp;#8217;m pretty sure this can be done even more effectively using just &lt;code&gt;awk&lt;/code&gt;, but
 I&amp;#8217;m not an expert yet. Bonus points for the shortest solution!&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
-          <title>New Things</title>
-          <link>http://chris.eidhof.nl/post/new-things/</link>
-          <pubDate>Thu, 31 Jan 2013 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://chris.eidhof.nl/post/new-things/</guid>
-          <description>&lt;p&gt;Over Christmas, I read &lt;a href=&#34;http://www.amazon.de/Antifragile-Things-That-Gain-Disorder/dp/1400067820&#34;&gt;Antifragile&lt;/a&gt; by Taleb. The book has had quite an impact on me, and I decided to change some things. Long story short: I want to be open to positive black swans. A positive black swan is an event that will happen with a low probability, but if it does happen, it has a big impact.&lt;/p&gt;
-
-&lt;p&gt;Taleb&amp;#8217;s strategy for investing is to invest mostly in very safe things, and
-make small bets with a limited downside, but an unlimited upside. He calls this
-the dumbbell strategy.  Applied to my own business as a freelance software
-developer, this means that I will be continuing and expanding my  freelancing
-business for most of the time.  But I am also spending time on projects that
-have a limited cost, but an unlimited upside. I&amp;#8217;m not expecting that most of
-these projects will be a wild success, but you only have to win big once&amp;#8230;&lt;/p&gt;
-
-&lt;p&gt;One of these projects is organizing a conference. This will definitely not have an unlimited financial upside (best case, we might make a little bit of money, but it would be way more effective to spend that time freelancing). However, I do think that very nice things will happen because of this: meet more people, get known a bit better in the tech scene, and work together with really interesting people.&lt;/p&gt;
-
-&lt;p&gt;Also, I have a renewed focus on building and maintaining my own apps. I&amp;#8217;m working on an update for &lt;a href=&#34;http://eidhof.nl/trackme&#34;&gt;TrackMe&lt;/a&gt; (I know it needs a better website and UI). I have some other interesting ideas for new apps too, hopefully I can move some of these projects forward so they can be released publicly.&lt;/p&gt;
-
-&lt;p&gt;On a personal level, I am planning to go to more parties. This is directly copied from Taleb. At parties, you have a chance of meeting very interesting people. Probably at most parties you&amp;#8217;ll have a good time, but won&amp;#8217;t meet anybody new who&amp;#8217;s interesting. However, when you do, all the other parties will have been worth it.&lt;/p&gt;
-
-&lt;p&gt;Also, I want to work together with more people. One of the ways this will happen is having an office instead of working from home. Another way will be by hiring more people. If you&amp;#8217;re interested in learning iOS Development, or if you&amp;#8217;re a copywriter, get in touch.&lt;/p&gt;
-
-&lt;p&gt;I wonder how this strategy will work. I see it as something long-term, the payoff might only come in a decade. Let&amp;#8217;s see.&lt;/p&gt;
 </description>
         </item>
       
