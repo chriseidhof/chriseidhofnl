@@ -54,7 +54,7 @@ html, body { height: 100%; }
 
 body {
 	font:16px/1 "ff-bau-web","Helvetica Neue",Helvetica,Arial,sans-serif;
-	color:#666;
+	color:#222;
 	-webkit-font-smoothing:antialiased;
 	text-rendering:optimizeLegibility;
 }
