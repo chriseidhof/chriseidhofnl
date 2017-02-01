@@ -2,6 +2,7 @@
 title = "Classes That Conform To Protocols"
 headline = "How to use type-erasers as a workaround"
 date = "2017-02-01"
+advanced_swift = true
 +++
 
 The other day, someone asked how to have a variable which stores a `UIView` that also conforms to a protocol. In Objective-C, you would simply write `UIView<HeaderViewProtocol>`. In  current Swift, you can't write something like that. This posts shows a two workarounds.
