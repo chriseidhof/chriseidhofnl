@@ -49,4 +49,3 @@ header.setTitle("hello")
 One benefit of this solution is that there are no protocols involved. More importantly, we can have multiple "implementations" of `HeaderView` for a single class. This eliminates the need to subclass. I prefer this solution, as it's really simple: just bundle up a function and a view.
 
 (If your protocol has associated types or a `Self` constraint, it will be a bit more work to write the type-eraser, see [here](http://chris.eidhof.nl/post/type-erasers-in-swift/) for an explanation).
-
