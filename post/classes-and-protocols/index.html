@@ -45,7 +45,7 @@
   <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
   <meta itemprop="dateModified" content="2017-02-01T00:00:00&#43;00:00">
   <meta itemprop="headline" content="Classes That Conform To Protocols">
-  <meta itemprop="description" content="The other day, someone asked how to have a variable which stores a UIView that also conforms to a protocol. In Objective-C, you would simply write UIView&lt;HeaderViewProtocol&gt;. In current Swift, you can&rsquo;t write something like that. This posts shows a two workarounds.
+  <meta itemprop="description" content="The other day, someone asked how to have a variable which stores a UIView that also conforms to a protocol. In Objective-C, you would simply write UIView&lt;HeaderViewProtocol&gt;. In current Swift, you can&rsquo;t write something like that. This posts shows two workarounds.
 First, let&rsquo;s set the stage, and assume we have a HeaderViewProtocol:
 protocol HeaderViewProtocol { func setTitle(_ string: String) }  Until generalized existentials arrive, we&rsquo;ll have to make do with a workaround.">
   <meta itemprop="url" content="http://chris.eidhof.nl/post/classes-and-protocols/">
@@ -66,7 +66,7 @@ protocol HeaderViewProtocol { func setTitle(_ string: String) }  Until generaliz
   </header>
 
   <section class="postbody">
-    <p>The other day, someone asked how to have a variable which stores a <code>UIView</code> that also conforms to a protocol. In Objective-C, you would simply write <code>UIView&lt;HeaderViewProtocol&gt;</code>. In  current Swift, you can&rsquo;t write something like that. This posts shows a two workarounds.</p>
+    <p>The other day, someone asked how to have a variable which stores a <code>UIView</code> that also conforms to a protocol. In Objective-C, you would simply write <code>UIView&lt;HeaderViewProtocol&gt;</code>. In  current Swift, you can&rsquo;t write something like that. This posts shows two workarounds.</p>
 
 <p>First, let&rsquo;s set the stage, and assume we have a <code>HeaderViewProtocol</code>:</p>
 
