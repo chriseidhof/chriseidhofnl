@@ -16,7 +16,7 @@
           <pubDate>Wed, 01 Feb 2017 00:00:00 UTC</pubDate>
           <author></author>
           <guid>http://chris.eidhof.nl/post/classes-and-protocols/</guid>
-          <description>&lt;p&gt;The other day, someone asked how to have a variable which stores a &lt;code&gt;UIView&lt;/code&gt; that also conforms to a protocol. In Objective-C, you would simply write &lt;code&gt;UIView&amp;lt;HeaderViewProtocol&amp;gt;&lt;/code&gt;. In  current Swift, you can&amp;rsquo;t write something like that. This posts shows a two workarounds.&lt;/p&gt;
+          <description>&lt;p&gt;The other day, someone asked how to have a variable which stores a &lt;code&gt;UIView&lt;/code&gt; that also conforms to a protocol. In Objective-C, you would simply write &lt;code&gt;UIView&amp;lt;HeaderViewProtocol&amp;gt;&lt;/code&gt;. In  current Swift, you can&amp;rsquo;t write something like that. This posts shows two workarounds.&lt;/p&gt;
 
 &lt;p&gt;First, let&amp;rsquo;s set the stage, and assume we have a &lt;code&gt;HeaderViewProtocol&lt;/code&gt;:&lt;/p&gt;
 
@@ -3398,7 +3398,7 @@ check(prop_plusCommutative)
           <guid>http://chris.eidhof.nl/post/intentions/</guid>
           <description>
 
-&lt;p&gt;I&amp;rsquo;m a big fan of lighter view controllers. In the [first issue]() of objc.io, I wrote an article about it. Since then, I&amp;rsquo;ve given a couple of talks about it. Most of the things you can do are very straightforward once you know them, and people seem to generally like it. However, a couple of months ago, I read a &lt;a href=&#34;http://bendyworks.com/single-responsibility-principle-ios/&#34;&gt;great blogpost&lt;/a&gt; explaining how to take the notion of &amp;lsquo;lighter view controllers&amp;rsquo; up a notch. I tried to take the idea, and apply it to a very simple example app.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m a big fan of lighter view controllers. In the &lt;a href=&#34;https://www.objc.io/issues/1-view-controllers/&#34;&gt;first issue&lt;/a&gt; of objc.io, I wrote an article about it. Since then, I&amp;rsquo;ve given a couple of talks about it. Most of the things you can do are very straightforward once you know them, and people seem to generally like it. However, a couple of months ago, I read a &lt;a href=&#34;http://bendyworks.com/single-responsibility-principle-ios/&#34;&gt;great blogpost&lt;/a&gt; explaining how to take the notion of &amp;lsquo;lighter view controllers&amp;rsquo; up a notch. I tried to take the idea, and apply it to a very simple example app.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://chris.eidhof.nl/static/images/person-app.png&#34; style=&#34;width:217px; float: right; overflow: clear;&#34;&gt;&lt;/p&gt;
 
