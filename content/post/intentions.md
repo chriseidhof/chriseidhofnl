@@ -7,7 +7,7 @@ headline: An experiment in Ultralight View Controllers
 ---
 
 
-I'm a big fan of lighter view controllers. In the [first issue]() of objc.io, I wrote an article about it. Since then, I've given a couple of talks about it. Most of the things you can do are very straightforward once you know them, and people seem to generally like it. However, a couple of months ago, I read a [great blogpost](http://bendyworks.com/single-responsibility-principle-ios/) explaining how to take the notion of 'lighter view controllers' up a notch. I tried to take the idea, and apply it to a very simple example app.
+I'm a big fan of lighter view controllers. In the [first issue](https://www.objc.io/issues/1-view-controllers/) of objc.io, I wrote an article about it. Since then, I've given a couple of talks about it. Most of the things you can do are very straightforward once you know them, and people seem to generally like it. However, a couple of months ago, I read a [great blogpost](http://bendyworks.com/single-responsibility-principle-ios/) explaining how to take the notion of 'lighter view controllers' up a notch. I tried to take the idea, and apply it to a very simple example app.
 
 <img src="/static/images/person-app.png" style="width:217px; float: right; overflow: clear;">
 
