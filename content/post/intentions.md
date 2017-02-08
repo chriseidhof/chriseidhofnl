@@ -100,11 +100,11 @@ To use this object, we can go to the Object library in Interface Builder, and ad
 
 <img src="/static/images/select-object.png" style="width:237px;">
 
-We set it's class to `DismissOnEnterIntention`:
+We set its class to `DismissOnEnterIntention`:
 
 <img src="/static/images/dismiss-on-enter.png" style="width:272px;">
 
-Now, we can go to the textfield, and change it's delegate and drag it to our new class (we have to make sure that the class declares that it implements the `UITextFieldDelegate` protocol, for example in the class extension).
+Now, we can go to the textfield, and change its delegate and drag it to our new class (we have to make sure that the class declares that it implements the `UITextFieldDelegate` protocol, for example in the class extension).
 And that's all there is to it. When the view controller is loaded, the storyboard will create a `DismissOnEnterIntention` object and hook it up. Of course, having an extra object just to dismiss on enter seems a bit tedious. But think about it: how often have you implemented this yourself in a view controller? If you put this object in your own standard library, you never have to implement it again, but can instead just reuse it.
 
 *Update*: [Several](https://twitter.com/toco91/status/456102320649293824) [people](https://twitter.com/christian_beer/status/456134551941566464) on Twitter point out you can use `textFieldShouldReturn:` instead, which is of course a lot better.
