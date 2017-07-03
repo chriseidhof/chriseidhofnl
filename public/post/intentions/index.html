@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.17" />
+    <meta name="generator" content="Hugo 0.21" />
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -165,11 +165,11 @@
 
 <p><img src="/static/images/select-object.png" style="width:237px;"></p>
 
-<p>We set it&rsquo;s class to <code>DismissOnEnterIntention</code>:</p>
+<p>We set its class to <code>DismissOnEnterIntention</code>:</p>
 
 <p><img src="/static/images/dismiss-on-enter.png" style="width:272px;"></p>
 
-<p>Now, we can go to the textfield, and change it&rsquo;s delegate and drag it to our new class (we have to make sure that the class declares that it implements the <code>UITextFieldDelegate</code> protocol, for example in the class extension).
+<p>Now, we can go to the textfield, and change its delegate and drag it to our new class (we have to make sure that the class declares that it implements the <code>UITextFieldDelegate</code> protocol, for example in the class extension).
 And that&rsquo;s all there is to it. When the view controller is loaded, the storyboard will create a <code>DismissOnEnterIntention</code> object and hook it up. Of course, having an extra object just to dismiss on enter seems a bit tedious. But think about it: how often have you implemented this yourself in a view controller? If you put this object in your own standard library, you never have to implement it again, but can instead just reuse it.</p>
 
 <p><em>Update</em>: <a href="https://twitter.com/toco91/status/456102320649293824">Several</a> <a href="https://twitter.com/christian_beer/status/456134551941566464">people</a> on Twitter point out you can use <code>textFieldShouldReturn:</code> instead, which is of course a lot better.</p>
