@@ -43,7 +43,7 @@ Next up, the code that reloads the exchange rates:
 
 ```
 
-The code above is hard to test. First of all, there's a dependency on the shared `URLSession`. To make this more testable, we could consider pulling that out into a configurable property. Even if we do that, the code is still hard to test. We'd like to test that the parsing happens correctly, that we switch back to the main thread before updating the UI, that we set the rate and that we finally call `inputChanged()`. The asynchronous code makes this especially hard to verify that our logic is correct.
+The code above is hard to test. First of all, there's a dependency on the shared `URLSession`. To make this more testable, we could consider pulling that out into a configurable property. Even if we do that, the code is still hard to test. We'd like to test that the parsing happens correctly, that we switch back to the main thread before updating the UI, that we set the rate and that we finally call `inputChanged()`. The asynchronous code makes it especially hard to verify that our logic is correct.
 
 We can pull out most of the logic into a `State` struct to make the logic easy to test. The `State` struct encapsulates the input amount and the conversion rate, and exposes a single computed property (the output):
 
@@ -182,6 +182,6 @@ If you have an object-oriented programming background, you might be reminded of 
 
 Note that instead of a `Message` enum, we could have also defined our messages as `mutating` methods on the `State` type. However, by defining messages as an enum, we gain a lot of flexibility: we can easily check that the right message is sent, we can serialize messages (for example, to send over the network) and we can easily forward them to other parts of the state.
 
-The `State` type with its `send(_:)` method is an example of the ["functional core, imperative shell"](https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell) pattern. The core (the reducer) is the functional core, and is very easy to test. The view controller's `send` method is the imperative shell: it interprets the side-effects. This pattern can also be applied at a large scale.
+The `State` type with its `send(_:)` method is an example of the ["functional core, imperative shell"](https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell) pattern. The reducer is the functional core, and is very easy to test. The view controller's `send` method is the imperative shell: it interprets the side-effects. This pattern can also be applied at a large scale.
 
 For some other examples using reducers, check out my [Swift implementation of The Elm Architecture](https://github.com/chriseidhof/tea-in-swift), or this [awesome list](https://gist.github.com/inamiy/bd257c60e670de8a144b1f97a07bacec) of Elm-inspired frameworks. Matt Gallagher also just wrote a post about [statements, messages and reducers](http://www.cocoawithlove.com/blog/statements-messages-reducers.html)
