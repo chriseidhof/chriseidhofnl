@@ -106,7 +106,7 @@ Instead of giving a definition up front, we&rsquo;ll look refactor an example ap
 
 </code></pre>
 
-<p>The code above is hard to test. First of all, there&rsquo;s a dependency on the shared <code>URLSession</code>. To make this more testable, we could consider pulling that out into a configurable property. Even if we do that, the code is still hard to test. We&rsquo;d like to test that the parsing happens correctly, that we switch back to the main thread before updating the UI, that we set the rate and that we finally call <code>inputChanged()</code>. The asynchronous code makes this especially hard to verify that our logic is correct.</p>
+<p>The code above is hard to test. First of all, there&rsquo;s a dependency on the shared <code>URLSession</code>. To make this more testable, we could consider pulling that out into a configurable property. Even if we do that, the code is still hard to test. We&rsquo;d like to test that the parsing happens correctly, that we switch back to the main thread before updating the UI, that we set the rate and that we finally call <code>inputChanged()</code>. The asynchronous code makes it especially hard to verify that our logic is correct.</p>
 
 <p>We can pull out most of the logic into a <code>State</code> struct to make the logic easy to test. The <code>State</code> struct encapsulates the input amount and the conversion rate, and exposes a single computed property (the output):</p>
 
@@ -236,7 +236,7 @@ Instead of giving a definition up front, we&rsquo;ll look refactor an example ap
 
 <p>Note that instead of a <code>Message</code> enum, we could have also defined our messages as <code>mutating</code> methods on the <code>State</code> type. However, by defining messages as an enum, we gain a lot of flexibility: we can easily check that the right message is sent, we can serialize messages (for example, to send over the network) and we can easily forward them to other parts of the state.</p>
 
-<p>The <code>State</code> type with its <code>send(_:)</code> method is an example of the <a href="https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell">&ldquo;functional core, imperative shell&rdquo;</a> pattern. The core (the reducer) is the functional core, and is very easy to test. The view controller&rsquo;s <code>send</code> method is the imperative shell: it interprets the side-effects. This pattern can also be applied at a large scale.</p>
+<p>The <code>State</code> type with its <code>send(_:)</code> method is an example of the <a href="https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell">&ldquo;functional core, imperative shell&rdquo;</a> pattern. The reducer is the functional core, and is very easy to test. The view controller&rsquo;s <code>send</code> method is the imperative shell: it interprets the side-effects. This pattern can also be applied at a large scale.</p>
 
 <p>For some other examples using reducers, check out my <a href="https://github.com/chriseidhof/tea-in-swift">Swift implementation of The Elm Architecture</a>, or this <a href="https://gist.github.com/inamiy/bd257c60e670de8a144b1f97a07bacec">awesome list</a> of Elm-inspired frameworks. Matt Gallagher also just wrote a post about <a href="http://www.cocoawithlove.com/blog/statements-messages-reducers.html">statements, messages and reducers</a></p>
 
