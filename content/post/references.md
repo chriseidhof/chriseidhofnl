@@ -273,5 +273,5 @@ final class MyDatabase {
 }
 ```
 
-I'd love to hear comments and feedback. If you want to get a deeper understanding of how this works, try implementing it yourself (even after you've had a look at the code). By the way, we'll also make two [Swift Talk](http://talk.objc.io/) episodes about this. If you're interested in Florian and me building this from scratch, subscribe there!
+I'd love to hear comments and feedback. If you want to get a deeper understanding of how this works, try implementing it yourself (even after you've had a look at the code). By the way, we'll also make two [Swift Talk](http://talk.objc.io/) episodes about this. If you're interested in Florian and me building this from scratch, please subscribe there.
 
