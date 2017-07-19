@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://chris.eidhof.nl/post/references/</loc>
+    <lastmod>2017-07-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://chris.eidhof.nl/post/reducers/</loc>
     <lastmod>2017-07-03T00:00:00+00:00</lastmod>
   </url>
@@ -683,7 +688,7 @@
   
   <url>
     <loc>http://chris.eidhof.nl/</loc>
-    <lastmod>2017-07-03T00:00:00+00:00</lastmod>
+    <lastmod>2017-07-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -694,7 +699,7 @@
   
   <url>
     <loc>http://chris.eidhof.nl/post/</loc>
-    <lastmod>2017-07-03T00:00:00+00:00</lastmod>
+    <lastmod>2017-07-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
