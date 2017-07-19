@@ -91,7 +91,7 @@ addressBook.value // shows [Person(name: "New Name", addresses: [])]
 
 The types for `firstPerson` and `nameOfFirstPerson` can be omitted, they're just there for readability.
 
-If at any point we want to get our own independent value of `Person`, we can do that. From there one, we can work with `myOwnCopy` and be sure it's not changed from underneath us. No need to implement `NSCopying`:
+If at any point we want to get our own independent value of `Person`, we can do that. From there on, we can work with `myOwnCopy` and be sure it's not changed from underneath us. No need to implement `NSCopying`:
 
 ```swift
 var myOwnCopy: Person = firstPerson.value
