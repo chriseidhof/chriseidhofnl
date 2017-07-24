@@ -190,7 +190,7 @@ extension Ref {
     convenience init(initialValue: A) {
         var observers: [Int: Observer] = [:]
         var theValue = initialValue {
-            didSet { observers.values.forEach { $0(initialValue) } }
+            didSet { observers.values.forEach { $0(theValue) } }
         }
         var freshId = (Int.min...).makeIterator()
         let get = { theValue }
@@ -275,3 +275,5 @@ final class MyDatabase {
 
 I'd love to hear comments and feedback. If you want to get a deeper understanding of how this works, try implementing it yourself (even after you've had a look at the code). By the way, we'll also make two [Swift Talk](http://talk.objc.io/) episodes about this. If you're interested in Florian and me building this from scratch, please subscribe there.
 
+
+> Update: thanks to Egor Sobko for pointing out a subtle but crucial mistake: I was sending the observers `initialValue` rather than `theValue`. Fixed!
