@@ -250,7 +250,7 @@ source.value.redo()
     convenience init(initialValue: A) {
         var observers: [Int: Observer] = [:]
         var theValue = initialValue {
-            didSet { observers.values.forEach { $0(initialValue) } }
+            didSet { observers.values.forEach { $0(theValue) } }
         }
         var freshId = (Int.min...).makeIterator()
         let get = { theValue }
@@ -329,6 +329,10 @@ print(p0.value) // what does this print?
 </code></pre>
 
 <p>I&rsquo;d love to hear comments and feedback. If you want to get a deeper understanding of how this works, try implementing it yourself (even after you&rsquo;ve had a look at the code). By the way, we&rsquo;ll also make two <a href="http://talk.objc.io/">Swift Talk</a> episodes about this. If you&rsquo;re interested in Florian and me building this from scratch, please subscribe there.</p>
+
+<blockquote>
+<p>Update: thanks to Egor Sobko for pointing out a subtle but crucial mistake: I was sending the observers <code>initialValue</code> rather than <code>theValue</code>. Fixed!</p>
+</blockquote>
 
   </section>
 
