@@ -1,8 +1,9 @@
----
-date: 2017-10-27
-title: A Micro Auto Layout DSL
-headline: Three Methods To Make Life Easier
----
++++
+title = "A Micro Auto Layout DSL"
+headline = "Three Methods To Make Life Easier"
+date = "2017-10-27"
+advanced_swift = true
++++
 
 These days, I'm using fewer external libraries. First, I don't like most Swift libraries out there, they're often implemented in a complicated way and contain too many protocols for my taste. Second, I'm not sure how they'll be maintained in the future, and most libraries are pretty big -- I don't really want to own that code. Third, I'm too lazy to set up a dependency manager, so I'll keep my projects dependency-free.
 
