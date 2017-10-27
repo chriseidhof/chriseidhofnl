@@ -61,7 +61,7 @@ Finally, let's solve the last two problems: we don't want to forget to set `tran
 extension UIView {
     func addSubview(_ child: UIView, constraints: [Constraint]) {
         addSubview(child)
-        other.translatesAutoresizingMaskIntoConstraints = false
+        child.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(constraints.map { $0(child, self) })
     }
 }
