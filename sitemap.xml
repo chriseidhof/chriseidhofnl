@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://chris.eidhof.nl/post/swift-analytics/</loc>
+    <lastmod>2017-12-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://chris.eidhof.nl/post/micro-autolayout-dsl/</loc>
     <lastmod>2017-10-27T00:00:00+00:00</lastmod>
   </url>
@@ -693,7 +698,7 @@
   
   <url>
     <loc>http://chris.eidhof.nl/</loc>
-    <lastmod>2017-10-27T00:00:00+00:00</lastmod>
+    <lastmod>2017-12-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -704,7 +709,7 @@
   
   <url>
     <loc>http://chris.eidhof.nl/post/</loc>
-    <lastmod>2017-10-27T00:00:00+00:00</lastmod>
+    <lastmod>2017-12-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
