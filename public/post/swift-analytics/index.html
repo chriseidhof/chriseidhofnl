@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.21" />
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <script type="text/javascript" src="//use.typekit.net/bwu1cse.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+	<link rel="shortcut icon" href="/images/favicon.ico">	
+	<link rel="stylesheet" href="/css/style.css">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://chris.eidhof.nl//index.xml">
+
+    
+    <title>Swift Analytics - Chris Eidhof</title>
+    <meta property='og:title' content="Swift Analytics - Chris Eidhof">
+    <meta property="og:type" content="article">
+    
+
+    <meta property="og:url" content="http://chris.eidhof.nl/post/swift-analytics/">
+    
+    
+
+  </head>
+
+  <body>
+
+<section id="content">
+<section id="outer-container">
+<section id="wrapper">
+
+<header id="header">
+<a id="title" href="/"><img src="/images/logo.png" style="width: 2em"></a>
+</header> 
+
+    
+
+
+<article class="post" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+  <meta itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" content="http://chris.eidhof.nl/"/>
+  <meta itemprop="dateModified" content="2017-12-08T00:00:00&#43;00:00">
+  <meta itemprop="headline" content="Swift Analytics">
+  <meta itemprop="description" content="There have been a number of blog posts about the best way to do analytics in Swift:
+ John writes about using enums. Matt writes about using structs. Dave writes about using protocols. Soroush writes about subclasses.  Krzysztof asked about whether I would do a function-based version.
+I think all solutions are valid. They&rsquo;re different embeddings of the same problem. Another version to consider is the simplest one: just inlining the network calls into your code.">
+  <meta itemprop="url" content="http://chris.eidhof.nl/post/swift-analytics/">
+    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+      <meta itemprop="url" content="http://chris.eidhof.nl/images/logo.png">
+      <meta itemprop="width" content="100">
+      <meta itemprop="height" content="100">
+    </div>
+    <meta itemprop="name" content="Chris Eidhof">
+  </div>
+  <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="">
+  </div>
+
+  <header>
+    <h1>Swift Analytics</h1>
+    <h2 class="headline"> Comparing structs, enums and protocols </h2>
+  </header>
+
+  <section class="postbody">
+    <p>There have been a number of blog posts about the best way to do analytics in Swift:</p>
+
+<ul>
+<li>John writes about using <a href="https://www.swiftbysundell.com/posts/building-an-enum-based-analytics-system-in-swift">enums</a>.</li>
+<li>Matt writes about using <a href="http://matt.diephouse.com/2017/12/when-not-to-use-an-enum/">structs</a>.</li>
+<li>Dave writes about using <a href="https://davedelong.com/blog/2017/12/07/misusing-enums/">protocols</a>.</li>
+<li>Soroush writes about <a href="http://khanlou.com/2017/12/misusing-subclassing/">subclasses</a>.</li>
+</ul>
+
+<p>Krzysztof <a href="https://twitter.com/kprofic/status/938910246810062848">asked</a> about whether I would do a function-based version.</p>
+
+<p>I think all solutions are valid. They&rsquo;re different embeddings of the same problem. Another version to consider is the simplest one: just inlining the network calls into your code. Maybe that already does the job, and you&rsquo;re set.</p>
+
+<p>Now imagine that you find you make mistakes when writing the code. For example, you forget to provide the name, or you mistype the metadata keys. To prevent this, you could wrap up the network calls in functions. Functional programmers call this a <em>shallow embedding</em>: you express your domain logic in a very thin wrapper. It&rsquo;s the easiest way to add type-safety to an untyped domain.</p>
+
+<p>A <em>deep embedding</em> is when you can also inspect (and possibly modify) the data. This is useful when you write tests, or when you need to change the structure at a later point. Matt&rsquo;s struct-based solution provides the most minimal way to inspect the data: he just bundles up the analytics parameters. By providing type-safe initializers, the construction is made type-safe, even though the actual embedding (a string and a dictionary) loses the type-safety. This is a great choice, unless you need to transform the data afterwords.</p>
+
+<p>John&rsquo;s enum-based approach is another deep embedding: by providing cases for each possible event, he maintains the structure and type-safety. If you need to transform analytic events (for example, merging multiple events, or changing them in some other way) the enum approach is great: as long as you get out an enum value at the end, you know the data is well-formed.</p>
+
+<p>Dave&rsquo;s protocol-based approach allows you to have multiple different representations for your analytics events. For example, you could use Dave&rsquo;s approach with John&rsquo;s enums, Matt&rsquo;s structs, and Soroush&rsquo;s subclasses, at the same time, as long as they all conform to the protocol.</p>
+
+<p>Another approach would be to group all the function wrappers in a protocol that you can send events to. Then you could have two implementations: one for testing/serialization, and for direct sending of the events. This is often used with dependency injection.</p>
+
+<p>Each approach above adds a little bit of complexity to the code.</p>
+
+<p>I&rsquo;m a big fan of using the simplest possible solution for your problem and team:</p>
+
+<ul>
+<li>If you&rsquo;re a precise programmer and don&rsquo;t care about testing, just inline your network calls</li>
+<li>If you want more type-safety, wrap your network calls in functions</li>
+<li>If you use Matt&rsquo;s struct-based initializer, you know the result is well-formed.</li>
+<li>If you plan to transform your values and want this to be safe, use John&rsquo;s enums</li>
+<li>If you need ultimate flexibility, use Dave&rsquo;s protocols</li>
+</ul>
+
+  </section>
+
+  
+  <footer id="post-meta" class="group promo">
+      <div>
+          <img src="http://chris.eidhof.nl/images/advanced-swift.png" style="width: 90px;">
+      </div>
+      <p>
+      If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a> (updated for Swift 4), or check out our video series <a href="https://talk.objc.io">Swift Talk</a>.<br/> <br/>
+      </p>
+  </footer> 
+  
+  <footer id="post-meta" class="group">
+    <div>
+      <span>Posted on <span><time itemprop="datePublished" pubdate="pubdate" datetime="2017-12-08T00:00:00&#43;00:00">Fri, Dec 8, 2017</time>
+      by <a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a>
+
+    </div>
+  <section id="sharing">
+    <a class="twitter" href="https://twitter.com/share"><span class="icon-twitter-circled"></span></a>
+  </section> 
+  </footer> 
+  
+
+</article>
+
+<footer><nav id="post-nav"></nav></footer>
+
+</section> 
+</section> 
+
+</section> 
+
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="/js/main.js/"></script>
+   <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24867064-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+</body>
+</html>
+
