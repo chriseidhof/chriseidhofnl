@@ -86,5 +86,5 @@ There are a few obvious extensions that are left as an exercise:
 - Add a way to constrain an anchor to a constant (instead of another anchor and a constant)
 - Add a way to constrain to a different view than the parent (e.g. the content view of a `UIVisualEffectView`)
 
-Thanks to Florian Kugler for helping me simplify the code a lot. We'll also make a [Swift Talk](https://talk.objc.io) episode about the code above, it should be online soon.
+Thanks to Florian Kugler for helping me simplify the code a lot. We also made a [Swift Talk](https://talk.objc.io/episodes/S01E75-auto-layout-with-key-paths) episode about the code above, check it out.
 
