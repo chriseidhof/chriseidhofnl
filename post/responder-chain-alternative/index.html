@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.21" />
+    <meta name="generator" content="Hugo 0.37" />
 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -72,13 +72,13 @@
 
 <p>This is easy to write, but you do pay a price: maintaining these actions is more difficult than writing them. It&rsquo;s hard to change code: if you ever want to refactor (for example, if you choose to rename the action), you&rsquo;ll have to be very careful to change it in all places in your code, and in the Interface Builder file. If you forget to change things in one place, Interface Builder might be able to tell you this. But not always.</p>
 
-<p>The responder chain is easy, but it&rsquo;s not simple<sup class="footnote-ref" id="fnref:simpleasy"><a rel="footnote" href="#fn:simpleasy">1</a></sup>. There is a lot of magic behind the scenes. It makes it hard to change your code. In addition, the responder chain on the Mac is complex: you need to have the order of the chain in your head (or read the documentation) to work effectively. You need to know your view hierarchy, and changes you intend to be local can accidentally be global.</p>
+<p>The responder chain is easy, but it&rsquo;s not simple<sup class="footnote-ref" id="fnref:simpleasy"><a href="#fn:simpleasy">1</a></sup>. There is a lot of magic behind the scenes. It makes it hard to change your code. In addition, the responder chain on the Mac is complex: you need to have the order of the chain in your head (or read the documentation) to work effectively. You need to know your view hierarchy, and changes you intend to be local can accidentally be global.</p>
 
 <p>The responder chain is cool, but I&rsquo;m not sure if we need to replicate it in Swift. Rather, we could try to think of a way that is just as easy as the responder chain, but also <em>simple</em>. It should be easy to refactor code. It should be easy to understand. It should be easy to debug. In order to make a local change, you shouldn&rsquo;t have to worry about the global effects. I&rsquo;m not sure if we can solve all these issues, but I&rsquo;m pretty sure we can solve a few of them.</p>
 
-<p>(Functional) Reactive Programming<sup class="footnote-ref" id="fnref:3"><a rel="footnote" href="#fn:3">2</a></sup> might be one solution to this. I&rsquo;m not sure, because I have never applied FRP in production. The idea behind FRP is simple (and easy), but all implementations I&rsquo;ve tried aren&rsquo;t easy, nor simple. I think a React-like architecture is really cool, it&rsquo;s simple, it&rsquo;s easy, but then you want to do animations: not so easy.</p>
+<p>(Functional) Reactive Programming<sup class="footnote-ref" id="fnref:3"><a href="#fn:3">2</a></sup> might be one solution to this. I&rsquo;m not sure, because I have never applied FRP in production. The idea behind FRP is simple (and easy), but all implementations I&rsquo;ve tried aren&rsquo;t easy, nor simple. I think a React-like architecture is really cool, it&rsquo;s simple, it&rsquo;s easy, but then you want to do animations: not so easy.</p>
 
-<p>In short, I don&rsquo;t know a good alternative to the responder chain. I don&rsquo;t think FRP will be a silver bullet. For now, we can keep using the responder chain anyway, because Cocoa and Objective-C are probably not going anywhere<sup class="footnote-ref" id="fnref:lindy"><a rel="footnote" href="#fn:lindy">3</a></sup>. Sometimes, I hope that the answer comes when the Interface Builder team starts talking to the SourceKit API, and really leverage all this deep knowledge about the current program. In the mean time, we can try to come up with solutions ourselves, by keeping the following in mind: it should not only be easy, but also simple.</p>
+<p>In short, I don&rsquo;t know a good alternative to the responder chain. I don&rsquo;t think FRP will be a silver bullet. For now, we can keep using the responder chain anyway, because Cocoa and Objective-C are probably not going anywhere<sup class="footnote-ref" id="fnref:lindy"><a href="#fn:lindy">3</a></sup>. Sometimes, I hope that the answer comes when the Interface Builder team starts talking to the SourceKit API, and really leverage all this deep knowledge about the current program. In the mean time, we can try to come up with solutions ourselves, by keeping the following in mind: it should not only be easy, but also simple.</p>
 <div class="footnotes">
 
 <hr />

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Chris Eidhof </title>
+    <title>Tags on Chris Eidhof</title>
     <link>http://chris.eidhof.nl/tags/</link>
+    <description>Recent content in Tags on Chris Eidhof</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <author></author>
-    <rights>(C) 2017</rights>
-    <updated>0001-01-01 00:00:00 &#43;0000 UTC</updated>
-
     
-
+	<atom:link href="http://chris.eidhof.nl/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
   </channel>
 </rss>
