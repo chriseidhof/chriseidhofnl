@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Chris Eidhof </title>
+    <title>Pages on Chris Eidhof</title>
     <link>http://chris.eidhof.nl/page/</link>
+    <description>Recent content in Pages on Chris Eidhof</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <author></author>
-    <rights>(C) 2017</rights>
-    <updated>0001-01-01 00:00:00 &#43;0000 UTC</updated>
-
     
+	<atom:link href="http://chris.eidhof.nl/page/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>http://chris.eidhof.nl/page/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
+      <guid>http://chris.eidhof.nl/page/about/</guid>
+      <description>I&amp;rsquo;m Chris Eidhof. Dutch, and living in Berlin.
+I wrote two books: Functional Swift and Advanced Swift at objc.io. I&amp;rsquo;m currently working on Swift Talk, a video series of Florian Kugler and me building apps in Swift.
+I built iOS and Mac apps. In 2014, we released Deckset. It&amp;rsquo;s a Mac app that lets you create beautiful presentations, straight from Markdown. In 2015, we built Scenery, which lets you present your app designs using great photography.</description>
+    </item>
     
-
   </channel>
 </rss>
