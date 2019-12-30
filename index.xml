@@ -6,8 +6,30 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2019</rights>
-    <updated>2019-10-01 00:00:00 &#43;0000 UTC</updated>
+    <updated>2019-12-30 00:00:00 &#43;0000 UTC</updated>
 
+    
+      
+        <item>
+          <title>2019</title>
+          <link>http://chris.eidhof.nl/post/2019/</link>
+          <pubDate>Mon, 30 Dec 2019 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://chris.eidhof.nl/post/2019/</guid>
+          <description>&lt;p&gt;This was my first full year of being a dad (my daughter was born at the end of March in 2018), and to accomodate for that, I did not plan anything big. I focused on spending lots of time with the family, working and running (in that order).&lt;/p&gt;
+
+&lt;p&gt;The best month was September: I took a month off of work (except for maintenance things here and there), and also really drastically limited social media and other digital entertainment (Youtube, Hacker News, etc.). I still spent an average of 30 minutes on my phone every day, but that mostly consisted of things like Google Maps, Spotify and browsing/reading recipes. The rest of the time I spent running and doing things with my daughter. I did miss work, after a month. I really enjoy programming, and everything around it, so I was glad to get back to it in October.&lt;/p&gt;
+
+&lt;p&gt;As part of getting adjusted to being a family, we also decided to go on a few trips together: I spoke and gave a workshop in Montreal at &lt;a href=&#34;https://nsnorth.ca/&#34;&gt;NSNorth&lt;/a&gt;, and brought the rest of the family. We learned that flying such a long distance is quite doable, and are glad we did it, but we wouldn&amp;rsquo;t do it again anytime soon. Instead, in June, we went on a train trip to Vienna, Krakow, and Warsaw, which was lots of fun. My daughter loved crawling around the train and saying hi to all the other passengers.&lt;/p&gt;
+
+&lt;p&gt;As an experiment, I also traveled to Argentina to speak, and combined it with a hiking holiday in Patagonia, together with my brother. Being away from the family for two weeks was hard, but I did have a great time nonetheless. Another lesson learned: I wouldn&amp;rsquo;t want to travel for that long without the family anytime soon.&lt;/p&gt;
+
+&lt;p&gt;Work-wise, it was a really interesting year, despite not shipping big new things ourselves. SwiftUI came out, and it&amp;rsquo;s been a lot of fun learning about it. So much fun that we even decided to write a short book about it (the official announcement for this will come soon).&lt;/p&gt;
+
+&lt;p&gt;I decided to run a higher mileage in 2019. While it didn&amp;rsquo;t work out for the Rotterdam marathon, it worked really, really well for the Berlin marathon. I smashed my PB and ran 2:48. Here&amp;rsquo;s my &lt;a href=&#34;http://chris.eidhof.nl/post/race-report-berlin-marathon/&#34;&gt;race report&lt;/a&gt;.&lt;/p&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -1940,13 +1962,13 @@ extension Collection where Iterator == IndexingIterator&amp;lt;Self&amp;gt; {
 
 &lt;p&gt;This is easy to write, but you do pay a price: maintaining these actions is more difficult than writing them. It&amp;rsquo;s hard to change code: if you ever want to refactor (for example, if you choose to rename the action), you&amp;rsquo;ll have to be very careful to change it in all places in your code, and in the Interface Builder file. If you forget to change things in one place, Interface Builder might be able to tell you this. But not always.&lt;/p&gt;
 
-&lt;p&gt;The responder chain is easy, but it&amp;rsquo;s not simple&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:simpleasy&#34;&gt;&lt;a href=&#34;#fn:simpleasy&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. There is a lot of magic behind the scenes. It makes it hard to change your code. In addition, the responder chain on the Mac is complex: you need to have the order of the chain in your head (or read the documentation) to work effectively. You need to know your view hierarchy, and changes you intend to be local can accidentally be global.&lt;/p&gt;
+&lt;p&gt;The responder chain is easy, but it&amp;rsquo;s not simple&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:simpleasy&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:simpleasy&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;. There is a lot of magic behind the scenes. It makes it hard to change your code. In addition, the responder chain on the Mac is complex: you need to have the order of the chain in your head (or read the documentation) to work effectively. You need to know your view hierarchy, and changes you intend to be local can accidentally be global.&lt;/p&gt;
 
 &lt;p&gt;The responder chain is cool, but I&amp;rsquo;m not sure if we need to replicate it in Swift. Rather, we could try to think of a way that is just as easy as the responder chain, but also &lt;em&gt;simple&lt;/em&gt;. It should be easy to refactor code. It should be easy to understand. It should be easy to debug. In order to make a local change, you shouldn&amp;rsquo;t have to worry about the global effects. I&amp;rsquo;m not sure if we can solve all these issues, but I&amp;rsquo;m pretty sure we can solve a few of them.&lt;/p&gt;
 
-&lt;p&gt;(Functional) Reactive Programming&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; might be one solution to this. I&amp;rsquo;m not sure, because I have never applied FRP in production. The idea behind FRP is simple (and easy), but all implementations I&amp;rsquo;ve tried aren&amp;rsquo;t easy, nor simple. I think a React-like architecture is really cool, it&amp;rsquo;s simple, it&amp;rsquo;s easy, but then you want to do animations: not so easy.&lt;/p&gt;
+&lt;p&gt;(Functional) Reactive Programming&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:3&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; might be one solution to this. I&amp;rsquo;m not sure, because I have never applied FRP in production. The idea behind FRP is simple (and easy), but all implementations I&amp;rsquo;ve tried aren&amp;rsquo;t easy, nor simple. I think a React-like architecture is really cool, it&amp;rsquo;s simple, it&amp;rsquo;s easy, but then you want to do animations: not so easy.&lt;/p&gt;
 
-&lt;p&gt;In short, I don&amp;rsquo;t know a good alternative to the responder chain. I don&amp;rsquo;t think FRP will be a silver bullet. For now, we can keep using the responder chain anyway, because Cocoa and Objective-C are probably not going anywhere&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:lindy&#34;&gt;&lt;a href=&#34;#fn:lindy&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;. Sometimes, I hope that the answer comes when the Interface Builder team starts talking to the SourceKit API, and really leverage all this deep knowledge about the current program. In the mean time, we can try to come up with solutions ourselves, by keeping the following in mind: it should not only be easy, but also simple.&lt;/p&gt;
+&lt;p&gt;In short, I don&amp;rsquo;t know a good alternative to the responder chain. I don&amp;rsquo;t think FRP will be a silver bullet. For now, we can keep using the responder chain anyway, because Cocoa and Objective-C are probably not going anywhere&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:lindy&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:lindy&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;. Sometimes, I hope that the answer comes when the Interface Builder team starts talking to the SourceKit API, and really leverage all this deep knowledge about the current program. In the mean time, we can try to come up with solutions ourselves, by keeping the following in mind: it should not only be easy, but also simple.&lt;/p&gt;
 &lt;div class=&#34;footnotes&#34;&gt;
 
 &lt;hr /&gt;
@@ -2039,7 +2061,7 @@ personHistory.currentItem.age // Prints 32
 personHistory.currentItem.age // Prints 31 again
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Of course, our &lt;code&gt;UndoHistory&lt;/code&gt; works on more than just simple &lt;code&gt;Person&lt;/code&gt; structs. For example, if we want to create a table view controller that&amp;rsquo;s backed by an &lt;code&gt;Array&lt;/code&gt;, we can use the &lt;code&gt;currentItem&lt;/code&gt; property to get the array out &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+&lt;p&gt;Of course, our &lt;code&gt;UndoHistory&lt;/code&gt; works on more than just simple &lt;code&gt;Person&lt;/code&gt; structs. For example, if we want to create a table view controller that&amp;rsquo;s backed by an &lt;code&gt;Array&lt;/code&gt;, we can use the &lt;code&gt;currentItem&lt;/code&gt; property to get the array out &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-swift&#34;&gt;final class MyTableViewController&amp;lt;Item&amp;gt;: UITableViewController {
     var data: UndoHistory&amp;lt;[Item]&amp;gt;
@@ -2076,9 +2098,9 @@ personHistory.currentItem.age // Prints 31 again
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Even if we change something deep inside the array (e.g. &lt;code&gt;data.currentItem[17].name = &amp;quot;John&amp;quot;&lt;/code&gt;) our &lt;code&gt;didSet&lt;/code&gt; will get triggered. Of course, we probably want to do something a little bit smarter than &lt;code&gt;reloadData&lt;/code&gt;. For example, we could use the &lt;a href=&#34;https://github.com/osteslag/Changeset&#34;&gt;Changeset&lt;/a&gt; library to compute a diff and have insert/delete/move animations&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;Even if we change something deep inside the array (e.g. &lt;code&gt;data.currentItem[17].name = &amp;quot;John&amp;quot;&lt;/code&gt;) our &lt;code&gt;didSet&lt;/code&gt; will get triggered. Of course, we probably want to do something a little bit smarter than &lt;code&gt;reloadData&lt;/code&gt;. For example, we could use the &lt;a href=&#34;https://github.com/osteslag/Changeset&#34;&gt;Changeset&lt;/a&gt; library to compute a diff and have insert/delete/move animations&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
-&lt;p&gt;Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the &lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&#34;&gt;runtime programming guide&lt;/a&gt;, you only need to have a good grasp of structs and generics to come up with this solution &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the &lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&#34;&gt;runtime programming guide&lt;/a&gt;, you only need to have a good grasp of structs and generics to come up with this solution &lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;div class=&#34;footnotes&#34;&gt;
 
 &lt;hr /&gt;
@@ -2103,7 +2125,7 @@ personHistory.currentItem.age // Prints 31 again
           <pubDate>Thu, 26 May 2016 00:00:00 UTC</pubDate>
           <author></author>
           <guid>http://chris.eidhof.nl/post/dynamic-swift/</guid>
-          <description>&lt;p&gt;Recently, &lt;a href=&#34;http://inessential.com&#34;&gt;Brent&lt;/a&gt; and others wrote a lot about the lack of dynamic features&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; in Swift. I tried distilling Brent&amp;rsquo;s thoughts, and came up with the following summary:&lt;/p&gt;
+          <description>&lt;p&gt;Recently, &lt;a href=&#34;http://inessential.com&#34;&gt;Brent&lt;/a&gt; and others wrote a lot about the lack of dynamic features&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; in Swift. I tried distilling Brent&amp;rsquo;s thoughts, and came up with the following summary:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;It&amp;rsquo;s easy to write code in AppKit and UIKit, because many things just work, without having to write a lot of code.&lt;/li&gt;
@@ -2115,7 +2137,7 @@ personHistory.currentItem.age // Prints 31 again
 
 &lt;p&gt;As long as AppKit and UIKit will be around, we&amp;rsquo;ll have Objective-C and its runtime. If Apple releases a Swift-only successor to either one of these frameworks, I&amp;rsquo;m confident that they will do a good job: they&amp;rsquo;ll make us write less boilerplate, rather than more.&lt;/p&gt;
 
-&lt;p&gt;Let&amp;rsquo;s look at a completely different context: web programming. I&amp;rsquo;ve seen amazing web frameworks that rely a lot on runtime programming (stuff like Rails, but also &lt;a href=&#34;http://seaside.st&#34;&gt;Seaside&lt;/a&gt;, back in its day). But, there are web frameworks in languages like Haskell, Scala and C# that use features like protocols, datatype-generic programming&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; and passing around functions to reduce boilerplate. With both approaches you can get short, simple, maintainable code that&amp;rsquo;s easy to write.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s look at a completely different context: web programming. I&amp;rsquo;ve seen amazing web frameworks that rely a lot on runtime programming (stuff like Rails, but also &lt;a href=&#34;http://seaside.st&#34;&gt;Seaside&lt;/a&gt;, back in its day). But, there are web frameworks in languages like Haskell, Scala and C# that use features like protocols, datatype-generic programming&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; and passing around functions to reduce boilerplate. With both approaches you can get short, simple, maintainable code that&amp;rsquo;s easy to write.&lt;/p&gt;
 
 &lt;p&gt;Yet, techniques you don&amp;rsquo;t know will almost always seem more complicated at first. I tried arguing with a Haskell programmer that runtime programming can be useful. I tried arguing with a Ruby programmer that static types can be helpful. To both, it seemed unnecessary and complicated. They&amp;rsquo;ve been writing great code without those features.&lt;/p&gt;
 
