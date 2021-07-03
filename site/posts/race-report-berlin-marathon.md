@@ -1,0 +1,49 @@
+---
+date: 2019-10-01
+title: "Race Report: Berlin Marathon"
+headline: Breaking Sub-3 for the Second Time
+---
+
+In 2015, I ran the Berlin Marathon in just under three hours: 2:59:41. It was my fourth attempt at the marathon. Even though I hit the wall at km 34, I had run the first bit fast enough to still make it under three hours. Before the race, I believed I could run under three hours, but actually doing so was a really magical feeling.
+
+![](/images/berlin2015.png)
+*Berlin 2015: Still ran 2:59*
+
+
+In the years after, I kept on training, and kept running marathons about twice a year. Even though I felt I could run under three hours, I never managed again. Sometimes, I had a good excuse: in Seville in 2018 I felt prepared, but it was too hot and I came down with a stomach bug after. I didn't expect to hit the wall so early, though:
+
+![](/images/seville2018.png)  
+*Seville 2018: 3:28*
+
+After four years of decent training, and no personal bests in the marathon, I felt a bit like a *Trainingsweltmeister* (literal translation: world champion in training). Even though I would run a PB on the 10k or half marathon every once in a while, I always failed hard at keeping my pace during the marathon, even though I felt prepared most of the times I ran.
+
+In September 2018, I decided to change things around a bit. First of all, I had read [Advanced Marathoning](https://www.goodreads.com/book/show/363482.Advanced_Marathoning) and decided to follow one of their schedules later that year. In the second week of the schedule, there was a 26k run with 13k at marathon pace. Because I still had a few months before the start of the schedule, I started working my way towards that goal (when I started that September, I could barely manage 1 kilometer at my goal marathon pace).
+
+I really enjoyed running the schedules, even though the mileage was much higher than I normally ran. I only had a few days of being ill, and managed to do my key workouts well (for example, running [26k with 23k at marathon pace](https://www.strava.com/activities/2187511089)). I even ran very close to my PB during a local 10k race at the end of the biggest week of training (120k).
+
+I felt more prepared than every for the 2019 Rotterdam Marathon. There were friends and family along the course, I was excited, and despite being sleep-deprived, I felt like running 2:55 or similar should be very doable. The first 15k felt easy, but towards the half-way point it already felt a bit too difficult. Hoping for a bad patch, I slowed down a little bit, but from km 27 onwards I really had to slow down, finishing in a time of 3:16.
+
+![](/images/rotterdam2019.png)  
+
+After Rotterdam, I was disappointed, frustrated, and a confused: why doesn't the hard work pay off? In the preparation, I sometimes got up at 5am, running in the dark with a headlight. I even ran in snow storms, rain, and temperatures below the freezing point.  I still don't know what went wrong exactly, but I think there were two main factors at play: first of all, it was warm that day (compared to the months before). Second: I had some really rough nights in the months (and specificaly the days) before the marathon. My then 1-year old daughter would be awake for multiple hours during the night, and I would sit at her bedside, comforting her and gently getting her back to sleep. Even today, I think I had maybe ten full nights of sleep since the beginning of the year.
+
+After four years of working hard but getting no results, I started to doubt myself. If you see a discrepancy between what you expect (running under 3 hours) and reality (running way slower) for long enough, at some point, you start to believe reality. Am I getting too old? Am I overestimating myself? Is it something else?
+
+Rather than giving up, I made a few changes at the end of April. I started running with a more accurate heart rate monitor (a strap, rather than Garmin's built-in optical monitor). I hired a personal trainer for intensive weekly strength sessions. I started running my long sessions before breakfast, often without eating anything during the run. I increased my mileage to an average of 110k per week, topping at 140k. I focused more on recovery: immediately get some carbs and protein in after the run (a glass of chocolate milk after a short run, and after longer runs, I make myself a raspberry/banana/protein milkshake). I do a bit more stretching and lots of foam rolling. In the summer, I took ice baths after my long runs (or sometimes I just sat in one of the lakes).
+
+Going into the 2019 Berlin Marathon, I felt more prepared than ever: I only missed about 3 days of training during my 18-week schedule, I managed to get to my goal weight, and during the last weeks, I was working very little (spending lots of time with my daughter instead). During the week before the marathon, my daughter had a bad week sleep-wise, which meant I had to get up a few times a night. For the last two nights before the marathon, I slept on a sofa in the office, rather than at home. 
+
+On the morning of the marathon, I felt tired and slightly hungry (I had carb-loaded for a few days, but the last meal the night before was a bit lighter). On the train, I was annoyed at all the people around me, and I was sweating because it was too hot. Only about half an hour before the start I actually looked forward to running/
+
+I decided to run the first km just a tiny bit slower than my goal pace, and then run the rest of the race based on heart rate (trying to keep it around 170bpm for most of the race). This went really well, and my split times were much faster than I had expected. Knowing from my training that I can maintain that heart rate for a long time (usually without breakfast!) helped me a lot, mentally. Except for one or two people, I hadn't told anyone my goal time, but I hoped to run 2:53 or 2:52. My plan was to run around 1:25 for the first half, and then run a slower second half. I ran [1:25:01](https://berlin.r.mikatiming.com/2019/?content=detail&fpid=search&pid=search&idp=99999905C9AF82000049A6FD&lang=EN&event=MAL&search%5Bname%5D=eidhof&search_event=MAL), felt great, and decided to keep pushing during the second half. The crowd support was great, and I saw many friends along the course (this helped me a lot, mentally).
+
+At 32km, with 10k left, it felt like my legs slowly started filling with concrete. However, I did the math, and realized that even if I dramatically slowed down my pace (from 4:00/km to around 4:30/km), I would still manage to run a 2:52. From then on, I kept on biting off small chunks: off towards km 36. Throughout the race, I had been eating a gel every 6km, and tried to drink a bit at every aid station. At 36k, I had my final gel, and realized it was only 2 more kilometers until my daughter, wife, and parents would be cheering me on (I took them by surprise, they expected me much later and only saw me at the last moment). From km 40 onwards, I realized I could run under 2:50. I kept pushing, and managed to finish in 2:48 (just barely under 2:49). 
+
+![](/images/berlin2019.png)  
+*Berlin 2019: 2:48:51*
+
+Going into the race, I didn't really believe I could run faster than 2:52. Let alone run 4:00/km for an entire marathon. I knew I'd be happy if I would break the 3-hour mark. This result completely took me by surprise, and even now, a few days later, I have trouble believing that I actually did it. I even mis-tweeted my finish time: I wrote I had run 2:52, but instead, it was 2:48!  At 32k, I already had to push back the tears in my eyes, and after the finish, I sobbed for the longest time. I think I managed to squeeze everything out of myself, as both my body and mind felt completely depleted (way more than normally).
+
+Running a marathon isn't necessarily the healthiest thing to do (although training for one probably isn't the worst thing you could do, either). I mostly really like the preparation: feeling both your body and mind adapt, getting fitter and faster. I am pretty relieved that after four years, I now know I wasn't a complete fool to feel like I could run under three hours again: all the hard work paid off.
+
+I'm not sure what my running goals for the future will be. I feel like there's still some room for improvement (better sleep, better conditions on race day (no rain), more strength and an improved running technique). However, for now, I'll just enjoy the autumn running, with no specific goals. (Okay, I will admit I have been looking at spring marathons in 2020...)

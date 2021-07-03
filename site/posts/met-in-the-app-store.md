@@ -1,0 +1,46 @@
+---
+aliases:
+  - /posts/met-in-the-app-store.html
+date: 2011-10-27
+title: Met In The App Store
+---
+
+This morning at 10:11 GMT+1, version 1.0 of Met was submitted to the App Store.
+It’s been quite an experience, blogging about everything, from before there was
+an idea until the App Store submission. I will write a recap of everything next
+week.&#10;
+
+In the last few days, I’ve been helping out with an ultra marathon, and met a
+lot of interesting and inspiring people. There was a 73-year old guy who ran 160
+kilometers (100 miles) who finished without any problems. Very impressive. After
+the race, I travelled to Málaga and yesterday I got back to The Netherlands.
+During this time, I felt bad for not writing about Met, as it was almost ready.
+Yesterday, I fixed a last bug while I was waiting on the airport.&#10;
+
+Travelling always makes me come up with new thoughts. The faster I travel, the
+bigger the thoughts seem to be. As I was in an airplane yesterday, I had some
+high-level ideas about what to do with my life.&#10;
+
+At this moment, I found out that making enough money from selling my own
+products is a little harder than I thought. However, I really love what I’m
+doing, and I’m having a great time. It is probably going to take me longer than
+I expected to be able to live off of the passive income made from my apps, but
+I’m not worried about that. In the meantime, I’ll do some client projects
+(anybody looking for an iOS developer?).&#10;
+
+Now that the first version of Met is submitted to the App Store, it’s almost
+time for some other projects. I still need to write a press release and send it
+out, but after that is fully prepared I look forward to work on some other
+projects. One thing I’ll be working is the [super-secret
+project](/post/9873846899/ive-got-an-idea-for-an-app) I wrote about earlier. The
+physical prototypes are almost ready, and the first version of the iPhone app
+too. Also, [Uli](http://ulischoeberl.com/) and I are going to spend a week
+getting the app done that we’ve worked on and talked about for the last few
+months.&#10;
+
+I love running, and have been training quite heavily for the last 1.5 years. I
+track all my running using my Garmin 405 watch, and all the activities are
+uploaded to Garmin Connect, a webservice for analyzing everything about your
+workout. However, they don’t have an iPhone or iPad client, and I would love to
+have a decent app for that. This is one of the ideas I’m thinking about building
+next.&#10;
