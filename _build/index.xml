@@ -1,0 +1,2788 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Chris Eidhof</title>
+		<description>
+			Personal Blog
+		</description>
+		<link>http://chris.eidhof.nl</link>
+		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
+		<item>
+			<title>2019</title>
+			<description>
+				
+&lt;p&gt;
+	This was my first full year of being a dad (my daughter was born at the end of March in 2018), and to accomodate for that, I did not plan anything big. I focused on spending lots of time with the family, working and running (in that order). Compared to 2018, I got a lot better at spending time at home while doing nothing: I used to feel a bit guilty for not being &amp;quot;productive&amp;quot;, but I do believe just being there and spending time with my daughter is one of the best things I can do for her.
+&lt;/p&gt;
+&lt;p&gt;
+	The best month was September: I took a month off of work (except for maintenance things here and there), and also really drastically &lt;a href=&quot;https://www.calnewport.com/books/digital-minimalism/&quot; title&gt;limited social media&lt;/a&gt; (I mainly use Twitter) and other digital entertainment (Youtube, Hacker News, etc.). I still spent an average of 30 minutes on my phone every day, but that mostly consisted of things like Google Maps, Spotify and browsing/reading recipes. The rest of the time I spent running and hanging around with my daughter. I did miss work, after a month, and I was glad to get back to it in October.
+&lt;/p&gt;
+&lt;p&gt;
+	As part of getting adjusted to being a family, we also decided to go on a few trips together: I spoke and gave a workshop in Montreal at &lt;a href=&quot;https://nsnorth.ca/&quot; title&gt;NSNorth&lt;/a&gt;, and brought the rest of the family. We learned that flying such a long distance is quite doable, and are glad we did it, but we wouldn&amp;apos;t do it again anytime soon. Instead, in June, we went on a train trip to Vienna, Krakow, and Warsaw, which was lots of fun. My daughter loved crawling around the train and saying hi to all the other passengers.
+&lt;/p&gt;
+&lt;p&gt;
+	As an experiment, I also traveled to Argentina to speak, and combined it with a hiking holiday in Patagonia, together with my brother. Being away from the family for two weeks was hard, but I did have a great time nonetheless. Another lesson learned: I wouldn&amp;apos;t want to travel for that long without the family anytime soon.
+&lt;/p&gt;
+&lt;p&gt;
+	Work-wise, it was a really interesting year, despite not shipping big new things ourselves. SwiftUI came out, and it&amp;apos;s been a lot of fun learning about it. So much fun that we even decided to write a short book about it (the official announcement for this will come soon). For a few weeks in October/November, I spent the weekdays in a holiday apartment a short bike ride away from where we live. With no internet connection and no distractions, I managed to be extremely productive. I would get started at 7:30 in the morning, and leave by 15:00, leaving lots of time for everything that isn&amp;apos;t work.
+&lt;/p&gt;
+&lt;p&gt;
+	I decided to run a higher mileage in 2019. I ran 4386 kilometers (2725 miles), and really enjoyed it. While it didn&amp;apos;t bring immediate results in the Rotterdam marathon, it worked really, really well for the Berlin marathon. I smashed my PB and ran 2:48. Here&amp;apos;s my &lt;a href=&quot;http://chris.eidhof.nl/post/race-report-berlin-marathon/&quot; title&gt;race report&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	For 2020, in reverse order, my goal is to run an even higher mileage so I can further improve my marathon PB. I might get injured doing that, but at least I want to give it a real try. Work-wise, we&amp;apos;re writing the new book, and we also really want to ship an app again (Mac, iOS or something hybrid). While we have some ideas about what it&amp;apos;s going to be, we haven&amp;apos;t fully decided yet. Personally, I want to keep spending lots of quality time with the family.
+&lt;/p&gt;
+&lt;p&gt;
+	I plan to do another month (or maybe even longer) without digital entertainment, and also plan to again take a full month off to just be at home. Finally, I&amp;apos;ll fly as little as possible in 2020 (at the very least not for speaking at conferences or going on holidays).
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 30 Dec 2019 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2019</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2019</guid>
+		</item>
+		<item>
+			<title>Race Report: Berlin Marathon</title>
+			<description>
+				
+&lt;p&gt;
+	In 2015, I ran the Berlin Marathon in just under three hours: 2:59:41. It was my fourth attempt at the marathon. Even though I hit the wall at km 34, I had run the first bit fast enough to still make it under three hours. Before the race, I believed I could run under three hours, but actually doing so was a really magical feeling.
+&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/berlin2015.png&quot; title/&gt;&lt;em&gt;Berlin 2015: Still ran 2:59&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;
+	In the years after, I kept on training, and kept running marathons about twice a year. Even though I felt I could run under three hours, I never managed again. Sometimes, I had a good excuse: in Seville in 2018 I felt prepared, but it was too hot and I came down with a stomach bug after. I didn&amp;apos;t expect to hit the wall so early, though:
+&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/seville2018.png&quot; title/&gt;
+	&lt;br/&gt;&lt;em&gt;Seville 2018: 3:28&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;
+	After four years of decent training, and no personal bests in the marathon, I felt a bit like a &lt;em&gt;Trainingsweltmeister&lt;/em&gt; (literal translation: world champion in training). Even though I would run a PB on the 10k or half marathon every once in a while, I always failed hard at keeping my pace during the marathon, even though I felt prepared most of the times I ran.
+&lt;/p&gt;
+&lt;p&gt;
+	In September 2018, I decided to change things around a bit. First of all, I had read &lt;a href=&quot;https://www.goodreads.com/book/show/363482.Advanced_Marathoning&quot; title&gt;Advanced Marathoning&lt;/a&gt; and decided to follow one of their schedules later that year. In the second week of the schedule, there was a 26k run with 13k at marathon pace. Because I still had a few months before the start of the schedule, I started working my way towards that goal (when I started that September, I could barely manage 1 kilometer at my goal marathon pace).
+&lt;/p&gt;
+&lt;p&gt;
+	I really enjoyed running the schedules, even though the mileage was much higher than I normally ran. I only had a few days of being ill, and managed to do my key workouts well (for example, running &lt;a href=&quot;https://www.strava.com/activities/2187511089&quot; title&gt;26k with 23k at marathon pace&lt;/a&gt;). I even ran very close to my PB during a local 10k race at the end of the biggest week of training (120k).
+&lt;/p&gt;
+&lt;p&gt;
+	I felt more prepared than every for the 2019 Rotterdam Marathon. There were friends and family along the course, I was excited, and despite being sleep-deprived, I felt like running 2:55 or similar should be very doable. The first 15k felt easy, but towards the half-way point it already felt a bit too difficult. Hoping for a bad patch, I slowed down a little bit, but from km 27 onwards I really had to slow down, finishing in a time of 3:16.
+&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/rotterdam2019.png&quot; title/&gt;&lt;/p&gt;
+&lt;p&gt;
+	After Rotterdam, I was disappointed, frustrated, and a confused: why doesn&amp;apos;t the hard work pay off? In the preparation, I sometimes got up at 5am, running in the dark with a headlight. I even ran in snow storms, rain, and temperatures below the freezing point.  I still don&amp;apos;t know what went wrong exactly, but I think there were two main factors at play: first of all, it was warm that day (compared to the months before). Second: I had some really rough nights in the months (and specificaly the days) before the marathon. My then 1-year old daughter would be awake for multiple hours during the night, and I would sit at her bedside, comforting her and gently getting her back to sleep. Even today, I think I had maybe ten full nights of sleep since the beginning of the year.
+&lt;/p&gt;
+&lt;p&gt;
+	After four years of working hard but getting no results, I started to doubt myself. If you see a discrepancy between what you expect (running under 3 hours) and reality (running way slower) for long enough, at some point, you start to believe reality. Am I getting too old? Am I overestimating myself? Is it something else?
+&lt;/p&gt;
+&lt;p&gt;
+	Rather than giving up, I made a few changes at the end of April. I started running with a more accurate heart rate monitor (a strap, rather than Garmin&amp;apos;s built-in optical monitor). I hired a personal trainer for intensive weekly strength sessions. I started running my long sessions before breakfast, often without eating anything during the run. I increased my mileage to an average of 110k per week, topping at 140k. I focused more on recovery: immediately get some carbs and protein in after the run (a glass of chocolate milk after a short run, and after longer runs, I make myself a raspberry/banana/protein milkshake). I do a bit more stretching and lots of foam rolling. In the summer, I took ice baths after my long runs (or sometimes I just sat in one of the lakes).
+&lt;/p&gt;
+&lt;p&gt;
+	Going into the 2019 Berlin Marathon, I felt more prepared than ever: I only missed about 3 days of training during my 18-week schedule, I managed to get to my goal weight, and during the last weeks, I was working very little (spending lots of time with my daughter instead). During the week before the marathon, my daughter had a bad week sleep-wise, which meant I had to get up a few times a night. For the last two nights before the marathon, I slept on a sofa in the office, rather than at home.
+&lt;/p&gt;
+&lt;p&gt;
+	On the morning of the marathon, I felt tired and slightly hungry (I had carb-loaded for a few days, but the last meal the night before was a bit lighter). On the train, I was annoyed at all the people around me, and I was sweating because it was too hot. Only about half an hour before the start I actually looked forward to running/
+&lt;/p&gt;
+&lt;p&gt;
+	I decided to run the first km just a tiny bit slower than my goal pace, and then run the rest of the race based on heart rate (trying to keep it around 170bpm for most of the race). This went really well, and my split times were much faster than I had expected. Knowing from my training that I can maintain that heart rate for a long time (usually without breakfast!) helped me a lot, mentally. Except for one or two people, I hadn&amp;apos;t told anyone my goal time, but I hoped to run 2:53 or 2:52. My plan was to run around 1:25 for the first half, and then run a slower second half. I ran &lt;a href=&quot;https://berlin.r.mikatiming.com/2019/?content=detail&amp;fpid=search&amp;pid=search&amp;idp=99999905C9AF82000049A6FD&amp;lang=EN&amp;event=MAL&amp;search%5Bname%5D=eidhof&amp;search_event=MAL&quot; title&gt;1:25:01&lt;/a&gt;, felt great, and decided to keep pushing during the second half. The crowd support was great, and I saw many friends along the course (this helped me a lot, mentally).
+&lt;/p&gt;
+&lt;p&gt;
+	At 32km, with 10k left, it felt like my legs slowly started filling with concrete. However, I did the math, and realized that even if I dramatically slowed down my pace (from 4:00/km to around 4:30/km), I would still manage to run a 2:52. From then on, I kept on biting off small chunks: off towards km 36. Throughout the race, I had been eating a gel every 6km, and tried to drink a bit at every aid station. At 36k, I had my final gel, and realized it was only 2 more kilometers until my daughter, wife, and parents would be cheering me on (I took them by surprise, they expected me much later and only saw me at the last moment). From km 40 onwards, I realized I could run under 2:50. I kept pushing, and managed to finish in 2:48 (just barely under 2:49).
+&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/berlin2019.png&quot; title/&gt;
+	&lt;br/&gt;&lt;em&gt;Berlin 2019: 2:48:51&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;
+	Going into the race, I didn&amp;apos;t really believe I could run faster than 2:52. Let alone run 4:00/km for an entire marathon. I knew I&amp;apos;d be happy if I would break the 3-hour mark. This result completely took me by surprise, and even now, a few days later, I have trouble believing that I actually did it. I even mis-tweeted my finish time: I wrote I had run 2:52, but instead, it was 2:48!  At 32k, I already had to push back the tears in my eyes, and after the finish, I sobbed for the longest time. I think I managed to squeeze everything out of myself, as both my body and mind felt completely depleted (way more than normally).
+&lt;/p&gt;
+&lt;p&gt;
+	Running a marathon isn&amp;apos;t necessarily the healthiest thing to do (although training for one probably isn&amp;apos;t the worst thing you could do, either). I mostly really like the preparation: feeling both your body and mind adapt, getting fitter and faster. I am pretty relieved that after four years, I now know I wasn&amp;apos;t a complete fool to feel like I could run under three hours again: all the hard work paid off.
+&lt;/p&gt;
+&lt;p&gt;
+	I&amp;apos;m not sure what my running goals for the future will be. I feel like there&amp;apos;s still some room for improvement (better sleep, better conditions on race day (no rain), more strength and an improved running technique). However, for now, I&amp;apos;ll just enjoy the autumn running, with no specific goals. (Okay, I will admit I have been looking at spring marathons in 2020...)
+&lt;/p&gt;
+			</description>
+			<pubDate>Tue, 01 Oct 2019 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/race-report-berlin-marathon</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/race-report-berlin-marathon</guid>
+		</item>
+		<item>
+			<title>Swift Analytics</title>
+			<description>
+				
+&lt;p&gt;
+	There have been a number of blog posts about the best way to do analytics in Swift:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			John writes about using &lt;a href=&quot;https://www.swiftbysundell.com/posts/building-an-enum-based-analytics-system-in-swift&quot; title&gt;enums&lt;/a&gt;.
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Matt writes about using &lt;a href=&quot;http://matt.diephouse.com/2017/12/when-not-to-use-an-enum/&quot; title&gt;structs&lt;/a&gt;.
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Dave writes about using &lt;a href=&quot;https://davedelong.com/blog/2017/12/07/misusing-enums/&quot; title&gt;protocols&lt;/a&gt;.
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Soroush writes about &lt;a href=&quot;http://khanlou.com/2017/12/misusing-subclassing/&quot; title&gt;subclasses&lt;/a&gt;.
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	Krzysztof &lt;a href=&quot;https://twitter.com/kprofic/status/938910246810062848&quot; title&gt;asked&lt;/a&gt; about whether I would do a function-based version.
+&lt;/p&gt;
+&lt;p&gt;
+	I think all solutions are valid. They&amp;apos;re different embeddings of the same problem. Another version to consider is the simplest one: just inlining the network calls into your code. Maybe that already does the job, and you&amp;apos;re set.
+&lt;/p&gt;
+&lt;p&gt;
+	Now imagine that you find you make mistakes when writing the code. For example, you forget to provide the name, or you mistype the metadata keys. To prevent this, you could wrap up the network calls in functions. Functional programmers call this a &lt;em&gt;shallow embedding&lt;/em&gt;: you express your domain logic in a very thin wrapper. It&amp;apos;s the easiest way to add type-safety to an untyped domain.
+&lt;/p&gt;
+&lt;p&gt;
+	A &lt;em&gt;deep embedding&lt;/em&gt; is when you can also inspect (and possibly modify) the data. This is useful when you write tests, or when you need to change the structure at a later point. Matt&amp;apos;s struct-based solution provides the most minimal way to inspect the data: he just bundles up the analytics parameters. By providing type-safe initializers, the construction is made type-safe, even though the actual embedding (a string and a dictionary) loses the type-safety. This is a great choice, unless you need to transform the data afterwords.
+&lt;/p&gt;
+&lt;p&gt;
+	John&amp;apos;s enum-based approach is another deep embedding: by providing cases for each possible event, he maintains the structure and type-safety. If you need to transform analytic events (for example, merging multiple events, or changing them in some other way) the enum approach is great: as long as you get out an enum value at the end, you know the data is well-formed.
+&lt;/p&gt;
+&lt;p&gt;
+	Dave&amp;apos;s protocol-based approach allows you to have multiple different representations for your analytics events. For example, you could use Dave&amp;apos;s approach with John&amp;apos;s enums, Matt&amp;apos;s structs, and Soroush&amp;apos;s subclasses, at the same time, as long as they all conform to the protocol.
+&lt;/p&gt;
+&lt;p&gt;
+	Another approach would be to group all the function wrappers in a protocol that you can send events to. Then you could have two implementations: one for testing/serialization, and for direct sending of the events. This is often used with dependency injection.
+&lt;/p&gt;
+&lt;p&gt;
+	Each approach above adds a little bit of complexity to the code.
+&lt;/p&gt;
+&lt;p&gt;
+	I&amp;apos;m a big fan of using the simplest possible solution for your problem and team:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			If you&amp;apos;re a precise programmer and don&amp;apos;t care about testing, just inline your network calls
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			If you want more type-safety, wrap your network calls in functions
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			If you use Matt&amp;apos;s struct-based initializer, you know the result is well-formed.
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			If you plan to transform your values and want this to be safe, use John&amp;apos;s enums
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			If you need ultimate flexibility, use Dave&amp;apos;s protocols
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+			</description>
+			<pubDate>Fri, 08 Dec 2017 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/swift-analytics</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/swift-analytics</guid>
+		</item>
+		<item>
+			<title>A Micro Auto Layout DSL</title>
+			<description>
+				
+&lt;p&gt;
+	These days, I&amp;apos;m using fewer external libraries. First, I don&amp;apos;t like most Swift libraries out there, they&amp;apos;re often implemented in a complicated way and contain too many protocols for my taste. Second, I&amp;apos;m not sure how they&amp;apos;ll be maintained in the future, and most libraries are pretty big -- I don&amp;apos;t really want to own that code. Third, I&amp;apos;m too lazy to set up a dependency manager, so I&amp;apos;ll keep my projects dependency-free.
+&lt;/p&gt;
+&lt;p&gt;
+	However, the other day as I was writing some UIKit code, I found myself annoyed at the verbosity of Auto Layout. Here&amp;apos;s some code that I wrote over and over again:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let view = UIView()
+let label = UILabel()
+view.addSubview(label)
+label.translatesAutoresizingMaskIntoConstraints = false
+NSLayoutConstraint.activate([
+    label.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+    label.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+    label.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	It&amp;apos;s always the same pattern: adding the subview, setting &lt;code&gt;translatesAutoresizingMaskIntoConstraints&lt;/code&gt; to false, and then activating the constraints. The first anchor and the second anchor are almost always the same, and on the left-hand side we always have the child and on the right-hand side we always have the parent view. Often, when I write the code above, I forget to active the constraints or forget to set &lt;code&gt;translatesAutoresizingMaskIntoConstraints&lt;/code&gt;. Let&amp;apos;s try to solve as many of these problems as we can in as little code as possible.
+&lt;/p&gt;
+&lt;p&gt;
+	Rather than pulling in a library, I decided to write my own. The first bit of my micro-library is a function that, given a child and a parent, returns a layout constraint:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;typealias Constraint = (_ child: UIView, _ parent: UIView) -&amp;gt; NSLayoutConstraint
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Ideally, we would now write a method &lt;code&gt;equal&lt;/code&gt; which allows us to write following:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let constraint: Constraint = equal(\.topAnchor, \.safeAreaLayoutGuide.topAnchor)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Note that &lt;code&gt;constraint&lt;/code&gt; is just a description of a layout constraint -- it&amp;apos;s still waiting for a concrete child and parent view. It says that, given a child and parent, the child&amp;apos;s top anchor should be equal to the parent&amp;apos;s &lt;code&gt;safeAreaLayoutGuide.topAnchor&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	We can implement &lt;code&gt;equal&lt;/code&gt; with a little bit of keypath magic:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func equal&amp;lt;Axis, Anchor&amp;gt;(_ keyPath: KeyPath&amp;lt;UIView, Anchor&amp;gt;, _ to: KeyPath&amp;lt;UIView, Anchor&amp;gt;, constant: CGFloat = 0) -&amp;gt; Constraint where Anchor: NSLayoutAnchor&amp;lt;Axis&amp;gt; {
+    return { view, parent in
+        view[keyPath: keyPath].constraint(equalTo: parent[keyPath: to], constant: constant)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Most of the time, the two layout anchors are the same (e.g. &lt;code&gt;leadingAnchor&lt;/code&gt; and &lt;code&gt;leadingAnchor&lt;/code&gt;), so let&amp;apos;s write a small helper for that case:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func equal&amp;lt;Axis, Anchor&amp;gt;(_ keyPath: KeyPath&amp;lt;UIView, Anchor&amp;gt;, constant: CGFloat = 0) -&amp;gt; Constraint where Anchor: NSLayoutAnchor&amp;lt;Axis&amp;gt; {
+    return equal(keyPath, keyPath, constant: constant)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Finally, let&amp;apos;s solve the last two problems: we don&amp;apos;t want to forget to set &lt;code&gt;translatesAutoresizingMaskIntoConstraints&lt;/code&gt; to false, and we don&amp;apos;t want to forget to activate the constraints. What if we create another version of &lt;code&gt;addSubview&lt;/code&gt; that does this for us?
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension UIView {
+    func addSubview(_ child: UIView, constraints: [Constraint]) {
+        addSubview(child)
+        child.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(constraints.map { $0(child, self) })
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We now have everything in place to rewrite our initial example:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let view = UIView()
+let label = UILabel()
+view.addSubview(label, constraints: [
+   equal(\.leadingAnchor),
+   equal(\.topAnchor, \.safeAreaLayoutGuide.topAnchor),
+   equal(\.trailingAnchor)
+])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The code is shorter and much more to the point. The &lt;code&gt;translatesAutoresizingMaskIntoConstraints&lt;/code&gt; is set automatically, and all constraints are activated. Instead of depending on a big library, we wrote three methods; 15 lines of code in total. Obviously, there are many things you can&amp;apos;t do with this: for example, you can&amp;apos;t easily keep a reference to a specific constraint and change the &lt;code&gt;constant&lt;/code&gt; property. That&amp;apos;s fine, we can keep using the regular Auto Layout API for this.
+&lt;/p&gt;
+&lt;p&gt;
+	There are a few obvious extensions that are left as an exercise:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Add a way to constrain an anchor to a constant (instead of another anchor and a constant)
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Add a way to constrain to a different view than the parent (e.g. the content view of a &lt;code&gt;UIVisualEffectView&lt;/code&gt;)
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	Thanks to Florian Kugler for helping me simplify the code a lot. We also made a &lt;a href=&quot;https://talk.objc.io/episodes/S01E75-auto-layout-with-key-paths&quot; title&gt;Swift Talk&lt;/a&gt; episode about the code above, check it out.
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 27 Oct 2017 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/micro-autolayout-dsl</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/micro-autolayout-dsl</guid>
+		</item>
+		<item>
+			<title>Struct References</title>
+			<description>
+				
+&lt;blockquote&gt;
+	&lt;p&gt;
+		The full code for this is available as a &lt;a href=&quot;https://gist.github.com/chriseidhof/3423e722d1da4e8cce7cfdf85f026ef7&quot; title&gt;gist&lt;/a&gt;.
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	Recently I was trying to find a good use for Swift&amp;apos;s new keypaths. This post shows one example that accidentally came up. This is something I&amp;apos;ve researched, and not something I&amp;apos;ve used in production code. That said, I think it&amp;apos;s very cool and I&amp;apos;d like to show it.
+&lt;/p&gt;
+&lt;p&gt;
+	Consider a simple address book application. It contains a table view with people, and a detail view controller which shows a &lt;code&gt;Person&lt;/code&gt; instance. If &lt;code&gt;Person&lt;/code&gt; were defined as a class, it&amp;apos;d look like this:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;class Person {
+    var name: String
+    var addresses: [Address]
+    init(name: String, addresses: [Address]) {
+        self.name = name
+        self.addresses = addresses
+    }
+}
+
+class Address {
+    var street: String
+    init(street: String) {
+        self.street = street
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The definition for our (fake) view controller has a single person property, which gets passed in through the initializer. It also has a &lt;code&gt;change&lt;/code&gt; method which changes a property of the person.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;final class PersonVC {
+    var person: Person
+    init(person: Person) {
+        self.person = person
+    }
+    
+    func change() {
+        person.name = &amp;quot;New Name&amp;quot;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Let&amp;apos;s consider the problems with &lt;code&gt;Person&lt;/code&gt; being an object:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Because &lt;code&gt;person&lt;/code&gt; is a reference, a different part of the code might change it. This is very useful as it allows communication. At the same time, we need to make sure that we stay notified of those changes (for example, through KVO) otherwise we might be displaying data that&amp;apos;s out of sync. Making sure we stay notified is not straightforward.
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Getting notified when &lt;code&gt;addresses&lt;/code&gt; change is even harder. Observing nested properties that are objects is difficult.
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			If we need an independent local copy of &lt;code&gt;Person&lt;/code&gt;, we&amp;apos;d need to implement something like &lt;code&gt;NSCopying&lt;/code&gt;. This is quite a bit of work. Even when we have that, we still have to think: do we want a deep copy (e.g. should the addresses also be copied) or a shallow copy (the &lt;code&gt;addresses&lt;/code&gt; array is independent, but the addresses inside still point to the same objects)?
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			If we think of &lt;code&gt;Person&lt;/code&gt; as being in an array inside &lt;code&gt;AddressBook&lt;/code&gt;, we might want to know when the address book changes (for example, to serialize it). Knowing when something inside your object graph changes either requires a lot of boilerplate, or a lot of observing.
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	If &lt;code&gt;Person&lt;/code&gt; and &lt;code&gt;Address&lt;/code&gt; were structs, we&amp;apos;d have different issues:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Each struct is an independent copy. This is useful, because we know it&amp;apos;s always consistent and can&amp;apos;t change underneath us. However, after we change a &lt;code&gt;Person&lt;/code&gt; in the detail view controller, we&amp;apos;d need a way to communicate those changes back to the table view (or to the address book). With objects, this happens /automatically (by changing the &lt;code&gt;Person&lt;/code&gt; in place).
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			We can observe the root address book struct, and know of any changes that happen within. Still, we can&amp;apos;t easily observe parts of it (e.g. observe the first person&amp;apos;s name).
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	The solution that I present combines the best of both worlds:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			We have mutable shared references
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			The underlying data is structs, so we can always get our own independent copy
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			We can observe any part: either at the root level, or observe individual properties (e.g. the first person&amp;apos;s name)
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	I&amp;apos;ll first show how to use it, then how it works and finally discuss some of the limitations and gotchas.
+&lt;/p&gt;
+&lt;p&gt;
+	Let&amp;apos;s create an address book using structs:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Address {
+    var street: String
+}
+struct Person {
+    var name: String
+    var addresses: [Address]
+}
+
+typealias Addressbook = [Person]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Now we can use our &lt;code&gt;Ref&lt;/code&gt; type (short for &lt;code&gt;Reference&lt;/code&gt;). We create a new &lt;code&gt;addressBook&lt;/code&gt; reference with an initial empty array. Then we append a &lt;code&gt;Person&lt;/code&gt;. Now for the cool part: by using subscripts, we can get a &lt;em&gt;reference&lt;/em&gt; to the first person, and then a &lt;em&gt;reference&lt;/em&gt; to their name. We can change the value of the reference to &lt;code&gt;&amp;quot;New Name&amp;quot;&lt;/code&gt; and verify that we&amp;apos;ve changed the original address book:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let addressBook = Ref&amp;lt;Addressbook&amp;gt;(initialValue: [])
+addressBook.value.append(Person(name: &amp;quot;Test&amp;quot;, addresses: []))
+let firstPerson: Ref&amp;lt;Person&amp;gt; = addressBook[0]
+let nameOfFirstPerson: Ref&amp;lt;String&amp;gt; = firstPerson[\.name]
+nameOfFirstPerson.value = &amp;quot;New Name&amp;quot;
+addressBook.value // shows [Person(name: &amp;quot;New Name&amp;quot;, addresses: [])]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The types for &lt;code&gt;firstPerson&lt;/code&gt; and &lt;code&gt;nameOfFirstPerson&lt;/code&gt; can be omitted, they&amp;apos;re just there for readability.
+&lt;/p&gt;
+&lt;p&gt;
+	If at any point we want to get our own independent value of &lt;code&gt;Person&lt;/code&gt;, we can do that. From there on, we can work with &lt;code&gt;myOwnCopy&lt;/code&gt; and be sure it&amp;apos;s not changed from underneath us. No need to implement &lt;code&gt;NSCopying&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var myOwnCopy: Person = firstPerson.value
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We can observe any &lt;code&gt;Ref&lt;/code&gt;. Just like with reactive libraries, we get a disposable back which controls the lifetime of an observer:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var disposable: Any?
+disposable = addressBook.addObserver { newValue in
+    print(newValue) // Prints the entire address book
+}
+
+disposable = nil // stop observing
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We can also observe &lt;code&gt;nameOfFirstPerson&lt;/code&gt;. In the current implementation, this gets triggered anytime anything changes in the address book, but more about that later.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;nameOfFirstPerson.addObserver { newValue in
+    print(newValue) // Prints a string
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Let&amp;apos;s go back to our &lt;code&gt;PersonVC&lt;/code&gt;. We can change its implementation to use a &lt;code&gt;Ref&lt;/code&gt;. The view controller can now subscribe to changes. In reactive programming, a signal is typically read-only (you only receive changes), and you need to figure another way to communicate back. In the &lt;code&gt;Ref&lt;/code&gt; approach, we can write back using &lt;code&gt;person.value&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;final class PersonVC {
+    let person: Ref&amp;lt;Person&amp;gt;
+    var disposeBag: Any?
+    init(person: Ref&amp;lt;Person&amp;gt;) {
+        self.person = person
+        disposeBag = person.addObserver { newValue in
+            print(&amp;quot;update view for new person value: \(newValue)&amp;quot;)
+        }
+    }
+    
+    func change() {
+        person.value.name = &amp;quot;New Name&amp;quot;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The &lt;code&gt;PersonVC&lt;/code&gt; doesn&amp;apos;t know where the &lt;code&gt;Ref&amp;lt;Person&amp;gt;&lt;/code&gt; comes from: a person array, a database, or somewhere else. In fact, we can add undo support to our address book by wrapping our array inside a &lt;a href=&quot;http://chris.eidhof.nl/post/undo-history-in-swift/&quot; title&gt;&lt;code&gt;History&lt;/code&gt; struct&lt;/a&gt;, and we don&amp;apos;t need to change the &lt;code&gt;PersonVC&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let source: Ref&amp;lt;History&amp;lt;Addressbook&amp;gt;&amp;gt; = Ref(initialValue: History(initialValue: []))
+let addressBook: Ref&amp;lt;Addressbook&amp;gt; = source[\.value]
+addressBook.value.append(Person(name: &amp;quot;Test&amp;quot;, addresses: []))
+addressBook[0].value.name = &amp;quot;New Name&amp;quot;
+print(addressBook[0].value)
+source.value.undo()
+print(addressBook[0].value)
+source.value.redo()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	There&amp;apos;s a lot of other things we could add to this: caching, &lt;a href=&quot;https://gist.github.com/chriseidhof/40fde6c2be5519d5bb341fc65b3029ad&quot; title&gt;serialization&lt;/a&gt;, automatic synchronization (e.g. only modify and observe on a private queue), but that&amp;apos;s future work.
+&lt;/p&gt;
+&lt;h3&gt;
+	Implementation Details
+&lt;/h3&gt;
+&lt;p&gt;
+	Let&amp;apos;s look at how this thing is implemented. We&amp;apos;ll start by defining the &lt;code&gt;Ref&lt;/code&gt; class. A &lt;code&gt;Ref&lt;/code&gt; consists of a way to get and set a value, and a way to add an observer. It has an initializer that asks for just those three things:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;final class Ref&amp;lt;A&amp;gt; {
+    typealias Observer = (A) -&amp;gt; ()
+    
+    private let _get: () -&amp;gt; A
+    private let _set: (A) -&amp;gt; ()
+    private let _addObserver: (@escaping Observer) -&amp;gt; Disposable
+    
+    var value: A {
+        get {
+            return _get()
+        }
+        set {
+            _set(newValue)
+        }
+    }
+    
+    init(get: @escaping () -&amp;gt; A, set: @escaping (A) -&amp;gt; (), addObserver: @escaping (@escaping Observer) -&amp;gt; Disposable) {
+        _get = get
+        _set = set
+        _addObserver = addObserver
+    }    
+
+    func addObserver(observer: @escaping Observer) -&amp;gt; Disposable {
+        return _addObserver(observer)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We can now add an initializer that observers a single struct value. It creates a dictionary of observers and a variable. Whenever the variable changes, all observers get notified. It uses the initializer defined above and passes on &lt;code&gt;get&lt;/code&gt;, &lt;code&gt;set&lt;/code&gt;, and &lt;code&gt;addObserver&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Ref {
+    convenience init(initialValue: A) {
+        var observers: [Int: Observer] = [:]
+        var theValue = initialValue {
+            didSet { observers.values.forEach { $0(theValue) } }
+        }
+        var freshId = (Int.min...).makeIterator()
+        let get = { theValue }
+        let set = { newValue in theValue = newValue }
+        let addObserver = { (newObserver: @escaping Observer) -&amp;gt; Disposable in
+            let id = freshId.next()!
+            observers[id] = newObserver
+            return Disposable {
+                observers[id] = nil
+            }
+        }
+        self.init(get: get, set: set, addObserver: addObserver)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Let&amp;apos;s consider we have &lt;code&gt;Person&lt;/code&gt; reference. In order to get a reference to its &lt;code&gt;name&lt;/code&gt; property, we need a way to both read and write the name. A &lt;code&gt;WritableKeyPath&lt;/code&gt; provides just that. We can thus add a &lt;code&gt;subscript&lt;/code&gt; to &lt;code&gt;Ref&lt;/code&gt; that creates a reference to part of the &lt;code&gt;Person&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Ref {
+    subscript&amp;lt;B&amp;gt;(keyPath: WritableKeyPath&amp;lt;A,B&amp;gt;) -&amp;gt; Ref&amp;lt;B&amp;gt; {
+        let parent = self
+        return Ref&amp;lt;B&amp;gt;(get: { parent._get()[keyPath: keyPath] }, set: {
+            var oldValue = parent.value
+            oldValue[keyPath: keyPath] = $0
+            parent._set(oldValue)
+        }, addObserver: { observer in
+            parent.addObserver { observer($0[keyPath: keyPath]) }
+        })
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The code above is a bit hard to read, but in order to use the library, you don&amp;apos;t really need to understand how it&amp;apos;s implemented.
+&lt;/p&gt;
+&lt;p&gt;
+	One day, keypaths in Swift will also support subscripts, but until then, we&amp;apos;ll have to add another subscript for collections. The implementation is almost the same as above, except that we use indices rather than keypaths:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Ref where A: MutableCollection {
+    subscript(index: A.Index) -&amp;gt; Ref&amp;lt;A.Element&amp;gt; {
+        return Ref&amp;lt;A.Element&amp;gt;(get: { self._get()[index] }, set: { newValue in
+            var old = self.value
+            old[index] = newValue
+            self._set(old)
+        }, addObserver: { observer in
+                self.addObserver { observer($0[index]) }
+        })
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	That&amp;apos;s all there is to it. The code uses a lot of advanced Swift features, but it&amp;apos;s under a hundred lines. It wouldn&amp;apos;t be possible without all the new Swift 4 additions: it relies on keypaths, generic subscripts, open-ended ranges, and a lot of features that were previously available in Swift.
+&lt;/p&gt;
+&lt;h3&gt;
+	Discussion
+&lt;/h3&gt;
+&lt;p&gt;
+	As stated before, this is research code, not production-level code. I&amp;apos;m very interested to see where and how this breaks once I start using it in a real app. Here&amp;apos;s a snippet that had some very counter-intuitive behavior for me:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var twoPeople: Ref&amp;lt;Addressbook&amp;gt; = Ref(initialValue:
+    [Person(name: &amp;quot;One&amp;quot;, addresses: []),
+     Person(name: &amp;quot;Two&amp;quot;, addresses: [])])
+let p0 = twoPeople[0]
+twoPeople.value.removeFirst()
+print(p0.value) // what does this print?
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	I&amp;apos;d be really interested in pushing this further. I can imagine adding support for queues, so that you can do something like:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var source = Ref&amp;lt;Addressbook&amp;gt;(initialValue: [], 
+    queue: DispatchQueue(label: &amp;quot;private queue&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	I can also imagine that you could use this with a database. The &lt;code&gt;Var&lt;/code&gt; would allow you to both read and write, as well as subscribe to any notifications:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;final class MyDatabase {
+   func readPerson(id: Person.Id) -&amp;gt; Var&amp;lt;Person&amp;gt; {
+   }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	I&amp;apos;d love to hear comments and feedback. If you want to get a deeper understanding of how this works, try implementing it yourself (even after you&amp;apos;ve had a look at the code). By the way, we&amp;apos;ll also make two &lt;a href=&quot;http://talk.objc.io/&quot; title&gt;Swift Talk&lt;/a&gt; episodes about this. If you&amp;apos;re interested in Florian and me building this from scratch, please subscribe there.
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		Update: thanks to Egor Sobko for pointing out a subtle but crucial mistake: I was sending the observers &lt;code&gt;initialValue&lt;/code&gt; rather than &lt;code&gt;theValue&lt;/code&gt;. Fixed!
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+			</description>
+			<pubDate>Wed, 19 Jul 2017 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/references</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/references</guid>
+		</item>
+		<item>
+			<title>Reducers</title>
+			<description>
+				
+&lt;blockquote&gt;
+	&lt;p&gt;
+		This blogpost is part of an upcoming project, more about that soon.
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	Reducers are a way to deal with state changes, and are great for dealing with asynchronous code. They come in a number of different ways, and are used in architectures like &lt;a href=&quot;http://redux.js.org/docs/introduction/Motivation.html&quot; title&gt;Redux&lt;/a&gt;, &lt;a href=&quot;https://guide.elm-lang.org/architecture/&quot; title&gt;Elm&lt;/a&gt;, &lt;a href=&quot;https://facebook.github.io/flux/&quot; title&gt;Flux&lt;/a&gt; and more.
+&lt;/p&gt;
+&lt;p&gt;
+	Instead of giving a definition up front, we&amp;apos;ll look refactor an example app that is well-suited to write with reducers. For a playground with the full code (both &lt;a href=&quot;https://github.com/chriseidhof/reducers-examples/blob/master/Reducers.playground/Pages/Currency%20Conversion.xcplaygroundpage/Contents.swift&quot; title&gt;before&lt;/a&gt; and &lt;a href=&quot;https://github.com/chriseidhof/reducers-examples/blob/master/Reducers.playground/Pages/Currency%20Conversion%20-%20Reducers.xcplaygroundpage/Contents.swift&quot; title&gt;after&lt;/a&gt; refactoring) see &lt;a href=&quot;https://github.com/chriseidhof/reducers-examples&quot; title&gt;reducers-examples&lt;/a&gt; on GitHub.
+&lt;/p&gt;
+&lt;h2&gt;
+	Example
+&lt;/h2&gt;
+&lt;p&gt;
+	To demonstrate reducers, we will write a simple currency conversion app that converts EUR amounts into USD amounts. It has three views: an text field for the input amount, a button to reload the current exchange rate and an output label. The output label will only display the amount if the input amount can be parsed and the current exchange rate are loaded. If the exchanges rates are loaded, changing the input amount should immediately change the output. Here&amp;apos;s the code that computes the output rate (this is hooked up to the &lt;code&gt;.editingChanged&lt;/code&gt; event of the text field):
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var rate: Double?    
+@objc func inputChanged() {
+    guard let rate = rate else { return }
+    guard let text = input.text, let number = Double(text) else { return }
+    output.text = &amp;quot;\(number * rate) USD&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Next up, the code that reloads the exchange rates:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;@objc func reload() {
+    URLSession.shared.dataTask(with: ratesURL()) { (data, _, _) in
+        guard let data = data,
+            let json = try? JSONSerialization.jsonObject(with: data, options: []),
+            let dict = json as? [String:Any],
+            let dataDict = dict[&amp;quot;rates&amp;quot;] as? [String:Double],
+            let rate = dataDict[Currency.usd.rawValue] else { return }
+        DispatchQueue.main.async { [weak self] in
+            self?.rate = rate
+            self?.inputChanged()
+        }
+    }.resume()
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The code above is hard to test. First of all, there&amp;apos;s a dependency on the shared &lt;code&gt;URLSession&lt;/code&gt;. To make this more testable, we could consider pulling that out into a configurable property. Even if we do that, the code is still hard to test. We&amp;apos;d like to test that the parsing happens correctly, that we switch back to the main thread before updating the UI, that we set the rate and that we finally call &lt;code&gt;inputChanged()&lt;/code&gt;. The asynchronous code makes it especially hard to verify that our logic is correct.
+&lt;/p&gt;
+&lt;p&gt;
+	We can pull out most of the logic into a &lt;code&gt;State&lt;/code&gt; struct to make the logic easy to test. The &lt;code&gt;State&lt;/code&gt; struct encapsulates the input amount and the conversion rate, and exposes a single computed property (the output):
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct State {
+    private var inputAmount: Double? = nil
+    private var rate: Double? = nil
+    var output: Double? {
+        guard let i = inputAmount, let r = rate else { return nil }
+        return i * r
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Next up, we&amp;apos;ll define three messages that this state can receive. The input can change, the reload button could be pressed, or new rate data could be available. The third message is not sent from the outside. Instead of defining these as methods, we&amp;apos;ll define the messages as an enum (we&amp;apos;ll see why shortly):
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;enum Message {
+    case inputChanged(String?)
+    case ratesAvailable(data: Data?)
+    case reload
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Now that we have defined our state and our &lt;code&gt;Message&lt;/code&gt; enum, we can write a method to interpet messages. Because &lt;code&gt;State&lt;/code&gt; is a struct, we define it as a &lt;code&gt;mutating&lt;/code&gt; method &lt;code&gt;send(_:)&lt;/code&gt;. We switch over the message and interpet it. In case the input changed, we try to parse it. When new rate data is available, we parse it and assign it to &lt;code&gt;self.rate&lt;/code&gt;. We&amp;apos;ll leave out the &lt;code&gt;reload&lt;/code&gt; case for now.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;mutating func send(_ message: Message) {
+    switch message {
+    case .inputChanged(let input):
+        inputAmount = input.flatMap { Double($0) }
+    case .ratesAvailable(data: let data):
+        guard let data = data,
+            let json = try? JSONSerialization.jsonObject(with: data, options: []),
+            let dict = json as? [String:Any],
+            let dataDict = dict[&amp;quot;rates&amp;quot;] as? [String:Double],
+            let rate = dataDict[Currency.usd.rawValue] else { return }
+        self.rate = rate
+    case .reload:
+        // TODO: load ratesURL() and update the rates
+        fatalError()
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	In the &lt;code&gt;.reload&lt;/code&gt; case, we&amp;apos;d like to load the &lt;code&gt;ratesURL()&lt;/code&gt; and then send the &lt;code&gt;.ratesAvailable()&lt;/code&gt; message. If we would use &lt;code&gt;URLSession.sharedSession&lt;/code&gt; directly, we lose our testability. We&amp;apos;d either have to inject the session, mock it, or find a different way to make it testable. Even if we we would do that, we&amp;apos;d have a problem in the &lt;code&gt;URLSession&lt;/code&gt;&amp;apos;s callback: we cannot update &lt;code&gt;self&lt;/code&gt; because it&amp;apos;s a struct, not a class.
+&lt;/p&gt;
+&lt;p&gt;
+	Instead of performing the URL loading side-effect directly, we&amp;apos;ll create a &lt;code&gt;Command&lt;/code&gt; enum that describes the side-effect:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;enum Command {
+    case load(URL, onComplete: (Data?) -&amp;gt; Message)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Note that we cannot use &lt;code&gt;onComplete&lt;/code&gt; as a callback (because we cannot change the struct value in a callback). Instead, it transforms the optional data back into a &lt;code&gt;Message&lt;/code&gt;. We&amp;apos;ll add &lt;code&gt;Command?&lt;/code&gt; as a return type for &lt;code&gt;send(_:)&lt;/code&gt;. If there&amp;apos;s no side-effect to be executed, we simply return &lt;code&gt;nil&lt;/code&gt;.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;mutating func send(_ message: Message) -&amp;gt; Command? {
+    switch message {
+    case .inputChanged(let input):
+        inputAmount = input.flatMap { Double($0) }
+        return nil
+    case .ratesAvailable(data: let data):
+        guard let data = data,
+            let json = try? JSONSerialization.jsonObject(with: data, options: []),
+            let dict = json as? [String:Any],
+            let dataDict = dict[&amp;quot;rates&amp;quot;] as? [String:Double],
+            let rate = dataDict[Currency.usd.rawValue] else { return nil }
+        self.rate = rate
+        return nil
+    case .reload:
+        return .load(ratesURL(), onComplete: Message.ratesAvailable)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Note that the code above is completely synchronous. In a test, we can construct a value of &lt;code&gt;State&lt;/code&gt; and send it any message we want. Afterwards, we can verify that it changed the state as we expected, and that the correct side-effect is executed. For example, in the reload case, we can even test that the &lt;code&gt;onComplete&lt;/code&gt; is set to the &lt;code&gt;.ratesAvailable&lt;/code&gt; message. In our initial (non-reducer) code, testing this would involve a lot of mocking and stubbing.
+&lt;/p&gt;
+&lt;p&gt;
+	To interpret commands, we can define a separate extension on &lt;code&gt;State.Command&lt;/code&gt; that interprets a command. Instead of having asynchronous code in our &lt;code&gt;State&lt;/code&gt;&amp;apos;s logic, we can simply test this &lt;code&gt;interpret(_:)&lt;/code&gt; method once, in isolation.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension State.Command {
+    func interpret(_ callback: @escaping (State.Message) -&amp;gt; ()) {
+        switch self {
+        case let .load(url, onComplete: transform):
+            URLSession.shared.dataTask(with: url, completionHandler: { (data, _, _) in
+                DispatchQueue.main.async {
+                    callback(transform(data))
+                }
+            }).resume()
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Finally, we need to hook up our &lt;code&gt;State&lt;/code&gt; to the view controller we&amp;apos;re refactoring. Instead of the &lt;code&gt;rate&lt;/code&gt; property that we had before, we&amp;apos;ll now define a &lt;code&gt;State&lt;/code&gt; property:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var state = State() {
+    didSet {
+        self.output.text = state.output.map { &amp;quot;\($0) USD&amp;quot; } ?? &amp;quot;&amp;quot;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We can also define a &lt;code&gt;send&lt;/code&gt; method on the view controller. It sends a message to the state, and if there&amp;apos;s any &lt;code&gt;Command&lt;/code&gt;, it interprets that command.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;private func send(_ message: State.Message) {
+    state.send(message)?.interpret(self.send)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The only thing left is sending the correct messages in the view controller&amp;apos;s &lt;code&gt;inputChanged&lt;/code&gt; and &lt;code&gt;reload&lt;/code&gt; actions:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;@objc func inputChanged() {
+    send(.inputChanged(input.text))
+}
+
+@objc func reload() {
+    send(State.Message.reload)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Note that it&amp;apos;s easy to test &lt;code&gt;inputChanged&lt;/code&gt; and &lt;code&gt;reload&lt;/code&gt;. We don&amp;apos;t have to mock the state, but just test that the right &lt;code&gt;Message&lt;/code&gt; is sent. We can then separately test the implementation of &lt;code&gt;send(_:)&lt;/code&gt; on the state struct.
+&lt;/p&gt;
+&lt;h2&gt;
+	Reducers, Defined
+&lt;/h2&gt;
+&lt;p&gt;
+	Our &lt;code&gt;send(_:)&lt;/code&gt; method on &lt;code&gt;State&lt;/code&gt; is defined as a mutating method, and it is a &lt;em&gt;reducer&lt;/em&gt;. Generally, we could say that the a reducer is a function of type &lt;code&gt;(inout State, Message) -&amp;gt; Command&lt;/code&gt;, if &lt;code&gt;State&lt;/code&gt; is a value type. More generally, its type is &lt;code&gt;(State, Message) -&amp;gt; (State, Command)&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	There is another important requirement in order for a method to be a reducer: it has to be a pure method, with no side-effects. There is no way in Swift to let the compiler enforce this. Instead of reading global state, we have to send &lt;code&gt;Input&lt;/code&gt; messages to the reducers. And instead of having a side-effect that modifies global state, a reducer returns &lt;code&gt;Output&lt;/code&gt; messages.
+&lt;/p&gt;
+&lt;p&gt;
+	If you have an object-oriented programming background, you might be reminded of objects. Just like objects, reducers encapsulate state and allow only certain messages. However, unlike objects, reducers have no side-effects and are therefore highly testable. We can intercept and inspect both the input and the output messages without having to create mock classes. Reducers don&amp;apos;t have asynchronous code; instead, the asynchrony is pushed outside to the code that drives the reducer. This also greatly helps for testability.
+&lt;/p&gt;
+&lt;p&gt;
+	Note that instead of a &lt;code&gt;Message&lt;/code&gt; enum, we could have also defined our messages as &lt;code&gt;mutating&lt;/code&gt; methods on the &lt;code&gt;State&lt;/code&gt; type. However, by defining messages as an enum, we gain a lot of flexibility: we can easily check that the right message is sent, we can serialize messages (for example, to send over the network) and we can easily forward them to other parts of the state.
+&lt;/p&gt;
+&lt;p&gt;
+	The &lt;code&gt;State&lt;/code&gt; type with its &lt;code&gt;send(_:)&lt;/code&gt; method is an example of the &lt;a href=&quot;https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell&quot; title&gt;&amp;quot;functional core, imperative shell&amp;quot;&lt;/a&gt; pattern. The reducer is the functional core, and is very easy to test. The view controller&amp;apos;s &lt;code&gt;send&lt;/code&gt; method is the imperative shell: it interprets the side-effects. This pattern can also be applied at a large scale.
+&lt;/p&gt;
+&lt;p&gt;
+	For some other examples using reducers, check out my &lt;a href=&quot;https://github.com/chriseidhof/tea-in-swift&quot; title&gt;Swift implementation of The Elm Architecture&lt;/a&gt;, or this &lt;a href=&quot;https://gist.github.com/inamiy/bd257c60e670de8a144b1f97a07bacec&quot; title&gt;awesome list&lt;/a&gt; of Elm-inspired frameworks. Matt Gallagher also just wrote a post about &lt;a href=&quot;http://www.cocoawithlove.com/blog/statements-messages-reducers.html&quot; title&gt;statements, messages and reducers&lt;/a&gt;&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 03 Jul 2017 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/reducers</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/reducers</guid>
+		</item>
+		<item>
+			<title>Classes That Conform To Protocols</title>
+			<description>
+				
+&lt;p&gt;
+	The other day, someone asked how to have a variable which stores a &lt;code&gt;UIView&lt;/code&gt; that also conforms to a protocol. In Objective-C, you would simply write &lt;code&gt;UIView&amp;lt;HeaderViewProtocol&amp;gt;&lt;/code&gt;. In  current Swift, you can&amp;apos;t write something like that. This posts shows two workarounds.
+&lt;/p&gt;
+&lt;p&gt;
+	First, let&amp;apos;s set the stage, and assume we have a &lt;code&gt;HeaderViewProtocol&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;protocol HeaderViewProtocol {
+    func setTitle(_ string: String)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Until &lt;a href=&quot;https://github.com/apple/swift/blob/master/docs/GenericsManifesto.md#generalized-existentials&quot; title&gt;generalized existentials&lt;/a&gt; arrive, we&amp;apos;ll have to make do with a workaround. The most mechanical solution would be to write a struct which has two properties, one for the protocol and one for the &lt;code&gt;UIView&lt;/code&gt;. Both point to the same reference:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct AnyHeaderView {
+    let view: UIView
+    let headerView: HeaderViewProtocol
+    init&amp;lt;T: UIView&amp;gt;(view: T) where T: HeaderViewProtocol {
+        self.view = view
+        self.headerView = view
+    }
+}
+
+let header = AnyHeaderView(view: myView)
+header.headerView.setTitle(&amp;quot;hi&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Alternatively, we could also completely &lt;a href=&quot;http://chris.eidhof.nl/post/protocol-oriented-programming/&quot; title&gt;get rid of the protocol&lt;/a&gt;, and create a &lt;code&gt;HeaderView&lt;/code&gt; struct which simply stores a view and a way to set the title:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct HeaderView {
+    let view: UIView
+    let setTitle: (String) -&amp;gt; ()
+}
+
+var label = UILabel()
+let header = HeaderView(view: label) { str in
+    label.text = str
+}
+header.setTitle(&amp;quot;hello&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	One benefit of this solution is that there are no protocols involved. More importantly, we can have multiple &amp;quot;implementations&amp;quot; of &lt;code&gt;HeaderView&lt;/code&gt; for a single class. This eliminates the need to subclass. I prefer this solution, as it&amp;apos;s really simple: just bundle up a function and a view.
+&lt;/p&gt;
+&lt;p&gt;
+	(If your protocol has associated types or a &lt;code&gt;Self&lt;/code&gt; constraint, it will be a bit more work to write the type-eraser, see &lt;a href=&quot;http://chris.eidhof.nl/post/type-erasers-in-swift/&quot; title&gt;here&lt;/a&gt; for an explanation).
+&lt;/p&gt;
+			</description>
+			<pubDate>Wed, 01 Feb 2017 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/classes-and-protocols</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/classes-and-protocols</guid>
+		</item>
+		<item>
+			<title>Types vs TDD</title>
+			<description>
+				
+&lt;p&gt;
+	This morning, I read &lt;a href=&quot;http://blog.cleancoder.com/uncle-bob/2017/01/11/TheDarkPath.html&quot; title&gt;an article&lt;/a&gt; against static typing. To be more precise: it argues against static typing in the way Swift/Kotlin implement it. I don&amp;apos;t know anything about Kotlin, so I&amp;apos;ll try to relate everything to Swift.  The main point of the article is that too much static typing is a bad thing. I agree: although my definition of &amp;quot;too much&amp;quot; is very different.
+&lt;/p&gt;
+&lt;p&gt;
+	The main point of critique is that we can&amp;apos;t possibly keep adding features to a language to solve actual problems, because we would end up with too many features. Instead, we should solve everything by writing tests. I don&amp;apos;t think it&amp;apos;s an either/or situation at all: we can have a solid type system and write &amp;quot;manual&amp;quot; tests.
+&lt;/p&gt;
+&lt;p&gt;
+	A type checker actually does testing for you. It&amp;apos;s not a replacement for TDD, but it allows you to completely get rid of a whole bunch of tests. For example, if you define a method &lt;code&gt;foo&lt;/code&gt; that returns an &lt;code&gt;Int&lt;/code&gt;, you can be sure it will only return &lt;code&gt;Int&lt;/code&gt;s. Not &lt;code&gt;String&lt;/code&gt;s, not &lt;code&gt;nil&lt;/code&gt; or &lt;code&gt;null&lt;/code&gt;, not anything else. No need to write a test.
+&lt;/p&gt;
+&lt;p&gt;
+	The article argues that specifying a type such as &lt;code&gt;Int&lt;/code&gt; is very inflexible: what if you ever wanted to change &lt;code&gt;foo&lt;/code&gt; to return an optional?  According to the article, you have to know this before you write the system. (And if I interpret the article correctly, it argues that TDD would solve this).
+&lt;/p&gt;
+&lt;p&gt;
+	I agree on at least one thing: at some point, code is going to change. However, I couldn&amp;apos;t disagree more on the statement that typing makes this hard.
+&lt;/p&gt;
+&lt;p&gt;
+	In Swift, once you change &lt;code&gt;foo&lt;/code&gt; to return an &lt;code&gt;Int?&lt;/code&gt;, the compiler will now show an error for each time you call &lt;code&gt;foo&lt;/code&gt;. This makes it &lt;em&gt;easy&lt;/em&gt; to make that change, because until you have reviewed every single call to &lt;code&gt;foo&lt;/code&gt;, the program simply won&amp;apos;t compile. I think of the compile errors as a todo-list, not as a &lt;a href=&quot;https://twitter.com/unclebobmartin/status/819262224686546945&quot; title&gt;speed bump&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	When you make changes (small or large ones), it&amp;apos;s good to have a system in place that checks whether your code still works. With many kinds of changes, the compiler can do this automatically. You don&amp;apos;t have to write tests for that.
+&lt;/p&gt;
+&lt;p&gt;
+	Don&amp;apos;t get me wrong: types are not a silver bullet. You still need to test your code. But wouldn&amp;apos;t you rather test interesting parts, and leave the boring stuff to the compiler?
+&lt;/p&gt;
+			</description>
+			<pubDate>Thu, 12 Jan 2017 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/types-vs-tdd</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/types-vs-tdd</guid>
+		</item>
+		<item>
+			<title>Protocol Oriented Programming is Not a Silver Bullet</title>
+			<description>
+				
+&lt;p&gt;
+	In Swift, protocol-oriented programming is in fashion. There&amp;apos;s a lot of Swift code out there that&amp;apos;s &amp;quot;protocol-oriented&amp;quot;, some open-source libraries even state it as a feature. I think protocols are heavily overused in Swift, and oftentimes the problem at hand can be solved in a much simpler way. In short: don&amp;apos;t be dogmatic about using (or avoiding) protocols.
+&lt;/p&gt;
+&lt;p&gt;
+	One of the most influential sessions at WWDC 2015 was called &lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2015/408/&quot; title&gt;Protocol-Oriented Programming in Swift&lt;/a&gt;. It shows (among other things) that you can replace a class hierarchy (that is, a superclass and some subclasses) with a protocol-oriented solution (that is, a protocol and some types that conform to the protocol). The protocol-oriented solution is simpler, and more flexible. For example, a class can only have a single superclass, yet a type can conform to many protocols.
+&lt;/p&gt;
+&lt;p&gt;
+	Let&amp;apos;s look at the problem they solved in the WWDC talk. A series of drawing commands needed to be rendered as a graphic, as well as logged to the console. By putting the drawing commands in a protocol, any code that describes a drawing could be phrased in terms of the protocol&amp;apos;s methods. Protocol extensions allow you to define new drawing functionality in terms of the protocol&amp;apos;s base functionality, and every type that conforms gets the new functionality for free.
+&lt;/p&gt;
+&lt;p&gt;
+	In the example above, protocols solve the problem of sharing code between multiple types. In Swift&amp;apos;s Standard Library, protocols are heavily used for collections, and they solve exactly the same problem. Because &lt;code&gt;dropFirst&lt;/code&gt; is defined on the &lt;code&gt;Collection&lt;/code&gt; type, all the collection types get this for free! At the same time, there are so many collection-related protocols and types, that it can be hard to find things. That&amp;apos;s one drawback of protocols, yet the advantages easily outweigh the disadvantages in the case of the Standard Library.
+&lt;/p&gt;
+&lt;p&gt;
+	Now, let&amp;apos;s work our way through an example. Here, we have a Webservice class. It loads entities from the network using &lt;code&gt;URLSession&lt;/code&gt;. (It doesn&amp;apos;t actually load things, but you get the idea):
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;class Webservice {
+    func loadUser() -&amp;gt; User? {
+        let json = self.load(URL(string: &amp;quot;/users/current&amp;quot;)!)
+        return User(json: json)
+    }
+    
+    func loadEpisode() -&amp;gt; Episode? {
+        let json = self.load(URL(string: &amp;quot;/episodes/latest&amp;quot;)!)
+        return Episode(json: json)
+    }
+    
+    private func load(_ url: URL) -&amp;gt; [AnyHashable:Any] {
+        URLSession.shared.dataTask(with: url)
+        // etc.
+        return [:] // should come from the server
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The code above is short and works fine. There is no problem, until we want to test &lt;code&gt;loadUser&lt;/code&gt; and &lt;code&gt;loadEpisode&lt;/code&gt;. Now we either have to stub &lt;code&gt;load&lt;/code&gt;, or pass in a mock &lt;code&gt;URLSession&lt;/code&gt; using dependency injection. We could also define a protocol that &lt;code&gt;URLSession&lt;/code&gt; conforms to and then pass in a test instance. However, in this case, the solution is much simpler: we can pull the changing parts out of the &lt;code&gt;Webservice&lt;/code&gt; and into a struct (we also cover this in &lt;a href=&quot;https://talk.objc.io/episodes/S01E01-networking&quot; title&gt;Swift Talk Episode 1&lt;/a&gt; and in &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt;):
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;struct Resource&amp;lt;A&amp;gt; {
+    let url: URL
+    let parse: ([AnyHashable:Any]) -&amp;gt; A
+}
+
+class Webservice {
+    let user = Resource&amp;lt;User&amp;gt;(url: URL(string: &amp;quot;/users/current&amp;quot;)!, parse: User.init)
+    let episode = Resource&amp;lt;Episode&amp;gt;(url: URL(string: &amp;quot;/episodes/latest&amp;quot;)!, parse: Episode.init)
+    
+    private func load&amp;lt;A&amp;gt;(resource: Resource&amp;lt;A&amp;gt;) -&amp;gt; A {
+        URLSession.shared.dataTask(with: resource.url)
+        // load asynchronously, parse the JSON, etc. For the sake of the example, we directly return an empty result.
+        let json: [AnyHashable:Any] = [:] // should come from the server
+        return resource.parse(json)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Now, we can test &lt;code&gt;user&lt;/code&gt; and &lt;code&gt;episode&lt;/code&gt; without having to mock anything: they&amp;apos;re simple struct values. We still have to test &lt;code&gt;load&lt;/code&gt;, but that&amp;apos;s only one method (instead of for each resource). Now let&amp;apos;s add some protocols.
+&lt;/p&gt;
+&lt;p&gt;
+	Instead of the &lt;code&gt;parse&lt;/code&gt; function, we could create a protocol for types that can be initialized from JSON.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;protocol FromJSON {
+    init(json: [AnyHashable:Any])
+}
+
+struct Resource&amp;lt;A: FromJSON&amp;gt; {
+    let url: URL
+}
+
+class Webservice {
+    let user = Resource&amp;lt;User&amp;gt;(url: URL(string: &amp;quot;/users/current&amp;quot;)!)
+    let episode = Resource&amp;lt;Episode&amp;gt;(url: URL(string: &amp;quot;/episodes/latest&amp;quot;)!)
+    
+    private func load&amp;lt;A&amp;gt;(resource: Resource&amp;lt;A&amp;gt;) -&amp;gt; A {
+        URLSession.shared.dataTask(with: resource.url)
+        // load asynchronously, parse the JSON, etc. For the sake of the example, we directly return an empty result.
+        let json: [AnyHashable:Any] = [:] // should come from the server
+        return A(json: json)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The code above might look simpler, but it&amp;apos;s also way less flexible. For example, how would you define a resource that has an array of &lt;code&gt;User&lt;/code&gt; values? (In the protocol-oriented example above, that&amp;apos;s not yet possible, and we&amp;apos;ll have to wait for Swift 4 or 5 until this is expressible). The protocol makes things simpler, but I think it doesn&amp;apos;t pay for itself, because it dramatically decreases the ways in which we can create a &lt;code&gt;Resource&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	Instead of having the &lt;code&gt;user&lt;/code&gt; and &lt;code&gt;episode&lt;/code&gt; as &lt;code&gt;Resource&lt;/code&gt; values, we could also make &lt;code&gt;Resource&lt;/code&gt; a protocol and have &lt;code&gt;UserResource&lt;/code&gt; and &lt;code&gt;EpisodeResource&lt;/code&gt; structs. This seems to be a popular thing to do, because having a type instead of a value &amp;quot;just feels right&amp;quot;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;protocol Resource {
+    associatedtype Result
+    var url: URL { get }
+    func parse(json: [AnyHashable:Any]) -&amp;gt; Result
+}
+
+struct UserResource: Resource {
+    let url = URL(string: &amp;quot;/users/current&amp;quot;)!
+    func parse(json: [AnyHashable : Any]) -&amp;gt; User {
+        return User(json: json)
+    }
+}
+
+struct EpisodeResource: Resource {
+    let url = URL(string: &amp;quot;/episodes/latest&amp;quot;)!
+    func parse(json: [AnyHashable : Any]) -&amp;gt; Episode {
+        return Episode(json: json)
+    }
+}
+
+class Webservice {
+    private func load&amp;lt;R: Resource&amp;gt;(resource: R) -&amp;gt; R.Result {
+        URLSession.shared.dataTask(with: resource.url)
+        // load asynchronously, parse the JSON, etc. For the sake of the example, we directly return an empty result.
+        let json: [AnyHashable:Any] = [:]
+        return resource.parse(json: json)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	But if we look at it critically, what did we really gain? The code became longer, more complex and less direct. And because of the associated type, we&amp;apos;ll probably end up defining an &lt;code&gt;AnyResource&lt;/code&gt; eventually. Is there any benefit to having an &lt;code&gt;EpisodeResource&lt;/code&gt; struct instead of an &lt;code&gt;episodeResource&lt;/code&gt; value? They are both global definitions. For the struct, the name starts with an uppercase letter, and for the value, a lowercase letter. Other than that, there really isn&amp;apos;t any advantage. You can both namespace them (for autocompletion). So in this case, having a value is definitely simpler and shorter.
+&lt;/p&gt;
+&lt;p&gt;
+	There are many other examples I&amp;apos;ve seen in code around the internet. For example, I&amp;apos;ve seen a protocol like this:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;protocol URLStringConvertible {
+    var urlString: String { get }
+}
+
+// Somewhere later
+
+func sendRequest(urlString: URLStringConvertible, method: ...) {
+    let string = urlString.urlString
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	What does this buy you? Why not simply remove the protocol and pass in the &lt;code&gt;urlString&lt;/code&gt; directly? Much simpler. Or a protocol with a single method:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;protocol RequestAdapter {
+    func adapt(_ urlRequest: URLRequest) throws -&amp;gt; URLRequest
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	A bit more controversial: why not simply remove the protocol, and pass in a function somewhere? Much simpler. (Unless your protocol is a class-only protocol and you want a weak reference it).
+&lt;/p&gt;
+&lt;p&gt;
+	I can keep showing examples, but I hope the point is clear. Often, there are simpler choices. More abstractly, protocols are just one way to achieve polymorphic code. There are many other ways: subclassing, generics, values, functions, and so on. Values (e.g. a &lt;code&gt;String&lt;/code&gt; instead of a &lt;code&gt;URLStringConvertible&lt;/code&gt;) are the simplest way. Functions (e.g. &lt;code&gt;adapt&lt;/code&gt; instead of &lt;code&gt;RequestAdapter&lt;/code&gt;) are a bit more complex than values, but are still simple. Generics (without any constraints) are simpler than protocols. And to be complete, protocols are often simpler than class hierarchies.
+&lt;/p&gt;
+&lt;p&gt;
+	A useful heuristic might be to think about whether your protocol models data or behavior. For data, a struct is probably easier. For complex behavior (e.g. a delegate with multiple methods), a protocol is often easier. (The standard library&amp;apos;s collection protocols are a bit special: they don&amp;apos;t really describe data, but rather, they describe data manipulation.)
+&lt;/p&gt;
+&lt;p&gt;
+	That said, protocols can be very useful. But don&amp;apos;t start with a protocol just for the sake of protocol-oriented programming. Start by looking at your problem, and try to solve it in the simplest way possible. Let the problem drive the solution, not the other way around. Protocol-oriented programming isn&amp;apos;t inherently good or bad. Just like any other technique (functional programming, OO, dependency injection, subclassing) it can be used to solve a problem, and we should try to pick the right tool for the job. Sometimes that&amp;apos;s a protocol, but often, there&amp;apos;s a simpler way.
+&lt;/p&gt;
+&lt;h3&gt;
+	More
+&lt;/h3&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			http://www.thedotpost.com/2016/01/rob-napier-beyond-crusty-real-world-protocols (video)
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			http://www.gamedev.net/page/resources/_/technical/game-programming/haskell-game-object-design-or-how-functions-can-get-you-apples-r3204 (Haskell)
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+			</description>
+			<pubDate>Thu, 24 Nov 2016 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/protocol-oriented-programming</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/protocol-oriented-programming</guid>
+		</item>
+		<item>
+			<title>On Burnout</title>
+			<description>
+				
+&lt;p&gt;
+	I&amp;apos;ve seen a number of blogposts and talks recently that talk about depression, burn-out, and other mental problems.  One post recommended reading a book. Another one recommended talking to friends and family. These things might help, but I doubt that they actually solve the root cause (looking back, they definitely didn&amp;apos;t solve my problems, at best suppress them).
+&lt;/p&gt;
+&lt;p&gt;
+	I recommend something different. If you have a mental issue, go see a professional. Take it seriously.  I know there&amp;apos;s a stigma attached to this, let&amp;apos;s try to break through that.
+&lt;/p&gt;
+&lt;p&gt;
+	If your leg is broken, you&amp;apos;d probably go to the hospital. With mental issues, you often don&amp;apos;t visually see that something is wrong. It might feel harder to justify seeing a professional. Some people are functioning very well while suffering from mental problems. For example, I can often turn my suppressed anger into productivity (alas, the anger still gets suppressed).
+&lt;/p&gt;
+&lt;p&gt;
+	It&amp;apos;s scary to take that step. I started seeing a therapist about a year and a half ago, to deal with my depression. It&amp;apos;s been one the best things I&amp;apos;ve ever done for myself. If you&amp;apos;re suffering from a mental issue, consider doing the same.
+&lt;/p&gt;
+			</description>
+			<pubDate>Thu, 27 Oct 2016 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/burnout</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/burnout</guid>
+		</item>
+		<item>
+			<title>Type Erasers in Swift</title>
+			<description>
+				
+&lt;p&gt;
+	The following post is an excerpt from our book &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt;. We just updated it to Swift 3, so this is a great time to buy it.
+&lt;/p&gt;
+&lt;p&gt;
+	Sometimes, we can use a protocol as a standalone type. However, with a protocol like &lt;code&gt;IteratorProtocol&lt;/code&gt;, this isn&amp;apos;t (yet) possible, because it has an associated type. The compile error says: &amp;quot;Protocol &amp;apos;IteratorProtocol&amp;apos; can only be used as a generic constraint because it has Self or associated type requirements.&amp;quot;
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ConstantIterator: IteratorProtocol {
+    mutating func next() -&amp;gt; Int? {
+        return 1
+    }
+}
+
+let iterator: IteratorProtocol = ConstantIterator() // Error
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	In a way, &lt;code&gt;IteratorProtocol&lt;/code&gt; used as a type is incomplete; we&amp;apos;d have to specify the associated type as well in order for this to be meaningful.
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		The Swift Core Team has stated that they want to support &lt;em&gt;generalized existentials&lt;/em&gt;. This feature would allow for using protocols with associated types as standalone values, and it would also eliminate the need to write type erasers. For more information about what to expect in the future, see the &lt;a href=&quot;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160229/011666.html&quot; title&gt;Swift Generics Manifesto&lt;/a&gt;.
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	In a future version of Swift, we might be able to solve this by saying something like the following:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let iterator: Any&amp;lt;IteratorProtocol where .Element == Int&amp;gt; = ConstantIterator()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Currently, we can&amp;apos;t yet express this. We can, however, use &lt;code&gt;IteratorProtocol&lt;/code&gt; as a constraint for a generic parameter:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func nextInt&amp;lt;I: IteratorProtocol&amp;gt;(iterator: inout I) -&amp;gt; Int?
+    where I.Element == Int {
+        return iterator.next()
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Similarly, we can store an iterator in a class or struct. The limitation is the same, in that we can only use it as a generic constraint, and not as a standalone type:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;class IteratorStore&amp;lt;I: IteratorProtocol&amp;gt; where I.Element == Int {
+    var iterator: I
+
+    init(iterator: I) {
+        self.iterator = iterator
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This works, but it has a drawback: the specific type of the stored iterator &amp;quot;leaks out&amp;quot; through the generic parameter. In the current type system, we can&amp;apos;t express &amp;quot;any iterator, as long as the element type is &lt;code&gt;Int&lt;/code&gt;.&amp;quot; This is a problem if you want to, for example, put multiple &lt;code&gt;IteratorStore&lt;/code&gt;s into an array. All elements in an array must have the same type, and that includes any generic parameters; it&amp;apos;s not possible to create an array that can store both &lt;code&gt;IteratorStore&amp;lt;ConstantIterator&amp;gt;&lt;/code&gt; and &lt;code&gt;IteratorStore&amp;lt;FibsIterator&amp;gt;&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	Luckily, there are two ways around this — one is easy, the other one more efficient (but hacky). The process of removing a specific type (such as the iterator) is called &lt;em&gt;type erasure&lt;/em&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	In the easy solution, we implement a wrapper class. Instead of storing the iterator directly, the class stores the iterator&amp;apos;s &lt;code&gt;next&lt;/code&gt; function. To do this, we must first copy the &lt;code&gt;iterator&lt;/code&gt; parameter to a &lt;code&gt;var&lt;/code&gt; variable so that we&amp;apos;re allowed to call its &lt;code&gt;next&lt;/code&gt; method (which is &lt;code&gt;mutating&lt;/code&gt;). We then wrap the call to &lt;code&gt;next()&lt;/code&gt; in a closure expression and assign that closure to a property. We used a class to signal that &lt;code&gt;IntIterator&lt;/code&gt; has reference semantics:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;class IntIterator {
+    var nextImpl: () -&amp;gt; Int?
+
+    init&amp;lt;I: IteratorProtocol&amp;gt;(_ iterator: I) where I.Element == Int {
+        var iteratorCopy = iterator
+        self.nextImpl = { iteratorCopy.next() }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Now, in our &lt;code&gt;IntIterator&lt;/code&gt;, the specific type of the iterator (e.g. &lt;code&gt;ConstantIterator&lt;/code&gt;) is only specified when creating a value. After that, the specific type is hidden, captured by the closure. We can create an &lt;code&gt;IntIterator&lt;/code&gt; with any kind of iterator, as long as the elements are integers:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var iter = IntIterator(ConstantIterator())
+iter = IntIterator([1,2,3].makeIterator())
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The code above allows us to specify the associated type constraints (e.g. &lt;code&gt;iter&lt;/code&gt; contains an iterator with &lt;code&gt;Int&lt;/code&gt; elements) using Swift&amp;apos;s current type system. Our &lt;code&gt;IntIterator&lt;/code&gt; can also easily conform to the &lt;code&gt;IteratorProtocol&lt;/code&gt; (and the inferred associated type is &lt;code&gt;Int&lt;/code&gt;):
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension IntIterator: IteratorProtocol {
+    func next() -&amp;gt; Int? {
+        return nextImpl()
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	In fact, by abstracting over &lt;code&gt;Int&lt;/code&gt; and adding a generic parameter, we can change &lt;code&gt;IntIterator&lt;/code&gt; to work just like &lt;code&gt;AnyIterator&lt;/code&gt; does:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;class AnyIterator&amp;lt;A&amp;gt;: IteratorProtocol {
+    var nextImpl: () -&amp;gt; A?
+
+    init&amp;lt;I: IteratorProtocol&amp;gt;(_ iterator: I) where I.Element == A {
+        var iteratorCopy = iterator
+        self.nextImpl = { iteratorCopy.next() }
+    }
+
+    func next() -&amp;gt; A? {
+        return nextImpl()
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The specific iterator type (&lt;code&gt;I&lt;/code&gt;) is only specified in the initializer, and after that, it&amp;apos;s &amp;quot;erased.&amp;quot;
+&lt;/p&gt;
+&lt;p&gt;
+	From this refactoring, we can come up with a simple algorithm for creating a type eraser. First, we create a struct or class named &lt;code&gt;AnyProtocolName&lt;/code&gt;. Then, for each associated type, we add a generic parameter. Finally, for each method, we store the implementation in a property on &lt;code&gt;AnyProtocolName&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	For a simple protocol like &lt;code&gt;IteratorProtocol&lt;/code&gt;, this only takes a few lines of code, but for more complex protocols (such as &lt;code&gt;Sequence&lt;/code&gt;), this is quite a lot of work. Even worse, the size of the object or struct will increase linearly with each protocol method (because a new closure is added for each method).
+&lt;/p&gt;
+&lt;hr/&gt;
+&lt;p&gt;
+	The standard library takes a different approach to erasing types. We start by creating a simple class that conforms to &lt;code&gt;IteratorProtocol&lt;/code&gt;. Its generic type is the &lt;code&gt;Element&lt;/code&gt; of the iterator, and the implementation will simply crash:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;class IteratorBox&amp;lt;A&amp;gt;: IteratorProtocol {
+    func next() -&amp;gt; A? {
+        fatalError(&amp;quot;This method is abstract.&amp;quot;)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Then, we create another class, &lt;code&gt;IteratorBoxHelper&lt;/code&gt;, which is also generic. Here, the generic parameter is the specific iterator type (for example, &lt;code&gt;ConstantIterator&lt;/code&gt;). The &lt;code&gt;next&lt;/code&gt; method simply forwards to the &lt;code&gt;next&lt;/code&gt; method of the underlying iterator:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift-example&quot;&gt;class IteratorBoxHelper&amp;lt;I: IteratorProtocol&amp;gt; {
+    var iterator: I
+    init(iterator: I) {
+        self.iterator = iterator
+    }
+
+    func next() -&amp;gt; I.Element? {
+        return iterator.next()
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Now for the hacky part. We change &lt;code&gt;IteratorBoxHelper&lt;/code&gt; so that it&amp;apos;s a subclass of &lt;code&gt;IteratorBox&lt;/code&gt;, and the two generic parameters are constrained in such a way that &lt;code&gt;IteratorBox&lt;/code&gt; gets &lt;code&gt;I&lt;/code&gt;&amp;apos;s element as the generic parameter:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;class IteratorBoxHelper&amp;lt;I: IteratorProtocol&amp;gt;: IteratorBox&amp;lt;I.Element&amp;gt; {
+    var iterator: I
+    init(_ iterator: I) {
+        self.iterator = iterator
+    }
+
+    override func next() -&amp;gt; I.Element? {
+        return iterator.next()
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This allows us to create a value of &lt;code&gt;IteratorBoxHelper&lt;/code&gt; and use it as an &lt;code&gt;IteratorBox&lt;/code&gt;, effectively erasing the type of &lt;code&gt;I&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let iter: IteratorBox&amp;lt;Int&amp;gt; = IteratorBoxHelper(ConstantIterator())
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	In the standard library, the &lt;code&gt;IteratorBox&lt;/code&gt; and &lt;code&gt;IteratorBoxHelper&lt;/code&gt; are then made private, and yet another wrapper (&lt;code&gt;AnyIterator&lt;/code&gt;) makes sure that these implementation details are hidden from the public interface.
+&lt;/p&gt;
+&lt;hr/&gt;
+&lt;p&gt;
+	In my (limited) testing, I found that the struct version of &lt;code&gt;AnyIterator&lt;/code&gt; was about 10% faster (I&amp;apos;m not exactly sure why, probably because of less indirection). I &lt;a href=&quot;https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20160905/002852.html&quot; title&gt;started a topic&lt;/a&gt; on the swift-dev mailing list, but I&amp;apos;m not sure if anyone is taking it and making the change. If anyone reading this feels like proposing that change (and thoroughly testing performance), go ahead!
+&lt;/p&gt;
+			</description>
+			<pubDate>Thu, 20 Oct 2016 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/type-erasers-in-swift</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/type-erasers-in-swift</guid>
+		</item>
+		<item>
+			<title>Sort Descriptors in Swift</title>
+			<description>
+				
+&lt;p&gt;
+	Just last week, someone asked me &amp;quot;in what respect does Swift fall short of the
+	
+	dynamic features of Objective-C&amp;quot;?
+&lt;/p&gt;
+&lt;p&gt;
+	Dynamic programming means a lot of different
+	
+	things to different people, and I think they meant runtime programming. In this
+	
+	post, we&amp;apos;ll look at replacing Objective-C&amp;apos;s runtime programming with
+	
+	Swift&amp;apos;s functions.
+&lt;/p&gt;
+&lt;p&gt;
+	This post is an excerpt from the Functions chapter in &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced
+		
+		Swift&lt;/a&gt;, which we&amp;apos;re currently
+	
+	rewriting (and making very good progress).  The text below was originally written by &lt;a href=&quot;https://twitter.com/airspeedswift&quot; title&gt;Airspeed
+		
+		Velocity&lt;/a&gt;. I took his text and code, updated
+	
+	everything for Swift 3 and made some heavy edits. Thanks to &lt;a href=&quot;https://twitter.com/olebegemann&quot; title&gt;Ole Begemann&lt;/a&gt; for reading through a draft of this.
+&lt;/p&gt;
+&lt;hr/&gt;
+&lt;p&gt;
+	In the chapter on &lt;a href=&quot;#collections&quot; title&gt;collections&lt;/a&gt;, we talked about parametrizing
+	
+	behavior by passing functions as arguments. Let&amp;apos;s look at another example of
+	
+	this: sorting.
+&lt;/p&gt;
+&lt;p&gt;
+	If you want to sort an array in Objective-C using Foundation, you are met with a
+	
+	long list of different options. These provide a lot of flexibility and power,
+	
+	but at the cost of complexity — even the simplest probably needs a trip to the
+	
+	documentation to know how to use it.
+&lt;/p&gt;
+&lt;p&gt;
+	Sorting collections in Swift is simple:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var myArray = [3, 1, 2]
+myArray.sorted() // [1, 2, 3]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	There are really four sort methods: &lt;code&gt;sorted(by:)&lt;/code&gt; and &lt;code&gt;sort(by:)&lt;/code&gt;, times two for
+	
+	the overloads that default to sorting comparable things in ascending order. But
+	
+	the overloading means that when you want the simplest case, &lt;code&gt;sorted()&lt;/code&gt; is all
+	
+	you need. If you want to sort in a different order, just supply a function:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;myArray.sorted(by: &amp;gt;) // [3, 2, 1]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	You can also supply a function if your elements don&amp;apos;t conform to &lt;code&gt;Equatable&lt;/code&gt; but
+	&lt;em&gt;do&lt;/em&gt; have a &lt;code&gt;&amp;lt;&lt;/code&gt; operator, like tuples:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var numberStrings = [(2, &amp;quot;two&amp;quot;), (1, &amp;quot;one&amp;quot;), (3, &amp;quot;three&amp;quot;)]
+numberStrings.sort(by: &amp;lt;)
+numberStrings // [(1, &amp;quot;one&amp;quot;), (2, &amp;quot;two&amp;quot;), (3, &amp;quot;three&amp;quot;)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Or, you can supply a more complicated function if you want to sort by some
+	
+	arbitrary calculated criteria:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let animals = [&amp;quot;elephant&amp;quot;, &amp;quot;zebra&amp;quot;, &amp;quot;dog&amp;quot;]
+let sortedAnimals = animals.sorted { lhs, rhs in
+    let l = lhs.characters.reversed()
+    let r = rhs.characters.reversed()
+    return l.lexicographicallyPrecedes(r)
+}
+sortedAnimals // [&amp;quot;zebra&amp;quot;, &amp;quot;dog&amp;quot;, &amp;quot;elephant&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	It is this last ability — the ability to use any comparison function to sort a
+	
+	collection — that makes the Swift sort so powerful, and makes this one function
+	
+	able to replicate much (if not all) of the functionality of the various
+	
+	different sorting methods in Foundation.
+&lt;/p&gt;
+&lt;p&gt;
+	To demonstrate this, let&amp;apos;s take a complex example inspired by the &lt;a href=&quot;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/SortDescriptors/Articles/Creating.html&quot; title&gt;Sort
+		
+		Descriptor Programming
+		
+		Topics&lt;/a&gt;.
+	
+	The &lt;code&gt;sortedArray(using:)&lt;/code&gt; method on &lt;code&gt;NSArray&lt;/code&gt; is very flexible and a great
+	
+	example of the power of Objective-C&amp;apos;s dynamic nature. Support for selectors and
+	
+	dynamic dispatch is still there in Swift, but the Swift standard library favors
+	
+	a more function-based approach instead. Later on, we&amp;apos;ll show a few techniques
+	
+	where functions as arguments, and treating functions as data, can be used to get
+	
+	the same dynamic effects.
+&lt;/p&gt;
+&lt;p&gt;
+	We&amp;apos;ll start by defining a &lt;code&gt;Person&lt;/code&gt; object. Because we want to show how
+	
+	Objective-C&amp;apos;s powerful runtime system works, we&amp;apos;ll have to make it an &lt;code&gt;NSObject&lt;/code&gt;
+	subclass (in pure Swift, a struct might have been a better choice):
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;final class Person: NSObject {
+    var first: String
+    var last: String
+    var yearOfBirth: Int
+    init(first: String, last: String, yearOfBirth: Int) {
+        self.first = first
+        self.last = last
+        self.yearOfBirth = yearOfBirth
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Let&amp;apos;s also define an array of people, with different names and birth years:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let people = [
+    Person(first: &amp;quot;Jo&amp;quot;, last: &amp;quot;Smith&amp;quot;, yearOfBirth: 1970),
+    Person(first: &amp;quot;Joe&amp;quot;, last: &amp;quot;Smith&amp;quot;, yearOfBirth: 1970),
+    Person(first: &amp;quot;Joe&amp;quot;, last: &amp;quot;Smyth&amp;quot;, yearOfBirth: 1970),
+    Person(first: &amp;quot;Joanne&amp;quot;, last: &amp;quot;smith&amp;quot;, yearOfBirth: 1985),
+    Person(first: &amp;quot;Joanne&amp;quot;, last: &amp;quot;smith&amp;quot;, yearOfBirth: 1970),
+    Person(first: &amp;quot;Robert&amp;quot;, last: &amp;quot;Jones&amp;quot;, yearOfBirth: 1970),
+]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We want to sort this array first by last name, then by first name, and finally
+	
+	by birth year. We want to do this case insensitively and using the user&amp;apos;s
+	
+	locale. An &lt;code&gt;NSSortDescriptor&lt;/code&gt; object describes how to order objects, and we can
+	
+	use them to express the individual sorting criteria.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let lastDescriptor = NSSortDescriptor(key: &amp;quot;last&amp;quot;, ascending: true,
+  selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
+let firstDescriptor = NSSortDescriptor(key: &amp;quot;first&amp;quot;, ascending: true, 
+  selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
+let yearDescriptor = NSSortDescriptor(key: &amp;quot;yearOfBirth&amp;quot;, ascending: true)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	To sort the array, we can use the &lt;code&gt;sortedArray(using:)&lt;/code&gt; method on &lt;code&gt;NSArray&lt;/code&gt;.
+	
+	This takes a list of sort descriptors. To determine the order of two elements,
+	
+	it starts by using the first sort descriptor, and uses that result. However, if
+	
+	two elements are equal according to the first descriptor, it uses the second
+	
+	descriptor, and so on.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;(people as NSArray).sortedArray(using: [lastDescriptor, firstDescriptor, yearDescriptor]) 
+// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	A sort descriptor uses two runtime features of Objective-C: the &lt;code&gt;key&lt;/code&gt; is a key
+	
+	path, and &lt;a href=&quot;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueCoding/Articles/KeyValueCoding.html&quot; title&gt;key-value
+		
+		coding&lt;/a&gt;
+	is used to lookup the value of that key at runtime. The &lt;code&gt;selector&lt;/code&gt; parameter
+	
+	takes a selector (which is really just a &lt;code&gt;String&lt;/code&gt; describing a method name). At
+	
+	runtime, the selector is turned into a comparison function. When comparing two
+	
+	objects, the values for the key are compared using that comparison function.
+&lt;/p&gt;
+&lt;p&gt;
+	This is a pretty cool use of runtime programming, especially when you realize
+	
+	the array of sort descriptors can be built at runtime, say based on a user
+	
+	clicking a column heading.
+&lt;/p&gt;
+&lt;p&gt;
+	How can we replicate this functionality using Swift&amp;apos;s &lt;code&gt;sort&lt;/code&gt;? It&amp;apos;s simple to
+	
+	replicate &lt;em&gt;parts&lt;/em&gt; of the sort, for example, if you want to sort an array using
+	&lt;code&gt;localizedCaseInsensitiveCompare&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var strings = [&amp;quot;Hello&amp;quot;, &amp;quot;hallo&amp;quot;, &amp;quot;Hallo&amp;quot;, &amp;quot;hello&amp;quot;]
+strings.sort { $0.localizedCaseInsensitiveCompare($1) == .orderedAscending}
+strings // [&amp;quot;hallo&amp;quot;, &amp;quot;Hallo&amp;quot;, &amp;quot;Hello&amp;quot;, &amp;quot;hello&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	If you want to sort using just a single property of an object, that&amp;apos;s also
+	
+	simple.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;people.sorted { $0.yearOfBirth &amp;lt; $1.yearOfBirth } 
+// [Jo Smith (1970), Joe Smith (1970), Joe Smyth (1970), Joanne smith (1970), Robert Jones (1970), Joanne smith (1985)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This approach doesn&amp;apos;t work so great when optional properties are combined with
+	
+	methods like &lt;code&gt;localizedCaseInsensitiveCompare&lt;/code&gt;, though — it gets ugly fast. For
+	
+	example, consider sorting an array of filenames by file extension (using the
+	&lt;code&gt;fileExtension&lt;/code&gt; property from the &lt;a href=&quot;#optionals&quot; title&gt;Optionals&lt;/a&gt; chapter):
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var files = [&amp;quot;one&amp;quot;, &amp;quot;file.h&amp;quot;, &amp;quot;file.c&amp;quot;, &amp;quot;test.h&amp;quot;]
+files.sort { l, r in r.fileExtension.flatMap { l.fileExtension?.localizedCaseInsensitiveCompare($0) } == .orderedAscending }
+files // [&amp;quot;one&amp;quot;, &amp;quot;file.c&amp;quot;, &amp;quot;file.h&amp;quot;, &amp;quot;test.h&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Later on, we&amp;apos;ll make it easier to use optionals when sorting. However, for now,
+	
+	we haven&amp;apos;t even tried sorting by multiple properties. To sort by last name, then
+	
+	first name, we can use the standard library&amp;apos;s &lt;code&gt;lexicographicalCompare&lt;/code&gt; method.
+	
+	This takes two sequences and performs a phonebook-style comparison by moving
+	
+	through each pair of elements until it finds one that isn&amp;apos;t equal. So we can
+	
+	build two arrays of the elements and use &lt;code&gt;lexicographicalCompare&lt;/code&gt; to compare
+	
+	them. It also takes a function to perform the comparison. We&amp;apos;ll put our use of
+	&lt;code&gt;localizedCaseInsensitiveCompare&lt;/code&gt; in the function:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let sortedPeople = people.sorted { p0, p1 in
+    let left =  [p0.last, p0.first]
+    let right = [p1.last, p1.first]
+
+    return left.lexicographicallyPrecedes(right) {
+        $0.localizedCaseInsensitiveCompare($1) == .orderedAscending
+    }
+}
+sortedPeople // [Robert Jones (1970), Jo Smith (1970), Joanne smith (1985), Joanne smith (1970), Joe Smith (1970), Joe Smyth (1970)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	At this point, we&amp;apos;ve almost replicated the functionality of the original sort in
+	
+	roughly the same number of lines. But there&amp;apos;s still a lot of room for
+	
+	improvement: the building of arrays on every comparison is very inefficient, the
+	
+	comparison is hardcoded, and we can&amp;apos;t really sort by &lt;code&gt;yearOfBirth&lt;/code&gt; using this
+	
+	approach.
+&lt;/p&gt;
+&lt;h3&gt;
+	Functions as Data
+&lt;/h3&gt;
+&lt;p&gt;
+	Rather than writing an even more complicated function that we can use to sort,
+	
+	let&amp;apos;s take a step back. So far, the sort descriptors were much clearer, but they
+	
+	use runtime programming. The functions we wrote do not use runtime programming,
+	
+	but they are not so easy to write (and read).
+&lt;/p&gt;
+&lt;p&gt;
+	A sort descriptor is a way of describing the ordering of objects. Instead of
+	
+	storing that information as a class, we can define a function to describe the
+	
+	ordering of objects. The simplest possible definition would take two objects,
+	
+	and returns &lt;code&gt;true&lt;/code&gt; if they are ordered. This is also exactly the type that the
+	
+	standard library&amp;apos;s &lt;code&gt;sort(by:)&lt;/code&gt; and &lt;code&gt;sorted(by:)&lt;/code&gt; methods take as an argument.
+	
+	It&amp;apos;s helpful to define a generic &lt;code&gt;typealias&lt;/code&gt; to describe sort descriptors:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;typealias SortDescriptor&amp;lt;Value&amp;gt; = (Value, Value) -&amp;gt; Bool
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	As an example, we could define a sort descriptor that compares two &lt;code&gt;Person&lt;/code&gt;
+	objects by year of birth, or a sort descriptor that sorts by last name:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let sortByYear: SortDescriptor&amp;lt;Person&amp;gt; = { $0.yearOfBirth &amp;lt; $1.yearOfBirth }
+let sortByLastName: SortDescriptor&amp;lt;Person&amp;gt; = { 
+  $0.last.localizedCaseInsensitiveCompare($1.last) == .orderedAscending 
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Rather than writing the sort descriptors by hand, we can write a function that
+	
+	generates them. It&amp;apos;s not nice that we to write the same property twice: in the
+	&lt;code&gt;sortByLastName&lt;/code&gt;, we could have easily made a mistake and accidentally compared
+	&lt;code&gt;$0.last&lt;/code&gt; with &lt;code&gt;$1.first&lt;/code&gt;. Also, it&amp;apos;s tedious to write these sort descriptors:
+	
+	to sort by first name, it&amp;apos;s probably easiest to copy and paste the
+	&lt;code&gt;sortByLastName&lt;/code&gt; definition and modify it.
+&lt;/p&gt;
+&lt;p&gt;
+	Rather than copying and pasting, we can define a function with an interface that
+	
+	is much like &lt;code&gt;NSSortDescriptor&lt;/code&gt;, but without the runtime programming. This
+	
+	function takes a key and a comparison method, and returns a sort descriptor (the
+	
+	function, not the class &lt;code&gt;NSSortDescriptor&lt;/code&gt;). Here, &lt;code&gt;key&lt;/code&gt; is not a string, but a
+	
+	function. To compare two keys, we use a function &lt;code&gt;isOrderedBefore&lt;/code&gt;. Finally, the
+	
+	result type is a function as well, even though that is slightly obscured by the
+	&lt;code&gt;typealias&lt;/code&gt;.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func sortDescriptor&amp;lt;Value, Key&amp;gt;(
+  key: @escaping (Value) -&amp;gt; Key,
+    _ isOrderedBefore: @escaping (Key, Key) -&amp;gt; Bool) 
+    -&amp;gt; SortDescriptor&amp;lt;Value&amp;gt; {
+    return { isOrderedBefore(key($0), key($1)) }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This allows us to define &lt;code&gt;sortByYear&lt;/code&gt; in a different way:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let sortByYearAlt: SortDescriptor&amp;lt;Person&amp;gt; = sortDescriptor(key: { $0.yearOfBirth }, &amp;lt;)
+people.sorted(by: sortByYearAlt) 
+// [Jo Smith (1970), Joe Smith (1970), Joe Smyth (1970), Joanne smith (1970), Robert Jones (1970), Joanne smith (1985)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We can even define an overloaded variant that works for all &lt;code&gt;Comparable&lt;/code&gt; types:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func sortDescriptor&amp;lt;Value, Key&amp;gt;(key: @escaping (Value) -&amp;gt; Key)
+    -&amp;gt; SortDescriptor&amp;lt;Value&amp;gt; where Key: Comparable {
+    return { key($0) &amp;lt; key($1) }
+}
+let sortByYearAlt2: SortDescriptor&amp;lt;Person&amp;gt; = sortDescriptor(key: { $0.yearOfBirth })
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Both &lt;code&gt;sortDescriptor&lt;/code&gt; above work with boolean functions. The &lt;code&gt;NSSortDescriptor&lt;/code&gt;
+	class has an initializer that takes a comparison function such as
+	&lt;code&gt;localizedCaseInsensitiveCompare&lt;/code&gt;. Adding support for this is easy as well:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func sortDescriptor&amp;lt;Value, Key&amp;gt;(
+    key: @escaping (Value) -&amp;gt; Key,
+    ascending: Bool = true,
+    _ comparator: @escaping (Key) -&amp;gt; (Key) -&amp;gt; ComparisonResult
+    ) -&amp;gt; SortDescriptor&amp;lt;Value&amp;gt; {
+    return { lhs, rhs in
+        let order: ComparisonResult = ascending ? .orderedAscending : .orderedDescending
+        return comparator(key(lhs))(key(rhs)) == order
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This allows us to write our &lt;code&gt;sortByFirstName&lt;/code&gt; in a much shorter and clearer way:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let sortByFirstName: SortDescriptor&amp;lt;Person&amp;gt; = 
+  sortDescriptor(key: { $0.first }, String.localizedCaseInsensitiveCompare)
+people.sorted(by: sortByFirstName) 
+// [Jo Smith (1970), Joanne smith (1985), Joanne smith (1970), Joe Smith (1970), Joe Smyth (1970), Robert Jones (1970)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This &lt;code&gt;SortDescriptor&lt;/code&gt; is just as expressive as its &lt;code&gt;NSSortDescriptor&lt;/code&gt; variant,
+	
+	but it is typesafe, and it does not rely on runtime programming.
+&lt;/p&gt;
+&lt;p&gt;
+	Currently, we can only use a single &lt;code&gt;SortDescriptor&lt;/code&gt; function to sort arrays. If
+	
+	you recall, we used the &lt;code&gt;NSArray.sortedArray(using:)&lt;/code&gt; method to sort an array
+	
+	with a number of comparison operators. We could easily add a similar method to
+	&lt;code&gt;Array&lt;/code&gt;, or even to the &lt;code&gt;Sequence&lt;/code&gt; protocol. However, we would have to add it
+	
+	twice: once for the mutating variant, and once for the non-mutating variant.
+&lt;/p&gt;
+&lt;p&gt;
+	We take a different approach so that we don&amp;apos;t have to write more extensions.
+	
+	Instead, we write a function that combines multiple sort descriptors into a
+	
+	single sort descriptor. It works just like the &lt;code&gt;sortedArray(using:)&lt;/code&gt; method: it
+	
+	first tries the first descriptor and uses that result. Unless the values are
+	
+	equal, then it uses the second descriptor, and so on.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func combine&amp;lt;Value&amp;gt;
+    (sortDescriptors: [SortDescriptor&amp;lt;Value&amp;gt;]) -&amp;gt; SortDescriptor&amp;lt;Value&amp;gt; {
+    return { lhs, rhs in
+        for isOrderedBefore in sortDescriptors {
+            if isOrderedBefore(lhs,rhs) { return true }
+            if isOrderedBefore(rhs,lhs) { return false }
+        }
+        return false
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We can now finally replicate the initial example we had using sort descriptors:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let combined: SortDescriptor&amp;lt;Person&amp;gt; = combine(
+  sortDescriptors: [sortByLastName,sortByFirstName,sortByYear]
+)
+people.sorted(by: combined) 
+// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We ended up with the same behavior as before. However, the version using
+	
+	functions is type-safe and does not rely on runtime programming, so it can be
+	
+	optimized by the compiler as well. And we can use it with structs, or
+	
+	non-Objective-C Objects.
+&lt;/p&gt;
+&lt;p&gt;
+	This approach of using functions as data — storing them in array and building
+	
+	those arrays at runtime — opens up a new level of dynamic behavior, and it is
+	
+	one way in which a statically typed compile-time-oriented language like Swift
+	
+	can still replicate some of the dynamic behavior of languages like Objective-C
+	
+	or Ruby.
+&lt;/p&gt;
+&lt;p&gt;
+	Also, it is possible to write functions that combine other functions. For
+	
+	example, our &lt;code&gt;combine(sortDescriptors:)&lt;/code&gt; function took an array of sort
+	
+	descriptors, and combined them into a single sort descriptor. Alternatively, we
+	
+	could have written an operator to combine two sort functions:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;infix operator &amp;lt;||&amp;gt; : LogicalDisjunctionPrecedence
+func &amp;lt;||&amp;gt;&amp;lt;A&amp;gt;(lhs: @escaping (A,A) -&amp;gt; Bool, rhs: @escaping (A,A) -&amp;gt; Bool) -&amp;gt; (A,A) -&amp;gt; Bool {
+    return { x,y in
+        if lhs(x,y) { return true }
+        if lhs(y,x) { return false }
+        
+        // Otherwise, they&amp;apos;re the same, so we check for the second condition
+        if rhs(x,y) { return true }
+        
+        return false
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Most of the time, writing a custom operator is a bad idea. Custom operators are
+	
+	often harder to read than functions, because the name isn&amp;apos;t explicit. However,
+	
+	they can be very powerful when used sparingly. The operator above allows us to
+	
+	rewrite our combined sort example like so:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let combinedAlt = sortByLastName &amp;lt;||&amp;gt; sortByFirstName &amp;lt;||&amp;gt; sortByYear
+people.sorted(by: combinedAlt) 
+// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	That said, we prefer the &lt;code&gt;combine(sortDescriptors:)&lt;/code&gt; function over the custom
+	
+	operator. It is clearer at the call-site, which makes for more readable code.
+	
+	Unless you are writing highly domain-specific code, a custom operator is
+	
+	probably overkill.
+&lt;/p&gt;
+&lt;p&gt;
+	The Foundation version still has one functional advantage over our version. It
+	
+	can deal with optionals without having to write any more code. For example, if
+	
+	we would make the &lt;code&gt;last&lt;/code&gt; property on &lt;code&gt;Person&lt;/code&gt; an optional string, we wouldn&amp;apos;t
+	
+	have to change anything in our sorting code that uses &lt;code&gt;NSSortDescriptor&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	However, all is not lost. You can feel it coming: once again, we write a
+	
+	function which takes a function and returns a function. We can take a regular
+	
+	comparing function such as &lt;code&gt;localizedCaseInsensitiveCompare&lt;/code&gt;, which works on two
+	&lt;code&gt;String&lt;/code&gt;s, and turn it into a function that takes two optional &lt;code&gt;String&lt;/code&gt;s. If
+	
+	both values are &lt;code&gt;nil&lt;/code&gt;, they are equal. If the left-hand side is nil, but the
+	
+	right-hand isn&amp;apos;t they&amp;apos;re ascending, and the other way around. Finally, if they
+	
+	are both non-&lt;code&gt;nil&lt;/code&gt;, we can use the &lt;code&gt;compare&lt;/code&gt; function to compare them.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func lift&amp;lt;A&amp;gt;(_ compare: @escaping (A) -&amp;gt; (A) -&amp;gt; ComparisonResult) -&amp;gt; (A?) -&amp;gt; (A?) -&amp;gt; ComparisonResult {
+    return { lhs in { rhs in
+        switch (lhs, rhs) {
+        case (nil, nil): return .orderedSame
+        case (nil, _): return .orderedAscending
+        case (_, nil): return .orderedDescending
+        case let (l?, r?): return compare(l)(r)
+        default: fatalError() // Impossible case
+        }
+    } }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This allows us to &amp;quot;lift&amp;quot; a regular comparison function into the domain of
+	
+	optionals, and it can be used together with our sortDescriptor function. If you
+	
+	recall the &lt;code&gt;files&lt;/code&gt; array from before, sorting them by &lt;code&gt;fileExtension&lt;/code&gt; got really
+	
+	ugly because we had to deal with optionals. However, with our new &lt;code&gt;lift&lt;/code&gt;
+	function, it&amp;apos;s very clean again:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let lcic = lift(String.localizedCaseInsensitiveCompare)
+let result = files.sorted(by: sortDescriptor(key: { $0.fileExtension }, lcic))
+result // [&amp;quot;one&amp;quot;, &amp;quot;file.c&amp;quot;, &amp;quot;file.h&amp;quot;, &amp;quot;test.h&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		We can write a similar version of &lt;code&gt;lift&lt;/code&gt; for functions that return a &lt;code&gt;Bool&lt;/code&gt;.
+		
+		Before Swift 3, operators like &lt;code&gt;&amp;gt;&lt;/code&gt; were defined on optionals. They were
+		
+		removed because they can lead to accidental bugs. However, with a boolean
+		&lt;code&gt;lift&lt;/code&gt; you can easily take an existing operator and make it work for
+		
+		optionals.
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	One drawback of the function-based approach is that functions are opaque. We can
+	
+	take an &lt;code&gt;NSSortDescriptor&lt;/code&gt;, print it to the console, and we get some information
+	
+	about the sort descriptor: the key path, the selector name and whether it&amp;apos;s
+	
+	ascending. Our function-based approach cannot do this. For sort descriptors,
+	
+	this is not a problem in practice. If it&amp;apos;s important to have that information,
+	
+	we could wrap the functions in a struct or class, and store additional debug
+	
+	information.
+&lt;/p&gt;
+&lt;p&gt;
+	This approach has also given us a clean separation between the sorting method
+	
+	and the comparison method. The algorithm that Swift&amp;apos;s sort uses is a hybrid of
+	
+	multiple sorting algorithms — as of writing, it is an
+	&lt;a href=&quot;https://en.wikipedia.org/wiki/Introsort&quot; title&gt;introsort&lt;/a&gt; (which is itself a hybrid
+	
+	of a quicksort and a heapsort), but it switches to an &lt;a href=&quot;https://en.wikipedia.org/wiki/Insertion_sort&quot; title&gt;insertion
+		
+		sort&lt;/a&gt; for small collections to
+	
+	avoid the upfront startup cost of the more complex sort algorithms.
+&lt;/p&gt;
+&lt;p&gt;
+	Introsort is not a
+	
+	&amp;quot;&lt;a href=&quot;https://en.wikipedia.org/wiki/Category:Stable_sorts&quot; title&gt;stable&lt;/a&gt;&amp;quot; sort. That is,
+	
+	it does not necessarily maintain relative ordering of values that are otherwise
+	
+	equal according to the comparison function.
+&lt;/p&gt;
+&lt;p&gt;
+	But if you implemented a stable sort, the separation of the sort method from the
+	
+	comparison would allow you to swap it in easily:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;people.stableSorted(by: combine(
+  sortDescriptors: [sortByLastName,sortByFirstName,sortByYear]
+))
+&lt;/code&gt;&lt;/pre&gt;
+			</description>
+			<pubDate>Mon, 29 Aug 2016 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/sort-descriptors-in-swift</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/sort-descriptors-in-swift</guid>
+		</item>
+		<item>
+			<title>Structs and mutation in Swift</title>
+			<description>
+				
+&lt;p&gt;&lt;em&gt;Note&lt;/em&gt;: This post is a draft-version of a new section in our book &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt;. We&amp;apos;re currently updating the book for Swift 3. It&amp;apos;ll be a free update for everyone who has bought a digital version of the book. Thanks to &lt;a href=&quot;https://twitter.com/olebegemann&quot; title&gt;Ole Begemann&lt;/a&gt; for suggestions and improvements.
+&lt;/p&gt;
+&lt;p&gt;
+	Value types imply that whenever a variable is copied, the value itself — and not just a reference to the value — is copied. For example, in almost all programming languages, scalar types are value types. This means that whenever a value is assigned to a new variable, it is copied rather than passed by reference:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var a = 42
+var b = a
+b += 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	After the code above executes, the value of &lt;code&gt;b&lt;/code&gt; will be 43, but &lt;code&gt;a&lt;/code&gt; will still be 42. This is so natural that it seems like stating the obvious. However, in Swift, all structs behave this way, not just scalar types.
+&lt;/p&gt;
+&lt;p&gt;
+	Let&amp;apos;s start with a simple struct that describes a &lt;code&gt;Point&lt;/code&gt;. This is similar to &lt;code&gt;CGPoint&lt;/code&gt;, except that it contains &lt;code&gt;Int&lt;/code&gt;s, whereas &lt;code&gt;CGPoint&lt;/code&gt; contains &lt;code&gt;CGFloat&lt;/code&gt;s.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Point {
+    var x: Int
+    var y: Int
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	For structs, Swift automatically adds a memberwise initializer. This means we can now initialize a new variable:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let origin = Point(x: 0, y: 0)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Because structs in Swift have value semantics, we cannot change any of the properties of a struct variable that&amp;apos;s defined using let. For example, the following code will not work:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;highlight-swift&quot;&gt;origin.x = 10 // error
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Even though we defined &lt;code&gt;x&lt;/code&gt; within the struct as a &lt;code&gt;var&lt;/code&gt; property, we cannot change it, because &lt;code&gt;origin&lt;/code&gt; is defined using &lt;code&gt;let&lt;/code&gt;. This has some major advantages. For example, if you read a line like &lt;code&gt;let point = ...&lt;/code&gt;, and you know that &lt;code&gt;point&lt;/code&gt; is a struct variable, then you also know that it will never, ever, change. This is a great help when reading through code.
+&lt;/p&gt;
+&lt;p&gt;
+	To create a variable that we can mutate, we need to create it using &lt;code&gt;var&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var otherPoint = Point(x: 0, y: 0)
+otherPoint.x += 10
+otherPoint
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Once we create a variable using &lt;code&gt;var&lt;/code&gt;, we can mutate it. However, unlike with objects, every struct variable is unique. For example, we can create a new variable &lt;code&gt;thirdPoint&lt;/code&gt;, and assign the value of &lt;code&gt;origin&lt;/code&gt; to it. Now we can change &lt;code&gt;thirdPoint&lt;/code&gt;, but &lt;code&gt;origin&lt;/code&gt; (which we defined as an immutable variable using &lt;code&gt;let&lt;/code&gt;) will not change.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var thirdPoint = origin
+thirdPoint.x += 10
+thirdPoint
+origin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Once you assign a struct to a new variable, Swift automatically makes a copy. Even though this sounds very expensive, many of the copies can be optimized away by the compiler, and Swift tries hard to make the copies very cheap. In fact, many structs in the standard library are implemented using a technique called copy-on-write, which we will look at later.
+&lt;/p&gt;
+&lt;p&gt;
+	If we have struct values that we plan to use more often, we can define them in an extension as a static property. For example, we can define an &lt;code&gt;origin&lt;/code&gt; property on &lt;code&gt;Point&lt;/code&gt;, so that we can write &lt;code&gt;Point.origin&lt;/code&gt; everywhere we need it:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Point {
+    static let origin = Point(x: 0, y: 0)
+}
+Point.origin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Structs can also contain other structs. For example, if we define a &lt;code&gt;Size&lt;/code&gt; struct, we can create a &lt;code&gt;Rect&lt;/code&gt; struct which is composed out of a point and a size:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Size {
+    var width: Int
+    var height: Int
+}
+
+struct Rectangle {
+    var origin: Point
+    var size: Size
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Just like before, we get a memberwise initializer for &lt;code&gt;Rectangle&lt;/code&gt;. The order of the parameters matches the order of the property definitions:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Rectangle(origin: Point.origin, 
+          size: Size(width: 320, height: 480))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	If we want a custom initializer for our struct, we can add it directly inside the struct definition. However, if the struct definition contains a custom initializer, Swift does not generate a memberwise initializer. By defining our custom initializer in an extension, we also get to keep the memberwise initializer.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Rectangle {
+    init(x: Int = 0, y: Int = 0, width: Int, height: Int) {
+        origin = Point(x: x, y: y)
+        size = Size(width: width, height: height)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Instead of setting &lt;code&gt;origin&lt;/code&gt; and &lt;code&gt;size&lt;/code&gt; directly, we could have also called &lt;code&gt;self.init(origin:size:)&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	If we define a mutable variable &lt;code&gt;screen&lt;/code&gt;, we can add a &lt;code&gt;didSet&lt;/code&gt; block that gets executed whenever &lt;code&gt;screen&lt;/code&gt; changes. This &lt;code&gt;didSet&lt;/code&gt; works for every definition of a struct, be it in a playground, in a class or when defining a global variable.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var screen = Rectangle(width: 320, height: 480) {
+    didSet {
+        print(&amp;quot;Screen changed! \(screen)&amp;quot;)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Maybe somewhat surprisingly, even if we change something deep inside the struct, this will get triggered:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;screen.origin.x = 10
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Understanding why this works is key to understanding value types. Mutating a struct variable is semantically the same as assigning a new value to it. When we mutate something deep inside the struct, it still means we are mutating the struct, so &lt;code&gt;didSet&lt;/code&gt; still needs to get triggered.
+&lt;/p&gt;
+&lt;p&gt;
+	With regular structs, the compiler will mutate the value in place, and not actually make a copy. With copy-on-write structs (which we&amp;apos;ll discuss later), this works differently.
+&lt;/p&gt;
+&lt;p&gt;
+	It would make sense to add two &lt;code&gt;Points&lt;/code&gt; together. We can use the &lt;code&gt;+&lt;/code&gt; operator for this, add both members, and return a new &lt;code&gt;Point&lt;/code&gt;.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func +(lhs: Point, rhs: Point) -&amp;gt; Point {
+    return Point(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+}
+screen.origin + Point(x: 10, y: 10)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We could also lift this operation to rectangles, and add a &lt;code&gt;translate&lt;/code&gt; method which moves the rectangle by a given offset. Our first attempt doesn&amp;apos;t work:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;highlight-swift&quot;&gt;extension Rectangle {
+    func translate(by offset: Point) {
+        origin = origin + offset
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The compiler tells us that we cannot assign to the &lt;code&gt;origin&lt;/code&gt; property, because &lt;code&gt;self&lt;/code&gt; is immutable (writing &lt;code&gt;origin =&lt;/code&gt; is shorthand for &lt;code&gt;self.origin =&lt;/code&gt;). We could think of &lt;code&gt;self&lt;/code&gt; as an extra, implicit parameter that gets passed to every method on &lt;code&gt;Rectangle&lt;/code&gt;. You never have to pass the parameter, but it&amp;apos;s always there inside the method body. And it&amp;apos;s defined as &lt;code&gt;let&lt;/code&gt; by default. The reason this &lt;code&gt;let&lt;/code&gt; restriction exists is so that value semantics can be guaranteed. If we want to be able to mutate &lt;code&gt;self&lt;/code&gt;, or any property of &lt;code&gt;self&lt;/code&gt;, or even nested properties (e.g. &lt;code&gt;self.origin.x&lt;/code&gt;), we need to mark our method as &lt;code&gt;mutating&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Rectangle {
+    mutating func translate(by offset: Point) {
+        origin = origin + offset
+    }
+}
+screen.translate(by: Point(x: 10, y: 10))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The compiler enforces the &lt;code&gt;mutating&lt;/code&gt; keyword. Unless we use it, we are not allowed to mutate anything inside the method. By marking the method as &lt;code&gt;mutating&lt;/code&gt;, we change the behavior of &lt;code&gt;self&lt;/code&gt;. Instead of it being a &lt;code&gt;let&lt;/code&gt;, it now works like a &lt;code&gt;var&lt;/code&gt;: we can freely change any property. (To be precise, it&amp;apos;s not even a &lt;code&gt;var&lt;/code&gt;, but we will get to that in a little bit).
+&lt;/p&gt;
+&lt;p&gt;
+	If we define a &lt;code&gt;Rectangle&lt;/code&gt; variable using &lt;code&gt;let&lt;/code&gt;, we cannot call &lt;code&gt;translate&lt;/code&gt; on it, because the only &lt;code&gt;Rectangle&lt;/code&gt;s that are mutable are the ones defined using &lt;code&gt;var&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;highlight-swift&quot;&gt;let otherScreen = screen
+otherScreen.translate(by: Point(x: 10, y: 10)) // error
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Thinking back to the collections chapter, we can now see how the difference between &lt;code&gt;let&lt;/code&gt; and &lt;code&gt;var&lt;/code&gt; applies to our collections as well. The &lt;code&gt;append&lt;/code&gt; method on arrays is defined as &lt;code&gt;mutating&lt;/code&gt;, and therefore we are not allowed to call it on an array defined with &lt;code&gt;let&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	Likewise, if we think about a property setter on a struct, it makes sense that they are mutating. Because Swift automatically marks every setter as &lt;code&gt;mutating&lt;/code&gt;, you cannot call a setter on a &lt;code&gt;let&lt;/code&gt; variable.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;highlight-swift&quot;&gt;let point = Point.origin
+// doesn&amp;apos;t work, because the setter is mutating.
+point.x = 10 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	In many cases, it makes sense to have both a &lt;code&gt;mutating&lt;/code&gt; and a non-mutating variant of the same method. For example, arrays have both a &lt;code&gt;sort()&lt;/code&gt; method (which is mutating and sorts in place) and a &lt;code&gt;sorted()&lt;/code&gt; method (which returns a new array). We can also add a non-mutating variant of our &lt;code&gt;translate(by:_)&lt;/code&gt; method. Instead of mutating &lt;code&gt;self&lt;/code&gt;, we create a copy, mutate that, and return a new &lt;code&gt;Rectangle&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Rectangle {
+    func translated(by offset: Point) -&amp;gt; Rectangle {
+        var copy = self
+        copy.translate(by: offset)
+        return copy
+    }
+}
+screen.translated(by: Point(x: 20, y: 20))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		The names &lt;code&gt;sort&lt;/code&gt; and &lt;code&gt;sorted&lt;/code&gt; are not chosen at random, but are names that conform to the Swift &lt;a href=&quot;https://swift.org/documentation/api-design-guidelines/&quot; title&gt;API Design Guidelines&lt;/a&gt;. Likewise, we applied these guidelines to &lt;code&gt;translate&lt;/code&gt; and &lt;code&gt;translated&lt;/code&gt;. There is even specific documentation for methods that have a mutating and a non-mutating variant: because &lt;code&gt;translate&lt;/code&gt; has a side-effect, it should read as an imperative verb phrase. The non-mutating variant should have a -ed or -ing suffix.
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	In functional programming, side-effects are often considered bad, because they might influence your code in unexpected ways. For example, if an object is referenced in multiple places, every change automatically happens in every place. As we have seen in the introduction, when dealing with multi-threaded code, this can easily lead to bugs: because the object you are just checking can be modified from a different thread, all your assumptions might be invalid.
+&lt;/p&gt;
+&lt;p&gt;
+	With Swift structs, &lt;code&gt;mutating&lt;/code&gt; does not have the same problems. The mutation of the struct is a local side-effect, and only applies to the current struct variable. Because every struct variable is unique (or in other words: every struct value has exactly one owner), it&amp;apos;s almost impossible to introduce bugs this way. Unless you&amp;apos;re referring to a global struct variable across threads, that is.
+&lt;/p&gt;
+&lt;p&gt;
+	To understand how the &lt;code&gt;mutating&lt;/code&gt; keyword works, we can look at the behavior of &lt;code&gt;inout&lt;/code&gt;. In Swift, we can mark function parameters as &lt;code&gt;inout&lt;/code&gt;. Before we do that, let&amp;apos;s define a free function that moves a rectangle by ten points on both axes. We cannot simply call &lt;code&gt;translate&lt;/code&gt; directly on the &lt;code&gt;rectangle&lt;/code&gt; parameter, because all function parameters are immutable by default. In order to change it, we create a mutable copy using &lt;code&gt;var&lt;/code&gt;, call &lt;code&gt;translate&lt;/code&gt; and return the changed value. Then we need to re-assign it to &lt;code&gt;screen&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func moveByTenTen(rectangle: Rectangle) -&amp;gt; Rectangle {
+    var changed = rectangle
+    changed.translate(by: Point(x: 10, y: 10))
+    return changed
+}
+screen = moveByTenTen(rectangle: screen)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	How could we write a function that changes the &lt;code&gt;rectangle&lt;/code&gt; in place? Thinking back, the &lt;code&gt;mutating&lt;/code&gt; keyword did exactly that. It makes the implicit &lt;code&gt;self&lt;/code&gt; parameter mutable, and it changes the value of the variable.
+&lt;/p&gt;
+&lt;p&gt;
+	In functions, we can mark parameters as &lt;code&gt;inout&lt;/code&gt;. Just like with a regular parameter, a copy of the value gets passed in to the function. However, we can change the copy (it&amp;apos;s as if it were defined as a &lt;code&gt;var&lt;/code&gt;). And once the function returns, the original value gets overwritten:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func moveByTwentyTwenty(rectangle: inout Rectangle) {
+    rectangle.translate(by: Point(x: 20, y: 20))
+}
+moveByTwentyTwenty(rectangle: &amp;amp;screen)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The &lt;code&gt;moveByTwentyTwenty&lt;/code&gt; function takes the &lt;code&gt;screen&lt;/code&gt; rectangle, changes it locally, and copies the new value back (overriding the previous value of &lt;code&gt;screen&lt;/code&gt;). This behavior is exactly the same as a &lt;code&gt;mutating&lt;/code&gt; method. In fact, &lt;code&gt;mutating&lt;/code&gt; methods are just like regular methods on struct, except that &lt;code&gt;self&lt;/code&gt; is marked as &lt;code&gt;inout&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	Just to make sure, we cannot call &lt;code&gt;moveByTwentyTwenty&lt;/code&gt; on a rectangle that&amp;apos;s defined using &lt;code&gt;let&lt;/code&gt;. We can only use it with mutable values:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;highlight-swift&quot;&gt;let immutableScreen = screen
+moveByTwentyTwenty(rectangle: &amp;amp;immutableScreen) // error
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Now it also makes sense how we could define a mutating operator like &lt;code&gt;+=&lt;/code&gt;. Such operators modify the left-hand side by adding the right-hand side:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func +=(lhs: inout Point, rhs: Point) {
+    lhs = lhs + rhs
+}
+var myPoint = Point.origin
+myPoint += Point(x: 10, y: 10)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	In the &lt;a href=&quot;#functions&quot; title&gt;Functions&lt;/a&gt; chapter, we will go into more detail about &lt;code&gt;inout&lt;/code&gt;. For now, it suffices to say that &lt;code&gt;inout&lt;/code&gt; is in lots of places. For example, it&amp;apos;s now easy to understand how modifying a subscript works:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var array = [Point(x: 0, y: 0), Point(x: 10, y: 10)]
+array[0] += Point(x: 100, y: 100)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The expression &lt;code&gt;array[0]&lt;/code&gt; is automatically passed in as an &lt;code&gt;inout&lt;/code&gt; variable. In the Functions chapter, we will look in more detail at &lt;code&gt;inout&lt;/code&gt; parameters, and see why we can use expressions like &lt;code&gt;array[0]&lt;/code&gt; as an &lt;code&gt;inout&lt;/code&gt; parameter.
+&lt;/p&gt;
+			</description>
+			<pubDate>Tue, 16 Aug 2016 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/structs-and-mutation-in-swift</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/structs-and-mutation-in-swift</guid>
+		</item>
+		<item>
+			<title>Protocols in Swift</title>
+			<description>
+				
+&lt;p&gt;
+	Let&amp;apos;s say we are writing our own data-structure, a singly linked list:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;enum ListNode&amp;lt;A&amp;gt; {
+    case end
+    indirect case cons(A, ListNode)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Today&amp;apos;s goal is to make &lt;code&gt;ListNode&lt;/code&gt; conform to the &lt;code&gt;Collection&lt;/code&gt; protocol. It&amp;apos;s actually fairly easy, but it&amp;apos;s almost impossible to figure it out by just looking at the types. The documentation tells us which methods to implement, but why is it like that? Even though the protocol is clearly specified, it&amp;apos;s not so easy to see what you need to do. Let&amp;apos;s give it a try without looking at the documentation, and see what the compiler tells us:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension ListNode: Collection { }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The compiler tells us we don&amp;apos;t conform to the following three protocols: &lt;code&gt;Sequence&lt;/code&gt;, &lt;code&gt;IndexableBase&lt;/code&gt;, and &lt;code&gt;Collection&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	Looking at all these protocols, you might get overwhelmed. The most complicated one, &lt;code&gt;Collection&lt;/code&gt;, comes in at a whopping four associated types, two subscripts, four computed properties and seven methods. A protocol is a formal &amp;quot;todo-list&amp;quot; of all the things your type needs to do in order to conform. I copy/pasted this from the Standard Library, and removed all the documentation comments. With the documentation comments, it gets even harder to see!
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;public protocol Collection : Indexable, Sequence {
+    associatedtype IndexDistance : SignedInteger = Int
+    associatedtype Iterator : IteratorProtocol = IndexingIterator&amp;lt;Self&amp;gt;
+    associatedtype SubSequence : IndexableBase, Sequence = Slice&amp;lt;Self&amp;gt;
+    associatedtype Indices : IndexableBase, Sequence = DefaultIndices&amp;lt;Self&amp;gt;
+    public subscript(position: Self.Index) -&amp;gt; Self.Iterator.Element { get }
+    public subscript(bounds: Range&amp;lt;Self.Index&amp;gt;) -&amp;gt; Self.SubSequence { get }
+    public var indices: Self.Indices { get }
+    public var isEmpty: Bool { get }
+    public var count: Self.IndexDistance { get }
+    public var first: Self.Iterator.Element? { get }
+    public func makeIterator() -&amp;gt; Self.Iterator
+    public func prefix(upTo end: Self.Index) -&amp;gt; Self.SubSequence
+    public func suffix(from start: Self.Index) -&amp;gt; Self.SubSequence
+    public func prefix(through position: Self.Index) -&amp;gt; Self.SubSequence
+    public func index(_ i: Self.Index, offsetBy n: Self.IndexDistance) -&amp;gt; Self.Index
+    public func index(_ i: Self.Index, offsetBy n: Self.IndexDistance, limitedBy limit: Self.Index) -&amp;gt; Self.Index?
+    public func distance(from start: Self.Index, to end: Self.Index) -&amp;gt; Self.IndexDistance
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The interesting thing is: all associated types have default values. So if we decide to stick with them, we can cross those off of the todo-list, and fill the other parameters with their types:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;public protocol Collection : Indexable, Sequence {
+    public subscript(position: Self.Index) -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;.Element { get }
+    public subscript(bounds: Range&amp;lt;Self.Index&amp;gt;) -&amp;gt; Slice&amp;lt;Self&amp;gt; { get }
+    public var indices: DefaultIndices&amp;lt;Self&amp;gt; { get }
+    public var isEmpty: Bool { get }
+    public var count: Int { get }
+    public var first: IndexingIterator&amp;lt;Self&amp;gt;.Element? { get }
+    public func makeIterator() -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;
+    public func prefix(upTo end: Self.Index) -&amp;gt; Slice&amp;lt;Self&amp;gt;
+    public func suffix(from start: Self.Index) -&amp;gt; Slice&amp;lt;Self&amp;gt;
+    public func prefix(through position: Self.Index) -&amp;gt; Slice&amp;lt;Self&amp;gt;
+    public func index(_ i: Self.Index, offsetBy n: Int) -&amp;gt; Self.Index
+    public func index(_ i: Self.Index, offsetBy n: Int, limitedBy limit: Self.Index) -&amp;gt; Self.Index?
+    public func distance(from start: Self.Index, to end: Self.Index) -&amp;gt; Int
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Many of the properties and methods have default implementations as well. For example, here are the default extensions on &lt;code&gt;Collection&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Collection {
+    public func map&amp;lt;T&amp;gt;(_ transform: @noescape (Self.Iterator.Element) throws -&amp;gt; T) rethrows -&amp;gt; [T]
+    public func dropFirst(_ n: Int) -&amp;gt; Self.SubSequence
+    public func dropLast(_ n: Int) -&amp;gt; Self.SubSequence
+    public func prefix(_ maxLength: Int) -&amp;gt; Self.SubSequence
+    public func suffix(_ maxLength: Int) -&amp;gt; Self.SubSequence
+    public func prefix(upTo end: Self.Index) -&amp;gt; Self.SubSequence
+    public func suffix(from start: Self.Index) -&amp;gt; Self.SubSequence
+    public func prefix(through position: Self.Index) -&amp;gt; Self.SubSequence
+    public func split(maxSplits: Int = default, omittingEmptySubsequences: Bool = default, whereSeparator isSeparator: @noescape (Self.Iterator.Element) throws -&amp;gt; Bool) rethrows -&amp;gt; [Self.SubSequence]
+    public func index(where predicate: @noescape (Self.Iterator.Element) throws -&amp;gt; Bool) rethrows -&amp;gt; Self.Index?
+}
+
+extension Collection {
+    public var isEmpty: Bool { get }
+    public var first: Self.Iterator.Element? { get }
+    public var underestimatedCount: Int { get }
+    public var count: Self.IndexDistance { get }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	These default extensions allow us to cross the &lt;code&gt;prefix&lt;/code&gt; and &lt;code&gt;suffix&lt;/code&gt; methods off of our list. Our todo-list is now a bit shorter:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;public protocol Collection : Indexable, Sequence {
+    public subscript(position: Self.Index) -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;.Element { get }
+    public subscript(bounds: Range&amp;lt;Self.Index&amp;gt;) -&amp;gt; Slice&amp;lt;Self&amp;gt; { get }
+    public var indices: DefaultIndices&amp;lt;Self&amp;gt; { get }
+    public func makeIterator() -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;
+    public func index(_ i: Self.Index, offsetBy n: Int) -&amp;gt; Self.Index
+    public func index(_ i: Self.Index, offsetBy n: Int, limitedBy limit: Self.Index) -&amp;gt; Self.Index?
+    public func distance(from start: Self.Index, to end: Self.Index) -&amp;gt; Int
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	There are more extensions that apply, though. For example:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Collection where SubSequence == Slice&amp;lt;Self&amp;gt; {
+    public subscript(bounds: Range&amp;lt;Self.Index&amp;gt;) -&amp;gt; Slice&amp;lt;Self&amp;gt; { get }
+}
+extension Collection where Indices == DefaultIndices&amp;lt;Self&amp;gt; {
+    public var indices: DefaultIndices&amp;lt;Self&amp;gt; { get }
+}
+extension Collection where Iterator == IndexingIterator&amp;lt;Self&amp;gt; {
+    public func makeIterator() -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Because all three apply, we can get rid of three more todos. Our list is getting shorter.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;public protocol Collection : Indexable, Sequence {
+    public subscript(position: Self.Index) -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;.Element { get }
+    public func index(_ i: Self.Index, offsetBy n: Int) -&amp;gt; Self.Index
+    public func index(_ i: Self.Index, offsetBy n: Int, limitedBy limit: Self.Index) -&amp;gt; Self.Index?
+    public func distance(from start: Self.Index, to end: Self.Index) -&amp;gt; Int
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	If we start adding the &lt;code&gt;Indexable&lt;/code&gt; requirements to our todo-list, we end up with a long list again. We now also need to conform to IndexableBase.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;public protocol Collection : IndexableBase, Sequence {
+    public subscript(position: Self.Index) -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;.Element { get }
+    public func index(_ i: Self.Index, offsetBy n: Int) -&amp;gt; Self.Index
+    public func index(_ i: Self.Index, offsetBy n: Int, limitedBy limit: Self.Index) -&amp;gt; Self.Index?
+    public func distance(from start: Self.Index, to end: Self.Index) -&amp;gt; Int
+    associatedtype Index : Comparable
+    public var startIndex: Self.Index { get }
+    public var endIndex: Self.Index { get }
+    public subscript(position: Self.Index) -&amp;gt; Self._Element { get }
+    associatedtype SubSequence
+    public subscript(bounds: Range&amp;lt;Self.Index&amp;gt;) -&amp;gt; Self.SubSequence { get }
+    public func index(after i: Self.Index) -&amp;gt; Self.Index
+    public func formIndex(after i: inout Self.Index)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	However, after removing all default implementations that are provided by collection, and using all extension that apply to our current protocol, we can cross out almost all the newly added &lt;code&gt;Indexable&lt;/code&gt; requirements (many have a default implementation). We can keep playing the game of looking at the extensions, crossing out requirements, adding new ones, until we finally end up with a minimal set of things we need to do:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;public protocol Collection {
+    associatedtype Index : Comparable
+    public var startIndex: Self.Index { get }
+    public var endIndex: Self.Index { get }
+    public func index(after i: Self.Index) -&amp;gt; Self.Index
+    public subscript(position: Self.Index) -&amp;gt; Element { get }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Lo and behold, we can make &lt;code&gt;ListNode&lt;/code&gt; conform:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension ListNode: Collection {
+    var startIndex: Int { return 0 }
+    /// This is 0(n), not the expected O(1) from `Collection`.
+    var endIndex: Int {
+        switch self {
+        case .end: return 0
+        case .cons(_, let tail): return 1 + tail.endIndex
+        }
+    }
+    func index(after: Int) -&amp;gt; Int {
+        return after+1
+    }
+    /// This is 0(n), not the expected O(1) from `Collection`.
+    subscript(position: Int) -&amp;gt; A {
+        switch (self, position) {
+        case (.end, _): fatalError(&amp;quot;Index out of bounds&amp;quot;)
+        case (.cons(let x, _), 0): return x
+        case (.cons(_, let tail), _): return tail[position-1]
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Note that we didn&amp;apos;t have to specify the &lt;code&gt;associatedtype&lt;/code&gt;, the compiler inferred this for us.
+&lt;/p&gt;
+&lt;p&gt;
+	Long story short: it&amp;apos;s really hard to see what you need to conform to. Or to be more precise: it&amp;apos;s not that hard, it&amp;apos;s just a &lt;em&gt;lot&lt;/em&gt; of manual work. Luckily, all of this can be completely automated. Unfortunately, the tooling in this respect is currently still very immature, even though the standard library isn&amp;apos;t. I have no idea if this will improve soon.
+&lt;/p&gt;
+&lt;p&gt;
+	Rather than waiting for Apple to fix this, maybe someone in the community could do this? I imagine it&amp;apos;s a few days of hard work: first you need to parse all the protocols in the standard library (or better: use SourceKit, because then you can also make it work on your own protocols). Then you need to have some kind of evaluation system that checks which extensions can be applied. It might need to be interactive, for example, once you specify that the &lt;code&gt;Index&lt;/code&gt; associated type will be an &lt;code&gt;Int&lt;/code&gt;, it could tell you what you still need to implement.
+&lt;/p&gt;
+&lt;p&gt;
+	I&amp;apos;d love to build this myself, however, I&amp;apos;m currently too busy writing the update of &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt;, and preparing new &lt;a href=&quot;https://talk.objc.io&quot; title&gt;Swift Talk episodes&lt;/a&gt;. It would be the perfect procrastination project...
+&lt;/p&gt;
+&lt;p&gt;
+	Update: Nicola &lt;a href=&quot;https://twitter.com/NSalmoria/status/764158023124258817&quot; title&gt;writes in&lt;/a&gt; that &amp;quot;Conforming to the Collection Protocol&amp;quot; is actually a section of the &lt;a href=&quot;https://developer.apple.com/reference/swift/collection&quot; title&gt;API documentation&lt;/a&gt;. Very good point. He also raises the point that my &lt;code&gt;endIndex&lt;/code&gt; and &lt;code&gt;subscript&lt;/code&gt; implementations aren&amp;apos;t &lt;code&gt;O(1)&lt;/code&gt;, which is the expected complexity as described in the &lt;code&gt;Collection&lt;/code&gt; protocol.
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 12 Aug 2016 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/protocols-in-swift</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/protocols-in-swift</guid>
+		</item>
+		<item>
+			<title>Responder Chain Alternatives</title>
+			<description>
+				
+&lt;p&gt;
+	There&amp;apos;s been some recent talk about the &lt;a href=&quot;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/EventOverview/EventArchitecture/EventArchitecture.html#//apple_ref/doc/uid/10000060i-CH3-SW2&quot; title&gt;responder chain&lt;/a&gt;. The responder chain works on a tree structure: the view hierarchy plus some other things. An event or action gets sent to a certain view (a node in the tree structure). Until it gets handled, it moves up the tree towards the root, going through all superviews, all the way until the &lt;code&gt;NSWindow&lt;/code&gt;, up to the &lt;code&gt;NSWindowController&lt;/code&gt;. You can even modify this tree structure, and insert your own responders. Depending on what you&amp;apos;re building (e.g. a document-based application), the responder chain can even be more advanced.
+&lt;/p&gt;
+&lt;p&gt;
+	The responder chain is really powerful, and saves you from writing boilerplate. It is built on top of runtime programming. For example, an action consists of a selector (in other words: a string) and the sender object. Using introspection, the application tries to dispatch an action through the responder chain, starting with the first responder, all the way up until some object handles the event.
+&lt;/p&gt;
+&lt;p&gt;
+	When you create a new Mac application, it comes with a menu by default. The menu items in send actions, for example, &lt;code&gt;paste:&lt;/code&gt;. If you want to implement paste support, it&amp;apos;s really easy. The only thing you&amp;apos;ll have to do (besides the domain logic of pasting) is implement a &lt;code&gt;paste:&lt;/code&gt; method somewhere in an object that will be in the responder chain. That&amp;apos;s it. Menu items can even be enabled and disabled automatically if you implement &lt;code&gt;validateMenuItem:&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	This is easy to write, but you do pay a price: maintaining these actions is more difficult than writing them. It&amp;apos;s hard to change code: if you ever want to refactor (for example, if you choose to rename the action), you&amp;apos;ll have to be very careful to change it in all places in your code, and in the Interface Builder file. If you forget to change things in one place, Interface Builder might be able to tell you this. But not always.
+&lt;/p&gt;
+&lt;p&gt;
+	The responder chain is easy, but it&amp;apos;s not simple[^simpleasy]. There is a lot of magic behind the scenes. It makes it hard to change your code. In addition, the responder chain on the Mac is complex: you need to have the order of the chain in your head (or read the documentation) to work effectively. You need to know your view hierarchy, and changes you intend to be local can accidentally be global.
+&lt;/p&gt;
+&lt;p&gt;
+	The responder chain is cool, but I&amp;apos;m not sure if we need to replicate it in Swift. Rather, we could try to think of a way that is just as easy as the responder chain, but also &lt;em&gt;simple&lt;/em&gt;. It should be easy to refactor code. It should be easy to understand. It should be easy to debug. In order to make a local change, you shouldn&amp;apos;t have to worry about the global effects. I&amp;apos;m not sure if we can solve all these issues, but I&amp;apos;m pretty sure we can solve a few of them.
+&lt;/p&gt;
+&lt;p&gt;
+	(Functional) Reactive Programming[^3] might be one solution to this. I&amp;apos;m not sure, because I have never applied FRP in production. The idea behind FRP is simple (and easy), but all implementations I&amp;apos;ve tried aren&amp;apos;t easy, nor simple. I think a React-like architecture is really cool, it&amp;apos;s simple, it&amp;apos;s easy, but then you want to do animations: not so easy.
+&lt;/p&gt;
+&lt;p&gt;
+	In short, I don&amp;apos;t know a good alternative to the responder chain. I don&amp;apos;t think FRP will be a silver bullet. For now, we can keep using the responder chain anyway, because Cocoa and Objective-C are probably not going anywhere[^lindy]. Sometimes, I hope that the answer comes when the Interface Builder team starts talking to the SourceKit API, and really leverage all this deep knowledge about the current program. In the mean time, we can try to come up with solutions ourselves, by keeping the following in mind: it should not only be easy, but also simple.
+&lt;/p&gt;
+&lt;p&gt;
+	[^simpleasy]: See Rich Hickey&amp;apos;s amazing &lt;a href=&quot;https://www.infoq.com/presentations/Simple-Made-Easy&quot; title&gt;presentation&lt;/a&gt;, or read the &lt;a href=&quot;https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md&quot; title&gt;transcript&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	[^lindy]: If I understand the &lt;a href=&quot;https://en.wikipedia.org/wiki/Lindy_effect&quot; title&gt;Lindy effect&lt;/a&gt; correctly, Cocoa might be around for 30 more years...
+&lt;/p&gt;
+&lt;p&gt;
+	[^3]: It&amp;apos;s not so much about the functional part of FRP, but more about the reactive part, as pointed out by &lt;a href=&quot;https://twitter.com/simjp/status/738830379298131969&quot; title&gt;JP&lt;/a&gt;.
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 03 Jun 2016 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/responder-chain-alternative</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/responder-chain-alternative</guid>
+		</item>
+		<item>
+			<title>Undo History in Swift</title>
+			<description>
+				
+&lt;p&gt;
+	Over the last weeks, there have been a number of blog posts that want to add dynamic behavior to Swift. Swift is already a very dynamic language: it has generics, protocols, first-class functions, and the standard library is filled with functions like &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;filter&lt;/code&gt;, which dynamically get their operation (not using a string like with KVC, but using a function, which is safer and more flexible). Most of the people that say they want dynamic behavior mean that they &lt;a href=&quot;http://inessential.com/2016/05/26/a_definition_of_dynamic_programming_in_t&quot; title&gt;want reflection&lt;/a&gt; specifically: they want to analyze and modify the program at runtime.
+&lt;/p&gt;
+&lt;p&gt;
+	In Swift, there is only a very limited reflection mechanism, although you can already inspect and generate code at runtime. For example, here&amp;apos;s how to generate a dictionary ready for &lt;code&gt;NSCoding&lt;/code&gt; or JSON serialization: &lt;a href=&quot;http://chris.eidhof.nl/post/swift-mirrors-and-json/&quot; title&gt;Swift mirrors and JSON&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	Today, we&amp;apos;ll have a look at implementing undo functionality in Swift. One of the examples people keep bringing up to make the case for reflection (the way Objective-C) supports it is &lt;code&gt;NSUndoManager&lt;/code&gt;.  With struct semantics, we can add undo support to our apps in a different way. Before we get started, make sure that you understand how structs work in Swift (most importantly, how they are all unique copies). Clearly, this post will not remove the need for runtime programming in Swift, nor is it a replacement for &lt;code&gt;NSUndoManager&lt;/code&gt;. It&amp;apos;s just a simple example of how to think different.
+&lt;/p&gt;
+&lt;p&gt;
+	We&amp;apos;ll build a struct called &lt;code&gt;UndoHistory&lt;/code&gt;. It&amp;apos;s generic, with the caveat that it only works when &lt;code&gt;A&lt;/code&gt; is a struct. To keep a history of all the states, we can store every value in an array. Whenever we want to change something, we just push onto the array, and whenever we want to undo, we pop from the array. We always want to start with an initial state, so we create an initializer for that:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct UndoHistory&amp;lt;A&amp;gt; {
+    private let initialValue: A
+    private var history: [A] = []
+    init(initialValue: A) {
+        self.initialValue = initialValue
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	For example, if we want to add undo support to a table view controller that&amp;apos;s backed by an array, we can create a value of this struct:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var history = UndoHistory(initialValue: [1, 2, 3])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	To support undo for a different struct, we just start with a different initial value:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Person {
+    var name: String
+    var age: Int
+}
+
+var personHistory = UndoHistory(initialValue: Person(name: &amp;quot;Chris&amp;quot;, age: 31))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Of course, we want to have a way of getting the current state, and setting the current state (in other words: adding an item to our history). To get the current state, we simply return the last item in our &lt;code&gt;history&lt;/code&gt; array, and if the array is empty, we return the initial value. To set the current state, we simply append to our &lt;code&gt;history&lt;/code&gt; array.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension UndoHistory {
+    var currentItem: A {
+        get {
+            return history.last ?? initialValue
+        }
+        set {
+            history.append(newValue)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	For example, if we want to change the person&amp;apos;s age, we can easily do that through our new computed property:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;personHistory.currentItem.age += 1
+personHistory.currentItem.age // Prints 32
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Of course, the code isn&amp;apos;t complete without an &lt;code&gt;undo&lt;/code&gt; method. This is as simple as removing the last item from the array. Depending on your preference, you could also make it &lt;code&gt;throw&lt;/code&gt; when the undo stack is empty, but I&amp;apos;ve chosen not to do that.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension UndoHistory {
+    mutating func undo() {
+        guard !history.isEmpty else { return }
+        history.removeLast()
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Using it is easy:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;personHistory.undo()
+personHistory.currentItem.age // Prints 31 again
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Of course, our &lt;code&gt;UndoHistory&lt;/code&gt; works on more than just simple &lt;code&gt;Person&lt;/code&gt; structs. For example, if we want to create a table view controller that&amp;apos;s backed by an &lt;code&gt;Array&lt;/code&gt;, we can use the &lt;code&gt;currentItem&lt;/code&gt; property to get the array out [^1]:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;final class MyTableViewController&amp;lt;Item&amp;gt;: UITableViewController {
+    var data: UndoHistory&amp;lt;[Item]&amp;gt;
+    
+    init(value: [Item]) {
+        data = UndoHistory(initialValue: value)
+        super.init(style: .Plain)
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -&amp;gt; Int {
+        return data.currentItem.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&amp;gt; UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(&amp;quot;Identifier&amp;quot;, forIndexPath: indexPath)
+        let item = data.currentItem[indexPath.row]
+        // configure `cell` with `item`
+        return cell
+    }
+
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        guard editingStyle == .Delete else { return }
+        data.currentItem.removeAtIndex(indexPath.row)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Another thing that is really cool with struct semantics: we get observation for free. For example, we could change the definition of &lt;code&gt;data&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var data: UndoHistory&amp;lt;[Item]&amp;gt; {
+    didSet {
+        tableView.reloadData()
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Even if we change something deep inside the array (e.g. &lt;code&gt;data.currentItem[17].name = &amp;quot;John&amp;quot;&lt;/code&gt;) our &lt;code&gt;didSet&lt;/code&gt; will get triggered. Of course, we probably want to do something a little bit smarter than &lt;code&gt;reloadData&lt;/code&gt;. For example, we could use the &lt;a href=&quot;https://github.com/osteslag/Changeset&quot; title&gt;Changeset&lt;/a&gt; library to compute a diff and have insert/delete/move animations[^2].
+&lt;/p&gt;
+&lt;p&gt;
+	Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the &lt;a href=&quot;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&quot; title&gt;runtime programming guide&lt;/a&gt;, you only need to have a good grasp of structs and generics to come up with this solution [^3].
+&lt;/p&gt;
+&lt;p&gt;
+	[^1]: It would probably be nice to define a computed property &lt;code&gt;items&lt;/code&gt; which just gets and sets &lt;code&gt;data.currentItem&lt;/code&gt;. This makes the data source / delegate method implementations much nicer.
+&lt;/p&gt;
+&lt;p&gt;
+	[^2]: If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you&amp;apos;ll end up with two entries in your undo history.
+&lt;/p&gt;
+&lt;p&gt;
+	[^3]: In &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt; we go into way much more detail on these and many other topics.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 30 May 2016 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/undo-history-in-swift</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/undo-history-in-swift</guid>
+		</item>
+		<item>
+			<title>Dynamic Swift</title>
+			<description>
+				
+&lt;p&gt;
+	Recently, &lt;a href=&quot;http://inessential.com&quot; title&gt;Brent&lt;/a&gt; and others wrote a lot about the lack of dynamic features[^1] in Swift. I tried distilling Brent&amp;apos;s thoughts, and came up with the following summary:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			It&amp;apos;s easy to write code in AppKit and UIKit, because many things just work, without having to write a lot of code.
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			AppKit/UIKit are written in Objective-C, and use runtime programming to remove boilerplate.
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Therefore, we either need these same features in Swift, or need to find a different way of solving some problems.
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	I think we don&amp;apos;t need all the runtime programming features from Objective-C.
+&lt;/p&gt;
+&lt;p&gt;
+	As long as AppKit and UIKit will be around, we&amp;apos;ll have Objective-C and its runtime. If Apple releases a Swift-only successor to either one of these frameworks, I&amp;apos;m confident that they will do a good job: they&amp;apos;ll make us write less boilerplate, rather than more.
+&lt;/p&gt;
+&lt;p&gt;
+	Let&amp;apos;s look at a completely different context: web programming. I&amp;apos;ve seen amazing web frameworks that rely a lot on runtime programming (stuff like Rails, but also &lt;a href=&quot;http://seaside.st&quot; title&gt;Seaside&lt;/a&gt;, back in its day). But, there are web frameworks in languages like Haskell, Scala and C# that use features like protocols, datatype-generic programming[^2] and passing around functions to reduce boilerplate. With both approaches you can get short, simple, maintainable code that&amp;apos;s easy to write.
+&lt;/p&gt;
+&lt;p&gt;
+	Yet, techniques you don&amp;apos;t know will almost always seem more complicated at first. I tried arguing with a Haskell programmer that runtime programming can be useful. I tried arguing with a Ruby programmer that static types can be helpful. To both, it seemed unnecessary and complicated. They&amp;apos;ve been writing great code without those features.
+&lt;/p&gt;
+&lt;p&gt;
+	Brent, if you read this, I&amp;apos;d like to offer you a free copy of my books. Just send me an email. There are some techniques in there that will show how to replace runtime programming with things like functions, or protocols. These techniques definitely won&amp;apos;t solve all your problems. I do think they will show you some ways in which you can write short, simple, and maintainable code in Swift today, without having to resort to runtime programming.
+&lt;/p&gt;
+&lt;p&gt;
+	[^1]: To have a productive discussion, I think it&amp;apos;s important to understand about which dynamic features we are speaking. Dynamic can mean so many different things: KVO/KVC, late binding, subclassing, swizzling, dependency injection, reflection, runtime casting, and so on. Because the word dynamic means different things to different people, the discussion has been (and will be) hand-wavy. Swift has a lot of dynamic features, but they are different: protocols, safe runtime casting, passing around functions, and so on.
+&lt;/p&gt;
+&lt;p&gt;
+	[^2]: Datatype-generic programming is a cool technique in functional programming. It allows you to write methods that operate on the structure of the data. For example, it would let you write something like an NSCoder implementation that works on all structs and classes. It&amp;apos;s much the same as writing it using runtime introspection, except that it&amp;apos;s type-safe, and more importantly, the compiler can help you catch mistakes. Unfortunately, datatype-generic programming isn&amp;apos;t yet (but almost!) possible in Swift.
+&lt;/p&gt;
+			</description>
+			<pubDate>Thu, 26 May 2016 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/dynamic-swift</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/dynamic-swift</guid>
+		</item>
+		<item>
+			<title>Rejected Swift Proposals</title>
+			<description>
+				
+&lt;p&gt;
+	Not too long ago, we finally shipped &lt;a href=&quot;http://www.objc.io/books/advanced-swift&quot; title&gt;Advanced Swift&lt;/a&gt;. It was a long process, but I&amp;apos;m really happy about the result. Just before we finished it, Swift became open-source, the mailing lists opened up, and many GitHub repositories appeared.
+&lt;/p&gt;
+&lt;p&gt;
+	At first, I subscribed to all the mailing lists, and added a filter to move them into a separate folder. There was so much discussion that I couldn&amp;apos;t keep up at all - at least not while finishing the book. I was so overwhelmed that I completely stopped reading the lists, let alone participate in the discussions.
+&lt;/p&gt;
+&lt;p&gt;
+	In the next edition of Advanced Swift (the update for Swift 3) we want to include a chapter about the history of Swift. At the beginning of this week, I set aside a day to read through all current proposals in detail. Not only to understand what is coming up, but also to learn what got rejected. With most rejections, the core team included a good rationale that can help us understand how they see the language evolve.
+&lt;/p&gt;
+&lt;p&gt;
+	One interesting thing I found while going through all proposals is the ever-present discussion about &amp;quot;readability&amp;quot;. I&amp;apos;m convinced more than ever that readability is subjective in many cases.
+&lt;/p&gt;
+&lt;p&gt;
+	I am going to write a series of posts about all the proposals. First off, let&amp;apos;s start with all the rejected proposals. Here, it&amp;apos;s especially interesting to see why they got rejected, and I&amp;apos;ve selectively quoted the rationales given by the core team.
+&lt;/p&gt;
+&lt;h2&gt;&lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0009-require-self-for-accessing-instance-members.md&quot; title&gt;SE-0009 Require self for accessing instance members&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;
+	This proposal wants to make &lt;code&gt;self.&lt;/code&gt; mandatory for all instance members. The author feels that requiring &lt;code&gt;self.&lt;/code&gt; increases readability, and make everything more consistent.
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		Mandatory “self.” introduces a significant amount of verbosity that does not justify itself with added clarity. While it is true that mandatory “self.” may prevent a class of bugs, the cost of eliminating those bugs is fairly high in terms of visual clutter, which goes against the generally uncluttered feel of Swift. Paul Cantrell put it well in his review &lt;a href=&quot;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/002910.html&quot; title&gt;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/002910.html&lt;/a&gt; when he said, “anything that is widely repeated becomes invisible.” Swift aims to avoid such boilerplate and repetition in its design, a principle also espoused by the Swift API Design Guidelines &lt;a href=&quot;https://swift.org/documentation/api-design-guidelines.html&quot; title&gt;https://swift.org/documentation/api-design-guidelines.html&lt;/a&gt;.
+	&lt;/p&gt;
+	&lt;p&gt;
+		The requirement to use “self.” within potentially-escaping closures is a useful indicator of the potential for retain cycles that we don’t want to lose. Additionally, developers can optionally use “self.” when they feel it improves clarity (e.g., when similar operations are being performed on several different instances, of which “self” is one).
+	&lt;/p&gt;
+	&lt;p&gt;
+		The name-shadowing concerns behind the mandatory “self.” apply equally well to anything found by unqualified name lookup, including names found in the global scope. To call out members of types as requiring qualification while global names do not (even when global names tend to be far more numerous) feels inconsistent, but requiring qualification for everything (e.g., “Swift.print”, “self.name”) exacerbates the problem of visual clutter.
+	&lt;/p&gt;
+	&lt;p&gt;&lt;a href=&quot;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160104/005478.html&quot; title&gt;Rationale&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	The author of the proposal feels that requiring &lt;code&gt;self.&lt;/code&gt; makes the code more readable. I can see why, yet still feel the opposite. This is one of those cases where we can hardly say anything objective about it being more readable, instead, we should probably say &amp;quot;it&amp;apos;s more readable for me&amp;quot;.
+&lt;/p&gt;
+&lt;h2&gt;&lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0010-add-staticstring-unicodescalarview.md&quot; title&gt;SE-0010 Add StaticString.UnicodeScalarView&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;
+	This proposal wants to make it possible to make static substrings of &lt;code&gt;StaticString&lt;/code&gt; by adding a new type &lt;code&gt;StaticString.UnicodeScalarView&lt;/code&gt;.
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		While the addition of StaticString.UnicodeScalarView is a useful feature by itself, the core team felt that it would be inconsistent just to add this narrow set of APIs for Unicode scalars. (...) If StaticString is to gain Unicode support, it should be done comprehensively, not piecemeal. Moreover, &lt;em&gt;with the aforementioned String re-evaluation underway&lt;/em&gt;, it is possible that StaticString itself might change considerably or even be obsoleted.
+	&lt;/p&gt;
+	&lt;p&gt;&lt;a href=&quot;http://thread.gmane.org/gmane.comp.lang.swift.evolution/7697&quot; title&gt;Rationale&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	Emphasis mine: strings are being re-evaluated. I&amp;apos;m not sure what will happen to the &lt;code&gt;String&lt;/code&gt; type. I can imagine that it could get simpler somehow.
+&lt;/p&gt;
+&lt;h2&gt;&lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0027-string-from-code-units.md&quot; title&gt;SE-0027 Expose code unit initializers on String&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;
+	This proposal wants to make it easier to build Swift strings from C strings.
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		At this point, the core team feels that we have not fully explored the design space here, and that known alternatives (e.g., making the UTF-16 and UTF-32 views of a String mutable collections) might provide a better long-term solution. Moreover, the String type itself is undergoing a significant re-evaluation, so the core team feels that improvements to String should be delayed until the newer design is better understood.
+	&lt;/p&gt;
+	&lt;p&gt;&lt;a href=&quot;http://thread.gmane.org/gmane.comp.lang.swift.evolution/7695&quot; title&gt;Rationale&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	Just like before, it seems like big changes will happen to the &lt;code&gt;String&lt;/code&gt; type.
+&lt;/p&gt;
+&lt;h2&gt;&lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0024-optional-value-setter.md&quot; title&gt;SE-0024 Optional Value Setter &lt;code&gt;??=&lt;/code&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;
+	This proposal wants to add another setter, &lt;code&gt;??=&lt;/code&gt;, which sets the left-hand side to the value of the right-hand side (but only if the left-hand side is &lt;code&gt;nil&lt;/code&gt;).
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		The proposal is rejected. While the ‘??=‘ operator’s semantics are clear and fit with other compound assignment operators, the use cases are not strong enough to motivate inclusion of this operator. &lt;a href=&quot;http://thread.gmane.org/gmane.comp.lang.swift.evolution/6895&quot; title&gt;Radek’s lukewarm +0.5 review&lt;/a&gt; captures the sentiment of the core team fairly well (as was echoed by others): one very common use case in the Ruby’s similar ||= operator is to assign a default value to an optional parameter or a local variable. However, neither case works well in Swift because ??= does not erase the optionality of the variable (and cannot be used to change a parameter now that var has been removed from parameters). Property access and subscripting could still benefit from ??=, but the latter case is likely to be handled better by a Dictionary subscript operator that can substitute a default value (see, e.g., &lt;a href=&quot;http://thread.gmane.org/gmane.comp.lang.swift.evolution/6895&quot; title&gt;Joe Groff’s suggestion&lt;/a&gt;).
+	&lt;/p&gt;
+	&lt;p&gt;&lt;a href=&quot;http://article.gmane.org/gmane.comp.lang.swift.evolution/7694&quot; title&gt;Rationale&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	I&amp;apos;ve used &lt;code&gt;||=&lt;/code&gt; in Ruby as well, and really like it there. But with Swift&amp;apos;s Optionals, I never felt the need for this. As an aside, the mentioned dictionary subscript operator is really cool. We use it in the functions chapter of Advanced Swift, in a way very similar to this: &lt;a href=&quot;https://twitter.com/AirspeedSwift/status/626701244455895044&quot; title&gt;https://twitter.com/AirspeedSwift/status/626701244455895044&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;&lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0018-flexible-memberwise-initialization.md&quot; title&gt;SE-0018 Flexible Memberwise Initialization&lt;/a&gt; (Draft)
+&lt;/h2&gt;
+&lt;p&gt;
+	This was a really long proposal, and really long rejection &lt;a href=&quot;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160111/006469.html&quot; title&gt;rationale&lt;/a&gt; mail. It&amp;apos;s about the automatic memberwise initializers that get generated (e.g. when you create a struct). The proposal wants to make this possible in more places, and make it easier to control this. The core team decided that it isn&amp;apos;t in scope for Swift 3. An interesting meta-point they raised it that the length of the proposal was off-putting for many people. Another thing I learned is that the Swift team really strives for predictable models. You can also see this in the accepted proposals, there are a few that really make the language more predictable and consistent (e.g. &lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0046-first-label.md&quot; title&gt;named first parameters&lt;/a&gt;).
+&lt;/p&gt;
+&lt;h2&gt;&lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0056-trailing-closures-in-guard.md&quot; title&gt;SE-0056 Allow trailing closures in guard conditions&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;
+	This proposal is about letting trailing closures in &lt;code&gt;guard&lt;/code&gt; conditions compile. For example, like this:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;guard let object = someSequence.findElement { $0.passesTest() } else {
+  return
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Currently, it doesn&amp;apos;t like the trailing closure when using a &lt;code&gt;guard&lt;/code&gt; (or &lt;code&gt;if&lt;/code&gt;/&lt;code&gt;while&lt;/code&gt;), and it needs to be written with parentheses around the closure.
+&lt;/p&gt;
+&lt;p&gt;
+	The proposal was &lt;a href=&quot;https://lists.swift.org/pipermail/swift-evolution-announce/2016-April/000108.html&quot; title&gt;rejected&lt;/a&gt; with a very short sentence:
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		The core team felt that the benefits from this change were outweighed by the inconsistency it would introduce with &lt;code&gt;if&lt;/code&gt; and &lt;code&gt;while&lt;/code&gt;.
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	Interestingly, it was proposed by Chris Lattner, a member of the core team. Again, I can see how they made the decision. If you look at it from being able to write it in a &lt;code&gt;guard&lt;/code&gt;, it seems like a logical proposal. However, once you can write trailing closures in a &lt;code&gt;guard&lt;/code&gt; condition, you&amp;apos;ll probably be surprised that you can&amp;apos;t write them in &lt;code&gt;if&lt;/code&gt;/&lt;code&gt;while&lt;/code&gt;.
+&lt;/p&gt;
+&lt;hr/&gt;
+&lt;p&gt;
+	In the next post, we&amp;apos;ll look at accepted proposals. Stay tuned!
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 22 Apr 2016 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/rejected-swift-proposals</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/rejected-swift-proposals</guid>
+		</item>
+		<item>
+			<title>Struct Semantics in Swift</title>
+			<description>
+				
+&lt;p&gt;
+	In our book &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt;, we show how to implement your own copy-on-write structs in detail. This blogpost shows the same technique, but in less detail.
+&lt;/p&gt;
+&lt;p&gt;
+	One big difference between Swift strings and Cocoa strings is how they deal with mutability. If you define a Swift string using &lt;code&gt;let&lt;/code&gt;, the compiler enforces immutability: there is no way to change the string:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;let myString = &amp;quot;immutable string&amp;quot;
+myString += &amp;quot; test&amp;quot; // Illegal
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	In Cocoa, the same is done using classes: an &lt;code&gt;NSString&lt;/code&gt; is immutable, and an &lt;code&gt;NSMutableString&lt;/code&gt; is mutable. However, there is a catch: NSMutableString is a subclass of NSString. Therefore, we can do the following:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;let x: NSMutableString = &amp;quot;Hello&amp;quot;
+let y: NSString = x
+x.appendString(&amp;quot; world&amp;quot;)
+// Now x and y both point to the string &amp;quot;Hello world&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Even if we have a variable that&amp;apos;s an NSString, we cannot be sure that it&amp;apos;s immutable, in order to be completely sure, we need to make a copy:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;let x: NSMutableString = &amp;quot;Hello&amp;quot;
+let y: NSString = x.copy() as! NSString
+x.appendString(&amp;quot; world&amp;quot;)
+// Now x is &amp;quot;Hello world&amp;quot;, and y is &amp;quot;Hello&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	With Swift strings, this works a bit differently. Because they are defined as structs, they have copy semantics. If you have a constant string, there is no way it can change under your nose:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;var x = &amp;quot;Hello&amp;quot;
+let y = x
+x += &amp;quot; world&amp;quot;
+// Now x is &amp;quot;Hello world&amp;quot;, and y is still &amp;quot;Hello&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Another advantage of Swift&amp;apos;s approach is that both &lt;code&gt;x&lt;/code&gt; and &lt;code&gt;y&lt;/code&gt; are the same String type. They have methods defined that can mutate the string, but all those methods are marked as &lt;code&gt;mutating&lt;/code&gt;. You simply cannot call them on constant values: the compiler won&amp;apos;t let you.
+&lt;/p&gt;
+&lt;p&gt;
+	In order to understand how they work, we will make a wrapper around &lt;code&gt;NSData&lt;/code&gt;. For mutation, &lt;code&gt;NSData&lt;/code&gt; also has a subclass &lt;code&gt;NSMutableData&lt;/code&gt;, but it suffers from the same problem as &lt;code&gt;NSString&lt;/code&gt;: you always have to make a copy if you want to be sure that you the data doesn&amp;apos;t change accidentally.
+&lt;/p&gt;
+&lt;p&gt;
+	Before we can start, we will need a small wrapper type: &lt;code&gt;Box&lt;/code&gt;. This can wrap anything, be it a class, or a struct, and the result will be a Swift class.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;final class Box&amp;lt;A&amp;gt; {
+    let unbox: A
+    init(_ value: A) { unbox = value }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Now we can create our own &lt;code&gt;Data&lt;/code&gt; struct. It just contains a single field, &lt;code&gt;boxedData&lt;/code&gt;. We also add a convience accessor &lt;code&gt;data&lt;/code&gt; which just unboxes the data. We provide an initializer, which also has a default (empty) value.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;struct Data {
+    private var boxedData: Box&amp;lt;NSMutableData&amp;gt;
+    var data: NSData { return boxedData.unbox }
+    init(data: NSData = NSData()) {
+        self.boxedData = Box(NSMutableData(data: data))
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	First, we&amp;apos;ll define some read-only functions: these can be used on immutable values of our struct. They just call their respective methods on &lt;code&gt;NSData&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;extension Data {
+    var length: Int { return data.length }
+    var bytes: UnsafePointer&amp;lt;Void&amp;gt; {
+        return data.bytes
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	To create a mutating variant, we first write a mutating accessor for &lt;code&gt;boxedData&lt;/code&gt;. This accessor makes a copy of the data before returning it. This allows us to implemement &lt;code&gt;append&lt;/code&gt;: whenever we &lt;code&gt;append&lt;/code&gt; to a Swift &lt;code&gt;var&lt;/code&gt;, we now automatically make a copy. This way, our data has the same semantics as other Swift structs such as strings and arrays.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;private var mutableData: NSMutableData {
+    mutating get {
+        boxedData = Box(NSMutableData(data: data))
+        return boxedData.unbox
+    }
+}
+
+mutating func append(other: NSData) {
+    mutableData.appendData(other)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	There is one problem with the code above. It is very inefficient. If we define a single variable and mutate it a couple of times, each time the internal data will be copied, even though no other variable is referring to the same data:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;var myData = Data()
+myData.append(someOtherData) // copy
+myData.append(moreData) // copy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Instead, we can change our &lt;code&gt;mutableData&lt;/code&gt; accessor to prevent copying when there are no other references to the &lt;code&gt;data&lt;/code&gt; variable. To do this, we need to check if the data is uniquely referenced. In other words, we only make a copy of the data if the data is shared. We can do this using the &lt;code&gt;isUniquelyReferencedNonObjC&lt;/code&gt; function. This is the reason why we need &lt;code&gt;Box&lt;/code&gt;: it only works on Swift classes. &lt;code&gt;NSMutableData&lt;/code&gt; is an Objective-C class, and then the function doesn&amp;apos;t work.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;private var mutableData: NSMutableData {
+    mutating get {
+        if !isUniquelyReferencedNonObjC(&amp;amp;boxedData) {
+            boxedData = Box(NSMutableData(data: data))
+        }
+        return boxedData.unbox
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Now we have full copy semantics, and efficient behavior: only when a copy is really necessary, it is made. This way, we never have to remember to write &lt;code&gt;data.copy()&lt;/code&gt; ourselves, we implemented it correctly once and can then forget about it. I think it&amp;apos;s probably a matter of time until the Swift Standard Library will get extended with a &lt;code&gt;Data&lt;/code&gt; type, but even then, this technique is very useful when you want to make your own efficient structs by wrapping pointers.
+&lt;/p&gt;
+&lt;p&gt;
+	To test our behavior, we can add some &lt;code&gt;print&lt;/code&gt; statements to the &lt;code&gt;mutableData&lt;/code&gt; accessor, and verify that our behavior is correct:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;private var mutableData: NSMutableData {
+    mutating get {
+        if !isUniquelyReferencedNonObjC(&amp;amp;boxedData) {
+            print(&amp;quot;Making a copy&amp;quot;)
+            boxedData = Box(NSMutableData(data: data))
+        } else {
+            print(&amp;quot;Not making a copy&amp;quot;)
+        }
+        return boxedData.unbox
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	As stated in the introduction, we describe this technique in more detail in our book &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt;. If you&amp;apos;ve enjoyed this post, be sure to grab a copy. Finally, a gist of the code is &lt;a href=&quot;https://gist.github.com/chriseidhof/d96f0f652a7c6358d865&quot; title&gt;here&lt;/a&gt;.
+&lt;/p&gt;
+			</description>
+			<pubDate>Sun, 30 Aug 2015 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/struct-semantics-in-swift</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/struct-semantics-in-swift</guid>
+		</item>
+		<item>
+			<title>Literate Swift</title>
+			<description>
+				
+&lt;p&gt;
+	Last year, when we started writing &lt;a href=&quot;http://www.objc.io/books/fpinswift/&quot; title&gt;Functional Programming in Swift&lt;/a&gt;, we realized that the language would change every few weeks. We didn&amp;apos;t anticipate the pace, but we were ready for change. Rather than manually updating every article, we used a technique called &lt;a href=&quot;https://en.wikipedia.org/wiki/Literate_programming&quot; title&gt;literate programming&lt;/a&gt;. In literate programming, you write the code and text at the same time. The code in the text can be executed. To do this, we wrote a small utility called Literate Swift.
+&lt;/p&gt;
+&lt;p&gt;
+	For our two new books, &lt;a href=&quot;http://www.objc.io/books/core-data/&quot; title&gt;Core Data&lt;/a&gt; and &lt;a href=&quot;http://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt;, we are using the same technique, except with a newer version of the tool. Literate Swift is a library (and comes with a GUI or command-line tool) that takes a Markdown file, extracts all the code blocks marked with &lt;code&gt;swift&lt;/code&gt;, and compiles those. The awesome thing about it is that you can compile your Markdown: you can statically check that the code in your blog posts (or in our case, our books) is correct.
+&lt;/p&gt;
+&lt;p&gt;
+	Not only does it compile the code blocks marked as Swift, it also takes code blocks marked as &lt;code&gt;print-swift&lt;/code&gt;, and replaces them by the code &lt;em&gt;and&lt;/em&gt; the result of executing that code. For example, the following block after running it through Literate Swift:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;```print-swift
+(1..&amp;lt;10).reduce(0, combine: +)
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Will get replaced by the following block:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;```swift
+(1..&amp;lt;10).reduce(0, combine: +)
+&amp;gt; 45
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We support just highlighting code by marking a block as &lt;code&gt;highlight-swift&lt;/code&gt;. This way, it gets highlighted, but not compiled (which is also a danger, because that code might easily get outdated).
+&lt;/p&gt;
+&lt;p&gt;
+	Finally, sometimes you just want to work in a Swift file. For this, we support embeds. If you have the following block, Literate Swift will look at all Swift files in that directory (and all its subdirectories, recursively), and see if there are lines that are surrounded by &lt;code&gt;// &amp;lt;&amp;lt;MySnippet&amp;gt;&amp;gt;&lt;/code&gt; and &lt;code&gt;// &amp;lt;&amp;lt;/MySnippet&amp;gt;&amp;gt;&lt;/code&gt;, and embed the contents of that into the output (without executing it). This way, you can write separate Swift files that are easy to edit using Xcode and still make sure it gets embedded into the output.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class&gt;```highlight-swift
+&amp;lt;&amp;lt;MySnippet&amp;gt;&amp;gt;
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The Literate Swift tool can currently generate a number of outputs: HTML, Markdown and LaTeX. The &lt;a href=&quot;https://github.com/chriseidhof/LiterateSwiftGUI&quot; title&gt;GUI tool&lt;/a&gt; renders the HTML directly into a web view, which is great for previewing while writing. It also has tabs for Markdown, Playground syntax and just the Swift code (for easy copy-pasting). The entire tool chain is still very immature (and a bit hacky at some points), but it has proven to be a great help during writing already. It should also be very simple to integrate this into blogging workflows, and other publishing formats.
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 31 Jul 2015 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/literate-swift</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/literate-swift</guid>
+		</item>
+	</channel>
+</rss>

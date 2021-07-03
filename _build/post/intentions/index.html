@@ -1,0 +1,353 @@
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<script src="//use.typekit.net/bwu1cse.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			try{Typekit.load();}catch(e){}
+		</script>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Intentions
+							</h1>
+							<h2 class="headline">
+								An experiment in Ultralight View Controllers
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								I&apos;m a big fan of lighter view controllers. In the <a href="https://www.objc.io/issues/1-view-controllers/" title>first issue</a> of objc.io, I wrote an article about it. Since then, I&apos;ve given a couple of talks about it. Most of the things you can do are very straightforward once you know them, and people seem to generally like it. However, a couple of months ago, I read a <a href="http://bendyworks.com/single-responsibility-principle-ios/" title>great blogpost</a> explaining how to take the notion of &apos;lighter view controllers&apos; up a notch. I tried to take the idea, and apply it to a very simple example app.
+							</p>
+							<img src="/images/person-app.png" style="width:217px; float: right; overflow: clear;">
+
+							<h2>
+								The Application
+							</h2>
+							<p>
+								The app is simple: it&apos;s an editor for a <code>Person</code> object, and currently the only editable field is the person&apos;s name. There are two buttons: <em>Reverse</em> reverses the person&apos;s name, and <em>Uppercase</em> makes it all uppercase. If you edit the person&apos;s name, and then press <em>Return</em>, the keyboard should dismiss.
+							</p>
+							<div style="clear: both;" />
+
+							<h2>
+								A regular implementation of the View Controller
+							</h2>
+							<p>
+								I created the view controller&apos;s view in Interface Builder. The text field is hooked up as an <code>IBOutlet</code>, and the view controller is also the text field&apos;s delegate:
+							</p>
+							<pre><code class>@interface ViewController () &lt;UITextFieldDelegate&gt;
+@property (nonatomic) IBOutlet UITextField *textField;
+@end
+</code></pre>
+							<p>
+								Then, in the implementation, we create a person and update the text field&apos;s text to reflect the newly created person&apos;s name:
+							</p>
+							<pre><code class>- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.person = [Person new];
+    self.person.name = @&quot;Chris&quot;;
+    [self updateTextField];
+}
+
+- (void)updateTextField
+{
+    self.textField.text = self.person.name;
+}
+</code></pre>
+							<p>
+								Each of the buttons is connected to an <code>IBAction</code>. For example, the reverse button&apos;s action takes the name, reverses it (using the category method <code>reversedString</code>, and updates the person&apos;s name. Then it updates the text field accordingly:
+							</p>
+							<pre><code class>- (IBAction)reverse:(id)sender {
+    self.person.name = 
+       self.textField.text.reversedString;
+    [self updateTextField];
+}
+</code></pre>
+							<p>
+								Uppercase works in exactly the same way. Simple enough:
+							</p>
+							<pre><code class>- (IBAction)uppercase:(id)sender {
+    self.person.name = 
+      self.textField.text.uppercaseString;
+    [self updateTextField];
+}
+</code></pre>
+							<p>
+								The text field&apos;s delegate is implemented in a simple way: it checks if the replacement string is a newline (i.e. the return key was pressed) and if yes, it resigns first responder, which dismisses the keyboard.
+							</p>
+							<pre><code class>- (BOOL)textField:(UITextField*)textField 
+   shouldChangeCharactersInRange:(NSRange)range
+               replacementString:(NSString*)string
+{
+    if ([string isEqualToString:@&quot;\n&quot;]) {
+        [textField resignFirstResponder];
+        return NO;
+    }
+    return YES;
+}
+</code></pre>
+							<p>
+								Now, all of this is very simple. The view controller is just under 50 lines. However, as you add more and more logic, the view controller obviously becomes larger.
+							</p>
+							<h2>
+								Moving to Intentions
+							</h2>
+							<p>
+								The idea of the article mentioned in the introduction is to take lighter view controllers to a whole new level. A view controller should only do work in the <code>viewDid*</code> methods, not implement any extra protocols, and not have any <code>IBActions</code>. That sounded pretty extreme to me, but I wanted to give it a try and see what it feels like.
+							</p>
+							<p>
+								I created a sample project of the things below, and put <a href="https://github.com/chriseidhof/intentions" title>on github</a>.
+							</p>
+							<h3>
+								Dismiss on Enter
+							</h3>
+							<p>
+								The first thing we can do is to take out the dismiss on enter logic. To do this, we create a new object, which does only this:
+							</p>
+							<pre><code class>@implementation DismissOnEnterIntention
+
+- (BOOL)textField:(UITextField *)textField
+    shouldChangeCharactersInRange:(NSRange)range
+                replacementString:(NSString *)string
+{
+    if ([string isEqualToString:@&quot;\n&quot;]) {
+        [textField resignFirstResponder];
+        return NO;
+    }
+    return YES;
+}
+
+@end
+</code></pre>
+							<p>
+								To use this object, we can go to the Object library in Interface Builder, and add a new object to our scene.
+							</p>
+							<img src="/images/select-object.png" style="width:237px;">
+
+							<p>
+								We set its class to <code>DismissOnEnterIntention</code>:
+							</p>
+							<img src="/images/dismiss-on-enter.png" style="width:272px;">
+
+							<p>
+								Now, we can go to the textfield, and change its delegate and drag it to our new class (we have to make sure that the class declares that it implements the <code>UITextFieldDelegate</code> protocol, for example in the class extension).
+								
+								And that&apos;s all there is to it. When the view controller is loaded, the storyboard will create a <code>DismissOnEnterIntention</code> object and hook it up. Of course, having an extra object just to dismiss on enter seems a bit tedious. But think about it: how often have you implemented this yourself in a view controller? If you put this object in your own standard library, you never have to implement it again, but can instead just reuse it.
+							</p>
+							<p><em>Update</em>: <a href="https://twitter.com/toco91/status/456102320649293824" title>Several</a> <a href="https://twitter.com/christian_beer/status/456134551941566464" title>people</a> on Twitter point out you can use <code>textFieldShouldReturn:</code> instead, which is of course a lot better.
+							</p>
+							<h3>
+								Uppercase a Name
+							</h3>
+							<p>
+								Uppercasing a name is a bit more difficult. We can start by creating a new object, <code>UppercaseIntention</code>. It will have an outlet called <code>textField</code>, and an IBAction, <code>uppercase</code>, which we just copy over from the view controller:
+							</p>
+							<pre><code class>- (IBAction)uppercase:(id)sender {
+  self.person.name = 
+    self.textField.text.uppercaseString;
+}
+</code></pre>
+							<p>
+								We can add a custom object to our view controller scene, hook up the text field and the action, but now we face a problem: how do we connect the <code>person</code> object? It turns out we can&apos;t: we don&apos;t know yet which person to edit. Instead, we first have to take a small sidestep and introduce an indirection: we create a container class that contains the person object. At first sight, this might seem to only complicate matters, but bear with me.
+							</p>
+							<h4>
+								Creating a Person Container
+							</h4>
+							<p>
+								We create a custom object called <code>PersonContainer</code>, which doesn&apos;t do anything, except for having a <code>Person</code> property:
+							</p>
+							<pre><code class>#import &quot;Person.h&quot;
+@interface PersonContainer : NSObject
+@property (nonatomic) Person *person;
+@end
+</code></pre>
+							<p>
+								We can add a new custom object of this class to our Interface Builder scene, and when the view loads, we can use the view controller and set the container&apos;s <code>person</code> property to the person we are currently editing. Then our <code>UppercaseIntention</code> can use that person container to access the person. In our view controller, we do the following:
+							</p>
+							<pre><code class>- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    Person *person = [Person new];
+    person.name = @&quot;Chris&quot;;
+    self.personContainer.person = person;
+}
+</code></pre>
+							<p>
+								In the <code>UppercaseIntention</code> class, we can add an outlet for the person container, hook it up, and finally we can write our uppercase action:
+							</p>
+							<pre><code class>- (IBAction)uppercase:(id)sender {
+  self.personContainer.person.name =
+    self.textField.text.uppercaseString;
+  self.textField.text = 
+    self.personContainer.person.name;
+}
+</code></pre>
+							<p>
+								For the reverse action, it&apos;s almost exactly the same code.
+							</p>
+							<p>
+								Our view controller is now lighter (it only has the <code>viewDidLoad</code> method left), but the question is: what have we gained? Is this really simpler to read? At this point, I think we have only complicated matters. There is a more clear separation into classes, but it&apos;s now harder to understand, and the new classes that we have made are very specific to our view controller. We can do better, and make our classes more reusable.
+							</p>
+							<h3>
+								Moving to a Generic Text Field Uppercase Intention
+							</h3>
+							<p>
+								Let&apos;s say we want to reuse our uppercase intention in a different place, where we don&apos;t have a <code>Person</code> as the model, but a different class. First, we can change our <code>PersonContainer</code> to hold any kind of model, and rename it to <code>ModelContainer</code>:
+							</p>
+							<pre><code class>@interface ModelContainer : NSObject
+@property (nonatomic) id model;
+@end
+</code></pre>
+							<p>
+								Now, in our uppercase intention, we can change the code like this. It still knows that we&apos;re editing a person&apos;s <code>name</code>:
+							</p>
+							<pre><code class>- (IBAction)capitalize:(id)sender {
+    [self.modelContainer.model 
+         setValue:self.textField.text.uppercaseString
+       forKeyPath:@&quot;name&quot;];
+}
+</code></pre>
+							<p>
+								However, we can use a really cool feature of Interface Builder: User Defined Runtime Attributes. We can take the key path <code>@&quot;name&quot;</code>, and make it a runtime attribute. First, we create an extra property in our <code>UppercaseIntention</code>:
+							</p>
+							<pre><code class>@property (copy, nonatomic) NSString* modelKeyPath;
+</code></pre>
+							<p>
+								Then, we change our code like this:
+							</p>
+							<pre><code class>[self.modelContainer.model 
+     setValue:self.textField.text.uppercaseString
+   forKeyPath:self.modelKeyPath];
+</code></pre>
+							<p>
+								Finally, in Interface Builder, we select the Reverse Intention object, and add a runtime attribute:
+							</p>
+							<img src="/images/runtime-attribute.png" style="width:273px;">
+
+							<p>
+								This is quite cool: now, our uppercase intention doesn&apos;t know anything about the <code>Person</code> anymore. The only thing it does: it takes a model object and a text field, and whenever its action is fired, it updates the model with the uppercased string of the text field.
+							</p>
+							<h3>
+								Observe intention
+							</h3>
+							<p>
+								If you paid close attention, you noticed that we removed the following line in our uppercase intention:
+							</p>
+							<pre><code class>  self.textField.text = 
+    self.personContainer.person.name;
+</code></pre>
+							<p>
+								How do we get that behavior back? Instead of updating the text field, let&apos;s do it with KVO, and create an observer object. We will make it very generic: it is configured with an object to observe and a key path, and also with a target to update, and a key path. For example, the object to observe might be a <code>Person</code> and the key path might be <code>name</code>, and the target object might be a <code>UILabel</code> and the key path might be <code>text</code>, which will update the label&apos;s text whenever the person&apos;s name changes.
+							</p>
+							<p>
+								First, we need to create properties for the source, target and the two key paths:
+							</p>
+							<pre><code class>@interface ObserveIntention ()
+
+@property (strong) IBOutlet id sourceObject;
+@property (strong) IBOutlet id target;
+@property (copy) IBOutlet NSString *sourceKeyPath;
+@property (copy) IBOutlet NSString *targetKeyPath;
+
+@end
+</code></pre>
+							<p>
+								Then we need to register for KVO notifications. We do this in <code>awakeFromNib</code>, which is called by the framework after the outlets and the runtime attributes are set.
+							</p>
+							<pre><code class> - (void)awakeFromNib
+ {
+     [super awakeFromNib];
+     [self.sourceObject addObserver:self 
+                         forKeyPath:self.sourceKeyPath
+                            options:0
+                            context:nil];
+ }
+</code></pre>
+							<p>
+								To handle the change notifications, we implement the standard KVO method:
+							</p>
+							<pre><code class>- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if ([keyPath isEqualToString:self.sourceKeyPath]) {
+        [self updateValue];
+    }
+}
+</code></pre>
+							<p>
+								The <code>updateValue</code> method does the real work, and looks like this:
+							</p>
+							<pre><code class> - (void)updateValue
+ {
+     id value = [self.sourceObject 
+                  valueForKeyPath:self.sourceKeyPath];
+     [self.target setValue:value
+                forKeyPath:self.targetKeyPath];
+ }
+</code></pre>
+							<p>
+								And that&apos;s all there is to it. We can now create this object in Interface Builder, hook up the source to the model container, the target to the text field, set both key paths using runtime attributes, and the textfield automatically updates whenever the model changes.
+							</p>
+							<h4>
+								Adding an extra label
+							</h4>
+							<p>
+								It might still feel like we have done a lot of work for nothing. But to show how simple some things now get: we can add another label in our view controller&apos;s scene, duplicate our observe intention, but change the target to be our label. Now our label also automatically updates its text whenever the Person changes.
+							</p>
+							<p>
+								It is interesting to now have a look at our final view controller scene, it&apos;s very different from most view controllers:
+							</p>
+							<img src="/images/final-scene.png" style="width:269px;">
+
+							<h2>
+								Conclusion
+							</h2>
+							<p>
+								I think this might become a very powerful technique. It comes at a cost: instead of having one complicated view controller, you will have a more complicated storyboard. For me, however, the main attraction is the reusability: I can reuse the observe intention in every project. The same holds for the dismiss on enter intention. I can imagine a whole library of these intentions slowly emerging.
+							</p>
+							<p>
+								In my next project, I will probably start using intentions, maybe not for everything, but where I see them fit. Building an example project with them was a lot of fun and really opened my mind.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Apr 15, 2014</time>
+										 by 
+										<a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="prev"><a href="/post/quickcheck-in-swift"><span class="arrow">←</span>
+									QuickCheck in Swift</a></span>
+							<span class="next"><a href="/post/we-launched-deckset">We launched Deckset
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

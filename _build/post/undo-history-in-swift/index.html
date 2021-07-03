@@ -1,0 +1,191 @@
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<script src="//use.typekit.net/bwu1cse.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			try{Typekit.load();}catch(e){}
+		</script>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Undo History in Swift
+							</h1>
+							<h2 class="headline">
+								Use Value Semantics for Great Good
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								Over the last weeks, there have been a number of blog posts that want to add dynamic behavior to Swift. Swift is already a very dynamic language: it has generics, protocols, first-class functions, and the standard library is filled with functions like <code>map</code> and <code>filter</code>, which dynamically get their operation (not using a string like with KVC, but using a function, which is safer and more flexible). Most of the people that say they want dynamic behavior mean that they <a href="http://inessential.com/2016/05/26/a_definition_of_dynamic_programming_in_t" title>want reflection</a> specifically: they want to analyze and modify the program at runtime.
+							</p>
+							<p>
+								In Swift, there is only a very limited reflection mechanism, although you can already inspect and generate code at runtime. For example, here&apos;s how to generate a dictionary ready for <code>NSCoding</code> or JSON serialization: <a href="/post/swift-mirrors-and-json/" title>Swift mirrors and JSON</a>.
+							</p>
+							<p>
+								Today, we&apos;ll have a look at implementing undo functionality in Swift. One of the examples people keep bringing up to make the case for reflection (the way Objective-C) supports it is <code>NSUndoManager</code>.  With struct semantics, we can add undo support to our apps in a different way. Before we get started, make sure that you understand how structs work in Swift (most importantly, how they are all unique copies). Clearly, this post will not remove the need for runtime programming in Swift, nor is it a replacement for <code>NSUndoManager</code>. It&apos;s just a simple example of how to think different.
+							</p>
+							<p>
+								We&apos;ll build a struct called <code>UndoHistory</code>. It&apos;s generic, with the caveat that it only works when <code>A</code> is a struct. To keep a history of all the states, we can store every value in an array. Whenever we want to change something, we just push onto the array, and whenever we want to undo, we pop from the array. We always want to start with an initial state, so we create an initializer for that:
+							</p>
+							<pre><code class="swift">struct UndoHistory&lt;A&gt; {
+    private let initialValue: A
+    private var history: [A] = []
+    init(initialValue: A) {
+        self.initialValue = initialValue
+    }
+}
+</code></pre>
+							<p>
+								For example, if we want to add undo support to a table view controller that&apos;s backed by an array, we can create a value of this struct:
+							</p>
+							<pre><code class="swift">var history = UndoHistory(initialValue: [1, 2, 3])
+</code></pre>
+							<p>
+								To support undo for a different struct, we just start with a different initial value:
+							</p>
+							<pre><code class="swift">struct Person {
+    var name: String
+    var age: Int
+}
+
+var personHistory = UndoHistory(initialValue: Person(name: &quot;Chris&quot;, age: 31))
+</code></pre>
+							<p>
+								Of course, we want to have a way of getting the current state, and setting the current state (in other words: adding an item to our history). To get the current state, we simply return the last item in our <code>history</code> array, and if the array is empty, we return the initial value. To set the current state, we simply append to our <code>history</code> array.
+							</p>
+							<pre><code class="swift">extension UndoHistory {
+    var currentItem: A {
+        get {
+            return history.last ?? initialValue
+        }
+        set {
+            history.append(newValue)
+        }
+    }
+}
+</code></pre>
+							<p>
+								For example, if we want to change the person&apos;s age, we can easily do that through our new computed property:
+							</p>
+							<pre><code class="swift">personHistory.currentItem.age += 1
+personHistory.currentItem.age // Prints 32
+</code></pre>
+							<p>
+								Of course, the code isn&apos;t complete without an <code>undo</code> method. This is as simple as removing the last item from the array. Depending on your preference, you could also make it <code>throw</code> when the undo stack is empty, but I&apos;ve chosen not to do that.
+							</p>
+							<pre><code class="swift">extension UndoHistory {
+    mutating func undo() {
+        guard !history.isEmpty else { return }
+        history.removeLast()
+    }
+}
+</code></pre>
+							<p>
+								Using it is easy:
+							</p>
+							<pre><code class="swift">personHistory.undo()
+personHistory.currentItem.age // Prints 31 again
+</code></pre>
+							<p>
+								Of course, our <code>UndoHistory</code> works on more than just simple <code>Person</code> structs. For example, if we want to create a table view controller that&apos;s backed by an <code>Array</code>, we can use the <code>currentItem</code> property to get the array out [^1]:
+							</p>
+							<pre><code class="swift">final class MyTableViewController&lt;Item&gt;: UITableViewController {
+    var data: UndoHistory&lt;[Item]&gt;
+    
+    init(value: [Item]) {
+        data = UndoHistory(initialValue: value)
+        super.init(style: .Plain)
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -&gt; Int {
+        return data.currentItem.count
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(&quot;Identifier&quot;, forIndexPath: indexPath)
+        let item = data.currentItem[indexPath.row]
+        // configure `cell` with `item`
+        return cell
+    }
+
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        guard editingStyle == .Delete else { return }
+        data.currentItem.removeAtIndex(indexPath.row)
+    }
+}
+</code></pre>
+							<p>
+								Another thing that is really cool with struct semantics: we get observation for free. For example, we could change the definition of <code>data</code>:
+							</p>
+							<pre><code class="swift">var data: UndoHistory&lt;[Item]&gt; {
+    didSet {
+        tableView.reloadData()
+    }
+}
+</code></pre>
+							<p>
+								Even if we change something deep inside the array (e.g. <code>data.currentItem[17].name = &quot;John&quot;</code>) our <code>didSet</code> will get triggered. Of course, we probably want to do something a little bit smarter than <code>reloadData</code>. For example, we could use the <a href="https://github.com/osteslag/Changeset" title>Changeset</a> library to compute a diff and have insert/delete/move animations[^2].
+							</p>
+							<p>
+								Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html" title>runtime programming guide</a>, you only need to have a good grasp of structs and generics to come up with this solution [^3].
+							</p>
+							<p>
+								[^1]: It would probably be nice to define a computed property <code>items</code> which just gets and sets <code>data.currentItem</code>. This makes the data source / delegate method implementations much nicer.
+							</p>
+							<p>
+								[^2]: If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you&apos;ll end up with two entries in your undo history.
+							</p>
+							<p>
+								[^3]: In <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a> we go into way much more detail on these and many other topics.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>May 30, 2016</time>
+										 by 
+										<a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer class="group promo" id="post-meta">
+						<div>
+							<img src="/images/advanced-swift.png" style="width: 90px;"/>
+						</div>
+						<p>
+							<p>
+								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>, or check out <a href="https://talk.objc.io" title>Swift Talk</a>.
+							</p>
+						</p>
+					</footer>
+					<footer>
+						<nav id="post-nav">
+							<span class="prev"><a href="/post/responder-chain-alternative"><span class="arrow">←</span>
+									Responder Chain Alternatives</a></span>
+							<span class="next"><a href="/post/dynamic-swift">Dynamic Swift
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

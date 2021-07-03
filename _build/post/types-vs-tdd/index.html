@@ -1,0 +1,82 @@
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<script src="//use.typekit.net/bwu1cse.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			try{Typekit.load();}catch(e){}
+		</script>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Types vs TDD
+							</h1>
+							<h2 class="headline">
+								A response
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								This morning, I read <a href="http://blog.cleancoder.com/uncle-bob/2017/01/11/TheDarkPath.html" title>an article</a> against static typing. To be more precise: it argues against static typing in the way Swift/Kotlin implement it. I don&apos;t know anything about Kotlin, so I&apos;ll try to relate everything to Swift.  The main point of the article is that too much static typing is a bad thing. I agree: although my definition of &quot;too much&quot; is very different.
+							</p>
+							<p>
+								The main point of critique is that we can&apos;t possibly keep adding features to a language to solve actual problems, because we would end up with too many features. Instead, we should solve everything by writing tests. I don&apos;t think it&apos;s an either/or situation at all: we can have a solid type system and write &quot;manual&quot; tests.
+							</p>
+							<p>
+								A type checker actually does testing for you. It&apos;s not a replacement for TDD, but it allows you to completely get rid of a whole bunch of tests. For example, if you define a method <code>foo</code> that returns an <code>Int</code>, you can be sure it will only return <code>Int</code>s. Not <code>String</code>s, not <code>nil</code> or <code>null</code>, not anything else. No need to write a test.
+							</p>
+							<p>
+								The article argues that specifying a type such as <code>Int</code> is very inflexible: what if you ever wanted to change <code>foo</code> to return an optional?  According to the article, you have to know this before you write the system. (And if I interpret the article correctly, it argues that TDD would solve this).
+							</p>
+							<p>
+								I agree on at least one thing: at some point, code is going to change. However, I couldn&apos;t disagree more on the statement that typing makes this hard.
+							</p>
+							<p>
+								In Swift, once you change <code>foo</code> to return an <code>Int?</code>, the compiler will now show an error for each time you call <code>foo</code>. This makes it <em>easy</em> to make that change, because until you have reviewed every single call to <code>foo</code>, the program simply won&apos;t compile. I think of the compile errors as a todo-list, not as a <a href="https://twitter.com/unclebobmartin/status/819262224686546945" title>speed bump</a>.
+							</p>
+							<p>
+								When you make changes (small or large ones), it&apos;s good to have a system in place that checks whether your code still works. With many kinds of changes, the compiler can do this automatically. You don&apos;t have to write tests for that.
+							</p>
+							<p>
+								Don&apos;t get me wrong: types are not a silver bullet. You still need to test your code. But wouldn&apos;t you rather test interesting parts, and leave the boring stuff to the compiler?
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Jan 12, 2017</time>
+										 by 
+										<a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="prev"><a href="/post/classes-and-protocols"><span class="arrow">←</span>
+									Classes That Conform To Protocols</a></span>
+							<span class="next"><a href="/post/protocol-oriented-programming">Protocol Oriented Programming is Not a Silver Bullet
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

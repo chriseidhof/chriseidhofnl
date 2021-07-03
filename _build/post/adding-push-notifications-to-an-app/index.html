@@ -1,0 +1,131 @@
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<script src="//use.typekit.net/bwu1cse.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			try{Typekit.load();}catch(e){}
+		</script>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Adding push notifications to an app
+							</h1>
+						</header>
+						<section class="postbody">
+							<p>
+								Last week, I’ve built an app that’s quite simple: there are categories, and in
+								
+								the categories are messages. People can subscribe to a category and get a push
+								
+								notification when there’s a new message in the category, or when a significant
+								
+								change was made to the message. The badge icon should update appropriately,
+								
+								showing the number of unread messages. There are lots of tricky things when
+								
+								implementing this, and the point of this article is to explore them.
+
+							</p>
+							<p>
+								In a naive approach, you can start by implement the application delegate’s
+								<code>application:didReceiveRemoteNotification</code>. This method is called when you
+								
+								receive a push notification. However, it is only called when your application is
+								
+								running. When your application is not running, this method doesn’t get called.
+								
+								You also need to implement <code>application:didFinishLaunchingWithOptions:</code>, and
+								
+								check if there is a push notification in the options (this dictionary gets set
+								
+								when you open the app by clicking on the notification).
+
+							</p>
+							<p>
+								The problem, however, is that not all push notifications arrive. For example, if
+								
+								you get 5 push notifications, but open the app via the home screen, you will not
+								
+								get any notification in the options dictionary, and you won’t get a
+								<code>didReceiveRemoteNotification</code> either.
+
+							</p>
+							<p>
+								To do push notifications correctly, you will need to keep a list on the server,
+								
+								and on application startup your app needs to synchronise with the server. That
+								
+								way, you can mark the right and also tell the server that you have seen the push
+								
+								notification.
+
+							</p>
+							<p>
+								Now, when you exit the app you can set the badge count based on the number of
+								
+								unread push notification. However, the server needs to know this number as well,
+								
+								so that it can correctly set the badge number in the next push notification that
+								
+								is sent. When you read a message that was marked by the push notification, you
+								
+								need to tell the server as well. (Edge-case: when you read the message in
+								
+								offline mode, you will need to tell the server once you’re back online).
+
+							</p>
+							<p>
+								In order to do push notifications right, the client and server need to
+								
+								communicate a lot. Hopefully, in your next project, you can read this article so
+								
+								you don’t have to find these things out while you are programming.
+
+							</p>
+							<p>
+								In a next article, I will sketch the application architecture I used for the app
+								
+								above.
+
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Nov 1, 2012</time>
+										 by 
+										<a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="prev"><a href="/post/my-presentation-at-the-berlin-hug"><span class="arrow">←</span>
+									My presentation at the Berlin HUG</a></span>
+							<span class="next"><a href="/post/more-interface-builder">More Interface Builder
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

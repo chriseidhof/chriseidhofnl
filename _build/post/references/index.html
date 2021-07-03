@@ -1,0 +1,381 @@
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<script src="//use.typekit.net/bwu1cse.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			try{Typekit.load();}catch(e){}
+		</script>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Struct References
+							</h1>
+							<h2 class="headline">
+								Have your cake and eat it
+							</h2>
+						</header>
+						<section class="postbody">
+							<blockquote>
+								<p>
+									The full code for this is available as a <a href="https://gist.github.com/chriseidhof/3423e722d1da4e8cce7cfdf85f026ef7" title>gist</a>.
+								</p>
+							</blockquote>
+							<p>
+								Recently I was trying to find a good use for Swift&apos;s new keypaths. This post shows one example that accidentally came up. This is something I&apos;ve researched, and not something I&apos;ve used in production code. That said, I think it&apos;s very cool and I&apos;d like to show it.
+							</p>
+							<p>
+								Consider a simple address book application. It contains a table view with people, and a detail view controller which shows a <code>Person</code> instance. If <code>Person</code> were defined as a class, it&apos;d look like this:
+							</p>
+							<pre><code class="swift">class Person {
+    var name: String
+    var addresses: [Address]
+    init(name: String, addresses: [Address]) {
+        self.name = name
+        self.addresses = addresses
+    }
+}
+
+class Address {
+    var street: String
+    init(street: String) {
+        self.street = street
+    }
+}
+</code></pre>
+							<p>
+								The definition for our (fake) view controller has a single person property, which gets passed in through the initializer. It also has a <code>change</code> method which changes a property of the person.
+							</p>
+							<pre><code class="swift">final class PersonVC {
+    var person: Person
+    init(person: Person) {
+        self.person = person
+    }
+    
+    func change() {
+        person.name = &quot;New Name&quot;
+    }
+}
+</code></pre>
+							<p>
+								Let&apos;s consider the problems with <code>Person</code> being an object:
+							</p>
+							<ul>
+								<li>
+									<p>
+										Because <code>person</code> is a reference, a different part of the code might change it. This is very useful as it allows communication. At the same time, we need to make sure that we stay notified of those changes (for example, through KVO) otherwise we might be displaying data that&apos;s out of sync. Making sure we stay notified is not straightforward.
+									</p>
+								</li>
+								<li>
+									<p>
+										Getting notified when <code>addresses</code> change is even harder. Observing nested properties that are objects is difficult.
+									</p>
+								</li>
+								<li>
+									<p>
+										If we need an independent local copy of <code>Person</code>, we&apos;d need to implement something like <code>NSCopying</code>. This is quite a bit of work. Even when we have that, we still have to think: do we want a deep copy (e.g. should the addresses also be copied) or a shallow copy (the <code>addresses</code> array is independent, but the addresses inside still point to the same objects)?
+									</p>
+								</li>
+								<li>
+									<p>
+										If we think of <code>Person</code> as being in an array inside <code>AddressBook</code>, we might want to know when the address book changes (for example, to serialize it). Knowing when something inside your object graph changes either requires a lot of boilerplate, or a lot of observing.
+									</p>
+								</li>
+							</ul>
+							<p>
+								If <code>Person</code> and <code>Address</code> were structs, we&apos;d have different issues:
+							</p>
+							<ul>
+								<li>
+									<p>
+										Each struct is an independent copy. This is useful, because we know it&apos;s always consistent and can&apos;t change underneath us. However, after we change a <code>Person</code> in the detail view controller, we&apos;d need a way to communicate those changes back to the table view (or to the address book). With objects, this happens /automatically (by changing the <code>Person</code> in place).
+									</p>
+								</li>
+								<li>
+									<p>
+										We can observe the root address book struct, and know of any changes that happen within. Still, we can&apos;t easily observe parts of it (e.g. observe the first person&apos;s name).
+									</p>
+								</li>
+							</ul>
+							<p>
+								The solution that I present combines the best of both worlds:
+							</p>
+							<ul>
+								<li>
+									<p>
+										We have mutable shared references
+									</p>
+								</li>
+								<li>
+									<p>
+										The underlying data is structs, so we can always get our own independent copy
+									</p>
+								</li>
+								<li>
+									<p>
+										We can observe any part: either at the root level, or observe individual properties (e.g. the first person&apos;s name)
+									</p>
+								</li>
+							</ul>
+							<p>
+								I&apos;ll first show how to use it, then how it works and finally discuss some of the limitations and gotchas.
+							</p>
+							<p>
+								Let&apos;s create an address book using structs:
+							</p>
+							<pre><code class="swift">struct Address {
+    var street: String
+}
+struct Person {
+    var name: String
+    var addresses: [Address]
+}
+
+typealias Addressbook = [Person]
+</code></pre>
+							<p>
+								Now we can use our <code>Ref</code> type (short for <code>Reference</code>). We create a new <code>addressBook</code> reference with an initial empty array. Then we append a <code>Person</code>. Now for the cool part: by using subscripts, we can get a <em>reference</em> to the first person, and then a <em>reference</em> to their name. We can change the value of the reference to <code>&quot;New Name&quot;</code> and verify that we&apos;ve changed the original address book:
+							</p>
+							<pre><code class="swift">let addressBook = Ref&lt;Addressbook&gt;(initialValue: [])
+addressBook.value.append(Person(name: &quot;Test&quot;, addresses: []))
+let firstPerson: Ref&lt;Person&gt; = addressBook[0]
+let nameOfFirstPerson: Ref&lt;String&gt; = firstPerson[\.name]
+nameOfFirstPerson.value = &quot;New Name&quot;
+addressBook.value // shows [Person(name: &quot;New Name&quot;, addresses: [])]
+</code></pre>
+							<p>
+								The types for <code>firstPerson</code> and <code>nameOfFirstPerson</code> can be omitted, they&apos;re just there for readability.
+							</p>
+							<p>
+								If at any point we want to get our own independent value of <code>Person</code>, we can do that. From there on, we can work with <code>myOwnCopy</code> and be sure it&apos;s not changed from underneath us. No need to implement <code>NSCopying</code>:
+							</p>
+							<pre><code class="swift">var myOwnCopy: Person = firstPerson.value
+</code></pre>
+							<p>
+								We can observe any <code>Ref</code>. Just like with reactive libraries, we get a disposable back which controls the lifetime of an observer:
+							</p>
+							<pre><code class="swift">var disposable: Any?
+disposable = addressBook.addObserver { newValue in
+    print(newValue) // Prints the entire address book
+}
+
+disposable = nil // stop observing
+</code></pre>
+							<p>
+								We can also observe <code>nameOfFirstPerson</code>. In the current implementation, this gets triggered anytime anything changes in the address book, but more about that later.
+							</p>
+							<pre><code class="swift">nameOfFirstPerson.addObserver { newValue in
+    print(newValue) // Prints a string
+}
+</code></pre>
+							<p>
+								Let&apos;s go back to our <code>PersonVC</code>. We can change its implementation to use a <code>Ref</code>. The view controller can now subscribe to changes. In reactive programming, a signal is typically read-only (you only receive changes), and you need to figure another way to communicate back. In the <code>Ref</code> approach, we can write back using <code>person.value</code>:
+							</p>
+							<pre><code class="swift">final class PersonVC {
+    let person: Ref&lt;Person&gt;
+    var disposeBag: Any?
+    init(person: Ref&lt;Person&gt;) {
+        self.person = person
+        disposeBag = person.addObserver { newValue in
+            print(&quot;update view for new person value: \(newValue)&quot;)
+        }
+    }
+    
+    func change() {
+        person.value.name = &quot;New Name&quot;
+    }
+}
+</code></pre>
+							<p>
+								The <code>PersonVC</code> doesn&apos;t know where the <code>Ref&lt;Person&gt;</code> comes from: a person array, a database, or somewhere else. In fact, we can add undo support to our address book by wrapping our array inside a <a href="http://chris.eidhof.nl/post/undo-history-in-swift/" title><code>History</code> struct</a>, and we don&apos;t need to change the <code>PersonVC</code>:
+							</p>
+							<pre><code class="swift">let source: Ref&lt;History&lt;Addressbook&gt;&gt; = Ref(initialValue: History(initialValue: []))
+let addressBook: Ref&lt;Addressbook&gt; = source[\.value]
+addressBook.value.append(Person(name: &quot;Test&quot;, addresses: []))
+addressBook[0].value.name = &quot;New Name&quot;
+print(addressBook[0].value)
+source.value.undo()
+print(addressBook[0].value)
+source.value.redo()
+</code></pre>
+							<p>
+								There&apos;s a lot of other things we could add to this: caching, <a href="https://gist.github.com/chriseidhof/40fde6c2be5519d5bb341fc65b3029ad" title>serialization</a>, automatic synchronization (e.g. only modify and observe on a private queue), but that&apos;s future work.
+							</p>
+							<h3>
+								Implementation Details
+							</h3>
+							<p>
+								Let&apos;s look at how this thing is implemented. We&apos;ll start by defining the <code>Ref</code> class. A <code>Ref</code> consists of a way to get and set a value, and a way to add an observer. It has an initializer that asks for just those three things:
+							</p>
+							<pre><code class="swift">final class Ref&lt;A&gt; {
+    typealias Observer = (A) -&gt; ()
+    
+    private let _get: () -&gt; A
+    private let _set: (A) -&gt; ()
+    private let _addObserver: (@escaping Observer) -&gt; Disposable
+    
+    var value: A {
+        get {
+            return _get()
+        }
+        set {
+            _set(newValue)
+        }
+    }
+    
+    init(get: @escaping () -&gt; A, set: @escaping (A) -&gt; (), addObserver: @escaping (@escaping Observer) -&gt; Disposable) {
+        _get = get
+        _set = set
+        _addObserver = addObserver
+    }    
+
+    func addObserver(observer: @escaping Observer) -&gt; Disposable {
+        return _addObserver(observer)
+    }
+}
+</code></pre>
+							<p>
+								We can now add an initializer that observers a single struct value. It creates a dictionary of observers and a variable. Whenever the variable changes, all observers get notified. It uses the initializer defined above and passes on <code>get</code>, <code>set</code>, and <code>addObserver</code>:
+							</p>
+							<pre><code class="swift">extension Ref {
+    convenience init(initialValue: A) {
+        var observers: [Int: Observer] = [:]
+        var theValue = initialValue {
+            didSet { observers.values.forEach { $0(theValue) } }
+        }
+        var freshId = (Int.min...).makeIterator()
+        let get = { theValue }
+        let set = { newValue in theValue = newValue }
+        let addObserver = { (newObserver: @escaping Observer) -&gt; Disposable in
+            let id = freshId.next()!
+            observers[id] = newObserver
+            return Disposable {
+                observers[id] = nil
+            }
+        }
+        self.init(get: get, set: set, addObserver: addObserver)
+    }
+}
+</code></pre>
+							<p>
+								Let&apos;s consider we have <code>Person</code> reference. In order to get a reference to its <code>name</code> property, we need a way to both read and write the name. A <code>WritableKeyPath</code> provides just that. We can thus add a <code>subscript</code> to <code>Ref</code> that creates a reference to part of the <code>Person</code>:
+							</p>
+							<pre><code class="swift">extension Ref {
+    subscript&lt;B&gt;(keyPath: WritableKeyPath&lt;A,B&gt;) -&gt; Ref&lt;B&gt; {
+        let parent = self
+        return Ref&lt;B&gt;(get: { parent._get()[keyPath: keyPath] }, set: {
+            var oldValue = parent.value
+            oldValue[keyPath: keyPath] = $0
+            parent._set(oldValue)
+        }, addObserver: { observer in
+            parent.addObserver { observer($0[keyPath: keyPath]) }
+        })
+    }
+}
+</code></pre>
+							<p>
+								The code above is a bit hard to read, but in order to use the library, you don&apos;t really need to understand how it&apos;s implemented.
+							</p>
+							<p>
+								One day, keypaths in Swift will also support subscripts, but until then, we&apos;ll have to add another subscript for collections. The implementation is almost the same as above, except that we use indices rather than keypaths:
+							</p>
+							<pre><code class="swift">extension Ref where A: MutableCollection {
+    subscript(index: A.Index) -&gt; Ref&lt;A.Element&gt; {
+        return Ref&lt;A.Element&gt;(get: { self._get()[index] }, set: { newValue in
+            var old = self.value
+            old[index] = newValue
+            self._set(old)
+        }, addObserver: { observer in
+                self.addObserver { observer($0[index]) }
+        })
+    }
+}
+</code></pre>
+							<p>
+								That&apos;s all there is to it. The code uses a lot of advanced Swift features, but it&apos;s under a hundred lines. It wouldn&apos;t be possible without all the new Swift 4 additions: it relies on keypaths, generic subscripts, open-ended ranges, and a lot of features that were previously available in Swift.
+							</p>
+							<h3>
+								Discussion
+							</h3>
+							<p>
+								As stated before, this is research code, not production-level code. I&apos;m very interested to see where and how this breaks once I start using it in a real app. Here&apos;s a snippet that had some very counter-intuitive behavior for me:
+							</p>
+							<pre><code class="swift">var twoPeople: Ref&lt;Addressbook&gt; = Ref(initialValue:
+    [Person(name: &quot;One&quot;, addresses: []),
+     Person(name: &quot;Two&quot;, addresses: [])])
+let p0 = twoPeople[0]
+twoPeople.value.removeFirst()
+print(p0.value) // what does this print?
+</code></pre>
+							<p>
+								I&apos;d be really interested in pushing this further. I can imagine adding support for queues, so that you can do something like:
+							</p>
+							<pre><code class="swift">var source = Ref&lt;Addressbook&gt;(initialValue: [], 
+    queue: DispatchQueue(label: &quot;private queue&quot;))
+</code></pre>
+							<p>
+								I can also imagine that you could use this with a database. The <code>Var</code> would allow you to both read and write, as well as subscribe to any notifications:
+							</p>
+							<pre><code class="swift">final class MyDatabase {
+   func readPerson(id: Person.Id) -&gt; Var&lt;Person&gt; {
+   }
+}
+</code></pre>
+							<p>
+								I&apos;d love to hear comments and feedback. If you want to get a deeper understanding of how this works, try implementing it yourself (even after you&apos;ve had a look at the code). By the way, we&apos;ll also make two <a href="http://talk.objc.io/" title>Swift Talk</a> episodes about this. If you&apos;re interested in Florian and me building this from scratch, please subscribe there.
+							</p>
+							<blockquote>
+								<p>
+									Update: thanks to Egor Sobko for pointing out a subtle but crucial mistake: I was sending the observers <code>initialValue</code> rather than <code>theValue</code>. Fixed!
+								</p>
+							</blockquote>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Jul 19, 2017</time>
+										 by 
+										<a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer class="group promo" id="post-meta">
+						<div>
+							<img src="/images/advanced-swift.png" style="width: 90px;"/>
+						</div>
+						<p>
+							<p>
+								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>, or check out <a href="https://talk.objc.io" title>Swift Talk</a>.
+							</p>
+						</p>
+					</footer>
+					<footer>
+						<nav id="post-nav">
+							<span class="prev"><a href="/post/micro-autolayout-dsl"><span class="arrow">←</span>
+									A Micro Auto Layout DSL</a></span>
+							<span class="next"><a href="/post/reducers">Reducers
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

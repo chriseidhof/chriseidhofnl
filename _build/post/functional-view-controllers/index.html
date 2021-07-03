@@ -1,0 +1,155 @@
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<script src="//use.typekit.net/bwu1cse.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			try{Typekit.load();}catch(e){}
+		</script>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Functional View Controllers
+							</h1>
+							<h2 class="headline">
+								Wrapping View Controllers in a Functional Way
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								I&apos;m working on something new: a functional wrapper around view controllers. Making view controllers simpler has been a <a href="http://www.objc.io/issue-1/" title>long obsession</a> for me. I think functional view controllers might make them even simpler. This is still very much work in progress, but I hope that over the next months I can flesh out something nice. For this article, we&apos;ll work with artists and albums, and this is how they&apos;re defined:
+							</p>
+							<pre><code class>struct Album {
+    let name: String
+}
+
+struct Artist {
+    let name : String
+    let albums: [Album]
+}
+</code></pre>
+							<p>
+								And here&apos;s some example data:
+							</p>
+							<pre><code class>let artists : [Artist] = [
+    Artist(name: &quot;JS Bach&quot;, albums: [Album(name: &quot;The Art of Fugue&quot;)]),
+    Artist(name: &quot;Simeon Ten Holt&quot;, albums: [])
+]
+</code></pre>
+							<p>
+								When working with UIKit, view controllers are the opposite of isolated: they are connected to everything. The view controller often pulls network or database data, populates and interacts with views, and finally, it pushes other view controllers onto the navigation stack (or presents them in a different way). In this article, we&apos;ll look at view controllers that do only one thing: they populate the views and interact with them. They don&apos;t load any data themselves, nor do they present other view controllers.
+							</p>
+							<p>
+								In functional view controllers, every view controller takes some input, renders that, and has some output. For example, if we consider the stock Music app, there&apos;s a simple table view controller. It displays a list of artists, and, when the user taps on an artist, it shows another view controller. We could model that as following:
+							</p>
+							<pre><code class>let chooseArtist: ViewController&lt;[Artist], Artist&gt;
+</code></pre>
+							<p>
+								For now, we can ignore how it is implemented. The only thing this view controller does is displaying the list of artists in a table, and calling a callback once an artist is selected. We can also make a <code>chooseAlbum</code> view controller, which, given a list of albums, renders them and lets the user select an album:
+							</p>
+							<pre><code class>let chooseAlbum: ViewController&lt;[Album],Album&gt;
+</code></pre>
+							<p>
+								Now, we would like to present both in a navigation controller. To do that, there&apos;s a function called <code>rootViewController</code>, which lifts a view controller into a navigation controller:
+							</p>
+							<pre><code class>func rootViewController&lt;A,B&gt;(vc: ViewController&lt;A,B&gt;) -&gt; 
+                           NavigationController&lt;A,B&gt;
+</code></pre>
+							<p>
+								We can use it like this:
+							</p>
+							<pre><code class>let startPoint: NavigationController&lt;[Artist], Artist&gt; = 
+    rootViewController(chooseArtist)
+</code></pre>
+							<p>
+								Now, we would like to add some functionality to push another view controller. For example, when the user selects an artist, we would like to push the <code>chooseAlbum</code> view controller onto the navigation stack. To do that, we can use the <code>&gt;&gt;&gt;</code> operator:
+							</p>
+							<pre><code class>func &gt;&gt;&gt;&lt;A,B,C&gt;(l: NavigationController&lt;A,B&gt;, 
+                r: ViewController&lt;B,C&gt;) -&gt; 
+                   NavigationController&lt;A,C&gt;
+</code></pre>
+							<p>
+								The operator takes a left operand (a navigation controller from A to B) and a right operand (a view controller from B to C). When the left view controller is done (e.g. when an artist is selected) it pushes the right view controller.
+							</p>
+							<p>
+								However, we can&apos;t use this <code>&gt;&gt;&gt;</code> operator yet. Our <code>chooseArtist</code> returns an artist, but our <code>chooseAlbum</code> expects a list of albums, not just a single artist. Luckily, the solution is very easy: we can use a <code>map</code> function (which works similar to <code>map</code> on optionals or dictionaries).
+							</p>
+							<pre><code class>func map&lt;A,B,C&gt;(vc: NavigationController&lt;A,B&gt;, 
+                f: B -&gt; C) -&gt; 
+                NavigationController&lt;A,C&gt;
+</code></pre>
+							<p>
+								Basically, the map function takes a navigation controller that maps from A to B. Once that navigation controller is done, it applies a function <code>f</code> to convert that B into a C, and we end up with a navigation controller that maps from A to C. Now, we have all the ingredients to write down our entire hierarchy:
+							</p>
+							<pre><code class>let artists = rootViewController(chooseArtist)
+let navigation = map(artists, { $0.albums }) &gt;&gt;&gt; chooseAlbum
+</code></pre>
+							<p>
+								We&apos;re almost done. We haven&apos;t looked at how <code>chooseArtist</code> and <code>chooseAlbum</code> are defined. They&apos;re both table view controllers. There&apos;s a simple function <code>tableViewController</code> in the library which will render an array of things into a table, and performs an action when a cell is selected. Because all of this can be made to work independent of the datatype, the only thing we need to specify is how to configure the cell:
+							</p>
+							<pre><code class>func tableViewController&lt;A&gt;(render: (UITableViewCell, A) -&gt; ()) -&gt; ViewController&lt;[A],A&gt;
+
+let chooseArtist: ViewController&lt;[Artist], Artist&gt; = tableViewController { cell, artist in
+    cell.textLabel?.text = artist.name
+}
+
+let chooseAlbum: ViewController&lt;[Album],Album&gt; = tableViewController { cell, album in
+    cell.textLabel?.text = album.name
+}
+</code></pre>
+							<p>
+								Now that we have our individual view controllers defined, and our navigation stack, it&apos;s time to setup the window&apos;s root view controller in the app delegate. We run the navigation stack we created with the list of artists defined above:
+							</p>
+							<pre><code class>window?.rootViewController = run(navigation, artists) { album in
+    println(&quot;Selected \(album.name)&quot;)
+}
+</code></pre>
+							<p>
+								That&apos;s all there is to it. With just a few simple lines, we have created a working app with two table views, with the only &quot;real&quot; programming that we&apos;ve done is configuring the cell. Based off of that, we created two table view controllers, and hooked them up together. The table view controllers know absolutely nothing about each other, and are not contaminated with any navigation controller logic. They don&apos;t even know how to load the data. Having to do this outside of the view controller really forces you to separate concerns.
+							</p>
+							<p>
+								The current implementation is a proof of concept. We&apos;ll have to see how this can extend. For example, how does this work with custom transitions? Adding modal transitions is easy, but I&apos;m not entirely sure what would be the best way to have completely custom transitions outside of a navigation controller. It&apos;s very easy to use this technique with existing view controllers, you can easily wrap them. I&apos;d love to experiment more with this. But as I&apos;m mostly doing Mac development these days, I can&apos;t promise the development will go very fast.
+							</p>
+							<p>
+								A full example is on <a href="https://github.com/chriseidhof/functional-view-controllers/" title>github</a>.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Jan 13, 2015</time>
+										 by 
+										<a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="prev"><a href="/post/boring-choice"><span class="arrow">←</span>
+									The Boring Choice</a></span>
+							<span class="next"><a href="/post/repmin-in-swift">Repmin in Swift
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

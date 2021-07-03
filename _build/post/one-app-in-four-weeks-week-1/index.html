@@ -1,0 +1,128 @@
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<script src="//use.typekit.net/bwu1cse.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			try{Typekit.load();}catch(e){}
+		</script>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								One App in Four Weeks: Week 1
+							</h1>
+						</header>
+						<section class="postbody">
+							<p>
+								This Monday, I started <a href="/post/10680838726/one-app-in-four-weeks-kickoff" title>One App in Four
+									
+									Weeks</a>. I started by posting a
+								
+								list of ideas. The third idea was the most appealling to people (although I
+								
+								still want to build the other two as well, but not now), and I got some great
+								
+								feedback from everybody.
+
+							</p>
+							<p>
+								I selected the idea and <a href="/post/10723613553/check-in-to-people" title>defined the Minimum Viable
+									
+									Product</a>, which is quite simple: you can
+								
+								check in to people, add a time and note to that checkin and possibly a location
+								
+								as well.
+
+							</p>
+							<p>
+								Yesterday I wrote about the first <a href="/post/10801169656/sketches-and-ideas" title>sketches and
+									
+									ideas</a>, and after that I started working
+								
+								on the very first version.
+
+							</p>
+							<p>
+								Normally I don’t show these first versions to people, but because I want to show
+								
+								you all the steps I’ll include the screenshots today. The app is barely
+								
+								functional: you see a list of Checkins, and when you press the ‘+’ button it
+								
+								shows the list of your contacts in Address Book. Tapping on a contact takes you
+								
+								to the ‘Add Checkin’ screen, where you can add a note. The time is not
+								
+								changeable yet, and the location isn’t implemented at all. When you then press
+								
+								‘Done’ you’ll go back to the start screen, and the checkin was added. You can
+								
+								also edit it again by tapping on it.
+
+							</p>
+							<p>
+								For the location, I’m thinking of using the Foursquare API, which can provide
+								
+								you with venue information based on lat/lon. I’ll probably store the locations
+								
+								and try to find a previously used location when possible (about half the time I
+								
+								meet people it’s in the same places).
+
+							</p>
+							<p>
+								I also had some ideas about searching: I want to index all the words in the
+								
+								checkin database, and do autocompletion using those words. This means that
+								
+								searching can be a very fast experience. Search could probably be quite
+								
+								important: I can also imagine it’s handy if I want to find a PHP developer in my
+								
+								network (I always forget who knows which languages).
+
+							</p>
+							<p><a href="http://news.ycombinator.com/item?id=3056207" title>Discuss on Hacker News</a></p>
+							<p><img src="http://dl.dropbox.com/u/1264810/blog-content/IMG_1194.PNG" title="List of Checkins"/></p>
+							<p><img src="http://dl.dropbox.com/u/1264810/blog-content/IMG_1197.PNG" title="Checkin Screen"/></p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Sep 30, 2011</time>
+										 by 
+										<a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="prev"><a href="/post/start-of-week-2"><span class="arrow">←</span>
+									Start of Week 2</a></span>
+							<span class="next"><a href="/post/sketches-and-ideas">Sketches and ideas
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

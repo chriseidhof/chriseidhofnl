@@ -1,0 +1,161 @@
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<script src="//use.typekit.net/bwu1cse.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			try{Typekit.load();}catch(e){}
+		</script>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Rejected Swift Proposals
+							</h1>
+							<h2 class="headline">
+								What we can learn from the rejections
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								Not too long ago, we finally shipped <a href="http://www.objc.io/books/advanced-swift" title>Advanced Swift</a>. It was a long process, but I&apos;m really happy about the result. Just before we finished it, Swift became open-source, the mailing lists opened up, and many GitHub repositories appeared.
+							</p>
+							<p>
+								At first, I subscribed to all the mailing lists, and added a filter to move them into a separate folder. There was so much discussion that I couldn&apos;t keep up at all - at least not while finishing the book. I was so overwhelmed that I completely stopped reading the lists, let alone participate in the discussions.
+							</p>
+							<p>
+								In the next edition of Advanced Swift (the update for Swift 3) we want to include a chapter about the history of Swift. At the beginning of this week, I set aside a day to read through all current proposals in detail. Not only to understand what is coming up, but also to learn what got rejected. With most rejections, the core team included a good rationale that can help us understand how they see the language evolve.
+							</p>
+							<p>
+								One interesting thing I found while going through all proposals is the ever-present discussion about &quot;readability&quot;. I&apos;m convinced more than ever that readability is subjective in many cases.
+							</p>
+							<p>
+								I am going to write a series of posts about all the proposals. First off, let&apos;s start with all the rejected proposals. Here, it&apos;s especially interesting to see why they got rejected, and I&apos;ve selectively quoted the rationales given by the core team.
+							</p>
+							<h2><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0009-require-self-for-accessing-instance-members.md" title>SE-0009 Require self for accessing instance members</a></h2>
+							<p>
+								This proposal wants to make <code>self.</code> mandatory for all instance members. The author feels that requiring <code>self.</code> increases readability, and make everything more consistent.
+							</p>
+							<blockquote>
+								<p>
+									Mandatory “self.” introduces a significant amount of verbosity that does not justify itself with added clarity. While it is true that mandatory “self.” may prevent a class of bugs, the cost of eliminating those bugs is fairly high in terms of visual clutter, which goes against the generally uncluttered feel of Swift. Paul Cantrell put it well in his review <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/002910.html" title>https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/002910.html</a> when he said, “anything that is widely repeated becomes invisible.” Swift aims to avoid such boilerplate and repetition in its design, a principle also espoused by the Swift API Design Guidelines <a href="https://swift.org/documentation/api-design-guidelines.html" title>https://swift.org/documentation/api-design-guidelines.html</a>.
+								</p>
+								<p>
+									The requirement to use “self.” within potentially-escaping closures is a useful indicator of the potential for retain cycles that we don’t want to lose. Additionally, developers can optionally use “self.” when they feel it improves clarity (e.g., when similar operations are being performed on several different instances, of which “self” is one).
+								</p>
+								<p>
+									The name-shadowing concerns behind the mandatory “self.” apply equally well to anything found by unqualified name lookup, including names found in the global scope. To call out members of types as requiring qualification while global names do not (even when global names tend to be far more numerous) feels inconsistent, but requiring qualification for everything (e.g., “Swift.print”, “self.name”) exacerbates the problem of visual clutter.
+								</p>
+								<p><a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160104/005478.html" title>Rationale</a></p>
+							</blockquote>
+							<p>
+								The author of the proposal feels that requiring <code>self.</code> makes the code more readable. I can see why, yet still feel the opposite. This is one of those cases where we can hardly say anything objective about it being more readable, instead, we should probably say &quot;it&apos;s more readable for me&quot;.
+							</p>
+							<h2><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0010-add-staticstring-unicodescalarview.md" title>SE-0010 Add StaticString.UnicodeScalarView</a></h2>
+							<p>
+								This proposal wants to make it possible to make static substrings of <code>StaticString</code> by adding a new type <code>StaticString.UnicodeScalarView</code>.
+							</p>
+							<blockquote>
+								<p>
+									While the addition of StaticString.UnicodeScalarView is a useful feature by itself, the core team felt that it would be inconsistent just to add this narrow set of APIs for Unicode scalars. (...) If StaticString is to gain Unicode support, it should be done comprehensively, not piecemeal. Moreover, <em>with the aforementioned String re-evaluation underway</em>, it is possible that StaticString itself might change considerably or even be obsoleted.
+								</p>
+								<p><a href="http://thread.gmane.org/gmane.comp.lang.swift.evolution/7697" title>Rationale</a></p>
+							</blockquote>
+							<p>
+								Emphasis mine: strings are being re-evaluated. I&apos;m not sure what will happen to the <code>String</code> type. I can imagine that it could get simpler somehow.
+							</p>
+							<h2><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0027-string-from-code-units.md" title>SE-0027 Expose code unit initializers on String</a></h2>
+							<p>
+								This proposal wants to make it easier to build Swift strings from C strings.
+							</p>
+							<blockquote>
+								<p>
+									At this point, the core team feels that we have not fully explored the design space here, and that known alternatives (e.g., making the UTF-16 and UTF-32 views of a String mutable collections) might provide a better long-term solution. Moreover, the String type itself is undergoing a significant re-evaluation, so the core team feels that improvements to String should be delayed until the newer design is better understood.
+								</p>
+								<p><a href="http://thread.gmane.org/gmane.comp.lang.swift.evolution/7695" title>Rationale</a></p>
+							</blockquote>
+							<p>
+								Just like before, it seems like big changes will happen to the <code>String</code> type.
+							</p>
+							<h2><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0024-optional-value-setter.md" title>SE-0024 Optional Value Setter <code>??=</code></a></h2>
+							<p>
+								This proposal wants to add another setter, <code>??=</code>, which sets the left-hand side to the value of the right-hand side (but only if the left-hand side is <code>nil</code>).
+							</p>
+							<blockquote>
+								<p>
+									The proposal is rejected. While the ‘??=‘ operator’s semantics are clear and fit with other compound assignment operators, the use cases are not strong enough to motivate inclusion of this operator. <a href="http://thread.gmane.org/gmane.comp.lang.swift.evolution/6895" title>Radek’s lukewarm +0.5 review</a> captures the sentiment of the core team fairly well (as was echoed by others): one very common use case in the Ruby’s similar ||= operator is to assign a default value to an optional parameter or a local variable. However, neither case works well in Swift because ??= does not erase the optionality of the variable (and cannot be used to change a parameter now that var has been removed from parameters). Property access and subscripting could still benefit from ??=, but the latter case is likely to be handled better by a Dictionary subscript operator that can substitute a default value (see, e.g., <a href="http://thread.gmane.org/gmane.comp.lang.swift.evolution/6895" title>Joe Groff’s suggestion</a>).
+								</p>
+								<p><a href="http://article.gmane.org/gmane.comp.lang.swift.evolution/7694" title>Rationale</a></p>
+							</blockquote>
+							<p>
+								I&apos;ve used <code>||=</code> in Ruby as well, and really like it there. But with Swift&apos;s Optionals, I never felt the need for this. As an aside, the mentioned dictionary subscript operator is really cool. We use it in the functions chapter of Advanced Swift, in a way very similar to this: <a href="https://twitter.com/AirspeedSwift/status/626701244455895044" title>https://twitter.com/AirspeedSwift/status/626701244455895044</a></p>
+							<h2><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0018-flexible-memberwise-initialization.md" title>SE-0018 Flexible Memberwise Initialization</a> (Draft)
+							</h2>
+							<p>
+								This was a really long proposal, and really long rejection <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160111/006469.html" title>rationale</a> mail. It&apos;s about the automatic memberwise initializers that get generated (e.g. when you create a struct). The proposal wants to make this possible in more places, and make it easier to control this. The core team decided that it isn&apos;t in scope for Swift 3. An interesting meta-point they raised it that the length of the proposal was off-putting for many people. Another thing I learned is that the Swift team really strives for predictable models. You can also see this in the accepted proposals, there are a few that really make the language more predictable and consistent (e.g. <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0046-first-label.md" title>named first parameters</a>).
+							</p>
+							<h2><a href="https://github.com/apple/swift-evolution/blob/master/proposals/0056-trailing-closures-in-guard.md" title>SE-0056 Allow trailing closures in guard conditions</a></h2>
+							<p>
+								This proposal is about letting trailing closures in <code>guard</code> conditions compile. For example, like this:
+							</p>
+							<pre><code class="swift">guard let object = someSequence.findElement { $0.passesTest() } else {
+  return
+}
+</code></pre>
+							<p>
+								Currently, it doesn&apos;t like the trailing closure when using a <code>guard</code> (or <code>if</code>/<code>while</code>), and it needs to be written with parentheses around the closure.
+							</p>
+							<p>
+								The proposal was <a href="https://lists.swift.org/pipermail/swift-evolution-announce/2016-April/000108.html" title>rejected</a> with a very short sentence:
+							</p>
+							<blockquote>
+								<p>
+									The core team felt that the benefits from this change were outweighed by the inconsistency it would introduce with <code>if</code> and <code>while</code>.
+								</p>
+							</blockquote>
+							<p>
+								Interestingly, it was proposed by Chris Lattner, a member of the core team. Again, I can see how they made the decision. If you look at it from being able to write it in a <code>guard</code>, it seems like a logical proposal. However, once you can write trailing closures in a <code>guard</code> condition, you&apos;ll probably be surprised that you can&apos;t write them in <code>if</code>/<code>while</code>.
+							</p>
+							<hr/>
+							<p>
+								In the next post, we&apos;ll look at accepted proposals. Stay tuned!
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Apr 22, 2016</time>
+										 by 
+										<a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="prev"><a href="/post/dynamic-swift"><span class="arrow">←</span>
+									Dynamic Swift</a></span>
+							<span class="next"><a href="/post/struct-semantics-in-swift">Struct Semantics in Swift
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

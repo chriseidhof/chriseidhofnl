@@ -1,0 +1,156 @@
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<script src="//use.typekit.net/bwu1cse.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			try{Typekit.load();}catch(e){}
+		</script>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Swift Mirrors and JSON
+							</h1>
+							<h2 class="headline">
+								Generating JSON dictionaries with reflection
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								Inspired by <a href="https://twitter.com/mikeash/status/609575730024984576" title>Mike Ash&apos;s tweet</a>, I tried generating JSON dictionaries in Swift by using the new reflection features. First of all, let&apos;s create two structs for holding a person and an address:
+							</p>
+							<pre><code class>struct Address {
+    var street: String
+}
+
+struct Person {
+    var name: String = &quot;John&quot;
+    var age: Int = 42
+    var dutch: Bool = false
+    var address: Address? = Address(street: &quot;Market St.&quot;)
+}
+
+let john = Person()
+</code></pre>
+							<p>
+								We can introspect values using the <code>reflect</code> function. It returns a <code>MirrorType</code>, which is a value we can use to inspect the type:
+							</p>
+							<pre><code class>reflect(john)
+</code></pre>
+							<p>
+								Every <code>MirrorType</code> value has a property <code>count</code>, which counts the number of children (e.g. the address struct has a single child, <code>street</code>, whereas the person struct has four children, one for every field). We can extend <code>MirrorType</code> with a simple <code>children</code> property that loops over the children and returns them in an array:
+							</p>
+							<pre><code class>extension MirrorType {
+    var children: [(String,MirrorType)] {
+        var result: [(String, MirrorType)] = []
+        for i in 0..&lt;self.count {
+            result.append(self[i])
+        }
+        return result
+    }
+}
+</code></pre>
+							<p>
+								We will implement our solution in two steps. First, we&apos;ll create a protocol <code>JSON</code> which converts any value into a JSON-serializable object. Because serialization might fail, we&apos;ll mark it as <code>throws</code>:
+							</p>
+							<pre><code class>protocol JSON {
+    func toJSON() throws -&gt; AnyObject?
+}
+</code></pre>
+							<p>
+								Now comes the big trick I copied from Mike. We can provide a default implementation by extending the protocol. This default implementation reflects a value, and loops over the children, recursively serializing them as well. If the type doesn&apos;t have any children, we assume it&apos;s a primitive (e.g. a String or an Int) and don&apos;t serialize it.
+							</p>
+							<pre><code class>extension JSON {
+    func toJSON() throws -&gt; AnyObject? {
+        let mirror = reflect(self)
+        if mirror.count &gt; 0  {
+            var result: [String:AnyObject] = [:]
+            for (key, child) in mirror.children {
+                if let value = child.value as? JSON {
+                  result[key] = try value.toJSON()
+                } else {
+                    throw CouldNotSerializeError.NoImplementation(source: self, type: child)
+                }
+            }
+            return result
+        }
+        return self as? AnyObject
+    }
+}
+</code></pre>
+							<p>
+								Because of the implementation above, we can now easily derive JSON generation for structs and simple values, without having to implement it:
+							</p>
+							<pre><code class>extension Address: JSON { }
+extension Person: JSON { }
+extension String: JSON { }
+extension Int: JSON { }
+extension Bool: JSON { }
+</code></pre>
+							<p>
+								For optional values, we want to return nil in case the value isn&apos;t there, and otherwise try to serialize it. This is how you can override the <code>toJSON</code> function for a more specific type:
+							</p>
+							<pre><code class>extension Optional: JSON {
+    func toJSON() throws -&gt; AnyObject? {
+        if let x = self {
+            if let value = x as? JSON {
+                return try value.toJSON()
+            }
+            throw CouldNotSerializeError.NoImplementation(source: x, type: reflect(x))
+        }
+        return nil
+    }
+}
+</code></pre>
+							<p>
+								Finally, to test that it worked:
+							</p>
+							<pre><code class>do {
+    try john.toJSON()
+} catch {
+    print(error)
+}
+</code></pre>
+							<p>
+								The full code is in a <a href="https://gist.github.com/chriseidhof/48243eb549481bc38d58" title>gist</a>. It runs fine in a real app, but seems to not always work in a playground. After posting the gist on Twitter yesterday, Rich pointed out that I was late to the party: Matthew Cheok already implemented <a href="https://github.com/matthewcheok/JSONCodable" title>JSONCodable</a>, which is a library that&apos;s ready for use!
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Jun 15, 2015</time>
+										 by 
+										<a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="prev"><a href="/post/via-alpina"><span class="arrow">←</span>
+									Via Alpina</a></span>
+							<span class="next"><a href="/post/monads-in-swift">Monads in Swift
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

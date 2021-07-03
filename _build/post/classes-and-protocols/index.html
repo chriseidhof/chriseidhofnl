@@ -1,0 +1,113 @@
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<script src="//use.typekit.net/bwu1cse.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			try{Typekit.load();}catch(e){}
+		</script>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Classes That Conform To Protocols
+							</h1>
+							<h2 class="headline">
+								How to use type-erasers as a workaround
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								The other day, someone asked how to have a variable which stores a <code>UIView</code> that also conforms to a protocol. In Objective-C, you would simply write <code>UIView&lt;HeaderViewProtocol&gt;</code>. In  current Swift, you can&apos;t write something like that. This posts shows two workarounds.
+							</p>
+							<p>
+								First, let&apos;s set the stage, and assume we have a <code>HeaderViewProtocol</code>:
+							</p>
+							<pre><code class="swift">protocol HeaderViewProtocol {
+    func setTitle(_ string: String)
+}
+</code></pre>
+							<p>
+								Until <a href="https://github.com/apple/swift/blob/master/docs/GenericsManifesto.md#generalized-existentials" title>generalized existentials</a> arrive, we&apos;ll have to make do with a workaround. The most mechanical solution would be to write a struct which has two properties, one for the protocol and one for the <code>UIView</code>. Both point to the same reference:
+							</p>
+							<pre><code class="swift">struct AnyHeaderView {
+    let view: UIView
+    let headerView: HeaderViewProtocol
+    init&lt;T: UIView&gt;(view: T) where T: HeaderViewProtocol {
+        self.view = view
+        self.headerView = view
+    }
+}
+
+let header = AnyHeaderView(view: myView)
+header.headerView.setTitle(&quot;hi&quot;)
+</code></pre>
+							<p>
+								Alternatively, we could also completely <a href="http://chris.eidhof.nl/post/protocol-oriented-programming/" title>get rid of the protocol</a>, and create a <code>HeaderView</code> struct which simply stores a view and a way to set the title:
+							</p>
+							<pre><code class="swift">struct HeaderView {
+    let view: UIView
+    let setTitle: (String) -&gt; ()
+}
+
+var label = UILabel()
+let header = HeaderView(view: label) { str in
+    label.text = str
+}
+header.setTitle(&quot;hello&quot;)
+</code></pre>
+							<p>
+								One benefit of this solution is that there are no protocols involved. More importantly, we can have multiple &quot;implementations&quot; of <code>HeaderView</code> for a single class. This eliminates the need to subclass. I prefer this solution, as it&apos;s really simple: just bundle up a function and a view.
+							</p>
+							<p>
+								(If your protocol has associated types or a <code>Self</code> constraint, it will be a bit more work to write the type-eraser, see <a href="http://chris.eidhof.nl/post/type-erasers-in-swift/" title>here</a> for an explanation).
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Feb 1, 2017</time>
+										 by 
+										<a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer class="group promo" id="post-meta">
+						<div>
+							<img src="/images/advanced-swift.png" style="width: 90px;"/>
+						</div>
+						<p>
+							<p>
+								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>, or check out <a href="https://talk.objc.io" title>Swift Talk</a>.
+							</p>
+						</p>
+					</footer>
+					<footer>
+						<nav id="post-nav">
+							<span class="prev"><a href="/post/reducers"><span class="arrow">←</span>
+									Reducers</a></span>
+							<span class="next"><a href="/post/types-vs-tdd">Types vs TDD
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

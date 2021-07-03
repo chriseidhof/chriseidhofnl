@@ -1,0 +1,180 @@
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<script src="//use.typekit.net/bwu1cse.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			try{Typekit.load();}catch(e){}
+		</script>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Struct Semantics in Swift
+							</h1>
+							<h2 class="headline">
+								Implementing Copy-on-Write efficiently
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								In our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>, we show how to implement your own copy-on-write structs in detail. This blogpost shows the same technique, but in less detail.
+							</p>
+							<p>
+								One big difference between Swift strings and Cocoa strings is how they deal with mutability. If you define a Swift string using <code>let</code>, the compiler enforces immutability: there is no way to change the string:
+							</p>
+							<pre><code class>let myString = &quot;immutable string&quot;
+myString += &quot; test&quot; // Illegal
+</code></pre>
+							<p>
+								In Cocoa, the same is done using classes: an <code>NSString</code> is immutable, and an <code>NSMutableString</code> is mutable. However, there is a catch: NSMutableString is a subclass of NSString. Therefore, we can do the following:
+							</p>
+							<pre><code class>let x: NSMutableString = &quot;Hello&quot;
+let y: NSString = x
+x.appendString(&quot; world&quot;)
+// Now x and y both point to the string &quot;Hello world&quot;
+</code></pre>
+							<p>
+								Even if we have a variable that&apos;s an NSString, we cannot be sure that it&apos;s immutable, in order to be completely sure, we need to make a copy:
+							</p>
+							<pre><code class>let x: NSMutableString = &quot;Hello&quot;
+let y: NSString = x.copy() as! NSString
+x.appendString(&quot; world&quot;)
+// Now x is &quot;Hello world&quot;, and y is &quot;Hello&quot;
+</code></pre>
+							<p>
+								With Swift strings, this works a bit differently. Because they are defined as structs, they have copy semantics. If you have a constant string, there is no way it can change under your nose:
+							</p>
+							<pre><code class>var x = &quot;Hello&quot;
+let y = x
+x += &quot; world&quot;
+// Now x is &quot;Hello world&quot;, and y is still &quot;Hello&quot;
+</code></pre>
+							<p>
+								Another advantage of Swift&apos;s approach is that both <code>x</code> and <code>y</code> are the same String type. They have methods defined that can mutate the string, but all those methods are marked as <code>mutating</code>. You simply cannot call them on constant values: the compiler won&apos;t let you.
+							</p>
+							<p>
+								In order to understand how they work, we will make a wrapper around <code>NSData</code>. For mutation, <code>NSData</code> also has a subclass <code>NSMutableData</code>, but it suffers from the same problem as <code>NSString</code>: you always have to make a copy if you want to be sure that you the data doesn&apos;t change accidentally.
+							</p>
+							<p>
+								Before we can start, we will need a small wrapper type: <code>Box</code>. This can wrap anything, be it a class, or a struct, and the result will be a Swift class.
+							</p>
+							<pre><code class>final class Box&lt;A&gt; {
+    let unbox: A
+    init(_ value: A) { unbox = value }
+}
+</code></pre>
+							<p>
+								Now we can create our own <code>Data</code> struct. It just contains a single field, <code>boxedData</code>. We also add a convience accessor <code>data</code> which just unboxes the data. We provide an initializer, which also has a default (empty) value.
+							</p>
+							<pre><code class>struct Data {
+    private var boxedData: Box&lt;NSMutableData&gt;
+    var data: NSData { return boxedData.unbox }
+    init(data: NSData = NSData()) {
+        self.boxedData = Box(NSMutableData(data: data))
+    }
+}
+</code></pre>
+							<p>
+								First, we&apos;ll define some read-only functions: these can be used on immutable values of our struct. They just call their respective methods on <code>NSData</code>:
+							</p>
+							<pre><code class>extension Data {
+    var length: Int { return data.length }
+    var bytes: UnsafePointer&lt;Void&gt; {
+        return data.bytes
+    }
+}
+</code></pre>
+							<p>
+								To create a mutating variant, we first write a mutating accessor for <code>boxedData</code>. This accessor makes a copy of the data before returning it. This allows us to implemement <code>append</code>: whenever we <code>append</code> to a Swift <code>var</code>, we now automatically make a copy. This way, our data has the same semantics as other Swift structs such as strings and arrays.
+							</p>
+							<pre><code class>private var mutableData: NSMutableData {
+    mutating get {
+        boxedData = Box(NSMutableData(data: data))
+        return boxedData.unbox
+    }
+}
+
+mutating func append(other: NSData) {
+    mutableData.appendData(other)
+}
+</code></pre>
+							<p>
+								There is one problem with the code above. It is very inefficient. If we define a single variable and mutate it a couple of times, each time the internal data will be copied, even though no other variable is referring to the same data:
+							</p>
+							<pre><code class>var myData = Data()
+myData.append(someOtherData) // copy
+myData.append(moreData) // copy
+</code></pre>
+							<p>
+								Instead, we can change our <code>mutableData</code> accessor to prevent copying when there are no other references to the <code>data</code> variable. To do this, we need to check if the data is uniquely referenced. In other words, we only make a copy of the data if the data is shared. We can do this using the <code>isUniquelyReferencedNonObjC</code> function. This is the reason why we need <code>Box</code>: it only works on Swift classes. <code>NSMutableData</code> is an Objective-C class, and then the function doesn&apos;t work.
+							</p>
+							<pre><code class>private var mutableData: NSMutableData {
+    mutating get {
+        if !isUniquelyReferencedNonObjC(&amp;boxedData) {
+            boxedData = Box(NSMutableData(data: data))
+        }
+        return boxedData.unbox
+    }
+}
+</code></pre>
+							<p>
+								Now we have full copy semantics, and efficient behavior: only when a copy is really necessary, it is made. This way, we never have to remember to write <code>data.copy()</code> ourselves, we implemented it correctly once and can then forget about it. I think it&apos;s probably a matter of time until the Swift Standard Library will get extended with a <code>Data</code> type, but even then, this technique is very useful when you want to make your own efficient structs by wrapping pointers.
+							</p>
+							<p>
+								To test our behavior, we can add some <code>print</code> statements to the <code>mutableData</code> accessor, and verify that our behavior is correct:
+							</p>
+							<pre><code class>private var mutableData: NSMutableData {
+    mutating get {
+        if !isUniquelyReferencedNonObjC(&amp;boxedData) {
+            print(&quot;Making a copy&quot;)
+            boxedData = Box(NSMutableData(data: data))
+        } else {
+            print(&quot;Not making a copy&quot;)
+        }
+        return boxedData.unbox
+    }
+}
+</code></pre>
+							<p>
+								As stated in the introduction, we describe this technique in more detail in our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>. If you&apos;ve enjoyed this post, be sure to grab a copy. Finally, a gist of the code is <a href="https://gist.github.com/chriseidhof/d96f0f652a7c6358d865" title>here</a>.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Aug 30, 2015</time>
+										 by 
+										<a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="prev"><a href="/post/rejected-swift-proposals"><span class="arrow">←</span>
+									Rejected Swift Proposals</a></span>
+							<span class="next"><a href="/post/literate-swift">Literate Swift
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
