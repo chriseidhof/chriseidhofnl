@@ -10,6 +10,7 @@ struct Site: Rule {
         Index()
         Blog(posts: BlogPost.inContext())
         Snippets()
+        Write(outputName: "CNAME", data: "chris.eidhof.nl".data(using: .utf8)!)
         // TODO: aliases
     }
 }

@@ -535,3 +535,27 @@ code .hljs-keyword {
 code .hljs-keyword {
     font-weight: bold;
 }
+
+code .hljs-comment {
+    color:#bbb;
+}
+
+.snippet {
+    border: 1px solid #ddd;
+/*    padding:20px;*/
+    background-color:#fdfdfd;
+    font-size:14px;
+    overflow:auto;
+    border-radius: 3px;
+}
+
+.snippet h3 {
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 20px;
+    font-weight: bold;
+}
+
+.snippet pre {
+    border: none;
+}
