@@ -105,6 +105,10 @@ struct BlogPost: Equatable {
     var isAdvancedSwift: Bool {
         metadata.advanced_swift ?? false
     }
+    
+    var published: Bool {
+        return metadata.published ?? true
+    }
  
     struct Metadata: Codable, Equatable {
         var headline: String?
@@ -112,6 +116,7 @@ struct BlogPost: Equatable {
         var date: String
         var aliases: [String]?
         var advanced_swift: Bool?
+        var published: Bool?
     }
 }
 
@@ -150,7 +155,7 @@ func loadPosts(path: String, buildDate: (_ filename: String, _ metadata: BlogPos
         let meta: BlogPost.Metadata = try decoder.decode(from: yaml!)
         return BlogPost(metadata: meta, body: contents, link: buildLinkName(file))
     }
-    return parsed.sorted(by: { $0.date < $1.date }).reversed()
+    return parsed.filter { $0.published }.sorted(by: { $0.date < $1.date }).reversed()
 }
 
 extension BlogPost {

@@ -9,13 +9,14 @@ struct Site: Rule {
         Copy("images")
         Index()
         Blog(posts: BlogPost.inContext())
+        Snippets()
         // TODO: aliases
     }
 }
 
 let fm = FileManager.default
 let path = URL(fileURLWithPath: fm.currentDirectoryPath)
-let out = path.appendingPathComponent("_build")
+let out = path.appendingPathComponent("docs")
 let baseEnvironment = EnvironmentValues(inputBaseURL: path.appendingPathComponent("site"), outputBaseURL: out)
 
 func recreateBuildDir() throws {
@@ -26,10 +27,16 @@ func recreateBuildDir() throws {
     }
 }
 
+let highlighter = Highlighter()
+func highlight(_ env: EnvironmentValues, node: Node) -> Node {
+    highlighter.visitNode(node)
+}
+
 public func run() throws {
     try recreateBuildDir()
     try Site()
         .wrap(Main())
+        .environment(keyPath: \.transformNode, value: highlight)
         .measure()
         .builtin
         .run(environment: baseEnvironment)

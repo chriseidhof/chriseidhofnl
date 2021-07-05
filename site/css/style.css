@@ -431,6 +431,7 @@ Archive
 =========================================== */
 h1.archive {
 	margin-bottom:0px;
+    margin-top: 2em;
 }
 
 h2.month {
@@ -525,4 +526,12 @@ sub {
   /* Move the subscripted text down, but only
      half as far down as the superscript moved up */
   bottom: -0.25em;
+}
+
+code .hljs-keyword {
+    font-weight: bold;
+}
+
+code .hljs-keyword {
+    font-weight: bold;
 }

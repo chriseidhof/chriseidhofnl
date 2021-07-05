@@ -38,9 +38,9 @@
 							<p>
 								Value types imply that whenever a variable is copied, the value itself — and not just a reference to the value — is copied. For example, in almost all programming languages, scalar types are value types. This means that whenever a value is assigned to a new variable, it is copied rather than passed by reference:
 							</p>
-							<pre><code class="swift">var a = 42
-var b = a
-b += 1
+							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">a</span> = <span class="hljs-number">42</span>
+<span class="hljs-keyword">var</span> <span class="hljs-identifier">b</span> = <span class="hljs-identifier">a</span>
+<span class="hljs-identifier">b</span> += <span class="hljs-number">1</span>
 </code></pre>
 							<p>
 								After the code above executes, the value of <code>b</code> will be 43, but <code>a</code> will still be 42. This is so natural that it seems like stating the obvious. However, in Swift, all structs behave this way, not just scalar types.
@@ -48,15 +48,15 @@ b += 1
 							<p>
 								Let&apos;s start with a simple struct that describes a <code>Point</code>. This is similar to <code>CGPoint</code>, except that it contains <code>Int</code>s, whereas <code>CGPoint</code> contains <code>CGFloat</code>s.
 							</p>
-							<pre><code class="swift">struct Point {
-    var x: Int
-    var y: Int
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Point</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">x</span>: <span class="hljs-identifier">Int</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">y</span>: <span class="hljs-identifier">Int</span>
 }
 </code></pre>
 							<p>
 								For structs, Swift automatically adds a memberwise initializer. This means we can now initialize a new variable:
 							</p>
-							<pre><code class="swift">let origin = Point(x: 0, y: 0)
+							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">origin</span> = <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">0</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">0</span>)
 </code></pre>
 							<p>
 								Because structs in Swift have value semantics, we cannot change any of the properties of a struct variable that&apos;s defined using let. For example, the following code will not work:
@@ -69,17 +69,17 @@ b += 1
 							<p>
 								To create a variable that we can mutate, we need to create it using <code>var</code>:
 							</p>
-							<pre><code class="swift">var otherPoint = Point(x: 0, y: 0)
-otherPoint.x += 10
-otherPoint
+							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">otherPoint</span> = <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">0</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">0</span>)
+<span class="hljs-identifier">otherPoint</span>.<span class="hljs-identifier">x</span> += <span class="hljs-number">10</span>
+<span class="hljs-identifier">otherPoint</span>
 </code></pre>
 							<p>
 								Once we create a variable using <code>var</code>, we can mutate it. However, unlike with objects, every struct variable is unique. For example, we can create a new variable <code>thirdPoint</code>, and assign the value of <code>origin</code> to it. Now we can change <code>thirdPoint</code>, but <code>origin</code> (which we defined as an immutable variable using <code>let</code>) will not change.
 							</p>
-							<pre><code class="swift">var thirdPoint = origin
-thirdPoint.x += 10
-thirdPoint
-origin
+							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">thirdPoint</span> = <span class="hljs-identifier">origin</span>
+<span class="hljs-identifier">thirdPoint</span>.<span class="hljs-identifier">x</span> += <span class="hljs-number">10</span>
+<span class="hljs-identifier">thirdPoint</span>
+<span class="hljs-identifier">origin</span>
 </code></pre>
 							<p>
 								Once you assign a struct to a new variable, Swift automatically makes a copy. Even though this sounds very expensive, many of the copies can be optimized away by the compiler, and Swift tries hard to make the copies very cheap. In fact, many structs in the standard library are implemented using a technique called copy-on-write, which we will look at later.
@@ -87,37 +87,37 @@ origin
 							<p>
 								If we have struct values that we plan to use more often, we can define them in an extension as a static property. For example, we can define an <code>origin</code> property on <code>Point</code>, so that we can write <code>Point.origin</code> everywhere we need it:
 							</p>
-							<pre><code class="swift">extension Point {
-    static let origin = Point(x: 0, y: 0)
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">Point</span> {
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">origin</span> = <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">0</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">0</span>)
 }
-Point.origin
+<span class="hljs-identifier">Point</span>.<span class="hljs-identifier">origin</span>
 </code></pre>
 							<p>
 								Structs can also contain other structs. For example, if we define a <code>Size</code> struct, we can create a <code>Rect</code> struct which is composed out of a point and a size:
 							</p>
-							<pre><code class="swift">struct Size {
-    var width: Int
-    var height: Int
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Size</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">width</span>: <span class="hljs-identifier">Int</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">height</span>: <span class="hljs-identifier">Int</span>
 }
 
-struct Rectangle {
-    var origin: Point
-    var size: Size
+<span class="hljs-keyword">struct</span> <span class="hljs-identifier">Rectangle</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">origin</span>: <span class="hljs-identifier">Point</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">size</span>: <span class="hljs-identifier">Size</span>
 }
 </code></pre>
 							<p>
 								Just like before, we get a memberwise initializer for <code>Rectangle</code>. The order of the parameters matches the order of the property definitions:
 							</p>
-							<pre><code class="swift">Rectangle(origin: Point.origin, 
-          size: Size(width: 320, height: 480))
+							<pre><code class="swift"><span class="hljs-identifier">Rectangle</span>(<span class="hljs-identifier">origin</span>: <span class="hljs-identifier">Point</span>.<span class="hljs-identifier">origin</span>, 
+          <span class="hljs-identifier">size</span>: <span class="hljs-identifier">Size</span>(<span class="hljs-identifier">width</span>: <span class="hljs-number">320</span>, <span class="hljs-identifier">height</span>: <span class="hljs-number">480</span>))
 </code></pre>
 							<p>
 								If we want a custom initializer for our struct, we can add it directly inside the struct definition. However, if the struct definition contains a custom initializer, Swift does not generate a memberwise initializer. By defining our custom initializer in an extension, we also get to keep the memberwise initializer.
 							</p>
-							<pre><code class="swift">extension Rectangle {
-    init(x: Int = 0, y: Int = 0, width: Int, height: Int) {
-        origin = Point(x: x, y: y)
-        size = Size(width: width, height: height)
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">Rectangle</span> {
+    <span class="hljs-keyword">init</span>(<span class="hljs-identifier">x</span>: <span class="hljs-identifier">Int</span> = <span class="hljs-number">0</span>, <span class="hljs-identifier">y</span>: <span class="hljs-identifier">Int</span> = <span class="hljs-number">0</span>, <span class="hljs-identifier">width</span>: <span class="hljs-identifier">Int</span>, <span class="hljs-identifier">height</span>: <span class="hljs-identifier">Int</span>) {
+        <span class="hljs-identifier">origin</span> = <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-identifier">x</span>, <span class="hljs-identifier">y</span>: <span class="hljs-identifier">y</span>)
+        <span class="hljs-identifier">size</span> = <span class="hljs-identifier">Size</span>(<span class="hljs-identifier">width</span>: <span class="hljs-identifier">width</span>, <span class="hljs-identifier">height</span>: <span class="hljs-identifier">height</span>)
     }
 }
 </code></pre>
@@ -127,16 +127,16 @@ struct Rectangle {
 							<p>
 								If we define a mutable variable <code>screen</code>, we can add a <code>didSet</code> block that gets executed whenever <code>screen</code> changes. This <code>didSet</code> works for every definition of a struct, be it in a playground, in a class or when defining a global variable.
 							</p>
-							<pre><code class="swift">var screen = Rectangle(width: 320, height: 480) {
+							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">screen</span> = <span class="hljs-identifier">Rectangle</span>(<span class="hljs-identifier">width</span>: <span class="hljs-number">320</span>, <span class="hljs-identifier">height</span>: <span class="hljs-number">480</span>) {
     didSet {
-        print(&quot;Screen changed! \(screen)&quot;)
+        <span class="hljs-identifier">print</span>(<span class="hljs-string">"</span><span class="hljs-string">Screen changed! </span>\(<span class="hljs-identifier">screen</span>)<span class="hljs-string"></span><span class="hljs-string">"</span>)
     }
 }
 </code></pre>
 							<p>
 								Maybe somewhat surprisingly, even if we change something deep inside the struct, this will get triggered:
 							</p>
-							<pre><code class="swift">screen.origin.x = 10
+							<pre><code class="swift"><span class="hljs-identifier">screen</span>.<span class="hljs-identifier">origin</span>.<span class="hljs-identifier">x</span> = <span class="hljs-number">10</span>
 </code></pre>
 							<p>
 								Understanding why this works is key to understanding value types. Mutating a struct variable is semantically the same as assigning a new value to it. When we mutate something deep inside the struct, it still means we are mutating the struct, so <code>didSet</code> still needs to get triggered.
@@ -147,10 +147,10 @@ struct Rectangle {
 							<p>
 								It would make sense to add two <code>Points</code> together. We can use the <code>+</code> operator for this, add both members, and return a new <code>Point</code>.
 							</p>
-							<pre><code class="swift">func +(lhs: Point, rhs: Point) -&gt; Point {
-    return Point(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+							<pre><code class="swift"><span class="hljs-keyword">func</span> +(<span class="hljs-identifier">lhs</span>: <span class="hljs-identifier">Point</span>, <span class="hljs-identifier">rhs</span>: <span class="hljs-identifier">Point</span>) -> <span class="hljs-identifier">Point</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-identifier">lhs</span>.<span class="hljs-identifier">x</span> + <span class="hljs-identifier">rhs</span>.<span class="hljs-identifier">x</span>, <span class="hljs-identifier">y</span>: <span class="hljs-identifier">lhs</span>.<span class="hljs-identifier">y</span> + <span class="hljs-identifier">rhs</span>.<span class="hljs-identifier">y</span>)
 }
-screen.origin + Point(x: 10, y: 10)
+<span class="hljs-identifier">screen</span>.<span class="hljs-identifier">origin</span> + <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">10</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">10</span>)
 </code></pre>
 							<p>
 								We could also lift this operation to rectangles, and add a <code>translate</code> method which moves the rectangle by a given offset. Our first attempt doesn&apos;t work:
@@ -164,12 +164,12 @@ screen.origin + Point(x: 10, y: 10)
 							<p>
 								The compiler tells us that we cannot assign to the <code>origin</code> property, because <code>self</code> is immutable (writing <code>origin =</code> is shorthand for <code>self.origin =</code>). We could think of <code>self</code> as an extra, implicit parameter that gets passed to every method on <code>Rectangle</code>. You never have to pass the parameter, but it&apos;s always there inside the method body. And it&apos;s defined as <code>let</code> by default. The reason this <code>let</code> restriction exists is so that value semantics can be guaranteed. If we want to be able to mutate <code>self</code>, or any property of <code>self</code>, or even nested properties (e.g. <code>self.origin.x</code>), we need to mark our method as <code>mutating</code>:
 							</p>
-							<pre><code class="swift">extension Rectangle {
-    mutating func translate(by offset: Point) {
-        origin = origin + offset
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">Rectangle</span> {
+    <span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">translate</span>(<span class="hljs-identifier">by</span> <span class="hljs-identifier">offset</span>: <span class="hljs-identifier">Point</span>) {
+        <span class="hljs-identifier">origin</span> = <span class="hljs-identifier">origin</span> + <span class="hljs-identifier">offset</span>
     }
 }
-screen.translate(by: Point(x: 10, y: 10))
+<span class="hljs-identifier">screen</span>.<span class="hljs-identifier">translate</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">10</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">10</span>))
 </code></pre>
 							<p>
 								The compiler enforces the <code>mutating</code> keyword. Unless we use it, we are not allowed to mutate anything inside the method. By marking the method as <code>mutating</code>, we change the behavior of <code>self</code>. Instead of it being a <code>let</code>, it now works like a <code>var</code>: we can freely change any property. (To be precise, it&apos;s not even a <code>var</code>, but we will get to that in a little bit).
@@ -193,14 +193,14 @@ point.x = 10
 							<p>
 								In many cases, it makes sense to have both a <code>mutating</code> and a non-mutating variant of the same method. For example, arrays have both a <code>sort()</code> method (which is mutating and sorts in place) and a <code>sorted()</code> method (which returns a new array). We can also add a non-mutating variant of our <code>translate(by:_)</code> method. Instead of mutating <code>self</code>, we create a copy, mutate that, and return a new <code>Rectangle</code>:
 							</p>
-							<pre><code class="swift">extension Rectangle {
-    func translated(by offset: Point) -&gt; Rectangle {
-        var copy = self
-        copy.translate(by: offset)
-        return copy
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">Rectangle</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">translated</span>(<span class="hljs-identifier">by</span> <span class="hljs-identifier">offset</span>: <span class="hljs-identifier">Point</span>) -> <span class="hljs-identifier">Rectangle</span> {
+        <span class="hljs-keyword">var</span> <span class="hljs-identifier">copy</span> = <span class="hljs-keyword">self</span>
+        <span class="hljs-identifier">copy</span>.<span class="hljs-identifier">translate</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">offset</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-identifier">copy</span>
     }
 }
-screen.translated(by: Point(x: 20, y: 20))
+<span class="hljs-identifier">screen</span>.<span class="hljs-identifier">translated</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">20</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">20</span>))
 </code></pre>
 							<blockquote>
 								<p>
@@ -216,12 +216,12 @@ screen.translated(by: Point(x: 20, y: 20))
 							<p>
 								To understand how the <code>mutating</code> keyword works, we can look at the behavior of <code>inout</code>. In Swift, we can mark function parameters as <code>inout</code>. Before we do that, let&apos;s define a free function that moves a rectangle by ten points on both axes. We cannot simply call <code>translate</code> directly on the <code>rectangle</code> parameter, because all function parameters are immutable by default. In order to change it, we create a mutable copy using <code>var</code>, call <code>translate</code> and return the changed value. Then we need to re-assign it to <code>screen</code>:
 							</p>
-							<pre><code class="swift">func moveByTenTen(rectangle: Rectangle) -&gt; Rectangle {
-    var changed = rectangle
-    changed.translate(by: Point(x: 10, y: 10))
-    return changed
+							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">moveByTenTen</span>(<span class="hljs-identifier">rectangle</span>: <span class="hljs-identifier">Rectangle</span>) -> <span class="hljs-identifier">Rectangle</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">changed</span> = <span class="hljs-identifier">rectangle</span>
+    <span class="hljs-identifier">changed</span>.<span class="hljs-identifier">translate</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">10</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">10</span>))
+    <span class="hljs-keyword">return</span> <span class="hljs-identifier">changed</span>
 }
-screen = moveByTenTen(rectangle: screen)
+<span class="hljs-identifier">screen</span> = <span class="hljs-identifier">moveByTenTen</span>(<span class="hljs-identifier">rectangle</span>: <span class="hljs-identifier">screen</span>)
 </code></pre>
 							<p>
 								How could we write a function that changes the <code>rectangle</code> in place? Thinking back, the <code>mutating</code> keyword did exactly that. It makes the implicit <code>self</code> parameter mutable, and it changes the value of the variable.
@@ -229,10 +229,10 @@ screen = moveByTenTen(rectangle: screen)
 							<p>
 								In functions, we can mark parameters as <code>inout</code>. Just like with a regular parameter, a copy of the value gets passed in to the function. However, we can change the copy (it&apos;s as if it were defined as a <code>var</code>). And once the function returns, the original value gets overwritten:
 							</p>
-							<pre><code class="swift">func moveByTwentyTwenty(rectangle: inout Rectangle) {
-    rectangle.translate(by: Point(x: 20, y: 20))
+							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">moveByTwentyTwenty</span>(<span class="hljs-identifier">rectangle</span>: <span class="hljs-keyword">inout</span> <span class="hljs-identifier">Rectangle</span>) {
+    <span class="hljs-identifier">rectangle</span>.<span class="hljs-identifier">translate</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">20</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">20</span>))
 }
-moveByTwentyTwenty(rectangle: &amp;screen)
+<span class="hljs-identifier">moveByTwentyTwenty</span>(<span class="hljs-identifier">rectangle</span>: &<span class="hljs-identifier">screen</span>)
 </code></pre>
 							<p>
 								The <code>moveByTwentyTwenty</code> function takes the <code>screen</code> rectangle, changes it locally, and copies the new value back (overriding the previous value of <code>screen</code>). This behavior is exactly the same as a <code>mutating</code> method. In fact, <code>mutating</code> methods are just like regular methods on struct, except that <code>self</code> is marked as <code>inout</code>.
@@ -246,17 +246,17 @@ moveByTwentyTwenty(rectangle: &amp;immutableScreen) // error
 							<p>
 								Now it also makes sense how we could define a mutating operator like <code>+=</code>. Such operators modify the left-hand side by adding the right-hand side:
 							</p>
-							<pre><code class="swift">func +=(lhs: inout Point, rhs: Point) {
-    lhs = lhs + rhs
+							<pre><code class="swift"><span class="hljs-keyword">func</span> +=(<span class="hljs-identifier">lhs</span>: <span class="hljs-keyword">inout</span> <span class="hljs-identifier">Point</span>, <span class="hljs-identifier">rhs</span>: <span class="hljs-identifier">Point</span>) {
+    <span class="hljs-identifier">lhs</span> = <span class="hljs-identifier">lhs</span> + <span class="hljs-identifier">rhs</span>
 }
-var myPoint = Point.origin
-myPoint += Point(x: 10, y: 10)
+<span class="hljs-keyword">var</span> <span class="hljs-identifier">myPoint</span> = <span class="hljs-identifier">Point</span>.<span class="hljs-identifier">origin</span>
+<span class="hljs-identifier">myPoint</span> += <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">10</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">10</span>)
 </code></pre>
 							<p>
 								In the <a href="#functions" title>Functions</a> chapter, we will go into more detail about <code>inout</code>. For now, it suffices to say that <code>inout</code> is in lots of places. For example, it&apos;s now easy to understand how modifying a subscript works:
 							</p>
-							<pre><code class="swift">var array = [Point(x: 0, y: 0), Point(x: 10, y: 10)]
-array[0] += Point(x: 100, y: 100)
+							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">array</span> = [<span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">0</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">0</span>), <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">10</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">10</span>)]
+<span class="hljs-identifier">array</span>[<span class="hljs-number">0</span>] += <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">100</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">100</span>)
 </code></pre>
 							<p>
 								The expression <code>array[0]</code> is automatically passed in as an <code>inout</code> variable. In the Functions chapter, we will look in more detail at <code>inout</code> parameters, and see why we can use expressions like <code>array[0]</code> as an <code>inout</code> parameter.

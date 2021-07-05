@@ -39,14 +39,14 @@
 							<p>
 								However, the other day as I was writing some UIKit code, I found myself annoyed at the verbosity of Auto Layout. Here&apos;s some code that I wrote over and over again:
 							</p>
-							<pre><code class="swift">let view = UIView()
-let label = UILabel()
-view.addSubview(label)
-label.translatesAutoresizingMaskIntoConstraints = false
-NSLayoutConstraint.activate([
-    label.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-    label.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-    label.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">view</span> = <span class="hljs-identifier">UIView</span>()
+<span class="hljs-keyword">let</span> <span class="hljs-identifier">label</span> = <span class="hljs-identifier">UILabel</span>()
+<span class="hljs-identifier">view</span>.<span class="hljs-identifier">addSubview</span>(<span class="hljs-identifier">label</span>)
+<span class="hljs-identifier">label</span>.<span class="hljs-identifier">translatesAutoresizingMaskIntoConstraints</span> = <span class="hljs-keyword">false</span>
+<span class="hljs-identifier">NSLayoutConstraint</span>.<span class="hljs-identifier">activate</span>([
+    <span class="hljs-identifier">label</span>.<span class="hljs-identifier">leadingAnchor</span>.<span class="hljs-identifier">constraint</span>(<span class="hljs-identifier">equalTo</span>: <span class="hljs-identifier">view</span>.<span class="hljs-identifier">leadingAnchor</span>),
+    <span class="hljs-identifier">label</span>.<span class="hljs-identifier">topAnchor</span>.<span class="hljs-identifier">constraint</span>(<span class="hljs-identifier">equalTo</span>: <span class="hljs-identifier">view</span>.<span class="hljs-identifier">safeAreaLayoutGuide</span>.<span class="hljs-identifier">topAnchor</span>),
+    <span class="hljs-identifier">label</span>.<span class="hljs-identifier">trailingAnchor</span>.<span class="hljs-identifier">constraint</span>(<span class="hljs-identifier">equalTo</span>: <span class="hljs-identifier">view</span>.<span class="hljs-identifier">trailingAnchor</span>)
 ])
 </code></pre>
 							<p>
@@ -55,12 +55,12 @@ NSLayoutConstraint.activate([
 							<p>
 								Rather than pulling in a library, I decided to write my own. The first bit of my micro-library is a function that, given a child and a parent, returns a layout constraint:
 							</p>
-							<pre><code class="swift">typealias Constraint = (_ child: UIView, _ parent: UIView) -&gt; NSLayoutConstraint
+							<pre><code class="swift"><span class="hljs-keyword">typealias</span> <span class="hljs-identifier">Constraint</span> = (<span class="hljs-keyword">_</span> <span class="hljs-identifier">child</span>: <span class="hljs-identifier">UIView</span>, <span class="hljs-keyword">_</span> <span class="hljs-identifier">parent</span>: <span class="hljs-identifier">UIView</span>) -> <span class="hljs-identifier">NSLayoutConstraint</span>
 </code></pre>
 							<p>
 								Ideally, we would now write a method <code>equal</code> which allows us to write following:
 							</p>
-							<pre><code class="swift">let constraint: Constraint = equal(\.topAnchor, \.safeAreaLayoutGuide.topAnchor)
+							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">constraint</span>: <span class="hljs-identifier">Constraint</span> = <span class="hljs-identifier">equal</span>(\.<span class="hljs-identifier">topAnchor</span>, \.<span class="hljs-identifier">safeAreaLayoutGuide</span>.<span class="hljs-identifier">topAnchor</span>)
 </code></pre>
 							<p>
 								Note that <code>constraint</code> is just a description of a layout constraint -- it&apos;s still waiting for a concrete child and parent view. It says that, given a child and parent, the child&apos;s top anchor should be equal to the parent&apos;s <code>safeAreaLayoutGuide.topAnchor</code>.
@@ -68,39 +68,39 @@ NSLayoutConstraint.activate([
 							<p>
 								We can implement <code>equal</code> with a little bit of keypath magic:
 							</p>
-							<pre><code class="swift">func equal&lt;Axis, Anchor&gt;(_ keyPath: KeyPath&lt;UIView, Anchor&gt;, _ to: KeyPath&lt;UIView, Anchor&gt;, constant: CGFloat = 0) -&gt; Constraint where Anchor: NSLayoutAnchor&lt;Axis&gt; {
-    return { view, parent in
-        view[keyPath: keyPath].constraint(equalTo: parent[keyPath: to], constant: constant)
+							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">equal</span><<span class="hljs-identifier">Axis</span>, <span class="hljs-identifier">Anchor</span>>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">keyPath</span>: <span class="hljs-identifier">KeyPath</span><<span class="hljs-identifier">UIView</span>, <span class="hljs-identifier">Anchor</span>>, <span class="hljs-keyword">_</span> <span class="hljs-identifier">to</span>: <span class="hljs-identifier">KeyPath</span><<span class="hljs-identifier">UIView</span>, <span class="hljs-identifier">Anchor</span>>, <span class="hljs-identifier">constant</span>: <span class="hljs-identifier">CGFloat</span> = <span class="hljs-number">0</span>) -> <span class="hljs-identifier">Constraint</span> <span class="hljs-keyword">where</span> <span class="hljs-identifier">Anchor</span>: <span class="hljs-identifier">NSLayoutAnchor</span><<span class="hljs-identifier">Axis</span>> {
+    <span class="hljs-keyword">return</span> { <span class="hljs-identifier">view</span>, <span class="hljs-identifier">parent</span> <span class="hljs-keyword">in</span>
+        <span class="hljs-identifier">view</span>[<span class="hljs-identifier">keyPath</span>: <span class="hljs-identifier">keyPath</span>].<span class="hljs-identifier">constraint</span>(<span class="hljs-identifier">equalTo</span>: <span class="hljs-identifier">parent</span>[<span class="hljs-identifier">keyPath</span>: <span class="hljs-identifier">to</span>], <span class="hljs-identifier">constant</span>: <span class="hljs-identifier">constant</span>)
     }
 }
 </code></pre>
 							<p>
 								Most of the time, the two layout anchors are the same (e.g. <code>leadingAnchor</code> and <code>leadingAnchor</code>), so let&apos;s write a small helper for that case:
 							</p>
-							<pre><code class="swift">func equal&lt;Axis, Anchor&gt;(_ keyPath: KeyPath&lt;UIView, Anchor&gt;, constant: CGFloat = 0) -&gt; Constraint where Anchor: NSLayoutAnchor&lt;Axis&gt; {
-    return equal(keyPath, keyPath, constant: constant)
+							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">equal</span><<span class="hljs-identifier">Axis</span>, <span class="hljs-identifier">Anchor</span>>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">keyPath</span>: <span class="hljs-identifier">KeyPath</span><<span class="hljs-identifier">UIView</span>, <span class="hljs-identifier">Anchor</span>>, <span class="hljs-identifier">constant</span>: <span class="hljs-identifier">CGFloat</span> = <span class="hljs-number">0</span>) -> <span class="hljs-identifier">Constraint</span> <span class="hljs-keyword">where</span> <span class="hljs-identifier">Anchor</span>: <span class="hljs-identifier">NSLayoutAnchor</span><<span class="hljs-identifier">Axis</span>> {
+    <span class="hljs-keyword">return</span> <span class="hljs-identifier">equal</span>(<span class="hljs-identifier">keyPath</span>, <span class="hljs-identifier">keyPath</span>, <span class="hljs-identifier">constant</span>: <span class="hljs-identifier">constant</span>)
 }
 </code></pre>
 							<p>
 								Finally, let&apos;s solve the last two problems: we don&apos;t want to forget to set <code>translatesAutoresizingMaskIntoConstraints</code> to false, and we don&apos;t want to forget to activate the constraints. What if we create another version of <code>addSubview</code> that does this for us?
 							</p>
-							<pre><code class="swift">extension UIView {
-    func addSubview(_ child: UIView, constraints: [Constraint]) {
-        addSubview(child)
-        child.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate(constraints.map { $0(child, self) })
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">UIView</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">addSubview</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">child</span>: <span class="hljs-identifier">UIView</span>, <span class="hljs-identifier">constraints</span>: [<span class="hljs-identifier">Constraint</span>]) {
+        <span class="hljs-identifier">addSubview</span>(<span class="hljs-identifier">child</span>)
+        <span class="hljs-identifier">child</span>.<span class="hljs-identifier">translatesAutoresizingMaskIntoConstraints</span> = <span class="hljs-keyword">false</span>
+        <span class="hljs-identifier">NSLayoutConstraint</span>.<span class="hljs-identifier">activate</span>(<span class="hljs-identifier">constraints</span>.<span class="hljs-identifier">map</span> { $0(<span class="hljs-identifier">child</span>, <span class="hljs-keyword">self</span>) })
     }
 }
 </code></pre>
 							<p>
 								We now have everything in place to rewrite our initial example:
 							</p>
-							<pre><code class="swift">let view = UIView()
-let label = UILabel()
-view.addSubview(label, constraints: [
-   equal(\.leadingAnchor),
-   equal(\.topAnchor, \.safeAreaLayoutGuide.topAnchor),
-   equal(\.trailingAnchor)
+							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">view</span> = <span class="hljs-identifier">UIView</span>()
+<span class="hljs-keyword">let</span> <span class="hljs-identifier">label</span> = <span class="hljs-identifier">UILabel</span>()
+<span class="hljs-identifier">view</span>.<span class="hljs-identifier">addSubview</span>(<span class="hljs-identifier">label</span>, <span class="hljs-identifier">constraints</span>: [
+   <span class="hljs-identifier">equal</span>(\.<span class="hljs-identifier">leadingAnchor</span>),
+   <span class="hljs-identifier">equal</span>(\.<span class="hljs-identifier">topAnchor</span>, \.<span class="hljs-identifier">safeAreaLayoutGuide</span>.<span class="hljs-identifier">topAnchor</span>),
+   <span class="hljs-identifier">equal</span>(\.<span class="hljs-identifier">trailingAnchor</span>)
 ])
 </code></pre>
 							<p>

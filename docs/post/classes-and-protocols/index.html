@@ -39,38 +39,38 @@
 							<p>
 								First, let&apos;s set the stage, and assume we have a <code>HeaderViewProtocol</code>:
 							</p>
-							<pre><code class="swift">protocol HeaderViewProtocol {
-    func setTitle(_ string: String)
+							<pre><code class="swift"><span class="hljs-keyword">protocol</span> <span class="hljs-identifier">HeaderViewProtocol</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">setTitle</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">string</span>: <span class="hljs-identifier">String</span>)
 }
 </code></pre>
 							<p>
 								Until <a href="https://github.com/apple/swift/blob/master/docs/GenericsManifesto.md#generalized-existentials" title>generalized existentials</a> arrive, we&apos;ll have to make do with a workaround. The most mechanical solution would be to write a struct which has two properties, one for the protocol and one for the <code>UIView</code>. Both point to the same reference:
 							</p>
-							<pre><code class="swift">struct AnyHeaderView {
-    let view: UIView
-    let headerView: HeaderViewProtocol
-    init&lt;T: UIView&gt;(view: T) where T: HeaderViewProtocol {
-        self.view = view
-        self.headerView = view
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">AnyHeaderView</span> {
+    <span class="hljs-keyword">let</span> <span class="hljs-identifier">view</span>: <span class="hljs-identifier">UIView</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-identifier">headerView</span>: <span class="hljs-identifier">HeaderViewProtocol</span>
+    <span class="hljs-keyword">init</span><<span class="hljs-identifier">T</span>: <span class="hljs-identifier">UIView</span>>(<span class="hljs-identifier">view</span>: <span class="hljs-identifier">T</span>) <span class="hljs-keyword">where</span> <span class="hljs-identifier">T</span>: <span class="hljs-identifier">HeaderViewProtocol</span> {
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">view</span> = <span class="hljs-identifier">view</span>
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">headerView</span> = <span class="hljs-identifier">view</span>
     }
 }
 
-let header = AnyHeaderView(view: myView)
-header.headerView.setTitle(&quot;hi&quot;)
+<span class="hljs-keyword">let</span> <span class="hljs-identifier">header</span> = <span class="hljs-identifier">AnyHeaderView</span>(<span class="hljs-identifier">view</span>: <span class="hljs-identifier">myView</span>)
+<span class="hljs-identifier">header</span>.<span class="hljs-identifier">headerView</span>.<span class="hljs-identifier">setTitle</span>(<span class="hljs-string">"</span><span class="hljs-string">hi</span><span class="hljs-string">"</span>)
 </code></pre>
 							<p>
 								Alternatively, we could also completely <a href="http://chris.eidhof.nl/post/protocol-oriented-programming/" title>get rid of the protocol</a>, and create a <code>HeaderView</code> struct which simply stores a view and a way to set the title:
 							</p>
-							<pre><code class="swift">struct HeaderView {
-    let view: UIView
-    let setTitle: (String) -&gt; ()
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">HeaderView</span> {
+    <span class="hljs-keyword">let</span> <span class="hljs-identifier">view</span>: <span class="hljs-identifier">UIView</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-identifier">setTitle</span>: (<span class="hljs-identifier">String</span>) -> ()
 }
 
-var label = UILabel()
-let header = HeaderView(view: label) { str in
-    label.text = str
+<span class="hljs-keyword">var</span> <span class="hljs-identifier">label</span> = <span class="hljs-identifier">UILabel</span>()
+<span class="hljs-keyword">let</span> <span class="hljs-identifier">header</span> = <span class="hljs-identifier">HeaderView</span>(<span class="hljs-identifier">view</span>: <span class="hljs-identifier">label</span>) { <span class="hljs-identifier">str</span> <span class="hljs-keyword">in</span>
+    <span class="hljs-identifier">label</span>.<span class="hljs-identifier">text</span> = <span class="hljs-identifier">str</span>
 }
-header.setTitle(&quot;hello&quot;)
+<span class="hljs-identifier">header</span>.<span class="hljs-identifier">setTitle</span>(<span class="hljs-string">"</span><span class="hljs-string">hello</span><span class="hljs-string">"</span>)
 </code></pre>
 							<p>
 								One benefit of this solution is that there are no protocols involved. More importantly, we can have multiple &quot;implementations&quot; of <code>HeaderView</code> for a single class. This eliminates the need to subclass. I prefer this solution, as it&apos;s really simple: just bundle up a function and a view.

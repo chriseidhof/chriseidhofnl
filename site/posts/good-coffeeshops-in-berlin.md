@@ -9,16 +9,14 @@ If you’re a digital nomad, you are always looking for good places to work. In
 Berlin, there are a couple of good places with good wifi and coffee. Here is a
 list of the places where I like to work.&#10;
 
-**[St. Oberholz](http://www.sanktoberholz.de/) -** [Rosenthaler
-Strasse 72](http://maps.google.nl/maps?q=st%20oberholz&um=1&ie=UTF-8&sa=N&hl=nl&tab=wl)&#10;
+**[St. Oberholz](http://www.sanktoberholz.de/) -** [Rosenthaler Strasse 72](http://maps.google.nl/maps?q=st%20oberholz&um=1&ie=UTF-8&sa=N&hl=nl&tab=wl)&#10;
 
 This is *the* place for a digital nomad. They serve excellent coffee, have good
 food and it is well known for being friendly towards people with laptops.
 Upstairs is extra seating available. Sometimes the wifi is a bit flaky.&#10;
 
 **[Mein Haus am See](http://www.mein-haus-am-see.blogspot.com/)** -
-[Brunnestrasse 197
-- 198](http://maps.google.nl/maps?q=mein%20haus%20am%20see)&#10;
+[Brunnestrasse 197 - 198](http://maps.google.nl/maps?q=mein%20haus%20am%20see)&#10;
 
 Across the street from St. Oberholz, Mein Haus am See is a special place. A bit
 less well known, and more a bar than a coffee place. The coffee is not that

@@ -78,8 +78,8 @@
 							<p>
 								Sorting collections in Swift is simple:
 							</p>
-							<pre><code class="swift">var myArray = [3, 1, 2]
-myArray.sorted() // [1, 2, 3]
+							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">myArray</span> = [<span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>]
+<span class="hljs-identifier">myArray</span>.<span class="hljs-identifier">sorted</span>() <span class="hljs-comment">// [1, 2, 3]</span>
 </code></pre>
 							<p>
 								There are really four sort methods: <code>sorted(by:)</code> and <code>sort(by:)</code>, times two for
@@ -90,28 +90,28 @@ myArray.sorted() // [1, 2, 3]
 								
 								you need. If you want to sort in a different order, just supply a function:
 							</p>
-							<pre><code class="swift">myArray.sorted(by: &gt;) // [3, 2, 1]
+							<pre><code class="swift"><span class="hljs-identifier">myArray</span>.<span class="hljs-identifier">sorted</span>(<span class="hljs-identifier">by</span>: >) <span class="hljs-comment">// [3, 2, 1]</span>
 </code></pre>
 							<p>
 								You can also supply a function if your elements don&apos;t conform to <code>Equatable</code> but
 								<em>do</em> have a <code>&lt;</code> operator, like tuples:
 							</p>
-							<pre><code class="swift">var numberStrings = [(2, &quot;two&quot;), (1, &quot;one&quot;), (3, &quot;three&quot;)]
-numberStrings.sort(by: &lt;)
-numberStrings // [(1, &quot;one&quot;), (2, &quot;two&quot;), (3, &quot;three&quot;)]
+							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">numberStrings</span> = [(<span class="hljs-number">2</span>, <span class="hljs-string">"</span><span class="hljs-string">two</span><span class="hljs-string">"</span>), (<span class="hljs-number">1</span>, <span class="hljs-string">"</span><span class="hljs-string">one</span><span class="hljs-string">"</span>), (<span class="hljs-number">3</span>, <span class="hljs-string">"</span><span class="hljs-string">three</span><span class="hljs-string">"</span>)]
+<span class="hljs-identifier">numberStrings</span>.<span class="hljs-identifier">sort</span>(<span class="hljs-identifier">by</span>: <)
+<span class="hljs-identifier">numberStrings</span> <span class="hljs-comment">// [(1, "one"), (2, "two"), (3, "three")]</span>
 </code></pre>
 							<p>
 								Or, you can supply a more complicated function if you want to sort by some
 								
 								arbitrary calculated criteria:
 							</p>
-							<pre><code class="swift">let animals = [&quot;elephant&quot;, &quot;zebra&quot;, &quot;dog&quot;]
-let sortedAnimals = animals.sorted { lhs, rhs in
-    let l = lhs.characters.reversed()
-    let r = rhs.characters.reversed()
-    return l.lexicographicallyPrecedes(r)
+							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">animals</span> = [<span class="hljs-string">"</span><span class="hljs-string">elephant</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">zebra</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">dog</span><span class="hljs-string">"</span>]
+<span class="hljs-keyword">let</span> <span class="hljs-identifier">sortedAnimals</span> = <span class="hljs-identifier">animals</span>.<span class="hljs-identifier">sorted</span> { <span class="hljs-identifier">lhs</span>, <span class="hljs-identifier">rhs</span> <span class="hljs-keyword">in</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-identifier">l</span> = <span class="hljs-identifier">lhs</span>.<span class="hljs-identifier">characters</span>.<span class="hljs-identifier">reversed</span>()
+    <span class="hljs-keyword">let</span> <span class="hljs-identifier">r</span> = <span class="hljs-identifier">rhs</span>.<span class="hljs-identifier">characters</span>.<span class="hljs-identifier">reversed</span>()
+    <span class="hljs-keyword">return</span> <span class="hljs-identifier">l</span>.<span class="hljs-identifier">lexicographicallyPrecedes</span>(<span class="hljs-identifier">r</span>)
 }
-sortedAnimals // [&quot;zebra&quot;, &quot;dog&quot;, &quot;elephant&quot;]
+<span class="hljs-identifier">sortedAnimals</span> <span class="hljs-comment">// ["zebra", "dog", "elephant"]</span>
 </code></pre>
 							<p>
 								It is this last ability — the ability to use any comparison function to sort a
@@ -147,14 +147,14 @@ sortedAnimals // [&quot;zebra&quot;, &quot;dog&quot;, &quot;elephant&quot;]
 								Objective-C&apos;s powerful runtime system works, we&apos;ll have to make it an <code>NSObject</code>
 								subclass (in pure Swift, a struct might have been a better choice):
 							</p>
-							<pre><code class="swift">final class Person: NSObject {
-    var first: String
-    var last: String
-    var yearOfBirth: Int
-    init(first: String, last: String, yearOfBirth: Int) {
-        self.first = first
-        self.last = last
-        self.yearOfBirth = yearOfBirth
+							<pre><code class="swift"><span class="hljs-identifier">final</span> <span class="hljs-keyword">class</span> <span class="hljs-identifier">Person</span>: <span class="hljs-identifier">NSObject</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">first</span>: <span class="hljs-identifier">String</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">last</span>: <span class="hljs-identifier">String</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">yearOfBirth</span>: <span class="hljs-identifier">Int</span>
+    <span class="hljs-keyword">init</span>(<span class="hljs-identifier">first</span>: <span class="hljs-identifier">String</span>, <span class="hljs-identifier">last</span>: <span class="hljs-identifier">String</span>, <span class="hljs-identifier">yearOfBirth</span>: <span class="hljs-identifier">Int</span>) {
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">first</span> = <span class="hljs-identifier">first</span>
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">last</span> = <span class="hljs-identifier">last</span>
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">yearOfBirth</span> = <span class="hljs-identifier">yearOfBirth</span>
     }
 
 }
@@ -162,13 +162,13 @@ sortedAnimals // [&quot;zebra&quot;, &quot;dog&quot;, &quot;elephant&quot;]
 							<p>
 								Let&apos;s also define an array of people, with different names and birth years:
 							</p>
-							<pre><code class="swift">let people = [
-    Person(first: &quot;Jo&quot;, last: &quot;Smith&quot;, yearOfBirth: 1970),
-    Person(first: &quot;Joe&quot;, last: &quot;Smith&quot;, yearOfBirth: 1970),
-    Person(first: &quot;Joe&quot;, last: &quot;Smyth&quot;, yearOfBirth: 1970),
-    Person(first: &quot;Joanne&quot;, last: &quot;smith&quot;, yearOfBirth: 1985),
-    Person(first: &quot;Joanne&quot;, last: &quot;smith&quot;, yearOfBirth: 1970),
-    Person(first: &quot;Robert&quot;, last: &quot;Jones&quot;, yearOfBirth: 1970),
+							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">people</span> = [
+    <span class="hljs-identifier">Person</span>(<span class="hljs-identifier">first</span>: <span class="hljs-string">"</span><span class="hljs-string">Jo</span><span class="hljs-string">"</span>, <span class="hljs-identifier">last</span>: <span class="hljs-string">"</span><span class="hljs-string">Smith</span><span class="hljs-string">"</span>, <span class="hljs-identifier">yearOfBirth</span>: <span class="hljs-number">1970</span>),
+    <span class="hljs-identifier">Person</span>(<span class="hljs-identifier">first</span>: <span class="hljs-string">"</span><span class="hljs-string">Joe</span><span class="hljs-string">"</span>, <span class="hljs-identifier">last</span>: <span class="hljs-string">"</span><span class="hljs-string">Smith</span><span class="hljs-string">"</span>, <span class="hljs-identifier">yearOfBirth</span>: <span class="hljs-number">1970</span>),
+    <span class="hljs-identifier">Person</span>(<span class="hljs-identifier">first</span>: <span class="hljs-string">"</span><span class="hljs-string">Joe</span><span class="hljs-string">"</span>, <span class="hljs-identifier">last</span>: <span class="hljs-string">"</span><span class="hljs-string">Smyth</span><span class="hljs-string">"</span>, <span class="hljs-identifier">yearOfBirth</span>: <span class="hljs-number">1970</span>),
+    <span class="hljs-identifier">Person</span>(<span class="hljs-identifier">first</span>: <span class="hljs-string">"</span><span class="hljs-string">Joanne</span><span class="hljs-string">"</span>, <span class="hljs-identifier">last</span>: <span class="hljs-string">"</span><span class="hljs-string">smith</span><span class="hljs-string">"</span>, <span class="hljs-identifier">yearOfBirth</span>: <span class="hljs-number">1985</span>),
+    <span class="hljs-identifier">Person</span>(<span class="hljs-identifier">first</span>: <span class="hljs-string">"</span><span class="hljs-string">Joanne</span><span class="hljs-string">"</span>, <span class="hljs-identifier">last</span>: <span class="hljs-string">"</span><span class="hljs-string">smith</span><span class="hljs-string">"</span>, <span class="hljs-identifier">yearOfBirth</span>: <span class="hljs-number">1970</span>),
+    <span class="hljs-identifier">Person</span>(<span class="hljs-identifier">first</span>: <span class="hljs-string">"</span><span class="hljs-string">Robert</span><span class="hljs-string">"</span>, <span class="hljs-identifier">last</span>: <span class="hljs-string">"</span><span class="hljs-string">Jones</span><span class="hljs-string">"</span>, <span class="hljs-identifier">yearOfBirth</span>: <span class="hljs-number">1970</span>),
 ]
 </code></pre>
 							<p>
@@ -180,11 +180,11 @@ sortedAnimals // [&quot;zebra&quot;, &quot;dog&quot;, &quot;elephant&quot;]
 								
 								use them to express the individual sorting criteria.
 							</p>
-							<pre><code class="swift">let lastDescriptor = NSSortDescriptor(key: &quot;last&quot;, ascending: true,
-  selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
-let firstDescriptor = NSSortDescriptor(key: &quot;first&quot;, ascending: true, 
-  selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
-let yearDescriptor = NSSortDescriptor(key: &quot;yearOfBirth&quot;, ascending: true)
+							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">lastDescriptor</span> = <span class="hljs-identifier">NSSortDescriptor</span>(<span class="hljs-identifier">key</span>: <span class="hljs-string">"</span><span class="hljs-string">last</span><span class="hljs-string">"</span>, <span class="hljs-identifier">ascending</span>: <span class="hljs-keyword">true</span>,
+  <span class="hljs-identifier">selector</span>: <span class="hljs-keyword">#selector</span>(<span class="hljs-identifier">NSString</span>.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>(<span class="hljs-keyword">_</span>:)))
+<span class="hljs-keyword">let</span> <span class="hljs-identifier">firstDescriptor</span> = <span class="hljs-identifier">NSSortDescriptor</span>(<span class="hljs-identifier">key</span>: <span class="hljs-string">"</span><span class="hljs-string">first</span><span class="hljs-string">"</span>, <span class="hljs-identifier">ascending</span>: <span class="hljs-keyword">true</span>, 
+  <span class="hljs-identifier">selector</span>: <span class="hljs-keyword">#selector</span>(<span class="hljs-identifier">NSString</span>.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>(<span class="hljs-keyword">_</span>:)))
+<span class="hljs-keyword">let</span> <span class="hljs-identifier">yearDescriptor</span> = <span class="hljs-identifier">NSSortDescriptor</span>(<span class="hljs-identifier">key</span>: <span class="hljs-string">"</span><span class="hljs-string">yearOfBirth</span><span class="hljs-string">"</span>, <span class="hljs-identifier">ascending</span>: <span class="hljs-keyword">true</span>)
 </code></pre>
 							<p>
 								To sort the array, we can use the <code>sortedArray(using:)</code> method on <code>NSArray</code>.
@@ -197,8 +197,8 @@ let yearDescriptor = NSSortDescriptor(key: &quot;yearOfBirth&quot;, ascending: t
 								
 								descriptor, and so on.
 							</p>
-							<pre><code class="swift">(people as NSArray).sortedArray(using: [lastDescriptor, firstDescriptor, yearDescriptor]) 
-// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]
+							<pre><code class="swift">(<span class="hljs-identifier">people</span> <span class="hljs-keyword">as</span> <span class="hljs-identifier">NSArray</span>).<span class="hljs-identifier">sortedArray</span>(<span class="hljs-identifier">using</span>: [<span class="hljs-identifier">lastDescriptor</span>, <span class="hljs-identifier">firstDescriptor</span>, <span class="hljs-identifier">yearDescriptor</span>]) 
+<span class="hljs-comment">// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]</span>
 </code></pre>
 							<p>
 								A sort descriptor uses two runtime features of Objective-C: the <code>key</code> is a key
@@ -227,17 +227,17 @@ let yearDescriptor = NSSortDescriptor(key: &quot;yearOfBirth&quot;, ascending: t
 								replicate <em>parts</em> of the sort, for example, if you want to sort an array using
 								<code>localizedCaseInsensitiveCompare</code>:
 							</p>
-							<pre><code class="swift">var strings = [&quot;Hello&quot;, &quot;hallo&quot;, &quot;Hallo&quot;, &quot;hello&quot;]
-strings.sort { $0.localizedCaseInsensitiveCompare($1) == .orderedAscending}
-strings // [&quot;hallo&quot;, &quot;Hallo&quot;, &quot;Hello&quot;, &quot;hello&quot;]
+							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">strings</span> = [<span class="hljs-string">"</span><span class="hljs-string">Hello</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">hallo</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">Hallo</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">hello</span><span class="hljs-string">"</span>]
+<span class="hljs-identifier">strings</span>.<span class="hljs-identifier">sort</span> { $0.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>($1) == .<span class="hljs-identifier">orderedAscending</span>}
+<span class="hljs-identifier">strings</span> <span class="hljs-comment">// ["hallo", "Hallo", "Hello", "hello"]</span>
 </code></pre>
 							<p>
 								If you want to sort using just a single property of an object, that&apos;s also
 								
 								simple.
 							</p>
-							<pre><code class="swift">people.sorted { $0.yearOfBirth &lt; $1.yearOfBirth } 
-// [Jo Smith (1970), Joe Smith (1970), Joe Smyth (1970), Joanne smith (1970), Robert Jones (1970), Joanne smith (1985)]
+							<pre><code class="swift"><span class="hljs-identifier">people</span>.<span class="hljs-identifier">sorted</span> { $0.<span class="hljs-identifier">yearOfBirth</span> < $1.<span class="hljs-identifier">yearOfBirth</span> } 
+<span class="hljs-comment">// [Jo Smith (1970), Joe Smith (1970), Joe Smyth (1970), Joanne smith (1970), Robert Jones (1970), Joanne smith (1985)]</span>
 </code></pre>
 							<p>
 								This approach doesn&apos;t work so great when optional properties are combined with
@@ -247,9 +247,9 @@ strings // [&quot;hallo&quot;, &quot;Hallo&quot;, &quot;Hello&quot;, &quot;hello
 								example, consider sorting an array of filenames by file extension (using the
 								<code>fileExtension</code> property from the <a href="#optionals" title>Optionals</a> chapter):
 							</p>
-							<pre><code class="swift">var files = [&quot;one&quot;, &quot;file.h&quot;, &quot;file.c&quot;, &quot;test.h&quot;]
-files.sort { l, r in r.fileExtension.flatMap { l.fileExtension?.localizedCaseInsensitiveCompare($0) } == .orderedAscending }
-files // [&quot;one&quot;, &quot;file.c&quot;, &quot;file.h&quot;, &quot;test.h&quot;]
+							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">files</span> = [<span class="hljs-string">"</span><span class="hljs-string">one</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">file.h</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">file.c</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">test.h</span><span class="hljs-string">"</span>]
+<span class="hljs-identifier">files</span>.<span class="hljs-identifier">sort</span> { <span class="hljs-identifier">l</span>, <span class="hljs-identifier">r</span> <span class="hljs-keyword">in</span> <span class="hljs-identifier">r</span>.<span class="hljs-identifier">fileExtension</span>.<span class="hljs-identifier">flatMap</span> { <span class="hljs-identifier">l</span>.<span class="hljs-identifier">fileExtension</span>?.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>($0) } == .<span class="hljs-identifier">orderedAscending</span> }
+<span class="hljs-identifier">files</span> <span class="hljs-comment">// ["one", "file.c", "file.h", "test.h"]</span>
 </code></pre>
 							<p>
 								Later on, we&apos;ll make it easier to use optionals when sorting. However, for now,
@@ -267,15 +267,15 @@ files // [&quot;one&quot;, &quot;file.c&quot;, &quot;file.h&quot;, &quot;test.h&
 								them. It also takes a function to perform the comparison. We&apos;ll put our use of
 								<code>localizedCaseInsensitiveCompare</code> in the function:
 							</p>
-							<pre><code class="swift">let sortedPeople = people.sorted { p0, p1 in
-    let left =  [p0.last, p0.first]
-    let right = [p1.last, p1.first]
+							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">sortedPeople</span> = <span class="hljs-identifier">people</span>.<span class="hljs-identifier">sorted</span> { <span class="hljs-identifier">p0</span>, <span class="hljs-identifier">p1</span> <span class="hljs-keyword">in</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-identifier">left</span> =  [<span class="hljs-identifier">p0</span>.<span class="hljs-identifier">last</span>, <span class="hljs-identifier">p0</span>.<span class="hljs-identifier">first</span>]
+    <span class="hljs-keyword">let</span> <span class="hljs-identifier">right</span> = [<span class="hljs-identifier">p1</span>.<span class="hljs-identifier">last</span>, <span class="hljs-identifier">p1</span>.<span class="hljs-identifier">first</span>]
 
-    return left.lexicographicallyPrecedes(right) {
-        $0.localizedCaseInsensitiveCompare($1) == .orderedAscending
+    <span class="hljs-keyword">return</span> <span class="hljs-identifier">left</span>.<span class="hljs-identifier">lexicographicallyPrecedes</span>(<span class="hljs-identifier">right</span>) {
+        $0.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>($1) == .<span class="hljs-identifier">orderedAscending</span>
     }
 }
-sortedPeople // [Robert Jones (1970), Jo Smith (1970), Joanne smith (1985), Joanne smith (1970), Joe Smith (1970), Joe Smyth (1970)]
+<span class="hljs-identifier">sortedPeople</span> <span class="hljs-comment">// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1985), Joanne smith (1970), Joe Smith (1970), Joe Smyth (1970)]</span>
 </code></pre>
 							<p>
 								At this point, we&apos;ve almost replicated the functionality of the original sort in
@@ -313,15 +313,15 @@ sortedPeople // [Robert Jones (1970), Jo Smith (1970), Joanne smith (1985), Joan
 								
 								It&apos;s helpful to define a generic <code>typealias</code> to describe sort descriptors:
 							</p>
-							<pre><code class="swift">typealias SortDescriptor&lt;Value&gt; = (Value, Value) -&gt; Bool
+							<pre><code class="swift"><span class="hljs-keyword">typealias</span> <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Value</span>> = (<span class="hljs-identifier">Value</span>, <span class="hljs-identifier">Value</span>) -> <span class="hljs-identifier">Bool</span>
 </code></pre>
 							<p>
 								As an example, we could define a sort descriptor that compares two <code>Person</code>
 								objects by year of birth, or a sort descriptor that sorts by last name:
 							</p>
-							<pre><code class="swift">let sortByYear: SortDescriptor&lt;Person&gt; = { $0.yearOfBirth &lt; $1.yearOfBirth }
-let sortByLastName: SortDescriptor&lt;Person&gt; = { 
-  $0.last.localizedCaseInsensitiveCompare($1.last) == .orderedAscending 
+							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">sortByYear</span>: <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Person</span>> = { $0.<span class="hljs-identifier">yearOfBirth</span> < $1.<span class="hljs-identifier">yearOfBirth</span> }
+<span class="hljs-keyword">let</span> <span class="hljs-identifier">sortByLastName</span>: <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Person</span>> = { 
+  $0.<span class="hljs-identifier">last</span>.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>($1.<span class="hljs-identifier">last</span>) == .<span class="hljs-identifier">orderedAscending</span> 
 }
 </code></pre>
 							<p>
@@ -348,52 +348,52 @@ let sortByLastName: SortDescriptor&lt;Person&gt; = {
 								result type is a function as well, even though that is slightly obscured by the
 								<code>typealias</code>.
 							</p>
-							<pre><code class="swift">func sortDescriptor&lt;Value, Key&gt;(
-  key: @escaping (Value) -&gt; Key,
-    _ isOrderedBefore: @escaping (Key, Key) -&gt; Bool) 
-    -&gt; SortDescriptor&lt;Value&gt; {
-    return { isOrderedBefore(key($0), key($1)) }
+							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">sortDescriptor</span><<span class="hljs-identifier">Value</span>, <span class="hljs-identifier">Key</span>>(
+  <span class="hljs-identifier">key</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">Value</span>) -> <span class="hljs-identifier">Key</span>,
+    <span class="hljs-keyword">_</span> <span class="hljs-identifier">isOrderedBefore</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">Key</span>, <span class="hljs-identifier">Key</span>) -> <span class="hljs-identifier">Bool</span>) 
+    -> <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Value</span>> {
+    <span class="hljs-keyword">return</span> { <span class="hljs-identifier">isOrderedBefore</span>(<span class="hljs-identifier">key</span>($0), <span class="hljs-identifier">key</span>($1)) }
 }
 </code></pre>
 							<p>
 								This allows us to define <code>sortByYear</code> in a different way:
 							</p>
-							<pre><code class="swift">let sortByYearAlt: SortDescriptor&lt;Person&gt; = sortDescriptor(key: { $0.yearOfBirth }, &lt;)
-people.sorted(by: sortByYearAlt) 
-// [Jo Smith (1970), Joe Smith (1970), Joe Smyth (1970), Joanne smith (1970), Robert Jones (1970), Joanne smith (1985)]
+							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">sortByYearAlt</span>: <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Person</span>> = <span class="hljs-identifier">sortDescriptor</span>(<span class="hljs-identifier">key</span>: { $0.<span class="hljs-identifier">yearOfBirth</span> }, <)
+<span class="hljs-identifier">people</span>.<span class="hljs-identifier">sorted</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">sortByYearAlt</span>) 
+<span class="hljs-comment">// [Jo Smith (1970), Joe Smith (1970), Joe Smyth (1970), Joanne smith (1970), Robert Jones (1970), Joanne smith (1985)]</span>
 </code></pre>
 							<p>
 								We can even define an overloaded variant that works for all <code>Comparable</code> types:
 							</p>
-							<pre><code class="swift">func sortDescriptor&lt;Value, Key&gt;(key: @escaping (Value) -&gt; Key)
-    -&gt; SortDescriptor&lt;Value&gt; where Key: Comparable {
-    return { key($0) &lt; key($1) }
+							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">sortDescriptor</span><<span class="hljs-identifier">Value</span>, <span class="hljs-identifier">Key</span>>(<span class="hljs-identifier">key</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">Value</span>) -> <span class="hljs-identifier">Key</span>)
+    -> <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Value</span>> <span class="hljs-keyword">where</span> <span class="hljs-identifier">Key</span>: <span class="hljs-identifier">Comparable</span> {
+    <span class="hljs-keyword">return</span> { <span class="hljs-identifier">key</span>($0) < <span class="hljs-identifier">key</span>($1) }
 }
-let sortByYearAlt2: SortDescriptor&lt;Person&gt; = sortDescriptor(key: { $0.yearOfBirth })
+<span class="hljs-keyword">let</span> <span class="hljs-identifier">sortByYearAlt2</span>: <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Person</span>> = <span class="hljs-identifier">sortDescriptor</span>(<span class="hljs-identifier">key</span>: { $0.<span class="hljs-identifier">yearOfBirth</span> })
 </code></pre>
 							<p>
 								Both <code>sortDescriptor</code> above work with boolean functions. The <code>NSSortDescriptor</code>
 								class has an initializer that takes a comparison function such as
 								<code>localizedCaseInsensitiveCompare</code>. Adding support for this is easy as well:
 							</p>
-							<pre><code class="swift">func sortDescriptor&lt;Value, Key&gt;(
-    key: @escaping (Value) -&gt; Key,
-    ascending: Bool = true,
-    _ comparator: @escaping (Key) -&gt; (Key) -&gt; ComparisonResult
-    ) -&gt; SortDescriptor&lt;Value&gt; {
-    return { lhs, rhs in
-        let order: ComparisonResult = ascending ? .orderedAscending : .orderedDescending
-        return comparator(key(lhs))(key(rhs)) == order
+							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">sortDescriptor</span><<span class="hljs-identifier">Value</span>, <span class="hljs-identifier">Key</span>>(
+    <span class="hljs-identifier">key</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">Value</span>) -> <span class="hljs-identifier">Key</span>,
+    <span class="hljs-identifier">ascending</span>: <span class="hljs-identifier">Bool</span> = <span class="hljs-keyword">true</span>,
+    <span class="hljs-keyword">_</span> <span class="hljs-identifier">comparator</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">Key</span>) -> (<span class="hljs-identifier">Key</span>) -> <span class="hljs-identifier">ComparisonResult</span>
+    ) -> <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Value</span>> {
+    <span class="hljs-keyword">return</span> { <span class="hljs-identifier">lhs</span>, <span class="hljs-identifier">rhs</span> <span class="hljs-keyword">in</span>
+        <span class="hljs-keyword">let</span> <span class="hljs-identifier">order</span>: <span class="hljs-identifier">ComparisonResult</span> = <span class="hljs-identifier">ascending</span> ? .<span class="hljs-identifier">orderedAscending</span> : .<span class="hljs-identifier">orderedDescending</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-identifier">comparator</span>(<span class="hljs-identifier">key</span>(<span class="hljs-identifier">lhs</span>))(<span class="hljs-identifier">key</span>(<span class="hljs-identifier">rhs</span>)) == <span class="hljs-identifier">order</span>
     }
 }
 </code></pre>
 							<p>
 								This allows us to write our <code>sortByFirstName</code> in a much shorter and clearer way:
 							</p>
-							<pre><code class="swift">let sortByFirstName: SortDescriptor&lt;Person&gt; = 
-  sortDescriptor(key: { $0.first }, String.localizedCaseInsensitiveCompare)
-people.sorted(by: sortByFirstName) 
-// [Jo Smith (1970), Joanne smith (1985), Joanne smith (1970), Joe Smith (1970), Joe Smyth (1970), Robert Jones (1970)]
+							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">sortByFirstName</span>: <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Person</span>> = 
+  <span class="hljs-identifier">sortDescriptor</span>(<span class="hljs-identifier">key</span>: { $0.<span class="hljs-identifier">first</span> }, <span class="hljs-identifier">String</span>.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>)
+<span class="hljs-identifier">people</span>.<span class="hljs-identifier">sorted</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">sortByFirstName</span>) 
+<span class="hljs-comment">// [Jo Smith (1970), Joanne smith (1985), Joanne smith (1970), Joe Smith (1970), Joe Smyth (1970), Robert Jones (1970)]</span>
 </code></pre>
 							<p>
 								This <code>SortDescriptor</code> is just as expressive as its <code>NSSortDescriptor</code> variant,
@@ -421,25 +421,25 @@ people.sorted(by: sortByFirstName)
 								
 								equal, then it uses the second descriptor, and so on.
 							</p>
-							<pre><code class="swift">func combine&lt;Value&gt;
-    (sortDescriptors: [SortDescriptor&lt;Value&gt;]) -&gt; SortDescriptor&lt;Value&gt; {
-    return { lhs, rhs in
-        for isOrderedBefore in sortDescriptors {
-            if isOrderedBefore(lhs,rhs) { return true }
-            if isOrderedBefore(rhs,lhs) { return false }
+							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">combine</span><<span class="hljs-identifier">Value</span>>
+    (<span class="hljs-identifier">sortDescriptors</span>: [<span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Value</span>>]) -> <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Value</span>> {
+    <span class="hljs-keyword">return</span> { <span class="hljs-identifier">lhs</span>, <span class="hljs-identifier">rhs</span> <span class="hljs-keyword">in</span>
+        <span class="hljs-keyword">for</span> <span class="hljs-identifier">isOrderedBefore</span> <span class="hljs-keyword">in</span> <span class="hljs-identifier">sortDescriptors</span> {
+            <span class="hljs-keyword">if</span> <span class="hljs-identifier">isOrderedBefore</span>(<span class="hljs-identifier">lhs</span>,<span class="hljs-identifier">rhs</span>) { <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span> }
+            <span class="hljs-keyword">if</span> <span class="hljs-identifier">isOrderedBefore</span>(<span class="hljs-identifier">rhs</span>,<span class="hljs-identifier">lhs</span>) { <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span> }
         }
-        return false
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>
     }
 }
 </code></pre>
 							<p>
 								We can now finally replicate the initial example we had using sort descriptors:
 							</p>
-							<pre><code class="swift">let combined: SortDescriptor&lt;Person&gt; = combine(
-  sortDescriptors: [sortByLastName,sortByFirstName,sortByYear]
+							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">combined</span>: <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Person</span>> = <span class="hljs-identifier">combine</span>(
+  <span class="hljs-identifier">sortDescriptors</span>: [<span class="hljs-identifier">sortByLastName</span>,<span class="hljs-identifier">sortByFirstName</span>,<span class="hljs-identifier">sortByYear</span>]
 )
-people.sorted(by: combined) 
-// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]
+<span class="hljs-identifier">people</span>.<span class="hljs-identifier">sorted</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">combined</span>) 
+<span class="hljs-comment">// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]</span>
 </code></pre>
 							<p>
 								We ended up with the same behavior as before. However, the version using
@@ -470,16 +470,16 @@ people.sorted(by: combined)
 								
 								could have written an operator to combine two sort functions:
 							</p>
-							<pre><code class="swift">infix operator &lt;||&gt; : LogicalDisjunctionPrecedence
-func &lt;||&gt;&lt;A&gt;(lhs: @escaping (A,A) -&gt; Bool, rhs: @escaping (A,A) -&gt; Bool) -&gt; (A,A) -&gt; Bool {
-    return { x,y in
-        if lhs(x,y) { return true }
-        if lhs(y,x) { return false }
+							<pre><code class="swift"><span class="hljs-identifier">infix</span> <span class="hljs-keyword">operator</span> <||> : <span class="hljs-identifier">LogicalDisjunctionPrecedence</span>
+<span class="hljs-keyword">func</span> <||><<span class="hljs-identifier">A</span>>(<span class="hljs-identifier">lhs</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">A</span>,<span class="hljs-identifier">A</span>) -> <span class="hljs-identifier">Bool</span>, <span class="hljs-identifier">rhs</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">A</span>,<span class="hljs-identifier">A</span>) -> <span class="hljs-identifier">Bool</span>) -> (<span class="hljs-identifier">A</span>,<span class="hljs-identifier">A</span>) -> <span class="hljs-identifier">Bool</span> {
+    <span class="hljs-keyword">return</span> { <span class="hljs-identifier">x</span>,<span class="hljs-identifier">y</span> <span class="hljs-keyword">in</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-identifier">lhs</span>(<span class="hljs-identifier">x</span>,<span class="hljs-identifier">y</span>) { <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span> }
+        <span class="hljs-keyword">if</span> <span class="hljs-identifier">lhs</span>(<span class="hljs-identifier">y</span>,<span class="hljs-identifier">x</span>) { <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span> }
         
-        // Otherwise, they&apos;re the same, so we check for the second condition
-        if rhs(x,y) { return true }
+        <span class="hljs-comment">// Otherwise, they're the same, so we check for the second condition</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-identifier">rhs</span>(<span class="hljs-identifier">x</span>,<span class="hljs-identifier">y</span>) { <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span> }
         
-        return false
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>
     }
 }
 </code></pre>
@@ -492,9 +492,9 @@ func &lt;||&gt;&lt;A&gt;(lhs: @escaping (A,A) -&gt; Bool, rhs: @escaping (A,A) -
 								
 								rewrite our combined sort example like so:
 							</p>
-							<pre><code class="swift">let combinedAlt = sortByLastName &lt;||&gt; sortByFirstName &lt;||&gt; sortByYear
-people.sorted(by: combinedAlt) 
-// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]
+							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">combinedAlt</span> = <span class="hljs-identifier">sortByLastName</span> <||> <span class="hljs-identifier">sortByFirstName</span> <||> <span class="hljs-identifier">sortByYear</span>
+<span class="hljs-identifier">people</span>.<span class="hljs-identifier">sorted</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">combinedAlt</span>) 
+<span class="hljs-comment">// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1970), Joanne smith (1985), Joe Smith (1970), Joe Smyth (1970)]</span>
 </code></pre>
 							<p>
 								That said, we prefer the <code>combine(sortDescriptors:)</code> function over the custom
@@ -528,14 +528,14 @@ people.sorted(by: combinedAlt)
 								
 								are both non-<code>nil</code>, we can use the <code>compare</code> function to compare them.
 							</p>
-							<pre><code class="swift">func lift&lt;A&gt;(_ compare: @escaping (A) -&gt; (A) -&gt; ComparisonResult) -&gt; (A?) -&gt; (A?) -&gt; ComparisonResult {
-    return { lhs in { rhs in
-        switch (lhs, rhs) {
-        case (nil, nil): return .orderedSame
-        case (nil, _): return .orderedAscending
-        case (_, nil): return .orderedDescending
-        case let (l?, r?): return compare(l)(r)
-        default: fatalError() // Impossible case
+							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">lift</span><<span class="hljs-identifier">A</span>>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">compare</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">A</span>) -> (<span class="hljs-identifier">A</span>) -> <span class="hljs-identifier">ComparisonResult</span>) -> (<span class="hljs-identifier">A</span>?) -> (<span class="hljs-identifier">A</span>?) -> <span class="hljs-identifier">ComparisonResult</span> {
+    <span class="hljs-keyword">return</span> { <span class="hljs-identifier">lhs</span> <span class="hljs-keyword">in</span> { <span class="hljs-identifier">rhs</span> <span class="hljs-keyword">in</span>
+        <span class="hljs-keyword">switch</span> (<span class="hljs-identifier">lhs</span>, <span class="hljs-identifier">rhs</span>) {
+        <span class="hljs-keyword">case</span> (<span class="hljs-keyword">nil</span>, <span class="hljs-keyword">nil</span>): <span class="hljs-keyword">return</span> .<span class="hljs-identifier">orderedSame</span>
+        <span class="hljs-keyword">case</span> (<span class="hljs-keyword">nil</span>, <span class="hljs-keyword">_</span>): <span class="hljs-keyword">return</span> .<span class="hljs-identifier">orderedAscending</span>
+        <span class="hljs-keyword">case</span> (<span class="hljs-keyword">_</span>, <span class="hljs-keyword">nil</span>): <span class="hljs-keyword">return</span> .<span class="hljs-identifier">orderedDescending</span>
+        <span class="hljs-keyword">case</span> <span class="hljs-keyword">let</span> (<span class="hljs-identifier">l</span>?, <span class="hljs-identifier">r</span>?): <span class="hljs-keyword">return</span> <span class="hljs-identifier">compare</span>(<span class="hljs-identifier">l</span>)(<span class="hljs-identifier">r</span>)
+        <span class="hljs-keyword">default</span>: <span class="hljs-identifier">fatalError</span>() <span class="hljs-comment">// Impossible case</span>
         }
     } }
 }
@@ -550,9 +550,9 @@ people.sorted(by: combinedAlt)
 								ugly because we had to deal with optionals. However, with our new <code>lift</code>
 								function, it&apos;s very clean again:
 							</p>
-							<pre><code class="swift">let lcic = lift(String.localizedCaseInsensitiveCompare)
-let result = files.sorted(by: sortDescriptor(key: { $0.fileExtension }, lcic))
-result // [&quot;one&quot;, &quot;file.c&quot;, &quot;file.h&quot;, &quot;test.h&quot;]
+							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">lcic</span> = <span class="hljs-identifier">lift</span>(<span class="hljs-identifier">String</span>.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>)
+<span class="hljs-keyword">let</span> <span class="hljs-identifier">result</span> = <span class="hljs-identifier">files</span>.<span class="hljs-identifier">sorted</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">sortDescriptor</span>(<span class="hljs-identifier">key</span>: { $0.<span class="hljs-identifier">fileExtension</span> }, <span class="hljs-identifier">lcic</span>))
+<span class="hljs-identifier">result</span> <span class="hljs-comment">// ["one", "file.c", "file.h", "test.h"]</span>
 </code></pre>
 							<blockquote>
 								<p>
@@ -609,8 +609,8 @@ result // [&quot;one&quot;, &quot;file.c&quot;, &quot;file.h&quot;, &quot;test.h
 								
 								comparison would allow you to swap it in easily:
 							</p>
-							<pre><code class="swift">people.stableSorted(by: combine(
-  sortDescriptors: [sortByLastName,sortByFirstName,sortByYear]
+							<pre><code class="swift"><span class="hljs-identifier">people</span>.<span class="hljs-identifier">stableSorted</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">combine</span>(
+  <span class="hljs-identifier">sortDescriptors</span>: [<span class="hljs-identifier">sortByLastName</span>,<span class="hljs-identifier">sortByFirstName</span>,<span class="hljs-identifier">sortByYear</span>]
 ))
 </code></pre>
 						</section>

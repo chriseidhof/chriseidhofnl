@@ -1,0 +1,93 @@
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<script src="//use.typekit.net/bwu1cse.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			try{Typekit.load();}catch(e){}
+		</script>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<p>
+						This is a test for a protocol hierarchy to model components on top of Swim.
+					</p>
+					<div>
+						<h3>
+							Component.swift
+						</h3>
+						<pre><code class="swift"><span class="hljs-comment">//</span>
+<span class="hljs-comment">//  File.swift</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">//  Created by Chris Eidhof on 29.06.21.</span>
+<span class="hljs-comment">//</span>
+
+<span class="hljs-keyword">import</span> <span class="hljs-identifier">Foundation</span>
+
+<span class="hljs-keyword">extension</span> <span class="hljs-identifier">Never</span>: <span class="hljs-identifier">Component</span> {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">typealias</span> <span class="hljs-identifier">Result</span> = <span class="hljs-identifier">Never</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">Never</span> { <span class="hljs-identifier">fatalError</span>(<span class="hljs-string">"</span><span class="hljs-string">This should never happen</span><span class="hljs-string">"</span>) }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">protocol</span> <span class="hljs-identifier">Component</span> {
+    <span class="hljs-keyword">associatedtype</span> <span class="hljs-identifier">Result</span>: <span class="hljs-identifier">Component</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">Result</span> { get }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">protocol</span> <span class="hljs-identifier">PreferenceKey</span> {
+     <span class="hljs-keyword">associatedtype</span> <span class="hljs-identifier">Value</span>: <span class="hljs-identifier">Hashable</span>
+     <span class="hljs-keyword">static</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">defaultValue</span>: <span class="hljs-identifier">Value</span> { get }
+     <span class="hljs-keyword">static</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">reduce</span>(<span class="hljs-identifier">value</span>: <span class="hljs-keyword">inout</span> <span class="hljs-identifier">Value</span>, <span class="hljs-identifier">nextValue</span>: () -> <span class="hljs-identifier">Value</span>)
+ }
+
+<span class="hljs-comment">// A private protocol</span>
+<span class="hljs-keyword">protocol</span> <span class="hljs-identifier">BuiltinComponent</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">render</span>() -> <span class="hljs-identifier">Node</span>
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">readPreference</span><<span class="hljs-identifier">Key</span>: <span class="hljs-identifier">PreferenceKey</span>>(<span class="hljs-identifier">key</span>: <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Type</span>) -> <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Value</span>?
+}
+
+<span class="hljs-keyword">struct</span> <span class="hljs-identifier">AnyBuiltinComponent</span>: <span class="hljs-identifier">BuiltinComponent</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">readPreference</span><<span class="hljs-identifier">Key</span>>(<span class="hljs-identifier">key</span>: <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Type</span>) -> <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Value</span>? <span class="hljs-keyword">where</span> <span class="hljs-identifier">Key</span> : <span class="hljs-identifier">PreferenceKey</span> {
+        <span class="hljs-identifier">fatalError</span>(<span class="hljs-string">"</span><span class="hljs-string">TODO</span><span class="hljs-string">"</span>)
+    }
+    
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">render</span>() -> <span class="hljs-identifier">Node</span> {
+        <span class="hljs-identifier">fatalError</span>(<span class="hljs-string">"</span><span class="hljs-string">TODO</span><span class="hljs-string">"</span>)
+    }
+}
+
+<span class="hljs-keyword">extension</span> <span class="hljs-identifier">BuiltinComponent</span> {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">typealias</span> <span class="hljs-identifier">Result</span> = <span class="hljs-identifier">Never</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">Never</span> { <span class="hljs-identifier">fatalError</span>(<span class="hljs-string">"</span><span class="hljs-string">This should never happen</span><span class="hljs-string">"</span>) }
+}
+
+<span class="hljs-keyword">extension</span> <span class="hljs-identifier">Node</span>: <span class="hljs-identifier">Component</span> & <span class="hljs-identifier">BuiltinComponent</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">readPreference</span><<span class="hljs-identifier">Key</span>>(<span class="hljs-identifier">key</span>: <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Type</span>) -> <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Value</span>? <span class="hljs-keyword">where</span> <span class="hljs-identifier">Key</span> : <span class="hljs-identifier">PreferenceKey</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">nil</span>
+    }
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">render</span>() -> <span class="hljs-identifier">Node</span> {
+        <span class="hljs-keyword">self</span>
+    }
+}
+</code></pre>
+					</div>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

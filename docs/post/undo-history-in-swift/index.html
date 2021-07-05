@@ -45,39 +45,39 @@
 							<p>
 								We&apos;ll build a struct called <code>UndoHistory</code>. It&apos;s generic, with the caveat that it only works when <code>A</code> is a struct. To keep a history of all the states, we can store every value in an array. Whenever we want to change something, we just push onto the array, and whenever we want to undo, we pop from the array. We always want to start with an initial state, so we create an initializer for that:
 							</p>
-							<pre><code class="swift">struct UndoHistory&lt;A&gt; {
-    private let initialValue: A
-    private var history: [A] = []
-    init(initialValue: A) {
-        self.initialValue = initialValue
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">UndoHistory</span><<span class="hljs-identifier">A</span>> {
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">initialValue</span>: <span class="hljs-identifier">A</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">history</span>: [<span class="hljs-identifier">A</span>] = []
+    <span class="hljs-keyword">init</span>(<span class="hljs-identifier">initialValue</span>: <span class="hljs-identifier">A</span>) {
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">initialValue</span> = <span class="hljs-identifier">initialValue</span>
     }
 }
 </code></pre>
 							<p>
 								For example, if we want to add undo support to a table view controller that&apos;s backed by an array, we can create a value of this struct:
 							</p>
-							<pre><code class="swift">var history = UndoHistory(initialValue: [1, 2, 3])
+							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">history</span> = <span class="hljs-identifier">UndoHistory</span>(<span class="hljs-identifier">initialValue</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])
 </code></pre>
 							<p>
 								To support undo for a different struct, we just start with a different initial value:
 							</p>
-							<pre><code class="swift">struct Person {
-    var name: String
-    var age: Int
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Person</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">name</span>: <span class="hljs-identifier">String</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">age</span>: <span class="hljs-identifier">Int</span>
 }
 
-var personHistory = UndoHistory(initialValue: Person(name: &quot;Chris&quot;, age: 31))
+<span class="hljs-keyword">var</span> <span class="hljs-identifier">personHistory</span> = <span class="hljs-identifier">UndoHistory</span>(<span class="hljs-identifier">initialValue</span>: <span class="hljs-identifier">Person</span>(<span class="hljs-identifier">name</span>: <span class="hljs-string">"</span><span class="hljs-string">Chris</span><span class="hljs-string">"</span>, <span class="hljs-identifier">age</span>: <span class="hljs-number">31</span>))
 </code></pre>
 							<p>
 								Of course, we want to have a way of getting the current state, and setting the current state (in other words: adding an item to our history). To get the current state, we simply return the last item in our <code>history</code> array, and if the array is empty, we return the initial value. To set the current state, we simply append to our <code>history</code> array.
 							</p>
-							<pre><code class="swift">extension UndoHistory {
-    var currentItem: A {
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">UndoHistory</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">currentItem</span>: <span class="hljs-identifier">A</span> {
         get {
-            return history.last ?? initialValue
+            <span class="hljs-keyword">return</span> <span class="hljs-identifier">history</span>.<span class="hljs-identifier">last</span> ?? <span class="hljs-identifier">initialValue</span>
         }
         set {
-            history.append(newValue)
+            <span class="hljs-identifier">history</span>.<span class="hljs-identifier">append</span>(<span class="hljs-identifier">newValue</span>)
         }
     }
 }
@@ -85,59 +85,59 @@ var personHistory = UndoHistory(initialValue: Person(name: &quot;Chris&quot;, ag
 							<p>
 								For example, if we want to change the person&apos;s age, we can easily do that through our new computed property:
 							</p>
-							<pre><code class="swift">personHistory.currentItem.age += 1
-personHistory.currentItem.age // Prints 32
+							<pre><code class="swift"><span class="hljs-identifier">personHistory</span>.<span class="hljs-identifier">currentItem</span>.<span class="hljs-identifier">age</span> += <span class="hljs-number">1</span>
+<span class="hljs-identifier">personHistory</span>.<span class="hljs-identifier">currentItem</span>.<span class="hljs-identifier">age</span> <span class="hljs-comment">// Prints 32</span>
 </code></pre>
 							<p>
 								Of course, the code isn&apos;t complete without an <code>undo</code> method. This is as simple as removing the last item from the array. Depending on your preference, you could also make it <code>throw</code> when the undo stack is empty, but I&apos;ve chosen not to do that.
 							</p>
-							<pre><code class="swift">extension UndoHistory {
-    mutating func undo() {
-        guard !history.isEmpty else { return }
-        history.removeLast()
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">UndoHistory</span> {
+    <span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">undo</span>() {
+        <span class="hljs-keyword">guard</span> !<span class="hljs-identifier">history</span>.<span class="hljs-identifier">isEmpty</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+        <span class="hljs-identifier">history</span>.<span class="hljs-identifier">removeLast</span>()
     }
 }
 </code></pre>
 							<p>
 								Using it is easy:
 							</p>
-							<pre><code class="swift">personHistory.undo()
-personHistory.currentItem.age // Prints 31 again
+							<pre><code class="swift"><span class="hljs-identifier">personHistory</span>.<span class="hljs-identifier">undo</span>()
+<span class="hljs-identifier">personHistory</span>.<span class="hljs-identifier">currentItem</span>.<span class="hljs-identifier">age</span> <span class="hljs-comment">// Prints 31 again</span>
 </code></pre>
 							<p>
 								Of course, our <code>UndoHistory</code> works on more than just simple <code>Person</code> structs. For example, if we want to create a table view controller that&apos;s backed by an <code>Array</code>, we can use the <code>currentItem</code> property to get the array out [^1]:
 							</p>
-							<pre><code class="swift">final class MyTableViewController&lt;Item&gt;: UITableViewController {
-    var data: UndoHistory&lt;[Item]&gt;
+							<pre><code class="swift"><span class="hljs-identifier">final</span> <span class="hljs-keyword">class</span> <span class="hljs-identifier">MyTableViewController</span><<span class="hljs-identifier">Item</span>>: <span class="hljs-identifier">UITableViewController</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">data</span>: <span class="hljs-identifier">UndoHistory</span><[<span class="hljs-identifier">Item</span>]>
     
-    init(value: [Item]) {
-        data = UndoHistory(initialValue: value)
-        super.init(style: .Plain)
+    <span class="hljs-keyword">init</span>(<span class="hljs-identifier">value</span>: [<span class="hljs-identifier">Item</span>]) {
+        <span class="hljs-identifier">data</span> = <span class="hljs-identifier">UndoHistory</span>(<span class="hljs-identifier">initialValue</span>: <span class="hljs-identifier">value</span>)
+        <span class="hljs-keyword">super</span>.<span class="hljs-identifier">init</span>(<span class="hljs-identifier">style</span>: .<span class="hljs-identifier">Plain</span>)
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -&gt; Int {
-        return data.currentItem.count
+    <span class="hljs-identifier">override</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">tableView</span>(<span class="hljs-identifier">tableView</span>: <span class="hljs-identifier">UITableView</span>, <span class="hljs-identifier">numberOfRowsInSection</span> <span class="hljs-identifier">section</span>: <span class="hljs-identifier">Int</span>) -> <span class="hljs-identifier">Int</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-identifier">data</span>.<span class="hljs-identifier">currentItem</span>.<span class="hljs-identifier">count</span>
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(&quot;Identifier&quot;, forIndexPath: indexPath)
-        let item = data.currentItem[indexPath.row]
-        // configure `cell` with `item`
-        return cell
+    <span class="hljs-identifier">override</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">tableView</span>(<span class="hljs-identifier">tableView</span>: <span class="hljs-identifier">UITableView</span>, <span class="hljs-identifier">cellForRowAtIndexPath</span> <span class="hljs-identifier">indexPath</span>: <span class="hljs-identifier">NSIndexPath</span>) -> <span class="hljs-identifier">UITableViewCell</span> {
+        <span class="hljs-keyword">let</span> <span class="hljs-identifier">cell</span> = <span class="hljs-identifier">tableView</span>.<span class="hljs-identifier">dequeueReusableCellWithIdentifier</span>(<span class="hljs-string">"</span><span class="hljs-string">Identifier</span><span class="hljs-string">"</span>, <span class="hljs-identifier">forIndexPath</span>: <span class="hljs-identifier">indexPath</span>)
+        <span class="hljs-keyword">let</span> <span class="hljs-identifier">item</span> = <span class="hljs-identifier">data</span>.<span class="hljs-identifier">currentItem</span>[<span class="hljs-identifier">indexPath</span>.<span class="hljs-identifier">row</span>]
+        <span class="hljs-comment">// configure `cell` with `item`</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-identifier">cell</span>
     }
 
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        guard editingStyle == .Delete else { return }
-        data.currentItem.removeAtIndex(indexPath.row)
+    <span class="hljs-identifier">override</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">tableView</span>(<span class="hljs-identifier">tableView</span>: <span class="hljs-identifier">UITableView</span>, <span class="hljs-identifier">commitEditingStyle</span> <span class="hljs-identifier">editingStyle</span>: <span class="hljs-identifier">UITableViewCellEditingStyle</span>, <span class="hljs-identifier">forRowAtIndexPath</span> <span class="hljs-identifier">indexPath</span>: <span class="hljs-identifier">NSIndexPath</span>) {
+        <span class="hljs-keyword">guard</span> <span class="hljs-identifier">editingStyle</span> == .<span class="hljs-identifier">Delete</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+        <span class="hljs-identifier">data</span>.<span class="hljs-identifier">currentItem</span>.<span class="hljs-identifier">removeAtIndex</span>(<span class="hljs-identifier">indexPath</span>.<span class="hljs-identifier">row</span>)
     }
 }
 </code></pre>
 							<p>
 								Another thing that is really cool with struct semantics: we get observation for free. For example, we could change the definition of <code>data</code>:
 							</p>
-							<pre><code class="swift">var data: UndoHistory&lt;[Item]&gt; {
+							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">data</span>: <span class="hljs-identifier">UndoHistory</span><[<span class="hljs-identifier">Item</span>]> {
     didSet {
-        tableView.reloadData()
+        <span class="hljs-identifier">tableView</span>.<span class="hljs-identifier">reloadData</span>()
     }
 }
 </code></pre>

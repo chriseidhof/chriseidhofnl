@@ -36,15 +36,15 @@
 							<p>
 								Let&apos;s say we are writing our own data-structure, a singly linked list:
 							</p>
-							<pre><code class="swift">enum ListNode&lt;A&gt; {
-    case end
-    indirect case cons(A, ListNode)
+							<pre><code class="swift"><span class="hljs-keyword">enum</span> <span class="hljs-identifier">ListNode</span><<span class="hljs-identifier">A</span>> {
+    <span class="hljs-keyword">case</span> <span class="hljs-identifier">end</span>
+    <span class="hljs-identifier">indirect</span> <span class="hljs-keyword">case</span> <span class="hljs-identifier">cons</span>(<span class="hljs-identifier">A</span>, <span class="hljs-identifier">ListNode</span>)
 }
 </code></pre>
 							<p>
 								Today&apos;s goal is to make <code>ListNode</code> conform to the <code>Collection</code> protocol. It&apos;s actually fairly easy, but it&apos;s almost impossible to figure it out by just looking at the types. The documentation tells us which methods to implement, but why is it like that? Even though the protocol is clearly specified, it&apos;s not so easy to see what you need to do. Let&apos;s give it a try without looking at the documentation, and see what the compiler tells us:
 							</p>
-							<pre><code class="swift">extension ListNode: Collection { }
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">ListNode</span>: <span class="hljs-identifier">Collection</span> { }
 </code></pre>
 							<p>
 								The compiler tells us we don&apos;t conform to the following three protocols: <code>Sequence</code>, <code>IndexableBase</code>, and <code>Collection</code>.
@@ -52,154 +52,154 @@
 							<p>
 								Looking at all these protocols, you might get overwhelmed. The most complicated one, <code>Collection</code>, comes in at a whopping four associated types, two subscripts, four computed properties and seven methods. A protocol is a formal &quot;todo-list&quot; of all the things your type needs to do in order to conform. I copy/pasted this from the Standard Library, and removed all the documentation comments. With the documentation comments, it gets even harder to see!
 							</p>
-							<pre><code class="swift">public protocol Collection : Indexable, Sequence {
-    associatedtype IndexDistance : SignedInteger = Int
-    associatedtype Iterator : IteratorProtocol = IndexingIterator&lt;Self&gt;
-    associatedtype SubSequence : IndexableBase, Sequence = Slice&lt;Self&gt;
-    associatedtype Indices : IndexableBase, Sequence = DefaultIndices&lt;Self&gt;
-    public subscript(position: Self.Index) -&gt; Self.Iterator.Element { get }
-    public subscript(bounds: Range&lt;Self.Index&gt;) -&gt; Self.SubSequence { get }
-    public var indices: Self.Indices { get }
-    public var isEmpty: Bool { get }
-    public var count: Self.IndexDistance { get }
-    public var first: Self.Iterator.Element? { get }
-    public func makeIterator() -&gt; Self.Iterator
-    public func prefix(upTo end: Self.Index) -&gt; Self.SubSequence
-    public func suffix(from start: Self.Index) -&gt; Self.SubSequence
-    public func prefix(through position: Self.Index) -&gt; Self.SubSequence
-    public func index(_ i: Self.Index, offsetBy n: Self.IndexDistance) -&gt; Self.Index
-    public func index(_ i: Self.Index, offsetBy n: Self.IndexDistance, limitedBy limit: Self.Index) -&gt; Self.Index?
-    public func distance(from start: Self.Index, to end: Self.Index) -&gt; Self.IndexDistance
+							<pre><code class="swift"><span class="hljs-keyword">public</span> <span class="hljs-keyword">protocol</span> <span class="hljs-identifier">Collection</span> : <span class="hljs-identifier">Indexable</span>, <span class="hljs-identifier">Sequence</span> {
+    <span class="hljs-keyword">associatedtype</span> <span class="hljs-identifier">IndexDistance</span> : <span class="hljs-identifier">SignedInteger</span> = <span class="hljs-identifier">Int</span>
+    <span class="hljs-keyword">associatedtype</span> <span class="hljs-identifier">Iterator</span> : <span class="hljs-identifier">IteratorProtocol</span> = <span class="hljs-identifier">IndexingIterator</span><<span class="hljs-keyword">Self</span>>
+    <span class="hljs-keyword">associatedtype</span> <span class="hljs-identifier">SubSequence</span> : <span class="hljs-identifier">IndexableBase</span>, <span class="hljs-identifier">Sequence</span> = <span class="hljs-identifier">Slice</span><<span class="hljs-keyword">Self</span>>
+    <span class="hljs-keyword">associatedtype</span> <span class="hljs-identifier">Indices</span> : <span class="hljs-identifier">IndexableBase</span>, <span class="hljs-identifier">Sequence</span> = <span class="hljs-identifier">DefaultIndices</span><<span class="hljs-keyword">Self</span>>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">subscript</span>(<span class="hljs-identifier">position</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Iterator</span>.<span class="hljs-identifier">Element</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">subscript</span>(<span class="hljs-identifier">bounds</span>: <span class="hljs-identifier">Range</span><<span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">SubSequence</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">indices</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Indices</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">isEmpty</span>: <span class="hljs-identifier">Bool</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">count</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">IndexDistance</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">first</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Iterator</span>.<span class="hljs-identifier">Element</span>? { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">makeIterator</span>() -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Iterator</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">prefix</span>(<span class="hljs-identifier">upTo</span> <span class="hljs-identifier">end</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">SubSequence</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">suffix</span>(<span class="hljs-identifier">from</span> <span class="hljs-identifier">start</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">SubSequence</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">prefix</span>(<span class="hljs-identifier">through</span> <span class="hljs-identifier">position</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">SubSequence</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">index</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">i</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">offsetBy</span> <span class="hljs-identifier">n</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">IndexDistance</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">index</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">i</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">offsetBy</span> <span class="hljs-identifier">n</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">IndexDistance</span>, <span class="hljs-identifier">limitedBy</span> <span class="hljs-identifier">limit</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>?
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">distance</span>(<span class="hljs-identifier">from</span> <span class="hljs-identifier">start</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">to</span> <span class="hljs-identifier">end</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">IndexDistance</span>
 }
 </code></pre>
 							<p>
 								The interesting thing is: all associated types have default values. So if we decide to stick with them, we can cross those off of the todo-list, and fill the other parameters with their types:
 							</p>
-							<pre><code class="swift">public protocol Collection : Indexable, Sequence {
-    public subscript(position: Self.Index) -&gt; IndexingIterator&lt;Self&gt;.Element { get }
-    public subscript(bounds: Range&lt;Self.Index&gt;) -&gt; Slice&lt;Self&gt; { get }
-    public var indices: DefaultIndices&lt;Self&gt; { get }
-    public var isEmpty: Bool { get }
-    public var count: Int { get }
-    public var first: IndexingIterator&lt;Self&gt;.Element? { get }
-    public func makeIterator() -&gt; IndexingIterator&lt;Self&gt;
-    public func prefix(upTo end: Self.Index) -&gt; Slice&lt;Self&gt;
-    public func suffix(from start: Self.Index) -&gt; Slice&lt;Self&gt;
-    public func prefix(through position: Self.Index) -&gt; Slice&lt;Self&gt;
-    public func index(_ i: Self.Index, offsetBy n: Int) -&gt; Self.Index
-    public func index(_ i: Self.Index, offsetBy n: Int, limitedBy limit: Self.Index) -&gt; Self.Index?
-    public func distance(from start: Self.Index, to end: Self.Index) -&gt; Int
+							<pre><code class="swift"><span class="hljs-keyword">public</span> <span class="hljs-keyword">protocol</span> <span class="hljs-identifier">Collection</span> : <span class="hljs-identifier">Indexable</span>, <span class="hljs-identifier">Sequence</span> {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">subscript</span>(<span class="hljs-identifier">position</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-identifier">IndexingIterator</span><<span class="hljs-keyword">Self</span>>.<span class="hljs-identifier">Element</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">subscript</span>(<span class="hljs-identifier">bounds</span>: <span class="hljs-identifier">Range</span><<span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>>) -> <span class="hljs-identifier">Slice</span><<span class="hljs-keyword">Self</span>> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">indices</span>: <span class="hljs-identifier">DefaultIndices</span><<span class="hljs-keyword">Self</span>> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">isEmpty</span>: <span class="hljs-identifier">Bool</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">count</span>: <span class="hljs-identifier">Int</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">first</span>: <span class="hljs-identifier">IndexingIterator</span><<span class="hljs-keyword">Self</span>>.<span class="hljs-identifier">Element</span>? { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">makeIterator</span>() -> <span class="hljs-identifier">IndexingIterator</span><<span class="hljs-keyword">Self</span>>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">prefix</span>(<span class="hljs-identifier">upTo</span> <span class="hljs-identifier">end</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-identifier">Slice</span><<span class="hljs-keyword">Self</span>>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">suffix</span>(<span class="hljs-identifier">from</span> <span class="hljs-identifier">start</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-identifier">Slice</span><<span class="hljs-keyword">Self</span>>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">prefix</span>(<span class="hljs-identifier">through</span> <span class="hljs-identifier">position</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-identifier">Slice</span><<span class="hljs-keyword">Self</span>>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">index</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">i</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">offsetBy</span> <span class="hljs-identifier">n</span>: <span class="hljs-identifier">Int</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">index</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">i</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">offsetBy</span> <span class="hljs-identifier">n</span>: <span class="hljs-identifier">Int</span>, <span class="hljs-identifier">limitedBy</span> <span class="hljs-identifier">limit</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>?
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">distance</span>(<span class="hljs-identifier">from</span> <span class="hljs-identifier">start</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">to</span> <span class="hljs-identifier">end</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-identifier">Int</span>
 }
 </code></pre>
 							<p>
 								Many of the properties and methods have default implementations as well. For example, here are the default extensions on <code>Collection</code>:
 							</p>
-							<pre><code class="swift">extension Collection {
-    public func map&lt;T&gt;(_ transform: @noescape (Self.Iterator.Element) throws -&gt; T) rethrows -&gt; [T]
-    public func dropFirst(_ n: Int) -&gt; Self.SubSequence
-    public func dropLast(_ n: Int) -&gt; Self.SubSequence
-    public func prefix(_ maxLength: Int) -&gt; Self.SubSequence
-    public func suffix(_ maxLength: Int) -&gt; Self.SubSequence
-    public func prefix(upTo end: Self.Index) -&gt; Self.SubSequence
-    public func suffix(from start: Self.Index) -&gt; Self.SubSequence
-    public func prefix(through position: Self.Index) -&gt; Self.SubSequence
-    public func split(maxSplits: Int = default, omittingEmptySubsequences: Bool = default, whereSeparator isSeparator: @noescape (Self.Iterator.Element) throws -&gt; Bool) rethrows -&gt; [Self.SubSequence]
-    public func index(where predicate: @noescape (Self.Iterator.Element) throws -&gt; Bool) rethrows -&gt; Self.Index?
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">Collection</span> {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">map</span><<span class="hljs-identifier">T</span>>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">transform</span>: @<span class="hljs-identifier">noescape</span> (<span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Iterator</span>.<span class="hljs-identifier">Element</span>) <span class="hljs-keyword">throws</span> -> <span class="hljs-identifier">T</span>) <span class="hljs-keyword">rethrows</span> -> [<span class="hljs-identifier">T</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">dropFirst</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">n</span>: <span class="hljs-identifier">Int</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">SubSequence</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">dropLast</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">n</span>: <span class="hljs-identifier">Int</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">SubSequence</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">prefix</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">maxLength</span>: <span class="hljs-identifier">Int</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">SubSequence</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">suffix</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">maxLength</span>: <span class="hljs-identifier">Int</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">SubSequence</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">prefix</span>(<span class="hljs-identifier">upTo</span> <span class="hljs-identifier">end</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">SubSequence</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">suffix</span>(<span class="hljs-identifier">from</span> <span class="hljs-identifier">start</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">SubSequence</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">prefix</span>(<span class="hljs-identifier">through</span> <span class="hljs-identifier">position</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">SubSequence</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">split</span>(<span class="hljs-identifier">maxSplits</span>: <span class="hljs-identifier">Int</span> = <span class="hljs-keyword">default</span>, <span class="hljs-identifier">omittingEmptySubsequences</span>: <span class="hljs-identifier">Bool</span> = <span class="hljs-keyword">default</span>, <span class="hljs-identifier">whereSeparator</span> <span class="hljs-identifier">isSeparator</span>: @<span class="hljs-identifier">noescape</span> (<span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Iterator</span>.<span class="hljs-identifier">Element</span>) <span class="hljs-keyword">throws</span> -> <span class="hljs-identifier">Bool</span>) <span class="hljs-keyword">rethrows</span> -> [<span class="hljs-keyword">Self</span>.<span class="hljs-identifier">SubSequence</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">index</span>(<span class="hljs-identifier">where</span> <span class="hljs-identifier">predicate</span>: @<span class="hljs-identifier">noescape</span> (<span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Iterator</span>.<span class="hljs-identifier">Element</span>) <span class="hljs-keyword">throws</span> -> <span class="hljs-identifier">Bool</span>) <span class="hljs-keyword">rethrows</span> -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>?
 }
 
-extension Collection {
-    public var isEmpty: Bool { get }
-    public var first: Self.Iterator.Element? { get }
-    public var underestimatedCount: Int { get }
-    public var count: Self.IndexDistance { get }
+<span class="hljs-keyword">extension</span> <span class="hljs-identifier">Collection</span> {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">isEmpty</span>: <span class="hljs-identifier">Bool</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">first</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Iterator</span>.<span class="hljs-identifier">Element</span>? { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">underestimatedCount</span>: <span class="hljs-identifier">Int</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">count</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">IndexDistance</span> { get }
 }
 </code></pre>
 							<p>
 								These default extensions allow us to cross the <code>prefix</code> and <code>suffix</code> methods off of our list. Our todo-list is now a bit shorter:
 							</p>
-							<pre><code class="swift">public protocol Collection : Indexable, Sequence {
-    public subscript(position: Self.Index) -&gt; IndexingIterator&lt;Self&gt;.Element { get }
-    public subscript(bounds: Range&lt;Self.Index&gt;) -&gt; Slice&lt;Self&gt; { get }
-    public var indices: DefaultIndices&lt;Self&gt; { get }
-    public func makeIterator() -&gt; IndexingIterator&lt;Self&gt;
-    public func index(_ i: Self.Index, offsetBy n: Int) -&gt; Self.Index
-    public func index(_ i: Self.Index, offsetBy n: Int, limitedBy limit: Self.Index) -&gt; Self.Index?
-    public func distance(from start: Self.Index, to end: Self.Index) -&gt; Int
+							<pre><code class="swift"><span class="hljs-keyword">public</span> <span class="hljs-keyword">protocol</span> <span class="hljs-identifier">Collection</span> : <span class="hljs-identifier">Indexable</span>, <span class="hljs-identifier">Sequence</span> {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">subscript</span>(<span class="hljs-identifier">position</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-identifier">IndexingIterator</span><<span class="hljs-keyword">Self</span>>.<span class="hljs-identifier">Element</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">subscript</span>(<span class="hljs-identifier">bounds</span>: <span class="hljs-identifier">Range</span><<span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>>) -> <span class="hljs-identifier">Slice</span><<span class="hljs-keyword">Self</span>> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">indices</span>: <span class="hljs-identifier">DefaultIndices</span><<span class="hljs-keyword">Self</span>> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">makeIterator</span>() -> <span class="hljs-identifier">IndexingIterator</span><<span class="hljs-keyword">Self</span>>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">index</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">i</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">offsetBy</span> <span class="hljs-identifier">n</span>: <span class="hljs-identifier">Int</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">index</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">i</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">offsetBy</span> <span class="hljs-identifier">n</span>: <span class="hljs-identifier">Int</span>, <span class="hljs-identifier">limitedBy</span> <span class="hljs-identifier">limit</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>?
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">distance</span>(<span class="hljs-identifier">from</span> <span class="hljs-identifier">start</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">to</span> <span class="hljs-identifier">end</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-identifier">Int</span>
 }
 </code></pre>
 							<p>
 								There are more extensions that apply, though. For example:
 							</p>
-							<pre><code class="swift">extension Collection where SubSequence == Slice&lt;Self&gt; {
-    public subscript(bounds: Range&lt;Self.Index&gt;) -&gt; Slice&lt;Self&gt; { get }
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">Collection</span> <span class="hljs-keyword">where</span> <span class="hljs-identifier">SubSequence</span> == <span class="hljs-identifier">Slice</span><<span class="hljs-keyword">Self</span>> {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">subscript</span>(<span class="hljs-identifier">bounds</span>: <span class="hljs-identifier">Range</span><<span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>>) -> <span class="hljs-identifier">Slice</span><<span class="hljs-keyword">Self</span>> { get }
 }
-extension Collection where Indices == DefaultIndices&lt;Self&gt; {
-    public var indices: DefaultIndices&lt;Self&gt; { get }
+<span class="hljs-keyword">extension</span> <span class="hljs-identifier">Collection</span> <span class="hljs-keyword">where</span> <span class="hljs-identifier">Indices</span> == <span class="hljs-identifier">DefaultIndices</span><<span class="hljs-keyword">Self</span>> {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">indices</span>: <span class="hljs-identifier">DefaultIndices</span><<span class="hljs-keyword">Self</span>> { get }
 }
-extension Collection where Iterator == IndexingIterator&lt;Self&gt; {
-    public func makeIterator() -&gt; IndexingIterator&lt;Self&gt;
+<span class="hljs-keyword">extension</span> <span class="hljs-identifier">Collection</span> <span class="hljs-keyword">where</span> <span class="hljs-identifier">Iterator</span> == <span class="hljs-identifier">IndexingIterator</span><<span class="hljs-keyword">Self</span>> {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">makeIterator</span>() -> <span class="hljs-identifier">IndexingIterator</span><<span class="hljs-keyword">Self</span>>
 }
 </code></pre>
 							<p>
 								Because all three apply, we can get rid of three more todos. Our list is getting shorter.
 							</p>
-							<pre><code class="swift">public protocol Collection : Indexable, Sequence {
-    public subscript(position: Self.Index) -&gt; IndexingIterator&lt;Self&gt;.Element { get }
-    public func index(_ i: Self.Index, offsetBy n: Int) -&gt; Self.Index
-    public func index(_ i: Self.Index, offsetBy n: Int, limitedBy limit: Self.Index) -&gt; Self.Index?
-    public func distance(from start: Self.Index, to end: Self.Index) -&gt; Int
+							<pre><code class="swift"><span class="hljs-keyword">public</span> <span class="hljs-keyword">protocol</span> <span class="hljs-identifier">Collection</span> : <span class="hljs-identifier">Indexable</span>, <span class="hljs-identifier">Sequence</span> {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">subscript</span>(<span class="hljs-identifier">position</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-identifier">IndexingIterator</span><<span class="hljs-keyword">Self</span>>.<span class="hljs-identifier">Element</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">index</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">i</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">offsetBy</span> <span class="hljs-identifier">n</span>: <span class="hljs-identifier">Int</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">index</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">i</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">offsetBy</span> <span class="hljs-identifier">n</span>: <span class="hljs-identifier">Int</span>, <span class="hljs-identifier">limitedBy</span> <span class="hljs-identifier">limit</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>?
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">distance</span>(<span class="hljs-identifier">from</span> <span class="hljs-identifier">start</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">to</span> <span class="hljs-identifier">end</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-identifier">Int</span>
 }
 </code></pre>
 							<p>
 								If we start adding the <code>Indexable</code> requirements to our todo-list, we end up with a long list again. We now also need to conform to IndexableBase.
 							</p>
-							<pre><code class="swift">public protocol Collection : IndexableBase, Sequence {
-    public subscript(position: Self.Index) -&gt; IndexingIterator&lt;Self&gt;.Element { get }
-    public func index(_ i: Self.Index, offsetBy n: Int) -&gt; Self.Index
-    public func index(_ i: Self.Index, offsetBy n: Int, limitedBy limit: Self.Index) -&gt; Self.Index?
-    public func distance(from start: Self.Index, to end: Self.Index) -&gt; Int
-    associatedtype Index : Comparable
-    public var startIndex: Self.Index { get }
-    public var endIndex: Self.Index { get }
-    public subscript(position: Self.Index) -&gt; Self._Element { get }
-    associatedtype SubSequence
-    public subscript(bounds: Range&lt;Self.Index&gt;) -&gt; Self.SubSequence { get }
-    public func index(after i: Self.Index) -&gt; Self.Index
-    public func formIndex(after i: inout Self.Index)
+							<pre><code class="swift"><span class="hljs-keyword">public</span> <span class="hljs-keyword">protocol</span> <span class="hljs-identifier">Collection</span> : <span class="hljs-identifier">IndexableBase</span>, <span class="hljs-identifier">Sequence</span> {
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">subscript</span>(<span class="hljs-identifier">position</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-identifier">IndexingIterator</span><<span class="hljs-keyword">Self</span>>.<span class="hljs-identifier">Element</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">index</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">i</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">offsetBy</span> <span class="hljs-identifier">n</span>: <span class="hljs-identifier">Int</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">index</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">i</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">offsetBy</span> <span class="hljs-identifier">n</span>: <span class="hljs-identifier">Int</span>, <span class="hljs-identifier">limitedBy</span> <span class="hljs-identifier">limit</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>?
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">distance</span>(<span class="hljs-identifier">from</span> <span class="hljs-identifier">start</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>, <span class="hljs-identifier">to</span> <span class="hljs-identifier">end</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-identifier">Int</span>
+    <span class="hljs-keyword">associatedtype</span> <span class="hljs-identifier">Index</span> : <span class="hljs-identifier">Comparable</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">startIndex</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">endIndex</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">subscript</span>(<span class="hljs-identifier">position</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">_Element</span> { get }
+    <span class="hljs-keyword">associatedtype</span> <span class="hljs-identifier">SubSequence</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">subscript</span>(<span class="hljs-identifier">bounds</span>: <span class="hljs-identifier">Range</span><<span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">SubSequence</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">index</span>(<span class="hljs-identifier">after</span> <span class="hljs-identifier">i</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">formIndex</span>(<span class="hljs-identifier">after</span> <span class="hljs-identifier">i</span>: <span class="hljs-keyword">inout</span> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>)
 }
 </code></pre>
 							<p>
 								However, after removing all default implementations that are provided by collection, and using all extension that apply to our current protocol, we can cross out almost all the newly added <code>Indexable</code> requirements (many have a default implementation). We can keep playing the game of looking at the extensions, crossing out requirements, adding new ones, until we finally end up with a minimal set of things we need to do:
 							</p>
-							<pre><code class="swift">public protocol Collection {
-    associatedtype Index : Comparable
-    public var startIndex: Self.Index { get }
-    public var endIndex: Self.Index { get }
-    public func index(after i: Self.Index) -&gt; Self.Index
-    public subscript(position: Self.Index) -&gt; Element { get }
+							<pre><code class="swift"><span class="hljs-keyword">public</span> <span class="hljs-keyword">protocol</span> <span class="hljs-identifier">Collection</span> {
+    <span class="hljs-keyword">associatedtype</span> <span class="hljs-identifier">Index</span> : <span class="hljs-identifier">Comparable</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">startIndex</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">endIndex</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span> { get }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">index</span>(<span class="hljs-identifier">after</span> <span class="hljs-identifier">i</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">subscript</span>(<span class="hljs-identifier">position</span>: <span class="hljs-keyword">Self</span>.<span class="hljs-identifier">Index</span>) -> <span class="hljs-identifier">Element</span> { get }
 }
 </code></pre>
 							<p>
 								Lo and behold, we can make <code>ListNode</code> conform:
 							</p>
-							<pre><code class="swift">extension ListNode: Collection {
-    var startIndex: Int { return 0 }
-    /// This is 0(n), not the expected O(1) from `Collection`.
-    var endIndex: Int {
-        switch self {
-        case .end: return 0
-        case .cons(_, let tail): return 1 + tail.endIndex
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">ListNode</span>: <span class="hljs-identifier">Collection</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">startIndex</span>: <span class="hljs-identifier">Int</span> { <span class="hljs-keyword">return</span> <span class="hljs-number">0</span> }
+    <span class="hljs-comment">/// This is 0(n), not the expected O(1) from `Collection`.</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">endIndex</span>: <span class="hljs-identifier">Int</span> {
+        <span class="hljs-keyword">switch</span> <span class="hljs-keyword">self</span> {
+        <span class="hljs-keyword">case</span> .<span class="hljs-identifier">end</span>: <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+        <span class="hljs-keyword">case</span> .<span class="hljs-identifier">cons</span>(<span class="hljs-keyword">_</span>, <span class="hljs-keyword">let</span> <span class="hljs-identifier">tail</span>): <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> + <span class="hljs-identifier">tail</span>.<span class="hljs-identifier">endIndex</span>
         }
     }
-    func index(after: Int) -&gt; Int {
-        return after+1
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">index</span>(<span class="hljs-identifier">after</span>: <span class="hljs-identifier">Int</span>) -> <span class="hljs-identifier">Int</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-identifier">after</span>+<span class="hljs-number">1</span>
     }
-    /// This is 0(n), not the expected O(1) from `Collection`.
-    subscript(position: Int) -&gt; A {
-        switch (self, position) {
-        case (.end, _): fatalError(&quot;Index out of bounds&quot;)
-        case (.cons(let x, _), 0): return x
-        case (.cons(_, let tail), _): return tail[position-1]
+    <span class="hljs-comment">/// This is 0(n), not the expected O(1) from `Collection`.</span>
+    <span class="hljs-keyword">subscript</span>(<span class="hljs-identifier">position</span>: <span class="hljs-identifier">Int</span>) -> <span class="hljs-identifier">A</span> {
+        <span class="hljs-keyword">switch</span> (<span class="hljs-keyword">self</span>, <span class="hljs-identifier">position</span>) {
+        <span class="hljs-keyword">case</span> (.<span class="hljs-identifier">end</span>, <span class="hljs-keyword">_</span>): <span class="hljs-identifier">fatalError</span>(<span class="hljs-string">"</span><span class="hljs-string">Index out of bounds</span><span class="hljs-string">"</span>)
+        <span class="hljs-keyword">case</span> (.<span class="hljs-identifier">cons</span>(<span class="hljs-keyword">let</span> <span class="hljs-identifier">x</span>, <span class="hljs-keyword">_</span>), <span class="hljs-number">0</span>): <span class="hljs-keyword">return</span> <span class="hljs-identifier">x</span>
+        <span class="hljs-keyword">case</span> (.<span class="hljs-identifier">cons</span>(<span class="hljs-keyword">_</span>, <span class="hljs-keyword">let</span> <span class="hljs-identifier">tail</span>), <span class="hljs-keyword">_</span>): <span class="hljs-keyword">return</span> <span class="hljs-identifier">tail</span>[<span class="hljs-identifier">position</span>-<span class="hljs-number">1</span>]
         }
     }
 }

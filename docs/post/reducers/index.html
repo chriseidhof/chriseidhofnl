@@ -50,28 +50,28 @@
 							<p>
 								To demonstrate reducers, we will write a simple currency conversion app that converts EUR amounts into USD amounts. It has three views: an text field for the input amount, a button to reload the current exchange rate and an output label. The output label will only display the amount if the input amount can be parsed and the current exchange rate are loaded. If the exchanges rates are loaded, changing the input amount should immediately change the output. Here&apos;s the code that computes the output rate (this is hooked up to the <code>.editingChanged</code> event of the text field):
 							</p>
-							<pre><code class="swift">var rate: Double?    
-@objc func inputChanged() {
-    guard let rate = rate else { return }
-    guard let text = input.text, let number = Double(text) else { return }
-    output.text = &quot;\(number * rate) USD&quot;
+							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">rate</span>: <span class="hljs-identifier">Double</span>?    
+@<span class="hljs-identifier">objc</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">inputChanged</span>() {
+    <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">rate</span> = <span class="hljs-identifier">rate</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+    <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">text</span> = <span class="hljs-identifier">input</span>.<span class="hljs-identifier">text</span>, <span class="hljs-keyword">let</span> <span class="hljs-identifier">number</span> = <span class="hljs-identifier">Double</span>(<span class="hljs-identifier">text</span>) <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+    <span class="hljs-identifier">output</span>.<span class="hljs-identifier">text</span> = <span class="hljs-string">"</span><span class="hljs-string"></span>\(<span class="hljs-identifier">number</span> * <span class="hljs-identifier">rate</span>)<span class="hljs-string"> USD</span><span class="hljs-string">"</span>
 }
 </code></pre>
 							<p>
 								Next up, the code that reloads the exchange rates:
 							</p>
-							<pre><code class="swift">@objc func reload() {
-    URLSession.shared.dataTask(with: ratesURL()) { (data, _, _) in
-        guard let data = data,
-            let json = try? JSONSerialization.jsonObject(with: data, options: []),
-            let dict = json as? [String:Any],
-            let dataDict = dict[&quot;rates&quot;] as? [String:Double],
-            let rate = dataDict[Currency.usd.rawValue] else { return }
-        DispatchQueue.main.async { [weak self] in
-            self?.rate = rate
-            self?.inputChanged()
+							<pre><code class="swift">@<span class="hljs-identifier">objc</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">reload</span>() {
+    <span class="hljs-identifier">URLSession</span>.<span class="hljs-identifier">shared</span>.<span class="hljs-identifier">dataTask</span>(<span class="hljs-identifier">with</span>: <span class="hljs-identifier">ratesURL</span>()) { (<span class="hljs-identifier">data</span>, <span class="hljs-keyword">_</span>, <span class="hljs-keyword">_</span>) <span class="hljs-keyword">in</span>
+        <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">data</span> = <span class="hljs-identifier">data</span>,
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">json</span> = <span class="hljs-keyword">try</span>? <span class="hljs-identifier">JSONSerialization</span>.<span class="hljs-identifier">jsonObject</span>(<span class="hljs-identifier">with</span>: <span class="hljs-identifier">data</span>, <span class="hljs-identifier">options</span>: []),
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">dict</span> = <span class="hljs-identifier">json</span> <span class="hljs-keyword">as</span>? [<span class="hljs-identifier">String</span>:<span class="hljs-keyword">Any</span>],
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">dataDict</span> = <span class="hljs-identifier">dict</span>[<span class="hljs-string">"</span><span class="hljs-string">rates</span><span class="hljs-string">"</span>] <span class="hljs-keyword">as</span>? [<span class="hljs-identifier">String</span>:<span class="hljs-identifier">Double</span>],
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">rate</span> = <span class="hljs-identifier">dataDict</span>[<span class="hljs-identifier">Currency</span>.<span class="hljs-identifier">usd</span>.<span class="hljs-identifier">rawValue</span>] <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+        <span class="hljs-identifier">DispatchQueue</span>.<span class="hljs-identifier">main</span>.<span class="hljs-identifier">async</span> { [<span class="hljs-identifier">weak</span> <span class="hljs-keyword">self</span>] <span class="hljs-keyword">in</span>
+            <span class="hljs-keyword">self</span>?.<span class="hljs-identifier">rate</span> = <span class="hljs-identifier">rate</span>
+            <span class="hljs-keyword">self</span>?.<span class="hljs-identifier">inputChanged</span>()
         }
-    }.resume()
+    }.<span class="hljs-identifier">resume</span>()
 }
 
 </code></pre>
@@ -81,41 +81,41 @@
 							<p>
 								We can pull out most of the logic into a <code>State</code> struct to make the logic easy to test. The <code>State</code> struct encapsulates the input amount and the conversion rate, and exposes a single computed property (the output):
 							</p>
-							<pre><code class="swift">struct State {
-    private var inputAmount: Double? = nil
-    private var rate: Double? = nil
-    var output: Double? {
-        guard let i = inputAmount, let r = rate else { return nil }
-        return i * r
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">State</span> {
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">inputAmount</span>: <span class="hljs-identifier">Double</span>? = <span class="hljs-keyword">nil</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">rate</span>: <span class="hljs-identifier">Double</span>? = <span class="hljs-keyword">nil</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">output</span>: <span class="hljs-identifier">Double</span>? {
+        <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">i</span> = <span class="hljs-identifier">inputAmount</span>, <span class="hljs-keyword">let</span> <span class="hljs-identifier">r</span> = <span class="hljs-identifier">rate</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> <span class="hljs-keyword">nil</span> }
+        <span class="hljs-keyword">return</span> <span class="hljs-identifier">i</span> * <span class="hljs-identifier">r</span>
     }
 }
 </code></pre>
 							<p>
 								Next up, we&apos;ll define three messages that this state can receive. The input can change, the reload button could be pressed, or new rate data could be available. The third message is not sent from the outside. Instead of defining these as methods, we&apos;ll define the messages as an enum (we&apos;ll see why shortly):
 							</p>
-							<pre><code class="swift">enum Message {
-    case inputChanged(String?)
-    case ratesAvailable(data: Data?)
-    case reload
+							<pre><code class="swift"><span class="hljs-keyword">enum</span> <span class="hljs-identifier">Message</span> {
+    <span class="hljs-keyword">case</span> <span class="hljs-identifier">inputChanged</span>(<span class="hljs-identifier">String</span>?)
+    <span class="hljs-keyword">case</span> <span class="hljs-identifier">ratesAvailable</span>(<span class="hljs-identifier">data</span>: <span class="hljs-identifier">Data</span>?)
+    <span class="hljs-keyword">case</span> <span class="hljs-identifier">reload</span>
 }
 </code></pre>
 							<p>
 								Now that we have defined our state and our <code>Message</code> enum, we can write a method to interpet messages. Because <code>State</code> is a struct, we define it as a <code>mutating</code> method <code>send(_:)</code>. We switch over the message and interpet it. In case the input changed, we try to parse it. When new rate data is available, we parse it and assign it to <code>self.rate</code>. We&apos;ll leave out the <code>reload</code> case for now.
 							</p>
-							<pre><code class="swift">mutating func send(_ message: Message) {
-    switch message {
-    case .inputChanged(let input):
-        inputAmount = input.flatMap { Double($0) }
-    case .ratesAvailable(data: let data):
-        guard let data = data,
-            let json = try? JSONSerialization.jsonObject(with: data, options: []),
-            let dict = json as? [String:Any],
-            let dataDict = dict[&quot;rates&quot;] as? [String:Double],
-            let rate = dataDict[Currency.usd.rawValue] else { return }
-        self.rate = rate
-    case .reload:
-        // TODO: load ratesURL() and update the rates
-        fatalError()
+							<pre><code class="swift"><span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">send</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">message</span>: <span class="hljs-identifier">Message</span>) {
+    <span class="hljs-keyword">switch</span> <span class="hljs-identifier">message</span> {
+    <span class="hljs-keyword">case</span> .<span class="hljs-identifier">inputChanged</span>(<span class="hljs-keyword">let</span> <span class="hljs-identifier">input</span>):
+        <span class="hljs-identifier">inputAmount</span> = <span class="hljs-identifier">input</span>.<span class="hljs-identifier">flatMap</span> { <span class="hljs-identifier">Double</span>($0) }
+    <span class="hljs-keyword">case</span> .<span class="hljs-identifier">ratesAvailable</span>(<span class="hljs-identifier">data</span>: <span class="hljs-keyword">let</span> <span class="hljs-identifier">data</span>):
+        <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">data</span> = <span class="hljs-identifier">data</span>,
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">json</span> = <span class="hljs-keyword">try</span>? <span class="hljs-identifier">JSONSerialization</span>.<span class="hljs-identifier">jsonObject</span>(<span class="hljs-identifier">with</span>: <span class="hljs-identifier">data</span>, <span class="hljs-identifier">options</span>: []),
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">dict</span> = <span class="hljs-identifier">json</span> <span class="hljs-keyword">as</span>? [<span class="hljs-identifier">String</span>:<span class="hljs-keyword">Any</span>],
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">dataDict</span> = <span class="hljs-identifier">dict</span>[<span class="hljs-string">"</span><span class="hljs-string">rates</span><span class="hljs-string">"</span>] <span class="hljs-keyword">as</span>? [<span class="hljs-identifier">String</span>:<span class="hljs-identifier">Double</span>],
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">rate</span> = <span class="hljs-identifier">dataDict</span>[<span class="hljs-identifier">Currency</span>.<span class="hljs-identifier">usd</span>.<span class="hljs-identifier">rawValue</span>] <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">rate</span> = <span class="hljs-identifier">rate</span>
+    <span class="hljs-keyword">case</span> .<span class="hljs-identifier">reload</span>:
+        <span class="hljs-comment">// TODO: load ratesURL() and update the rates</span>
+        <span class="hljs-identifier">fatalError</span>()
     }
 }
 </code></pre>
@@ -125,28 +125,28 @@
 							<p>
 								Instead of performing the URL loading side-effect directly, we&apos;ll create a <code>Command</code> enum that describes the side-effect:
 							</p>
-							<pre><code class="swift">enum Command {
-    case load(URL, onComplete: (Data?) -&gt; Message)
+							<pre><code class="swift"><span class="hljs-keyword">enum</span> <span class="hljs-identifier">Command</span> {
+    <span class="hljs-keyword">case</span> <span class="hljs-identifier">load</span>(<span class="hljs-identifier">URL</span>, <span class="hljs-identifier">onComplete</span>: (<span class="hljs-identifier">Data</span>?) -> <span class="hljs-identifier">Message</span>)
 }
 </code></pre>
 							<p>
 								Note that we cannot use <code>onComplete</code> as a callback (because we cannot change the struct value in a callback). Instead, it transforms the optional data back into a <code>Message</code>. We&apos;ll add <code>Command?</code> as a return type for <code>send(_:)</code>. If there&apos;s no side-effect to be executed, we simply return <code>nil</code>.
 							</p>
-							<pre><code class="swift">mutating func send(_ message: Message) -&gt; Command? {
-    switch message {
-    case .inputChanged(let input):
-        inputAmount = input.flatMap { Double($0) }
-        return nil
-    case .ratesAvailable(data: let data):
-        guard let data = data,
-            let json = try? JSONSerialization.jsonObject(with: data, options: []),
-            let dict = json as? [String:Any],
-            let dataDict = dict[&quot;rates&quot;] as? [String:Double],
-            let rate = dataDict[Currency.usd.rawValue] else { return nil }
-        self.rate = rate
-        return nil
-    case .reload:
-        return .load(ratesURL(), onComplete: Message.ratesAvailable)
+							<pre><code class="swift"><span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">send</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">message</span>: <span class="hljs-identifier">Message</span>) -> <span class="hljs-identifier">Command</span>? {
+    <span class="hljs-keyword">switch</span> <span class="hljs-identifier">message</span> {
+    <span class="hljs-keyword">case</span> .<span class="hljs-identifier">inputChanged</span>(<span class="hljs-keyword">let</span> <span class="hljs-identifier">input</span>):
+        <span class="hljs-identifier">inputAmount</span> = <span class="hljs-identifier">input</span>.<span class="hljs-identifier">flatMap</span> { <span class="hljs-identifier">Double</span>($0) }
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">nil</span>
+    <span class="hljs-keyword">case</span> .<span class="hljs-identifier">ratesAvailable</span>(<span class="hljs-identifier">data</span>: <span class="hljs-keyword">let</span> <span class="hljs-identifier">data</span>):
+        <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">data</span> = <span class="hljs-identifier">data</span>,
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">json</span> = <span class="hljs-keyword">try</span>? <span class="hljs-identifier">JSONSerialization</span>.<span class="hljs-identifier">jsonObject</span>(<span class="hljs-identifier">with</span>: <span class="hljs-identifier">data</span>, <span class="hljs-identifier">options</span>: []),
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">dict</span> = <span class="hljs-identifier">json</span> <span class="hljs-keyword">as</span>? [<span class="hljs-identifier">String</span>:<span class="hljs-keyword">Any</span>],
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">dataDict</span> = <span class="hljs-identifier">dict</span>[<span class="hljs-string">"</span><span class="hljs-string">rates</span><span class="hljs-string">"</span>] <span class="hljs-keyword">as</span>? [<span class="hljs-identifier">String</span>:<span class="hljs-identifier">Double</span>],
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">rate</span> = <span class="hljs-identifier">dataDict</span>[<span class="hljs-identifier">Currency</span>.<span class="hljs-identifier">usd</span>.<span class="hljs-identifier">rawValue</span>] <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> <span class="hljs-keyword">nil</span> }
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">rate</span> = <span class="hljs-identifier">rate</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">nil</span>
+    <span class="hljs-keyword">case</span> .<span class="hljs-identifier">reload</span>:
+        <span class="hljs-keyword">return</span> .<span class="hljs-identifier">load</span>(<span class="hljs-identifier">ratesURL</span>(), <span class="hljs-identifier">onComplete</span>: <span class="hljs-identifier">Message</span>.<span class="hljs-identifier">ratesAvailable</span>)
     }
 }
 </code></pre>
@@ -156,15 +156,15 @@
 							<p>
 								To interpret commands, we can define a separate extension on <code>State.Command</code> that interprets a command. Instead of having asynchronous code in our <code>State</code>&apos;s logic, we can simply test this <code>interpret(_:)</code> method once, in isolation.
 							</p>
-							<pre><code class="swift">extension State.Command {
-    func interpret(_ callback: @escaping (State.Message) -&gt; ()) {
-        switch self {
-        case let .load(url, onComplete: transform):
-            URLSession.shared.dataTask(with: url, completionHandler: { (data, _, _) in
-                DispatchQueue.main.async {
-                    callback(transform(data))
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">State</span>.<span class="hljs-identifier">Command</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">interpret</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">callback</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">State</span>.<span class="hljs-identifier">Message</span>) -> ()) {
+        <span class="hljs-keyword">switch</span> <span class="hljs-keyword">self</span> {
+        <span class="hljs-keyword">case</span> <span class="hljs-keyword">let</span> .<span class="hljs-identifier">load</span>(<span class="hljs-identifier">url</span>, <span class="hljs-identifier">onComplete</span>: <span class="hljs-identifier">transform</span>):
+            <span class="hljs-identifier">URLSession</span>.<span class="hljs-identifier">shared</span>.<span class="hljs-identifier">dataTask</span>(<span class="hljs-identifier">with</span>: <span class="hljs-identifier">url</span>, <span class="hljs-identifier">completionHandler</span>: { (<span class="hljs-identifier">data</span>, <span class="hljs-keyword">_</span>, <span class="hljs-keyword">_</span>) <span class="hljs-keyword">in</span>
+                <span class="hljs-identifier">DispatchQueue</span>.<span class="hljs-identifier">main</span>.<span class="hljs-identifier">async</span> {
+                    <span class="hljs-identifier">callback</span>(<span class="hljs-identifier">transform</span>(<span class="hljs-identifier">data</span>))
                 }
-            }).resume()
+            }).<span class="hljs-identifier">resume</span>()
         }
     }
 }
@@ -172,28 +172,28 @@
 							<p>
 								Finally, we need to hook up our <code>State</code> to the view controller we&apos;re refactoring. Instead of the <code>rate</code> property that we had before, we&apos;ll now define a <code>State</code> property:
 							</p>
-							<pre><code class="swift">var state = State() {
+							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">state</span> = <span class="hljs-identifier">State</span>() {
     didSet {
-        self.output.text = state.output.map { &quot;\($0) USD&quot; } ?? &quot;&quot;
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">output</span>.<span class="hljs-identifier">text</span> = <span class="hljs-identifier">state</span>.<span class="hljs-identifier">output</span>.<span class="hljs-identifier">map</span> { <span class="hljs-string">"</span><span class="hljs-string"></span>\($0)<span class="hljs-string"> USD</span><span class="hljs-string">"</span> } ?? <span class="hljs-string">"</span><span class="hljs-string"></span><span class="hljs-string">"</span>
     }
 }
 </code></pre>
 							<p>
 								We can also define a <code>send</code> method on the view controller. It sends a message to the state, and if there&apos;s any <code>Command</code>, it interprets that command.
 							</p>
-							<pre><code class="swift">private func send(_ message: State.Message) {
-    state.send(message)?.interpret(self.send)
+							<pre><code class="swift"><span class="hljs-keyword">private</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">send</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">message</span>: <span class="hljs-identifier">State</span>.<span class="hljs-identifier">Message</span>) {
+    <span class="hljs-identifier">state</span>.<span class="hljs-identifier">send</span>(<span class="hljs-identifier">message</span>)?.<span class="hljs-identifier">interpret</span>(<span class="hljs-keyword">self</span>.<span class="hljs-identifier">send</span>)
 }
 </code></pre>
 							<p>
 								The only thing left is sending the correct messages in the view controller&apos;s <code>inputChanged</code> and <code>reload</code> actions:
 							</p>
-							<pre><code class="swift">@objc func inputChanged() {
-    send(.inputChanged(input.text))
+							<pre><code class="swift">@<span class="hljs-identifier">objc</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">inputChanged</span>() {
+    <span class="hljs-identifier">send</span>(.<span class="hljs-identifier">inputChanged</span>(<span class="hljs-identifier">input</span>.<span class="hljs-identifier">text</span>))
 }
 
-@objc func reload() {
-    send(State.Message.reload)
+@<span class="hljs-identifier">objc</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">reload</span>() {
+    <span class="hljs-identifier">send</span>(<span class="hljs-identifier">State</span>.<span class="hljs-identifier">Message</span>.<span class="hljs-identifier">reload</span>)
 }
 </code></pre>
 							<p>
