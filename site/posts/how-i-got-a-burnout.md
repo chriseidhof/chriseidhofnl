@@ -47,7 +47,7 @@ social life, and my income. And I didn’t like it anymore. It was hard to belie
 for me: before, I just couldn’t tear myself away from it. I was always either
 building stuff or reading about it. Now it felt like it was over.&#10;
 
-In [part 2](/post/9700449196/how-i-dealt-with-a-burnout) I write about how I
+In [part 2](/post/how-i-dealt-with-a-burnout) I write about how I
 dealt with it.&#10;
 
 [Discuss on Hacker News](http://news.ycombinator.com/item?id=2950333)

@@ -10,7 +10,7 @@ publish yourself, in whichever form. Here are three stories:&#10;
 
 **Twitter**
 
-As I wrote in an [earlier post](/post/9873846899/ive-got-an-idea-for-an-app), I
+As I wrote in an [earlier post](/post/ive-got-an-idea-for-an-app), I
 became iPhone developer by chance. Just for fun, we created a game called
 [CookieCombo](http://cookiecombo.com/) to play around with the iPhone SDK, which
 came out a few months earlier. We tweeted about it, and got two instant gigs out

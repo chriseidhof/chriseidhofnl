@@ -6,7 +6,7 @@ title: "Week 2: design improvements"
 ---
 
 This post is about Week 2 of my [One App in Four
-Weeks](/post/10680838726/one-app-in-four-weeks-kickoff) project.&#10;
+Weeks](/post/one-app-in-four-weeks-kickoff) project.&#10;
 
 This week was a bit strange, in many ways. For me, it didn’t feel like a
 productive week. On Monday and Tuesday I got some things done, Wednesday I was

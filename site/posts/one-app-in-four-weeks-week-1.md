@@ -6,18 +6,18 @@ title: "One App in Four Weeks: Week 1"
 ---
 
 This Monday, I started [One App in Four
-Weeks](/post/10680838726/one-app-in-four-weeks-kickoff). I started by posting a
+Weeks](/post/one-app-in-four-weeks-kickoff). I started by posting a
 list of ideas. The third idea was the most appealling to people (although I
 still want to build the other two as well, but not now), and I got some great
 feedback from everybody.&#10;
 
 I selected the idea and [defined the Minimum Viable
-Product](/post/10723613553/check-in-to-people), which is quite simple: you can
+Product](/post/check-in-to-people), which is quite simple: you can
 check in to people, add a time and note to that checkin and possibly a location
 as well.&#10;
 
 Yesterday I wrote about the first [sketches and
-ideas](/post/10801169656/sketches-and-ideas), and after that I started working
+ideas](/post/sketches-and-ideas), and after that I started working
 on the very first version.&#10;
 
 Normally I don’t show these first versions to people, but because I want to show

@@ -95,7 +95,7 @@ However, instead of a dictionary, we would really like to parse this into a `Git
     
     let makeGithubProfile = { GithubProfile(login: $0, id: $1, avatarURL: $2) }
 
-We can use the [JSON parsing](/posts/json-parsing-in-swift.html) technique to write a small parsing function and rewrite our `authenticatedUser` function:
+We can use the [JSON parsing](/post/json-parsing-in-swift/) technique to write a small parsing function and rewrite our `authenticatedUser` function:
 
     func parseGithubProfile(dict: JSONDictionary) -> GithubProfile? {
         return curry(makeGithubProfile) <*> string(dict, "login")

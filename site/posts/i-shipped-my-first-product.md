@@ -12,7 +12,7 @@ first product as an indie developer, and even though it’s very simple, I’m p
 to have gone through the cycle of getting the idea, building it and releasing
 it.&#10;
 
-As you can read in my post [The Big Plan](/post/8336661854/the-big-plan), one of
+As you can read in my post [The Big Plan](/post/the-big-plan/), one of
 the things I find difficult is shipping software. Specifically: my own software.
 It’s different when you build something for a client or for a boss.&#10;
 

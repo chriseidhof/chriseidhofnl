@@ -6,7 +6,7 @@ title: Beta and Branding
 ---
 
 This is the start of week 3 of my [One App in Four
-Weeks](/post/10680838726/one-app-in-four-weeks-kickoff) project. Last Friday, I
+Weeks](/post/one-app-in-four-weeks-kickoff) project. Last Friday, I
 sent out the first beta version, and just sent an update (with mostly
 bugfixes).&#10;
 

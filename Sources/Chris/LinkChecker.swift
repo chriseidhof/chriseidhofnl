@@ -16,10 +16,8 @@ func checkLocalLinks(outputPath: String) {
     let fm = FileManager.default
     for (page, links) in allLinks.value {
         for link in links {
-            if link.contains("://") || link.hasPrefix("//") {
+            if link.contains("://") || link.hasPrefix("//") || link.hasPrefix("#") || link.hasPrefix("mailto") {
                 continue
-            } else if link.hasPrefix("#") {
-                continue // ignore local links
             } else {
                 if fm.fileExists(atPath: (outputPath as NSString).appendingPathComponent(link)) {
                     continue

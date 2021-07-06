@@ -6,7 +6,7 @@ title: Start of Week 2
 ---
 
 Today is the start of the second week of the [One App in Four
-Weeks](/post/10680838726/one-app-in-four-weeks-kickoff) challenge.&#10;
+Weeks](/post/one-app-in-four-weeks-kickoff) challenge.&#10;
 
 Last Friday, I added tabs to the application: one for the most recent checkins,
 and one for the list of contacts. More tabs will probably come, such as search

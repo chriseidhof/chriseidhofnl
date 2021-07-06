@@ -6,9 +6,9 @@ title: "Week 3: An App in Four Weeks"
 ---
 
 Today marks the end of Week 3 of my [App in Four
-Weeks](/post/10680838726/one-app-in-four-weeks-kickoff) challenge.&#10;
+Weeks](/post/one-app-in-four-weeks-kickoff) challenge.&#10;
 
-This week I [chose a name](/post/11323208696/introducing-met). I designed an
+This week I [chose a name](/post/introducing-met). I designed an
 icon and overall style for the app. I then spent quite some time implementing
 autorotation, and getting it exactly right. There is now a passcode lock
 too.&#10;

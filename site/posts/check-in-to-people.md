@@ -6,7 +6,7 @@ title: Check In to People
 ---
 
 As I wrote in [yesterday’s
-post](/post/10680838726/one-app-in-four-weeks-kickoff), I’m going to build an
+post](/post/one-app-in-four-weeks-kickoff), I’m going to build an
 app in four weeks. Now I’ve chosen the idea that I’m going to build: check in to
 people. This will give you an archive of when you met people. After you check
 in, you can add notes and maybe pictures.&#10;

@@ -6,7 +6,7 @@ title: How I dealt with a burnout
 ---
 
 This post is the second part of my series on burnout. [Read the first
-part](/post/9667398258/how-i-got-a-burnout) to know how I got there.&#10;
+part](/post/how-i-got-a-burnout) to know how I got there.&#10;
 
 The first month after graduating, I spent exercising and sitting on the couch.
 Exercising made me feel good, especially the running pulled me through. However,
@@ -42,6 +42,6 @@ it worked for me.&#10;
 In the last months, I have been building iOS apps on my own. I went through a
 major transformation during my burnout: I now see programming as a means, not an
 end. And I’m having lots of fun again. More about that transformation and the
-results in the [next post](/post/9828677336/how-a-burnout-changed-my-life).&#10;
+results in the [next post](/post/how-a-burnout-changed-my-life).&#10;
 
 [Discuss on Hacker News](http://news.ycombinator.com/item?id=2953399)

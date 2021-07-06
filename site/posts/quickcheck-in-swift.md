@@ -9,7 +9,7 @@ headline: Experimenting with Swift
 
 This afternoon, I've been making my first steps in Swift, trying to see how much of my Haskell knowledge I could port. It seems like a lot of cool stuff you can do with types is not yet possible, I already filed some radars. 
 
-As an experiment, this article is also available as a [playground](/static/quickcheck-in-swift.playground.zip) and on [github](https://github.com/chriseidhof/quickcheck-in-swift-blogpost). Because we'll need the `arc4random` function, we'll start by importing `Foundation`:
+As an experiment, this article is also available on [github](https://github.com/chriseidhof/quickcheck-in-swift-blogpost). Because we'll need the `arc4random` function, we'll start by importing `Foundation`:
 
     import Foundation
 

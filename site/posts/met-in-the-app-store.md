@@ -32,7 +32,7 @@ Now that the first version of Met is submitted to the App Store, it’s almost
 time for some other projects. I still need to write a press release and send it
 out, but after that is fully prepared I look forward to work on some other
 projects. One thing I’ll be working is the [super-secret
-project](/post/9873846899/ive-got-an-idea-for-an-app) I wrote about earlier. The
+project](/post/ive-got-an-idea-for-an-app) I wrote about earlier. The
 physical prototypes are almost ready, and the first version of the iPhone app
 too. Also, [Uli](http://ulischoeberl.com/) and I are going to spend a week
 getting the app done that we’ve worked on and talked about for the last few

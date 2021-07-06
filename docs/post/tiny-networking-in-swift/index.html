@@ -132,7 +132,7 @@ func authenticatedUser() -&gt; Resource&lt;JSONDictionary&gt; {
 let makeGithubProfile = { GithubProfile(login: $0, id: $1, avatarURL: $2) }
 </code></pre>
 							<p>
-								We can use the <a href="/posts/json-parsing-in-swift.html" title>JSON parsing</a> technique to write a small parsing function and rewrite our <code>authenticatedUser</code> function:
+								We can use the <a href="/post/json-parsing-in-swift/" title>JSON parsing</a> technique to write a small parsing function and rewrite our <code>authenticatedUser</code> function:
 							</p>
 							<pre><code class>func parseGithubProfile(dict: JSONDictionary) -&gt; GithubProfile? {
     return curry(makeGithubProfile) &lt;*&gt; string(dict, &quot;login&quot;)

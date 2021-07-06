@@ -7,7 +7,7 @@ headline: My first marathon and an ultra-trail
 ---
 
 
-After [my first marathon](/posts/race-report-munich-marathon.html), I wanted to do a better job at running my next marathon. Instead of training by myself, I decided to work with [Mark](https://twitter.com/markpersista), who made a training plan for me leading up to the Rotterdam Marathon. I spent a few months in New York, a while in San Francisco, and generally traveled around while still putting in my training, this went surprisingly well. I even ran some races in the US (and won a 5K in Brooklyn).
+After [my first marathon](/post/race-report-munich-marathon), I wanted to do a better job at running my next marathon. Instead of training by myself, I decided to work with [Mark](https://twitter.com/markpersista), who made a training plan for me leading up to the Rotterdam Marathon. I spent a few months in New York, a while in San Francisco, and generally traveled around while still putting in my training, this went surprisingly well. I even ran some races in the US (and won a 5K in Brooklyn).
 
 Because my training (and races) went really well, Mark proposed to try to run a 2:50 marathon (my PB is 3:28). At first, I felt very hesitant, because I spent half a year training really hard (about 5 days a week) to run this marathon. The week before the marathon, I ran a 10K at the proposed marathon pace (4:02/km), and it felt quite easy. So I decided to take the risk, willingly, with a good chance of blowing up somewhere down the road.
 
