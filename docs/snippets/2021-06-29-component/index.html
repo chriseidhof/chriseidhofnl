@@ -23,32 +23,34 @@
 					<header id="header">
 						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
 					</header>
-					<p>
-						This is a test for a protocol hierarchy to model components on top of Swim.
-					</p>
+					<div class="post">
+						<h1>
+							Components
+						</h1>
+						<p>
+							This is a test for a protocol hierarchy to model components on top of Swim. <a href="https://github.com/chriseidhof/Swim/tree/preferences-components" title>Here&apos;s a longer version</a>.
+						</p>
+					</div>
 					<div>
 						<div class="snippet">
 							<h3>
 								Component.swift
 							</h3>
-							<pre><code class="swift"><span class="hljs-comment">//</span>
-<span class="hljs-comment">//  File.swift</span>
-<span class="hljs-comment">//</span>
-<span class="hljs-comment">//</span>
-<span class="hljs-comment">//  Created by Chris Eidhof on 29.06.21.</span>
-<span class="hljs-comment">//</span>
+							<pre><code class="swift"><span class="hljs-comment">// A component is similar to a SwiftUI `View`</span>
 
-<span class="hljs-keyword">import</span> <span class="hljs-identifier">Foundation</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">protocol</span> <span class="hljs-identifier">Component</span> {
+    <span class="hljs-keyword">associatedtype</span> <span class="hljs-identifier">Result</span>: <span class="hljs-identifier">Component</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">Result</span> { get }
+}
+
+<span class="hljs-comment">// Never is a component as well (the builtin components will have this as their `Result`)</span>
 
 <span class="hljs-keyword">extension</span> <span class="hljs-identifier">Never</span>: <span class="hljs-identifier">Component</span> {
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">typealias</span> <span class="hljs-identifier">Result</span> = <span class="hljs-identifier">Never</span>
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">Never</span> { <span class="hljs-identifier">fatalError</span>(<span class="hljs-string">"</span><span class="hljs-string">This should never happen</span><span class="hljs-string">"</span>) }
 }
 
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">protocol</span> <span class="hljs-identifier">Component</span> {
-    <span class="hljs-keyword">associatedtype</span> <span class="hljs-identifier">Result</span>: <span class="hljs-identifier">Component</span>
-    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">Result</span> { get }
-}
+<span class="hljs-comment">// This is straight from SwiftUI, except that we require values to be hashable.</span>
 
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">protocol</span> <span class="hljs-identifier">PreferenceKey</span> {
      <span class="hljs-keyword">associatedtype</span> <span class="hljs-identifier">Value</span>: <span class="hljs-identifier">Hashable</span>
@@ -56,11 +58,14 @@
      <span class="hljs-keyword">static</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">reduce</span>(<span class="hljs-identifier">value</span>: <span class="hljs-keyword">inout</span> <span class="hljs-identifier">Value</span>, <span class="hljs-identifier">nextValue</span>: () -> <span class="hljs-identifier">Value</span>)
  }
 
-<span class="hljs-comment">// A private protocol</span>
+<span class="hljs-comment">// A private protocol that all the built-in components conform to. Note that this does not have an associated type, which means we'll be able to dynamically cast to it.</span>
+
 <span class="hljs-keyword">protocol</span> <span class="hljs-identifier">BuiltinComponent</span> {
     <span class="hljs-keyword">func</span> <span class="hljs-identifier">render</span>() -> <span class="hljs-identifier">Node</span>
     <span class="hljs-keyword">func</span> <span class="hljs-identifier">readPreference</span><<span class="hljs-identifier">Key</span>: <span class="hljs-identifier">PreferenceKey</span>>(<span class="hljs-identifier">key</span>: <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Type</span>) -> <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Value</span>?
 }
+
+<span class="hljs-comment">// We should make this work so that we can take any user-defined component and use it as if it were a builtin component.</span>
 
 <span class="hljs-keyword">struct</span> <span class="hljs-identifier">AnyBuiltinComponent</span>: <span class="hljs-identifier">BuiltinComponent</span> {
     <span class="hljs-keyword">func</span> <span class="hljs-identifier">readPreference</span><<span class="hljs-identifier">Key</span>>(<span class="hljs-identifier">key</span>: <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Type</span>) -> <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Value</span>? <span class="hljs-keyword">where</span> <span class="hljs-identifier">Key</span> : <span class="hljs-identifier">PreferenceKey</span> {
@@ -72,10 +77,14 @@
     }
 }
 
+<span class="hljs-comment">// These are defaults so that we can easily conform builtin components to `Component`</span>
+
 <span class="hljs-keyword">extension</span> <span class="hljs-identifier">BuiltinComponent</span> {
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">typealias</span> <span class="hljs-identifier">Result</span> = <span class="hljs-identifier">Never</span>
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">Never</span> { <span class="hljs-identifier">fatalError</span>(<span class="hljs-string">"</span><span class="hljs-string">This should never happen</span><span class="hljs-string">"</span>) }
 }
+
+<span class="hljs-comment">// Swim nodes are components</span>
 
 <span class="hljs-keyword">extension</span> <span class="hljs-identifier">Node</span>: <span class="hljs-identifier">Component</span> & <span class="hljs-identifier">BuiltinComponent</span> {
     <span class="hljs-keyword">func</span> <span class="hljs-identifier">readPreference</span><<span class="hljs-identifier">Key</span>>(<span class="hljs-identifier">key</span>: <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Type</span>) -> <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Value</span>? <span class="hljs-keyword">where</span> <span class="hljs-identifier">Key</span> : <span class="hljs-identifier">PreferenceKey</span> {

@@ -550,7 +550,7 @@ code .hljs-comment {
 }
 
 .snippet h3 {
-    font-size: 14px;
+    font-size: 13px;
     border-bottom: 1px solid #ddd;
     padding: 15px 20px;
     font-weight: bold;
@@ -558,4 +558,5 @@ code .hljs-comment {
 
 .snippet pre {
     border: none;
+    padding-top: 0;
 }

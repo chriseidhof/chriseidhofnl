@@ -37,7 +37,9 @@ extension Array where Element == Snippet {
 extension Snippet {
     @NodeBuilder var page: Node {
         if let intro = files["index.md"] {
-            intro.fromMarkdown
+            div(class: "post") {
+                intro.fromMarkdown
+            }
         }
         
         div {

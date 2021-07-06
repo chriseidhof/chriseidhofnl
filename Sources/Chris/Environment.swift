@@ -29,3 +29,12 @@ extension Rule {
         self.environment(keyPath: \.extraFooterContent, value: node)
     }
 }
+
+extension EnvironmentValues {
+    var relativeOutputPath: String {
+        let prefix = siteOutputPath.path
+        let urlString = output.path
+        assert(urlString.hasPrefix(prefix))
+        return String(urlString.dropFirst(prefix.count))
+    }
+}

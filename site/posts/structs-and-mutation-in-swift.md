@@ -232,7 +232,7 @@ var myPoint = Point.origin
 myPoint += Point(x: 10, y: 10)
 ```
 
-In the [Functions](#functions) chapter, we will go into more detail about `inout`. For now, it suffices to say that `inout` is in lots of places. For example, it's now easy to understand how modifying a subscript works:
+In the Functions chapter, we will go into more detail about `inout`. For now, it suffices to say that `inout` is in lots of places. For example, it's now easy to understand how modifying a subscript works:
 
 ```swift
 var array = [Point(x: 0, y: 0), Point(x: 10, y: 10)]

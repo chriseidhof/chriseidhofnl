@@ -16,15 +16,15 @@ struct Site: Rule {
 }
 
 let fm = FileManager.default
-let path = URL(fileURLWithPath: fm.currentDirectoryPath)
-let out = path.appendingPathComponent("docs")
-let baseEnvironment = EnvironmentValues(inputBaseURL: path.appendingPathComponent("site"), outputBaseURL: out)
+let basePath = URL(fileURLWithPath: fm.currentDirectoryPath)
+let siteOutputPath = basePath.appendingPathComponent("docs")
+let baseEnvironment = EnvironmentValues(inputBaseURL: basePath.appendingPathComponent("site"), outputBaseURL: siteOutputPath)
 
 func recreateBuildDir() throws {
     let fm = FileManager.default
-    if fm.fileExists(atPath: out.path) {
-        try fm.removeItem(atPath: out.path)
-        try fm.createDirectory(at: out, withIntermediateDirectories: true, attributes: nil)
+    if fm.fileExists(atPath: siteOutputPath.path) {
+        try fm.removeItem(atPath: siteOutputPath.path)
+        try fm.createDirectory(at: siteOutputPath, withIntermediateDirectories: true, attributes: nil)
     }
 }
 
@@ -33,12 +33,23 @@ func highlight(_ env: EnvironmentValues, node: Node) -> Node {
     highlighter.visitNode(node)
 }
 
+extension Rule {
+    func applyTransform(_ f: @escaping (EnvironmentValues, Node) -> Node) -> some Rule {
+        modifyEnvironment(keyPath: \.transformNode, modify: { g in
+            let old = g
+            g = { env, node in f(env, old(env, node)) }
+        })
+    }
+}
+
 public func run() throws {
     try recreateBuildDir()
     try Site()
         .wrap(Main())
-        .environment(keyPath: \.transformNode, value: highlight)
+        .applyTransform(highlight)
+        .applyTransform(recordLinks)
         .measure()
         .builtin
         .run(environment: baseEnvironment)
+    print(checkLocalLinks(outputPath: siteOutputPath.path))
 }

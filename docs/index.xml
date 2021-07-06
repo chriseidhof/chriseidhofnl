@@ -2066,7 +2066,7 @@ var myPoint = Point.origin
 myPoint += Point(x: 10, y: 10)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
-	In the &lt;a href=&quot;#functions&quot; title&gt;Functions&lt;/a&gt; chapter, we will go into more detail about &lt;code&gt;inout&lt;/code&gt;. For now, it suffices to say that &lt;code&gt;inout&lt;/code&gt; is in lots of places. For example, it&amp;apos;s now easy to understand how modifying a subscript works:
+	In the Functions chapter, we will go into more detail about &lt;code&gt;inout&lt;/code&gt;. For now, it suffices to say that &lt;code&gt;inout&lt;/code&gt; is in lots of places. For example, it&amp;apos;s now easy to understand how modifying a subscript works:
 &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var array = [Point(x: 0, y: 0), Point(x: 10, y: 10)]
 array[0] += Point(x: 100, y: 100)
