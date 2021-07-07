@@ -5,7 +5,7 @@ headline: Have your cake and eat it
 title: Struct References
 ---
 
-> The full code for this is available as a [gist](https://gist.github.com/chriseidhof/3423e722d1da4e8cce7cfdf85f026ef7).
+> The full code for this is available as a [snippet](/snippets/2019-07-24-struct-references/) or  [gist](https://gist.github.com/chriseidhof/3423e722d1da4e8cce7cfdf85f026ef7).
 
 Recently I was trying to find a good use for Swift's new keypaths. This post shows one example that accidentally came up. This is something I've researched, and not something I've used in production code. That said, I think it's very cool and I'd like to show it.
 
@@ -273,7 +273,7 @@ final class MyDatabase {
 }
 ```
 
-I'd love to hear comments and feedback. If you want to get a deeper understanding of how this works, try implementing it yourself (even after you've had a look at the code). By the way, we'll also make two [Swift Talk](http://talk.objc.io/) episodes about this. If you're interested in Florian and me building this from scratch, please subscribe there.
+I'd love to hear comments and feedback. If you want to get a deeper understanding of how this works, try implementing it yourself (even after you've had a look at the code). By the way, we also made two [Swift Talk](http://talk.objc.io/) episodes about this: [part 1](https://talk.objc.io/episodes/S01E61-mutable-shared-structs-part-1) and [part 2](https://talk.objc.io/episodes/S01E63-mutable-shared-structs-part-2). If you're interested in Florian and me building this from scratch, please subscribe there.
 
 
 > Update: thanks to Egor Sobko for pointing out a subtle but crucial mistake: I was sending the observers `initialValue` rather than `theValue`. Fixed!

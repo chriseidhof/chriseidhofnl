@@ -44,7 +44,8 @@ extension BlogPost.InContext {
 
 extension String {
     var fromMarkdown: HTML.Node {
-        CommonMark.Node(markdown: self).elements.asNode()
+        markdownWithFootnotes()
+//        CommonMark.Node(markdown: self).elements.asNode()
     }
 }
 
@@ -58,7 +59,7 @@ extension BlogPost {
                 }
             }
             section(class: "postbody") {
-                body.fromMarkdown
+                body.markdownWithFootnotes()
             }
             footer
         }

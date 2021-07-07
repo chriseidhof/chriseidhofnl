@@ -22,7 +22,7 @@ func checkLocalLinks(outputPath: String) {
                 if fm.fileExists(atPath: (outputPath as NSString).appendingPathComponent(link)) {
                     continue
                 }
-                print("\(page): \(link)")
+                print("Broken link: \(page): \(link)")
             }
         }
     }

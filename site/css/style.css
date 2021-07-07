@@ -322,6 +322,10 @@ Post Page
 	font-size:13px;
 }
 
+.footnotes hr {
+    height: 1px;
+}
+
 .postbody .footnotes ol {
   list-style-type:number;
 }
@@ -538,6 +542,10 @@ code .hljs-keyword {
 
 code .hljs-comment {
     color:#bbb;
+}
+
+code .hljs-string, code .hljs-number {
+    color: #666;
 }
 
 .snippet {

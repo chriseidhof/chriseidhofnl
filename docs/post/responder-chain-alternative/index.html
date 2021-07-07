@@ -46,26 +46,40 @@
 								This is easy to write, but you do pay a price: maintaining these actions is more difficult than writing them. It&apos;s hard to change code: if you ever want to refactor (for example, if you choose to rename the action), you&apos;ll have to be very careful to change it in all places in your code, and in the Interface Builder file. If you forget to change things in one place, Interface Builder might be able to tell you this. But not always.
 							</p>
 							<p>
-								The responder chain is easy, but it&apos;s not simple[^simpleasy]. There is a lot of magic behind the scenes. It makes it hard to change your code. In addition, the responder chain on the Mac is complex: you need to have the order of the chain in your head (or read the documentation) to work effectively. You need to know your view hierarchy, and changes you intend to be local can accidentally be global.
+								The responder chain is easy, but it&apos;s not simple
+								<sup><a href="#fnrefsimpleasy" name="fnref-revsimpleasy">1</a></sup>
+								. There is a lot of magic behind the scenes. It makes it hard to change your code. In addition, the responder chain on the Mac is complex: you need to have the order of the chain in your head (or read the documentation) to work effectively. You need to know your view hierarchy, and changes you intend to be local can accidentally be global.
 							</p>
 							<p>
 								The responder chain is cool, but I&apos;m not sure if we need to replicate it in Swift. Rather, we could try to think of a way that is just as easy as the responder chain, but also <em>simple</em>. It should be easy to refactor code. It should be easy to understand. It should be easy to debug. In order to make a local change, you shouldn&apos;t have to worry about the global effects. I&apos;m not sure if we can solve all these issues, but I&apos;m pretty sure we can solve a few of them.
 							</p>
 							<p>
-								(Functional) Reactive Programming[^3] might be one solution to this. I&apos;m not sure, because I have never applied FRP in production. The idea behind FRP is simple (and easy), but all implementations I&apos;ve tried aren&apos;t easy, nor simple. I think a React-like architecture is really cool, it&apos;s simple, it&apos;s easy, but then you want to do animations: not so easy.
+								(Functional) Reactive Programming
+								<sup><a href="#fnref3" name="fnref-rev3">2</a></sup>
+								 might be one solution to this. I&apos;m not sure, because I have never applied FRP in production. The idea behind FRP is simple (and easy), but all implementations I&apos;ve tried aren&apos;t easy, nor simple. I think a React-like architecture is really cool, it&apos;s simple, it&apos;s easy, but then you want to do animations: not so easy.
 							</p>
 							<p>
-								In short, I don&apos;t know a good alternative to the responder chain. I don&apos;t think FRP will be a silver bullet. For now, we can keep using the responder chain anyway, because Cocoa and Objective-C are probably not going anywhere[^lindy]. Sometimes, I hope that the answer comes when the Interface Builder team starts talking to the SourceKit API, and really leverage all this deep knowledge about the current program. In the mean time, we can try to come up with solutions ourselves, by keeping the following in mind: it should not only be easy, but also simple.
+								In short, I don&apos;t know a good alternative to the responder chain. I don&apos;t think FRP will be a silver bullet. For now, we can keep using the responder chain anyway, because Cocoa and Objective-C are probably not going anywhere
+								<sup><a href="#fnreflindy" name="fnref-revlindy">3</a></sup>
+								. Sometimes, I hope that the answer comes when the Interface Builder team starts talking to the SourceKit API, and really leverage all this deep knowledge about the current program. In the mean time, we can try to come up with solutions ourselves, by keeping the following in mind: it should not only be easy, but also simple.
 							</p>
-							<p>
-								[^simpleasy]: See Rich Hickey&apos;s amazing <a href="https://www.infoq.com/presentations/Simple-Made-Easy" title>presentation</a>, or read the <a href="https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md" title>transcript</a>.
-							</p>
-							<p>
-								[^lindy]: If I understand the <a href="https://en.wikipedia.org/wiki/Lindy_effect" title>Lindy effect</a> correctly, Cocoa might be around for 30 more years...
-							</p>
-							<p>
-								[^3]: It&apos;s not so much about the functional part of FRP, but more about the reactive part, as pointed out by <a href="https://twitter.com/simjp/status/738830379298131969" title>JP</a>.
-							</p>
+							<div class="footnotes">
+								<hr/>
+								<ol>
+									<li id="fnrefsimpleasy">
+										<p>See Rich Hickey's amazing <a href="https://www.infoq.com/presentations/Simple-Made-Easy">presentation</a>, or read the <a href="https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md">transcript</a>. <a href="#fnref-revsimpleasy">↩</a></p>
+
+									</li>
+									<li id="fnref3">
+										<p>It's not so much about the functional part of FRP, but more about the reactive part, as pointed out by <a href="https://twitter.com/simjp/status/738830379298131969">JP</a>. <a href="#fnref-rev3">↩</a></p>
+
+									</li>
+									<li id="fnreflindy">
+										<p>If I understand the <a href="https://en.wikipedia.org/wiki/Lindy_effect">Lindy effect</a> correctly, Cocoa might be around for 30 more years... <a href="#fnref-revlindy">↩</a></p>
+
+									</li>
+								</ol>
+							</div>
 						</section>
 						<footer class="group" id="post-meta">
 							<div>

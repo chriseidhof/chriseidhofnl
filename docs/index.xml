@@ -9,6 +9,59 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Dependencies</title>
+			<description>
+				
+&lt;p&gt;
+	Over the last years, I&amp;apos;ve noticed a change when programming. I used to liberately add third-party dependencies to my code. I would use libraries, or even build on top of frameworks like Ruby on Rails. These days, I tend to use few or no third-party dependencies.
+&lt;/p&gt;
+&lt;p&gt;
+	It&amp;apos;s not that I don&amp;apos;t like third-party code. However, a lot of the projects I&amp;apos;ve worked on have been around for quite a few years — which also means keeping their dependencies up to date. Sometimes the API breaks, sometimes there are security issues, sometimes a dependency is just not maintained anymore, and very often, a dependency somehow stops working when I upgrade my machine.
+&lt;/p&gt;
+&lt;p&gt;
+	I hate dealing with this. My app was working fine, and now I have to debug why Nokogiri does not install, or making sure that my app works with the most recent version of Rails, or seeing one of those Javascript libraries pull in hundreds of additional dependencies. And once I do get everything working again, it turns out one of the dependencies updated itself and doesn&amp;apos;t work with my code anymore.
+&lt;/p&gt;
+&lt;p&gt;
+	A few years ago, we rewrote our &lt;a href=&quot;http://talk.objc.io&quot; title&gt;Swift Talk&lt;/a&gt; backend from Ruby on Rails to Swift (&lt;a href=&quot;https://github.com/objcio/swift-talk-backend&quot; title&gt;here&amp;apos;s the code&lt;/a&gt;). Our Ruby backend had over 70 gem dependencies. The Swift version has fewer than ten dependencies, only two of which we don&amp;apos;t maintain ourselves (SourceKitten and SwiftNIO). We can always compile this without any problems, even after we haven&amp;apos;t worked on it for a while. (As an aside, rewriting from Ruby to Swift also made everything much faster and way less resource-intensive.)
+&lt;/p&gt;
+&lt;p&gt;
+	A few weeks ago, we also rewrote the code that generates objc.io (a static site) into Swift
+	&lt;sup&gt;&lt;a href=&quot;#fnref1&quot; name=&quot;fnref-rev1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
+	. Previously, we used an old version of Middleman with a whole bunch of gems, which themselves come with their &lt;em&gt;own&lt;/em&gt; dependencies. Additionaly, there were git submodules, Bower, NPM and CSS compilation steps. Bit by bit, it stopped building on all but one of our machines, even the Docker version somehow didn&amp;apos;t work anymore.
+&lt;/p&gt;
+&lt;p&gt;
+	At some point, we were tired of it, and wanted to change something on our website. We decided to bite the bullet and just rewrite it in Swift with very few dependencies
+	&lt;sup&gt;&lt;a href=&quot;#fnref2&quot; name=&quot;fnref-rev2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;
+	. While we might still have issues whenever these dependencies change, at least we&amp;apos;ll probably get type errors and won&amp;apos;t have any silent issues. The rewrite took us only about a week and a half. I expect that, for the next few years, we can just keep updating and expanding our site with minimal effort spent on maintaining dependencies. While were at it, we also ripped out almost all Javascript, keeping only a few essential bits. (As an aside, the Ruby version used to take minutes to generate, whereas the Swift version is done within two seconds).
+&lt;/p&gt;
+&lt;p&gt;
+	There&amp;apos;s a fine line between minimizing dependencies and &lt;a href=&quot;https://en.wikipedia.org/wiki/Not_invented_here&quot; title&gt;NIH syndrome&lt;/a&gt;. I&amp;apos;m not sure that our approach is the best way to do things, but I&amp;apos;m really happy that we have full control over our code, and — more importantly — that everything fits into our heads.
+&lt;/p&gt;
+&lt;p&gt;
+	There are many upsides to fewer dependencies: we understand the code, it&amp;apos;s written in our own style, we don&amp;apos;t have to spend time keeping the dependencies up to date, and we can fix any issues ourselves without having to wait for something to be approved. However, there are some downsides as well. For example: our code isn&amp;apos;t as battle-tested as other code out there. (This is why we used cmark rather than our own half-working Markdown parser that only parses an extended subset of Markdown.) Another drawback is that there are some really useful features in existing frameworks that we had to write ourselves. We wanted to have asset hashing, and while this is a single flag in most static site generators, we instead spent a morning implementing this.
+&lt;/p&gt;
+&lt;p&gt;
+	All in all, I do have to say that minimizing dependencies works really well for us. We have done this with a number of projects, and it&amp;apos;s just so nice to be able to just run a project that you&amp;apos;ve left alone for weeks, months or even years, and everything still works.
+&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+	&lt;hr/&gt;
+	&lt;ol&gt;
+		&lt;li id=&quot;fnref1&quot;&gt;
+			&lt;p&gt;We took a very &lt;em&gt;practical&lt;/em&gt; approach and just wanted to get it done before our holidays. We did pull out some of the code into a library, and this very site is generated using that same code. &lt;a href=&quot;https://github.com/objcio/StaticSite&quot;&gt;Here&apos;s&lt;/a&gt; the library. &lt;a href=&quot;#fnref-rev1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+
+		&lt;/li&gt;
+		&lt;li id=&quot;fnref2&quot;&gt;
+			&lt;p&gt;To be fair, we did end up depending on &lt;a href=&quot;https://github.com/jpsim/Yams&quot;&gt;Yams&lt;/a&gt;, &lt;a href=&quot;https://github.com/apple/swift-syntax&quot;&gt;SwiftSyntax&lt;/a&gt;, &lt;a href=&quot;https://github.com/robb/Swim&quot;&gt;Swim&lt;/a&gt; and &lt;a href=&quot;https://github.com/jgm/cmark&quot;&gt;cmark&lt;/a&gt;. &lt;a href=&quot;#fnref-rev2&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+
+		&lt;/li&gt;
+	&lt;/ol&gt;
+&lt;/div&gt;
+			</description>
+			<pubDate>Tue, 06 Jul 2021 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/fewer-dependencies</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/fewer-dependencies</guid>
+		</item>
+		<item>
 			<title>2019</title>
 			<description>
 				
@@ -298,7 +351,7 @@ view.addSubview(label, constraints: [
 				
 &lt;blockquote&gt;
 	&lt;p&gt;
-		The full code for this is available as a &lt;a href=&quot;https://gist.github.com/chriseidhof/3423e722d1da4e8cce7cfdf85f026ef7&quot; title&gt;gist&lt;/a&gt;.
+		The full code for this is available as a &lt;a href=&quot;http://chris.eidhof.nl/snippets/2019-07-24-struct-references/&quot; title&gt;snippet&lt;/a&gt; or  &lt;a href=&quot;https://gist.github.com/chriseidhof/3423e722d1da4e8cce7cfdf85f026ef7&quot; title&gt;gist&lt;/a&gt;.
 	&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;
@@ -602,7 +655,7 @@ print(p0.value) // what does this print?
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
-	I&amp;apos;d love to hear comments and feedback. If you want to get a deeper understanding of how this works, try implementing it yourself (even after you&amp;apos;ve had a look at the code). By the way, we&amp;apos;ll also make two &lt;a href=&quot;http://talk.objc.io/&quot; title&gt;Swift Talk&lt;/a&gt; episodes about this. If you&amp;apos;re interested in Florian and me building this from scratch, please subscribe there.
+	I&amp;apos;d love to hear comments and feedback. If you want to get a deeper understanding of how this works, try implementing it yourself (even after you&amp;apos;ve had a look at the code). By the way, we also made two &lt;a href=&quot;http://talk.objc.io/&quot; title&gt;Swift Talk&lt;/a&gt; episodes about this: &lt;a href=&quot;https://talk.objc.io/episodes/S01E61-mutable-shared-structs-part-1&quot; title&gt;part 1&lt;/a&gt; and &lt;a href=&quot;https://talk.objc.io/episodes/S01E63-mutable-shared-structs-part-2&quot; title&gt;part 2&lt;/a&gt;. If you&amp;apos;re interested in Florian and me building this from scratch, please subscribe there.
 &lt;/p&gt;
 &lt;blockquote&gt;
 	&lt;p&gt;
@@ -2291,26 +2344,40 @@ extension Collection where Iterator == IndexingIterator&amp;lt;Self&amp;gt; {
 	This is easy to write, but you do pay a price: maintaining these actions is more difficult than writing them. It&amp;apos;s hard to change code: if you ever want to refactor (for example, if you choose to rename the action), you&amp;apos;ll have to be very careful to change it in all places in your code, and in the Interface Builder file. If you forget to change things in one place, Interface Builder might be able to tell you this. But not always.
 &lt;/p&gt;
 &lt;p&gt;
-	The responder chain is easy, but it&amp;apos;s not simple[^simpleasy]. There is a lot of magic behind the scenes. It makes it hard to change your code. In addition, the responder chain on the Mac is complex: you need to have the order of the chain in your head (or read the documentation) to work effectively. You need to know your view hierarchy, and changes you intend to be local can accidentally be global.
+	The responder chain is easy, but it&amp;apos;s not simple
+	&lt;sup&gt;&lt;a href=&quot;#fnrefsimpleasy&quot; name=&quot;fnref-revsimpleasy&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
+	. There is a lot of magic behind the scenes. It makes it hard to change your code. In addition, the responder chain on the Mac is complex: you need to have the order of the chain in your head (or read the documentation) to work effectively. You need to know your view hierarchy, and changes you intend to be local can accidentally be global.
 &lt;/p&gt;
 &lt;p&gt;
 	The responder chain is cool, but I&amp;apos;m not sure if we need to replicate it in Swift. Rather, we could try to think of a way that is just as easy as the responder chain, but also &lt;em&gt;simple&lt;/em&gt;. It should be easy to refactor code. It should be easy to understand. It should be easy to debug. In order to make a local change, you shouldn&amp;apos;t have to worry about the global effects. I&amp;apos;m not sure if we can solve all these issues, but I&amp;apos;m pretty sure we can solve a few of them.
 &lt;/p&gt;
 &lt;p&gt;
-	(Functional) Reactive Programming[^3] might be one solution to this. I&amp;apos;m not sure, because I have never applied FRP in production. The idea behind FRP is simple (and easy), but all implementations I&amp;apos;ve tried aren&amp;apos;t easy, nor simple. I think a React-like architecture is really cool, it&amp;apos;s simple, it&amp;apos;s easy, but then you want to do animations: not so easy.
+	(Functional) Reactive Programming
+	&lt;sup&gt;&lt;a href=&quot;#fnref3&quot; name=&quot;fnref-rev3&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;
+	 might be one solution to this. I&amp;apos;m not sure, because I have never applied FRP in production. The idea behind FRP is simple (and easy), but all implementations I&amp;apos;ve tried aren&amp;apos;t easy, nor simple. I think a React-like architecture is really cool, it&amp;apos;s simple, it&amp;apos;s easy, but then you want to do animations: not so easy.
 &lt;/p&gt;
 &lt;p&gt;
-	In short, I don&amp;apos;t know a good alternative to the responder chain. I don&amp;apos;t think FRP will be a silver bullet. For now, we can keep using the responder chain anyway, because Cocoa and Objective-C are probably not going anywhere[^lindy]. Sometimes, I hope that the answer comes when the Interface Builder team starts talking to the SourceKit API, and really leverage all this deep knowledge about the current program. In the mean time, we can try to come up with solutions ourselves, by keeping the following in mind: it should not only be easy, but also simple.
+	In short, I don&amp;apos;t know a good alternative to the responder chain. I don&amp;apos;t think FRP will be a silver bullet. For now, we can keep using the responder chain anyway, because Cocoa and Objective-C are probably not going anywhere
+	&lt;sup&gt;&lt;a href=&quot;#fnreflindy&quot; name=&quot;fnref-revlindy&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;
+	. Sometimes, I hope that the answer comes when the Interface Builder team starts talking to the SourceKit API, and really leverage all this deep knowledge about the current program. In the mean time, we can try to come up with solutions ourselves, by keeping the following in mind: it should not only be easy, but also simple.
 &lt;/p&gt;
-&lt;p&gt;
-	[^simpleasy]: See Rich Hickey&amp;apos;s amazing &lt;a href=&quot;https://www.infoq.com/presentations/Simple-Made-Easy&quot; title&gt;presentation&lt;/a&gt;, or read the &lt;a href=&quot;https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md&quot; title&gt;transcript&lt;/a&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	[^lindy]: If I understand the &lt;a href=&quot;https://en.wikipedia.org/wiki/Lindy_effect&quot; title&gt;Lindy effect&lt;/a&gt; correctly, Cocoa might be around for 30 more years...
-&lt;/p&gt;
-&lt;p&gt;
-	[^3]: It&amp;apos;s not so much about the functional part of FRP, but more about the reactive part, as pointed out by &lt;a href=&quot;https://twitter.com/simjp/status/738830379298131969&quot; title&gt;JP&lt;/a&gt;.
-&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+	&lt;hr/&gt;
+	&lt;ol&gt;
+		&lt;li id=&quot;fnrefsimpleasy&quot;&gt;
+			&lt;p&gt;See Rich Hickey&apos;s amazing &lt;a href=&quot;https://www.infoq.com/presentations/Simple-Made-Easy&quot;&gt;presentation&lt;/a&gt;, or read the &lt;a href=&quot;https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md&quot;&gt;transcript&lt;/a&gt;. &lt;a href=&quot;#fnref-revsimpleasy&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+
+		&lt;/li&gt;
+		&lt;li id=&quot;fnref3&quot;&gt;
+			&lt;p&gt;It&apos;s not so much about the functional part of FRP, but more about the reactive part, as pointed out by &lt;a href=&quot;https://twitter.com/simjp/status/738830379298131969&quot;&gt;JP&lt;/a&gt;. &lt;a href=&quot;#fnref-rev3&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+
+		&lt;/li&gt;
+		&lt;li id=&quot;fnreflindy&quot;&gt;
+			&lt;p&gt;If I understand the &lt;a href=&quot;https://en.wikipedia.org/wiki/Lindy_effect&quot;&gt;Lindy effect&lt;/a&gt; correctly, Cocoa might be around for 30 more years... &lt;a href=&quot;#fnref-revlindy&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+
+		&lt;/li&gt;
+	&lt;/ol&gt;
+&lt;/div&gt;
 			</description>
 			<pubDate>Fri, 03 Jun 2016 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/responder-chain-alternative</link>
@@ -2429,20 +2496,28 @@ personHistory.currentItem.age // Prints 31 again
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
-	Even if we change something deep inside the array (e.g. &lt;code&gt;data.currentItem[17].name = &amp;quot;John&amp;quot;&lt;/code&gt;) our &lt;code&gt;didSet&lt;/code&gt; will get triggered. Of course, we probably want to do something a little bit smarter than &lt;code&gt;reloadData&lt;/code&gt;. For example, we could use the &lt;a href=&quot;https://github.com/osteslag/Changeset&quot; title&gt;Changeset&lt;/a&gt; library to compute a diff and have insert/delete/move animations[^2].
+	Even if we change something deep inside the array (e.g. &lt;code&gt;data.currentItem[17].name = &amp;quot;John&amp;quot;&lt;/code&gt;) our &lt;code&gt;didSet&lt;/code&gt; will get triggered. Of course, we probably want to do something a little bit smarter than &lt;code&gt;reloadData&lt;/code&gt;. For example, we could use the &lt;a href=&quot;https://github.com/osteslag/Changeset&quot; title&gt;Changeset&lt;/a&gt; library to compute a diff and have insert/delete/move animations
+	&lt;sup&gt;&lt;a href=&quot;#fnref2&quot; name=&quot;fnref-rev2&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
+	.
 &lt;/p&gt;
 &lt;p&gt;
-	Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the &lt;a href=&quot;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&quot; title&gt;runtime programming guide&lt;/a&gt;, you only need to have a good grasp of structs and generics to come up with this solution [^3].
+	Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the &lt;a href=&quot;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&quot; title&gt;runtime programming guide&lt;/a&gt;, you only need to have a good grasp of structs and generics to come up with this solution 
+	&lt;sup&gt;&lt;a href=&quot;#fnref3&quot; name=&quot;fnref-rev3&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;
+	.
 &lt;/p&gt;
-&lt;p&gt;
-	[^1]: It would probably be nice to define a computed property &lt;code&gt;items&lt;/code&gt; which just gets and sets &lt;code&gt;data.currentItem&lt;/code&gt;. This makes the data source / delegate method implementations much nicer.
-&lt;/p&gt;
-&lt;p&gt;
-	[^2]: If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you&amp;apos;ll end up with two entries in your undo history.
-&lt;/p&gt;
-&lt;p&gt;
-	[^3]: In &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt; we go into way much more detail on these and many other topics.
-&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+	&lt;hr/&gt;
+	&lt;ol&gt;
+		&lt;li id=&quot;fnref2&quot;&gt;
+			&lt;p&gt;If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you&apos;ll end up with two entries in your undo history. &lt;a href=&quot;#fnref-rev2&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+
+		&lt;/li&gt;
+		&lt;li id=&quot;fnref3&quot;&gt;
+			&lt;p&gt;In &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot;&gt;Advanced Swift&lt;/a&gt; we go into way much more detail on these and many other topics. &lt;a href=&quot;#fnref-rev3&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+
+		&lt;/li&gt;
+	&lt;/ol&gt;
+&lt;/div&gt;
 			</description>
 			<pubDate>Mon, 30 May 2016 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/undo-history-in-swift</link>
@@ -2453,7 +2528,9 @@ personHistory.currentItem.age // Prints 31 again
 			<description>
 				
 &lt;p&gt;
-	Recently, &lt;a href=&quot;http://inessential.com&quot; title&gt;Brent&lt;/a&gt; and others wrote a lot about the lack of dynamic features[^1] in Swift. I tried distilling Brent&amp;apos;s thoughts, and came up with the following summary:
+	Recently, &lt;a href=&quot;http://inessential.com&quot; title&gt;Brent&lt;/a&gt; and others wrote a lot about the lack of dynamic features
+	&lt;sup&gt;&lt;a href=&quot;#fnref1&quot; name=&quot;fnref-rev1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
+	 in Swift. I tried distilling Brent&amp;apos;s thoughts, and came up with the following summary:
 &lt;/p&gt;
 &lt;ul&gt;
 	&lt;li&gt;
@@ -2479,7 +2556,9 @@ personHistory.currentItem.age // Prints 31 again
 	As long as AppKit and UIKit will be around, we&amp;apos;ll have Objective-C and its runtime. If Apple releases a Swift-only successor to either one of these frameworks, I&amp;apos;m confident that they will do a good job: they&amp;apos;ll make us write less boilerplate, rather than more.
 &lt;/p&gt;
 &lt;p&gt;
-	Let&amp;apos;s look at a completely different context: web programming. I&amp;apos;ve seen amazing web frameworks that rely a lot on runtime programming (stuff like Rails, but also &lt;a href=&quot;http://seaside.st&quot; title&gt;Seaside&lt;/a&gt;, back in its day). But, there are web frameworks in languages like Haskell, Scala and C# that use features like protocols, datatype-generic programming[^2] and passing around functions to reduce boilerplate. With both approaches you can get short, simple, maintainable code that&amp;apos;s easy to write.
+	Let&amp;apos;s look at a completely different context: web programming. I&amp;apos;ve seen amazing web frameworks that rely a lot on runtime programming (stuff like Rails, but also &lt;a href=&quot;http://seaside.st&quot; title&gt;Seaside&lt;/a&gt;, back in its day). But, there are web frameworks in languages like Haskell, Scala and C# that use features like protocols, datatype-generic programming
+	&lt;sup&gt;&lt;a href=&quot;#fnref2&quot; name=&quot;fnref-rev2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;
+	 and passing around functions to reduce boilerplate. With both approaches you can get short, simple, maintainable code that&amp;apos;s easy to write.
 &lt;/p&gt;
 &lt;p&gt;
 	Yet, techniques you don&amp;apos;t know will almost always seem more complicated at first. I tried arguing with a Haskell programmer that runtime programming can be useful. I tried arguing with a Ruby programmer that static types can be helpful. To both, it seemed unnecessary and complicated. They&amp;apos;ve been writing great code without those features.
@@ -2487,12 +2566,19 @@ personHistory.currentItem.age // Prints 31 again
 &lt;p&gt;
 	Brent, if you read this, I&amp;apos;d like to offer you a free copy of my books. Just send me an email. There are some techniques in there that will show how to replace runtime programming with things like functions, or protocols. These techniques definitely won&amp;apos;t solve all your problems. I do think they will show you some ways in which you can write short, simple, and maintainable code in Swift today, without having to resort to runtime programming.
 &lt;/p&gt;
-&lt;p&gt;
-	[^1]: To have a productive discussion, I think it&amp;apos;s important to understand about which dynamic features we are speaking. Dynamic can mean so many different things: KVO/KVC, late binding, subclassing, swizzling, dependency injection, reflection, runtime casting, and so on. Because the word dynamic means different things to different people, the discussion has been (and will be) hand-wavy. Swift has a lot of dynamic features, but they are different: protocols, safe runtime casting, passing around functions, and so on.
-&lt;/p&gt;
-&lt;p&gt;
-	[^2]: Datatype-generic programming is a cool technique in functional programming. It allows you to write methods that operate on the structure of the data. For example, it would let you write something like an NSCoder implementation that works on all structs and classes. It&amp;apos;s much the same as writing it using runtime introspection, except that it&amp;apos;s type-safe, and more importantly, the compiler can help you catch mistakes. Unfortunately, datatype-generic programming isn&amp;apos;t yet (but almost!) possible in Swift.
-&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+	&lt;hr/&gt;
+	&lt;ol&gt;
+		&lt;li id=&quot;fnref1&quot;&gt;
+			&lt;p&gt;To have a productive discussion, I think it&apos;s important to understand about which dynamic features we are speaking. Dynamic can mean so many different things: KVO/KVC, late binding, subclassing, swizzling, dependency injection, reflection, runtime casting, and so on. Because the word dynamic means different things to different people, the discussion has been (and will be) hand-wavy. Swift has a lot of dynamic features, but they are different: protocols, safe runtime casting, passing around functions, and so on. &lt;a href=&quot;#fnref-rev1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+
+		&lt;/li&gt;
+		&lt;li id=&quot;fnref2&quot;&gt;
+			&lt;p&gt;Datatype-generic programming is a cool technique in functional programming. It allows you to write methods that operate on the structure of the data. For example, it would let you write something like an NSCoder implementation that works on all structs and classes. It&apos;s much the same as writing it using runtime introspection, except that it&apos;s type-safe, and more importantly, the compiler can help you catch mistakes. Unfortunately, datatype-generic programming isn&apos;t yet (but almost!) possible in Swift. &lt;a href=&quot;#fnref-rev2&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+
+		&lt;/li&gt;
+	&lt;/ol&gt;
+&lt;/div&gt;
 			</description>
 			<pubDate>Thu, 26 May 2016 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/dynamic-swift</link>
@@ -2740,49 +2826,6 @@ myData.append(moreData) // copy
 			<pubDate>Sun, 30 Aug 2015 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/struct-semantics-in-swift</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/struct-semantics-in-swift</guid>
-		</item>
-		<item>
-			<title>Literate Swift</title>
-			<description>
-				
-&lt;p&gt;
-	Last year, when we started writing &lt;a href=&quot;http://www.objc.io/books/fpinswift/&quot; title&gt;Functional Programming in Swift&lt;/a&gt;, we realized that the language would change every few weeks. We didn&amp;apos;t anticipate the pace, but we were ready for change. Rather than manually updating every article, we used a technique called &lt;a href=&quot;https://en.wikipedia.org/wiki/Literate_programming&quot; title&gt;literate programming&lt;/a&gt;. In literate programming, you write the code and text at the same time. The code in the text can be executed. To do this, we wrote a small utility called Literate Swift.
-&lt;/p&gt;
-&lt;p&gt;
-	For our two new books, &lt;a href=&quot;http://www.objc.io/books/core-data/&quot; title&gt;Core Data&lt;/a&gt; and &lt;a href=&quot;http://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt;, we are using the same technique, except with a newer version of the tool. Literate Swift is a library (and comes with a GUI or command-line tool) that takes a Markdown file, extracts all the code blocks marked with &lt;code&gt;swift&lt;/code&gt;, and compiles those. The awesome thing about it is that you can compile your Markdown: you can statically check that the code in your blog posts (or in our case, our books) is correct.
-&lt;/p&gt;
-&lt;p&gt;
-	Not only does it compile the code blocks marked as Swift, it also takes code blocks marked as &lt;code&gt;print-swift&lt;/code&gt;, and replaces them by the code &lt;em&gt;and&lt;/em&gt; the result of executing that code. For example, the following block after running it through Literate Swift:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class&gt;```print-swift
-(1..&amp;lt;10).reduce(0, combine: +)
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Will get replaced by the following block:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class&gt;```swift
-(1..&amp;lt;10).reduce(0, combine: +)
-&amp;gt; 45
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	We support just highlighting code by marking a block as &lt;code&gt;highlight-swift&lt;/code&gt;. This way, it gets highlighted, but not compiled (which is also a danger, because that code might easily get outdated).
-&lt;/p&gt;
-&lt;p&gt;
-	Finally, sometimes you just want to work in a Swift file. For this, we support embeds. If you have the following block, Literate Swift will look at all Swift files in that directory (and all its subdirectories, recursively), and see if there are lines that are surrounded by &lt;code&gt;// &amp;lt;&amp;lt;MySnippet&amp;gt;&amp;gt;&lt;/code&gt; and &lt;code&gt;// &amp;lt;&amp;lt;/MySnippet&amp;gt;&amp;gt;&lt;/code&gt;, and embed the contents of that into the output (without executing it). This way, you can write separate Swift files that are easy to edit using Xcode and still make sure it gets embedded into the output.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class&gt;```highlight-swift
-&amp;lt;&amp;lt;MySnippet&amp;gt;&amp;gt;
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The Literate Swift tool can currently generate a number of outputs: HTML, Markdown and LaTeX. The &lt;a href=&quot;https://github.com/chriseidhof/LiterateSwiftGUI&quot; title&gt;GUI tool&lt;/a&gt; renders the HTML directly into a web view, which is great for previewing while writing. It also has tabs for Markdown, Playground syntax and just the Swift code (for easy copy-pasting). The entire tool chain is still very immature (and a bit hacky at some points), but it has proven to be a great help during writing already. It should also be very simple to integrate this into blogging workflows, and other publishing formats.
-&lt;/p&gt;
-			</description>
-			<pubDate>Fri, 31 Jul 2015 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/literate-swift</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/literate-swift</guid>
 		</item>
 	</channel>
 </rss>

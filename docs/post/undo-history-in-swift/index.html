@@ -142,20 +142,28 @@
 }
 </code></pre>
 							<p>
-								Even if we change something deep inside the array (e.g. <code>data.currentItem[17].name = &quot;John&quot;</code>) our <code>didSet</code> will get triggered. Of course, we probably want to do something a little bit smarter than <code>reloadData</code>. For example, we could use the <a href="https://github.com/osteslag/Changeset" title>Changeset</a> library to compute a diff and have insert/delete/move animations[^2].
+								Even if we change something deep inside the array (e.g. <code>data.currentItem[17].name = &quot;John&quot;</code>) our <code>didSet</code> will get triggered. Of course, we probably want to do something a little bit smarter than <code>reloadData</code>. For example, we could use the <a href="https://github.com/osteslag/Changeset" title>Changeset</a> library to compute a diff and have insert/delete/move animations
+								<sup><a href="#fnref2" name="fnref-rev2">1</a></sup>
+								.
 							</p>
 							<p>
-								Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html" title>runtime programming guide</a>, you only need to have a good grasp of structs and generics to come up with this solution [^3].
+								Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html" title>runtime programming guide</a>, you only need to have a good grasp of structs and generics to come up with this solution 
+								<sup><a href="#fnref3" name="fnref-rev3">2</a></sup>
+								.
 							</p>
-							<p>
-								[^1]: It would probably be nice to define a computed property <code>items</code> which just gets and sets <code>data.currentItem</code>. This makes the data source / delegate method implementations much nicer.
-							</p>
-							<p>
-								[^2]: If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you&apos;ll end up with two entries in your undo history.
-							</p>
-							<p>
-								[^3]: In <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a> we go into way much more detail on these and many other topics.
-							</p>
+							<div class="footnotes">
+								<hr/>
+								<ol>
+									<li id="fnref2">
+										<p>If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you'll end up with two entries in your undo history. <a href="#fnref-rev2">↩</a></p>
+
+									</li>
+									<li id="fnref3">
+										<p>In <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a> we go into way much more detail on these and many other topics. <a href="#fnref-rev3">↩</a></p>
+
+									</li>
+								</ol>
+							</div>
 						</section>
 						<footer class="group" id="post-meta">
 							<div>
