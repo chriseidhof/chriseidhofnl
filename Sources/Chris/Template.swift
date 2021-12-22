@@ -3,7 +3,8 @@ import HTML
 
 struct Main: Template {
     func run(environment: EnvironmentValues, content: Node) -> Node {
-        html() {
+        let theTitle = environment.title.map { "\($0) — Chris Eidhof" } ?? "Chris Eidhof"
+        return html() {
             head() {
                 meta(charset: "utf-8")
                 meta(content: "IE=edge,chrome=1", httpEquiv: "X-UA-Compatible")
@@ -17,7 +18,7 @@ struct Main: Template {
                 link(href: "/css/style.css", rel: "stylesheet")
                 link(href: "http://chris.eidhof.nl//index.xml", rel: "alternate", title: "RSS", type: "application/rss+xml")
                 title {
-                    "Chris Eidhof"
+                    theTitle
                 }
 //                meta(content: "Chris Eidhof", property: "og:title")
 //                meta(content: "website", property: "og:type")

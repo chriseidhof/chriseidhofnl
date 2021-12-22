@@ -28,8 +28,10 @@ struct Blog: Rule {
         WriteNode(outputName: "archive/index.html", node:
             posts.map { $0.post }.groupedByYear()
         )
+            .title("Archive")
         ForEach(posts) { post in
             WriteNode(outputName: post.post.outputName, node: post.page)
+                .title(post.post.metadata.title)
         }
         WriteNode(outputName: "index.xml", node: feed, xml: true)
             .resetTemplates()

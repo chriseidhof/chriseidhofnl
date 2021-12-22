@@ -38,3 +38,22 @@ extension EnvironmentValues {
         return String(urlString.dropFirst(prefix.count))
     }
 }
+
+// Use ⌥⌘E to select multiple tokens
+
+enum Title: EnvironmentKey {
+    static var defaultValue: String? = nil
+}
+
+extension EnvironmentValues {
+    var title: String? {
+        get { self[Title.self] }
+        set { self[Title.self] = newValue }
+    }
+}
+
+extension Rule {
+    func title(_ string: String?) -> some Rule {
+        self.environment(keyPath: \.title, value: string)
+    }
+}
