@@ -9,6 +9,42 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>2021</title>
+			<description>
+				
+&lt;p&gt;
+	The year is almost over, so time for a quick recap.
+&lt;/p&gt;
+&lt;p&gt;
+	Work-wise, we started the year by releasing a new app called &lt;a href=&quot;https://www.buildandshipapps.com&quot; title&gt;Narrated&lt;/a&gt;. It&amp;apos;s a Mac app to create more personal screen recordings by including your camera. It was really fun to build and ship, but it hasn&amp;apos;t been a success commercially at all by any means. Our goal was to actually get the entire app out within a few months, and we did manage to go from prototype to finished app within about three months.
+&lt;/p&gt;
+&lt;p&gt;
+	At the beginning of the year, we started preparing a &lt;a href=&quot;https://www.objc.io/workshops/swiftui/&quot; title&gt;SwiftUI workshop&lt;/a&gt;. We tried to think hard about what parts are difficult to learn, and focus on that. For example: everyone can figure out how to create a button, but hardly anyone actually understands the layout system.
+&lt;/p&gt;
+&lt;p&gt;
+	It&amp;apos;s been incredibly rewarding running these workshops for teams both with and without SwiftUI experience at companies across the globe. At first, I was a bit hesitant about running an online workshop, but it turned out to work really well. I think part of it was preparing better than we ever did before. We have well thought-out exercises that all build on top of each other, as well as a Mac app that describes all the exercises and has a large number of interactive explanations. With each workshop we ran, we were able to iterate on this, improving the exercises, explanations and structure.
+&lt;/p&gt;
+&lt;p&gt;
+	At some point in the first half of the year, we got fed up with our website build system (Middleman/Ruby and some Javascript build systems) that had been in place for (eight?) years. Over the years, it stopped working on more and more of our computers until we only had one machine left that was able to build it. We decided to bite the bullet, and rewrote it in Swift. It only took us a few days to rewrite, and we should be set for the next few years. No more strange gem installs that stop working or npm dependencies that break. As a bonus, our site now builds in 2 seconds rather than multiple minutes (I think it took about 13 minutes on CI). We extract most of the code into a &lt;a href=&quot;https://github.com/objcio/StaticSite&quot; title&gt;simple framework&lt;/a&gt;. I also rewrote &lt;a href=&quot;https://github.com/chriseidhof/chriseidhofnl&quot; title&gt;this website&lt;/a&gt; with it.
+&lt;/p&gt;
+&lt;p&gt;
+	In the middle of last year we started on a new edition of &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt; (we&amp;apos;re hoping to ship it early 2022). We decided to revisit and update every single chapter, as well as adding a new chapter on Swift&amp;apos;s new concurrency system. The new concurrency stuff took us a while to understand, but I&amp;apos;m very impressed by its design. Concurrency is still hard, but this new system definitely helps to boil down concurrent and asynchronous code to its essential complexity, rather than complex code that&amp;apos;s further obfuscated by lots of nested callbacks and/or reactive programming.
+&lt;/p&gt;
+&lt;p&gt;
+	Of course, we also continued Swift Talk. I personally learned a ton &lt;a href=&quot;https://talk.objc.io/collections/swiftui-layout-explained&quot; title&gt;reimplementing SwiftUI&amp;apos;s layout system&lt;/a&gt;. We also built a simple &lt;a href=&quot;https://talk.objc.io/collections/swiftui-path-builder&quot; title&gt;vector drawing app&lt;/a&gt;, reimplemented &lt;a href=&quot;https://talk.objc.io/episodes/S01E260-matched-geometry-effect-part-3&quot; title&gt;matchedGeometryEffect&lt;/a&gt; and SwiftUI&amp;apos;s &lt;a href=&quot;https://talk.objc.io/collections/swiftui-state-explained&quot; title&gt;state handling&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	Running-wise, it was a pretty good year. Having two clear running goals (a spring marathon and a fall marathon) gave me purpose and meaning every single day. Even when all races were cancelled, I ran a solo marathon in April in &lt;a href=&quot;https://www.strava.com/activities/5188278197#10959190775&quot; title&gt;2:36&lt;/a&gt;. This was a massive PB. In preparation, I also ran PBs on the 10k (33 min) and HM (1:13). In the second half of the year I didn&amp;apos;t run any PBs, but did manage to win a few races. One of the most fun races for me was the Usedom Marathon where I finished in second place. I essentially ran that as a long run at 80% effort (just like the winner, who finished multiple minutes ahead of me). The Berlin marathon result (my main goal for the year) was disappointing for me as I don&amp;apos;t think I got anywhere close to what my training predicted.
+&lt;/p&gt;
+&lt;p&gt;
+	As a family, I think we managed to get through the pandemic relatively well. We leased a plot in a community garden, which helped: we spent a lot of our free time outside doing physical labour and playing. I actually have good hopes for the future, but if anything, we&amp;apos;ll just have to take things as they come.
+&lt;/p&gt;
+			</description>
+			<pubDate>Tue, 28 Dec 2021 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2021</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2021</guid>
+		</item>
+		<item>
 			<title>Dependencies</title>
 			<description>
 				
@@ -2695,137 +2731,6 @@ personHistory.currentItem.age // Prints 31 again
 			<pubDate>Fri, 22 Apr 2016 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/rejected-swift-proposals</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/rejected-swift-proposals</guid>
-		</item>
-		<item>
-			<title>Struct Semantics in Swift</title>
-			<description>
-				
-&lt;p&gt;
-	In our book &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt;, we show how to implement your own copy-on-write structs in detail. This blogpost shows the same technique, but in less detail.
-&lt;/p&gt;
-&lt;p&gt;
-	One big difference between Swift strings and Cocoa strings is how they deal with mutability. If you define a Swift string using &lt;code&gt;let&lt;/code&gt;, the compiler enforces immutability: there is no way to change the string:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class&gt;let myString = &amp;quot;immutable string&amp;quot;
-myString += &amp;quot; test&amp;quot; // Illegal
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	In Cocoa, the same is done using classes: an &lt;code&gt;NSString&lt;/code&gt; is immutable, and an &lt;code&gt;NSMutableString&lt;/code&gt; is mutable. However, there is a catch: NSMutableString is a subclass of NSString. Therefore, we can do the following:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class&gt;let x: NSMutableString = &amp;quot;Hello&amp;quot;
-let y: NSString = x
-x.appendString(&amp;quot; world&amp;quot;)
-// Now x and y both point to the string &amp;quot;Hello world&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Even if we have a variable that&amp;apos;s an NSString, we cannot be sure that it&amp;apos;s immutable, in order to be completely sure, we need to make a copy:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class&gt;let x: NSMutableString = &amp;quot;Hello&amp;quot;
-let y: NSString = x.copy() as! NSString
-x.appendString(&amp;quot; world&amp;quot;)
-// Now x is &amp;quot;Hello world&amp;quot;, and y is &amp;quot;Hello&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	With Swift strings, this works a bit differently. Because they are defined as structs, they have copy semantics. If you have a constant string, there is no way it can change under your nose:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class&gt;var x = &amp;quot;Hello&amp;quot;
-let y = x
-x += &amp;quot; world&amp;quot;
-// Now x is &amp;quot;Hello world&amp;quot;, and y is still &amp;quot;Hello&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Another advantage of Swift&amp;apos;s approach is that both &lt;code&gt;x&lt;/code&gt; and &lt;code&gt;y&lt;/code&gt; are the same String type. They have methods defined that can mutate the string, but all those methods are marked as &lt;code&gt;mutating&lt;/code&gt;. You simply cannot call them on constant values: the compiler won&amp;apos;t let you.
-&lt;/p&gt;
-&lt;p&gt;
-	In order to understand how they work, we will make a wrapper around &lt;code&gt;NSData&lt;/code&gt;. For mutation, &lt;code&gt;NSData&lt;/code&gt; also has a subclass &lt;code&gt;NSMutableData&lt;/code&gt;, but it suffers from the same problem as &lt;code&gt;NSString&lt;/code&gt;: you always have to make a copy if you want to be sure that you the data doesn&amp;apos;t change accidentally.
-&lt;/p&gt;
-&lt;p&gt;
-	Before we can start, we will need a small wrapper type: &lt;code&gt;Box&lt;/code&gt;. This can wrap anything, be it a class, or a struct, and the result will be a Swift class.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class&gt;final class Box&amp;lt;A&amp;gt; {
-    let unbox: A
-    init(_ value: A) { unbox = value }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Now we can create our own &lt;code&gt;Data&lt;/code&gt; struct. It just contains a single field, &lt;code&gt;boxedData&lt;/code&gt;. We also add a convience accessor &lt;code&gt;data&lt;/code&gt; which just unboxes the data. We provide an initializer, which also has a default (empty) value.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class&gt;struct Data {
-    private var boxedData: Box&amp;lt;NSMutableData&amp;gt;
-    var data: NSData { return boxedData.unbox }
-    init(data: NSData = NSData()) {
-        self.boxedData = Box(NSMutableData(data: data))
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	First, we&amp;apos;ll define some read-only functions: these can be used on immutable values of our struct. They just call their respective methods on &lt;code&gt;NSData&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class&gt;extension Data {
-    var length: Int { return data.length }
-    var bytes: UnsafePointer&amp;lt;Void&amp;gt; {
-        return data.bytes
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	To create a mutating variant, we first write a mutating accessor for &lt;code&gt;boxedData&lt;/code&gt;. This accessor makes a copy of the data before returning it. This allows us to implemement &lt;code&gt;append&lt;/code&gt;: whenever we &lt;code&gt;append&lt;/code&gt; to a Swift &lt;code&gt;var&lt;/code&gt;, we now automatically make a copy. This way, our data has the same semantics as other Swift structs such as strings and arrays.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class&gt;private var mutableData: NSMutableData {
-    mutating get {
-        boxedData = Box(NSMutableData(data: data))
-        return boxedData.unbox
-    }
-}
-
-mutating func append(other: NSData) {
-    mutableData.appendData(other)
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	There is one problem with the code above. It is very inefficient. If we define a single variable and mutate it a couple of times, each time the internal data will be copied, even though no other variable is referring to the same data:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class&gt;var myData = Data()
-myData.append(someOtherData) // copy
-myData.append(moreData) // copy
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Instead, we can change our &lt;code&gt;mutableData&lt;/code&gt; accessor to prevent copying when there are no other references to the &lt;code&gt;data&lt;/code&gt; variable. To do this, we need to check if the data is uniquely referenced. In other words, we only make a copy of the data if the data is shared. We can do this using the &lt;code&gt;isUniquelyReferencedNonObjC&lt;/code&gt; function. This is the reason why we need &lt;code&gt;Box&lt;/code&gt;: it only works on Swift classes. &lt;code&gt;NSMutableData&lt;/code&gt; is an Objective-C class, and then the function doesn&amp;apos;t work.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class&gt;private var mutableData: NSMutableData {
-    mutating get {
-        if !isUniquelyReferencedNonObjC(&amp;amp;boxedData) {
-            boxedData = Box(NSMutableData(data: data))
-        }
-        return boxedData.unbox
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Now we have full copy semantics, and efficient behavior: only when a copy is really necessary, it is made. This way, we never have to remember to write &lt;code&gt;data.copy()&lt;/code&gt; ourselves, we implemented it correctly once and can then forget about it. I think it&amp;apos;s probably a matter of time until the Swift Standard Library will get extended with a &lt;code&gt;Data&lt;/code&gt; type, but even then, this technique is very useful when you want to make your own efficient structs by wrapping pointers.
-&lt;/p&gt;
-&lt;p&gt;
-	To test our behavior, we can add some &lt;code&gt;print&lt;/code&gt; statements to the &lt;code&gt;mutableData&lt;/code&gt; accessor, and verify that our behavior is correct:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class&gt;private var mutableData: NSMutableData {
-    mutating get {
-        if !isUniquelyReferencedNonObjC(&amp;amp;boxedData) {
-            print(&amp;quot;Making a copy&amp;quot;)
-            boxedData = Box(NSMutableData(data: data))
-        } else {
-            print(&amp;quot;Not making a copy&amp;quot;)
-        }
-        return boxedData.unbox
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	As stated in the introduction, we describe this technique in more detail in our book &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt;. If you&amp;apos;ve enjoyed this post, be sure to grab a copy. Finally, a gist of the code is &lt;a href=&quot;https://gist.github.com/chriseidhof/d96f0f652a7c6358d865&quot; title&gt;here&lt;/a&gt;.
-&lt;/p&gt;
-			</description>
-			<pubDate>Sun, 30 Aug 2015 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/struct-semantics-in-swift</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/struct-semantics-in-swift</guid>
 		</item>
 	</channel>
 </rss>

@@ -1,0 +1,83 @@
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<script src="//use.typekit.net/bwu1cse.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			try{Typekit.load();}catch(e){}
+		</script>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			2021 — Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								2021
+							</h1>
+							<h2 class="headline">
+								My Year In Review
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								The year is almost over, so time for a quick recap.
+							</p>
+							<p>
+								Work-wise, we started the year by releasing a new app called <a href="https://www.buildandshipapps.com" title>Narrated</a>. It&apos;s a Mac app to create more personal screen recordings by including your camera. It was really fun to build and ship, but it hasn&apos;t been a success commercially at all by any means. Our goal was to actually get the entire app out within a few months, and we did manage to go from prototype to finished app within about three months.
+							</p>
+							<p>
+								At the beginning of the year, we started preparing a <a href="https://www.objc.io/workshops/swiftui/" title>SwiftUI workshop</a>. We tried to think hard about what parts are difficult to learn, and focus on that. For example: everyone can figure out how to create a button, but hardly anyone actually understands the layout system.
+							</p>
+							<p>
+								It&apos;s been incredibly rewarding running these workshops for teams both with and without SwiftUI experience at companies across the globe. At first, I was a bit hesitant about running an online workshop, but it turned out to work really well. I think part of it was preparing better than we ever did before. We have well thought-out exercises that all build on top of each other, as well as a Mac app that describes all the exercises and has a large number of interactive explanations. With each workshop we ran, we were able to iterate on this, improving the exercises, explanations and structure.
+							</p>
+							<p>
+								At some point in the first half of the year, we got fed up with our website build system (Middleman/Ruby and some Javascript build systems) that had been in place for (eight?) years. Over the years, it stopped working on more and more of our computers until we only had one machine left that was able to build it. We decided to bite the bullet, and rewrote it in Swift. It only took us a few days to rewrite, and we should be set for the next few years. No more strange gem installs that stop working or npm dependencies that break. As a bonus, our site now builds in 2 seconds rather than multiple minutes (I think it took about 13 minutes on CI). We extract most of the code into a <a href="https://github.com/objcio/StaticSite" title>simple framework</a>. I also rewrote <a href="https://github.com/chriseidhof/chriseidhofnl" title>this website</a> with it.
+							</p>
+							<p>
+								In the middle of last year we started on a new edition of <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a> (we&apos;re hoping to ship it early 2022). We decided to revisit and update every single chapter, as well as adding a new chapter on Swift&apos;s new concurrency system. The new concurrency stuff took us a while to understand, but I&apos;m very impressed by its design. Concurrency is still hard, but this new system definitely helps to boil down concurrent and asynchronous code to its essential complexity, rather than complex code that&apos;s further obfuscated by lots of nested callbacks and/or reactive programming.
+							</p>
+							<p>
+								Of course, we also continued Swift Talk. I personally learned a ton <a href="https://talk.objc.io/collections/swiftui-layout-explained" title>reimplementing SwiftUI&apos;s layout system</a>. We also built a simple <a href="https://talk.objc.io/collections/swiftui-path-builder" title>vector drawing app</a>, reimplemented <a href="https://talk.objc.io/episodes/S01E260-matched-geometry-effect-part-3" title>matchedGeometryEffect</a> and SwiftUI&apos;s <a href="https://talk.objc.io/collections/swiftui-state-explained" title>state handling</a>.
+							</p>
+							<p>
+								Running-wise, it was a pretty good year. Having two clear running goals (a spring marathon and a fall marathon) gave me purpose and meaning every single day. Even when all races were cancelled, I ran a solo marathon in April in <a href="https://www.strava.com/activities/5188278197#10959190775" title>2:36</a>. This was a massive PB. In preparation, I also ran PBs on the 10k (33 min) and HM (1:13). In the second half of the year I didn&apos;t run any PBs, but did manage to win a few races. One of the most fun races for me was the Usedom Marathon where I finished in second place. I essentially ran that as a long run at 80% effort (just like the winner, who finished multiple minutes ahead of me). The Berlin marathon result (my main goal for the year) was disappointing for me as I don&apos;t think I got anywhere close to what my training predicted.
+							</p>
+							<p>
+								As a family, I think we managed to get through the pandemic relatively well. We leased a plot in a community garden, which helped: we spent a lot of our free time outside doing physical labour and playing. I actually have good hopes for the future, but if anything, we&apos;ll just have to take things as they come.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Dec 28, 2021</time>
+										 by 
+										<a href="http://www.twitter.com/chriseidhof/">@chriseidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/fewer-dependencies">Dependencies
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
