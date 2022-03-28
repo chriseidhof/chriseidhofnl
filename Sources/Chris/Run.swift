@@ -44,12 +44,19 @@ extension Rule {
 
 public func run() throws {
     try recreateBuildDir()
+    // Workaround, for some reason `applyTransform` crashes with EXC_BAD_ACCESS (Xcode 13.3)
+    
+    var copy = baseEnvironment
+    copy.transformNode = { env, node in
+        recordLinks(env, highlight(env, node: node))
+    }
     try Site()
         .wrap(Main())
-        .applyTransform(highlight)
-        .applyTransform(recordLinks)
+//        .applyTransform({ $1 })
+//        .applyTransform(highlight)
+//        .applyTransform(recordLinks)
         .measure()
         .builtin
-        .run(environment: baseEnvironment)
+        .run(environment: copy)
     print(checkLocalLinks(outputPath: siteOutputPath.path))
 }

@@ -106,7 +106,7 @@ ul li	{ list-style-type:circle; list-style-position:inside; }
 /* Line Height */
 .postbody, p { line-height:1.7; }
 
-/*b, strong { font-weight: 600; }*/
+/*b, strong { font-weight: bold; }*/
 em, i { font-style: italic; }
 
 #title {

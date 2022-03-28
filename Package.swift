@@ -16,7 +16,7 @@ let package = Package(
         .package(url: "https://github.com/jpsim/Yams", from: "2.0.0"),
         .package(name: "HTML", url: "https://github.com/robb/Swim.git", .branch("main")),
         .package(url: "https://github.com/chriseidhof/StaticSite.git", .branch("main")),
-        .package(name: "SwiftSyntax", url: "https://github.com/apple/swift-syntax.git", .exact("0.50500.0")),
+        .package(name: "SwiftSyntax", url: "https://github.com/apple/swift-syntax.git", .exact("0.50600.1")),
     ],
     targets: [
         .target(
@@ -24,7 +24,13 @@ let package = Package(
             dependencies: ["Chris"]),
         .target(
             name: "Chris",
-            dependencies: ["StaticSite", "HTML", "Yams", "SwiftSyntax"]),
+            dependencies: [
+                "StaticSite",
+                "HTML",
+                "Yams",
+                "SwiftSyntax",
+                .product(name: "SwiftSyntaxParser", package: "SwiftSyntax")
+            ]),
         .testTarget(
             name: "ChrisTests",
             dependencies: ["Chris"]),

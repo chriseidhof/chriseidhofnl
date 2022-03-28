@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>Chris Eidhof</title>
@@ -9,10 +8,105 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Lifetime of State Properties in SwiftUI</title>
+			<description>
+				&lt;p&gt;
+	This post is a look inside how (a small part of) SwiftUI works. I&amp;apos;m mainly writing this as part of my extended memory, so that I can go back to it and read about how it works. We&amp;apos;re currently in the process of updating our book &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot; title&gt;Thinking in SwiftUI&lt;/a&gt; and figuring out some of the obscure behaviors of SwiftUI. While this might not make it into the book (we keep the book concise on purpose) I figured it&amp;apos;s worth writing up.
+&lt;/p&gt;
+&lt;p&gt;
+	One of the challenging parts of SwiftUI is really understanding the way it manages view state (for example, through &lt;code&gt;@State&lt;/code&gt; and &lt;code&gt;@StateObject&lt;/code&gt;). In theory, it&amp;apos;s pretty simple: anytime you want associated view state you just create a property with &lt;code&gt;@State&lt;/code&gt; and you&amp;apos;re done. For example, here&amp;apos;s a simple view with associated state:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Item: View {
+    var id: Int
+    @State private var counter = 0
+    var body: some View {
+        VStack {
+            Text(&amp;quot;Item \(id)&amp;quot;)
+            Button(&amp;quot;Counter: \(counter)&amp;quot;) {
+                counter += 1
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	When SwiftUI renders this view, it creates associated storage to hold the value of &lt;code&gt;counter&lt;/code&gt;. As long as the view exists, the memory for &lt;code&gt;counter&lt;/code&gt; is there, and once the view stops existing, the memory is gone.
+&lt;/p&gt;
+&lt;p&gt;
+	However, when you have worked with &lt;code&gt;@State&lt;/code&gt; (or &lt;code&gt;@StateObject&lt;/code&gt;), you will notice that there might be some strange behavior. Sometimes your state disappears, especially when working with a &lt;code&gt;List&lt;/code&gt; (or to be precise: any view that uses &lt;code&gt;ForEach&lt;/code&gt; directly or indirectly).
+&lt;/p&gt;
+&lt;p&gt;
+	To understand this better, we have to ask ourselves an existential question:
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		What does it mean for a view to exist?
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	Joking aside, here&amp;apos;s what I think happens:
+&lt;/p&gt;
+&lt;p&gt;
+	When a &lt;code&gt;List&lt;/code&gt; is rendered on screen, it only allocates memory for the children that are directly on screen (on iOS, anyway). We can quickly verify this by initializing a &lt;code&gt;@State&lt;/code&gt; property with a value expression that prints a line:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct StateItemTest: View {
+    @State var item: Int = {
+        print(&amp;quot;Initing&amp;quot;)
+        return 0
+    }()
+    let body = Text(&amp;quot;Hello&amp;quot;)
+}
+
+// Later:
+List(0..&amp;lt;1000) { id in
+    StateItemTest()
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	When we show the list view, we&amp;apos;ll see a print statement for every row that&amp;apos;s on screen. But these are created lazily: as we scroll down more and more print statements appear. So we have now established at least one thing:
+&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;List creates its subviews lazily&lt;/em&gt;. By the way, this is the same for &lt;code&gt;ForEach&lt;/code&gt; in other lazy contexts. For example, when you put a &lt;code&gt;ForEach&lt;/code&gt; inside a &lt;code&gt;LazyVStack&lt;/code&gt; and that inside a &lt;code&gt;ScrollView&lt;/code&gt;, you get the same effect.
+&lt;/p&gt;
+&lt;p&gt;
+	My next question was: &lt;em&gt;when do these state values get destroyed again?&lt;/em&gt; Is this when we scroll the views out of sight? We can verify this by having a long list of views with modifiable state properties. For example, we can put our &lt;code&gt;Item&lt;/code&gt; view from above inside a long list:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;List(0..&amp;lt;1000) { id in
+    Item(id: id)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	When we run the above list, we can change some state at the top of the list, scroll to the very bottom, and scroll back up. The state will still be there. So we have established another thing:
+&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;The children of a &lt;code&gt;List&lt;/code&gt; will be kept around&lt;/em&gt;. The lifetime of a &lt;code&gt;@State&lt;/code&gt;&amp;apos;s property is directly tied to the lifetime of a view. Once a list child is created, it never goes away again, unless the list goes away itself. (You can verify this by putting the list inside a navigation link and navigating back). Again, this doesn&amp;apos;t just apply to &lt;code&gt;List&lt;/code&gt; but any lazy &lt;code&gt;ForEach&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	However, this behavior puzzled me. I&amp;apos;ve written many SwiftUI lists, and I swear that I have seen state objects go away. What gives? In my case, I&amp;apos;ve seen this behavior when loading a list that contains images for each cell, and the images would get reloaded after scrolling back up.
+&lt;/p&gt;
+&lt;p&gt;
+	It turns out that while the children of a &lt;code&gt;List&lt;/code&gt; will be kept around (including their associated state), the bodies of those views will get destroyed. These will get recreated lazily once the view appears on screen again. If we run the same example as before, but wrap our &lt;code&gt;Item&lt;/code&gt; view in another layer, we&amp;apos;ll see that our state goes away as the view disappears:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ItemWrapper: View {
+    var id: Int
+    
+    var body: some View {
+        ZStack {
+            Item(id: id)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This is the behavior in the version of SwiftUI that comes with Xcode 11. The full code is &lt;a href=&quot;https://gist.github.com/chriseidhof/440dbdbe9a5fa21ff5439b5f42582a44&quot; title&gt;available as a gist&lt;/a&gt;. The behavior might change in the future, as none of this is documented.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 28 Mar 2022 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/swiftui-state-lifetime</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-state-lifetime</guid>
+		</item>
+		<item>
 			<title>2021</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	The year is almost over, so time for a quick recap.
 &lt;/p&gt;
 &lt;p&gt;
@@ -47,8 +141,7 @@
 		<item>
 			<title>Dependencies</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	Over the last years, I&amp;apos;ve noticed a change when programming. I used to liberately add third-party dependencies to my code. I would use libraries, or even build on top of frameworks like Ruby on Rails. These days, I tend to use few or no third-party dependencies.
 &lt;/p&gt;
 &lt;p&gt;
@@ -100,8 +193,7 @@
 		<item>
 			<title>2019</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	This was my first full year of being a dad (my daughter was born at the end of March in 2018), and to accomodate for that, I did not plan anything big. I focused on spending lots of time with the family, working and running (in that order). Compared to 2018, I got a lot better at spending time at home while doing nothing: I used to feel a bit guilty for not being &amp;quot;productive&amp;quot;, but I do believe just being there and spending time with my daughter is one of the best things I can do for her.
 &lt;/p&gt;
 &lt;p&gt;
@@ -133,8 +225,7 @@
 		<item>
 			<title>Race Report: Berlin Marathon</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	In 2015, I ran the Berlin Marathon in just under three hours: 2:59:41. It was my fourth attempt at the marathon. Even though I hit the wall at km 34, I had run the first bit fast enough to still make it under three hours. Before the race, I believed I could run under three hours, but actually doing so was a really magical feeling.
 &lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/berlin2015.png&quot; title/&gt;&lt;em&gt;Berlin 2015: Still ran 2:59&lt;/em&gt;&lt;/p&gt;
@@ -196,8 +287,7 @@
 		<item>
 			<title>Swift Analytics</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	There have been a number of blog posts about the best way to do analytics in Swift:
 &lt;/p&gt;
 &lt;ul&gt;
@@ -284,8 +374,7 @@
 		<item>
 			<title>A Micro Auto Layout DSL</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	These days, I&amp;apos;m using fewer external libraries. First, I don&amp;apos;t like most Swift libraries out there, they&amp;apos;re often implemented in a complicated way and contain too many protocols for my taste. Second, I&amp;apos;m not sure how they&amp;apos;ll be maintained in the future, and most libraries are pretty big -- I don&amp;apos;t really want to own that code. Third, I&amp;apos;m too lazy to set up a dependency manager, so I&amp;apos;ll keep my projects dependency-free.
 &lt;/p&gt;
 &lt;p&gt;
@@ -384,8 +473,7 @@ view.addSubview(label, constraints: [
 		<item>
 			<title>Struct References</title>
 			<description>
-				
-&lt;blockquote&gt;
+				&lt;blockquote&gt;
 	&lt;p&gt;
 		The full code for this is available as a &lt;a href=&quot;http://chris.eidhof.nl/snippets/2019-07-24-struct-references/&quot; title&gt;snippet&lt;/a&gt; or  &lt;a href=&quot;https://gist.github.com/chriseidhof/3423e722d1da4e8cce7cfdf85f026ef7&quot; title&gt;gist&lt;/a&gt;.
 	&lt;/p&gt;
@@ -706,8 +794,7 @@ print(p0.value) // what does this print?
 		<item>
 			<title>Reducers</title>
 			<description>
-				
-&lt;blockquote&gt;
+				&lt;blockquote&gt;
 	&lt;p&gt;
 		This blogpost is part of an upcoming project, more about that soon.
 	&lt;/p&gt;
@@ -901,8 +988,7 @@ print(p0.value) // what does this print?
 		<item>
 			<title>Classes That Conform To Protocols</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	The other day, someone asked how to have a variable which stores a &lt;code&gt;UIView&lt;/code&gt; that also conforms to a protocol. In Objective-C, you would simply write &lt;code&gt;UIView&amp;lt;HeaderViewProtocol&amp;gt;&lt;/code&gt;. In  current Swift, you can&amp;apos;t write something like that. This posts shows two workarounds.
 &lt;/p&gt;
 &lt;p&gt;
@@ -955,8 +1041,7 @@ header.setTitle(&amp;quot;hello&amp;quot;)
 		<item>
 			<title>Types vs TDD</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	This morning, I read &lt;a href=&quot;http://blog.cleancoder.com/uncle-bob/2017/01/11/TheDarkPath.html&quot; title&gt;an article&lt;/a&gt; against static typing. To be more precise: it argues against static typing in the way Swift/Kotlin implement it. I don&amp;apos;t know anything about Kotlin, so I&amp;apos;ll try to relate everything to Swift.  The main point of the article is that too much static typing is a bad thing. I agree: although my definition of &amp;quot;too much&amp;quot; is very different.
 &lt;/p&gt;
 &lt;p&gt;
@@ -988,8 +1073,7 @@ header.setTitle(&amp;quot;hello&amp;quot;)
 		<item>
 			<title>Protocol Oriented Programming is Not a Silver Bullet</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	In Swift, protocol-oriented programming is in fashion. There&amp;apos;s a lot of Swift code out there that&amp;apos;s &amp;quot;protocol-oriented&amp;quot;, some open-source libraries even state it as a feature. I think protocols are heavily overused in Swift, and oftentimes the problem at hand can be solved in a much simpler way. In short: don&amp;apos;t be dogmatic about using (or avoiding) protocols.
 &lt;/p&gt;
 &lt;p&gt;
@@ -1161,8 +1245,7 @@ func sendRequest(urlString: URLStringConvertible, method: ...) {
 		<item>
 			<title>On Burnout</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	I&amp;apos;ve seen a number of blogposts and talks recently that talk about depression, burn-out, and other mental problems.  One post recommended reading a book. Another one recommended talking to friends and family. These things might help, but I doubt that they actually solve the root cause (looking back, they definitely didn&amp;apos;t solve my problems, at best suppress them).
 &lt;/p&gt;
 &lt;p&gt;
@@ -1182,8 +1265,7 @@ func sendRequest(urlString: URLStringConvertible, method: ...) {
 		<item>
 			<title>Type Erasers in Swift</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	The following post is an excerpt from our book &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt;. We just updated it to Swift 3, so this is a great time to buy it.
 &lt;/p&gt;
 &lt;p&gt;
@@ -1345,8 +1427,7 @@ iter = IntIterator([1,2,3].makeIterator())
 		<item>
 			<title>Sort Descriptors in Swift</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	Just last week, someone asked me &amp;quot;in what respect does Swift fall short of the
 	
 	dynamic features of Objective-C&amp;quot;?
@@ -1934,8 +2015,7 @@ result // [&amp;quot;one&amp;quot;, &amp;quot;file.c&amp;quot;, &amp;quot;file.h
 		<item>
 			<title>Structs and mutation in Swift</title>
 			<description>
-				
-&lt;p&gt;&lt;em&gt;Note&lt;/em&gt;: This post is a draft-version of a new section in our book &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt;. We&amp;apos;re currently updating the book for Swift 3. It&amp;apos;ll be a free update for everyone who has bought a digital version of the book. Thanks to &lt;a href=&quot;https://twitter.com/olebegemann&quot; title&gt;Ole Begemann&lt;/a&gt; for suggestions and improvements.
+				&lt;p&gt;&lt;em&gt;Note&lt;/em&gt;: This post is a draft-version of a new section in our book &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot; title&gt;Advanced Swift&lt;/a&gt;. We&amp;apos;re currently updating the book for Swift 3. It&amp;apos;ll be a free update for everyone who has bought a digital version of the book. Thanks to &lt;a href=&quot;https://twitter.com/olebegemann&quot; title&gt;Ole Begemann&lt;/a&gt; for suggestions and improvements.
 &lt;/p&gt;
 &lt;p&gt;
 	Value types imply that whenever a variable is copied, the value itself — and not just a reference to the value — is copied. For example, in almost all programming languages, scalar types are value types. This means that whenever a value is assigned to a new variable, it is copied rather than passed by reference:
@@ -2171,8 +2251,7 @@ array[0] += Point(x: 100, y: 100)
 		<item>
 			<title>Protocols in Swift</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	Let&amp;apos;s say we are writing our own data-structure, a singly linked list:
 &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;enum ListNode&amp;lt;A&amp;gt; {
@@ -2366,8 +2445,7 @@ extension Collection where Iterator == IndexingIterator&amp;lt;Self&amp;gt; {
 		<item>
 			<title>Responder Chain Alternatives</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	There&amp;apos;s been some recent talk about the &lt;a href=&quot;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/EventOverview/EventArchitecture/EventArchitecture.html#//apple_ref/doc/uid/10000060i-CH3-SW2&quot; title&gt;responder chain&lt;/a&gt;. The responder chain works on a tree structure: the view hierarchy plus some other things. An event or action gets sent to a certain view (a node in the tree structure). Until it gets handled, it moves up the tree towards the root, going through all superviews, all the way until the &lt;code&gt;NSWindow&lt;/code&gt;, up to the &lt;code&gt;NSWindowController&lt;/code&gt;. You can even modify this tree structure, and insert your own responders. Depending on what you&amp;apos;re building (e.g. a document-based application), the responder chain can even be more advanced.
 &lt;/p&gt;
 &lt;p&gt;
@@ -2422,8 +2500,7 @@ extension Collection where Iterator == IndexingIterator&amp;lt;Self&amp;gt; {
 		<item>
 			<title>Undo History in Swift</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	Over the last weeks, there have been a number of blog posts that want to add dynamic behavior to Swift. Swift is already a very dynamic language: it has generics, protocols, first-class functions, and the standard library is filled with functions like &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;filter&lt;/code&gt;, which dynamically get their operation (not using a string like with KVC, but using a function, which is safer and more flexible). Most of the people that say they want dynamic behavior mean that they &lt;a href=&quot;http://inessential.com/2016/05/26/a_definition_of_dynamic_programming_in_t&quot; title&gt;want reflection&lt;/a&gt; specifically: they want to analyze and modify the program at runtime.
 &lt;/p&gt;
 &lt;p&gt;
@@ -2562,8 +2639,7 @@ personHistory.currentItem.age // Prints 31 again
 		<item>
 			<title>Dynamic Swift</title>
 			<description>
-				
-&lt;p&gt;
+				&lt;p&gt;
 	Recently, &lt;a href=&quot;http://inessential.com&quot; title&gt;Brent&lt;/a&gt; and others wrote a lot about the lack of dynamic features
 	&lt;sup&gt;&lt;a href=&quot;#fnref1&quot; name=&quot;fnref-rev1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
 	 in Swift. I tried distilling Brent&amp;apos;s thoughts, and came up with the following summary:
@@ -2619,118 +2695,6 @@ personHistory.currentItem.age // Prints 31 again
 			<pubDate>Thu, 26 May 2016 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/dynamic-swift</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/dynamic-swift</guid>
-		</item>
-		<item>
-			<title>Rejected Swift Proposals</title>
-			<description>
-				
-&lt;p&gt;
-	Not too long ago, we finally shipped &lt;a href=&quot;http://www.objc.io/books/advanced-swift&quot; title&gt;Advanced Swift&lt;/a&gt;. It was a long process, but I&amp;apos;m really happy about the result. Just before we finished it, Swift became open-source, the mailing lists opened up, and many GitHub repositories appeared.
-&lt;/p&gt;
-&lt;p&gt;
-	At first, I subscribed to all the mailing lists, and added a filter to move them into a separate folder. There was so much discussion that I couldn&amp;apos;t keep up at all - at least not while finishing the book. I was so overwhelmed that I completely stopped reading the lists, let alone participate in the discussions.
-&lt;/p&gt;
-&lt;p&gt;
-	In the next edition of Advanced Swift (the update for Swift 3) we want to include a chapter about the history of Swift. At the beginning of this week, I set aside a day to read through all current proposals in detail. Not only to understand what is coming up, but also to learn what got rejected. With most rejections, the core team included a good rationale that can help us understand how they see the language evolve.
-&lt;/p&gt;
-&lt;p&gt;
-	One interesting thing I found while going through all proposals is the ever-present discussion about &amp;quot;readability&amp;quot;. I&amp;apos;m convinced more than ever that readability is subjective in many cases.
-&lt;/p&gt;
-&lt;p&gt;
-	I am going to write a series of posts about all the proposals. First off, let&amp;apos;s start with all the rejected proposals. Here, it&amp;apos;s especially interesting to see why they got rejected, and I&amp;apos;ve selectively quoted the rationales given by the core team.
-&lt;/p&gt;
-&lt;h2&gt;&lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0009-require-self-for-accessing-instance-members.md&quot; title&gt;SE-0009 Require self for accessing instance members&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;
-	This proposal wants to make &lt;code&gt;self.&lt;/code&gt; mandatory for all instance members. The author feels that requiring &lt;code&gt;self.&lt;/code&gt; increases readability, and make everything more consistent.
-&lt;/p&gt;
-&lt;blockquote&gt;
-	&lt;p&gt;
-		Mandatory “self.” introduces a significant amount of verbosity that does not justify itself with added clarity. While it is true that mandatory “self.” may prevent a class of bugs, the cost of eliminating those bugs is fairly high in terms of visual clutter, which goes against the generally uncluttered feel of Swift. Paul Cantrell put it well in his review &lt;a href=&quot;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/002910.html&quot; title&gt;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20151214/002910.html&lt;/a&gt; when he said, “anything that is widely repeated becomes invisible.” Swift aims to avoid such boilerplate and repetition in its design, a principle also espoused by the Swift API Design Guidelines &lt;a href=&quot;https://swift.org/documentation/api-design-guidelines.html&quot; title&gt;https://swift.org/documentation/api-design-guidelines.html&lt;/a&gt;.
-	&lt;/p&gt;
-	&lt;p&gt;
-		The requirement to use “self.” within potentially-escaping closures is a useful indicator of the potential for retain cycles that we don’t want to lose. Additionally, developers can optionally use “self.” when they feel it improves clarity (e.g., when similar operations are being performed on several different instances, of which “self” is one).
-	&lt;/p&gt;
-	&lt;p&gt;
-		The name-shadowing concerns behind the mandatory “self.” apply equally well to anything found by unqualified name lookup, including names found in the global scope. To call out members of types as requiring qualification while global names do not (even when global names tend to be far more numerous) feels inconsistent, but requiring qualification for everything (e.g., “Swift.print”, “self.name”) exacerbates the problem of visual clutter.
-	&lt;/p&gt;
-	&lt;p&gt;&lt;a href=&quot;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160104/005478.html&quot; title&gt;Rationale&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;
-	The author of the proposal feels that requiring &lt;code&gt;self.&lt;/code&gt; makes the code more readable. I can see why, yet still feel the opposite. This is one of those cases where we can hardly say anything objective about it being more readable, instead, we should probably say &amp;quot;it&amp;apos;s more readable for me&amp;quot;.
-&lt;/p&gt;
-&lt;h2&gt;&lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0010-add-staticstring-unicodescalarview.md&quot; title&gt;SE-0010 Add StaticString.UnicodeScalarView&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;
-	This proposal wants to make it possible to make static substrings of &lt;code&gt;StaticString&lt;/code&gt; by adding a new type &lt;code&gt;StaticString.UnicodeScalarView&lt;/code&gt;.
-&lt;/p&gt;
-&lt;blockquote&gt;
-	&lt;p&gt;
-		While the addition of StaticString.UnicodeScalarView is a useful feature by itself, the core team felt that it would be inconsistent just to add this narrow set of APIs for Unicode scalars. (...) If StaticString is to gain Unicode support, it should be done comprehensively, not piecemeal. Moreover, &lt;em&gt;with the aforementioned String re-evaluation underway&lt;/em&gt;, it is possible that StaticString itself might change considerably or even be obsoleted.
-	&lt;/p&gt;
-	&lt;p&gt;&lt;a href=&quot;http://thread.gmane.org/gmane.comp.lang.swift.evolution/7697&quot; title&gt;Rationale&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;
-	Emphasis mine: strings are being re-evaluated. I&amp;apos;m not sure what will happen to the &lt;code&gt;String&lt;/code&gt; type. I can imagine that it could get simpler somehow.
-&lt;/p&gt;
-&lt;h2&gt;&lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0027-string-from-code-units.md&quot; title&gt;SE-0027 Expose code unit initializers on String&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;
-	This proposal wants to make it easier to build Swift strings from C strings.
-&lt;/p&gt;
-&lt;blockquote&gt;
-	&lt;p&gt;
-		At this point, the core team feels that we have not fully explored the design space here, and that known alternatives (e.g., making the UTF-16 and UTF-32 views of a String mutable collections) might provide a better long-term solution. Moreover, the String type itself is undergoing a significant re-evaluation, so the core team feels that improvements to String should be delayed until the newer design is better understood.
-	&lt;/p&gt;
-	&lt;p&gt;&lt;a href=&quot;http://thread.gmane.org/gmane.comp.lang.swift.evolution/7695&quot; title&gt;Rationale&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;
-	Just like before, it seems like big changes will happen to the &lt;code&gt;String&lt;/code&gt; type.
-&lt;/p&gt;
-&lt;h2&gt;&lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0024-optional-value-setter.md&quot; title&gt;SE-0024 Optional Value Setter &lt;code&gt;??=&lt;/code&gt;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;
-	This proposal wants to add another setter, &lt;code&gt;??=&lt;/code&gt;, which sets the left-hand side to the value of the right-hand side (but only if the left-hand side is &lt;code&gt;nil&lt;/code&gt;).
-&lt;/p&gt;
-&lt;blockquote&gt;
-	&lt;p&gt;
-		The proposal is rejected. While the ‘??=‘ operator’s semantics are clear and fit with other compound assignment operators, the use cases are not strong enough to motivate inclusion of this operator. &lt;a href=&quot;http://thread.gmane.org/gmane.comp.lang.swift.evolution/6895&quot; title&gt;Radek’s lukewarm +0.5 review&lt;/a&gt; captures the sentiment of the core team fairly well (as was echoed by others): one very common use case in the Ruby’s similar ||= operator is to assign a default value to an optional parameter or a local variable. However, neither case works well in Swift because ??= does not erase the optionality of the variable (and cannot be used to change a parameter now that var has been removed from parameters). Property access and subscripting could still benefit from ??=, but the latter case is likely to be handled better by a Dictionary subscript operator that can substitute a default value (see, e.g., &lt;a href=&quot;http://thread.gmane.org/gmane.comp.lang.swift.evolution/6895&quot; title&gt;Joe Groff’s suggestion&lt;/a&gt;).
-	&lt;/p&gt;
-	&lt;p&gt;&lt;a href=&quot;http://article.gmane.org/gmane.comp.lang.swift.evolution/7694&quot; title&gt;Rationale&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;
-	I&amp;apos;ve used &lt;code&gt;||=&lt;/code&gt; in Ruby as well, and really like it there. But with Swift&amp;apos;s Optionals, I never felt the need for this. As an aside, the mentioned dictionary subscript operator is really cool. We use it in the functions chapter of Advanced Swift, in a way very similar to this: &lt;a href=&quot;https://twitter.com/AirspeedSwift/status/626701244455895044&quot; title&gt;https://twitter.com/AirspeedSwift/status/626701244455895044&lt;/a&gt;&lt;/p&gt;
-&lt;h2&gt;&lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0018-flexible-memberwise-initialization.md&quot; title&gt;SE-0018 Flexible Memberwise Initialization&lt;/a&gt; (Draft)
-&lt;/h2&gt;
-&lt;p&gt;
-	This was a really long proposal, and really long rejection &lt;a href=&quot;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160111/006469.html&quot; title&gt;rationale&lt;/a&gt; mail. It&amp;apos;s about the automatic memberwise initializers that get generated (e.g. when you create a struct). The proposal wants to make this possible in more places, and make it easier to control this. The core team decided that it isn&amp;apos;t in scope for Swift 3. An interesting meta-point they raised it that the length of the proposal was off-putting for many people. Another thing I learned is that the Swift team really strives for predictable models. You can also see this in the accepted proposals, there are a few that really make the language more predictable and consistent (e.g. &lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0046-first-label.md&quot; title&gt;named first parameters&lt;/a&gt;).
-&lt;/p&gt;
-&lt;h2&gt;&lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0056-trailing-closures-in-guard.md&quot; title&gt;SE-0056 Allow trailing closures in guard conditions&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;
-	This proposal is about letting trailing closures in &lt;code&gt;guard&lt;/code&gt; conditions compile. For example, like this:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;guard let object = someSequence.findElement { $0.passesTest() } else {
-  return
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Currently, it doesn&amp;apos;t like the trailing closure when using a &lt;code&gt;guard&lt;/code&gt; (or &lt;code&gt;if&lt;/code&gt;/&lt;code&gt;while&lt;/code&gt;), and it needs to be written with parentheses around the closure.
-&lt;/p&gt;
-&lt;p&gt;
-	The proposal was &lt;a href=&quot;https://lists.swift.org/pipermail/swift-evolution-announce/2016-April/000108.html&quot; title&gt;rejected&lt;/a&gt; with a very short sentence:
-&lt;/p&gt;
-&lt;blockquote&gt;
-	&lt;p&gt;
-		The core team felt that the benefits from this change were outweighed by the inconsistency it would introduce with &lt;code&gt;if&lt;/code&gt; and &lt;code&gt;while&lt;/code&gt;.
-	&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;
-	Interestingly, it was proposed by Chris Lattner, a member of the core team. Again, I can see how they made the decision. If you look at it from being able to write it in a &lt;code&gt;guard&lt;/code&gt;, it seems like a logical proposal. However, once you can write trailing closures in a &lt;code&gt;guard&lt;/code&gt; condition, you&amp;apos;ll probably be surprised that you can&amp;apos;t write them in &lt;code&gt;if&lt;/code&gt;/&lt;code&gt;while&lt;/code&gt;.
-&lt;/p&gt;
-&lt;hr/&gt;
-&lt;p&gt;
-	In the next post, we&amp;apos;ll look at accepted proposals. Stay tuned!
-&lt;/p&gt;
-			</description>
-			<pubDate>Fri, 22 Apr 2016 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/rejected-swift-proposals</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/rejected-swift-proposals</guid>
 		</item>
 	</channel>
 </rss>
