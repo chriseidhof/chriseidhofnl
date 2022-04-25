@@ -82,4 +82,4 @@ struct ItemWrapper: View {
 }
 ```
 
-This is the behavior in the version of SwiftUI that comes with Xcode 11. The full code is [available as a gist](https://gist.github.com/chriseidhof/440dbdbe9a5fa21ff5439b5f42582a44). The behavior might change in the future, as none of this is documented.
+This is the behavior in the version of SwiftUI that comes with Xcode 13. The full code is [available as a gist](https://gist.github.com/chriseidhof/440dbdbe9a5fa21ff5439b5f42582a44). The behavior might change in the future, as none of this is documented.

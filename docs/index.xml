@@ -96,7 +96,7 @@ List(0..&amp;lt;1000) { id in
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
-	This is the behavior in the version of SwiftUI that comes with Xcode 11. The full code is &lt;a href=&quot;https://gist.github.com/chriseidhof/440dbdbe9a5fa21ff5439b5f42582a44&quot; title&gt;available as a gist&lt;/a&gt;. The behavior might change in the future, as none of this is documented.
+	This is the behavior in the version of SwiftUI that comes with Xcode 13. The full code is &lt;a href=&quot;https://gist.github.com/chriseidhof/440dbdbe9a5fa21ff5439b5f42582a44&quot; title&gt;available as a gist&lt;/a&gt;. The behavior might change in the future, as none of this is documented.
 &lt;/p&gt;
 			</description>
 			<pubDate>Mon, 28 Mar 2022 00:00:00 +0200</pubDate>
