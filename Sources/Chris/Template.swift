@@ -2,8 +2,11 @@ import StaticSite
 import HTML
 
 struct Main: Template {
-    func run(environment: EnvironmentValues, content: Node) -> Node {
-        let theTitle = environment.title.map { "\($0) — Chris Eidhof" } ?? "Chris Eidhof"
+    @Environment(\.title) var title
+    @Environment(\.extraFooterContent) var extraFooterContent
+
+    func run(content: Node) -> Node {
+        let theTitle = title!.map { "\($0) — Chris Eidhof" } ?? "Chris Eidhof"
         return html() {
             head() {
                 meta(charset: "utf-8")
@@ -17,7 +20,7 @@ struct Main: Template {
                 link(href: "/images/favicon.ico", rel: "shortcut icon")
                 link(href: "/css/style.css", rel: "stylesheet")
                 link(href: "http://chris.eidhof.nl//index.xml", rel: "alternate", title: "RSS", type: "application/rss+xml")
-                title {
+                HTML.title {
                     theTitle
                 }
 //                meta(content: "Chris Eidhof", property: "og:title")
@@ -37,7 +40,7 @@ struct Main: Template {
                                 
                             }
                             content
-                            if let c = environment.extraFooterContent {
+                            if let c = extraFooterContent! {
                                 c
                             }
                         }

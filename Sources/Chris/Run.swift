@@ -2,6 +2,7 @@ import StaticSite
 import HTML
 import Foundation
 import Helpers
+import Log
 
 struct Site: Rule {
     var body: some Rule {
@@ -11,6 +12,8 @@ struct Site: Rule {
         Index()
         Blog(posts: BlogPost.inContext())
         Snippets()
+        Minilog()
+            .outputPath("minilog")
         Write(outputName: "CNAME", data: "chris.eidhof.nl".data(using: .utf8)!)
         // TODO: aliases
     }
@@ -41,12 +44,14 @@ extension Rule {
 
 public func run() throws {
     try recreateBuildDir()
-    // Workaround, for some reason `applyTransform` crashes with EXC_BAD_ACCESS (Xcode 13.3)
-    
+
+    // Start workaround, for some reason `applyTransform` crashes with EXC_BAD_ACCESS (Xcode 13.3)
     var copy = baseEnvironment
     copy.transformNode = { env, node in
         recordLinks(env.relativeOutputPath, highlight(env, node: node))
     }
+    // End workaround
+
     try Site()
         .wrap(Main())
 //        .applyTransform(highlight)

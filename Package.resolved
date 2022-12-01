@@ -11,11 +11,20 @@
         }
       },
       {
+        "package": "Minilog",
+        "repositoryURL": "https://github.com/chriseidhof/minilog.git",
+        "state": {
+          "branch": "main",
+          "revision": "d02d7d481ba38af30b9b9bf8b2b3b7a7f394874f",
+          "version": null
+        }
+      },
+      {
         "package": "StaticSite",
         "repositoryURL": "https://github.com/chriseidhof/StaticSite.git",
         "state": {
           "branch": "main",
-          "revision": "1365ee0ca78019d6460c6e463c28cc7818648a7f",
+          "revision": "eb0de6b6dee7f26a4c72ae127454be74cd1a284c",
           "version": null
         }
       },

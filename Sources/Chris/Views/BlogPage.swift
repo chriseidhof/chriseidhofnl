@@ -76,7 +76,7 @@ extension BlogPost {
                             
 //                        }
                         time {
-                            date.date.pretty(showYear: true)
+                            date.date.pretty(style: .dayMonthYear)
                         }
                         " by "
                         a(href: "http://www.twitter.com/chriseidhof/") {

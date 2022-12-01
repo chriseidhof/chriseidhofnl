@@ -7,25 +7,7 @@
 
 import Foundation
 import HTML
-
-let df: DateFormatter = {
-    var x = DateFormatter()
-    x.dateFormat = "MMM d, yyyy"
-    return x
-}()
-
-let df2: DateFormatter = {
-    var x = DateFormatter()
-    x.dateFormat = "MMM d"
-    return x
-}()
-
-extension Date {
-    func pretty(showYear: Bool) -> String {
-        showYear ?
-            df.string(from: self) : df2.string(from: self)
-    }
-}
+import Helpers
 
 let months = [
     "", // 0
@@ -55,7 +37,7 @@ extension Array where Element == BlogPost {
                 li {
                     a(href: post.link) {
                         aside(class: "dates") {
-                            "\(post.date.date.pretty(showYear: showYear))"
+                            "\(post.date.date.pretty(style: showYear ? .dayMonthYear : .dayMonth))"
                         }
                         
                     }
