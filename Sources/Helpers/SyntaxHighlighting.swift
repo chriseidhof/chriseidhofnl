@@ -3,6 +3,7 @@ import SwiftSyntax
 import SwiftSyntaxParser
 import HTML
 import Swim
+import StaticSite
 
 struct Highlighter: Visitor {
     func visitElement(name: String, attributes: [String : String], child: Node?) -> Node {
@@ -153,4 +154,10 @@ extension String {
             return self
         }
     }
+}
+
+
+let highlighter = Highlighter()
+public func highlight(_ env: EnvironmentValues, node: Node) -> Node {
+    highlighter.visitNode(node)
 }

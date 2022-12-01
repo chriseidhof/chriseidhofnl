@@ -1,6 +1,7 @@
 import StaticSite
 import HTML
 import Foundation
+import Helpers
 
 struct Site: Rule {
     var body: some Rule {
@@ -28,10 +29,6 @@ func recreateBuildDir() throws {
     }
 }
 
-let highlighter = Highlighter()
-func highlight(_ env: EnvironmentValues, node: Node) -> Node {
-    highlighter.visitNode(node)
-}
 
 extension Rule {
     func applyTransform(_ f: @escaping (EnvironmentValues, Node) -> Node) -> some Rule {
@@ -48,15 +45,14 @@ public func run() throws {
     
     var copy = baseEnvironment
     copy.transformNode = { env, node in
-        recordLinks(env, highlight(env, node: node))
+        recordLinks(env.relativeOutputPath, highlight(env, node: node))
     }
     try Site()
         .wrap(Main())
-//        .applyTransform({ $1 })
 //        .applyTransform(highlight)
 //        .applyTransform(recordLinks)
         .measure()
         .builtin
         .run(environment: copy)
-    print(checkLocalLinks(outputPath: siteOutputPath.path))
+    checkLocalLinks(outputPath: siteOutputPath.path)
 }

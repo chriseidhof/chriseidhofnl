@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Chris Eidhof on 29.06.21.
-//
-
 import Foundation
 import StaticSite
 import Swim
@@ -38,8 +31,6 @@ extension EnvironmentValues {
         return String(urlString.dropFirst(prefix.count))
     }
 }
-
-// Use ⌥⌘E to select multiple tokens
 
 enum Title: EnvironmentKey {
     static var defaultValue: String? = nil

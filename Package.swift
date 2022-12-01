@@ -23,12 +23,22 @@ let package = Package(
             name: "Website",
             dependencies: ["Chris"]),
         .target(
+            name: "Helpers",
+            dependencies: [
+                "StaticSite",
+                "HTML",
+                "Yams",
+                "SwiftSyntax",
+                .product(name: "SwiftSyntaxParser", package: "SwiftSyntax")
+            ]),
+        .target(
             name: "Chris",
             dependencies: [
                 "StaticSite",
                 "HTML",
                 "Yams",
                 "SwiftSyntax",
+                "Helpers",
                 .product(name: "SwiftSyntaxParser", package: "SwiftSyntax")
             ]),
         .testTarget(

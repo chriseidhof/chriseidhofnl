@@ -12,7 +12,7 @@ import StaticSite
 // This will only work for a single build! Don't try to do multiple builds as it won't reset.
 fileprivate var allLinks: Atomic<[String: [String]]> = Atomic([:])
 
-func checkLocalLinks(outputPath: String) {
+public func checkLocalLinks(outputPath: String) {
     let fm = FileManager.default
     for (page, links) in allLinks.value {
         for link in links {
@@ -28,8 +28,8 @@ func checkLocalLinks(outputPath: String) {
     }
 }
 
-func recordLinks(_ env: EnvironmentValues, _ node: Node) -> Node {
-    LinkVisitor(outputName: env.relativeOutputPath).visitNode(node)
+public func recordLinks(_ outputPath: String, _ node: Node) -> Node {
+    LinkVisitor(outputName: outputPath).visitNode(node)
     return node
 }
 
