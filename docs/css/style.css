@@ -48,13 +48,43 @@ margin-bottom: 20px;
 .postbody ul li	{ list-style-type:disc; list-style-position:outside; }
 
 /*=========================================
+Dark Mode / Light Mode
+=========================================== */
+
+:root {
+  --background-color: #fff;
+  --secondary-background-color: #fdfdfd;
+  --primary-color: #222;
+  --secondary-color: #333;
+  --quaternary-color: #aaa;
+  --accent-color: #eee;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #111;
+    --secondary-background-color: #161616;
+    --primary-color: #ddd;
+    --secondary-color: #ccc;
+    --quaternary-color: #555;
+    --accent-color: #222;
+  }
+
+  #header img {
+     filter: invert(100%);
+  }
+}
+
+
+/*=========================================
 Base
 =========================================== */
 html, body { height: 100%; }
 
 body {
+	background-color: var(--background-color);
 	font:16px/1 "ff-bau-web","Helvetica Neue",Helvetica,Arial,sans-serif;
-	color:#222;
+	color: var(--primary-color);
 	-webkit-font-smoothing:antialiased;
 	text-rendering:optimizeLegibility;
 }
@@ -120,13 +150,13 @@ em, i { font-style: italic; }
 .description {
 	float:right;
 	font:italic 14px/1.4em Georgia,serif;
-	color:#aaa;
+	color: var(--quaternary-color);
 }
 
 h1 {
 	font-size:30px;
 	letter-spacing:-1px;
-	color:#222;
+	color: var(--primary-color);
 }
 
 h2 {
@@ -142,18 +172,18 @@ h2 {
 
 .post h2.headline {
 	font:italic 22px/1.3em Georgia,serif;
-	color:#aaa;
+	color: var(--quaternary-color);
 	margin:-5px 0 40px 0;
 }
 
 #post-list h2 {
 	font:normal 17px/1.5em "ff-bau-neue", "Helvetica Neue",Helvetica,Arial,sans-serif;
-	color:#aaa;
+	color: var(--quaternary-color);
 	max-width:400px;
 	margin-top: 2px;
 }
 
-h3, h4, h5 { color:#333; }
+h3, h4, h5 { color: var(--secondary-color); }
 
 h3 { font-size:20px; }
 h4 { font-size:16px;   }
@@ -170,7 +200,7 @@ p.small {
 	display: block;
 }
 
-blockquote { padding-left: 15px; border-left: 3px solid #eee; }
+blockquote { padding-left: 15px; border-left: 3px solid var(--accent-color); }
 
 hr {
 	display: block;
@@ -187,8 +217,14 @@ code, span.code {
 
 span.code {  background-color:#EEE; }
 
-pre	{ font-family:Menlo, Monaco, Courier; border: 1px solid #ddd; padding:20px; 
-background-color:#fdfdfd; font-size:14px;  overflow:auto; border-radius: 3px;
+pre { 
+	font-family:Menlo, Monaco, Courier; 
+border: 1px solid var(--accent-color); 
+padding:20px; 
+	background-color: var(--secondary-background-color); 
+	font-size:14px; 
+overflow:auto; 
+	 border-radius: 3px;
 }
 
 table {
@@ -254,11 +290,11 @@ Post List
 
 #post-list li+li {
 	padding-top:20px;
-	border-top:1px solid #eee;
+	border-top:1px solid var(--accent-color);
 }
 
 #post-list a {
-	color:#333;
+	color:var(--secondary-color);
 	display:block;
 	font:19px/1.7 "ff-bau-web", "Helvetica Neue",helvetica,Arial,sans-serif;
 }
@@ -272,7 +308,7 @@ Post List
 }
 
 #post-list-footer {
-	border-top:1px solid #eee;
+	border-top:1px solid var(--accent-color);
 	margin-top:20px;
 	padding-top:100px;
 }
@@ -286,7 +322,7 @@ Post List
 	font-size:13px;
 	border-radius:4px;
 	padding:3px 10px 6px;
-	box-shadow:0 0 0 1px hsla(207,83%,80%,1);
+	box-shadow:0 0 0 1px var(--accent-color);
 }
 
 #archive-link:hover {
@@ -302,7 +338,7 @@ Post List
 }
 
 #footer { 
-	box-shadow: inset 0 1px 0 #eee;
+	box-shadow: inset 0 1px 0 var(--accent-color);
 	padding: 40px 0 0 0;
 	margin-top: 100px;
 }
@@ -311,7 +347,7 @@ Post List
 Post Page
 =========================================== */
 #header {
-	border-bottom:1px solid #eee;
+	border-bottom:1px solid var(--accent-color);
 }
 
 .post {
@@ -332,10 +368,10 @@ Post Page
 
 #post-meta {
 	font-size:13px;
-	color:#aaa;
+	color: var(--quaternary-color);
 	margin-bottom:40px;
 	line-height:1.4;
-	border-top:1px solid #eee;
+	border-top:1px solid var(--accent-color);
 	padding-top:40px;
 	margin-top:80px;
 	color:#444;
@@ -349,8 +385,8 @@ Post Page
 
 #post-meta div span {
 	color:#666;
-	color:#333;
-	color:#aaa;
+	color:var(--secondary-color);
+	color: var(--quaternary-color);
 	display:block;
 }
 
@@ -386,7 +422,7 @@ Post Page
 Post Navigation
 =========================================== */
 #post-nav {
-	border-top:1px solid #eee;
+	border-top:1px solid var(--accent-color);
 	text-align:center;
 	padding-top:20px;
 	font-size:13px;
@@ -445,13 +481,13 @@ h2.month {
 	margin-top:40px;
 	margin-bottom:10px;
 	padding-bottom:10px;
-	border-bottom:1px solid #eee;
+	border-bottom:1px solid var(--accent-color);
 }
 
 #archive-list a {
 	display:block;
 	font:17px/1.7 "ff-bau-web", "Helvetica Neue",helvetica,Arial,sans-serif;
-	color:#333;
+	color:var(--secondary-color);
 }
 
 #archive-list .dates {
@@ -478,7 +514,7 @@ h2.month {
 
 @media screen and (max-width: 540px) {
 #wrapper { padding:20px 20px 20px 20px;}
-#header { margin-bottom: 60px; border-bottom: 1px solid #eee; }
+#header { margin-bottom: 60px; border-bottom: 1px solid var(--accent-color); }
 .post { margin: 40px 0; }
 #footer { margin-top: 60px; }
 
@@ -549,9 +585,9 @@ code .hljs-string, code .hljs-number {
 }
 
 .snippet {
-    border: 1px solid #ddd;
+    border: 1px solid var(--accent-color);
 /*    padding:20px;*/
-    background-color:#fdfdfd;
+    background-color: var(--secondary-background-color);
     font-size:14px;
     overflow:auto;
     border-radius: 3px;
@@ -559,7 +595,7 @@ code .hljs-string, code .hljs-number {
 
 .snippet h3 {
     font-size: 13px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--accent-color);
     padding: 15px 20px;
     font-weight: bold;
 }
@@ -568,3 +604,4 @@ code .hljs-string, code .hljs-number {
     border: none;
     padding-top: 0;
 }
+
