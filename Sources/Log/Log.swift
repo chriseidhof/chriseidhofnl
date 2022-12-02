@@ -32,7 +32,7 @@ struct Index: Rule {
 
     var body: some Rule {
         WriteNode(outputName: "index.html", node:
-                    model.publicPosts.list(basePath: relativePath!)
+                    model.publicPosts.indexList(basePath: relativePath!)
         ).title("Minilog")
         Posts(model: model)
     }
@@ -92,12 +92,17 @@ extension Post {
 extension Array where Element == Post {
 
     @NodeBuilder
-    func list(basePath: String) -> Node {
+    func indexList(basePath: String) -> Node {
         div(class: "intro") {
             """
             This is my minilog. Kind of like a weblog, but shorter, quicker and with less of a filter.
             """
         }
+        list(basePath: basePath)
+    }
+
+    @NodeBuilder
+    func list(basePath: String) -> Node {
         ul(id: "log-list") {
             self.map { post in post.node(basePath: basePath) }
         }

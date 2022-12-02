@@ -518,8 +518,8 @@ div.intro {
 }
 
 #log-list a .dates {
-    color: var(--secondary-color)
-    font-size: 0.6em;
+    color: var(--secondary-color);
+    font-size: 0.8em;
     padding-bottom: 1em;
 }
 
