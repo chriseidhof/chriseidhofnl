@@ -78,7 +78,7 @@ table{
 }
  body {
      background-color: var(--background-color);
-     font:16px/1 "ff-bau-web","Helvetica Neue",Helvetica,Arial,sans-serif;
+     font: 18px/1.2 "ff-bau-web","Helvetica Neue",Helvetica,Arial,sans-serif;
      color: var(--primary-color);
      -webkit-font-smoothing:antialiased;
      text-rendering:optimizeLegibility;
@@ -171,12 +171,6 @@ table{
      color: #666;
      margin-bottom: 6px;
 }
- p.small {
-     color: #bbb;
-     font-size: 14px;
-     line-height: 1.5;
-     display: block;
-}
  blockquote {
      padding-left: 15px;
      border-left: 3px solid var(--accent-color);
@@ -186,7 +180,7 @@ table{
      border: none;
      height: 3px;
      margin: 40px auto;
-     background: #f4f4f4;
+     background: var(--accent-color);
 }
  code, span.code {
      font-family:Menlo, Monaco, Courier;
@@ -309,9 +303,7 @@ table{
  .footnotes {
      font-size:13px;
 }
- .footnotes hr {
-     height: 1px;
-}
+
  .postbody .footnotes ol {
      list-style-type:number;
 }
@@ -341,22 +333,6 @@ table{
  #post-meta div {
      margin:0 25px 0 0;
      float:left;
-}
- #sharing {
-     float:right;
-     margin:-2px;
-}
- #sharing a {
-     font-size:20px;
-     font-size:23px;
-     margin-left:1px;
-     margin-top:4px;
-     color:#d4d4d4;
-     display:inline-block;
-     vertical-align:middle;
-}
- #sharing a:hover {
-     color: #444;
 }
 /*========================================= Post Navigation =========================================== */
  #post-nav {
