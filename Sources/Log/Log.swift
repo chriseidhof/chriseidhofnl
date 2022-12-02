@@ -90,8 +90,15 @@ extension Post {
 }
 
 extension Array where Element == Post {
+
+    @NodeBuilder
     func list(basePath: String) -> Node {
-        ul(id: "post-list") {
+        div(class: "intro") {
+            """
+            This is my minilog. Kind of like a weblog, but shorter, quicker and with less of a filter.
+            """
+        }
+        ul(id: "log-list") {
             self.map { post in post.node(basePath: basePath) }
         }
     }

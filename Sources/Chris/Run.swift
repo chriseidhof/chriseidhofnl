@@ -7,7 +7,6 @@ import Log
 struct Site: Rule {
     var body: some Rule {
         Copy("css")
-        Copy("fonts")
         Copy("images")
         Index()
         Blog(posts: BlogPost.inContext())

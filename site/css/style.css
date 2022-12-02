@@ -184,7 +184,7 @@ table{
 }
  code, span.code {
      font-family:Menlo, Monaco, Courier;
-     font-size:14px;
+     font-size:16px;
 }
  span.code {
      background-color:#EEE;
@@ -198,6 +198,8 @@ table{
      overflow:auto;
      border-radius: 3px;
 }
+
+
  table {
      width:100%;
      margin:40px 0;
@@ -244,10 +246,12 @@ table{
  #header {
      margin-bottom:100px;
 }
- #post-list li,#archive-list li {
+ #post-list li,#archive-list li, #log-list li {
      list-style-type:none;
 }
- #post-list li+li {
+
+
+ #post-list li+li, #post-list li+li {
      padding-top:20px;
      border-top:1px solid var(--accent-color);
 }
@@ -507,3 +511,26 @@ table{
      padding-top: 0;
 }
  
+/* minilog */
+
+div.intro {
+    padding-bottom: 50px;
+}
+
+#log-list a .dates {
+    color: var(--secondary-color)
+    font-size: 0.6em;
+    padding-bottom: 1em;
+}
+
+#log-list pre {
+    background-color: var(--background-color)
+}
+
+#log-list li {
+     border: 1px solid var(--accent-color);
+     padding: 20px 20px 0 20px;
+     margin-bottom: 30px;
+     background-color: var(--secondary-background-color);
+     border-radius: 3px;
+}
