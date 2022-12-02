@@ -48,7 +48,7 @@
         {
           "contents" : {
             "markdown" : {
-              "_0" : "Hacked a bit on this website and on [StaticSite](https:\/\/github.com\/objcio\/static-site\/). [Added some tests](https:\/\/github.com\/objcio\/StaticSite\/commit\/f71c70737140a9b58a21660135f30cd90beba147) and [added an `@Environment` property wrapper](https:\/\/github.com\/objcio\/StaticSite\/pull\/1)."
+              "_0" : "Hacked a bit on this website and on [StaticSite](https:\/\/github.com\/objcio\/staticsite\/). [Added some tests](https:\/\/github.com\/objcio\/StaticSite\/commit\/f71c70737140a9b58a21660135f30cd90beba147) and [added an `@Environment` property wrapper](https:\/\/github.com\/objcio\/StaticSite\/pull\/1)."
             }
           },
           "id" : "27B46C2E-1B98-435A-8D00-95DEAB8041A6"

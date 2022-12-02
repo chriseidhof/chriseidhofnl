@@ -62,9 +62,10 @@ table{
      --primary-color: #222;
      --secondary-color: #333;
      --quaternary-color: #aaa;
-     --accent-color: #eee;
      --blue: rgb(0, 122, 255);
+     --border-color: #eee;
      --pink: rgb(255, 45, 85);
+     --accent-color: var(--blue);
 }
  @media (prefers-color-scheme: dark) {
      :root {
@@ -73,9 +74,10 @@ table{
          --primary-color: #ddd;
          --secondary-color: #ccc;
          --quaternary-color: #555;
-         --accent-color: #222;
+         --border-color: #222;
          --blue: rgb(10, 132, 255);
          --pink: rgb(255, 55, 95);
+         --accent-color: var(--pink);
     }
      #header img {
          filter: invert(100%);
@@ -104,16 +106,16 @@ table{
      text-decoration:none;
 /*     color:#5badf0;*/
 /*     color:#5694f1;*/
-     color: var(--blue);
+     color: var(--accent-color);
 }
 
  p a {
-     color: var(--blue);
+     color: var(--accent-color);
 /*     color:#5694f1;*/
 }
 
 p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
-    color: var(--blue);
+    color: var(--accent-color);
 }
 /*Transitions*/
  a, #post-nav a, #post-list a {
@@ -189,14 +191,14 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
 }
  blockquote {
      padding-left: 15px;
-     border-left: 3px solid var(--accent-color);
+     border-left: 3px solid var(--border-color);
 }
  hr {
      display: block;
      border: none;
      height: 3px;
      margin: 40px auto;
-     background: var(--accent-color);
+     background: var(--border-color);
 }
  code, span.code {
      font-family:Menlo, Monaco, Courier;
@@ -207,7 +209,7 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
 }
  pre {
      font-family:Menlo, Monaco, Courier;
-     border: 1px solid var(--accent-color);
+     border: 1px solid var(--border-color);
      padding:20px;
      background-color: var(--secondary-background-color);
      font-size:14px;
@@ -269,7 +271,7 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
 
  #post-list li+li, #post-list li+li {
      padding-top:20px;
-     border-top:1px solid var(--accent-color);
+     border-top:1px solid var(--border-color);
 }
  #post-list a {
      color:var(--secondary-color);
@@ -284,7 +286,7 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
      color:#bbb;
 }
  #post-list-footer {
-     border-top:1px solid var(--accent-color);
+     border-top:1px solid var(--border-color);
      margin-top:20px;
      padding-top:100px;
 }
@@ -296,13 +298,13 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
      font-size:13px;
      border-radius:4px;
      padding:3px 10px 6px;
-     box-shadow:0 0 0 1px var(--accent-color);
+     box-shadow:0 0 0 1px var(--border-color);
 }
  #archive-link:hover {
 /*     background:#5694f1;*/
-     background: var(--blue);
+     background: var(--accent-color);
      color:#fff;
-     box-shadow:0 0 0 1px var(--blue);
+     box-shadow:0 0 0 1px var(--accent-color);
 }
  #archive-link span {
      position:relative;
@@ -310,13 +312,13 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
      font-size: 17px;
 }
  #footer {
-     box-shadow: inset 0 1px 0 var(--accent-color);
+     box-shadow: inset 0 1px 0 var(--border-color);
      padding: 40px 0 0 0;
      margin-top: 100px;
 }
 /*========================================= Post Page =========================================== */
  #header {
-     border-bottom:1px solid var(--accent-color);
+     border-bottom:1px solid var(--border-color);
 }
  .post {
      margin:80px 0 0 0;
@@ -332,7 +334,7 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
      font-size:13px;
      margin-bottom:40px;
      line-height:1.4;
-     border-top:1px solid var(--accent-color);
+     border-top:1px solid var(--border-color);
      padding-top:40px;
      margin-top:40px;
      color: var(--secondary-color);
@@ -357,7 +359,7 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
 }
 /*========================================= Post Navigation =========================================== */
  #post-nav {
-     border-top:1px solid var(--accent-color);
+     border-top:1px solid var(--border-color);
      text-align:center;
      padding-top:20px;
      font-size:13px;
@@ -404,7 +406,7 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
      margin-top:40px;
      margin-bottom:10px;
      padding-bottom:10px;
-     border-bottom:1px solid var(--accent-color);
+     border-bottom:1px solid var(--border-color);
 }
  #archive-list a {
      display:block;
@@ -420,7 +422,7 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
 }
  #archive-list li a:hover,#archive-list li:hover .dates {
 /*     color: #5694f1;*/
-     color: var(--blue);
+     color: var(--accent-color);
 }
  #header img {
      float: right;
@@ -435,7 +437,7 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
     }
      #header {
          margin-bottom: 60px;
-         border-bottom: 1px solid var(--accent-color);
+         border-bottom: 1px solid var(--border-color);
     }
      .post {
          margin: 40px 0;
@@ -510,7 +512,7 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
      color: #666;
 }
  .snippet {
-     border: 1px solid var(--accent-color);
+     border: 1px solid var(--border-color);
     /* padding:20px;
     */
      background-color: var(--secondary-background-color);
@@ -520,7 +522,7 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
 }
  .snippet h3 {
      font-size: 13px;
-     border-bottom: 1px solid var(--accent-color);
+     border-bottom: 1px solid var(--border-color);
      padding: 15px 20px;
      font-weight: bold;
 }
@@ -546,7 +548,7 @@ div.intro {
 }
 
 #log-list li {
-     border: 1px solid var(--accent-color);
+     border: 1px solid var(--border-color);
      padding: 20px 20px 0 20px;
      margin-bottom: 30px;
      background-color: var(--secondary-background-color);
