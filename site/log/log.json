@@ -58,6 +58,22 @@
       "deleted" : false,
       "id" : "FC32E0FB-8FF9-43BD-B393-5300B81683EB",
       "updatedAt" : 691596376.182652
+    },
+    {
+      "contents" : [
+        {
+          "contents" : {
+            "markdown" : {
+              "_0" : "Added dark mode to my personal website. Also learned a bit about CSS media queries and how to have variables that differ based on dark mode:\n\n```\n :root {\n     --background-color: #fff;\n     --primary-color: #222;\n}\n @media (prefers-color-scheme: dark) {\n     :root {\n         --background-color: #111;\n         --primary-color: #ddd;\n    }\n}\n\n```"
+            }
+          },
+          "id" : "A23250B3-4A05-4BF8-ABDE-7E9440C53A62"
+        }
+      ],
+      "createdAt" : 691659125.25330496,
+      "deleted" : false,
+      "id" : "C077DEA9-893D-4EAB-A797-0B001624CF38",
+      "updatedAt" : 691659125.25330496
     }
   ]
 }
