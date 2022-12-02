@@ -58,6 +58,8 @@ table{
      --secondary-color: #333;
      --quaternary-color: #aaa;
      --accent-color: #eee;
+     --blue: rgb(0, 122, 255);
+     --pink: rgb(255, 45, 85);
 }
  @media (prefers-color-scheme: dark) {
      :root {
@@ -67,6 +69,8 @@ table{
          --secondary-color: #ccc;
          --quaternary-color: #555;
          --accent-color: #222;
+         --blue: rgb(10, 132, 255);
+         --pink: rgb(255, 55, 95);
     }
      #header img {
          filter: invert(100%);
@@ -93,11 +97,18 @@ table{
 /*Accent color*/
  a, #title, #post-list a:hover, #post-list li:hover .dates, #title:hover {
      text-decoration:none;
-     color:#5badf0;
-     color:#5694f1;
+/*     color:#5badf0;*/
+/*     color:#5694f1;*/
+     color: var(--blue);
 }
+
  p a {
-     color:#5694f1;
+     color: var(--blue);
+/*     color:#5694f1;*/
+}
+
+p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
+    color: var(--blue);
 }
 /*Transitions*/
  a, #post-nav a, #post-list a {
@@ -283,9 +294,10 @@ table{
      box-shadow:0 0 0 1px var(--accent-color);
 }
  #archive-link:hover {
-     background:#5694f1;
+/*     background:#5694f1;*/
+     background: var(--blue);
      color:#fff;
-     box-shadow:0 0 0 1px #5694f1;
+     box-shadow:0 0 0 1px var(--blue);
 }
  #archive-link span {
      position:relative;
@@ -402,7 +414,8 @@ table{
      color:#bbb;
 }
  #archive-list li a:hover,#archive-list li:hover .dates {
-     color: #5694f1;
+/*     color: #5694f1;*/
+     color: var(--blue);
 }
  #header img {
      float: right;
