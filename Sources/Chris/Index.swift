@@ -21,7 +21,7 @@ struct Index: Rule {
         }
         HTML.footer(id: "footer") {
             p(class: "small") {
-                "Made in Fürstenberg, by "
+                "Made by "
                 a(href: "https://www.twitter.com/chriseidhof/") {
                     "@chriseidhof"
                 }
