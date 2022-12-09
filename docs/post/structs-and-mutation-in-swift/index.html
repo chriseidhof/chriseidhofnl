@@ -32,7 +32,8 @@
 							</h2>
 						</header>
 						<section class="postbody">
-							<p><em>Note</em>: This post is a draft-version of a new section in our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>. We&apos;re currently updating the book for Swift 3. It&apos;ll be a free update for everyone who has bought a digital version of the book. Thanks to <a href="https://twitter.com/olebegemann" title>Ole Begemann</a> for suggestions and improvements.
+							<p><em>Note</em>
+								: This post is a draft-version of a new section in our book <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>. We’re currently updating the book for Swift 3. It’ll be a free update for everyone who has bought a digital version of the book. Thanks to <a href="https://twitter.com/olebegemann">Ole Begemann</a> for suggestions and improvements.
 							</p>
 							<p>
 								Value types imply that whenever a variable is copied, the value itself — and not just a reference to the value — is copied. For example, in almost all programming languages, scalar types are value types. This means that whenever a value is assigned to a new variable, it is copied rather than passed by reference:
@@ -45,7 +46,7 @@
 								After the code above executes, the value of <code>b</code> will be 43, but <code>a</code> will still be 42. This is so natural that it seems like stating the obvious. However, in Swift, all structs behave this way, not just scalar types.
 							</p>
 							<p>
-								Let&apos;s start with a simple struct that describes a <code>Point</code>. This is similar to <code>CGPoint</code>, except that it contains <code>Int</code>s, whereas <code>CGPoint</code> contains <code>CGFloat</code>s.
+								Let’s start with a simple struct that describes a <code>Point</code>. This is similar to <code>CGPoint</code>, except that it contains <code>Int</code>s, whereas <code>CGPoint</code> contains <code>CGFloat</code>s.
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Point</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">x</span>: <span class="hljs-identifier">Int</span>
@@ -58,7 +59,7 @@
 							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">origin</span> = <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">0</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">0</span>)
 </code></pre>
 							<p>
-								Because structs in Swift have value semantics, we cannot change any of the properties of a struct variable that&apos;s defined using let. For example, the following code will not work:
+								Because structs in Swift have value semantics, we cannot change any of the properties of a struct variable that’s defined using let. For example, the following code will not work:
 							</p>
 							<pre><code class="highlight-swift">origin.x = 10 // error
 </code></pre>
@@ -141,7 +142,7 @@
 								Understanding why this works is key to understanding value types. Mutating a struct variable is semantically the same as assigning a new value to it. When we mutate something deep inside the struct, it still means we are mutating the struct, so <code>didSet</code> still needs to get triggered.
 							</p>
 							<p>
-								With regular structs, the compiler will mutate the value in place, and not actually make a copy. With copy-on-write structs (which we&apos;ll discuss later), this works differently.
+								With regular structs, the compiler will mutate the value in place, and not actually make a copy. With copy-on-write structs (which we’ll discuss later), this works differently.
 							</p>
 							<p>
 								It would make sense to add two <code>Points</code> together. We can use the <code>+</code> operator for this, add both members, and return a new <code>Point</code>.
@@ -152,7 +153,7 @@
 <span class="hljs-identifier">screen</span>.<span class="hljs-identifier">origin</span> + <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">10</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">10</span>)
 </code></pre>
 							<p>
-								We could also lift this operation to rectangles, and add a <code>translate</code> method which moves the rectangle by a given offset. Our first attempt doesn&apos;t work:
+								We could also lift this operation to rectangles, and add a <code>translate</code> method which moves the rectangle by a given offset. Our first attempt doesn’t work:
 							</p>
 							<pre><code class="highlight-swift">extension Rectangle {
     func translate(by offset: Point) {
@@ -161,7 +162,7 @@
 }
 </code></pre>
 							<p>
-								The compiler tells us that we cannot assign to the <code>origin</code> property, because <code>self</code> is immutable (writing <code>origin =</code> is shorthand for <code>self.origin =</code>). We could think of <code>self</code> as an extra, implicit parameter that gets passed to every method on <code>Rectangle</code>. You never have to pass the parameter, but it&apos;s always there inside the method body. And it&apos;s defined as <code>let</code> by default. The reason this <code>let</code> restriction exists is so that value semantics can be guaranteed. If we want to be able to mutate <code>self</code>, or any property of <code>self</code>, or even nested properties (e.g. <code>self.origin.x</code>), we need to mark our method as <code>mutating</code>:
+								The compiler tells us that we cannot assign to the <code>origin</code> property, because <code>self</code> is immutable (writing <code>origin =</code> is shorthand for <code>self.origin =</code>). We could think of <code>self</code> as an extra, implicit parameter that gets passed to every method on <code>Rectangle</code>. You never have to pass the parameter, but it’s always there inside the method body. And it’s defined as <code>let</code> by default. The reason this <code>let</code> restriction exists is so that value semantics can be guaranteed. If we want to be able to mutate <code>self</code>, or any property of <code>self</code>, or even nested properties (e.g. <code>self.origin.x</code>), we need to mark our method as <code>mutating</code>:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">Rectangle</span> {
     <span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">translate</span>(<span class="hljs-identifier">by</span> <span class="hljs-identifier">offset</span>: <span class="hljs-identifier">Point</span>) {
@@ -171,7 +172,7 @@
 <span class="hljs-identifier">screen</span>.<span class="hljs-identifier">translate</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">10</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">10</span>))
 </code></pre>
 							<p>
-								The compiler enforces the <code>mutating</code> keyword. Unless we use it, we are not allowed to mutate anything inside the method. By marking the method as <code>mutating</code>, we change the behavior of <code>self</code>. Instead of it being a <code>let</code>, it now works like a <code>var</code>: we can freely change any property. (To be precise, it&apos;s not even a <code>var</code>, but we will get to that in a little bit).
+								The compiler enforces the <code>mutating</code> keyword. Unless we use it, we are not allowed to mutate anything inside the method. By marking the method as <code>mutating</code>, we change the behavior of <code>self</code>. Instead of it being a <code>let</code>, it now works like a <code>var</code>: we can freely change any property. (To be precise, it’s not even a <code>var</code>, but we will get to that in a little bit).
 							</p>
 							<p>
 								If we define a <code>Rectangle</code> variable using <code>let</code>, we cannot call <code>translate</code> on it, because the only <code>Rectangle</code>s that are mutable are the ones defined using <code>var</code>:
@@ -203,17 +204,17 @@ point.x = 10
 </code></pre>
 							<blockquote>
 								<p>
-									The names <code>sort</code> and <code>sorted</code> are not chosen at random, but are names that conform to the Swift <a href="https://swift.org/documentation/api-design-guidelines/" title>API Design Guidelines</a>. Likewise, we applied these guidelines to <code>translate</code> and <code>translated</code>. There is even specific documentation for methods that have a mutating and a non-mutating variant: because <code>translate</code> has a side-effect, it should read as an imperative verb phrase. The non-mutating variant should have a -ed or -ing suffix.
+									The names <code>sort</code> and <code>sorted</code> are not chosen at random, but are names that conform to the Swift <a href="https://swift.org/documentation/api-design-guidelines/">API Design Guidelines</a>. Likewise, we applied these guidelines to <code>translate</code> and <code>translated</code>. There is even specific documentation for methods that have a mutating and a non-mutating variant: because <code>translate</code> has a side-effect, it should read as an imperative verb phrase. The non-mutating variant should have a -ed or -ing suffix.
 								</p>
 							</blockquote>
 							<p>
 								In functional programming, side-effects are often considered bad, because they might influence your code in unexpected ways. For example, if an object is referenced in multiple places, every change automatically happens in every place. As we have seen in the introduction, when dealing with multi-threaded code, this can easily lead to bugs: because the object you are just checking can be modified from a different thread, all your assumptions might be invalid.
 							</p>
 							<p>
-								With Swift structs, <code>mutating</code> does not have the same problems. The mutation of the struct is a local side-effect, and only applies to the current struct variable. Because every struct variable is unique (or in other words: every struct value has exactly one owner), it&apos;s almost impossible to introduce bugs this way. Unless you&apos;re referring to a global struct variable across threads, that is.
+								With Swift structs, <code>mutating</code> does not have the same problems. The mutation of the struct is a local side-effect, and only applies to the current struct variable. Because every struct variable is unique (or in other words: every struct value has exactly one owner), it’s almost impossible to introduce bugs this way. Unless you’re referring to a global struct variable across threads, that is.
 							</p>
 							<p>
-								To understand how the <code>mutating</code> keyword works, we can look at the behavior of <code>inout</code>. In Swift, we can mark function parameters as <code>inout</code>. Before we do that, let&apos;s define a free function that moves a rectangle by ten points on both axes. We cannot simply call <code>translate</code> directly on the <code>rectangle</code> parameter, because all function parameters are immutable by default. In order to change it, we create a mutable copy using <code>var</code>, call <code>translate</code> and return the changed value. Then we need to re-assign it to <code>screen</code>:
+								To understand how the <code>mutating</code> keyword works, we can look at the behavior of <code>inout</code>. In Swift, we can mark function parameters as <code>inout</code>. Before we do that, let’s define a free function that moves a rectangle by ten points on both axes. We cannot simply call <code>translate</code> directly on the <code>rectangle</code> parameter, because all function parameters are immutable by default. In order to change it, we create a mutable copy using <code>var</code>, call <code>translate</code> and return the changed value. Then we need to re-assign it to <code>screen</code>:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">moveByTenTen</span>(<span class="hljs-identifier">rectangle</span>: <span class="hljs-identifier">Rectangle</span>) -> <span class="hljs-identifier">Rectangle</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">changed</span> = <span class="hljs-identifier">rectangle</span>
@@ -226,7 +227,7 @@ point.x = 10
 								How could we write a function that changes the <code>rectangle</code> in place? Thinking back, the <code>mutating</code> keyword did exactly that. It makes the implicit <code>self</code> parameter mutable, and it changes the value of the variable.
 							</p>
 							<p>
-								In functions, we can mark parameters as <code>inout</code>. Just like with a regular parameter, a copy of the value gets passed in to the function. However, we can change the copy (it&apos;s as if it were defined as a <code>var</code>). And once the function returns, the original value gets overwritten:
+								In functions, we can mark parameters as <code>inout</code>. Just like with a regular parameter, a copy of the value gets passed in to the function. However, we can change the copy (it’s as if it were defined as a <code>var</code>). And once the function returns, the original value gets overwritten:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">moveByTwentyTwenty</span>(<span class="hljs-identifier">rectangle</span>: <span class="hljs-keyword">inout</span> <span class="hljs-identifier">Rectangle</span>) {
     <span class="hljs-identifier">rectangle</span>.<span class="hljs-identifier">translate</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">20</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">20</span>))
@@ -237,7 +238,7 @@ point.x = 10
 								The <code>moveByTwentyTwenty</code> function takes the <code>screen</code> rectangle, changes it locally, and copies the new value back (overriding the previous value of <code>screen</code>). This behavior is exactly the same as a <code>mutating</code> method. In fact, <code>mutating</code> methods are just like regular methods on struct, except that <code>self</code> is marked as <code>inout</code>.
 							</p>
 							<p>
-								Just to make sure, we cannot call <code>moveByTwentyTwenty</code> on a rectangle that&apos;s defined using <code>let</code>. We can only use it with mutable values:
+								Just to make sure, we cannot call <code>moveByTwentyTwenty</code> on a rectangle that’s defined using <code>let</code>. We can only use it with mutable values:
 							</p>
 							<pre><code class="highlight-swift">let immutableScreen = screen
 moveByTwentyTwenty(rectangle: &amp;immutableScreen) // error
@@ -252,7 +253,7 @@ moveByTwentyTwenty(rectangle: &amp;immutableScreen) // error
 <span class="hljs-identifier">myPoint</span> += <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">10</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">10</span>)
 </code></pre>
 							<p>
-								In the Functions chapter, we will go into more detail about <code>inout</code>. For now, it suffices to say that <code>inout</code> is in lots of places. For example, it&apos;s now easy to understand how modifying a subscript works:
+								In the Functions chapter, we will go into more detail about <code>inout</code>. For now, it suffices to say that <code>inout</code> is in lots of places. For example, it’s now easy to understand how modifying a subscript works:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">array</span> = [<span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">0</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">0</span>), <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">10</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">10</span>)]
 <span class="hljs-identifier">array</span>[<span class="hljs-number">0</span>] += <span class="hljs-identifier">Point</span>(<span class="hljs-identifier">x</span>: <span class="hljs-number">100</span>, <span class="hljs-identifier">y</span>: <span class="hljs-number">100</span>)
@@ -276,7 +277,7 @@ moveByTwentyTwenty(rectangle: &amp;immutableScreen) // error
 						</div>
 						<p>
 							<p>
-								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>, or check out <a href="https://talk.objc.io" title>Swift Talk</a>.
+								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>, or check out <a href="https://talk.objc.io">Swift Talk</a>.
 							</p>
 						</p>
 					</footer>

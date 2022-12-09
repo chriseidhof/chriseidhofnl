@@ -33,7 +33,7 @@
 						</header>
 						<section class="postbody">
 							<p>
-								Today, we shipped our first Swift app completely written in Swift: <a href="https://www.getscenery.com" title>Scenery</a>. From our press release:
+								Today, we shipped our first Swift app completely written in Swift: <a href="https://www.getscenery.com">Scenery</a>. From our press release:
 							</p>
 							<blockquote>
 								<p>
@@ -43,20 +43,18 @@
 							<img src="https://www.getscenery.com/gallery/video.png" />
 
 							<p>
-								It&apos;s been a very interesting experience, because all iOS and Mac apps we&apos;ve built before were done using Objective-C. In the beginning, we spent a lot of time waiting for the compiler, but the stability and speed of the tooling has improved a lot in recent releases, so we hardly ever have issues anymore. Even when you take the time spent waiting on the compiler into account, I think we were still writing better code at a higher speed than with Objective-C.
+								It’s been a very interesting experience, because all iOS and Mac apps we’ve built before were done using Objective-C. In the beginning, we spent a lot of time waiting for the compiler, but the stability and speed of the tooling has improved a lot in recent releases, so we hardly ever have issues anymore. Even when you take the time spent waiting on the compiler into account, I think we were still writing better code at a higher speed than with Objective-C.
 							</p>
 							<p>
-								The code base we ended up with makes me much happier than most Objective-C code bases I&apos;ve seen. Having Swift&apos;s type-safety greatly improves my trust in refactorings: I feel free to change a function&apos;s type, add parameters or change parameter types. I know that the compiler will help me catch any type-related errors. We use a lot of functional patterns: <a href="http://chris.eidhof.nl/posts/tiny-networking-in-swift.html" title>tiny networking</a>, <a href="http://www.objc.io/snippets/16.html" title>typed observers</a>, <a href="http://www.objc.io/snippets/20.html" title>configuration values</a>, <a href="http://www.objc.io/snippets/8.html" title>wrapper types</a>, and the list goes on. Many of the snippets we published over at <a href="http://www.objc.io" title>objc.io</a> come from our Scenery code base.
-								
+								The code base we ended up with makes me much happier than most Objective-C code bases I’ve seen. Having Swift’s type-safety greatly improves my trust in refactorings: I feel free to change a function’s type, add parameters or change parameter types. I know that the compiler will help me catch any type-related errors. We use a lot of functional patterns: <a href="http://chris.eidhof.nl/posts/tiny-networking-in-swift.html">tiny networking</a>, <a href="http://www.objc.io/snippets/16.html">typed observers</a>, <a href="http://www.objc.io/snippets/20.html">configuration values</a>, <a href="http://www.objc.io/snippets/8.html">wrapper types</a>, and the list goes on. Many of the snippets we published over at <a href="http://www.objc.io">objc.io</a> come from our Scenery code base.
 								Another really big win was the ability to use enums. Creating a new enum is very simple, and comes at no runtime cost, yet gives us a lot better readability and maintainability.
 							</p>
 							<p>
 								Finally, we use a lot of tiny functions that help us compose functionality out of short and understandable pieces.
-								
-								Our app uses two frameworks: UIShared, which has reusable code that&apos;s unrelated to Scenery, and SceneryShared, which has a lot of our domain logic. The app itself is very lean.  This means that the stateful parts of our app are quite contained (in the app itself), and that most of our code is stateless and thus easier to maintain and understand.
+								Our app uses two frameworks: UIShared, which has reusable code that’s unrelated to Scenery, and SceneryShared, which has a lot of our domain logic. The app itself is very lean.  This means that the stateful parts of our app are quite contained (in the app itself), and that most of our code is stateless and thus easier to maintain and understand.
 							</p>
 							<p>
-								So, when people ask me whether Swift is ready for production, for me the answer is a resounding yes. It&apos;s served us very well, and it keeps getting better, faster and easier. And the best thing: this is only the beginning of the Swift journey, if the language keeps improving at this pace, the future will be very bright indeed.
+								So, when people ask me whether Swift is ready for production, for me the answer is a resounding yes. It’s served us very well, and it keeps getting better, faster and easier. And the best thing: this is only the beginning of the Swift journey, if the language keeps improving at this pace, the future will be very bright indeed.
 							</p>
 						</section>
 						<footer class="group" id="post-meta">

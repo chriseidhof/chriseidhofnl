@@ -33,45 +33,32 @@
 						</header>
 						<section class="postbody">
 							<p>
-								Just last week, someone asked me &quot;in what respect does Swift fall short of the
-								
-								dynamic features of Objective-C&quot;?
+								Just last week, someone asked me “in what respect does Swift fall short of the
+								dynamic features of Objective-C”?
 							</p>
 							<p>
 								Dynamic programming means a lot of different
-								
 								things to different people, and I think they meant runtime programming. In this
-								
-								post, we&apos;ll look at replacing Objective-C&apos;s runtime programming with
-								
-								Swift&apos;s functions.
+								post, we’ll look at replacing Objective-C’s runtime programming with
+								Swift’s functions.
 							</p>
 							<p>
-								This post is an excerpt from the Functions chapter in <a href="https://www.objc.io/books/advanced-swift/" title>Advanced
-									
-									Swift</a>, which we&apos;re currently
-								
-								rewriting (and making very good progress).  The text below was originally written by <a href="https://twitter.com/airspeedswift" title>Airspeed
-									
+								This post is an excerpt from the Functions chapter in <a href="https://www.objc.io/books/advanced-swift/">Advanced
+									Swift</a>, which we’re currently
+								rewriting (and making very good progress).  The text below was originally written by <a href="https://twitter.com/airspeedswift">Airspeed
 									Velocity</a>. I took his text and code, updated
-								
-								everything for Swift 3 and made some heavy edits. Thanks to <a href="https://twitter.com/olebegemann" title>Ole Begemann</a> for reading through a draft of this.
+								everything for Swift 3 and made some heavy edits. Thanks to <a href="https://twitter.com/olebegemann">Ole Begemann</a> for reading through a draft of this.
 							</p>
 							<hr/>
 							<p>
-								In the chapter on <a href="#collections" title>collections</a>, we talked about parametrizing
-								
-								behavior by passing functions as arguments. Let&apos;s look at another example of
-								
+								In the chapter on <a href="#collections">collections</a>, we talked about parametrizing
+								behavior by passing functions as arguments. Let’s look at another example of
 								this: sorting.
 							</p>
 							<p>
 								If you want to sort an array in Objective-C using Foundation, you are met with a
-								
 								long list of different options. These provide a lot of flexibility and power,
-								
 								but at the cost of complexity — even the simplest probably needs a trip to the
-								
 								documentation to know how to use it.
 							</p>
 							<p>
@@ -82,18 +69,15 @@
 </code></pre>
 							<p>
 								There are really four sort methods: <code>sorted(by:)</code> and <code>sort(by:)</code>, times two for
-								
 								the overloads that default to sorting comparable things in ascending order. But
-								
 								the overloading means that when you want the simplest case, <code>sorted()</code> is all
-								
 								you need. If you want to sort in a different order, just supply a function:
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">myArray</span>.<span class="hljs-identifier">sorted</span>(<span class="hljs-identifier">by</span>: >) <span class="hljs-comment">// [3, 2, 1]</span>
 </code></pre>
 							<p>
-								You can also supply a function if your elements don&apos;t conform to <code>Equatable</code> but
-								<em>do</em> have a <code>&lt;</code> operator, like tuples:
+								You can also supply a function if your elements don’t conform to <code>Equatable</code> but<em>do</em>
+								 have a <code>&lt;</code> operator, like tuples:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">numberStrings</span> = [(<span class="hljs-number">2</span>, <span class="hljs-string">"</span><span class="hljs-string">two</span><span class="hljs-string">"</span>), (<span class="hljs-number">1</span>, <span class="hljs-string">"</span><span class="hljs-string">one</span><span class="hljs-string">"</span>), (<span class="hljs-number">3</span>, <span class="hljs-string">"</span><span class="hljs-string">three</span><span class="hljs-string">"</span>)]
 <span class="hljs-identifier">numberStrings</span>.<span class="hljs-identifier">sort</span>(<span class="hljs-identifier">by</span>: <)
@@ -101,7 +85,6 @@
 </code></pre>
 							<p>
 								Or, you can supply a more complicated function if you want to sort by some
-								
 								arbitrary calculated criteria:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">animals</span> = [<span class="hljs-string">"</span><span class="hljs-string">elephant</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">zebra</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">dog</span><span class="hljs-string">"</span>]
@@ -114,37 +97,24 @@
 </code></pre>
 							<p>
 								It is this last ability — the ability to use any comparison function to sort a
-								
 								collection — that makes the Swift sort so powerful, and makes this one function
-								
 								able to replicate much (if not all) of the functionality of the various
-								
 								different sorting methods in Foundation.
 							</p>
 							<p>
-								To demonstrate this, let&apos;s take a complex example inspired by the <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/SortDescriptors/Articles/Creating.html" title>Sort
-									
+								To demonstrate this, let’s take a complex example inspired by the <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/SortDescriptors/Articles/Creating.html">Sort
 									Descriptor Programming
-									
 									Topics</a>.
-								
 								The <code>sortedArray(using:)</code> method on <code>NSArray</code> is very flexible and a great
-								
-								example of the power of Objective-C&apos;s dynamic nature. Support for selectors and
-								
+								example of the power of Objective-C’s dynamic nature. Support for selectors and
 								dynamic dispatch is still there in Swift, but the Swift standard library favors
-								
-								a more function-based approach instead. Later on, we&apos;ll show a few techniques
-								
+								a more function-based approach instead. Later on, we’ll show a few techniques
 								where functions as arguments, and treating functions as data, can be used to get
-								
 								the same dynamic effects.
 							</p>
 							<p>
-								We&apos;ll start by defining a <code>Person</code> object. Because we want to show how
-								
-								Objective-C&apos;s powerful runtime system works, we&apos;ll have to make it an <code>NSObject</code>
-								subclass (in pure Swift, a struct might have been a better choice):
+								We’ll start by defining a <code>Person</code> object. Because we want to show how
+								Objective-C’s powerful runtime system works, we’ll have to make it an <code>NSObject</code>subclass (in pure Swift, a struct might have been a better choice):
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">final</span> <span class="hljs-keyword">class</span> <span class="hljs-identifier">Person</span>: <span class="hljs-identifier">NSObject</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">first</span>: <span class="hljs-identifier">String</span>
@@ -159,7 +129,7 @@
 }
 </code></pre>
 							<p>
-								Let&apos;s also define an array of people, with different names and birth years:
+								Let’s also define an array of people, with different names and birth years:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">people</span> = [
     <span class="hljs-identifier">Person</span>(<span class="hljs-identifier">first</span>: <span class="hljs-string">"</span><span class="hljs-string">Jo</span><span class="hljs-string">"</span>, <span class="hljs-identifier">last</span>: <span class="hljs-string">"</span><span class="hljs-string">Smith</span><span class="hljs-string">"</span>, <span class="hljs-identifier">yearOfBirth</span>: <span class="hljs-number">1970</span>),
@@ -172,11 +142,8 @@
 </code></pre>
 							<p>
 								We want to sort this array first by last name, then by first name, and finally
-								
-								by birth year. We want to do this case insensitively and using the user&apos;s
-								
+								by birth year. We want to do this case insensitively and using the user’s
 								locale. An <code>NSSortDescriptor</code> object describes how to order objects, and we can
-								
 								use them to express the individual sorting criteria.
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">lastDescriptor</span> = <span class="hljs-identifier">NSSortDescriptor</span>(<span class="hljs-identifier">key</span>: <span class="hljs-string">"</span><span class="hljs-string">last</span><span class="hljs-string">"</span>, <span class="hljs-identifier">ascending</span>: <span class="hljs-keyword">true</span>,
@@ -187,13 +154,9 @@
 </code></pre>
 							<p>
 								To sort the array, we can use the <code>sortedArray(using:)</code> method on <code>NSArray</code>.
-								
 								This takes a list of sort descriptors. To determine the order of two elements,
-								
 								it starts by using the first sort descriptor, and uses that result. However, if
-								
 								two elements are equal according to the first descriptor, it uses the second
-								
 								descriptor, and so on.
 							</p>
 							<pre><code class="swift">(<span class="hljs-identifier">people</span> <span class="hljs-keyword">as</span> <span class="hljs-identifier">NSArray</span>).<span class="hljs-identifier">sortedArray</span>(<span class="hljs-identifier">using</span>: [<span class="hljs-identifier">lastDescriptor</span>, <span class="hljs-identifier">firstDescriptor</span>, <span class="hljs-identifier">yearDescriptor</span>]) 
@@ -201,70 +164,50 @@
 </code></pre>
 							<p>
 								A sort descriptor uses two runtime features of Objective-C: the <code>key</code> is a key
-								
-								path, and <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueCoding/Articles/KeyValueCoding.html" title>key-value
-									
-									coding</a>
-								is used to lookup the value of that key at runtime. The <code>selector</code> parameter
-								
+								path, and <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueCoding/Articles/KeyValueCoding.html">key-value
+									coding</a>is used to lookup the value of that key at runtime. The <code>selector</code> parameter
 								takes a selector (which is really just a <code>String</code> describing a method name). At
-								
 								runtime, the selector is turned into a comparison function. When comparing two
-								
 								objects, the values for the key are compared using that comparison function.
 							</p>
 							<p>
 								This is a pretty cool use of runtime programming, especially when you realize
-								
 								the array of sort descriptors can be built at runtime, say based on a user
-								
 								clicking a column heading.
 							</p>
 							<p>
-								How can we replicate this functionality using Swift&apos;s <code>sort</code>? It&apos;s simple to
-								
-								replicate <em>parts</em> of the sort, for example, if you want to sort an array using
-								<code>localizedCaseInsensitiveCompare</code>:
+								How can we replicate this functionality using Swift’s <code>sort</code>? It’s simple to
+								replicate <em>parts</em>
+								 of the sort, for example, if you want to sort an array using<code>localizedCaseInsensitiveCompare</code>:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">strings</span> = [<span class="hljs-string">"</span><span class="hljs-string">Hello</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">hallo</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">Hallo</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">hello</span><span class="hljs-string">"</span>]
 <span class="hljs-identifier">strings</span>.<span class="hljs-identifier">sort</span> { $0.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>($1) == .<span class="hljs-identifier">orderedAscending</span>}
 <span class="hljs-identifier">strings</span> <span class="hljs-comment">// ["hallo", "Hallo", "Hello", "hello"]</span>
 </code></pre>
 							<p>
-								If you want to sort using just a single property of an object, that&apos;s also
-								
+								If you want to sort using just a single property of an object, that’s also
 								simple.
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">people</span>.<span class="hljs-identifier">sorted</span> { $0.<span class="hljs-identifier">yearOfBirth</span> < $1.<span class="hljs-identifier">yearOfBirth</span> } 
 <span class="hljs-comment">// [Jo Smith (1970), Joe Smith (1970), Joe Smyth (1970), Joanne smith (1970), Robert Jones (1970), Joanne smith (1985)]</span>
 </code></pre>
 							<p>
-								This approach doesn&apos;t work so great when optional properties are combined with
-								
+								This approach doesn’t work so great when optional properties are combined with
 								methods like <code>localizedCaseInsensitiveCompare</code>, though — it gets ugly fast. For
-								
-								example, consider sorting an array of filenames by file extension (using the
-								<code>fileExtension</code> property from the <a href="#optionals" title>Optionals</a> chapter):
+								example, consider sorting an array of filenames by file extension (using the<code>fileExtension</code> property from the <a href="#optionals">Optionals</a> chapter):
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">files</span> = [<span class="hljs-string">"</span><span class="hljs-string">one</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">file.h</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">file.c</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">test.h</span><span class="hljs-string">"</span>]
 <span class="hljs-identifier">files</span>.<span class="hljs-identifier">sort</span> { <span class="hljs-identifier">l</span>, <span class="hljs-identifier">r</span> <span class="hljs-keyword">in</span> <span class="hljs-identifier">r</span>.<span class="hljs-identifier">fileExtension</span>.<span class="hljs-identifier">flatMap</span> { <span class="hljs-identifier">l</span>.<span class="hljs-identifier">fileExtension</span>?.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>($0) } == .<span class="hljs-identifier">orderedAscending</span> }
 <span class="hljs-identifier">files</span> <span class="hljs-comment">// ["one", "file.c", "file.h", "test.h"]</span>
 </code></pre>
 							<p>
-								Later on, we&apos;ll make it easier to use optionals when sorting. However, for now,
-								
-								we haven&apos;t even tried sorting by multiple properties. To sort by last name, then
-								
-								first name, we can use the standard library&apos;s <code>lexicographicalCompare</code> method.
-								
+								Later on, we’ll make it easier to use optionals when sorting. However, for now,
+								we haven’t even tried sorting by multiple properties. To sort by last name, then
+								first name, we can use the standard library’s <code>lexicographicalCompare</code> method.
 								This takes two sequences and performs a phonebook-style comparison by moving
-								
-								through each pair of elements until it finds one that isn&apos;t equal. So we can
-								
+								through each pair of elements until it finds one that isn’t equal. So we can
 								build two arrays of the elements and use <code>lexicographicalCompare</code> to compare
-								
-								them. It also takes a function to perform the comparison. We&apos;ll put our use of
-								<code>localizedCaseInsensitiveCompare</code> in the function:
+								them. It also takes a function to perform the comparison. We’ll put our use of<code>localizedCaseInsensitiveCompare</code> in the function:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">sortedPeople</span> = <span class="hljs-identifier">people</span>.<span class="hljs-identifier">sorted</span> { <span class="hljs-identifier">p0</span>, <span class="hljs-identifier">p1</span> <span class="hljs-keyword">in</span>
     <span class="hljs-keyword">let</span> <span class="hljs-identifier">left</span> =  [<span class="hljs-identifier">p0</span>.<span class="hljs-identifier">last</span>, <span class="hljs-identifier">p0</span>.<span class="hljs-identifier">first</span>]
@@ -277,14 +220,10 @@
 <span class="hljs-identifier">sortedPeople</span> <span class="hljs-comment">// [Robert Jones (1970), Jo Smith (1970), Joanne smith (1985), Joanne smith (1970), Joe Smith (1970), Joe Smyth (1970)]</span>
 </code></pre>
 							<p>
-								At this point, we&apos;ve almost replicated the functionality of the original sort in
-								
-								roughly the same number of lines. But there&apos;s still a lot of room for
-								
+								At this point, we’ve almost replicated the functionality of the original sort in
+								roughly the same number of lines. But there’s still a lot of room for
 								improvement: the building of arrays on every comparison is very inefficient, the
-								
-								comparison is hardcoded, and we can&apos;t really sort by <code>yearOfBirth</code> using this
-								
+								comparison is hardcoded, and we can’t really sort by <code>yearOfBirth</code> using this
 								approach.
 							</p>
 							<h3>
@@ -292,31 +231,22 @@
 							</h3>
 							<p>
 								Rather than writing an even more complicated function that we can use to sort,
-								
-								let&apos;s take a step back. So far, the sort descriptors were much clearer, but they
-								
+								let’s take a step back. So far, the sort descriptors were much clearer, but they
 								use runtime programming. The functions we wrote do not use runtime programming,
-								
 								but they are not so easy to write (and read).
 							</p>
 							<p>
 								A sort descriptor is a way of describing the ordering of objects. Instead of
-								
 								storing that information as a class, we can define a function to describe the
-								
 								ordering of objects. The simplest possible definition would take two objects,
-								
 								and returns <code>true</code> if they are ordered. This is also exactly the type that the
-								
-								standard library&apos;s <code>sort(by:)</code> and <code>sorted(by:)</code> methods take as an argument.
-								
-								It&apos;s helpful to define a generic <code>typealias</code> to describe sort descriptors:
+								standard library’s <code>sort(by:)</code> and <code>sorted(by:)</code> methods take as an argument.
+								It’s helpful to define a generic <code>typealias</code> to describe sort descriptors:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">typealias</span> <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Value</span>> = (<span class="hljs-identifier">Value</span>, <span class="hljs-identifier">Value</span>) -> <span class="hljs-identifier">Bool</span>
 </code></pre>
 							<p>
-								As an example, we could define a sort descriptor that compares two <code>Person</code>
-								objects by year of birth, or a sort descriptor that sorts by last name:
+								As an example, we could define a sort descriptor that compares two <code>Person</code>objects by year of birth, or a sort descriptor that sorts by last name:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">sortByYear</span>: <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Person</span>> = { $0.<span class="hljs-identifier">yearOfBirth</span> < $1.<span class="hljs-identifier">yearOfBirth</span> }
 <span class="hljs-keyword">let</span> <span class="hljs-identifier">sortByLastName</span>: <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Person</span>> = { 
@@ -325,27 +255,16 @@
 </code></pre>
 							<p>
 								Rather than writing the sort descriptors by hand, we can write a function that
-								
-								generates them. It&apos;s not nice that we to write the same property twice: in the
-								<code>sortByLastName</code>, we could have easily made a mistake and accidentally compared
-								<code>$0.last</code> with <code>$1.first</code>. Also, it&apos;s tedious to write these sort descriptors:
-								
-								to sort by first name, it&apos;s probably easiest to copy and paste the
-								<code>sortByLastName</code> definition and modify it.
+								generates them. It’s not nice that we to write the same property twice: in the<code>sortByLastName</code>, we could have easily made a mistake and accidentally compared<code>$0.last</code> with <code>$1.first</code>. Also, it’s tedious to write these sort descriptors:
+								to sort by first name, it’s probably easiest to copy and paste the<code>sortByLastName</code> definition and modify it.
 							</p>
 							<p>
 								Rather than copying and pasting, we can define a function with an interface that
-								
 								is much like <code>NSSortDescriptor</code>, but without the runtime programming. This
-								
 								function takes a key and a comparison method, and returns a sort descriptor (the
-								
 								function, not the class <code>NSSortDescriptor</code>). Here, <code>key</code> is not a string, but a
-								
 								function. To compare two keys, we use a function <code>isOrderedBefore</code>. Finally, the
-								
-								result type is a function as well, even though that is slightly obscured by the
-								<code>typealias</code>.
+								result type is a function as well, even though that is slightly obscured by the<code>typealias</code>.
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">sortDescriptor</span><<span class="hljs-identifier">Value</span>, <span class="hljs-identifier">Key</span>>(
   <span class="hljs-identifier">key</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">Value</span>) -> <span class="hljs-identifier">Key</span>,
@@ -371,9 +290,7 @@
 <span class="hljs-keyword">let</span> <span class="hljs-identifier">sortByYearAlt2</span>: <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Person</span>> = <span class="hljs-identifier">sortDescriptor</span>(<span class="hljs-identifier">key</span>: { $0.<span class="hljs-identifier">yearOfBirth</span> })
 </code></pre>
 							<p>
-								Both <code>sortDescriptor</code> above work with boolean functions. The <code>NSSortDescriptor</code>
-								class has an initializer that takes a comparison function such as
-								<code>localizedCaseInsensitiveCompare</code>. Adding support for this is easy as well:
+								Both <code>sortDescriptor</code> above work with boolean functions. The <code>NSSortDescriptor</code>class has an initializer that takes a comparison function such as<code>localizedCaseInsensitiveCompare</code>. Adding support for this is easy as well:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">sortDescriptor</span><<span class="hljs-identifier">Value</span>, <span class="hljs-identifier">Key</span>>(
     <span class="hljs-identifier">key</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">Value</span>) -> <span class="hljs-identifier">Key</span>,
@@ -396,28 +313,19 @@
 </code></pre>
 							<p>
 								This <code>SortDescriptor</code> is just as expressive as its <code>NSSortDescriptor</code> variant,
-								
 								but it is typesafe, and it does not rely on runtime programming.
 							</p>
 							<p>
 								Currently, we can only use a single <code>SortDescriptor</code> function to sort arrays. If
-								
 								you recall, we used the <code>NSArray.sortedArray(using:)</code> method to sort an array
-								
-								with a number of comparison operators. We could easily add a similar method to
-								<code>Array</code>, or even to the <code>Sequence</code> protocol. However, we would have to add it
-								
+								with a number of comparison operators. We could easily add a similar method to<code>Array</code>, or even to the <code>Sequence</code> protocol. However, we would have to add it
 								twice: once for the mutating variant, and once for the non-mutating variant.
 							</p>
 							<p>
-								We take a different approach so that we don&apos;t have to write more extensions.
-								
+								We take a different approach so that we don’t have to write more extensions.
 								Instead, we write a function that combines multiple sort descriptors into a
-								
 								single sort descriptor. It works just like the <code>sortedArray(using:)</code> method: it
-								
 								first tries the first descriptor and uses that result. Unless the values are
-								
 								equal, then it uses the second descriptor, and so on.
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">combine</span><<span class="hljs-identifier">Value</span>>
@@ -442,31 +350,21 @@
 </code></pre>
 							<p>
 								We ended up with the same behavior as before. However, the version using
-								
 								functions is type-safe and does not rely on runtime programming, so it can be
-								
 								optimized by the compiler as well. And we can use it with structs, or
-								
 								non-Objective-C Objects.
 							</p>
 							<p>
 								This approach of using functions as data — storing them in array and building
-								
 								those arrays at runtime — opens up a new level of dynamic behavior, and it is
-								
 								one way in which a statically typed compile-time-oriented language like Swift
-								
 								can still replicate some of the dynamic behavior of languages like Objective-C
-								
 								or Ruby.
 							</p>
 							<p>
 								Also, it is possible to write functions that combine other functions. For
-								
 								example, our <code>combine(sortDescriptors:)</code> function took an array of sort
-								
 								descriptors, and combined them into a single sort descriptor. Alternatively, we
-								
 								could have written an operator to combine two sort functions:
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">infix</span> <span class="hljs-keyword">operator</span> <||> : <span class="hljs-identifier">LogicalDisjunctionPrecedence</span>
@@ -484,11 +382,8 @@
 </code></pre>
 							<p>
 								Most of the time, writing a custom operator is a bad idea. Custom operators are
-								
-								often harder to read than functions, because the name isn&apos;t explicit. However,
-								
+								often harder to read than functions, because the name isn’t explicit. However,
 								they can be very powerful when used sparingly. The operator above allows us to
-								
 								rewrite our combined sort example like so:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">combinedAlt</span> = <span class="hljs-identifier">sortByLastName</span> <||> <span class="hljs-identifier">sortByFirstName</span> <||> <span class="hljs-identifier">sortByYear</span>
@@ -497,34 +392,22 @@
 </code></pre>
 							<p>
 								That said, we prefer the <code>combine(sortDescriptors:)</code> function over the custom
-								
 								operator. It is clearer at the call-site, which makes for more readable code.
-								
 								Unless you are writing highly domain-specific code, a custom operator is
-								
 								probably overkill.
 							</p>
 							<p>
 								The Foundation version still has one functional advantage over our version. It
-								
 								can deal with optionals without having to write any more code. For example, if
-								
-								we would make the <code>last</code> property on <code>Person</code> an optional string, we wouldn&apos;t
-								
+								we would make the <code>last</code> property on <code>Person</code> an optional string, we wouldn’t
 								have to change anything in our sorting code that uses <code>NSSortDescriptor</code>.
 							</p>
 							<p>
 								However, all is not lost. You can feel it coming: once again, we write a
-								
 								function which takes a function and returns a function. We can take a regular
-								
-								comparing function such as <code>localizedCaseInsensitiveCompare</code>, which works on two
-								<code>String</code>s, and turn it into a function that takes two optional <code>String</code>s. If
-								
+								comparing function such as <code>localizedCaseInsensitiveCompare</code>, which works on two<code>String</code>s, and turn it into a function that takes two optional <code>String</code>s. If
 								both values are <code>nil</code>, they are equal. If the left-hand side is nil, but the
-								
-								right-hand isn&apos;t they&apos;re ascending, and the other way around. Finally, if they
-								
+								right-hand isn’t they’re ascending, and the other way around. Finally, if they
 								are both non-<code>nil</code>, we can use the <code>compare</code> function to compare them.
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">lift</span><<span class="hljs-identifier">A</span>>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">compare</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">A</span>) -> (<span class="hljs-identifier">A</span>) -> <span class="hljs-identifier">ComparisonResult</span>) -> (<span class="hljs-identifier">A</span>?) -> (<span class="hljs-identifier">A</span>?) -> <span class="hljs-identifier">ComparisonResult</span> {
@@ -540,14 +423,10 @@
 }
 </code></pre>
 							<p>
-								This allows us to &quot;lift&quot; a regular comparison function into the domain of
-								
+								This allows us to “lift” a regular comparison function into the domain of
 								optionals, and it can be used together with our sortDescriptor function. If you
-								
 								recall the <code>files</code> array from before, sorting them by <code>fileExtension</code> got really
-								
-								ugly because we had to deal with optionals. However, with our new <code>lift</code>
-								function, it&apos;s very clean again:
+								ugly because we had to deal with optionals. However, with our new <code>lift</code>function, it’s very clean again:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">lcic</span> = <span class="hljs-identifier">lift</span>(<span class="hljs-identifier">String</span>.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>)
 <span class="hljs-keyword">let</span> <span class="hljs-identifier">result</span> = <span class="hljs-identifier">files</span>.<span class="hljs-identifier">sorted</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">sortDescriptor</span>(<span class="hljs-identifier">key</span>: { $0.<span class="hljs-identifier">fileExtension</span> }, <span class="hljs-identifier">lcic</span>))
@@ -556,56 +435,36 @@
 							<blockquote>
 								<p>
 									We can write a similar version of <code>lift</code> for functions that return a <code>Bool</code>.
-									
 									Before Swift 3, operators like <code>&gt;</code> were defined on optionals. They were
-									
-									removed because they can lead to accidental bugs. However, with a boolean
-									<code>lift</code> you can easily take an existing operator and make it work for
-									
+									removed because they can lead to accidental bugs. However, with a boolean<code>lift</code> you can easily take an existing operator and make it work for
 									optionals.
 								</p>
 							</blockquote>
 							<p>
 								One drawback of the function-based approach is that functions are opaque. We can
-								
 								take an <code>NSSortDescriptor</code>, print it to the console, and we get some information
-								
-								about the sort descriptor: the key path, the selector name and whether it&apos;s
-								
+								about the sort descriptor: the key path, the selector name and whether it’s
 								ascending. Our function-based approach cannot do this. For sort descriptors,
-								
-								this is not a problem in practice. If it&apos;s important to have that information,
-								
+								this is not a problem in practice. If it’s important to have that information,
 								we could wrap the functions in a struct or class, and store additional debug
-								
 								information.
 							</p>
 							<p>
 								This approach has also given us a clean separation between the sorting method
-								
-								and the comparison method. The algorithm that Swift&apos;s sort uses is a hybrid of
-								
-								multiple sorting algorithms — as of writing, it is an
-								<a href="https://en.wikipedia.org/wiki/Introsort" title>introsort</a> (which is itself a hybrid
-								
-								of a quicksort and a heapsort), but it switches to an <a href="https://en.wikipedia.org/wiki/Insertion_sort" title>insertion
-									
+								and the comparison method. The algorithm that Swift’s sort uses is a hybrid of
+								multiple sorting algorithms — as of writing, it is an<a href="https://en.wikipedia.org/wiki/Introsort">introsort</a> (which is itself a hybrid
+								of a quicksort and a heapsort), but it switches to an <a href="https://en.wikipedia.org/wiki/Insertion_sort">insertion
 									sort</a> for small collections to
-								
 								avoid the upfront startup cost of the more complex sort algorithms.
 							</p>
 							<p>
 								Introsort is not a
-								
-								&quot;<a href="https://en.wikipedia.org/wiki/Category:Stable_sorts" title>stable</a>&quot; sort. That is,
-								
+								“<a href="https://en.wikipedia.org/wiki/Category:Stable_sorts">stable</a>” sort. That is,
 								it does not necessarily maintain relative ordering of values that are otherwise
-								
 								equal according to the comparison function.
 							</p>
 							<p>
 								But if you implemented a stable sort, the separation of the sort method from the
-								
 								comparison would allow you to swap it in easily:
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">people</span>.<span class="hljs-identifier">stableSorted</span>(<span class="hljs-identifier">by</span>: <span class="hljs-identifier">combine</span>(
@@ -628,7 +487,7 @@
 						</div>
 						<p>
 							<p>
-								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>, or check out <a href="https://talk.objc.io" title>Swift Talk</a>.
+								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>, or check out <a href="https://talk.objc.io">Swift Talk</a>.
 							</p>
 						</p>
 					</footer>

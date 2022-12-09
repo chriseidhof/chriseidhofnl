@@ -33,32 +33,32 @@
 						</header>
 						<section class="postbody">
 							<p>
-								Swift has lots of different ways of storing your data. You can use enums, tuples, structs, classes (or even just use malloc and manage it yourself)! In this article, we&apos;ll compare enums, tuples and structs. Let&apos;s start with the simplest: tuples.
+								Swift has lots of different ways of storing your data. You can use enums, tuples, structs, classes (or even just use malloc and manage it yourself)! In this article, we’ll compare enums, tuples and structs. Let’s start with the simplest: tuples.
 							</p>
 							<p>
 								A tuple is a typed list of values. For example, you can define a tuple that holds an integer and a string:
 							</p>
-							<pre><code class>let amount = (100, &quot;EUR&quot;)
+							<pre><code>let amount = (100, &quot;EUR&quot;)
 </code></pre>
 							<p>
 								This is very useful when you want to return multiple values from a function. To get the values out, you can use <code>.0</code>, <code>.1</code> (and so on), or pattern matching. For example:
 							</p>
-							<pre><code class>let currency = money.1 // &quot;USD&quot;
+							<pre><code>let currency = money.1 // &quot;USD&quot;
 </code></pre>
 							<p>
 								If you want to, you can also name the individual elements, to have a bit more documentation:
 							</p>
-							<pre><code class>let money = (amount: 100, currency: &quot;USD&quot;)
+							<pre><code>let money = (amount: 100, currency: &quot;USD&quot;)
 </code></pre>
 							<p>
 								Now, you can still use <code>.1</code>, but alternatively, you can also use <code>.currency</code>:
 							</p>
-							<pre><code class>let currency = money.currency // &quot;USD&quot;
+							<pre><code>let currency = money.currency // &quot;USD&quot;
 </code></pre>
 							<p>
 								If we want to write a formatter for currencies, we can now do that:
 							</p>
-							<pre><code class>func format(input: (Int,String)) -&gt; String {
+							<pre><code>func format(input: (Int,String)) -&gt; String {
     return &quot;I have \(input.0) \(input.1) in my wallet&quot;
 }
 
@@ -67,14 +67,14 @@ println(format(money)) // This prints &quot;I have 100 USD in my wallet&quot;
 							<p>
 								Our format function works on any <code>(Int,String)</code> tuple:
 							</p>
-							<pre><code class>let mass = (1, &quot;kg&quot;)
+							<pre><code>let mass = (1, &quot;kg&quot;)
 
 let formatted = format(mass) // &quot;I have 1 kg in my wallet&quot;
 </code></pre>
 							<p>
-								Clearly, having 1 kg in your wallet doesn&apos;t make sense. Therefore, let&apos;s introduce a struct. A struct can hold exactly the same kind of a data as a tuple. In addition, you can also define functions on the struct itself (whereas with tuples, you can only define top-level functions). Let&apos;s consider the following struct:
+								Clearly, having 1 kg in your wallet doesn’t make sense. Therefore, let’s introduce a struct. A struct can hold exactly the same kind of a data as a tuple. In addition, you can also define functions on the struct itself (whereas with tuples, you can only define top-level functions). Let’s consider the following struct:
 							</p>
-							<pre><code class>struct Money {
+							<pre><code>struct Money {
     let amount: Int
     let currency: String
 }
@@ -84,7 +84,7 @@ let wallet = Money(amount: 100, currency: &quot;USD&quot;)
 							<p>
 								This can hold exactly the same kind of data as a tuple, but now we can also define a function on it:
 							</p>
-							<pre><code class>extension Money {
+							<pre><code>extension Money {
   func format() -&gt; String {
     return &quot;I have \(self.amount) \(self.currency) in my wallet&quot;
   }
@@ -95,7 +95,7 @@ println(wallet.format())
 							<p>
 								If we want to make a distinctive type for mass, we can now do that:
 							</p>
-							<pre><code class>struct Mass {
+							<pre><code>struct Mass {
     let quantity: Int
     let unit: String
     
@@ -105,15 +105,15 @@ println(wallet.format())
 }
 </code></pre>
 							<p>
-								Not only do we now have functions on our <code>Money</code> type, we also have given it an explicit name. In other parts of our code, we can be certain that we don&apos;t accidentally pass in a mass pair (like <code>(1, &quot;kg&quot;)</code>). A struct is also called a <a href="http://en.wikipedia.org/wiki/Nominal_type_system" title>nominal type</a>: it gives an explicit name to a type, and values only have the same type if they share that name. In the example above, <code>mass</code> and the first definition of <code>wallet</code> have the same type, but values of type <code>Money</code> and <code>Mass</code> have different types. If we call <code>format</code> on them, we get different results.
+								Not only do we now have functions on our <code>Money</code> type, we also have given it an explicit name. In other parts of our code, we can be certain that we don’t accidentally pass in a mass pair (like <code>(1, &quot;kg&quot;)</code>). A struct is also called a <a href="http://en.wikipedia.org/wiki/Nominal_type_system">nominal type</a>: it gives an explicit name to a type, and values only have the same type if they share that name. In the example above, <code>mass</code> and the first definition of <code>wallet</code> have the same type, but values of type <code>Money</code> and <code>Mass</code> have different types. If we call <code>format</code> on them, we get different results.
 							</p>
 							<h3>
 								Enums
 							</h3>
 							<p>
-								If we want to store some values together, we now know that we can use a tuple or a struct, depending on the use-case. We can also use classes, but that&apos;s beyond the scope of this article. However, sometimes we want to represent a choice between some values. For example, let&apos;s consider currencies. In the previous example, we&apos;ve used <code>String</code> to use the currency, but what if we want to restrict our program to only currencies we know about? This is where we can use an enum. For example, if we want to restrict our program to only euros, US dollars and yen, we can write the following enum:
+								If we want to store some values together, we now know that we can use a tuple or a struct, depending on the use-case. We can also use classes, but that’s beyond the scope of this article. However, sometimes we want to represent a choice between some values. For example, let’s consider currencies. In the previous example, we’ve used <code>String</code> to use the currency, but what if we want to restrict our program to only currencies we know about? This is where we can use an enum. For example, if we want to restrict our program to only euros, US dollars and yen, we can write the following enum:
 							</p>
-							<pre><code class>enum Currency {
+							<pre><code>enum Currency {
    case EUR
    case USD
    case YEN
@@ -122,7 +122,7 @@ println(wallet.format())
 							<p>
 								Now, if we have a value of type <code>Currency</code>, we know that it will be either <code>EUR</code>, <code>USD</code> or <code>YEN</code>. There is no way it can be of any other value, or multiple of these values at the same time. Just like with structs, you can also define functions on enums:
 							</p>
-							<pre><code class>extension Currency {
+							<pre><code>extension Currency {
     func symbol() -&gt; String {
         switch self {
             case .EUR: return &quot;€&quot;
@@ -135,7 +135,7 @@ println(wallet.format())
 							<p>
 								We can add as many cases as we want. However, we could also have an enum with a single case:
 							</p>
-							<pre><code class>enum Angle {
+							<pre><code>enum Angle {
    case Radian(radians: Double)
 }
 </code></pre>

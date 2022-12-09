@@ -31,58 +31,43 @@
 						<section class="postbody">
 							<p>
 								I’m a little obsessed with trying to write maintainable, clean code. I’m not yet
-								
 								really good at it, but try to become better every day. It started to become more
-								
 								of an obsession than usual when I realized that a lot of the projects I work on
-								
 								will someday be taken over by other people, and I don’t want to be
-								
 								embarassed.
 
 							</p>
 							<p>
-								This explains my recent interest in testing (<a href="http://iosunittesting.com/" title>some</a><a href="http://blog.securemacprogramming.com/" title>interesting</a><a href="http://qualitycoding.org/" title>blogs</a> on that).
+								This explains my recent interest in testing (<a href="http://iosunittesting.com/">some</a><a href="http://blog.securemacprogramming.com/">interesting</a><a href="http://qualitycoding.org/">blogs</a> on that).
 
 							</p>
 							<p>
 								Although I’m not yet very good at testing everything, I have two other
-								
 								heuristics that I use to keep my code maintainable: I try to keep my <code>.m</code> files
-								
 								under a hundred lines (this is hard), and try to keep the number of imports
-								
 								small.
 
 							</p>
 							<p>
-								Here are two scripts that I use to achieve this. The first one shows the <code>.m</code>
-								files in your project with their line counts, and sorts them by line count. The
-								
+								Here are two scripts that I use to achieve this. The first one shows the <code>.m</code>files in your project with their line counts, and sorts them by line count. The
 								bottom of the list (largest files) are top candidates for refactoring:
 
 							</p>
-							<pre><code class>find . -path &apos;./Pods&apos; -prune -o -name &quot;*.m&quot; -exec wc -l &quot;{}&quot; \; | sort -n
+							<pre><code>find . -path &apos;./Pods&apos; -prune -o -name &quot;*.m&quot; -exec wc -l &quot;{}&quot; \; | sort -n
 </code></pre>
 							<p>
 								The other script I wrote generates a <code>.dot</code> file from your imports, and you can
-								
-								open it with an app like <a href="http://www.graphviz.org" title>GraphViz</a> to get a quick
-								
+								open it with an app like <a href="http://www.graphviz.org">GraphViz</a> to get a quick
 								overview of how your imports are. (I tried to keep it under 140 characters so
-								
 								it’s tweetable).
 
 							</p>
-							<pre><code class>echo &quot;digraph G {&quot;;grep &quot;import \&quot;&quot; **/*.m|sed &quot;s/.m:#import \&quot;/ /;s/.*\///;s/+/_/g;s/.h\&quot;//&quot;|awk &quot;{print \$2,\&quot;-&gt; \&quot;\$1\&quot;;\&quot;}&quot;;echo &quot;}&quot;
+							<pre><code>echo &quot;digraph G {&quot;;grep &quot;import \&quot;&quot; **/*.m|sed &quot;s/.m:#import \&quot;/ /;s/.*\///;s/+/_/g;s/.h\&quot;//&quot;|awk &quot;{print \$2,\&quot;-&gt; \&quot;\$1\&quot;;\&quot;}&quot;;echo &quot;}&quot;
 </code></pre>
 							<p>
 								Put the above line in a file or in a shell alias, run it and pipe the output to
-								
 								a file that you can open with GraphViz. I’m pretty sure this can be done even
-								
 								more effectively using just <code>awk</code>, but I’m not an expert yet. Bonus points for
-								
 								the shortest solution!
 
 							</p>

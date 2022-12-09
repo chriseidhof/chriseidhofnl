@@ -33,10 +33,10 @@
 						</header>
 						<section class="postbody">
 							<p>
-								These days, I&apos;m using fewer external libraries. First, I don&apos;t like most Swift libraries out there, they&apos;re often implemented in a complicated way and contain too many protocols for my taste. Second, I&apos;m not sure how they&apos;ll be maintained in the future, and most libraries are pretty big -- I don&apos;t really want to own that code. Third, I&apos;m too lazy to set up a dependency manager, so I&apos;ll keep my projects dependency-free.
+								These days, I’m using fewer external libraries. First, I don’t like most Swift libraries out there, they’re often implemented in a complicated way and contain too many protocols for my taste. Second, I’m not sure how they’ll be maintained in the future, and most libraries are pretty big – I don’t really want to own that code. Third, I’m too lazy to set up a dependency manager, so I’ll keep my projects dependency-free.
 							</p>
 							<p>
-								However, the other day as I was writing some UIKit code, I found myself annoyed at the verbosity of Auto Layout. Here&apos;s some code that I wrote over and over again:
+								However, the other day as I was writing some UIKit code, I found myself annoyed at the verbosity of Auto Layout. Here’s some code that I wrote over and over again:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">view</span> = <span class="hljs-identifier">UIView</span>()
 <span class="hljs-keyword">let</span> <span class="hljs-identifier">label</span> = <span class="hljs-identifier">UILabel</span>()
@@ -49,7 +49,7 @@
 ])
 </code></pre>
 							<p>
-								It&apos;s always the same pattern: adding the subview, setting <code>translatesAutoresizingMaskIntoConstraints</code> to false, and then activating the constraints. The first anchor and the second anchor are almost always the same, and on the left-hand side we always have the child and on the right-hand side we always have the parent view. Often, when I write the code above, I forget to active the constraints or forget to set <code>translatesAutoresizingMaskIntoConstraints</code>. Let&apos;s try to solve as many of these problems as we can in as little code as possible.
+								It’s always the same pattern: adding the subview, setting <code>translatesAutoresizingMaskIntoConstraints</code> to false, and then activating the constraints. The first anchor and the second anchor are almost always the same, and on the left-hand side we always have the child and on the right-hand side we always have the parent view. Often, when I write the code above, I forget to active the constraints or forget to set <code>translatesAutoresizingMaskIntoConstraints</code>. Let’s try to solve as many of these problems as we can in as little code as possible.
 							</p>
 							<p>
 								Rather than pulling in a library, I decided to write my own. The first bit of my micro-library is a function that, given a child and a parent, returns a layout constraint:
@@ -62,7 +62,7 @@
 							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">constraint</span>: <span class="hljs-identifier">Constraint</span> = <span class="hljs-identifier">equal</span>(\.<span class="hljs-identifier">topAnchor</span>, \.<span class="hljs-identifier">safeAreaLayoutGuide</span>.<span class="hljs-identifier">topAnchor</span>)
 </code></pre>
 							<p>
-								Note that <code>constraint</code> is just a description of a layout constraint -- it&apos;s still waiting for a concrete child and parent view. It says that, given a child and parent, the child&apos;s top anchor should be equal to the parent&apos;s <code>safeAreaLayoutGuide.topAnchor</code>.
+								Note that <code>constraint</code> is just a description of a layout constraint – it’s still waiting for a concrete child and parent view. It says that, given a child and parent, the child’s top anchor should be equal to the parent’s <code>safeAreaLayoutGuide.topAnchor</code>.
 							</p>
 							<p>
 								We can implement <code>equal</code> with a little bit of keypath magic:
@@ -74,14 +74,14 @@
 }
 </code></pre>
 							<p>
-								Most of the time, the two layout anchors are the same (e.g. <code>leadingAnchor</code> and <code>leadingAnchor</code>), so let&apos;s write a small helper for that case:
+								Most of the time, the two layout anchors are the same (e.g. <code>leadingAnchor</code> and <code>leadingAnchor</code>), so let’s write a small helper for that case:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">equal</span><<span class="hljs-identifier">Axis</span>, <span class="hljs-identifier">Anchor</span>>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">keyPath</span>: <span class="hljs-identifier">KeyPath</span><<span class="hljs-identifier">UIView</span>, <span class="hljs-identifier">Anchor</span>>, <span class="hljs-identifier">constant</span>: <span class="hljs-identifier">CGFloat</span> = <span class="hljs-number">0</span>) -> <span class="hljs-identifier">Constraint</span> <span class="hljs-keyword">where</span> <span class="hljs-identifier">Anchor</span>: <span class="hljs-identifier">NSLayoutAnchor</span><<span class="hljs-identifier">Axis</span>> {
     <span class="hljs-keyword">return</span> <span class="hljs-identifier">equal</span>(<span class="hljs-identifier">keyPath</span>, <span class="hljs-identifier">keyPath</span>, <span class="hljs-identifier">constant</span>: <span class="hljs-identifier">constant</span>)
 }
 </code></pre>
 							<p>
-								Finally, let&apos;s solve the last two problems: we don&apos;t want to forget to set <code>translatesAutoresizingMaskIntoConstraints</code> to false, and we don&apos;t want to forget to activate the constraints. What if we create another version of <code>addSubview</code> that does this for us?
+								Finally, let’s solve the last two problems: we don’t want to forget to set <code>translatesAutoresizingMaskIntoConstraints</code> to false, and we don’t want to forget to activate the constraints. What if we create another version of <code>addSubview</code> that does this for us?
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">UIView</span> {
     <span class="hljs-keyword">func</span> <span class="hljs-identifier">addSubview</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">child</span>: <span class="hljs-identifier">UIView</span>, <span class="hljs-identifier">constraints</span>: [<span class="hljs-identifier">Constraint</span>]) {
@@ -103,7 +103,7 @@
 ])
 </code></pre>
 							<p>
-								The code is shorter and much more to the point. The <code>translatesAutoresizingMaskIntoConstraints</code> is set automatically, and all constraints are activated. Instead of depending on a big library, we wrote three methods; 15 lines of code in total. Obviously, there are many things you can&apos;t do with this: for example, you can&apos;t easily keep a reference to a specific constraint and change the <code>constant</code> property. That&apos;s fine, we can keep using the regular Auto Layout API for this.
+								The code is shorter and much more to the point. The <code>translatesAutoresizingMaskIntoConstraints</code> is set automatically, and all constraints are activated. Instead of depending on a big library, we wrote three methods; 15 lines of code in total. Obviously, there are many things you can’t do with this: for example, you can’t easily keep a reference to a specific constraint and change the <code>constant</code> property. That’s fine, we can keep using the regular Auto Layout API for this.
 							</p>
 							<p>
 								There are a few obvious extensions that are left as an exercise:
@@ -121,7 +121,7 @@
 								</li>
 							</ul>
 							<p>
-								Thanks to Florian Kugler for helping me simplify the code a lot. We also made a <a href="https://talk.objc.io/episodes/S01E75-auto-layout-with-key-paths" title>Swift Talk</a> episode about the code above, check it out.
+								Thanks to Florian Kugler for helping me simplify the code a lot. We also made a <a href="https://talk.objc.io/episodes/S01E75-auto-layout-with-key-paths">Swift Talk</a> episode about the code above, check it out.
 							</p>
 						</section>
 						<footer class="group" id="post-meta">
@@ -139,7 +139,7 @@
 						</div>
 						<p>
 							<p>
-								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>, or check out <a href="https://talk.objc.io" title>Swift Talk</a>.
+								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>, or check out <a href="https://talk.objc.io">Swift Talk</a>.
 							</p>
 						</p>
 					</footer>

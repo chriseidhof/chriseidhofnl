@@ -31,51 +31,46 @@
 						<section class="postbody">
 							<p>
 								I spent an afternoon trying to find out who of my Twitter followers is the most
-								
 								influential. I wrote the script to fetch the data in Ruby, and stored the data
-								
 								in MongoDB.
 
 							</p>
-							<p><strong>Setup</strong></p>
+							<p><strong>Setup</strong>
+							</p>
 							<p>
 								First, we’ll need to set up some things. Make sure you have a recent version of
-								
 								Ruby installed, and install the following gems:
 
 							</p>
-							<pre><code class>gem install twitter mongo bson_ext
+							<pre><code>gem install twitter mongo bson_ext
 </code></pre>
 							<p>
 								Although the <code>bson_ext</code> isn’t really necessary, it will make things a bit
-								
 								faster.
 
 							</p>
 							<p>
-								Also install mongodb. One of the easier ways to do this is using
-								<a href="http://mxcl.github.com/homebrew/" title>homebrew</a>:
+								Also install mongodb. One of the easier ways to do this is using<a href="http://mxcl.github.com/homebrew/">homebrew</a>:
 
 							</p>
-							<pre><code class>brew install mongodb
+							<pre><code>brew install mongodb
 </code></pre>
 							<p>
 								Make sure to fire up mongodb, and we’re all set on the client.
 
 							</p>
 							<p>
-								The last step is to get an API key at Twitter. Go to
-								<a href="https://dev.twitter.com/" title></a><a href="https://dev.twitter.com/" title>https://dev.twitter.com/</a> and create a new
-								
+								The last step is to get an API key at Twitter. Go to<a href="https://dev.twitter.com/"></a><a href="https://dev.twitter.com/">https://dev.twitter.com/</a> and create a new
 								application. Don’t worry about the details too much.
 
 							</p>
-							<p><strong>Fetching a list of Twitter follower IDs</strong></p>
+							<p><strong>Fetching a list of Twitter follower IDs</strong>
+							</p>
 							<p>
 								First, we will write a file called <code>twitter-config.rb</code>:
 
 							</p>
-							<pre><code class>Twitter.configure do |config|
+							<pre><code>Twitter.configure do |config|
   config.consumer_key = &apos;CONSUMER_KEY&apos;
   config.consumer_secret = &apos;CONSUMER_SECRET&apos;
   config.oauth_token = &apos;OAUTH_TOKEN&apos;
@@ -84,7 +79,6 @@ end
 </code></pre>
 							<p>
 								Make sure to replace the right-hand sides by the appropriate values (they should
-								
 								match the twitter application you just created).
 
 							</p>
@@ -92,7 +86,7 @@ end
 								The script for fetching your Twitter follower ids is now extremely simple:
 
 							</p>
-							<pre><code class>require &apos;rubygems&apos;
+							<pre><code>require &apos;rubygems&apos;
 require &apos;twitter&apos;
 require &apos;twitter-config.rb&apos;
 
@@ -103,32 +97,24 @@ File.open(&quot;followers&quot;, &apos;w&apos;) { |f|
 </code></pre>
 							<p>
 								We are just using the Twitter API to fetch the follower ids and store them in a
-								
 								file. The last part is essential when working with APIs and larger datasets:
-								
 								make sure you store intermediate results. Often, computations can take a long
-								
 								time, and by storing intermediate results you can resume where you’ve left
-								
 								off.
 
 							</p>
-							<p><strong>Write the script to fetch the data</strong></p>
+							<p><strong>Write the script to fetch the data</strong>
+							</p>
 							<p>
 								Again, this script is very simple. We iterate over the list of followers, and
-								
 								make the corresponding Twitter API call. One thing to note here is that you will
-								
 								hit the rate limit if you have more than 350 followers. Therefore, the script
-								
 								checks if you already have fetched the data for a follower, and skips fetching
-								
 								the data. If you hit the rate limit, simply wait some minutes and run the script
-								
 								again. Eventually, it will finish.
 
 							</p>
-							<pre><code class>require &apos;rubygems&apos;
+							<pre><code>require &apos;rubygems&apos;
 require &apos;twitter&apos;
 require &apos;database-config.rb&apos;
 require &apos;twitter-config.rb&apos;
@@ -149,7 +135,7 @@ File.open(&quot;followers&quot;).each_line {|follower_id_s|
 								The <code>database-config.rb</code> file looks like this:
 
 							</p>
-							<pre><code class>require &apos;mongo&apos;
+							<pre><code>require &apos;mongo&apos;
 
 connection = Mongo::Connection.new
 db = Mongo::Connection.new.db(&quot;twitterinsight&quot;)
@@ -157,20 +143,18 @@ COLL = db.collection(&quot;followers&quot;)
 </code></pre>
 							<p>
 								It sets up a global variable <code>COLL</code> that you can use in the scripts for
-								
 								analyzing and populating the database.
 
 							</p>
-							<p><strong>Analyze the data</strong></p>
+							<p><strong>Analyze the data</strong>
+							</p>
 							<p>
 								Once you have filled your database with data, you can analyze it by running
-								
 								queries on it. The reason I wrote this code is because I wanted to know who my
-								
 								most influential followers were:
 
 							</p>
-							<pre><code class>require &apos;rubygems&apos;
+							<pre><code>require &apos;rubygems&apos;
 require &apos;database-config.rb&apos;
 
 COLL.find().
@@ -187,13 +171,11 @@ COLL.find().
 </code></pre>
 							<p>
 								As you can see, this script prints the screen name, number of followers, number
-								
 								of friends, the friends/followers ratio, the amount they tweet and the location.
-								
 								Here’s some example output:
 
 							</p>
-							<pre><code class>copumpkin - 22397 / 368, 1 [3597] @ Boston, MA
+							<pre><code>copumpkin - 22397 / 368, 1 [3597] @ Boston, MA
 DotSauce - 15641 / 12400, 79 [7377] @ NC, USA
 dominiek - 14487 / 1085, 7 [5342] @ AMS, SFO, TYO
 TivoliUtrecht - 10935 / 442, 4 [3950] @ Utrecht, The Netherlands

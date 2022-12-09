@@ -33,10 +33,10 @@
 						</header>
 						<section class="postbody">
 							<p>
-								This post is a look inside how (a small part of) SwiftUI works. I&apos;m mainly writing this as part of my extended memory, so that I can go back to it and read about how it works. We&apos;re currently in the process of updating our book <a href="https://www.objc.io/books/thinking-in-swiftui/" title>Thinking in SwiftUI</a> and figuring out some of the obscure behaviors of SwiftUI. While this might not make it into the book (we keep the book concise on purpose) I figured it&apos;s worth writing up.
+								This post is a look inside how (a small part of) SwiftUI works. I’m mainly writing this as part of my extended memory, so that I can go back to it and read about how it works. We’re currently in the process of updating our book <a href="https://www.objc.io/books/thinking-in-swiftui/">Thinking in SwiftUI</a> and figuring out some of the obscure behaviors of SwiftUI. While this might not make it into the book (we keep the book concise on purpose) I figured it’s worth writing up.
 							</p>
 							<p>
-								One of the challenging parts of SwiftUI is really understanding the way it manages view state (for example, through <code>@State</code> and <code>@StateObject</code>). In theory, it&apos;s pretty simple: anytime you want associated view state you just create a property with <code>@State</code> and you&apos;re done. For example, here&apos;s a simple view with associated state:
+								One of the challenging parts of SwiftUI is really understanding the way it manages view state (for example, through <code>@State</code> and <code>@StateObject</code>). In theory, it’s pretty simple: anytime you want associated view state you just create a property with <code>@State</code> and you’re done. For example, here’s a simple view with associated state:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Item</span>: <span class="hljs-identifier">View</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">id</span>: <span class="hljs-identifier">Int</span>
@@ -66,7 +66,7 @@
 								</p>
 							</blockquote>
 							<p>
-								Joking aside, here&apos;s what I think happens:
+								Joking aside, here’s what I think happens:
 							</p>
 							<p>
 								When a <code>List</code> is rendered on screen, it only allocates memory for the children that are directly on screen (on iOS, anyway). We can quickly verify this by initializing a <code>@State</code> property with a value expression that prints a line:
@@ -85,12 +85,14 @@
 }
 </code></pre>
 							<p>
-								When we show the list view, we&apos;ll see a print statement for every row that&apos;s on screen. But these are created lazily: as we scroll down more and more print statements appear. So we have now established at least one thing:
+								When we show the list view, we’ll see a print statement for every row that’s on screen. But these are created lazily: as we scroll down more and more print statements appear. So we have now established at least one thing:
 							</p>
-							<p><em>List creates its subviews lazily</em>. By the way, this is the same for <code>ForEach</code> in other lazy contexts. For example, when you put a <code>ForEach</code> inside a <code>LazyVStack</code> and that inside a <code>ScrollView</code>, you get the same effect.
+							<p><em>List creates its subviews lazily</em>
+								. By the way, this is the same for <code>ForEach</code> in other lazy contexts. For example, when you put a <code>ForEach</code> inside a <code>LazyVStack</code> and that inside a <code>ScrollView</code>, you get the same effect.
 							</p>
 							<p>
-								My next question was: <em>when do these state values get destroyed again?</em> Is this when we scroll the views out of sight? We can verify this by having a long list of views with modifiable state properties. For example, we can put our <code>Item</code> view from above inside a long list:
+								My next question was: <em>when do these state values get destroyed again?</em>
+								 Is this when we scroll the views out of sight? We can verify this by having a long list of views with modifiable state properties. For example, we can put our <code>Item</code> view from above inside a long list:
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">List</span>(<span class="hljs-number">0</span>..<<span class="hljs-number">1000</span>) { <span class="hljs-identifier">id</span> <span class="hljs-keyword">in</span>
     <span class="hljs-identifier">Item</span>(<span class="hljs-identifier">id</span>: <span class="hljs-identifier">id</span>)
@@ -99,13 +101,14 @@
 							<p>
 								When we run the above list, we can change some state at the top of the list, scroll to the very bottom, and scroll back up. The state will still be there. So we have established another thing:
 							</p>
-							<p><em>The children of a <code>List</code> will be kept around</em>. The lifetime of a <code>@State</code>&apos;s property is directly tied to the lifetime of a view. Once a list child is created, it never goes away again, unless the list goes away itself. (You can verify this by putting the list inside a navigation link and navigating back). Again, this doesn&apos;t just apply to <code>List</code> but any lazy <code>ForEach</code>.
+							<p><em>The children of a <code>List</code> will be kept around</em>
+								. The lifetime of a <code>@State</code>‘s property is directly tied to the lifetime of a view. Once a list child is created, it never goes away again, unless the list goes away itself. (You can verify this by putting the list inside a navigation link and navigating back). Again, this doesn’t just apply to <code>List</code> but any lazy <code>ForEach</code>.
 							</p>
 							<p>
-								However, this behavior puzzled me. I&apos;ve written many SwiftUI lists, and I swear that I have seen state objects go away. What gives? In my case, I&apos;ve seen this behavior when loading a list that contains images for each cell, and the images would get reloaded after scrolling back up.
+								However, this behavior puzzled me. I’ve written many SwiftUI lists, and I swear that I have seen state objects go away. What gives? In my case, I’ve seen this behavior when loading a list that contains images for each cell, and the images would get reloaded after scrolling back up.
 							</p>
 							<p>
-								It turns out that while the children of a <code>List</code> will be kept around (including their associated state), the bodies of those views will get destroyed. These will get recreated lazily once the view appears on screen again. If we run the same example as before, but wrap our <code>Item</code> view in another layer, we&apos;ll see that our state goes away as the view disappears:
+								It turns out that while the children of a <code>List</code> will be kept around (including their associated state), the bodies of those views will get destroyed. These will get recreated lazily once the view appears on screen again. If we run the same example as before, but wrap our <code>Item</code> view in another layer, we’ll see that our state goes away as the view disappears:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ItemWrapper</span>: <span class="hljs-identifier">View</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">id</span>: <span class="hljs-identifier">Int</span>
@@ -118,7 +121,7 @@
 }
 </code></pre>
 							<p>
-								This is the behavior in the version of SwiftUI that comes with Xcode 13. The full code is <a href="https://gist.github.com/chriseidhof/440dbdbe9a5fa21ff5439b5f42582a44" title>available as a gist</a>. The behavior might change in the future, as none of this is documented.
+								This is the behavior in the version of SwiftUI that comes with Xcode 13. The full code is <a href="https://gist.github.com/chriseidhof/440dbdbe9a5fa21ff5439b5f42582a44">available as a gist</a>. The behavior might change in the future, as none of this is documented.
 							</p>
 						</section>
 						<footer class="group" id="post-meta">

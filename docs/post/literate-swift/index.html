@@ -33,22 +33,23 @@
 						</header>
 						<section class="postbody">
 							<p>
-								Last year, when we started writing <a href="http://www.objc.io/books/fpinswift/" title>Functional Programming in Swift</a>, we realized that the language would change every few weeks. We didn&apos;t anticipate the pace, but we were ready for change. Rather than manually updating every article, we used a technique called <a href="https://en.wikipedia.org/wiki/Literate_programming" title>literate programming</a>. In literate programming, you write the code and text at the same time. The code in the text can be executed. To do this, we wrote a small utility called Literate Swift.
+								Last year, when we started writing <a href="http://www.objc.io/books/fpinswift/">Functional Programming in Swift</a>, we realized that the language would change every few weeks. We didn’t anticipate the pace, but we were ready for change. Rather than manually updating every article, we used a technique called <a href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a>. In literate programming, you write the code and text at the same time. The code in the text can be executed. To do this, we wrote a small utility called Literate Swift.
 							</p>
 							<p>
-								For our two new books, <a href="http://www.objc.io/books/core-data/" title>Core Data</a> and <a href="http://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>, we are using the same technique, except with a newer version of the tool. Literate Swift is a library (and comes with a GUI or command-line tool) that takes a Markdown file, extracts all the code blocks marked with <code>swift</code>, and compiles those. The awesome thing about it is that you can compile your Markdown: you can statically check that the code in your blog posts (or in our case, our books) is correct.
+								For our two new books, <a href="http://www.objc.io/books/core-data/">Core Data</a> and <a href="http://www.objc.io/books/advanced-swift/">Advanced Swift</a>, we are using the same technique, except with a newer version of the tool. Literate Swift is a library (and comes with a GUI or command-line tool) that takes a Markdown file, extracts all the code blocks marked with <code>swift</code>, and compiles those. The awesome thing about it is that you can compile your Markdown: you can statically check that the code in your blog posts (or in our case, our books) is correct.
 							</p>
 							<p>
-								Not only does it compile the code blocks marked as Swift, it also takes code blocks marked as <code>print-swift</code>, and replaces them by the code <em>and</em> the result of executing that code. For example, the following block after running it through Literate Swift:
+								Not only does it compile the code blocks marked as Swift, it also takes code blocks marked as <code>print-swift</code>, and replaces them by the code <em>and</em>
+								 the result of executing that code. For example, the following block after running it through Literate Swift:
 							</p>
-							<pre><code class>```print-swift
+							<pre><code>```print-swift
 (1..&lt;10).reduce(0, combine: +)
 ```
 </code></pre>
 							<p>
 								Will get replaced by the following block:
 							</p>
-							<pre><code class>```swift
+							<pre><code>```swift
 (1..&lt;10).reduce(0, combine: +)
 &gt; 45
 ```
@@ -59,12 +60,12 @@
 							<p>
 								Finally, sometimes you just want to work in a Swift file. For this, we support embeds. If you have the following block, Literate Swift will look at all Swift files in that directory (and all its subdirectories, recursively), and see if there are lines that are surrounded by <code>// &lt;&lt;MySnippet&gt;&gt;</code> and <code>// &lt;&lt;/MySnippet&gt;&gt;</code>, and embed the contents of that into the output (without executing it). This way, you can write separate Swift files that are easy to edit using Xcode and still make sure it gets embedded into the output.
 							</p>
-							<pre><code class>```highlight-swift
+							<pre><code>```highlight-swift
 &lt;&lt;MySnippet&gt;&gt;
 ```
 </code></pre>
 							<p>
-								The Literate Swift tool can currently generate a number of outputs: HTML, Markdown and LaTeX. The <a href="https://github.com/chriseidhof/LiterateSwiftGUI" title>GUI tool</a> renders the HTML directly into a web view, which is great for previewing while writing. It also has tabs for Markdown, Playground syntax and just the Swift code (for easy copy-pasting). The entire tool chain is still very immature (and a bit hacky at some points), but it has proven to be a great help during writing already. It should also be very simple to integrate this into blogging workflows, and other publishing formats.
+								The Literate Swift tool can currently generate a number of outputs: HTML, Markdown and LaTeX. The <a href="https://github.com/chriseidhof/LiterateSwiftGUI">GUI tool</a> renders the HTML directly into a web view, which is great for previewing while writing. It also has tabs for Markdown, Playground syntax and just the Swift code (for easy copy-pasting). The entire tool chain is still very immature (and a bit hacky at some points), but it has proven to be a great help during writing already. It should also be very simple to integrate this into blogging workflows, and other publishing formats.
 							</p>
 						</section>
 						<footer class="group" id="post-meta">

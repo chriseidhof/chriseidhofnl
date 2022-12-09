@@ -35,7 +35,7 @@
 							<p>
 								Here are some quick Swift functions that can make your life easier. First, a function that splits up an array into head and tail:
 							</p>
-							<pre><code class>extension Array {
+							<pre><code>extension Array {
     var match : (head: T, tail: [T])? {
       return (count &gt; 0) ? (self[0],Array(self[1..&lt;count])) : nil
     }
@@ -44,7 +44,7 @@
 							<p>
 								You can use it like this:
 							</p>
-							<pre><code class>func map&lt;A,B&gt;(f: A -&gt; B, arr: [A]) -&gt; [B] {
+							<pre><code>func map&lt;A,B&gt;(f: A -&gt; B, arr: [A]) -&gt; [B] {
     if let (head,tail) = arr.match {
         return [f(head)] + map(f, tail)
     } else {
@@ -53,9 +53,9 @@
 }
 </code></pre>
 							<p>
-								If you lazily want to generate a list of things, but don&apos;t really know how many will be needed, you can use a Generator. It turns out there&apos;s a type <code>GeneratorOf</code> that makes it really easy for us to define one. For example, this is how you can generate an infinite list of numbers:
+								If you lazily want to generate a list of things, but don’t really know how many will be needed, you can use a Generator. It turns out there’s a type <code>GeneratorOf</code> that makes it really easy for us to define one. For example, this is how you can generate an infinite list of numbers:
 							</p>
-							<pre><code class>func naturalNumbers() -&gt; GeneratorOf&lt;Int&gt; {
+							<pre><code>func naturalNumbers() -&gt; GeneratorOf&lt;Int&gt; {
     var i = 0
     return GeneratorOf { return i++ }
 }
@@ -63,14 +63,14 @@
 							<p>
 								You can now just iterate over the generator it with <code>for..in</code>:
 							</p>
-							<pre><code class>for x in naturalNumbers() {
+							<pre><code>for x in naturalNumbers() {
     println(&quot;x: \(x)&quot;)
 }
 </code></pre>
 							<p>
 								Finally, a sketch of how you could wrap <code>NSScanner</code> to have a more Swift-like API:
 							</p>
-							<pre><code class>struct Scanner {
+							<pre><code>struct Scanner {
     let scanner : NSScanner
 
     init(string: String) {

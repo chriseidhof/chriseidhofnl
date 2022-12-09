@@ -1,13 +1,13 @@
+////
+////  File.swift
+////
+////
+////  Created by Chris Eidhof on 17.06.21.
+////
 //
-//  File.swift
-//  
-//
-//  Created by Chris Eidhof on 17.06.21.
-//
-
 import Foundation
-import CommonMark
 import HTML
+import Markdown
 
 let linkPrefix = "fnref"
 let refPrefix = "fnref-rev"
@@ -18,7 +18,7 @@ struct FootnoteState {
 }
 
 extension String {
-    func replacingFootnoteLinks(state: inout FootnoteState) -> [Inline] {
+    func replacingFootnoteLinks(state: inout FootnoteState) -> Node {
         let pattern = "(\\[\\^(.*?)\\])([^:]|$)"
         let regex = try! NSRegularExpression(pattern: pattern, options: [])
         let nsString = (self as NSString)
@@ -30,21 +30,21 @@ extension String {
             state.notes[state.counter] = label
             state.counter += 1
         }
-        guard !matches.isEmpty else { return [.text(text: self)] }
-        
-        var result: [Inline] = []
+        guard !matches.isEmpty else { return asNode() }
+
+        var result: [Node] = []
         var start = self.startIndex
         for match in matches {
-            result.append(.text(text: String(self[start..<match.range.lowerBound])))
-            result.append(.html(text: "<sup><a href=\"#\(linkPrefix)\(match.label)\" name=\"\(refPrefix)\(match.label)\">\(match.number)</a></sup>"))
+            result.append(String(self[start..<match.range.lowerBound]).asNode())
+            result.append(.raw("<sup><a href=\"#\(linkPrefix)\(match.label)\" name=\"\(refPrefix)\(match.label)\">\(match.number)</a></sup>"))
             start = match.range.upperBound
         }
         if start < endIndex {
-            result.append(.text(text: String(self[start..<endIndex])))
+            result.append(.text(String(self[start..<endIndex])))
         }
-        return result
+        return .fragment(result)
     }
-    
+
     func findFootnoteDefinition() -> (label: String, markerRange: Range<String.Index>)? {
         let pattern = "^\\[\\^(.*?)\\]: "
         let regex = try! NSRegularExpression(pattern: pattern, options: [])
@@ -55,49 +55,61 @@ extension String {
     }
 }
 
+typealias Definitions = [String: [InlineMarkup]]
+
+struct CollectDefinitions: MarkupRewriter {
+    var definitions: Definitions = [:]
+    mutating func visitParagraph(_ paragraph: Paragraph) -> Markup? {
+        guard paragraph.childCount > 0,
+              var t = paragraph.child(at: 0) as? Text,
+              let (label, range) = t.string.findFootnoteDefinition() else {
+            return paragraph
+        }
+        t.string.removeSubrange(range)
+        definitions[label] = [t] + Array(paragraph.inlineChildren.dropFirst())
+        return nil
+    }
+}
+
+struct AddInlineLinks: MarkupRewriter {
+    var state = FootnoteState()
+
+    mutating func visitText(_ text: Text) -> Markup? {
+        var result = ""
+        text.string.replacingFootnoteLinks(state: &state).write(to: &result)
+        return Markdown.InlineHTML(result)
+    }
+}
+
 extension String {
     public func markdownWithFootnotes() -> HTML.Node {
-        let node = Node(markdown: self)
-        var state = FootnoteState()
-        var definitions: [String:[Inline]] = [:]
-        var result = node.elements
-        result = result.deepApply({ (block: Block) in
-            guard case let .paragraph(p) = block else { return [block] }
-            guard case var .text(t) = p.first else { return [block] }
-            if let (label, range) = t.findFootnoteDefinition() {
-                t.removeSubrange(range)
-                definitions[label] = [.text(text: t)] + p.dropFirst()
-                return []
-            } else {
-                return [block]
-            }
-        })
-        result = result.deepApply( { (inline: Inline) -> [Inline] in
-            guard case let .text(t) = inline else { return [inline] }
-            return t.replacingFootnoteLinks(state: &state)
-        })
-        var fragment = [
-            result.asNode()
-        ]
-        if !state.notes.isEmpty {
-            fragment.append(div(class: "footnotes") {
-                hr()
-                ol {
-                    state.notes.keys.sorted().map { key -> HTML.Node in
-                        let label = state.notes[key]!
-                        guard var paragraphChildren: [Inline] = definitions[label] else {
-                            fatalError("No definition for footnote \(label)")
-                        }
-                        paragraphChildren.append(.text(text: " "))
-                        paragraphChildren.append(.link(children: [.text(text: "↩")], title: nil, url: "#\(refPrefix)\(label)"))
-                        return li(id: "\(linkPrefix)\(label)") {
-                            HTML.Node.raw(Node(blocks: [.paragraph(text: paragraphChildren)]).html(options: .unsafe))
-                        }
+        let doc = Document(parsing: self)
+        var rewriter = CollectDefinitions()
+        var result = rewriter.visit(doc) ?? doc
+
+        guard !rewriter.definitions.isEmpty else {
+            return result.toNode()
+        }
+
+        var a = AddInlineLinks()
+        result = a.visit(result) ?? result
+        let node = result.toNode()
+        let footnotes = div(class: "footnotes") {
+            hr()
+            ol {
+                a.state.notes.keys.sorted().map { key -> HTML.Node in
+                    let label = a.state.notes[key]!
+                    guard var paragraphChildren: [InlineMarkup] = rewriter.definitions[label] else {
+                        fatalError("No definition for footnote \(label)")
+                    }
+                    paragraphChildren.append(Text(" "))
+                    paragraphChildren.append(Link(destination: "#\(refPrefix)\(label)", [Text("↩")]))
+                    return li(id: "\(linkPrefix)\(label)") {
+                        Paragraph(paragraphChildren).toNode()
                     }
                 }
             }
-            )
         }
-        return fragment.asNode()
+        return .fragment([node, footnotes])
     }
 }

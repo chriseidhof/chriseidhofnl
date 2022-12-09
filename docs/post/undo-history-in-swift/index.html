@@ -33,16 +33,16 @@
 						</header>
 						<section class="postbody">
 							<p>
-								Over the last weeks, there have been a number of blog posts that want to add dynamic behavior to Swift. Swift is already a very dynamic language: it has generics, protocols, first-class functions, and the standard library is filled with functions like <code>map</code> and <code>filter</code>, which dynamically get their operation (not using a string like with KVC, but using a function, which is safer and more flexible). Most of the people that say they want dynamic behavior mean that they <a href="http://inessential.com/2016/05/26/a_definition_of_dynamic_programming_in_t" title>want reflection</a> specifically: they want to analyze and modify the program at runtime.
+								Over the last weeks, there have been a number of blog posts that want to add dynamic behavior to Swift. Swift is already a very dynamic language: it has generics, protocols, first-class functions, and the standard library is filled with functions like <code>map</code> and <code>filter</code>, which dynamically get their operation (not using a string like with KVC, but using a function, which is safer and more flexible). Most of the people that say they want dynamic behavior mean that they <a href="http://inessential.com/2016/05/26/a_definition_of_dynamic_programming_in_t">want reflection</a> specifically: they want to analyze and modify the program at runtime.
 							</p>
 							<p>
-								In Swift, there is only a very limited reflection mechanism, although you can already inspect and generate code at runtime. For example, here&apos;s how to generate a dictionary ready for <code>NSCoding</code> or JSON serialization: <a href="/post/swift-mirrors-and-json/" title>Swift mirrors and JSON</a>.
+								In Swift, there is only a very limited reflection mechanism, although you can already inspect and generate code at runtime. For example, here’s how to generate a dictionary ready for <code>NSCoding</code> or JSON serialization: <a href="/post/swift-mirrors-and-json/">Swift mirrors and JSON</a>.
 							</p>
 							<p>
-								Today, we&apos;ll have a look at implementing undo functionality in Swift. One of the examples people keep bringing up to make the case for reflection (the way Objective-C) supports it is <code>NSUndoManager</code>.  With struct semantics, we can add undo support to our apps in a different way. Before we get started, make sure that you understand how structs work in Swift (most importantly, how they are all unique copies). Clearly, this post will not remove the need for runtime programming in Swift, nor is it a replacement for <code>NSUndoManager</code>. It&apos;s just a simple example of how to think different.
+								Today, we’ll have a look at implementing undo functionality in Swift. One of the examples people keep bringing up to make the case for reflection (the way Objective-C) supports it is <code>NSUndoManager</code>.  With struct semantics, we can add undo support to our apps in a different way. Before we get started, make sure that you understand how structs work in Swift (most importantly, how they are all unique copies). Clearly, this post will not remove the need for runtime programming in Swift, nor is it a replacement for <code>NSUndoManager</code>. It’s just a simple example of how to think different.
 							</p>
 							<p>
-								We&apos;ll build a struct called <code>UndoHistory</code>. It&apos;s generic, with the caveat that it only works when <code>A</code> is a struct. To keep a history of all the states, we can store every value in an array. Whenever we want to change something, we just push onto the array, and whenever we want to undo, we pop from the array. We always want to start with an initial state, so we create an initializer for that:
+								We’ll build a struct called <code>UndoHistory</code>. It’s generic, with the caveat that it only works when <code>A</code> is a struct. To keep a history of all the states, we can store every value in an array. Whenever we want to change something, we just push onto the array, and whenever we want to undo, we pop from the array. We always want to start with an initial state, so we create an initializer for that:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">UndoHistory</span><<span class="hljs-identifier">A</span>> {
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">initialValue</span>: <span class="hljs-identifier">A</span>
@@ -53,7 +53,7 @@
 }
 </code></pre>
 							<p>
-								For example, if we want to add undo support to a table view controller that&apos;s backed by an array, we can create a value of this struct:
+								For example, if we want to add undo support to a table view controller that’s backed by an array, we can create a value of this struct:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">history</span> = <span class="hljs-identifier">UndoHistory</span>(<span class="hljs-identifier">initialValue</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])
 </code></pre>
@@ -82,13 +82,13 @@
 }
 </code></pre>
 							<p>
-								For example, if we want to change the person&apos;s age, we can easily do that through our new computed property:
+								For example, if we want to change the person’s age, we can easily do that through our new computed property:
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">personHistory</span>.<span class="hljs-identifier">currentItem</span>.<span class="hljs-identifier">age</span> += <span class="hljs-number">1</span>
 <span class="hljs-identifier">personHistory</span>.<span class="hljs-identifier">currentItem</span>.<span class="hljs-identifier">age</span> <span class="hljs-comment">// Prints 32</span>
 </code></pre>
 							<p>
-								Of course, the code isn&apos;t complete without an <code>undo</code> method. This is as simple as removing the last item from the array. Depending on your preference, you could also make it <code>throw</code> when the undo stack is empty, but I&apos;ve chosen not to do that.
+								Of course, the code isn’t complete without an <code>undo</code> method. This is as simple as removing the last item from the array. Depending on your preference, you could also make it <code>throw</code> when the undo stack is empty, but I’ve chosen not to do that.
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">UndoHistory</span> {
     <span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">undo</span>() {
@@ -104,7 +104,7 @@
 <span class="hljs-identifier">personHistory</span>.<span class="hljs-identifier">currentItem</span>.<span class="hljs-identifier">age</span> <span class="hljs-comment">// Prints 31 again</span>
 </code></pre>
 							<p>
-								Of course, our <code>UndoHistory</code> works on more than just simple <code>Person</code> structs. For example, if we want to create a table view controller that&apos;s backed by an <code>Array</code>, we can use the <code>currentItem</code> property to get the array out [^1]:
+								Of course, our <code>UndoHistory</code> works on more than just simple <code>Person</code> structs. For example, if we want to create a table view controller that’s backed by an <code>Array</code>, we can use the <code>currentItem</code> property to get the array out [^1]:
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">final</span> <span class="hljs-keyword">class</span> <span class="hljs-identifier">MyTableViewController</span><<span class="hljs-identifier">Item</span>>: <span class="hljs-identifier">UITableViewController</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">data</span>: <span class="hljs-identifier">UndoHistory</span><[<span class="hljs-identifier">Item</span>]>
@@ -141,25 +141,27 @@
 }
 </code></pre>
 							<p>
-								Even if we change something deep inside the array (e.g. <code>data.currentItem[17].name = &quot;John&quot;</code>) our <code>didSet</code> will get triggered. Of course, we probably want to do something a little bit smarter than <code>reloadData</code>. For example, we could use the <a href="https://github.com/osteslag/Changeset" title>Changeset</a> library to compute a diff and have insert/delete/move animations
-								<sup><a href="#fnref2" name="fnref-rev2">1</a></sup>
-								.
+								Even if we change something deep inside the array (e.g. <code>data.currentItem[17].name = &quot;John&quot;</code>) our <code>didSet</code> will get triggered. Of course, we probably want to do something a little bit smarter than <code>reloadData</code>. For example, we could use the <a href="https://github.com/osteslag/Changeset">Changeset</a> library to compute a diff and have insert/delete/move animations
+<sup><a href="#fnref2" name="fnref-rev2">1</a></sup>
+.
 							</p>
 							<p>
-								Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html" title>runtime programming guide</a>, you only need to have a good grasp of structs and generics to come up with this solution 
-								<sup><a href="#fnref3" name="fnref-rev3">2</a></sup>
-								.
+								Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html">runtime programming guide</a>, you only need to have a good grasp of structs and generics to come up with this solution 
+<sup><a href="#fnref3" name="fnref-rev3">2</a></sup>
+.
 							</p>
 							<div class="footnotes">
 								<hr/>
 								<ol>
 									<li id="fnref2">
-										<p>If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you'll end up with two entries in your undo history. <a href="#fnref-rev2">↩</a></p>
-
+										<p>
+											If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you’ll end up with two entries in your undo history.
+											 <a href="#fnref-rev2">↩</a></p>
 									</li>
 									<li id="fnref3">
-										<p>In <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a> we go into way much more detail on these and many other topics. <a href="#fnref-rev3">↩</a></p>
-
+										<p>
+											In <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a> we go into way much more detail on these and many other topics.
+											 <a href="#fnref-rev3">↩</a></p>
 									</li>
 								</ol>
 							</div>
@@ -179,7 +181,7 @@
 						</div>
 						<p>
 							<p>
-								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>, or check out <a href="https://talk.objc.io" title>Swift Talk</a>.
+								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>, or check out <a href="https://talk.objc.io">Swift Talk</a>.
 							</p>
 						</p>
 					</footer>

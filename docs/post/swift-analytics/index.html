@@ -38,42 +38,44 @@
 							<ul>
 								<li>
 									<p>
-										John writes about using <a href="https://www.swiftbysundell.com/posts/building-an-enum-based-analytics-system-in-swift" title>enums</a>.
+										John writes about using <a href="https://www.swiftbysundell.com/posts/building-an-enum-based-analytics-system-in-swift">enums</a>.
 									</p>
 								</li>
 								<li>
 									<p>
-										Matt writes about using <a href="http://matt.diephouse.com/2017/12/when-not-to-use-an-enum/" title>structs</a>.
+										Matt writes about using <a href="http://matt.diephouse.com/2017/12/when-not-to-use-an-enum/">structs</a>.
 									</p>
 								</li>
 								<li>
 									<p>
-										Dave writes about using <a href="https://davedelong.com/blog/2017/12/07/misusing-enums/" title>protocols</a>.
+										Dave writes about using <a href="https://davedelong.com/blog/2017/12/07/misusing-enums/">protocols</a>.
 									</p>
 								</li>
 								<li>
 									<p>
-										Soroush writes about <a href="http://khanlou.com/2017/12/misusing-subclassing/" title>subclasses</a>.
+										Soroush writes about <a href="http://khanlou.com/2017/12/misusing-subclassing/">subclasses</a>.
 									</p>
 								</li>
 							</ul>
 							<p>
-								Krzysztof <a href="https://twitter.com/kprofic/status/938910246810062848" title>asked</a> about whether I would do a function-based version.
+								Krzysztof <a href="https://twitter.com/kprofic/status/938910246810062848">asked</a> about whether I would do a function-based version.
 							</p>
 							<p>
-								I think all solutions are valid. They&apos;re different embeddings of the same problem. Another version to consider is the simplest one: just inlining the network calls into your code. Maybe that already does the job, and you&apos;re set.
+								I think all solutions are valid. They’re different embeddings of the same problem. Another version to consider is the simplest one: just inlining the network calls into your code. Maybe that already does the job, and you’re set.
 							</p>
 							<p>
-								Now imagine that you find you make mistakes when writing the code. For example, you forget to provide the name, or you mistype the metadata keys. To prevent this, you could wrap up the network calls in functions. Functional programmers call this a <em>shallow embedding</em>: you express your domain logic in a very thin wrapper. It&apos;s the easiest way to add type-safety to an untyped domain.
+								Now imagine that you find you make mistakes when writing the code. For example, you forget to provide the name, or you mistype the metadata keys. To prevent this, you could wrap up the network calls in functions. Functional programmers call this a <em>shallow embedding</em>
+								: you express your domain logic in a very thin wrapper. It’s the easiest way to add type-safety to an untyped domain.
 							</p>
 							<p>
-								A <em>deep embedding</em> is when you can also inspect (and possibly modify) the data. This is useful when you write tests, or when you need to change the structure at a later point. Matt&apos;s struct-based solution provides the most minimal way to inspect the data: he just bundles up the analytics parameters. By providing type-safe initializers, the construction is made type-safe, even though the actual embedding (a string and a dictionary) loses the type-safety. This is a great choice, unless you need to transform the data afterwords.
+								A <em>deep embedding</em>
+								 is when you can also inspect (and possibly modify) the data. This is useful when you write tests, or when you need to change the structure at a later point. Matt’s struct-based solution provides the most minimal way to inspect the data: he just bundles up the analytics parameters. By providing type-safe initializers, the construction is made type-safe, even though the actual embedding (a string and a dictionary) loses the type-safety. This is a great choice, unless you need to transform the data afterwords.
 							</p>
 							<p>
-								John&apos;s enum-based approach is another deep embedding: by providing cases for each possible event, he maintains the structure and type-safety. If you need to transform analytic events (for example, merging multiple events, or changing them in some other way) the enum approach is great: as long as you get out an enum value at the end, you know the data is well-formed.
+								John’s enum-based approach is another deep embedding: by providing cases for each possible event, he maintains the structure and type-safety. If you need to transform analytic events (for example, merging multiple events, or changing them in some other way) the enum approach is great: as long as you get out an enum value at the end, you know the data is well-formed.
 							</p>
 							<p>
-								Dave&apos;s protocol-based approach allows you to have multiple different representations for your analytics events. For example, you could use Dave&apos;s approach with John&apos;s enums, Matt&apos;s structs, and Soroush&apos;s subclasses, at the same time, as long as they all conform to the protocol.
+								Dave’s protocol-based approach allows you to have multiple different representations for your analytics events. For example, you could use Dave’s approach with John’s enums, Matt’s structs, and Soroush’s subclasses, at the same time, as long as they all conform to the protocol.
 							</p>
 							<p>
 								Another approach would be to group all the function wrappers in a protocol that you can send events to. Then you could have two implementations: one for testing/serialization, and for direct sending of the events. This is often used with dependency injection.
@@ -82,12 +84,12 @@
 								Each approach above adds a little bit of complexity to the code.
 							</p>
 							<p>
-								I&apos;m a big fan of using the simplest possible solution for your problem and team:
+								I’m a big fan of using the simplest possible solution for your problem and team:
 							</p>
 							<ul>
 								<li>
 									<p>
-										If you&apos;re a precise programmer and don&apos;t care about testing, just inline your network calls
+										If you’re a precise programmer and don’t care about testing, just inline your network calls
 									</p>
 								</li>
 								<li>
@@ -97,17 +99,17 @@
 								</li>
 								<li>
 									<p>
-										If you use Matt&apos;s struct-based initializer, you know the result is well-formed.
+										If you use Matt’s struct-based initializer, you know the result is well-formed.
 									</p>
 								</li>
 								<li>
 									<p>
-										If you plan to transform your values and want this to be safe, use John&apos;s enums
+										If you plan to transform your values and want this to be safe, use John’s enums
 									</p>
 								</li>
 								<li>
 									<p>
-										If you need ultimate flexibility, use Dave&apos;s protocols
+										If you need ultimate flexibility, use Dave’s protocols
 									</p>
 								</li>
 							</ul>
@@ -127,7 +129,7 @@
 						</div>
 						<p>
 							<p>
-								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>, or check out <a href="https://talk.objc.io" title>Swift Talk</a>.
+								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>, or check out <a href="https://talk.objc.io">Swift Talk</a>.
 							</p>
 						</p>
 					</footer>

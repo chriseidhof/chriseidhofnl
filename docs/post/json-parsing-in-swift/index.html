@@ -33,12 +33,12 @@
 								headline: Safe and easy
 							</p>
 							<p>
-								After reading <a href="http://inessential.com/2014/06/17/c_in_sheeps_clothing" title>Brent</a>&apos;s and <a href="https://medium.com/swift-programming/b6f4f232e35e" title>David</a>&apos;s posts on parsing JSON in Swift, I really wanted to write this post. However, we&apos;ve been very busy with writing a book on <a href="http://www.objc.io/books/" title>Functional Programming in Swift</a>, and I wanted to finish some other things first, so it took a while to come up with it. The full code accompanying this post is on <a href="https://gist.github.com/chriseidhof/4c071de50461a802874e" title>GitHub</a>.
+								After reading <a href="http://inessential.com/2014/06/17/c_in_sheeps_clothing">Brent</a>’s and <a href="https://medium.com/swift-programming/b6f4f232e35e">David</a>’s posts on parsing JSON in Swift, I really wanted to write this post. However, we’ve been very busy with writing a book on <a href="http://www.objc.io/books/">Functional Programming in Swift</a>, and I wanted to finish some other things first, so it took a while to come up with it. The full code accompanying this post is on <a href="https://gist.github.com/chriseidhof/4c071de50461a802874e">GitHub</a>.
 							</p>
 							<p>
 								In this posts I will give an outline of a parsing library for dealing with JSON in Swift in a type-safe way. I bluntly copied the example JSON from David, and it looks like this:
 							</p>
-							<pre><code class>var json : [String: AnyObject] = [
+							<pre><code>var json : [String: AnyObject] = [
   &quot;stat&quot;: &quot;ok&quot;,
   &quot;blogs&quot;: [
     &quot;blog&quot;: [
@@ -61,7 +61,7 @@
 							<p>
 								Now, the challenge is to convert this into an array of Swift structs:
 							</p>
-							<pre><code class>struct Blog {
+							<pre><code>struct Blog {
     let id: Int
     let name: String
     let needsPassword : Bool
@@ -69,9 +69,9 @@
 }
 </code></pre>
 							<p>
-								I&apos;ll first show the finished parsing functions, which contains two operators: <code>&gt;&gt;=</code> and <code>&lt;*&gt;</code>. They might look very foreign, but parsing the entire JSON structure is as simple as this. The rest of the article only describes library code. The parsing below works in such a way, that if the JSON is invalid (e.g. the name is missing, or id is not an integer) the entire result will be nil. There&apos;s no need for reflection or KVO, we just have a couple of simple functions and some smart ways to combine them:
+								I’ll first show the finished parsing functions, which contains two operators: <code>&gt;&gt;=</code> and <code>&lt;*&gt;</code>. They might look very foreign, but parsing the entire JSON structure is as simple as this. The rest of the article only describes library code. The parsing below works in such a way, that if the JSON is invalid (e.g. the name is missing, or id is not an integer) the entire result will be nil. There’s no need for reflection or KVO, we just have a couple of simple functions and some smart ways to combine them:
 							</p>
-							<pre><code class>func parseBlog(blog: AnyObject) -&gt; Blog? {
+							<pre><code>func parseBlog(blog: AnyObject) -&gt; Blog? {
     return asDict(blog) &gt;&gt;= {
         mkBlog &lt;*&gt; int($0,&quot;id&quot;)
                &lt;*&gt; string($0,&quot;name&quot;)
@@ -87,23 +87,23 @@ let parsed : [Blog]? = dictionary(json, &quot;blogs&quot;) &gt;&gt;= {
 }
 </code></pre>
 							<p>
-								So, what does the above code do? Let&apos;s go over the most important functions. First, let&apos;s have a look at the <code>dictionary</code> function. It&apos;s a function that, given a dictionary from <code>String</code> to <code>AnyObject</code>, tries to find a dictionary with the specified key:
+								So, what does the above code do? Let’s go over the most important functions. First, let’s have a look at the <code>dictionary</code> function. It’s a function that, given a dictionary from <code>String</code> to <code>AnyObject</code>, tries to find a dictionary with the specified key:
 							</p>
-							<pre><code class>func dictionary(input: [String: AnyObject], key: String) -&gt;  [String: AnyObject]? {
+							<pre><code>func dictionary(input: [String: AnyObject], key: String) -&gt;  [String: AnyObject]? {
     return input[key] &gt;&gt;= { $0 as? [String:AnyObject] }
 }
 </code></pre>
 							<p>
-								For example, in the example JSON we expect the key &quot;blogs&quot; to contain a dictionary. If the dictionary exists, the above function returns it, otherwise it returns <code>nil</code>. We can write similar functions for arrays, strings, and integers (here are just their signatures, the full code is on GitHub):
+								For example, in the example JSON we expect the key “blogs” to contain a dictionary. If the dictionary exists, the above function returns it, otherwise it returns <code>nil</code>. We can write similar functions for arrays, strings, and integers (here are just their signatures, the full code is on GitHub):
 							</p>
-							<pre><code class>func array(input: [String:AnyObject], key: String) -&gt;  [AnyObject]?
+							<pre><code>func array(input: [String:AnyObject], key: String) -&gt;  [AnyObject]?
 func string(input: [String:AnyObject], key: String) -&gt; String?
 func int(input: [NSObject:AnyObject], key: String) -&gt; Int?
 </code></pre>
 							<p>
-								Now, let&apos;s have a look at the outermost structure of our JSON. It is a dictionary, with a key &quot;blogs&quot;, which contains an array, under the key &quot;blog&quot;. To parse that, we could have written the following code:
+								Now, let’s have a look at the outermost structure of our JSON. It is a dictionary, with a key “blogs”, which contains an array, under the key “blog”. To parse that, we could have written the following code:
 							</p>
-							<pre><code class>if let blogsDict = dictionary(parsedJSON, &quot;blogs&quot;) {
+							<pre><code>if let blogsDict = dictionary(parsedJSON, &quot;blogs&quot;) {
     if let blogsArray = array(blogsDict, &quot;blog&quot;) {
          // Do something with the blogs array
     }
@@ -112,7 +112,7 @@ func int(input: [NSObject:AnyObject], key: String) -&gt; Int?
 							<p>
 								Instead, we can define the <code>&gt;&gt;=</code> operator, which takes an optional value, and applies a function only if the optional is not nil. It makes use of the <code>flatten</code> function, which flattens a nested optional into a single one.
 							</p>
-							<pre><code class>operator infix &gt;&gt;= {}
+							<pre><code>operator infix &gt;&gt;= {}
 @infix func &gt;&gt;= &lt;U,T&gt;(optional : T?, f : T -&gt; U?) -&gt; U? {
     return flatten(optional.map(f))
 }
@@ -123,9 +123,9 @@ func flatten&lt;A&gt;(x: A??) -&gt; A? {
 }
 </code></pre>
 							<p>
-								The other operator that&apos;s in heavy use is the <code>&lt;*&gt;</code> operator. For the parsing of a single blog, we had the following code:
+								The other operator that’s in heavy use is the <code>&lt;*&gt;</code> operator. For the parsing of a single blog, we had the following code:
 							</p>
-							<pre><code class>mkBlog &lt;*&gt; int(dict,&quot;id&quot;)
+							<pre><code>mkBlog &lt;*&gt; int(dict,&quot;id&quot;)
        &lt;*&gt; string(dict,&quot;name&quot;)
        &lt;*&gt; bool(dict,&quot;needspassword&quot;)
        &lt;*&gt; (string(dict, &quot;url&quot;) &gt;&gt;= toURL)
@@ -133,12 +133,12 @@ func flatten&lt;A&gt;(x: A??) -&gt; A? {
 							<p>
 								You can read this as a functional call that only gets executed when all optional values are non-nil:
 							</p>
-							<pre><code class>mkBlog(int(dict,&quot;id&quot;), string(dict,&quot;name&quot;), bool(dict,&quot;needspassword&quot;), (string(dict, &quot;url&quot;) &gt;&gt;= toURL))
+							<pre><code>mkBlog(int(dict,&quot;id&quot;), string(dict,&quot;name&quot;), bool(dict,&quot;needspassword&quot;), (string(dict, &quot;url&quot;) &gt;&gt;= toURL))
 </code></pre>
 							<p>
-								So let&apos;s look at the definition of the <code>&lt;*&gt;</code> operator. It combines two optional values: as the left operand, it takes a function, and the right operand a parameter to that function. It checks if both operands are non-nil, and then just applies the function.
+								So let’s look at the definition of the <code>&lt;*&gt;</code> operator. It combines two optional values: as the left operand, it takes a function, and the right operand a parameter to that function. It checks if both operands are non-nil, and then just applies the function.
 							</p>
-							<pre><code class>operator infix &lt;*&gt; { associativity left precedence 150 }
+							<pre><code>operator infix &lt;*&gt; { associativity left precedence 150 }
 func &lt;*&gt;&lt;A, B&gt;(f: (A -&gt; B)?, x: A?) -&gt; B? {
     if let f1 = f {
         if let x1 = x {
@@ -149,32 +149,32 @@ func &lt;*&gt;&lt;A, B&gt;(f: (A -&gt; B)?, x: A?) -&gt; B? {
 }
 </code></pre>
 							<p>
-								Now you might wonder what <code>mkBlog</code> does. It is a <a href="http://en.wikipedia.org/wiki/Currying" title>curried</a> function that wraps our initializer. First, we create a function with type <code>(Int,String,Bool,NSURL) -&gt; Blog</code>. Then, the <code>curry</code> function turns that into <code>Int -&gt; String -&gt; Bool -&gt; NSURL -&gt; Blog</code>:
+								Now you might wonder what <code>mkBlog</code> does. It is a <a href="http://en.wikipedia.org/wiki/Currying">curried</a> function that wraps our initializer. First, we create a function with type <code>(Int,String,Bool,NSURL) -&gt; Blog</code>. Then, the <code>curry</code> function turns that into <code>Int -&gt; String -&gt; Bool -&gt; NSURL -&gt; Blog</code>:
 							</p>
-							<pre><code class>let mkBlog = curry {id, name, needsPassword, url in 
+							<pre><code>let mkBlog = curry {id, name, needsPassword, url in 
    Blog(id: id, name: name, needsPassword: needsPassword, url: url) 
 }
 </code></pre>
 							<p>
 								This is needed so that we can use <code>mkBlog</code> together with the <code>&lt;*&gt;</code> operator. If we look at the first line:
 							</p>
-							<pre><code class>// mkBlog : Int -&gt; String -&gt; Bool -&gt; NSURL -&gt; Blog
+							<pre><code>// mkBlog : Int -&gt; String -&gt; Bool -&gt; NSURL -&gt; Blog
 // int(dict,&quot;id&quot;) : Int?
 let step1 = mkBlog &lt;*&gt; int(dict,&quot;id&quot;)
 </code></pre>
 							<p>
 								We can see that combining them with <code>&lt;*&gt;</code> gives us a new function of type <code>(String -&gt; Bool -&gt; NSURL -&gt; Blog)?</code>. And if we combine that with a string:
 							</p>
-							<pre><code class>let step2 = step1 &lt;*&gt; string(dict,&quot;name&quot;)
+							<pre><code>let step2 = step1 &lt;*&gt; string(dict,&quot;name&quot;)
 </code></pre>
 							<p>
 								We get a function of type <code>(Bool -&gt; NSURL -&gt; Blog)?</code>. And if we continue doing this, we end up with an optional <code>Blog?</code> value.
 							</p>
 							<p>
-								I hope you can now understand how all the pieces fit together. By creating a few helper functions and operators, we can make strongly-typed JSON parsing really easy. Instead of optional, we could have also used a different type that would include errors, but that&apos;s a topic for a different blog post.
+								I hope you can now understand how all the pieces fit together. By creating a few helper functions and operators, we can make strongly-typed JSON parsing really easy. Instead of optional, we could have also used a different type that would include errors, but that’s a topic for a different blog post.
 							</p>
 							<p>
-								In our book, we&apos;ll be writing in much more detail about these kinds of things (and other really cool stuff). If you&apos;re interested, you can already get early access today: <a href="http://www.objc.io/books/" title>Functional Programming in Swift</a>.
+								In our book, we’ll be writing in much more detail about these kinds of things (and other really cool stuff). If you’re interested, you can already get early access today: <a href="http://www.objc.io/books/">Functional Programming in Swift</a>.
 							</p>
 						</section>
 						<footer class="group" id="post-meta">

@@ -38,16 +38,16 @@
 								</p>
 							</blockquote>
 							<p>
-								Reducers are a way to deal with state changes, and are great for dealing with asynchronous code. They come in a number of different ways, and are used in architectures like <a href="http://redux.js.org/docs/introduction/Motivation.html" title>Redux</a>, <a href="https://guide.elm-lang.org/architecture/" title>Elm</a>, <a href="https://facebook.github.io/flux/" title>Flux</a> and more.
+								Reducers are a way to deal with state changes, and are great for dealing with asynchronous code. They come in a number of different ways, and are used in architectures like <a href="http://redux.js.org/docs/introduction/Motivation.html">Redux</a>, <a href="https://guide.elm-lang.org/architecture/">Elm</a>, <a href="https://facebook.github.io/flux/">Flux</a> and more.
 							</p>
 							<p>
-								Instead of giving a definition up front, we&apos;ll look refactor an example app that is well-suited to write with reducers. For a playground with the full code (both <a href="https://github.com/chriseidhof/reducers-examples/blob/master/Reducers.playground/Pages/Currency%20Conversion.xcplaygroundpage/Contents.swift" title>before</a> and <a href="https://github.com/chriseidhof/reducers-examples/blob/master/Reducers.playground/Pages/Currency%20Conversion%20-%20Reducers.xcplaygroundpage/Contents.swift" title>after</a> refactoring) see <a href="https://github.com/chriseidhof/reducers-examples" title>reducers-examples</a> on GitHub.
+								Instead of giving a definition up front, we’ll look refactor an example app that is well-suited to write with reducers. For a playground with the full code (both <a href="https://github.com/chriseidhof/reducers-examples/blob/master/Reducers.playground/Pages/Currency%20Conversion.xcplaygroundpage/Contents.swift">before</a> and <a href="https://github.com/chriseidhof/reducers-examples/blob/master/Reducers.playground/Pages/Currency%20Conversion%20-%20Reducers.xcplaygroundpage/Contents.swift">after</a> refactoring) see <a href="https://github.com/chriseidhof/reducers-examples">reducers-examples</a> on GitHub.
 							</p>
 							<h2>
 								Example
 							</h2>
 							<p>
-								To demonstrate reducers, we will write a simple currency conversion app that converts EUR amounts into USD amounts. It has three views: an text field for the input amount, a button to reload the current exchange rate and an output label. The output label will only display the amount if the input amount can be parsed and the current exchange rate are loaded. If the exchanges rates are loaded, changing the input amount should immediately change the output. Here&apos;s the code that computes the output rate (this is hooked up to the <code>.editingChanged</code> event of the text field):
+								To demonstrate reducers, we will write a simple currency conversion app that converts EUR amounts into USD amounts. It has three views: an text field for the input amount, a button to reload the current exchange rate and an output label. The output label will only display the amount if the input amount can be parsed and the current exchange rate are loaded. If the exchanges rates are loaded, changing the input amount should immediately change the output. Here’s the code that computes the output rate (this is hooked up to the <code>.editingChanged</code> event of the text field):
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">rate</span>: <span class="hljs-identifier">Double</span>?    
 @<span class="hljs-identifier">objc</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">inputChanged</span>() {
@@ -75,7 +75,7 @@
 
 </code></pre>
 							<p>
-								The code above is hard to test. First of all, there&apos;s a dependency on the shared <code>URLSession</code>. To make this more testable, we could consider pulling that out into a configurable property. Even if we do that, the code is still hard to test. We&apos;d like to test that the parsing happens correctly, that we switch back to the main thread before updating the UI, that we set the rate and that we finally call <code>inputChanged()</code>. The asynchronous code makes it especially hard to verify that our logic is correct.
+								The code above is hard to test. First of all, there’s a dependency on the shared <code>URLSession</code>. To make this more testable, we could consider pulling that out into a configurable property. Even if we do that, the code is still hard to test. We’d like to test that the parsing happens correctly, that we switch back to the main thread before updating the UI, that we set the rate and that we finally call <code>inputChanged()</code>. The asynchronous code makes it especially hard to verify that our logic is correct.
 							</p>
 							<p>
 								We can pull out most of the logic into a <code>State</code> struct to make the logic easy to test. The <code>State</code> struct encapsulates the input amount and the conversion rate, and exposes a single computed property (the output):
@@ -90,7 +90,7 @@
 }
 </code></pre>
 							<p>
-								Next up, we&apos;ll define three messages that this state can receive. The input can change, the reload button could be pressed, or new rate data could be available. The third message is not sent from the outside. Instead of defining these as methods, we&apos;ll define the messages as an enum (we&apos;ll see why shortly):
+								Next up, we’ll define three messages that this state can receive. The input can change, the reload button could be pressed, or new rate data could be available. The third message is not sent from the outside. Instead of defining these as methods, we’ll define the messages as an enum (we’ll see why shortly):
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">enum</span> <span class="hljs-identifier">Message</span> {
     <span class="hljs-keyword">case</span> <span class="hljs-identifier">inputChanged</span>(<span class="hljs-identifier">String</span>?)
@@ -99,7 +99,7 @@
 }
 </code></pre>
 							<p>
-								Now that we have defined our state and our <code>Message</code> enum, we can write a method to interpet messages. Because <code>State</code> is a struct, we define it as a <code>mutating</code> method <code>send(_:)</code>. We switch over the message and interpet it. In case the input changed, we try to parse it. When new rate data is available, we parse it and assign it to <code>self.rate</code>. We&apos;ll leave out the <code>reload</code> case for now.
+								Now that we have defined our state and our <code>Message</code> enum, we can write a method to interpet messages. Because <code>State</code> is a struct, we define it as a <code>mutating</code> method <code>send(_:)</code>. We switch over the message and interpet it. In case the input changed, we try to parse it. When new rate data is available, we parse it and assign it to <code>self.rate</code>. We’ll leave out the <code>reload</code> case for now.
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">send</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">message</span>: <span class="hljs-identifier">Message</span>) {
     <span class="hljs-keyword">switch</span> <span class="hljs-identifier">message</span> {
@@ -119,17 +119,17 @@
 }
 </code></pre>
 							<p>
-								In the <code>.reload</code> case, we&apos;d like to load the <code>ratesURL()</code> and then send the <code>.ratesAvailable()</code> message. If we would use <code>URLSession.sharedSession</code> directly, we lose our testability. We&apos;d either have to inject the session, mock it, or find a different way to make it testable. Even if we we would do that, we&apos;d have a problem in the <code>URLSession</code>&apos;s callback: we cannot update <code>self</code> because it&apos;s a struct, not a class.
+								In the <code>.reload</code> case, we’d like to load the <code>ratesURL()</code> and then send the <code>.ratesAvailable()</code> message. If we would use <code>URLSession.sharedSession</code> directly, we lose our testability. We’d either have to inject the session, mock it, or find a different way to make it testable. Even if we we would do that, we’d have a problem in the <code>URLSession</code>‘s callback: we cannot update <code>self</code> because it’s a struct, not a class.
 							</p>
 							<p>
-								Instead of performing the URL loading side-effect directly, we&apos;ll create a <code>Command</code> enum that describes the side-effect:
+								Instead of performing the URL loading side-effect directly, we’ll create a <code>Command</code> enum that describes the side-effect:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">enum</span> <span class="hljs-identifier">Command</span> {
     <span class="hljs-keyword">case</span> <span class="hljs-identifier">load</span>(<span class="hljs-identifier">URL</span>, <span class="hljs-identifier">onComplete</span>: (<span class="hljs-identifier">Data</span>?) -> <span class="hljs-identifier">Message</span>)
 }
 </code></pre>
 							<p>
-								Note that we cannot use <code>onComplete</code> as a callback (because we cannot change the struct value in a callback). Instead, it transforms the optional data back into a <code>Message</code>. We&apos;ll add <code>Command?</code> as a return type for <code>send(_:)</code>. If there&apos;s no side-effect to be executed, we simply return <code>nil</code>.
+								Note that we cannot use <code>onComplete</code> as a callback (because we cannot change the struct value in a callback). Instead, it transforms the optional data back into a <code>Message</code>. We’ll add <code>Command?</code> as a return type for <code>send(_:)</code>. If there’s no side-effect to be executed, we simply return <code>nil</code>.
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">send</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">message</span>: <span class="hljs-identifier">Message</span>) -> <span class="hljs-identifier">Command</span>? {
     <span class="hljs-keyword">switch</span> <span class="hljs-identifier">message</span> {
@@ -153,7 +153,7 @@
 								Note that the code above is completely synchronous. In a test, we can construct a value of <code>State</code> and send it any message we want. Afterwards, we can verify that it changed the state as we expected, and that the correct side-effect is executed. For example, in the reload case, we can even test that the <code>onComplete</code> is set to the <code>.ratesAvailable</code> message. In our initial (non-reducer) code, testing this would involve a lot of mocking and stubbing.
 							</p>
 							<p>
-								To interpret commands, we can define a separate extension on <code>State.Command</code> that interprets a command. Instead of having asynchronous code in our <code>State</code>&apos;s logic, we can simply test this <code>interpret(_:)</code> method once, in isolation.
+								To interpret commands, we can define a separate extension on <code>State.Command</code> that interprets a command. Instead of having asynchronous code in our <code>State</code>’s logic, we can simply test this <code>interpret(_:)</code> method once, in isolation.
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">State</span>.<span class="hljs-identifier">Command</span> {
     <span class="hljs-keyword">func</span> <span class="hljs-identifier">interpret</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">callback</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">State</span>.<span class="hljs-identifier">Message</span>) -> ()) {
@@ -169,7 +169,7 @@
 }
 </code></pre>
 							<p>
-								Finally, we need to hook up our <code>State</code> to the view controller we&apos;re refactoring. Instead of the <code>rate</code> property that we had before, we&apos;ll now define a <code>State</code> property:
+								Finally, we need to hook up our <code>State</code> to the view controller we’re refactoring. Instead of the <code>rate</code> property that we had before, we’ll now define a <code>State</code> property:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">state</span> = <span class="hljs-identifier">State</span>() {
     didSet {
@@ -178,14 +178,14 @@
 }
 </code></pre>
 							<p>
-								We can also define a <code>send</code> method on the view controller. It sends a message to the state, and if there&apos;s any <code>Command</code>, it interprets that command.
+								We can also define a <code>send</code> method on the view controller. It sends a message to the state, and if there’s any <code>Command</code>, it interprets that command.
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">private</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">send</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">message</span>: <span class="hljs-identifier">State</span>.<span class="hljs-identifier">Message</span>) {
     <span class="hljs-identifier">state</span>.<span class="hljs-identifier">send</span>(<span class="hljs-identifier">message</span>)?.<span class="hljs-identifier">interpret</span>(<span class="hljs-keyword">self</span>.<span class="hljs-identifier">send</span>)
 }
 </code></pre>
 							<p>
-								The only thing left is sending the correct messages in the view controller&apos;s <code>inputChanged</code> and <code>reload</code> actions:
+								The only thing left is sending the correct messages in the view controller’s <code>inputChanged</code> and <code>reload</code> actions:
 							</p>
 							<pre><code class="swift">@<span class="hljs-identifier">objc</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">inputChanged</span>() {
     <span class="hljs-identifier">send</span>(.<span class="hljs-identifier">inputChanged</span>(<span class="hljs-identifier">input</span>.<span class="hljs-identifier">text</span>))
@@ -196,28 +196,29 @@
 }
 </code></pre>
 							<p>
-								Note that it&apos;s easy to test <code>inputChanged</code> and <code>reload</code>. We don&apos;t have to mock the state, but just test that the right <code>Message</code> is sent. We can then separately test the implementation of <code>send(_:)</code> on the state struct.
+								Note that it’s easy to test <code>inputChanged</code> and <code>reload</code>. We don’t have to mock the state, but just test that the right <code>Message</code> is sent. We can then separately test the implementation of <code>send(_:)</code> on the state struct.
 							</p>
 							<h2>
 								Reducers, Defined
 							</h2>
 							<p>
-								Our <code>send(_:)</code> method on <code>State</code> is defined as a mutating method, and it is a <em>reducer</em>. Generally, we could say that the a reducer is a function of type <code>(inout State, Message) -&gt; Command</code>, if <code>State</code> is a value type. More generally, its type is <code>(State, Message) -&gt; (State, Command)</code>.
+								Our <code>send(_:)</code> method on <code>State</code> is defined as a mutating method, and it is a <em>reducer</em>
+								. Generally, we could say that the a reducer is a function of type <code>(inout State, Message) -&gt; Command</code>, if <code>State</code> is a value type. More generally, its type is <code>(State, Message) -&gt; (State, Command)</code>.
 							</p>
 							<p>
 								There is another important requirement in order for a method to be a reducer: it has to be a pure method, with no side-effects. There is no way in Swift to let the compiler enforce this. Instead of reading global state, we have to send <code>Input</code> messages to the reducers. And instead of having a side-effect that modifies global state, a reducer returns <code>Output</code> messages.
 							</p>
 							<p>
-								If you have an object-oriented programming background, you might be reminded of objects. Just like objects, reducers encapsulate state and allow only certain messages. However, unlike objects, reducers have no side-effects and are therefore highly testable. We can intercept and inspect both the input and the output messages without having to create mock classes. Reducers don&apos;t have asynchronous code; instead, the asynchrony is pushed outside to the code that drives the reducer. This also greatly helps for testability.
+								If you have an object-oriented programming background, you might be reminded of objects. Just like objects, reducers encapsulate state and allow only certain messages. However, unlike objects, reducers have no side-effects and are therefore highly testable. We can intercept and inspect both the input and the output messages without having to create mock classes. Reducers don’t have asynchronous code; instead, the asynchrony is pushed outside to the code that drives the reducer. This also greatly helps for testability.
 							</p>
 							<p>
 								Note that instead of a <code>Message</code> enum, we could have also defined our messages as <code>mutating</code> methods on the <code>State</code> type. However, by defining messages as an enum, we gain a lot of flexibility: we can easily check that the right message is sent, we can serialize messages (for example, to send over the network) and we can easily forward them to other parts of the state.
 							</p>
 							<p>
-								The <code>State</code> type with its <code>send(_:)</code> method is an example of the <a href="https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell" title>&quot;functional core, imperative shell&quot;</a> pattern. The reducer is the functional core, and is very easy to test. The view controller&apos;s <code>send</code> method is the imperative shell: it interprets the side-effects. This pattern can also be applied at a large scale.
+								The <code>State</code> type with its <code>send(_:)</code> method is an example of the <a href="https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell">“functional core, imperative shell”</a> pattern. The reducer is the functional core, and is very easy to test. The view controller’s <code>send</code> method is the imperative shell: it interprets the side-effects. This pattern can also be applied at a large scale.
 							</p>
 							<p>
-								For some other examples using reducers, check out my <a href="https://github.com/chriseidhof/tea-in-swift" title>Swift implementation of The Elm Architecture</a>, or this <a href="https://gist.github.com/inamiy/bd257c60e670de8a144b1f97a07bacec" title>awesome list</a> of Elm-inspired frameworks. Matt Gallagher also just wrote a post about <a href="http://www.cocoawithlove.com/blog/statements-messages-reducers.html" title>statements, messages and reducers</a></p>
+								For some other examples using reducers, check out my <a href="https://github.com/chriseidhof/tea-in-swift">Swift implementation of The Elm Architecture</a>, or this <a href="https://gist.github.com/inamiy/bd257c60e670de8a144b1f97a07bacec">awesome list</a> of Elm-inspired frameworks. Matt Gallagher also just wrote a post about <a href="http://www.cocoawithlove.com/blog/statements-messages-reducers.html">statements, messages and reducers</a></p>
 						</section>
 						<footer class="group" id="post-meta">
 							<div>
@@ -234,7 +235,7 @@
 						</div>
 						<p>
 							<p>
-								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>, or check out <a href="https://talk.objc.io" title>Swift Talk</a>.
+								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>, or check out <a href="https://talk.objc.io">Swift Talk</a>.
 							</p>
 						</p>
 					</footer>

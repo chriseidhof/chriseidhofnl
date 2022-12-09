@@ -29,18 +29,14 @@
 							</h1>
 						</header>
 						<section class="postbody">
-							<p><a href="http://en.wikipedia.org/wiki/Value_object" title>Value Objects</a> are objects that hold
-								
+							<p><a href="http://en.wikipedia.org/wiki/Value_object">Value Objects</a> are objects that hold
 								simple data. This article is about creating such value objects. I use them a lot
-								
 								in my code, because they are robust and keep the code simple. Note that it’s not
-								
 								about <code>NSValue</code>, but about simple objects with simple data.
 
 							</p>
 							<p>
 								Implementing value objects should be easy, but there are some slightly tricky
-								
 								bits. So let’s look at the requirements:
 
 							</p>
@@ -62,11 +58,10 @@
 								</li>
 							</ul>
 							<p>
-								Suppose we want to create <code>Person</code> objects with properties <code>name</code> and
-								<code>birthDate</code>, then our interface looks like this:
+								Suppose we want to create <code>Person</code> objects with properties <code>name</code> and<code>birthDate</code>, then our interface looks like this:
 
 							</p>
-							<pre><code class>@interface Person : NSObject
+							<pre><code>@interface Person : NSObject
 - (id)initWithName:(NSString*)name birthDate:(NSDate*)birthDate;
 @property (nonatomic, copy, readonly) NSString* name;
 @property (nonatomic, strong, readonly) NSDate* birthDate;
@@ -74,13 +69,11 @@
 </code></pre>
 							<p>
 								The important thing to notice here is that the properties are <code>readonly</code>.
-								
 								However, the modern runtime still generates instance variables for us, that are
-								
 								prefixed by a <code>_</code>. Our implementation looks like this:
 
 							</p>
-							<pre><code class>@implementation Person
+							<pre><code>@implementation Person
 
 - (id)initWithName:(NSString*)name birthDate:(NSDate*)birthDate {
   self = [super init];
@@ -94,20 +87,16 @@
 </code></pre>
 							<p>
 								In the modern runtime, you don’t have to use <code>synthesize</code>. If you do, then your
-								
 								instance variables get different names (without the underscore).
 
 							</p>
 							<p>
-								Now for the equality, we implement the method <code>isEqual:</code>. There is an <a href="http://www.mikeash.com/pyblog/friday-qa-2010-06-18-implementing-equality-and-hashing.html" title>excellent
-									
-									article</a>
-								by Mike Ash, however, there is a mistake in there. Following his advice, our
-								
+								Now for the equality, we implement the method <code>isEqual:</code>. There is an <a href="http://www.mikeash.com/pyblog/friday-qa-2010-06-18-implementing-equality-and-hashing.html">excellent
+									article</a>by Mike Ash, however, there is a mistake in there. Following his advice, our
 								first (incorrect) implementation looks like this:
 
 							</p>
-							<pre><code class>- (BOOL)isEqual:(id)obj {
+							<pre><code>- (BOOL)isEqual:(id)obj {
   if(![obj isKindOfClass:[Person class]]) return NO;
 
   Person* other = (Person*)obj;
@@ -117,16 +106,14 @@
 }
 </code></pre>
 							<p>
-								There is a problem here: if one of the two properties is <code>nil</code>, then <code>isEqual:</code>
-								will return <code>NO</code>. This is because methods sent to <code>nil</code> always return <code>NO</code>, <code>0</code>
-								or <code>nil</code>. Even <code>[nil isEqual:nil]</code> returns <code>NO</code>.
+								There is a problem here: if one of the two properties is <code>nil</code>, then <code>isEqual:</code>will return <code>NO</code>. This is because methods sent to <code>nil</code> always return <code>NO</code>, <code>0</code>or <code>nil</code>. Even <code>[nil isEqual:nil]</code> returns <code>NO</code>.
 
 							</p>
 							<p>
 								Therefore, our second, correct implementation looks like this:
 
 							</p>
-							<pre><code class>- (BOOL)isEqual:(id)obj {
+							<pre><code>- (BOOL)isEqual:(id)obj {
   if(![obj isKindOfClass:[Person class]]) return NO;
 
   Person* other = (Person*)obj;
@@ -137,7 +124,6 @@
 </code></pre>
 							<p>
 								To implement the hashing function, I would like to recommend following Mike’s
-								
 								advice.
 
 							</p>
@@ -147,17 +133,16 @@
 							</h1>
 							<p>
 								Finally, as a bonus, let’s also implement <code>NSCoding</code>, so we can serialize our
-								
 								objects. First change the interface of <code>Person</code> to this:
 
 							</p>
-							<pre><code class>@interface Person : NSObject &lt;NSCoding&gt;
+							<pre><code>@interface Person : NSObject &lt;NSCoding&gt;
 </code></pre>
 							<p>
 								The implementation is now very simple:
 
 							</p>
-							<pre><code class>- (id)initWithCoder:(NSCoder*)aDecoder {
+							<pre><code>- (id)initWithCoder:(NSCoder*)aDecoder {
   self = [super init];
   if(self) {
     _name = [aDecoder decodeObjectForKey:kName]; 
@@ -173,18 +158,15 @@
 </code></pre>
 							<p>
 								The two constants <code>kName</code> and <code>kDate</code> are declared in the implementation file,
-								
 								above the <code>@implementation</code> directive:
 
 							</p>
-							<pre><code class>static NSString* const kName = @&quot;name&quot;;
+							<pre><code>static NSString* const kName = @&quot;name&quot;;
 static NSString* const kDate = @&quot;date&quot;;
 </code></pre>
 							<p>
 								Voila, now we can create objects, read their properties, serialize them to disk
-								
 								and read them back in. Some catches: when you add a new property, you have to
-								
 								make sure to update the code in lots of places:
 
 							</p>
@@ -218,15 +200,13 @@ static NSString* const kDate = @&quot;date&quot;;
 
 							</p>
 							<p>
-								The full code of the examples (without the <code>hash</code> function) is <a href="https://gist.github.com/78b3ce0edbcdf0d202e2" title>on
-									
+								The full code of the examples (without the <code>hash</code> function) is <a href="https://gist.github.com/78b3ce0edbcdf0d202e2">on
 									github</a>.
 
 							</p>
-							<p><em>Update</em>: changed the <code>name</code> attribute to be <code>copy</code> instead of <code>strong</code>, <a href="https://twitter.com/CocoaPimper/status/280335607971074050" title>thanks
-									
+							<p><em>Update</em>
+								: changed the <code>name</code> attribute to be <code>copy</code> instead of <code>strong</code>, <a href="https://twitter.com/CocoaPimper/status/280335607971074050">thanks
 									to Christian
-									
 									Kienle</a>
 
 							</p>

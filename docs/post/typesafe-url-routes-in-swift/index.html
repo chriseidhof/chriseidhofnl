@@ -33,21 +33,21 @@
 						</header>
 						<section class="postbody">
 							<p>
-								While Ash Furrow is working on his <a href="https://github.com/AshFurrow/Moya" title>Moya</a> project, I got inspired by his approach, and decided to write a little bit of code to demonstrate a technique I used in Haskell a few years ago.
+								While Ash Furrow is working on his <a href="https://github.com/AshFurrow/Moya">Moya</a> project, I got inspired by his approach, and decided to write a little bit of code to demonstrate a technique I used in Haskell a few years ago.
 							</p>
 							<p>
-								It uses Swift enums to describe API endpoints. Instead of describing endpoints this with strings, you can use Swift&apos;s enums to make it type-safe and well-documented. Let&apos;s build an example that wraps a very small part of the <a href="https://developer.github.com/v3/" title>GitHub API</a>.
+								It uses Swift enums to describe API endpoints. Instead of describing endpoints this with strings, you can use Swift’s enums to make it type-safe and well-documented. Let’s build an example that wraps a very small part of the <a href="https://developer.github.com/v3/">GitHub API</a>.
 							</p>
 							<p>
-								There&apos;s an API endpoint &quot;zen&quot;, which works like this:
+								There’s an API endpoint “zen”, which works like this:
 							</p>
-							<pre><code class>$ curl &apos;https://api.github.com/zen&apos;
+							<pre><code>$ curl &apos;https://api.github.com/zen&apos;
 Favor focus over features.~
 </code></pre>
 							<p>
-								There&apos;s a different API endpoint &quot;/users/name&quot;, which works like this:
+								There’s a different API endpoint “/users/name”, which works like this:
 							</p>
-							<pre><code class>$ curl &apos;https://api.github.com/users/chriseidhof&apos;
+							<pre><code>$ curl &apos;https://api.github.com/users/chriseidhof&apos;
 {
   &quot;login&quot;: &quot;chriseidhof&quot;,
   &quot;id&quot;: 5382,
@@ -55,9 +55,9 @@ Favor focus over features.~
 }
 </code></pre>
 							<p>
-								Now, what we can do is define an enum with a case for all endpoints. Note that the &quot;zen&quot; endpoint doesn&apos;t take any parameters, where as the &quot;users&quot; endpoint takes a string parameter (the user name):
+								Now, what we can do is define an enum with a case for all endpoints. Note that the “zen” endpoint doesn’t take any parameters, where as the “users” endpoint takes a string parameter (the user name):
 							</p>
-							<pre><code class>enum Github {
+							<pre><code>enum Github {
     case Zen
     case UserProfile(String)
 }
@@ -65,14 +65,14 @@ Favor focus over features.~
 							<p>
 								We can then define a protocol <code>Path</code> that, for a given type, describes how to turn this into a <code>String</code> value.
 							</p>
-							<pre><code class>protocol Path {
+							<pre><code>protocol Path {
     var path : String { get }
 }
 </code></pre>
 							<p>
-								Now we can make our Github enum conform to the Path protocol. Because this is just a proof of concept, we don&apos;t escape the user&apos;s name (which should definitely be done in production code).
+								Now we can make our Github enum conform to the Path protocol. Because this is just a proof of concept, we don’t escape the user’s name (which should definitely be done in production code).
 							</p>
-							<pre><code class>extension Github : Path {
+							<pre><code>extension Github : Path {
     var path: String {
         switch self {
         case .Zen: return &quot;/zen&quot;
@@ -84,14 +84,14 @@ Favor focus over features.~
 							<p>
 								Having done this work, we can create a route, and get the path out:
 							</p>
-							<pre><code class>let sample = Github.UserProfile(&quot;ashfurrow&quot;)
+							<pre><code>let sample = Github.UserProfile(&quot;ashfurrow&quot;)
 println(sample.path) 
 // Prints &quot;/users/ashfurrow&quot;
 </code></pre>
 							<p>
-								In Ash&apos;s library, generates full URLs, and also has sample data included for each endpoint (which makes it really convenient when doing TDD). We can create a protocol that helps us with both:
+								In Ash’s library, generates full URLs, and also has sample data included for each endpoint (which makes it really convenient when doing TDD). We can create a protocol that helps us with both:
 							</p>
-							<pre><code class>protocol Moya : Path {
+							<pre><code>protocol Moya : Path {
     var baseURL: NSURL { get }
     var sampleData: String { get } // Probably JSON would be better than String
 }
@@ -100,9 +100,9 @@ println(sample.path)
 								The above protocol says that there has to be a base URL of type NSURL, and that for each value of <code>Moya</code> there should be sample data available in string form (this string would probably contain JSON data).
 							</p>
 							<p>
-								Implementing this for the Github API is simple. For the sample data, we use a switch and depending on the case, we return different sample data. We can even use the user&apos;s name in the sample data:
+								Implementing this for the Github API is simple. For the sample data, we use a switch and depending on the case, we return different sample data. We can even use the user’s name in the sample data:
 							</p>
-							<pre><code class>extension Github : Moya {
+							<pre><code>extension Github : Moya {
     var baseURL: NSURL { return NSURL(string: &quot;https://api.github.com&quot;) }
     var sampleData: String {
         switch self {
@@ -113,26 +113,26 @@ println(sample.path)
 }
 </code></pre>
 							<p>
-								Now we have all the pieces to write a function <code>url</code> that, given an object conforming to the <code>Moya</code> protocol, will return us a URL. Note that this doesn&apos;t depend on the Github enum at all, it&apos;ll work on any type that conforms to the <code>Moya</code> protocol:
+								Now we have all the pieces to write a function <code>url</code> that, given an object conforming to the <code>Moya</code> protocol, will return us a URL. Note that this doesn’t depend on the Github enum at all, it’ll work on any type that conforms to the <code>Moya</code> protocol:
 							</p>
-							<pre><code class>func url(route: Moya) -&gt; NSURL {
+							<pre><code>func url(route: Moya) -&gt; NSURL {
     return route.baseURL.URLByAppendingPathComponent(route.path)
 }
 </code></pre>
 							<p>
 								We can use it like this:
 							</p>
-							<pre><code class>println(url(sample)) 
+							<pre><code>println(url(sample)) 
 // prints https://api.github.com/users/ashfurrow
 </code></pre>
 							<p>
-								I think it&apos;s a really nice way of building APIs. The Github enum makes it very clear which endpoints are available, and the form of their parameters. By defining these things once, we can make it much harder for users of this API to make mistakes. For example, it&apos;s not possible to pass in a <code>nil</code> username, because the <code>UserProfile</code> takes a non-optional string. If we wanted to add optional parameters, we have to be explicit about that.
+								I think it’s a really nice way of building APIs. The Github enum makes it very clear which endpoints are available, and the form of their parameters. By defining these things once, we can make it much harder for users of this API to make mistakes. For example, it’s not possible to pass in a <code>nil</code> username, because the <code>UserProfile</code> takes a non-optional string. If we wanted to add optional parameters, we have to be explicit about that.
 							</p>
 							<p>
-								The other nice thing is that all of the above code is independent of any networking library. It&apos;s so simple that it could be used with any library, be it <a href="https://github.com/Alamofire/Alamofire" title>AlamoFire</a>, <a href="http://allseeing-i.com/ASIHTTPRequest/" title>ASIHTTPRequest</a> (remember that?) or just plain <code>NSURLSession</code>. Enjoy!
+								The other nice thing is that all of the above code is independent of any networking library. It’s so simple that it could be used with any library, be it <a href="https://github.com/Alamofire/Alamofire">AlamoFire</a>, <a href="http://allseeing-i.com/ASIHTTPRequest/">ASIHTTPRequest</a> (remember that?) or just plain <code>NSURLSession</code>. Enjoy!
 							</p>
 							<p>
-								The full code is available as a gist <a href="https://gist.github.com/chriseidhof/1fc977ffb856dbcdc113" title>here</a>.
+								The full code is available as a gist <a href="https://gist.github.com/chriseidhof/1fc977ffb856dbcdc113">here</a>.
 							</p>
 						</section>
 						<footer class="group" id="post-meta">

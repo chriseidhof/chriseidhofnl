@@ -33,24 +33,24 @@
 						</header>
 						<section class="postbody">
 							<p>
-								This afternoon, I&apos;ve been making my first steps in Swift, trying to see how much of my Haskell knowledge I could port. It seems like a lot of cool stuff you can do with types is not yet possible, I already filed some radars.
+								This afternoon, I’ve been making my first steps in Swift, trying to see how much of my Haskell knowledge I could port. It seems like a lot of cool stuff you can do with types is not yet possible, I already filed some radars.
 							</p>
 							<p>
-								As an experiment, this article is also available on <a href="https://github.com/chriseidhof/quickcheck-in-swift-blogpost" title>github</a>. Because we&apos;ll need the <code>arc4random</code> function, we&apos;ll start by importing <code>Foundation</code>:
+								As an experiment, this article is also available on <a href="https://github.com/chriseidhof/quickcheck-in-swift-blogpost">github</a>. Because we’ll need the <code>arc4random</code> function, we’ll start by importing <code>Foundation</code>:
 							</p>
-							<pre><code class>import Foundation
+							<pre><code>import Foundation
 </code></pre>
 							<p>
-								I wanted to see if it&apos;s possible to implement something like <a href="http://hackage.haskell.org/package/QuickCheck" title>QuickCheck</a> in Swift. QuickCheck is a really cool library, available in multiple languages, that allows you to quickly check if properties are false. The interface is simple: you give it a property and it tries to falsify that property. Properties are just simple functions that return <code>Bool</code>s. For example, suppose we have a property that checks whether <code>+</code> on <code>Int</code>s is a commutative operation:
+								I wanted to see if it’s possible to implement something like <a href="http://hackage.haskell.org/package/QuickCheck">QuickCheck</a> in Swift. QuickCheck is a really cool library, available in multiple languages, that allows you to quickly check if properties are false. The interface is simple: you give it a property and it tries to falsify that property. Properties are just simple functions that return <code>Bool</code>s. For example, suppose we have a property that checks whether <code>+</code> on <code>Int</code>s is a commutative operation:
 							</p>
-							<pre><code class>func prop_plusCommutative(x : Int, y : Int) -&gt; Bool {
+							<pre><code>func prop_plusCommutative(x : Int, y : Int) -&gt; Bool {
     return x + y == y + x
 }
 </code></pre>
 							<p>
 								What we can do is just generate a lot of random numbers, and feed them into this property:
 							</p>
-							<pre><code class>let numberOfIterations = 100 
+							<pre><code>let numberOfIterations = 100 
 
 for _ in 0..numberOfIterations {
     let valX = Int(arc4random())
@@ -59,9 +59,9 @@ for _ in 0..numberOfIterations {
 }
 </code></pre>
 							<p>
-								Now, if we run this, we&apos;ll have this checked a hundred times, with different numbers. It&apos;s not a guarantee that it&apos;s correct, but it&apos;s rather a quick way of checking whether there aren&apos;t any obvious mistakes. Suppose we try to write a <code>reverse</code> function for strings:
+								Now, if we run this, we’ll have this checked a hundred times, with different numbers. It’s not a guarantee that it’s correct, but it’s rather a quick way of checking whether there aren’t any obvious mistakes. Suppose we try to write a <code>reverse</code> function for strings:
 							</p>
-							<pre><code class>extension String {
+							<pre><code>extension String {
     func reverse() -&gt; String {
         var s = &quot;&quot;
         for char in self {
@@ -74,7 +74,7 @@ for _ in 0..numberOfIterations {
 							<p>
 								If we want to check if this is not completely broken, we can take a similar approach:
 							</p>
-							<pre><code class>func prop_doubleReverse(x : String) -&gt; Bool {
+							<pre><code>func prop_doubleReverse(x : String) -&gt; Bool {
     return x.reverse().reverse() == x
 }
 
@@ -97,7 +97,7 @@ for _ in 0..numberOfIterations {
 }
 </code></pre>
 							<p>
-								Of course, it&apos;s not nice to have to rewrite this <code>0..numberOfIterations</code> all the time. Instead, we would like to write it like this:
+								Of course, it’s not nice to have to rewrite this <code>0..numberOfIterations</code> all the time. Instead, we would like to write it like this:
 							</p>
 							<pre>
 check(prop_doubleReverse)
@@ -105,16 +105,16 @@ check(prop_plusCommutative)
 </pre>
 
 							<p>
-								How do we get there? It&apos;s actually relatively easy. First, we define the <code>Arbitrary</code> protocol, which generates arbitrary values:
+								How do we get there? It’s actually relatively easy. First, we define the <code>Arbitrary</code> protocol, which generates arbitrary values:
 							</p>
-							<pre><code class>protocol Arbitrary {
+							<pre><code>protocol Arbitrary {
     class func arbitrary() -&gt; Self
 }
 </code></pre>
 							<p>
 								Now, we can define an instance for <code>String</code> and <code>Int</code> (beware, these are just quick and dirty instances):
 							</p>
-							<pre><code class>extension String : Arbitrary {
+							<pre><code>extension String : Arbitrary {
     static func arbitrary() -&gt; String {
       return randomString()
     }
@@ -129,7 +129,7 @@ extension Int : Arbitrary {
 							<p>
 								The only thing left is to define the <code>check</code> function. First, we define it for a property that takes a single argument:
 							</p>
-							<pre><code class>func check&lt;X : Arbitrary&gt;(prop : X -&gt; Bool) -&gt; () {
+							<pre><code>func check&lt;X : Arbitrary&gt;(prop : X -&gt; Bool) -&gt; () {
     for _ in 0..numberOfIterations {
         let val = X.arbitrary()
         assert(prop(val))
@@ -139,7 +139,7 @@ extension Int : Arbitrary {
 							<p>
 								Thanks to overloading, we can also define it for functions that take two arguments:
 							</p>
-							<pre><code class>func check&lt;X : Arbitrary, Y: Arbitrary&gt;(prop: (X,Y) -&gt; Bool) -&gt; () {
+							<pre><code>func check&lt;X : Arbitrary, Y: Arbitrary&gt;(prop: (X,Y) -&gt; Bool) -&gt; () {
     for _ in 0..numberOfIterations {
         let valX = X.arbitrary()
         let valY = Y.arbitrary()
@@ -148,15 +148,15 @@ extension Int : Arbitrary {
 }
 </code></pre>
 							<p>
-								And that&apos;s all there is to it. Now we can check our properties:
+								And that’s all there is to it. Now we can check our properties:
 							</p>
-							<pre><code class>check(prop_doubleReverse)
+							<pre><code>check(prop_doubleReverse)
 check(prop_plusCommutative)
 </code></pre>
 							<p>
 								We can even check closures:
 							</p>
-							<pre><code class>check({(s : String) -&gt; Bool in countElements(s.reverse()) == countElements(s)})
+							<pre><code>check({(s : String) -&gt; Bool in countElements(s.reverse()) == countElements(s)})
 </code></pre>
 							<p>
 								I am really looking forward to people taking this idea and implementing QuickCheck for real. I think it could be a very nice addition to the current way of testing.

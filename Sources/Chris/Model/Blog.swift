@@ -8,7 +8,6 @@
 import Foundation
 import StaticSite
 import Yams
-import CommonMark
 import HTML
 
 extension BlogPost {

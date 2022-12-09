@@ -7,7 +7,6 @@
 
 import Foundation
 import HTML
-import CommonMark
 
 extension BlogPost.InContext {
     @NodeBuilder var page: HTML.Node {

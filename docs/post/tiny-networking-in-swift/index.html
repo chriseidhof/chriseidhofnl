@@ -33,12 +33,12 @@
 						</header>
 						<section class="postbody">
 							<p>
-								For a new project we&apos;ve been working on at Unsigned Integer, the company behind <a href="http://www.decksetapp.com" title>Deckset</a>, we needed to wrap a webservice API. I had a look at both <a href="https://github.com/Alamofire/Alamofire" title>Alamofire</a> and <a href="https://github.com/AshFurrow/Moya" title>Moya</a>. Alamofire is a full-featured networking library, and if I would need something with more features, I would almost certainly use it. Moya is also very nice, and is built on top of Alomofire, and provides some extra safety. However, neither of them provide a simple way to parse results, so I started to experiment a bit. The library&apos;s source is <a href="https://gist.github.com/chriseidhof/26bda788f13b3e8a279c" title>available as a gist</a>.
+								For a new project we’ve been working on at Unsigned Integer, the company behind <a href="http://www.decksetapp.com">Deckset</a>, we needed to wrap a webservice API. I had a look at both <a href="https://github.com/Alamofire/Alamofire">Alamofire</a> and <a href="https://github.com/AshFurrow/Moya">Moya</a>. Alamofire is a full-featured networking library, and if I would need something with more features, I would almost certainly use it. Moya is also very nice, and is built on top of Alomofire, and provides some extra safety. However, neither of them provide a simple way to parse results, so I started to experiment a bit. The library’s source is <a href="https://gist.github.com/chriseidhof/26bda788f13b3e8a279c">available as a gist</a>.
 							</p>
 							<p>
-								My design goal was to have a way of describing API endpoints in such a way that I don&apos;t have to use any strings when calling them, and I wanted both the input data and output data converted automatically. After a couple of iterations, I ended up with a simple struct to describe a resource that returns a value of type <code>A</code>. It contains an endpoint&apos;s path, the HTTP method, an optional request body, and some headers specific to the request. The last parameter is the most interesting: it&apos;s a way to parse the response: a function that produces an <code>A</code> from the response data. Because this parsing might fail, the result is an optional.
+								My design goal was to have a way of describing API endpoints in such a way that I don’t have to use any strings when calling them, and I wanted both the input data and output data converted automatically. After a couple of iterations, I ended up with a simple struct to describe a resource that returns a value of type <code>A</code>. It contains an endpoint’s path, the HTTP method, an optional request body, and some headers specific to the request. The last parameter is the most interesting: it’s a way to parse the response: a function that produces an <code>A</code> from the response data. Because this parsing might fail, the result is an optional.
 							</p>
-							<pre><code class>struct Resource&lt;A&gt; {
+							<pre><code>struct Resource&lt;A&gt; {
     let path: String
     let method : Method
     let requestBody: NSData?
@@ -47,9 +47,9 @@
 }
 </code></pre>
 							<p>
-								As an example, we can construct a resource for the Github <a href="https://developer.github.com/guides/getting-started/" title>zen endpoint</a>. It says the path is &quot;zen&quot;, it uses the <code>GET</code> method, has no request body or headers, and simply parses the data as an UTF-8 encoded string:
+								As an example, we can construct a resource for the Github <a href="https://developer.github.com/guides/getting-started/">zen endpoint</a>. It says the path is “zen”, it uses the <code>GET</code> method, has no request body or headers, and simply parses the data as an UTF-8 encoded string:
 							</p>
-							<pre><code class>func parseString(data: NSData) -&gt; String? {
+							<pre><code>func parseString(data: NSData) -&gt; String? {
     return NSString(data: data, encoding: NSUTF8StringEncoding)
 }
 
@@ -59,18 +59,18 @@ func zen() -&gt; Resource&lt;String&gt; {
 }
 </code></pre>
 							<p>
-								To fetch this resource, there&apos;s another function called <code>apiRequest</code>. As we will see later on, we will wrap this function for our purposes, but for now, we&apos;ll call it directly. The implementation is not too important, in order to understand it we only need to look at the type signature. It takes a <code>modifyRequest</code> function, which we&apos;ll ignore, a base URL (e.g. <code>https://api.github.com</code>), a resource (e.g. <code>zen()</code>), and then it takes two callback functions: one for the failure case, which provides a reason and an optional response body, and one for the success case. The completion handler is only called when the request returns a status code of 200, and when the parse function returns a non-nil result.
+								To fetch this resource, there’s another function called <code>apiRequest</code>. As we will see later on, we will wrap this function for our purposes, but for now, we’ll call it directly. The implementation is not too important, in order to understand it we only need to look at the type signature. It takes a <code>modifyRequest</code> function, which we’ll ignore, a base URL (e.g. <code>https://api.github.com</code>), a resource (e.g. <code>zen()</code>), and then it takes two callback functions: one for the failure case, which provides a reason and an optional response body, and one for the success case. The completion handler is only called when the request returns a status code of 200, and when the parse function returns a non-nil result.
 							</p>
-							<pre><code class>func apiRequest&lt;A&gt;(modifyRequest: NSMutableURLRequest -&gt; (), 
+							<pre><code>func apiRequest&lt;A&gt;(modifyRequest: NSMutableURLRequest -&gt; (), 
                    baseURL: NSURL,
                    resource: Resource&lt;A&gt;,
                    failure: (Reason, NSData?) -&gt; (),
                    completion: A -&gt; ())
 </code></pre>
 							<p>
-								Now we can construct a call. At first, we don&apos;t need to modify the request, so we just pass in a function that does nothing. For the failure handler, we define a function that logs the failure to the console.
+								Now we can construct a call. At first, we don’t need to modify the request, so we just pass in a function that does nothing. For the failure handler, we define a function that logs the failure to the console.
 							</p>
-							<pre><code class>func defaultFailureHandler(failureReason: Reason, data: NSData?) {
+							<pre><code>func defaultFailureHandler(failureReason: Reason, data: NSData?) {
     let string = NSString(data: data!, encoding: NSUTF8StringEncoding)
     println(&quot;Failure: \(failureReason) \(string)&quot;)
 }
@@ -82,14 +82,14 @@ apiRequest({ _ in }, baseURL, zen(), defaultFailureHandler) { message in
 }
 </code></pre>
 							<p>
-								If we run this code, we&apos;ll get the following output:
+								If we run this code, we’ll get the following output:
 							</p>
-							<pre><code class>Got a message: Encourage flow.
+							<pre><code>Got a message: Encourage flow.
 </code></pre>
 							<p>
-								This works perfectly. Now, let&apos;s try our hand at something a bit more difficult: getting and parsing a JSON result. In this case, we set some headers (the content-type, and the authorization token). Then instead of passing in the <code>parseString</code> function that we used earlier, we pass in the <code>decodeJSON</code> function.
+								This works perfectly. Now, let’s try our hand at something a bit more difficult: getting and parsing a JSON result. In this case, we set some headers (the content-type, and the authorization token). Then instead of passing in the <code>parseString</code> function that we used earlier, we pass in the <code>decodeJSON</code> function.
 							</p>
-							<pre><code class>func decodeJSON(data: NSData) -&gt; JSONDictionary? {
+							<pre><code>func decodeJSON(data: NSData) -&gt; JSONDictionary? {
     return NSJSONSerialization.JSONObjectWithData(data, options: 
               NSJSONReadingOptions.allZeros, error: nil) 
       as? [String:AnyObject]
@@ -102,9 +102,10 @@ func authenticatedUser() -&gt; Resource&lt;JSONDictionary&gt; {
 }
 </code></pre>
 							<p>
-								Because we expect to have lots of times where we would like to encode and decode JSON for an API call, we can make a <em>smart constructor</em>. This is a wrapper around the <code>Resource</code> init function which will do the extra work of encoding JSON, decoding JSON and setting the right headers:
+								Because we expect to have lots of times where we would like to encode and decode JSON for an API call, we can make a <em>smart constructor</em>
+								. This is a wrapper around the <code>Resource</code> init function which will do the extra work of encoding JSON, decoding JSON and setting the right headers:
 							</p>
-							<pre><code class>public func jsonResource&lt;A&gt;(path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -&gt; A?) -&gt; Resource&lt;A&gt; {
+							<pre><code>public func jsonResource&lt;A&gt;(path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -&gt; A?) -&gt; Resource&lt;A&gt; {
     let f = { decodeJSON($0) &gt;&gt;= parse }
     let jsonBody = encodeJSON(requestParameters)
     let headers = [&quot;Content-Type&quot;: &quot;application/json&quot;]
@@ -114,7 +115,7 @@ func authenticatedUser() -&gt; Resource&lt;JSONDictionary&gt; {
 							<p>
 								Now, we can rewrite our <code>authenticatedUser</code> as follows:
 							</p>
-							<pre><code class>func authenticatedUser() -&gt; Resource&lt;JSONDictionary&gt; {
+							<pre><code>func authenticatedUser() -&gt; Resource&lt;JSONDictionary&gt; {
     return jsonResource(path: &quot;user&quot;, method: Method.GET, 
                         requestParameters: [:]) { $0 }
 }
@@ -122,7 +123,7 @@ func authenticatedUser() -&gt; Resource&lt;JSONDictionary&gt; {
 							<p>
 								However, instead of a dictionary, we would really like to parse this into a <code>GithubProfile</code> value:
 							</p>
-							<pre><code class>struct GithubProfile {
+							<pre><code>struct GithubProfile {
     let login: String
     let id: Int
     let avatarURL: NSURL
@@ -131,9 +132,9 @@ func authenticatedUser() -&gt; Resource&lt;JSONDictionary&gt; {
 let makeGithubProfile = { GithubProfile(login: $0, id: $1, avatarURL: $2) }
 </code></pre>
 							<p>
-								We can use the <a href="/post/json-parsing-in-swift/" title>JSON parsing</a> technique to write a small parsing function and rewrite our <code>authenticatedUser</code> function:
+								We can use the <a href="/post/json-parsing-in-swift/">JSON parsing</a> technique to write a small parsing function and rewrite our <code>authenticatedUser</code> function:
 							</p>
-							<pre><code class>func parseGithubProfile(dict: JSONDictionary) -&gt; GithubProfile? {
+							<pre><code>func parseGithubProfile(dict: JSONDictionary) -&gt; GithubProfile? {
     return curry(makeGithubProfile) &lt;*&gt; string(dict, &quot;login&quot;)
                                     &lt;*&gt; int(dict, &quot;id&quot;)
                                     &lt;*&gt; url(dict, &quot;avatar_url&quot;)
@@ -147,9 +148,9 @@ func authenticatedUser() -&gt; Resource&lt;GithubProfile&gt; {
 								For me, this is the power of functional programming. We wrote one <code>apiRequest</code> function and one <code>Resource</code> datatype, and never changed it again. We can provide this in a library. We then created a couple of small functions for encoding and decoding JSON, and wrapped the existing functions to create our own convenience functions. The <code>authenticatedUser</code> is now very tiny.
 							</p>
 							<p>
-								As a final step, we&apos;ll wrap the <code>apiRequest</code> function in a new function that&apos;s tied to the Github API. It sets the authorization token, and provides the base URL. The completion handler is called only in case of success:
+								As a final step, we’ll wrap the <code>apiRequest</code> function in a new function that’s tied to the Github API. It sets the authorization token, and provides the base URL. The completion handler is called only in case of success:
 							</p>
-							<pre><code class>func request&lt;A&gt;(resource: Resource&lt;A&gt;, completionHandler: A -&gt; ()) {
+							<pre><code>func request&lt;A&gt;(resource: Resource&lt;A&gt;, completionHandler: A -&gt; ()) {
     func setAuthToken(request: NSMutableURLRequest) {
         request.setValue(&quot;token \(authorizationToken)&quot;, forHTTPHeaderField: &quot;Authorization&quot;)
     }
@@ -160,7 +161,7 @@ func authenticatedUser() -&gt; Resource&lt;GithubProfile&gt; {
 							<p>
 								Now we can test our API with the following simple statement:
 							</p>
-							<pre><code class>request(authenticatedUser()) { user in
+							<pre><code>request(authenticatedUser()) { user in
     println(&quot;User&apos;s avatar URL: \(user.avatarURL)&quot;)
 }
 </code></pre>
@@ -168,7 +169,7 @@ func authenticatedUser() -&gt; Resource&lt;GithubProfile&gt; {
 								I think designing a library like this has a lot of benefits. We provided some base functionality, and then by composing and wrapping functions into new functions we quickly made it very specific to our app without having to put in much effort. There are no complicated configuration steps, just simple function composition.
 							</p>
 							<p>
-								If you want to learn more about how to design APIs in a functional way, do consider reading our book on <a href="http://www.objc.io/books/" title>Functional Programming in Swift</a>.
+								If you want to learn more about how to design APIs in a functional way, do consider reading our book on <a href="http://www.objc.io/books/">Functional Programming in Swift</a>.
 							</p>
 						</section>
 						<footer class="group" id="post-meta">

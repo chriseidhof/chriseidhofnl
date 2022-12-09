@@ -33,10 +33,10 @@
 						</header>
 						<section class="postbody">
 							<p>
-								The following post is an excerpt from our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>. We just updated it to Swift 3, so this is a great time to buy it.
+								The following post is an excerpt from our book <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>. We just updated it to Swift 3, so this is a great time to buy it.
 							</p>
 							<p>
-								Sometimes, we can use a protocol as a standalone type. However, with a protocol like <code>IteratorProtocol</code>, this isn&apos;t (yet) possible, because it has an associated type. The compile error says: &quot;Protocol &apos;IteratorProtocol&apos; can only be used as a generic constraint because it has Self or associated type requirements.&quot;
+								Sometimes, we can use a protocol as a standalone type. However, with a protocol like <code>IteratorProtocol</code>, this isn’t (yet) possible, because it has an associated type. The compile error says: “Protocol ‘IteratorProtocol’ can only be used as a generic constraint because it has Self or associated type requirements.”
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ConstantIterator</span>: <span class="hljs-identifier">IteratorProtocol</span> {
     <span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">next</span>() -> <span class="hljs-identifier">Int</span>? {
@@ -47,11 +47,12 @@
 <span class="hljs-keyword">let</span> <span class="hljs-identifier">iterator</span>: <span class="hljs-identifier">IteratorProtocol</span> = <span class="hljs-identifier">ConstantIterator</span>() <span class="hljs-comment">// Error</span>
 </code></pre>
 							<p>
-								In a way, <code>IteratorProtocol</code> used as a type is incomplete; we&apos;d have to specify the associated type as well in order for this to be meaningful.
+								In a way, <code>IteratorProtocol</code> used as a type is incomplete; we’d have to specify the associated type as well in order for this to be meaningful.
 							</p>
 							<blockquote>
 								<p>
-									The Swift Core Team has stated that they want to support <em>generalized existentials</em>. This feature would allow for using protocols with associated types as standalone values, and it would also eliminate the need to write type erasers. For more information about what to expect in the future, see the <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160229/011666.html" title>Swift Generics Manifesto</a>.
+									The Swift Core Team has stated that they want to support <em>generalized existentials</em>
+									. This feature would allow for using protocols with associated types as standalone values, and it would also eliminate the need to write type erasers. For more information about what to expect in the future, see the <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160229/011666.html">Swift Generics Manifesto</a>.
 								</p>
 							</blockquote>
 							<p>
@@ -60,7 +61,7 @@
 							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">iterator</span>: <span class="hljs-keyword">Any</span><<span class="hljs-identifier">IteratorProtocol</span> <span class="hljs-keyword">where</span> .<span class="hljs-identifier">Element</span> == <span class="hljs-identifier">Int</span>> = <span class="hljs-identifier">ConstantIterator</span>()
 </code></pre>
 							<p>
-								Currently, we can&apos;t yet express this. We can, however, use <code>IteratorProtocol</code> as a constraint for a generic parameter:
+								Currently, we can’t yet express this. We can, however, use <code>IteratorProtocol</code> as a constraint for a generic parameter:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">nextInt</span><<span class="hljs-identifier">I</span>: <span class="hljs-identifier">IteratorProtocol</span>>(<span class="hljs-identifier">iterator</span>: <span class="hljs-keyword">inout</span> <span class="hljs-identifier">I</span>) -> <span class="hljs-identifier">Int</span>?
     <span class="hljs-keyword">where</span> <span class="hljs-identifier">I</span>.<span class="hljs-identifier">Element</span> == <span class="hljs-identifier">Int</span> {
@@ -79,13 +80,14 @@
 }
 </code></pre>
 							<p>
-								This works, but it has a drawback: the specific type of the stored iterator &quot;leaks out&quot; through the generic parameter. In the current type system, we can&apos;t express &quot;any iterator, as long as the element type is <code>Int</code>.&quot; This is a problem if you want to, for example, put multiple <code>IteratorStore</code>s into an array. All elements in an array must have the same type, and that includes any generic parameters; it&apos;s not possible to create an array that can store both <code>IteratorStore&lt;ConstantIterator&gt;</code> and <code>IteratorStore&lt;FibsIterator&gt;</code>.
+								This works, but it has a drawback: the specific type of the stored iterator “leaks out” through the generic parameter. In the current type system, we can’t express “any iterator, as long as the element type is <code>Int</code>.” This is a problem if you want to, for example, put multiple <code>IteratorStore</code>s into an array. All elements in an array must have the same type, and that includes any generic parameters; it’s not possible to create an array that can store both <code>IteratorStore&lt;ConstantIterator&gt;</code> and <code>IteratorStore&lt;FibsIterator&gt;</code>.
 							</p>
 							<p>
-								Luckily, there are two ways around this — one is easy, the other one more efficient (but hacky). The process of removing a specific type (such as the iterator) is called <em>type erasure</em>.
+								Luckily, there are two ways around this — one is easy, the other one more efficient (but hacky). The process of removing a specific type (such as the iterator) is called <em>type erasure</em>
+								.
 							</p>
 							<p>
-								In the easy solution, we implement a wrapper class. Instead of storing the iterator directly, the class stores the iterator&apos;s <code>next</code> function. To do this, we must first copy the <code>iterator</code> parameter to a <code>var</code> variable so that we&apos;re allowed to call its <code>next</code> method (which is <code>mutating</code>). We then wrap the call to <code>next()</code> in a closure expression and assign that closure to a property. We used a class to signal that <code>IntIterator</code> has reference semantics:
+								In the easy solution, we implement a wrapper class. Instead of storing the iterator directly, the class stores the iterator’s <code>next</code> function. To do this, we must first copy the <code>iterator</code> parameter to a <code>var</code> variable so that we’re allowed to call its <code>next</code> method (which is <code>mutating</code>). We then wrap the call to <code>next()</code> in a closure expression and assign that closure to a property. We used a class to signal that <code>IntIterator</code> has reference semantics:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">class</span> <span class="hljs-identifier">IntIterator</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">nextImpl</span>: () -> <span class="hljs-identifier">Int</span>?
@@ -103,7 +105,7 @@
 <span class="hljs-identifier">iter</span> = <span class="hljs-identifier">IntIterator</span>([<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>].<span class="hljs-identifier">makeIterator</span>())
 </code></pre>
 							<p>
-								The code above allows us to specify the associated type constraints (e.g. <code>iter</code> contains an iterator with <code>Int</code> elements) using Swift&apos;s current type system. Our <code>IntIterator</code> can also easily conform to the <code>IteratorProtocol</code> (and the inferred associated type is <code>Int</code>):
+								The code above allows us to specify the associated type constraints (e.g. <code>iter</code> contains an iterator with <code>Int</code> elements) using Swift’s current type system. Our <code>IntIterator</code> can also easily conform to the <code>IteratorProtocol</code> (and the inferred associated type is <code>Int</code>):
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">IntIterator</span>: <span class="hljs-identifier">IteratorProtocol</span> {
     <span class="hljs-keyword">func</span> <span class="hljs-identifier">next</span>() -> <span class="hljs-identifier">Int</span>? {
@@ -128,7 +130,7 @@
 }
 </code></pre>
 							<p>
-								The specific iterator type (<code>I</code>) is only specified in the initializer, and after that, it&apos;s &quot;erased.&quot;
+								The specific iterator type (<code>I</code>) is only specified in the initializer, and after that, it’s “erased.”
 							</p>
 							<p>
 								From this refactoring, we can come up with a simple algorithm for creating a type eraser. First, we create a struct or class named <code>AnyProtocolName</code>. Then, for each associated type, we add a generic parameter. Finally, for each method, we store the implementation in a property on <code>AnyProtocolName</code>.
@@ -161,7 +163,7 @@
 }
 </code></pre>
 							<p>
-								Now for the hacky part. We change <code>IteratorBoxHelper</code> so that it&apos;s a subclass of <code>IteratorBox</code>, and the two generic parameters are constrained in such a way that <code>IteratorBox</code> gets <code>I</code>&apos;s element as the generic parameter:
+								Now for the hacky part. We change <code>IteratorBoxHelper</code> so that it’s a subclass of <code>IteratorBox</code>, and the two generic parameters are constrained in such a way that <code>IteratorBox</code> gets <code>I</code>’s element as the generic parameter:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">class</span> <span class="hljs-identifier">IteratorBoxHelper</span><<span class="hljs-identifier">I</span>: <span class="hljs-identifier">IteratorProtocol</span>>: <span class="hljs-identifier">IteratorBox</span><<span class="hljs-identifier">I</span>.<span class="hljs-identifier">Element</span>> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">iterator</span>: <span class="hljs-identifier">I</span>
@@ -184,7 +186,7 @@
 							</p>
 							<hr/>
 							<p>
-								In my (limited) testing, I found that the struct version of <code>AnyIterator</code> was about 10% faster (I&apos;m not exactly sure why, probably because of less indirection). I <a href="https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20160905/002852.html" title>started a topic</a> on the swift-dev mailing list, but I&apos;m not sure if anyone is taking it and making the change. If anyone reading this feels like proposing that change (and thoroughly testing performance), go ahead!
+								In my (limited) testing, I found that the struct version of <code>AnyIterator</code> was about 10% faster (I’m not exactly sure why, probably because of less indirection). I <a href="https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20160905/002852.html">started a topic</a> on the swift-dev mailing list, but I’m not sure if anyone is taking it and making the change. If anyone reading this feels like proposing that change (and thoroughly testing performance), go ahead!
 							</p>
 						</section>
 						<footer class="group" id="post-meta">
@@ -202,7 +204,7 @@
 						</div>
 						<p>
 							<p>
-								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>, or check out <a href="https://talk.objc.io" title>Swift Talk</a>.
+								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>, or check out <a href="https://talk.objc.io">Swift Talk</a>.
 							</p>
 						</p>
 					</footer>

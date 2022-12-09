@@ -33,7 +33,7 @@
 						</header>
 						<section class="postbody">
 							<p>
-								Let&apos;s say we are writing our own data-structure, a singly linked list:
+								Let’s say we are writing our own data-structure, a singly linked list:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">enum</span> <span class="hljs-identifier">ListNode</span><<span class="hljs-identifier">A</span>> {
     <span class="hljs-keyword">case</span> <span class="hljs-identifier">end</span>
@@ -41,15 +41,15 @@
 }
 </code></pre>
 							<p>
-								Today&apos;s goal is to make <code>ListNode</code> conform to the <code>Collection</code> protocol. It&apos;s actually fairly easy, but it&apos;s almost impossible to figure it out by just looking at the types. The documentation tells us which methods to implement, but why is it like that? Even though the protocol is clearly specified, it&apos;s not so easy to see what you need to do. Let&apos;s give it a try without looking at the documentation, and see what the compiler tells us:
+								Today’s goal is to make <code>ListNode</code> conform to the <code>Collection</code> protocol. It’s actually fairly easy, but it’s almost impossible to figure it out by just looking at the types. The documentation tells us which methods to implement, but why is it like that? Even though the protocol is clearly specified, it’s not so easy to see what you need to do. Let’s give it a try without looking at the documentation, and see what the compiler tells us:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">ListNode</span>: <span class="hljs-identifier">Collection</span> { }
 </code></pre>
 							<p>
-								The compiler tells us we don&apos;t conform to the following three protocols: <code>Sequence</code>, <code>IndexableBase</code>, and <code>Collection</code>.
+								The compiler tells us we don’t conform to the following three protocols: <code>Sequence</code>, <code>IndexableBase</code>, and <code>Collection</code>.
 							</p>
 							<p>
-								Looking at all these protocols, you might get overwhelmed. The most complicated one, <code>Collection</code>, comes in at a whopping four associated types, two subscripts, four computed properties and seven methods. A protocol is a formal &quot;todo-list&quot; of all the things your type needs to do in order to conform. I copy/pasted this from the Standard Library, and removed all the documentation comments. With the documentation comments, it gets even harder to see!
+								Looking at all these protocols, you might get overwhelmed. The most complicated one, <code>Collection</code>, comes in at a whopping four associated types, two subscripts, four computed properties and seven methods. A protocol is a formal “todo-list” of all the things your type needs to do in order to conform. I copy/pasted this from the Standard Library, and removed all the documentation comments. With the documentation comments, it gets even harder to see!
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">public</span> <span class="hljs-keyword">protocol</span> <span class="hljs-identifier">Collection</span> : <span class="hljs-identifier">Indexable</span>, <span class="hljs-identifier">Sequence</span> {
     <span class="hljs-keyword">associatedtype</span> <span class="hljs-identifier">IndexDistance</span> : <span class="hljs-identifier">SignedInteger</span> = <span class="hljs-identifier">Int</span>
@@ -204,19 +204,20 @@
 }
 </code></pre>
 							<p>
-								Note that we didn&apos;t have to specify the <code>associatedtype</code>, the compiler inferred this for us.
+								Note that we didn’t have to specify the <code>associatedtype</code>, the compiler inferred this for us.
 							</p>
 							<p>
-								Long story short: it&apos;s really hard to see what you need to conform to. Or to be more precise: it&apos;s not that hard, it&apos;s just a <em>lot</em> of manual work. Luckily, all of this can be completely automated. Unfortunately, the tooling in this respect is currently still very immature, even though the standard library isn&apos;t. I have no idea if this will improve soon.
+								Long story short: it’s really hard to see what you need to conform to. Or to be more precise: it’s not that hard, it’s just a <em>lot</em>
+								 of manual work. Luckily, all of this can be completely automated. Unfortunately, the tooling in this respect is currently still very immature, even though the standard library isn’t. I have no idea if this will improve soon.
 							</p>
 							<p>
-								Rather than waiting for Apple to fix this, maybe someone in the community could do this? I imagine it&apos;s a few days of hard work: first you need to parse all the protocols in the standard library (or better: use SourceKit, because then you can also make it work on your own protocols). Then you need to have some kind of evaluation system that checks which extensions can be applied. It might need to be interactive, for example, once you specify that the <code>Index</code> associated type will be an <code>Int</code>, it could tell you what you still need to implement.
+								Rather than waiting for Apple to fix this, maybe someone in the community could do this? I imagine it’s a few days of hard work: first you need to parse all the protocols in the standard library (or better: use SourceKit, because then you can also make it work on your own protocols). Then you need to have some kind of evaluation system that checks which extensions can be applied. It might need to be interactive, for example, once you specify that the <code>Index</code> associated type will be an <code>Int</code>, it could tell you what you still need to implement.
 							</p>
 							<p>
-								I&apos;d love to build this myself, however, I&apos;m currently too busy writing the update of <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>, and preparing new <a href="https://talk.objc.io" title>Swift Talk episodes</a>. It would be the perfect procrastination project...
+								I’d love to build this myself, however, I’m currently too busy writing the update of <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>, and preparing new <a href="https://talk.objc.io">Swift Talk episodes</a>. It would be the perfect procrastination project…
 							</p>
 							<p>
-								Update: Nicola <a href="https://twitter.com/NSalmoria/status/764158023124258817" title>writes in</a> that &quot;Conforming to the Collection Protocol&quot; is actually a section of the <a href="https://developer.apple.com/reference/swift/collection" title>API documentation</a>. Very good point. He also raises the point that my <code>endIndex</code> and <code>subscript</code> implementations aren&apos;t <code>O(1)</code>, which is the expected complexity as described in the <code>Collection</code> protocol.
+								Update: Nicola <a href="https://twitter.com/NSalmoria/status/764158023124258817">writes in</a> that “Conforming to the Collection Protocol” is actually a section of the <a href="https://developer.apple.com/reference/swift/collection">API documentation</a>. Very good point. He also raises the point that my <code>endIndex</code> and <code>subscript</code> implementations aren’t <code>O(1)</code>, which is the expected complexity as described in the <code>Collection</code> protocol.
 							</p>
 						</section>
 						<footer class="group" id="post-meta">
@@ -234,7 +235,7 @@
 						</div>
 						<p>
 							<p>
-								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/" title>Advanced Swift</a>, or check out <a href="https://talk.objc.io" title>Swift Talk</a>.
+								If you liked this article, check out our book <a href="https://www.objc.io/books/advanced-swift/">Advanced Swift</a>, or check out <a href="https://talk.objc.io">Swift Talk</a>.
 							</p>
 						</p>
 					</footer>

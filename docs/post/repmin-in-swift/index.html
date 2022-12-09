@@ -36,31 +36,32 @@
 								This might be my most obscure functional programming post yet.
 							</p>
 							<p>
-								Yesterday, I attended the Dutch Functional Programming Day, and it was very nice to see many old friends. <a href="http://foswiki.cs.uu.nl/foswiki/Swierstra/WebHome" title>Doaitse</a>&apos;s talk was about different solutions to the repmin problem (and related problems). Repmin is a slightly obscure problem (but famous amoung a small group of functional programmers):
+								Yesterday, I attended the Dutch Functional Programming Day, and it was very nice to see many old friends. <a href="http://foswiki.cs.uu.nl/foswiki/Swierstra/WebHome">Doaitse</a>’s talk was about different solutions to the repmin problem (and related problems). Repmin is a slightly obscure problem (but famous amoung a small group of functional programmers):
 							</p>
-							<p><em>Given a binary tree with integers at the leaves, replace each leave&apos;s value by the minimum value in the tree.</em></p>
+							<p><em>Given a binary tree with integers at the leaves, replace each leave’s value by the minimum value in the tree.</em>
+							</p>
 							<p>
 								For example, given the following tree:
 							</p>
-							<pre><code class>(1 2) (3 (4 5))
+							<pre><code>(1 2) (3 (4 5))
 </code></pre>
 							<p>
 								The result would be:
 							</p>
-							<pre><code class>(1 1) (1 (1 1))
+							<pre><code>(1 1) (1 (1 1))
 </code></pre>
 							<p>
-								The simplest solution would take two steps: in step 1, we iterate over the tree, finding the minimum value. In step 2, we iterate over the tree again, replacing every leaf with the minimum value. Let&apos;s build that. In Swift, we can define a tree like this:
+								The simplest solution would take two steps: in step 1, we iterate over the tree, finding the minimum value. In step 2, we iterate over the tree again, replacing every leaf with the minimum value. Let’s build that. In Swift, we can define a tree like this:
 							</p>
-							<pre><code class>enum Tree {
+							<pre><code>enum Tree {
     case Node(Tree, Tree)
     case Leaf(Int)
 }
 </code></pre>
 							<p>
-								Finding the minimum is simple, in case of a leaf we return the leaf&apos;s value, in case of a node we return the minimum of both branches:
+								Finding the minimum is simple, in case of a leaf we return the leaf’s value, in case of a node we return the minimum of both branches:
 							</p>
-							<pre><code class>func minimum(t: Tree) -&gt; Int {
+							<pre><code>func minimum(t: Tree) -&gt; Int {
     switch t {
     case let .Node(l, r):
         return min(minimum(l), minimum(r))
@@ -72,7 +73,7 @@
 							<p>
 								For replacing, we can write another function:
 							</p>
-							<pre><code class>func replaceAllLeaves(t: Tree, newValue: Int) -&gt; Tree {
+							<pre><code>func replaceAllLeaves(t: Tree, newValue: Int) -&gt; Tree {
     switch t {
     case .Node(let l, let r):
         return .Node(replaceAllLeaves(l, newValue), replaceAllLeaves(r, newValue))
@@ -84,12 +85,12 @@
 							<p>
 								Now, we can write our solution like this:
 							</p>
-							<pre><code class>repmin = { tree in replaceAllLeaves(tree, minimum(tree)) }
+							<pre><code>repmin = { tree in replaceAllLeaves(tree, minimum(tree)) }
 </code></pre>
 							<p>
-								We compute the minimum of <code>tree</code> and then replace all values in the leaves with that result, and everything is fine. However, in 1984, Richard Bird came up with <a href="http://link.springer.com/article/10.1007/BF00264249#page-1" title>a solution</a> that uses a single inspection. In a single pass, we compute both the minimum of a tree, and a function that, given the minimum, returns the new tree. That function looks like this:
+								We compute the minimum of <code>tree</code> and then replace all values in the leaves with that result, and everything is fine. However, in 1984, Richard Bird came up with <a href="http://link.springer.com/article/10.1007/BF00264249#page-1">a solution</a> that uses a single inspection. In a single pass, we compute both the minimum of a tree, and a function that, given the minimum, returns the new tree. That function looks like this:
 							</p>
-							<pre><code class>func repMinHelper(t: Tree) -&gt; (Int, Int -&gt; Tree) {
+							<pre><code>func repMinHelper(t: Tree) -&gt; (Int, Int -&gt; Tree) {
     switch t {
     case .Node(let l, let r):
         let (lMin, lBuild) = repMinHelper(l)
@@ -104,19 +105,19 @@
 							<p>
 								Then, we can solve the repmin problem by creating a new function <code>repMin</code> that wraps the helper:
 							</p>
-							<pre><code class>func repMin(t: Tree) -&gt; Tree {
+							<pre><code>func repMin(t: Tree) -&gt; Tree {
     let (min, builder) = repMinHelper(t)
     return builder(min)
 }
 </code></pre>
 							<p>
-								This is pretty cool: in a single inspection, we compute both the minimum value and a function to build the new tree. This relates strongly to <a href="http://en.wikipedia.org/wiki/Attribute_grammar" title>attribute grammars</a>: we can think of the minimum as a synthesized attribute, and the new tree uses that synthesized attributed as an inherited attribute.
+								This is pretty cool: in a single inspection, we compute both the minimum value and a function to build the new tree. This relates strongly to <a href="http://en.wikipedia.org/wiki/Attribute_grammar">attribute grammars</a>: we can think of the minimum as a synthesized attribute, and the new tree uses that synthesized attributed as an inherited attribute.
 							</p>
 							<p>
-								In a way, it also reminds me of <a href="https://github.com/mbrandonw/learn-transducers-playground" title>transducers</a>: transducers combine multiple functions that operate on lists, but compute everything using a single pass. The technique above is a little bit similar, but for tree-structures. I can&apos;t really see a useful way to apply this in my production code, but it&apos;s an interesting exercise nonetheless.
+								In a way, it also reminds me of <a href="https://github.com/mbrandonw/learn-transducers-playground">transducers</a>: transducers combine multiple functions that operate on lists, but compute everything using a single pass. The technique above is a little bit similar, but for tree-structures. I can’t really see a useful way to apply this in my production code, but it’s an interesting exercise nonetheless.
 							</p>
 							<p>
-								The full code is <a href="https://gist.github.com/chriseidhof/6b4d1c8a542003d60cb9" title>available as a gist</a>, and uses <code>Box</code> to work around Swift&apos;s limitations with recursive enums.
+								The full code is <a href="https://gist.github.com/chriseidhof/6b4d1c8a542003d60cb9">available as a gist</a>, and uses <code>Box</code> to work around Swift’s limitations with recursive enums.
 							</p>
 						</section>
 						<footer class="group" id="post-meta">

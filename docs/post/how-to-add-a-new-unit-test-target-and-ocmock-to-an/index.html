@@ -31,9 +31,7 @@
 						<section class="postbody">
 							<p>
 								I had some trouble today trying to add Unit Tests to an existing project that
-								
-								uses <a href="http://cocoapods.org" title>CocoaPods</a>. So I decided to do a quick writeup of
-								
+								uses <a href="http://cocoapods.org">CocoaPods</a>. So I decided to do a quick writeup of
 								how I got it working:
 
 							</p>
@@ -51,14 +49,13 @@
 									</p>
 								</li>
 							</ol>
-							<pre><code class>platform :ios, 6.0
+							<pre><code>platform :ios, 6.0
 pod &apos;AFNetworking&apos;
 </code></pre>
 							<ol>
 								<li>
 									<p>
 										Close BetterTodoList in XCode, and open the workspace (as instructed by
-										
 										CocoaPods)
 
 									</p>
@@ -101,7 +98,6 @@ pod &apos;AFNetworking&apos;
 								<li>
 									<p>
 										Press Cmd+U. If nothing happens, check if Product &gt; Test is grayed out in
-										
 										the menu. In that case, press Cmd+&lt;, select Test and add the test using the
 									</p>
 									<ul>
@@ -118,7 +114,7 @@ pod &apos;AFNetworking&apos;
 										Add the following lines to your Podfile, and re-run “pod install”
 
 									</p>
-									<pre><code class>target &apos;BetterTodoListTests&apos;, :exclusive =&gt; true do
+									<pre><code>target &apos;BetterTodoListTests&apos;, :exclusive =&gt; true do
 pod &apos;OCMock&apos; 
 end
 </code></pre>
@@ -144,13 +140,9 @@ end
 							</ol>
 							<p>
 								Addendum: If you still have problems because the test target cannot access the
-								
 								compiled objects (e.g. “Symbol Not Found” errors), select the project in the
-								
 								organizer, then select the Test target, go to “Bundle Loader” and add the
-								
-								following values for both Debug and Release:
-								<code>$(BUILT_PRODUCTS_DIR)/BetterTodoList.app/BetterTodoList</code>
+								following values for both Debug and Release:<code>$(BUILT_PRODUCTS_DIR)/BetterTodoList.app/BetterTodoList</code>
 
 							</p>
 						</section>
