@@ -78,7 +78,7 @@ extension BlogPost {
                             date.date.pretty(style: .dayMonthYear)
                         }
                         " by "
-                        a(href: "http://www.twitter.com/chriseidhof/") {
+                        a(href: "https://mastodon.social/@chriseidhof") {
                             "@chriseidhof"
                         }
                     }
