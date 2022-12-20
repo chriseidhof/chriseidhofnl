@@ -8,6 +8,7 @@ struct Site: Rule {
     var body: some Rule {
         Copy("css")
         Copy("images")
+        Copy(from: "well-known", to: ".well-known")
         Index()
         Blog(posts: BlogPost.inContext())
         Snippets()
