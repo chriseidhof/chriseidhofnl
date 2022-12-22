@@ -12,6 +12,7 @@ struct Site: Rule {
         Index()
         Blog(posts: BlogPost.inContext())
         Snippets()
+        Write(outputName: ".nojekyll", data: Data())
         Minilog()
             .outputPath("minilog")
         Write(outputName: "CNAME", data: "chris.eidhof.nl".data(using: .utf8)!)

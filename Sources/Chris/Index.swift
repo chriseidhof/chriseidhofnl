@@ -22,7 +22,7 @@ struct Index: Rule {
         HTML.footer(id: "footer") {
             p(class: "small") {
                 "Made by "
-                a(href: "https://mastodon.social/@chriseidhof") {
+                a(href: "https://mastodon.social/@chriseidhof", rel: "me") {
                     "@chriseidhof"
                 }
                 "."
