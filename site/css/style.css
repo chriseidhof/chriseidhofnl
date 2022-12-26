@@ -128,6 +128,24 @@ font-display: auto;
 src: url('triplicate_a_code_bold_italic.woff2') format('woff2');
 }
 
+@font-face {
+font-family: valkyrie_a_caps;
+font-style: normal;
+font-weight: normal;
+font-stretch: normal;
+font-display: auto;
+src: url('valkyrie_a_caps_regular.woff2') format('woff2');
+}
+
+@font-face {
+font-family: valkyrie_a_caps;
+font-style: normal;
+font-weight: bold;
+font-stretch: normal;
+font-display: auto;
+src: url('valkyrie_a_caps_bold.woff2') format('woff2');
+}
+
  :root {
      --background-color: #fff;
      --secondary-background-color: #fdfdfd;
@@ -141,6 +159,7 @@ src: url('triplicate_a_code_bold_italic.woff2') format('woff2');
      --accent-color: var(--blue);
      --code-font: triplicate_a_code;
      --base-font: valkyrie_a;
+     --all-caps-font: valkyrie_a_caps;
      --small-font-size: 0.8em;
 }
  @media (prefers-color-scheme: dark) {
@@ -361,7 +380,7 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
      float:right;
      position:relative;
      top:1px;
-     font:15px/1.8 var(--base-font), "Helvetica Neue",helvetica,Arial,sans-serif;
+     font:15px/1.8 var(--all-caps-font), "Helvetica Neue",helvetica,Arial,sans-serif;
      color:#bbb;
 }
  #post-list-footer {
@@ -410,6 +429,7 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
      list-style-type:number;
 }
  #post-meta {
+     font-family:  var(--all-caps-font);
      font-size: var(--small-font-size);
      margin-bottom:40px;
      line-height:1.4;
@@ -480,8 +500,8 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
 }
  h2.month {
      width:100%;
-     font: var(--small-font-size) var(--base-font), "Helvetica Neue",helvetica,Arial,sans-serif;
-     text-transform:uppercase;
+     font: var(--small-font-size) var(--all-caps-font), "Helvetica Neue",helvetica,Arial,sans-serif;
+/*     text-transform:uppercase;*/
      margin-top:40px;
      margin-bottom:10px;
      padding-bottom:10px;
