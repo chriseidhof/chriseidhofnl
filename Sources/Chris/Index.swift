@@ -22,8 +22,8 @@ struct Index: Rule {
         HTML.footer(id: "footer") {
             p(class: "small") {
                 "Made by "
-                a(href: "https://mastodon.social/@chriseidhof", rel: "me") {
-                    "@chriseidhof"
+                a(href: "https://m.objc.io/@chris", rel: "me") {
+                    "@chris@m.objc.io"
                 }
                 "."
                 

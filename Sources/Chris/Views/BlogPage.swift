@@ -78,8 +78,8 @@ extension BlogPost {
                             date.date.pretty(style: .dayMonthYear)
                         }
                         " by "
-                        a(href: "https://mastodon.social/@chriseidhof") {
-                            "@chriseidhof"
+                        a(href: "https://m.objc.io/@chris") {
+                            "@chris@m.objc.io"
                         }
                     }
                 }
