@@ -8,6 +8,41 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Week Notes #1</title>
+			<description>
+				&lt;p&gt;
+	I’d like to write a few more things up, so here’s an attempt at a proven format that’s new to me: a weekly log of the stuff I’ve worked on. New year, new format!
+&lt;/p&gt;
+&lt;p&gt;
+	I started the week continuing to work on the update to our book &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt;. We’ve basically rewritten it from scratch. We chose to do this not only because we understand SwiftUI better, but also because we learned so much through the workshops we’ve been organizing over the last few years. Working with small groups we get a lot of direct feedback and questions, and that has improved our explanations a lot.
+&lt;/p&gt;
+&lt;p&gt;
+	Our current publishing setup generates two PDFs (one for screen, one for print) and an ePub. We input our own extended Markdown, convert this using a bunch of homegrown tooling, then generate Markdown as the output. This gets read by Pandoc, turned into LaTeX and finally into PDFs and ePub. The setup is a brittle, large, has many dependencies, takes a long time and is hard to debug or finetune for us.
+&lt;/p&gt;
+&lt;p&gt;
+	Instead, we are now experimenting with generating attributed strings and rendering those using TextKit. This is much faster (less than a second versus minutes) and gives us a lot more control (we’re good at Swift and not good at LaTeX). This week, I worked on adding footnotes, roughly laying things out, highlighting code and adding figures and diagrams that are automatically generated using SwiftUI (&lt;a href=&quot;https://m.objc.io/@chris/109621086933102165&quot;&gt;here’s an example&lt;/a&gt;). To construct the attributed strings we came up with a result builder that lets us build them from different sources (Markdown, plain strings, SwiftUI, highlighted code, etc.). We’ll probably make some episodes about this or open-source this.
+&lt;/p&gt;
+&lt;p&gt;
+	I also worked on turning some of our interactive demos from the workshop into non-interactive diagrams for our book. &lt;a href=&quot;https://twitter.com/objcio/status/1494635294133522433&quot;&gt;Here’s an old version&lt;/a&gt; of one of those diagrams. We’ll probably turn this into a tree with numbers at the vertices and explanations in the text.
+&lt;/p&gt;
+&lt;p&gt;
+	I read a bit about the &lt;a href=&quot;https://gist.github.com/DougGregor/4f3ba5f4eadac474ae62eae836328b71&quot;&gt;new macro system in Swift&lt;/a&gt;. Very interesting stuff, but as of yet I understand very little about it. I’ll definitely look into this in more detail sometime soon.
+&lt;/p&gt;
+&lt;p&gt;
+	I have only logged into Twitter maybe once this week, and basically moved to Mastodon. There’s a lot less activity, but also much less noise. I like it there.
+&lt;/p&gt;
+&lt;p&gt;
+	At home, I had fun building a simple marble track out of scrap wood with the 4yo. In the house we’re renovating, I took down a wall and now we’re erecting a new wall (with a much larger door opening).
+&lt;/p&gt;
+&lt;p&gt;
+	Over the holidays I made a ginger bug (which started to foam), but the ginger soda I tried making from it didn’t start carbonating. I’m not sure if it’s turning into vinegar or alcohol now, but it doesn’t taste right. To get better at fermentation, I bought &lt;a href=&quot;https://www.wildfermentation.com/the-art-of-fermentation/&quot;&gt;The Art of Fermentation&lt;/a&gt;. I haven’t read too much yet, but at least the book is very well designed and I love the typography.
+&lt;/p&gt;
+			</description>
+			<pubDate>Thu, 05 Jan 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-01</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-01</guid>
+		</item>
+		<item>
 			<title>Lifetime of State Properties in SwiftUI</title>
 			<description>
 				&lt;p&gt;
@@ -2521,68 +2556,6 @@ personHistory.currentItem.age // Prints 31 again
 			<pubDate>Mon, 30 May 2016 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/undo-history-in-swift</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/undo-history-in-swift</guid>
-		</item>
-		<item>
-			<title>Dynamic Swift</title>
-			<description>
-				&lt;p&gt;
-	Recently, &lt;a href=&quot;http://inessential.com&quot;&gt;Brent&lt;/a&gt; and others wrote a lot about the lack of dynamic features
-&lt;sup&gt;&lt;a href=&quot;#fnref1&quot; name=&quot;fnref-rev1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
- in Swift. I tried distilling Brent’s thoughts, and came up with the following summary:
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			It’s easy to write code in AppKit and UIKit, because many things just work, without having to write a lot of code.
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			AppKit/UIKit are written in Objective-C, and use runtime programming to remove boilerplate.
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Therefore, we either need these same features in Swift, or need to find a different way of solving some problems.
-		&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;
-	I think we don’t need all the runtime programming features from Objective-C.
-&lt;/p&gt;
-&lt;p&gt;
-	As long as AppKit and UIKit will be around, we’ll have Objective-C and its runtime. If Apple releases a Swift-only successor to either one of these frameworks, I’m confident that they will do a good job: they’ll make us write less boilerplate, rather than more.
-&lt;/p&gt;
-&lt;p&gt;
-	Let’s look at a completely different context: web programming. I’ve seen amazing web frameworks that rely a lot on runtime programming (stuff like Rails, but also &lt;a href=&quot;http://seaside.st&quot;&gt;Seaside&lt;/a&gt;, back in its day). But, there are web frameworks in languages like Haskell, Scala and C# that use features like protocols, datatype-generic programming
-&lt;sup&gt;&lt;a href=&quot;#fnref2&quot; name=&quot;fnref-rev2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;
- and passing around functions to reduce boilerplate. With both approaches you can get short, simple, maintainable code that’s easy to write.
-&lt;/p&gt;
-&lt;p&gt;
-	Yet, techniques you don’t know will almost always seem more complicated at first. I tried arguing with a Haskell programmer that runtime programming can be useful. I tried arguing with a Ruby programmer that static types can be helpful. To both, it seemed unnecessary and complicated. They’ve been writing great code without those features.
-&lt;/p&gt;
-&lt;p&gt;
-	Brent, if you read this, I’d like to offer you a free copy of my books. Just send me an email. There are some techniques in there that will show how to replace runtime programming with things like functions, or protocols. These techniques definitely won’t solve all your problems. I do think they will show you some ways in which you can write short, simple, and maintainable code in Swift today, without having to resort to runtime programming.
-&lt;/p&gt;
-&lt;div class=&quot;footnotes&quot;&gt;
-	&lt;hr/&gt;
-	&lt;ol&gt;
-		&lt;li id=&quot;fnref1&quot;&gt;
-			&lt;p&gt;
-				To have a productive discussion, I think it’s important to understand about which dynamic features we are speaking. Dynamic can mean so many different things: KVO/KVC, late binding, subclassing, swizzling, dependency injection, reflection, runtime casting, and so on. Because the word dynamic means different things to different people, the discussion has been (and will be) hand-wavy. Swift has a lot of dynamic features, but they are different: protocols, safe runtime casting, passing around functions, and so on.
-				 &lt;a href=&quot;#fnref-rev1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
-		&lt;/li&gt;
-		&lt;li id=&quot;fnref2&quot;&gt;
-			&lt;p&gt;
-				Datatype-generic programming is a cool technique in functional programming. It allows you to write methods that operate on the structure of the data. For example, it would let you write something like an NSCoder implementation that works on all structs and classes. It’s much the same as writing it using runtime introspection, except that it’s type-safe, and more importantly, the compiler can help you catch mistakes. Unfortunately, datatype-generic programming isn’t yet (but almost!) possible in Swift.
-				 &lt;a href=&quot;#fnref-rev2&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
-		&lt;/li&gt;
-	&lt;/ol&gt;
-&lt;/div&gt;
-			</description>
-			<pubDate>Thu, 26 May 2016 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/dynamic-swift</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/dynamic-swift</guid>
 		</item>
 	</channel>
 </rss>
