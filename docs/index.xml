@@ -8,10 +8,10 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
-			<title>Week Notes #1</title>
+			<title>Weeknotes #1</title>
 			<description>
 				&lt;p&gt;
-	I’d like to write a few more things up, so here’s an attempt at a proven format that’s new to me: a weekly log of the stuff I’ve worked on. New year, new format!
+	I’d like to write more this year, so here’s an attempt at a proven format that’s new to me: a weekly log of the stuff I’ve worked on. New year, new format!
 &lt;/p&gt;
 &lt;p&gt;
 	I started the week continuing to work on the update to our book &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt;. We’ve basically rewritten it from scratch. We chose to do this not only because we understand SwiftUI better, but also because we learned so much through the workshops we’ve been organizing over the last few years. Working with small groups we get a lot of direct feedback and questions, and that has improved our explanations a lot.
