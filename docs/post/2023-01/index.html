@@ -42,7 +42,9 @@
 								Our current publishing setup generates two PDFs (one for screen, one for print) and an ePub. We input our own extended Markdown, convert this using a bunch of homegrown tooling, then generate Markdown as the output. This gets read by Pandoc, turned into LaTeX and finally into PDFs and ePub. The setup is a brittle, large, has many dependencies, takes a long time and is hard to debug or finetune for us.
 							</p>
 							<p>
-								Instead, we are now experimenting with generating attributed strings and rendering those using TextKit. This is much faster (less than a second versus minutes) and gives us a lot more control (we’re good at Swift and not good at LaTeX). This week, I worked on adding footnotes, roughly laying things out, highlighting code and adding figures and diagrams that are automatically generated using SwiftUI (<a href="https://m.objc.io/@chris/109621086933102165">here’s an example</a>). To construct the attributed strings we came up with a result builder that lets us build them from different sources (Markdown, plain strings, SwiftUI, highlighted code, etc.). We’ll probably make some episodes about this or open-source this.
+								Instead, we are now experimenting with generating attributed strings and rendering those using TextKit. This is much faster (less than a second versus minutes) and gives us a lot more control (we’re good at Swift and not good at LaTeX). This week, I worked on adding footnotes, roughly laying things out, highlighting code and adding figures and diagrams that are automatically generated using SwiftUI (<a href="https://m.objc.io/@chris/109621086933102165">here’s an example</a>). To construct the attributed strings we came up with a result builder that lets us build them from different sources (Markdown, plain strings, SwiftUI, highlighted code, etc.). We’ll probably make some episodes about this or open-source this
+<sup><a href="#fnref†" name="fnref-rev†">1</a></sup>
+.
 							</p>
 							<p>
 								I also worked on turning some of our interactive demos from the workshop into non-interactive diagrams for our book. <a href="https://twitter.com/objcio/status/1494635294133522433">Here’s an old version</a> of one of those diagrams. We’ll probably turn this into a tree with numbers at the vertices and explanations in the text.
@@ -59,6 +61,17 @@
 							<p>
 								Over the holidays I made a ginger bug (which started to foam), but the ginger soda I tried making from it didn’t start carbonating. I’m not sure if it’s turning into vinegar or alcohol now, but it doesn’t taste right. To get better at fermentation, I bought <a href="https://www.wildfermentation.com/the-art-of-fermentation/">The Art of Fermentation</a>. I haven’t read too much yet, but at least the book is very well designed and I love the typography.
 							</p>
+							<div class="footnotes">
+								<hr/>
+								<ol>
+									<li id="fnref†">
+										<p>
+											<strong>Update</strong>
+											 we just released the <a href="https://talk.objc.io/episodes/S01E337-attributed-string-builder-part-1">first episode</a> about this
+											 <a href="#fnref-rev†">↩</a></p>
+									</li>
+								</ol>
+							</div>
 						</section>
 						<footer class="group" id="post-meta">
 							<div>

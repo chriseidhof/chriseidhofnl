@@ -290,6 +290,9 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
      border-left: 3px solid var(--border-color);
      color: var(--tertiary-color);
 }
+strong {
+    font-weight: bold;
+}
  hr {
      display: block;
      border: none;

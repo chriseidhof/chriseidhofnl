@@ -17,6 +17,8 @@ struct FootnoteState {
     var notes: [Int:String] = [:]
 }
 
+// Todo: it would be really nice to replace this with symbols: https://en.wikipedia.org/wiki/Note_(typography)
+
 extension String {
     func replacingFootnoteLinks(state: inout FootnoteState) -> Node {
         let pattern = "(\\[\\^(.*?)\\])([^:]|$)"
