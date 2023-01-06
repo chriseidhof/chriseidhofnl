@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "Minilog",
-        "repositoryURL": "https://github.com/chriseidhof/minilog.git",
-        "state": {
-          "branch": "main",
-          "revision": "d02d7d481ba38af30b9b9bf8b2b3b7a7f394874f",
-          "version": null
-        }
-      },
-      {
         "package": "StaticSite",
         "repositoryURL": "/Users/chris/objc.io/StaticSite",
         "state": {

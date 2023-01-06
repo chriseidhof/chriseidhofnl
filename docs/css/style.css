@@ -391,15 +391,14 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
  #about-me {
      padding-top:100px;
 }
- #archive-link {
+a.back, #archive-link {
      display:inline-block;
      font-size: var(--small-font-size);
      border-radius:4px;
      padding:3px 10px 6px;
      box-shadow:0 0 0 1px var(--border-color);
 }
- #archive-link:hover {
-/*     background:#5694f1;*/
+a.back:hover, #archive-link:hover {
      background: var(--accent-color);
      color:#fff;
      box-shadow:0 0 0 1px var(--accent-color);

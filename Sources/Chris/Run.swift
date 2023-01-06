@@ -2,7 +2,6 @@ import StaticSite
 import HTML
 import Foundation
 import Helpers
-import Log
 
 struct Site: Rule {
     var body: some Rule {
@@ -10,11 +9,10 @@ struct Site: Rule {
         Copy("images")
         Copy(from: "well-known", to: ".well-known")
         Index()
+        AboutMe().outputPath("about")
         Blog(posts: BlogPost.inContext())
         Snippets()
         Write(outputName: ".nojekyll", data: Data())
-        Minilog()
-            .outputPath("minilog")
         Write(outputName: "CNAME", data: "chris.eidhof.nl".data(using: .utf8)!)
         // TODO: aliases
     }
@@ -27,8 +25,12 @@ let baseEnvironment = EnvironmentValues(inputBaseURL: basePath.appendingPathComp
 
 func recreateBuildDir() throws {
     let fm = FileManager.default
-    if fm.fileExists(atPath: siteOutputPath.path) {
-        try fm.removeItem(atPath: siteOutputPath.path)
+    let p = siteOutputPath.path
+    if fm.fileExists(atPath: p) {
+        for c in try fm.contentsOfDirectory(atPath: p) {
+            try fm.removeItem(atPath: (p as NSString).appendingPathComponent(c))
+        }
+    } else {
         try fm.createDirectory(at: siteOutputPath, withIntermediateDirectories: true, attributes: nil)
     }
 }
