@@ -58,7 +58,13 @@ extension BlogPost {
                 }
             }
             section(class: "postbody") {
-                body.markdownWithFootnotes()
+                switch body {
+                case .markdown(let m):
+                    m
+                        .markdownWithFootnotes()
+                case .pieces(let pieces):
+                    pieces.render(prefix: link)
+                }
             }
             footer
         }

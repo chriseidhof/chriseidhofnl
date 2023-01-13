@@ -11,8 +11,23 @@ import Yams
 import HTML
 
 extension BlogPost {
+    var bodyNode: HTML.Node {
+        switch body {
+        case .markdown(let s): return s.fromMarkdown
+        case .pieces(let n): return n.render(prefix: link)
+        }
+    }
     var feedItem: FeedItem {
-        FeedItem(link: link, title: metadata.title, description: body.fromMarkdown.render(xml: false), date: date.date)
+        FeedItem(link: link, title: metadata.title, description: bodyNode.render(xml: false), date: date.date)
+    }
+}
+
+extension BlogPost {
+    @MainActor @RuleBuilder var generateImages: some Rule {
+        ForEach(Array(images.enumerated())) { (ix, img) in
+            let dest = link + "/\(ix).png"
+            Write(outputName: dest, data: img)
+        }
     }
 }
 
@@ -27,8 +42,15 @@ struct Blog: Rule {
         WriteNode(outputName: "archive/index.html", node:
             posts.map { $0.post }.groupedByYear()
         )
-            .title("Archive")
+        .title("Archive")
         ForEach(posts) { post in
+            if case .pieces = post.post.body {
+                WithEnvironment { env in // this is ugly but I couldn't get it to work otherwise
+                    DispatchQueue.main.sync {
+                        try! post.post.generateImages.builtin.run(environment: env)
+                    }
+                }
+            }
             WriteNode(outputName: post.post.outputName, node: post.page)
                 .title(post.post.metadata.title)
         }
@@ -90,9 +112,14 @@ extension PostDate {
     }
 }
 
-struct BlogPost: Equatable {
+enum PostBody {
+    case markdown(String)
+    case pieces([PostPiece])
+}
+
+struct BlogPost {
     var metadata: Metadata
-    var body: String
+    var body: PostBody
     var date: PostDate {
         PostDate(string: metadata.date)
     }
@@ -154,9 +181,10 @@ func loadPosts(path: String, buildDate: (_ filename: String, _ metadata: BlogPos
         let s: String = try baseEnvironment.read(path + "/" + file)
         let (yaml, contents) = try! s.parseMarkdownWithFrontMatter()
         let meta: BlogPost.Metadata = try decoder.decode(from: yaml!)
-        return BlogPost(metadata: meta, body: contents, link: buildLinkName(file))
+        return BlogPost(metadata: meta, body: .markdown(contents), link: buildLinkName(file))
     }
-    return parsed.filter { $0.published }.sorted(by: { $0.date < $1.date }).reversed()
+    let all = parsed + otherPosts
+    return all.filter { $0.published }.sorted(by: { $0.date < $1.date }).reversed()
 }
 
 extension BlogPost {

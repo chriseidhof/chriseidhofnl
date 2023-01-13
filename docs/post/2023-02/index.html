@@ -1,0 +1,87 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<script src="//use.typekit.net/bwu1cse.js" type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			try{Typekit.load();}catch(e){}
+		</script>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes #2 — Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes #2
+							</h1>
+							<h2 class="headline">
+								Book and Swift Talk
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								At the end of last week, we recorded some <a href="https://talk.objc.io">Swift Talk</a> episodes that build up our new <a href="https://github.com/objcio/attributed-string-builder">attributed string builder</a> library. This project allows you to build up an attributed string using result builders, from a number of different sources. For example, you can write Markdown, plain strings, use NSImages or even embed SwiftUI views, all combining into a single attributed string with uniform styling.
+							</p>
+							<p>
+								We plan to use this as the basis for laying out our books. These are mainly written in Markdown, but we want to be able to intersperse the Markdown with SwiftUI views (rendered as vector graphics), other images, and we’d like to have a little more layout possibilities. For example, we’d like to have multiple columns for some parts, call-out boxes, tables, and so on. Being able to “drop down” to custom attributed strings allows us to do this while still mainly having our text in Markdown.
+							</p>
+							<p>
+								I also added support to this blog to render images of inline SwiftUI views inside my posts, although I’m not using that feature yet. Hopefully soon!
+							</p>
+							<p>
+								We rewrote the start of the <a href="https://www.objc.io/books/thinking-in-swiftui">Thinking in SwiftUI</a> chapter on view trees. In essence, one of the big insights we had is to start out with describing how view builders construct lists of views, and how almost everything in SwiftUI is a list of (lists of) views. When you have a value that conforms to the <code>View</code> protocol, it’s always a list of views — it being a single view is the exception. We also worked a bit on explaining the two roles of <code>@State</code> in SwiftUI: it’s used to both initialize a state property as well as update it (and these are two very different things!). Finally, we started a rewrite of the Advanced Layout chapter (covering the <code>Layout</code> protocol, preferences, and geometry readers)
+							</p>
+							<p>
+								I used <a href="http://nushell.sh">Nushell</a> for the first time. I saw this in Mastodon a while ago and had it installed. I used it to take a JSON containing all of our episode metadata, projected only the title and synopsis for each episode, and wrote them to a CSV in reverse order. The code was easy to write and is easy to read. I can totally see myself use this shell every once in a while for odd jobs:
+							</p>
+							<blockquote>
+								<p>
+									open episodes.json | select title synopsis | reverse | to csv
+								</p>
+							</blockquote>
+							<p>
+								This week, we again prepared and recorded a few episodes about attributed strings, and put <a href="https://github.com/objcio/attributed-string-builder">the code</a> on GitHub. We also have some more things we’d like to add (table support) and possibly some extras we could do in a separate package (e.g. syntax highlighting, as this pulls in a bunch of dependencies that most people might not need). Currently, the package is only designed to work on Mac and works with TextKit, not sure whether we’ll have bigger ambitions at some point. We would like to add a nice readme and some samples.
+							</p>
+							<p>
+								In our new house, I continued renovating and helping out the professionals where I could. I spent a day cleaning the entire construction site, did some final demo, spent two afternoons helping out with the drywall for the bathroom, and a day helping out with bricklaying (even laying some bits myself). We needed to get a bit more done this week, which of course came at the expense of family time. Luckily, busy weeks like this are the absolute exception. (I really enjoy renovating, but lots and lots of family time is more important to me.)
+							</p>
+							<p>
+								I continued my fermenting process, last week’s ginger bug was ready and bubbling, so I used it to start making a big batch of ginger beer. I also started mead and made overnight bagels (turned out great and the family loved them).
+							</p>
+							<p>
+								I’m reading <a href="#todo">crucial conversations</a> in the evenings, which is very interesting to me. I’m not sure if I’ll be able to apply the ideas without a lot of practice, only time will tell.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Jan 13, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">@chris</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-01">Weeknotes #1
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

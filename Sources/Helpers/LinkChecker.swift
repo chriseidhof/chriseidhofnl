@@ -15,10 +15,13 @@ fileprivate var allLinks: Atomic<[String: [String]]> = Atomic([:])
 public func checkLocalLinks(outputPath: String) {
     let fm = FileManager.default
     for (page, links) in allLinks.value {
-        for link in links {
+        for var link in links {
             if link.contains("://") || link.hasPrefix("//") || link.hasPrefix("#") || link.hasPrefix("mailto") {
                 continue
             } else {
+                if link.hasSuffix(" 2x") { // workaround for 2x images
+                    link.removeLast(3)
+                }
                 if fm.fileExists(atPath: (outputPath as NSString).appendingPathComponent(link)) {
                     continue
                 }
@@ -50,7 +53,7 @@ struct LinkVisitor: Visitor {
         
         for a in linkAttributes {
             if let link = attributes[a] {
-                assert(a != "srcset", "TODO")
+//                assert(a != "srcset", "TODO")
                 allLinks.mutate { prev in
                     prev[outputName, default: []].append(link)
                 }

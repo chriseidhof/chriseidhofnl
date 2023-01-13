@@ -1,11 +1,11 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.7
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
     name: "Chris",
-    platforms: [.macOS(.v10_15)],
+    platforms: [.macOS(.v13)],
     products: [
         .executable(name: "Website", targets: ["Website"]),
         .library(
@@ -19,7 +19,7 @@ let package = Package(
         .package(name: "SwiftSyntax", url: "https://github.com/apple/swift-syntax.git", .exact("0.50600.1")),
     ],
     targets: [
-        .target(
+        .executableTarget(
             name: "Website",
             dependencies: ["Chris"]),
         .target(

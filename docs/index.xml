@@ -8,6 +8,46 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes #2</title>
+			<description>
+				&lt;p&gt;
+	At the end of last week, we recorded some &lt;a href=&quot;https://talk.objc.io&quot;&gt;Swift Talk&lt;/a&gt; episodes that build up our new &lt;a href=&quot;https://github.com/objcio/attributed-string-builder&quot;&gt;attributed string builder&lt;/a&gt; library. This project allows you to build up an attributed string using result builders, from a number of different sources. For example, you can write Markdown, plain strings, use NSImages or even embed SwiftUI views, all combining into a single attributed string with uniform styling.
+&lt;/p&gt;
+&lt;p&gt;
+	We plan to use this as the basis for laying out our books. These are mainly written in Markdown, but we want to be able to intersperse the Markdown with SwiftUI views (rendered as vector graphics), other images, and we’d like to have a little more layout possibilities. For example, we’d like to have multiple columns for some parts, call-out boxes, tables, and so on. Being able to “drop down” to custom attributed strings allows us to do this while still mainly having our text in Markdown.
+&lt;/p&gt;
+&lt;p&gt;
+	I also added support to this blog to render images of inline SwiftUI views inside my posts, although I’m not using that feature yet. Hopefully soon!
+&lt;/p&gt;
+&lt;p&gt;
+	We rewrote the start of the &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui&quot;&gt;Thinking in SwiftUI&lt;/a&gt; chapter on view trees. In essence, one of the big insights we had is to start out with describing how view builders construct lists of views, and how almost everything in SwiftUI is a list of (lists of) views. When you have a value that conforms to the &lt;code&gt;View&lt;/code&gt; protocol, it’s always a list of views — it being a single view is the exception. We also worked a bit on explaining the two roles of &lt;code&gt;@State&lt;/code&gt; in SwiftUI: it’s used to both initialize a state property as well as update it (and these are two very different things!). Finally, we started a rewrite of the Advanced Layout chapter (covering the &lt;code&gt;Layout&lt;/code&gt; protocol, preferences, and geometry readers)
+&lt;/p&gt;
+&lt;p&gt;
+	I used &lt;a href=&quot;http://nushell.sh&quot;&gt;Nushell&lt;/a&gt; for the first time. I saw this in Mastodon a while ago and had it installed. I used it to take a JSON containing all of our episode metadata, projected only the title and synopsis for each episode, and wrote them to a CSV in reverse order. The code was easy to write and is easy to read. I can totally see myself use this shell every once in a while for odd jobs:
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		open episodes.json | select title synopsis | reverse | to csv
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	This week, we again prepared and recorded a few episodes about attributed strings, and put &lt;a href=&quot;https://github.com/objcio/attributed-string-builder&quot;&gt;the code&lt;/a&gt; on GitHub. We also have some more things we’d like to add (table support) and possibly some extras we could do in a separate package (e.g. syntax highlighting, as this pulls in a bunch of dependencies that most people might not need). Currently, the package is only designed to work on Mac and works with TextKit, not sure whether we’ll have bigger ambitions at some point. We would like to add a nice readme and some samples.
+&lt;/p&gt;
+&lt;p&gt;
+	In our new house, I continued renovating and helping out the professionals where I could. I spent a day cleaning the entire construction site, did some final demo, spent two afternoons helping out with the drywall for the bathroom, and a day helping out with bricklaying (even laying some bits myself). We needed to get a bit more done this week, which of course came at the expense of family time. Luckily, busy weeks like this are the absolute exception. (I really enjoy renovating, but lots and lots of family time is more important to me.)
+&lt;/p&gt;
+&lt;p&gt;
+	I continued my fermenting process, last week’s ginger bug was ready and bubbling, so I used it to start making a big batch of ginger beer. I also started mead and made overnight bagels (turned out great and the family loved them).
+&lt;/p&gt;
+&lt;p&gt;
+	I’m reading &lt;a href=&quot;#todo&quot;&gt;crucial conversations&lt;/a&gt; in the evenings, which is very interesting to me. I’m not sure if I’ll be able to apply the ideas without a lot of practice, only time will tell.
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 13 Jan 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-02</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-02</guid>
+		</item>
+		<item>
 			<title>Weeknotes #1</title>
 			<description>
 				&lt;p&gt;
@@ -2428,147 +2468,6 @@ extension Collection where Iterator == IndexingIterator&amp;lt;Self&amp;gt; {
 			<pubDate>Fri, 03 Jun 2016 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/responder-chain-alternative</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/responder-chain-alternative</guid>
-		</item>
-		<item>
-			<title>Undo History in Swift</title>
-			<description>
-				&lt;p&gt;
-	Over the last weeks, there have been a number of blog posts that want to add dynamic behavior to Swift. Swift is already a very dynamic language: it has generics, protocols, first-class functions, and the standard library is filled with functions like &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;filter&lt;/code&gt;, which dynamically get their operation (not using a string like with KVC, but using a function, which is safer and more flexible). Most of the people that say they want dynamic behavior mean that they &lt;a href=&quot;http://inessential.com/2016/05/26/a_definition_of_dynamic_programming_in_t&quot;&gt;want reflection&lt;/a&gt; specifically: they want to analyze and modify the program at runtime.
-&lt;/p&gt;
-&lt;p&gt;
-	In Swift, there is only a very limited reflection mechanism, although you can already inspect and generate code at runtime. For example, here’s how to generate a dictionary ready for &lt;code&gt;NSCoding&lt;/code&gt; or JSON serialization: &lt;a href=&quot;http://chris.eidhof.nl/post/swift-mirrors-and-json/&quot;&gt;Swift mirrors and JSON&lt;/a&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	Today, we’ll have a look at implementing undo functionality in Swift. One of the examples people keep bringing up to make the case for reflection (the way Objective-C) supports it is &lt;code&gt;NSUndoManager&lt;/code&gt;.  With struct semantics, we can add undo support to our apps in a different way. Before we get started, make sure that you understand how structs work in Swift (most importantly, how they are all unique copies). Clearly, this post will not remove the need for runtime programming in Swift, nor is it a replacement for &lt;code&gt;NSUndoManager&lt;/code&gt;. It’s just a simple example of how to think different.
-&lt;/p&gt;
-&lt;p&gt;
-	We’ll build a struct called &lt;code&gt;UndoHistory&lt;/code&gt;. It’s generic, with the caveat that it only works when &lt;code&gt;A&lt;/code&gt; is a struct. To keep a history of all the states, we can store every value in an array. Whenever we want to change something, we just push onto the array, and whenever we want to undo, we pop from the array. We always want to start with an initial state, so we create an initializer for that:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct UndoHistory&amp;lt;A&amp;gt; {
-    private let initialValue: A
-    private var history: [A] = []
-    init(initialValue: A) {
-        self.initialValue = initialValue
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	For example, if we want to add undo support to a table view controller that’s backed by an array, we can create a value of this struct:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var history = UndoHistory(initialValue: [1, 2, 3])
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	To support undo for a different struct, we just start with a different initial value:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Person {
-    var name: String
-    var age: Int
-}
-
-var personHistory = UndoHistory(initialValue: Person(name: &amp;quot;Chris&amp;quot;, age: 31))
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Of course, we want to have a way of getting the current state, and setting the current state (in other words: adding an item to our history). To get the current state, we simply return the last item in our &lt;code&gt;history&lt;/code&gt; array, and if the array is empty, we return the initial value. To set the current state, we simply append to our &lt;code&gt;history&lt;/code&gt; array.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension UndoHistory {
-    var currentItem: A {
-        get {
-            return history.last ?? initialValue
-        }
-        set {
-            history.append(newValue)
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	For example, if we want to change the person’s age, we can easily do that through our new computed property:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;personHistory.currentItem.age += 1
-personHistory.currentItem.age // Prints 32
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Of course, the code isn’t complete without an &lt;code&gt;undo&lt;/code&gt; method. This is as simple as removing the last item from the array. Depending on your preference, you could also make it &lt;code&gt;throw&lt;/code&gt; when the undo stack is empty, but I’ve chosen not to do that.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension UndoHistory {
-    mutating func undo() {
-        guard !history.isEmpty else { return }
-        history.removeLast()
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Using it is easy:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;personHistory.undo()
-personHistory.currentItem.age // Prints 31 again
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Of course, our &lt;code&gt;UndoHistory&lt;/code&gt; works on more than just simple &lt;code&gt;Person&lt;/code&gt; structs. For example, if we want to create a table view controller that’s backed by an &lt;code&gt;Array&lt;/code&gt;, we can use the &lt;code&gt;currentItem&lt;/code&gt; property to get the array out [^1]:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;final class MyTableViewController&amp;lt;Item&amp;gt;: UITableViewController {
-    var data: UndoHistory&amp;lt;[Item]&amp;gt;
-    
-    init(value: [Item]) {
-        data = UndoHistory(initialValue: value)
-        super.init(style: .Plain)
-    }
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -&amp;gt; Int {
-        return data.currentItem.count
-    }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&amp;gt; UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(&amp;quot;Identifier&amp;quot;, forIndexPath: indexPath)
-        let item = data.currentItem[indexPath.row]
-        // configure `cell` with `item`
-        return cell
-    }
-
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        guard editingStyle == .Delete else { return }
-        data.currentItem.removeAtIndex(indexPath.row)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Another thing that is really cool with struct semantics: we get observation for free. For example, we could change the definition of &lt;code&gt;data&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var data: UndoHistory&amp;lt;[Item]&amp;gt; {
-    didSet {
-        tableView.reloadData()
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Even if we change something deep inside the array (e.g. &lt;code&gt;data.currentItem[17].name = &amp;quot;John&amp;quot;&lt;/code&gt;) our &lt;code&gt;didSet&lt;/code&gt; will get triggered. Of course, we probably want to do something a little bit smarter than &lt;code&gt;reloadData&lt;/code&gt;. For example, we could use the &lt;a href=&quot;https://github.com/osteslag/Changeset&quot;&gt;Changeset&lt;/a&gt; library to compute a diff and have insert/delete/move animations
-&lt;sup&gt;&lt;a href=&quot;#fnref2&quot; name=&quot;fnref-rev2&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
-.
-&lt;/p&gt;
-&lt;p&gt;
-	Obviously, this approach has its drawbacks too. For example, it keeps a full history of the state, rather than a diff. It only works with structs (to be precise: only with structs that have value semantics). That said, you do not have to read the &lt;a href=&quot;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html&quot;&gt;runtime programming guide&lt;/a&gt;, you only need to have a good grasp of structs and generics to come up with this solution 
-&lt;sup&gt;&lt;a href=&quot;#fnref3&quot; name=&quot;fnref-rev3&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;
-.
-&lt;/p&gt;
-&lt;div class=&quot;footnotes&quot;&gt;
-	&lt;hr/&gt;
-	&lt;ol&gt;
-		&lt;li id=&quot;fnref2&quot;&gt;
-			&lt;p&gt;
-				If you want to take this further, there are a couple of fun exercises: try adding redo support, or labeled actions. You can implement reordering in the table view, and you will see that if you do it naively, you’ll end up with two entries in your undo history.
-				 &lt;a href=&quot;#fnref-rev2&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
-		&lt;/li&gt;
-		&lt;li id=&quot;fnref3&quot;&gt;
-			&lt;p&gt;
-				In &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot;&gt;Advanced Swift&lt;/a&gt; we go into way much more detail on these and many other topics.
-				 &lt;a href=&quot;#fnref-rev3&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
-		&lt;/li&gt;
-	&lt;/ol&gt;
-&lt;/div&gt;
-			</description>
-			<pubDate>Mon, 30 May 2016 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/undo-history-in-swift</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/undo-history-in-swift</guid>
 		</item>
 	</channel>
 </rss>
