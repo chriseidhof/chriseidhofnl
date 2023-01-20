@@ -8,6 +8,29 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes #3</title>
+			<description>
+				&lt;p&gt;
+	After a super busy week last week, I took things a bit easier, especially on the house renovation part. Lots of family time instead!
+&lt;/p&gt;
+&lt;p&gt;
+	Work-wise, I started the week by improving the README for our &lt;a href=&quot;https://github.com/objcio/attributed-string-builder&quot;&gt;attributed string builder&lt;/a&gt; project, and also added support for &lt;a href=&quot;https://github.com/objcio/attributed-string-builder/blob/main/Sources/Tests/Environment.swift&quot;&gt;custom environment keys&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	I worked on adding alignment to the &lt;a href=&quot;https://talk.objc.io/episodes/S01E308-the-layout-protocol&quot;&gt;flow layout&lt;/a&gt; we built on Swift Talk. This turned out to be quite tricky: while the code isn’t that hard to write, writing it without duplication was already quite a bit harder and took a few tries. Then I tried to refactor it and use &lt;code&gt;HStack&lt;/code&gt; to layout the rows, but I learned the hard way that &lt;code&gt;Layout&lt;/code&gt;s in SwiftUI aren’t very composable. For example, I can’t seem to get the individual frames out of an existing layout. In any case, I am writing up my experience, both in the form of a blog post and as part of our book update.
+&lt;/p&gt;
+&lt;p&gt;
+	The second half of the week we spent finishing up the details for an upcoming workshop. As we prepare each workshop individually to tailor it to the team, this always takes a lot of time. However, the end product is something we’re always really proud of.
+&lt;/p&gt;
+&lt;p&gt;
+	I really enjoyed this essay about &lt;a href=&quot;https://buttondown.email/hillelwayne/archive/use-the-wrong-tool-for-the-job/&quot;&gt;using the wrong tool for the job&lt;/a&gt;. I always struggled a bit to explain why we like to use Swift for almost everything, despite other languages being more fit for the job. The link explains this extremely well, much better than I could articulate myself. In short, there’s a massive gain for us when we do write things in Swift, because we know the ecosystem and don’t have to learn other tools, even though some problems are better solved using different languages.
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 20 Jan 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-03</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-03</guid>
+		</item>
+		<item>
 			<title>Weeknotes #2</title>
 			<description>
 				&lt;p&gt;
@@ -2409,65 +2432,6 @@ extension Collection where Iterator == IndexingIterator&amp;lt;Self&amp;gt; {
 			<pubDate>Fri, 12 Aug 2016 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/protocols-in-swift</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/protocols-in-swift</guid>
-		</item>
-		<item>
-			<title>Responder Chain Alternatives</title>
-			<description>
-				&lt;p&gt;
-	There’s been some recent talk about the &lt;a href=&quot;https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/EventOverview/EventArchitecture/EventArchitecture.html#//apple_ref/doc/uid/10000060i-CH3-SW2&quot;&gt;responder chain&lt;/a&gt;. The responder chain works on a tree structure: the view hierarchy plus some other things. An event or action gets sent to a certain view (a node in the tree structure). Until it gets handled, it moves up the tree towards the root, going through all superviews, all the way until the &lt;code&gt;NSWindow&lt;/code&gt;, up to the &lt;code&gt;NSWindowController&lt;/code&gt;. You can even modify this tree structure, and insert your own responders. Depending on what you’re building (e.g. a document-based application), the responder chain can even be more advanced.
-&lt;/p&gt;
-&lt;p&gt;
-	The responder chain is really powerful, and saves you from writing boilerplate. It is built on top of runtime programming. For example, an action consists of a selector (in other words: a string) and the sender object. Using introspection, the application tries to dispatch an action through the responder chain, starting with the first responder, all the way up until some object handles the event.
-&lt;/p&gt;
-&lt;p&gt;
-	When you create a new Mac application, it comes with a menu by default. The menu items in send actions, for example, &lt;code&gt;paste:&lt;/code&gt;. If you want to implement paste support, it’s really easy. The only thing you’ll have to do (besides the domain logic of pasting) is implement a &lt;code&gt;paste:&lt;/code&gt; method somewhere in an object that will be in the responder chain. That’s it. Menu items can even be enabled and disabled automatically if you implement &lt;code&gt;validateMenuItem:&lt;/code&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	This is easy to write, but you do pay a price: maintaining these actions is more difficult than writing them. It’s hard to change code: if you ever want to refactor (for example, if you choose to rename the action), you’ll have to be very careful to change it in all places in your code, and in the Interface Builder file. If you forget to change things in one place, Interface Builder might be able to tell you this. But not always.
-&lt;/p&gt;
-&lt;p&gt;
-	The responder chain is easy, but it’s not simple
-&lt;sup&gt;&lt;a href=&quot;#fnrefsimpleasy&quot; name=&quot;fnref-revsimpleasy&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
-. There is a lot of magic behind the scenes. It makes it hard to change your code. In addition, the responder chain on the Mac is complex: you need to have the order of the chain in your head (or read the documentation) to work effectively. You need to know your view hierarchy, and changes you intend to be local can accidentally be global.
-&lt;/p&gt;
-&lt;p&gt;
-	The responder chain is cool, but I’m not sure if we need to replicate it in Swift. Rather, we could try to think of a way that is just as easy as the responder chain, but also &lt;em&gt;simple&lt;/em&gt;
-	. It should be easy to refactor code. It should be easy to understand. It should be easy to debug. In order to make a local change, you shouldn’t have to worry about the global effects. I’m not sure if we can solve all these issues, but I’m pretty sure we can solve a few of them.
-&lt;/p&gt;
-&lt;p&gt;
-	(Functional) Reactive Programming
-&lt;sup&gt;&lt;a href=&quot;#fnref3&quot; name=&quot;fnref-rev3&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;
- might be one solution to this. I’m not sure, because I have never applied FRP in production. The idea behind FRP is simple (and easy), but all implementations I’ve tried aren’t easy, nor simple. I think a React-like architecture is really cool, it’s simple, it’s easy, but then you want to do animations: not so easy.
-&lt;/p&gt;
-&lt;p&gt;
-	In short, I don’t know a good alternative to the responder chain. I don’t think FRP will be a silver bullet. For now, we can keep using the responder chain anyway, because Cocoa and Objective-C are probably not going anywhere
-&lt;sup&gt;&lt;a href=&quot;#fnreflindy&quot; name=&quot;fnref-revlindy&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;
-. Sometimes, I hope that the answer comes when the Interface Builder team starts talking to the SourceKit API, and really leverage all this deep knowledge about the current program. In the mean time, we can try to come up with solutions ourselves, by keeping the following in mind: it should not only be easy, but also simple.
-&lt;/p&gt;
-&lt;div class=&quot;footnotes&quot;&gt;
-	&lt;hr/&gt;
-	&lt;ol&gt;
-		&lt;li id=&quot;fnrefsimpleasy&quot;&gt;
-			&lt;p&gt;
-				See Rich Hickey’s amazing &lt;a href=&quot;https://www.infoq.com/presentations/Simple-Made-Easy&quot;&gt;presentation&lt;/a&gt;, or read the &lt;a href=&quot;https://github.com/matthiasn/talk-transcripts/blob/master/Hickey_Rich/SimpleMadeEasy.md&quot;&gt;transcript&lt;/a&gt;.
-				 &lt;a href=&quot;#fnref-revsimpleasy&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
-		&lt;/li&gt;
-		&lt;li id=&quot;fnref3&quot;&gt;
-			&lt;p&gt;
-				It’s not so much about the functional part of FRP, but more about the reactive part, as pointed out by &lt;a href=&quot;https://twitter.com/simjp/status/738830379298131969&quot;&gt;JP&lt;/a&gt;.
-				 &lt;a href=&quot;#fnref-rev3&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
-		&lt;/li&gt;
-		&lt;li id=&quot;fnreflindy&quot;&gt;
-			&lt;p&gt;
-				If I understand the &lt;a href=&quot;https://en.wikipedia.org/wiki/Lindy_effect&quot;&gt;Lindy effect&lt;/a&gt; correctly, Cocoa might be around for 30 more years…
-				 &lt;a href=&quot;#fnref-revlindy&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
-		&lt;/li&gt;
-	&lt;/ol&gt;
-&lt;/div&gt;
-			</description>
-			<pubDate>Fri, 03 Jun 2016 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/responder-chain-alternative</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/responder-chain-alternative</guid>
 		</item>
 	</channel>
 </rss>
