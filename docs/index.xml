@@ -8,6 +8,82 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>SwiftUI Views are Lists</title>
+			<description>
+				&lt;p&gt;
+	When you write SwiftUI, all your views conform to the &lt;code&gt;View&lt;/code&gt; protocol. The name of this protocol is a bit misleading: I it could be called &lt;code&gt;Views&lt;/code&gt; or &lt;code&gt;ViewList&lt;/code&gt;, or something else that suggests plurals.
+&lt;/p&gt;
+&lt;p&gt;
+	For example, consider the following view:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct MyView: View {
+     var body: some View {
+         Text(&amp;quot;Hello&amp;quot;)
+         Text(&amp;quot;World&amp;quot;)
+     }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The type of &lt;code&gt;body&lt;/code&gt; is &lt;code&gt;some View&lt;/code&gt; (an opaque type), and &lt;code&gt;MyView&lt;/code&gt; itself conforms to the &lt;code&gt;View&lt;/code&gt; protocol. So how does the above view render? &lt;em&gt;It depends&lt;/em&gt;
+	. When you create an &lt;code&gt;HStack&lt;/code&gt; containing &lt;code&gt;MyView&lt;/code&gt;, the text will be on a single line, but when you create a &lt;code&gt;VStack&lt;/code&gt; the two texts will be below each other. Try this!
+&lt;/p&gt;
+&lt;p&gt;
+	This is not a gimmick: it is essential to how SwiftUI works. When we write views, we’re always constructing &lt;em&gt;lists of views&lt;/em&gt;
+	. For example, we could even do something like this:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct MyOtherView: View {
+    var body: some View {
+        Text(&amp;quot;Another Text&amp;quot;)
+        MyView()
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	You can create a &lt;code&gt;VStack&lt;/code&gt; with &lt;code&gt;MyOtherView&lt;/code&gt;, and will see the three views below each other, and when you create an &lt;code&gt;HStack&lt;/code&gt; they’re laid out on a single line.
+&lt;/p&gt;
+&lt;p&gt;
+	In general, we can say that anything that conforms to the &lt;code&gt;View&lt;/code&gt; protocol really represents a list of &lt;code&gt;View&lt;/code&gt;s. In the case of &lt;code&gt;MyOtherView&lt;/code&gt;, we could say the list has a single &lt;code&gt;Text&lt;/code&gt; view and another list (&lt;code&gt;MyView&lt;/code&gt;). These lists get flattened. In the case of &lt;code&gt;MyOtherView&lt;/code&gt;, the &lt;code&gt;body&lt;/code&gt; flattens down to a list containing three views.
+&lt;/p&gt;
+&lt;p&gt;
+	Container views such as &lt;code&gt;HStack&lt;/code&gt; and &lt;code&gt;VStack&lt;/code&gt; take these lists, iterate over them and lay them out. Using the &lt;code&gt;Layout&lt;/code&gt; protocol, you can also see these flattened lists. For example, you could construct your own &lt;code&gt;Layout&lt;/code&gt; implementation to print the number of subviews:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct MyLayout: Layout {
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -&amp;gt; CGSize {
+        .zero
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        print(subviews.count)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	When you have a &lt;code&gt;MyLayout { MyOtherView() }&lt;/code&gt; you’ll see that it will always print 3.
+&lt;/p&gt;
+&lt;p&gt;
+	To create lists with a dynamic size, you can use conditionals such as &lt;code&gt;if&lt;/code&gt;. Note that constructs like &lt;code&gt;ForEach&lt;/code&gt; produce a list as well. These can even be combined with other lists. For example, the code below creates a vertical stack with eight children:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt; VStack {
+     MyOtherView()
+     ForEach(0..&amp;lt;5) {
+         Text(&amp;quot;Label \($0)&amp;quot;)
+     }
+ }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	As mentioned, the &lt;code&gt;Layout&lt;/code&gt; protocol lets you work with these view lists directly as of iOS 16 and macOS 13. You can also use &lt;a href=&quot;https://movingparts.io/variadic-views-in-swiftui&quot;&gt;variadic views&lt;/a&gt; — a non-public, but stable API — to loop over view lists. The variadic view API is really powerful (for example, you can write things like &lt;code&gt;filter&lt;/code&gt;, &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;reduce&lt;/code&gt; on view lists) but also quite low-level. I have a gist &lt;a href=&quot;https://gist.github.com/chriseidhof/5ff6ef8786f5635c18b20304ab9d9b01&quot;&gt;here&lt;/a&gt; with some examples, and plan to also write this up soon.
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		This article was inspired by the section that Florian wrote for our book &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui&quot;&gt;Thinking in SwiftUI&lt;/a&gt;. We’re currently rewriting the book and hope to get it out soon.
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+			</description>
+			<pubDate>Wed, 25 Jan 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/swiftui-views-are-lists</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-views-are-lists</guid>
+		</item>
+		<item>
 			<title>Weeknotes #3</title>
 			<description>
 				&lt;p&gt;
@@ -2237,201 +2313,6 @@ array[0] += Point(x: 100, y: 100)
 			<pubDate>Tue, 16 Aug 2016 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/structs-and-mutation-in-swift</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/structs-and-mutation-in-swift</guid>
-		</item>
-		<item>
-			<title>Protocols in Swift</title>
-			<description>
-				&lt;p&gt;
-	Let’s say we are writing our own data-structure, a singly linked list:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;enum ListNode&amp;lt;A&amp;gt; {
-    case end
-    indirect case cons(A, ListNode)
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Today’s goal is to make &lt;code&gt;ListNode&lt;/code&gt; conform to the &lt;code&gt;Collection&lt;/code&gt; protocol. It’s actually fairly easy, but it’s almost impossible to figure it out by just looking at the types. The documentation tells us which methods to implement, but why is it like that? Even though the protocol is clearly specified, it’s not so easy to see what you need to do. Let’s give it a try without looking at the documentation, and see what the compiler tells us:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension ListNode: Collection { }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The compiler tells us we don’t conform to the following three protocols: &lt;code&gt;Sequence&lt;/code&gt;, &lt;code&gt;IndexableBase&lt;/code&gt;, and &lt;code&gt;Collection&lt;/code&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	Looking at all these protocols, you might get overwhelmed. The most complicated one, &lt;code&gt;Collection&lt;/code&gt;, comes in at a whopping four associated types, two subscripts, four computed properties and seven methods. A protocol is a formal “todo-list” of all the things your type needs to do in order to conform. I copy/pasted this from the Standard Library, and removed all the documentation comments. With the documentation comments, it gets even harder to see!
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;public protocol Collection : Indexable, Sequence {
-    associatedtype IndexDistance : SignedInteger = Int
-    associatedtype Iterator : IteratorProtocol = IndexingIterator&amp;lt;Self&amp;gt;
-    associatedtype SubSequence : IndexableBase, Sequence = Slice&amp;lt;Self&amp;gt;
-    associatedtype Indices : IndexableBase, Sequence = DefaultIndices&amp;lt;Self&amp;gt;
-    public subscript(position: Self.Index) -&amp;gt; Self.Iterator.Element { get }
-    public subscript(bounds: Range&amp;lt;Self.Index&amp;gt;) -&amp;gt; Self.SubSequence { get }
-    public var indices: Self.Indices { get }
-    public var isEmpty: Bool { get }
-    public var count: Self.IndexDistance { get }
-    public var first: Self.Iterator.Element? { get }
-    public func makeIterator() -&amp;gt; Self.Iterator
-    public func prefix(upTo end: Self.Index) -&amp;gt; Self.SubSequence
-    public func suffix(from start: Self.Index) -&amp;gt; Self.SubSequence
-    public func prefix(through position: Self.Index) -&amp;gt; Self.SubSequence
-    public func index(_ i: Self.Index, offsetBy n: Self.IndexDistance) -&amp;gt; Self.Index
-    public func index(_ i: Self.Index, offsetBy n: Self.IndexDistance, limitedBy limit: Self.Index) -&amp;gt; Self.Index?
-    public func distance(from start: Self.Index, to end: Self.Index) -&amp;gt; Self.IndexDistance
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The interesting thing is: all associated types have default values. So if we decide to stick with them, we can cross those off of the todo-list, and fill the other parameters with their types:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;public protocol Collection : Indexable, Sequence {
-    public subscript(position: Self.Index) -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;.Element { get }
-    public subscript(bounds: Range&amp;lt;Self.Index&amp;gt;) -&amp;gt; Slice&amp;lt;Self&amp;gt; { get }
-    public var indices: DefaultIndices&amp;lt;Self&amp;gt; { get }
-    public var isEmpty: Bool { get }
-    public var count: Int { get }
-    public var first: IndexingIterator&amp;lt;Self&amp;gt;.Element? { get }
-    public func makeIterator() -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;
-    public func prefix(upTo end: Self.Index) -&amp;gt; Slice&amp;lt;Self&amp;gt;
-    public func suffix(from start: Self.Index) -&amp;gt; Slice&amp;lt;Self&amp;gt;
-    public func prefix(through position: Self.Index) -&amp;gt; Slice&amp;lt;Self&amp;gt;
-    public func index(_ i: Self.Index, offsetBy n: Int) -&amp;gt; Self.Index
-    public func index(_ i: Self.Index, offsetBy n: Int, limitedBy limit: Self.Index) -&amp;gt; Self.Index?
-    public func distance(from start: Self.Index, to end: Self.Index) -&amp;gt; Int
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Many of the properties and methods have default implementations as well. For example, here are the default extensions on &lt;code&gt;Collection&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Collection {
-    public func map&amp;lt;T&amp;gt;(_ transform: @noescape (Self.Iterator.Element) throws -&amp;gt; T) rethrows -&amp;gt; [T]
-    public func dropFirst(_ n: Int) -&amp;gt; Self.SubSequence
-    public func dropLast(_ n: Int) -&amp;gt; Self.SubSequence
-    public func prefix(_ maxLength: Int) -&amp;gt; Self.SubSequence
-    public func suffix(_ maxLength: Int) -&amp;gt; Self.SubSequence
-    public func prefix(upTo end: Self.Index) -&amp;gt; Self.SubSequence
-    public func suffix(from start: Self.Index) -&amp;gt; Self.SubSequence
-    public func prefix(through position: Self.Index) -&amp;gt; Self.SubSequence
-    public func split(maxSplits: Int = default, omittingEmptySubsequences: Bool = default, whereSeparator isSeparator: @noescape (Self.Iterator.Element) throws -&amp;gt; Bool) rethrows -&amp;gt; [Self.SubSequence]
-    public func index(where predicate: @noescape (Self.Iterator.Element) throws -&amp;gt; Bool) rethrows -&amp;gt; Self.Index?
-}
-
-extension Collection {
-    public var isEmpty: Bool { get }
-    public var first: Self.Iterator.Element? { get }
-    public var underestimatedCount: Int { get }
-    public var count: Self.IndexDistance { get }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	These default extensions allow us to cross the &lt;code&gt;prefix&lt;/code&gt; and &lt;code&gt;suffix&lt;/code&gt; methods off of our list. Our todo-list is now a bit shorter:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;public protocol Collection : Indexable, Sequence {
-    public subscript(position: Self.Index) -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;.Element { get }
-    public subscript(bounds: Range&amp;lt;Self.Index&amp;gt;) -&amp;gt; Slice&amp;lt;Self&amp;gt; { get }
-    public var indices: DefaultIndices&amp;lt;Self&amp;gt; { get }
-    public func makeIterator() -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;
-    public func index(_ i: Self.Index, offsetBy n: Int) -&amp;gt; Self.Index
-    public func index(_ i: Self.Index, offsetBy n: Int, limitedBy limit: Self.Index) -&amp;gt; Self.Index?
-    public func distance(from start: Self.Index, to end: Self.Index) -&amp;gt; Int
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	There are more extensions that apply, though. For example:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Collection where SubSequence == Slice&amp;lt;Self&amp;gt; {
-    public subscript(bounds: Range&amp;lt;Self.Index&amp;gt;) -&amp;gt; Slice&amp;lt;Self&amp;gt; { get }
-}
-extension Collection where Indices == DefaultIndices&amp;lt;Self&amp;gt; {
-    public var indices: DefaultIndices&amp;lt;Self&amp;gt; { get }
-}
-extension Collection where Iterator == IndexingIterator&amp;lt;Self&amp;gt; {
-    public func makeIterator() -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Because all three apply, we can get rid of three more todos. Our list is getting shorter.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;public protocol Collection : Indexable, Sequence {
-    public subscript(position: Self.Index) -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;.Element { get }
-    public func index(_ i: Self.Index, offsetBy n: Int) -&amp;gt; Self.Index
-    public func index(_ i: Self.Index, offsetBy n: Int, limitedBy limit: Self.Index) -&amp;gt; Self.Index?
-    public func distance(from start: Self.Index, to end: Self.Index) -&amp;gt; Int
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	If we start adding the &lt;code&gt;Indexable&lt;/code&gt; requirements to our todo-list, we end up with a long list again. We now also need to conform to IndexableBase.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;public protocol Collection : IndexableBase, Sequence {
-    public subscript(position: Self.Index) -&amp;gt; IndexingIterator&amp;lt;Self&amp;gt;.Element { get }
-    public func index(_ i: Self.Index, offsetBy n: Int) -&amp;gt; Self.Index
-    public func index(_ i: Self.Index, offsetBy n: Int, limitedBy limit: Self.Index) -&amp;gt; Self.Index?
-    public func distance(from start: Self.Index, to end: Self.Index) -&amp;gt; Int
-    associatedtype Index : Comparable
-    public var startIndex: Self.Index { get }
-    public var endIndex: Self.Index { get }
-    public subscript(position: Self.Index) -&amp;gt; Self._Element { get }
-    associatedtype SubSequence
-    public subscript(bounds: Range&amp;lt;Self.Index&amp;gt;) -&amp;gt; Self.SubSequence { get }
-    public func index(after i: Self.Index) -&amp;gt; Self.Index
-    public func formIndex(after i: inout Self.Index)
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	However, after removing all default implementations that are provided by collection, and using all extension that apply to our current protocol, we can cross out almost all the newly added &lt;code&gt;Indexable&lt;/code&gt; requirements (many have a default implementation). We can keep playing the game of looking at the extensions, crossing out requirements, adding new ones, until we finally end up with a minimal set of things we need to do:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;public protocol Collection {
-    associatedtype Index : Comparable
-    public var startIndex: Self.Index { get }
-    public var endIndex: Self.Index { get }
-    public func index(after i: Self.Index) -&amp;gt; Self.Index
-    public subscript(position: Self.Index) -&amp;gt; Element { get }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Lo and behold, we can make &lt;code&gt;ListNode&lt;/code&gt; conform:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension ListNode: Collection {
-    var startIndex: Int { return 0 }
-    /// This is 0(n), not the expected O(1) from `Collection`.
-    var endIndex: Int {
-        switch self {
-        case .end: return 0
-        case .cons(_, let tail): return 1 + tail.endIndex
-        }
-    }
-    func index(after: Int) -&amp;gt; Int {
-        return after+1
-    }
-    /// This is 0(n), not the expected O(1) from `Collection`.
-    subscript(position: Int) -&amp;gt; A {
-        switch (self, position) {
-        case (.end, _): fatalError(&amp;quot;Index out of bounds&amp;quot;)
-        case (.cons(let x, _), 0): return x
-        case (.cons(_, let tail), _): return tail[position-1]
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Note that we didn’t have to specify the &lt;code&gt;associatedtype&lt;/code&gt;, the compiler inferred this for us.
-&lt;/p&gt;
-&lt;p&gt;
-	Long story short: it’s really hard to see what you need to conform to. Or to be more precise: it’s not that hard, it’s just a &lt;em&gt;lot&lt;/em&gt;
-	 of manual work. Luckily, all of this can be completely automated. Unfortunately, the tooling in this respect is currently still very immature, even though the standard library isn’t. I have no idea if this will improve soon.
-&lt;/p&gt;
-&lt;p&gt;
-	Rather than waiting for Apple to fix this, maybe someone in the community could do this? I imagine it’s a few days of hard work: first you need to parse all the protocols in the standard library (or better: use SourceKit, because then you can also make it work on your own protocols). Then you need to have some kind of evaluation system that checks which extensions can be applied. It might need to be interactive, for example, once you specify that the &lt;code&gt;Index&lt;/code&gt; associated type will be an &lt;code&gt;Int&lt;/code&gt;, it could tell you what you still need to implement.
-&lt;/p&gt;
-&lt;p&gt;
-	I’d love to build this myself, however, I’m currently too busy writing the update of &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot;&gt;Advanced Swift&lt;/a&gt;, and preparing new &lt;a href=&quot;https://talk.objc.io&quot;&gt;Swift Talk episodes&lt;/a&gt;. It would be the perfect procrastination project…
-&lt;/p&gt;
-&lt;p&gt;
-	Update: Nicola &lt;a href=&quot;https://twitter.com/NSalmoria/status/764158023124258817&quot;&gt;writes in&lt;/a&gt; that “Conforming to the Collection Protocol” is actually a section of the &lt;a href=&quot;https://developer.apple.com/reference/swift/collection&quot;&gt;API documentation&lt;/a&gt;. Very good point. He also raises the point that my &lt;code&gt;endIndex&lt;/code&gt; and &lt;code&gt;subscript&lt;/code&gt; implementations aren’t &lt;code&gt;O(1)&lt;/code&gt;, which is the expected complexity as described in the &lt;code&gt;Collection&lt;/code&gt; protocol.
-&lt;/p&gt;
-			</description>
-			<pubDate>Fri, 12 Aug 2016 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/protocols-in-swift</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/protocols-in-swift</guid>
 		</item>
 	</channel>
 </rss>
