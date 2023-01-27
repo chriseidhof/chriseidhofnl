@@ -12,11 +12,6 @@ struct Main: Template {
                 meta(charset: "utf-8")
                 meta(content: "IE=edge,chrome=1", httpEquiv: "X-UA-Compatible")
                 meta(content: "width=device-width, initial-scale=1", name: "viewport")
-                script(src: "//use.typekit.net/bwu1cse.js", type: "text/javascript")
-                script(type: "text/javascript") {
-                    "try{Typekit.load();}catch(e){}"
-                    
-                }
                 link(href: "/images/favicon.ico", rel: "shortcut icon")
                 link(href: "/css/style.css", rel: "stylesheet")
                 link(href: "http://chris.eidhof.nl//index.xml", rel: "alternate", title: "RSS", type: "application/rss+xml")

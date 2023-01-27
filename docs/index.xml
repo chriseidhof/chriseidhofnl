@@ -8,6 +8,208 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Variadic Views</title>
+			<description>
+				&lt;p&gt;
+	This week’s post about how the SwiftUI view protocol &lt;a href=&quot;http://chris.eidhof.nl/post/swiftui-views-are-lists/&quot;&gt;really represents lists&lt;/a&gt; stirred a bit of controversy on Mastodon. But I think we all learned a bit from the discussion that followed (I definitely did).
+&lt;/p&gt;
+&lt;p&gt;
+	To deal with these lists of views (e.g. during layout) we can use the underscored variadic view API. I learned about variadic views through the &lt;a href=&quot;http://movingparts.io/variadic-views-in-swiftui&quot;&gt;Moving Parts&lt;/a&gt; blog. I don’t know whether this API is going to change in the future, whether it’s App-Store-proof, and so on. It’s probably underscored for a good reason. With that out of the way, let’s get started!
+&lt;/p&gt;
+&lt;p&gt;
+	First, I wanted to get a way to iterate over the view list and turn them into views. This code is a bit weird, but we only need to write it once. To get access to the view list, we need to construct a type that conforms to &lt;code&gt;_VariadicView_MultiViewRoot&lt;/code&gt;
+&lt;sup&gt;&lt;a href=&quot;#fnref1&quot; name=&quot;fnref-rev1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
+. The only requirement we need to implement is the &lt;code&gt;body&lt;/code&gt; method. We can provide that using a closure:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Helper&amp;lt;Result: View&amp;gt;: _VariadicView_MultiViewRoot {
+    var _body: (_VariadicView.Children) -&amp;gt; Result
+
+    func body(children: _VariadicView.Children) -&amp;gt; some View {
+        _body(children)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The &lt;code&gt;_VariadicView.Children&lt;/code&gt; type is a random access collection we can loop over. The elements conform to &lt;code&gt;Identifiable&lt;/code&gt; and &lt;code&gt;View&lt;/code&gt;. In addition, we can access the &lt;em&gt;traits&lt;/em&gt;
+	 of the elements (more about this later).
+&lt;/p&gt;
+&lt;p&gt;
+	To use our &lt;code&gt;Helper&lt;/code&gt; above, we can provide an extension on &lt;code&gt;View&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension View {
+    func variadic&amp;lt;R: View&amp;gt;(@ViewBuilder process: @escaping (_VariadicView.Children) -&amp;gt; R) -&amp;gt; some View {
+        _VariadicView.Tree(Helper(_body: process), content: { self })
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Again, the code above is pretty obscure but we only need to write it once. Before we start using this, let’s create a list of views:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;@ViewBuilder var subviews: some View {
+    Rectangle()
+        .frame(width: 30, height: 30)
+    ForEach(0..&amp;lt;3) { ix in
+        Text(&amp;quot;Hello \(ix)&amp;quot;)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The above view builder defines a list containing four views: a rectangle and three text labels. We can use these in a container view:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;HStack { subviews }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/variadic-views/0-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/variadic-views/0.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	Using our &lt;code&gt;variadic&lt;/code&gt; method, we can write more helper methods. For example, we could intersperse views in between the elements:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension View {
+    @ViewBuilder
+    func intersperse&amp;lt;V: View&amp;gt;(@ViewBuilder _ divider: () -&amp;gt; V) -&amp;gt; some View {
+        let el = divider()
+        variadic { children in
+            if let c = children.first {
+                c
+                ForEach(children.dropFirst(1)) { child in
+                    el
+                    child
+                }
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This lets us create an &lt;code&gt;HStack&lt;/code&gt; with dividers in between the elements:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;HStack {
+    subviews.intersperse {
+        Divider().fixedSize()
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/variadic-views/1-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/variadic-views/1.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	We can also write a more low-level abstraction like &lt;code&gt;reduce&lt;/code&gt; (which unfortunately requires &lt;code&gt;AnyView&lt;/code&gt;):
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension View {
+    func reduce&amp;lt;R: View&amp;gt;(@ViewBuilder _ combine: @escaping (AnyView, AnyView) -&amp;gt; R) -&amp;gt; some View {
+        variadic { children in
+            if let c = children.first {
+                children.dropFirst(1).reduce(AnyView(c), { l, r in
+                    AnyView(combine(l, AnyView(r)))
+                })
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We could use this to render the list of views in reverse order, with circles in between for good measure:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;HStack {
+    subviews.reduce { view1, view2 in
+        view2
+        Circle().frame(width: 5, height: 5)
+        view1
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/variadic-views/2-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/variadic-views/2.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	Variadic views are also very useful when you want to write reusable components that take a list of views with different types. For example, you could write your own picker that has an interface like this:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Sample: View {
+    @State private var selection: Int? = 0
+
+    var body: some View {
+        MyPicker(selection: $selection) {
+            Text(&amp;quot;One&amp;quot;).myTag(1)
+            Image(systemName: &amp;quot;doc&amp;quot;).myTag(2)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	To implement this, we’ll use traits and variadic views. The tags are stored as traits. These are similar to preferences, but don’t bubble up as high. For example, they won’t bubble up out of a container view.
+&lt;/p&gt;
+&lt;p&gt;
+	Here’s the helper to tag views:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;fileprivate struct MyTag: _ViewTraitKey {
+    static var defaultValue: AnyHashable? = Optional&amp;lt;Int&amp;gt;.none
+}
+
+extension View {
+    func myTag&amp;lt;Value: Hashable&amp;gt;(_ value: Value) -&amp;gt; some View {
+        _trait(MyTag.self, value)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	In our picker, we loop over all the views and put them in an &lt;code&gt;HStack&lt;/code&gt;. We add a tap gesture to make the items tappable. We use the custom tag to check whether the item is selected. Except for the variadics and tags, the code is straightforward SwiftUI:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct MyPicker&amp;lt;Selection: Hashable, Content: View&amp;gt;: View {
+    @Binding var selection: Selection?
+    @ViewBuilder var content: Content
+
+    var body: some View {
+        HStack {
+            content.variadic { children in
+                ForEach(children) { child in
+                    let tag: Selection? = child[MyTag.self].flatMap { $0 as? Selection }
+                    let selected = tag == selection
+                    child
+                        .onTapGesture {
+                            selection = tag
+                        }
+                        .padding(.bottom, 5)
+                        .overlay(alignment: .bottom) {
+                            if selected {
+                                Color.accentColor
+                                    .frame(height: 1)
+                            }
+                        }
+                }
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	I think variadic views are essential if we want to write components that mimic the first-party components. They’re useful for small things (intersperse) and bigger things (components that want to be flexible about the types of the child views).
+&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+	&lt;hr/&gt;
+	&lt;ol&gt;
+		&lt;li id=&quot;fnref1&quot;&gt;
+			&lt;p&gt;
+				You can find more information about this by spelunking into the &lt;code&gt;.swiftinterface&lt;/code&gt; file that SwiftUI provides. Using your Terminal, go to /Applications/Xcode.app, type &lt;code&gt;find . -name &amp;quot;SwiftUI.swiftmodule&amp;quot;&lt;/code&gt; and go to that folder. Inside you’ll find &lt;code&gt;.swiftinterface&lt;/code&gt; files which contain &lt;em&gt;a lot&lt;/em&gt;
+				 of interesting things.
+				 &lt;a href=&quot;#fnref-rev1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+		&lt;/li&gt;
+	&lt;/ol&gt;
+&lt;/div&gt;
+			</description>
+			<pubDate>Fri, 27 Jan 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/variadic-views</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/variadic-views</guid>
+		</item>
+		<item>
 			<title>SwiftUI Views are Lists</title>
 			<description>
 				&lt;p&gt;
@@ -2076,243 +2278,6 @@ result // [&amp;quot;one&amp;quot;, &amp;quot;file.c&amp;quot;, &amp;quot;file.h
 			<pubDate>Mon, 29 Aug 2016 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/sort-descriptors-in-swift</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/sort-descriptors-in-swift</guid>
-		</item>
-		<item>
-			<title>Structs and mutation in Swift</title>
-			<description>
-				&lt;p&gt;&lt;em&gt;Note&lt;/em&gt;
-	: This post is a draft-version of a new section in our book &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot;&gt;Advanced Swift&lt;/a&gt;. We’re currently updating the book for Swift 3. It’ll be a free update for everyone who has bought a digital version of the book. Thanks to &lt;a href=&quot;https://twitter.com/olebegemann&quot;&gt;Ole Begemann&lt;/a&gt; for suggestions and improvements.
-&lt;/p&gt;
-&lt;p&gt;
-	Value types imply that whenever a variable is copied, the value itself — and not just a reference to the value — is copied. For example, in almost all programming languages, scalar types are value types. This means that whenever a value is assigned to a new variable, it is copied rather than passed by reference:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var a = 42
-var b = a
-b += 1
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	After the code above executes, the value of &lt;code&gt;b&lt;/code&gt; will be 43, but &lt;code&gt;a&lt;/code&gt; will still be 42. This is so natural that it seems like stating the obvious. However, in Swift, all structs behave this way, not just scalar types.
-&lt;/p&gt;
-&lt;p&gt;
-	Let’s start with a simple struct that describes a &lt;code&gt;Point&lt;/code&gt;. This is similar to &lt;code&gt;CGPoint&lt;/code&gt;, except that it contains &lt;code&gt;Int&lt;/code&gt;s, whereas &lt;code&gt;CGPoint&lt;/code&gt; contains &lt;code&gt;CGFloat&lt;/code&gt;s.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Point {
-    var x: Int
-    var y: Int
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	For structs, Swift automatically adds a memberwise initializer. This means we can now initialize a new variable:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let origin = Point(x: 0, y: 0)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Because structs in Swift have value semantics, we cannot change any of the properties of a struct variable that’s defined using let. For example, the following code will not work:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;highlight-swift&quot;&gt;origin.x = 10 // error
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Even though we defined &lt;code&gt;x&lt;/code&gt; within the struct as a &lt;code&gt;var&lt;/code&gt; property, we cannot change it, because &lt;code&gt;origin&lt;/code&gt; is defined using &lt;code&gt;let&lt;/code&gt;. This has some major advantages. For example, if you read a line like &lt;code&gt;let point = ...&lt;/code&gt;, and you know that &lt;code&gt;point&lt;/code&gt; is a struct variable, then you also know that it will never, ever, change. This is a great help when reading through code.
-&lt;/p&gt;
-&lt;p&gt;
-	To create a variable that we can mutate, we need to create it using &lt;code&gt;var&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var otherPoint = Point(x: 0, y: 0)
-otherPoint.x += 10
-otherPoint
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Once we create a variable using &lt;code&gt;var&lt;/code&gt;, we can mutate it. However, unlike with objects, every struct variable is unique. For example, we can create a new variable &lt;code&gt;thirdPoint&lt;/code&gt;, and assign the value of &lt;code&gt;origin&lt;/code&gt; to it. Now we can change &lt;code&gt;thirdPoint&lt;/code&gt;, but &lt;code&gt;origin&lt;/code&gt; (which we defined as an immutable variable using &lt;code&gt;let&lt;/code&gt;) will not change.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var thirdPoint = origin
-thirdPoint.x += 10
-thirdPoint
-origin
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Once you assign a struct to a new variable, Swift automatically makes a copy. Even though this sounds very expensive, many of the copies can be optimized away by the compiler, and Swift tries hard to make the copies very cheap. In fact, many structs in the standard library are implemented using a technique called copy-on-write, which we will look at later.
-&lt;/p&gt;
-&lt;p&gt;
-	If we have struct values that we plan to use more often, we can define them in an extension as a static property. For example, we can define an &lt;code&gt;origin&lt;/code&gt; property on &lt;code&gt;Point&lt;/code&gt;, so that we can write &lt;code&gt;Point.origin&lt;/code&gt; everywhere we need it:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Point {
-    static let origin = Point(x: 0, y: 0)
-}
-Point.origin
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Structs can also contain other structs. For example, if we define a &lt;code&gt;Size&lt;/code&gt; struct, we can create a &lt;code&gt;Rect&lt;/code&gt; struct which is composed out of a point and a size:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Size {
-    var width: Int
-    var height: Int
-}
-
-struct Rectangle {
-    var origin: Point
-    var size: Size
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Just like before, we get a memberwise initializer for &lt;code&gt;Rectangle&lt;/code&gt;. The order of the parameters matches the order of the property definitions:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Rectangle(origin: Point.origin, 
-          size: Size(width: 320, height: 480))
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	If we want a custom initializer for our struct, we can add it directly inside the struct definition. However, if the struct definition contains a custom initializer, Swift does not generate a memberwise initializer. By defining our custom initializer in an extension, we also get to keep the memberwise initializer.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Rectangle {
-    init(x: Int = 0, y: Int = 0, width: Int, height: Int) {
-        origin = Point(x: x, y: y)
-        size = Size(width: width, height: height)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Instead of setting &lt;code&gt;origin&lt;/code&gt; and &lt;code&gt;size&lt;/code&gt; directly, we could have also called &lt;code&gt;self.init(origin:size:)&lt;/code&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	If we define a mutable variable &lt;code&gt;screen&lt;/code&gt;, we can add a &lt;code&gt;didSet&lt;/code&gt; block that gets executed whenever &lt;code&gt;screen&lt;/code&gt; changes. This &lt;code&gt;didSet&lt;/code&gt; works for every definition of a struct, be it in a playground, in a class or when defining a global variable.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var screen = Rectangle(width: 320, height: 480) {
-    didSet {
-        print(&amp;quot;Screen changed! \(screen)&amp;quot;)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Maybe somewhat surprisingly, even if we change something deep inside the struct, this will get triggered:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;screen.origin.x = 10
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Understanding why this works is key to understanding value types. Mutating a struct variable is semantically the same as assigning a new value to it. When we mutate something deep inside the struct, it still means we are mutating the struct, so &lt;code&gt;didSet&lt;/code&gt; still needs to get triggered.
-&lt;/p&gt;
-&lt;p&gt;
-	With regular structs, the compiler will mutate the value in place, and not actually make a copy. With copy-on-write structs (which we’ll discuss later), this works differently.
-&lt;/p&gt;
-&lt;p&gt;
-	It would make sense to add two &lt;code&gt;Points&lt;/code&gt; together. We can use the &lt;code&gt;+&lt;/code&gt; operator for this, add both members, and return a new &lt;code&gt;Point&lt;/code&gt;.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func +(lhs: Point, rhs: Point) -&amp;gt; Point {
-    return Point(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
-}
-screen.origin + Point(x: 10, y: 10)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	We could also lift this operation to rectangles, and add a &lt;code&gt;translate&lt;/code&gt; method which moves the rectangle by a given offset. Our first attempt doesn’t work:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;highlight-swift&quot;&gt;extension Rectangle {
-    func translate(by offset: Point) {
-        origin = origin + offset
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The compiler tells us that we cannot assign to the &lt;code&gt;origin&lt;/code&gt; property, because &lt;code&gt;self&lt;/code&gt; is immutable (writing &lt;code&gt;origin =&lt;/code&gt; is shorthand for &lt;code&gt;self.origin =&lt;/code&gt;). We could think of &lt;code&gt;self&lt;/code&gt; as an extra, implicit parameter that gets passed to every method on &lt;code&gt;Rectangle&lt;/code&gt;. You never have to pass the parameter, but it’s always there inside the method body. And it’s defined as &lt;code&gt;let&lt;/code&gt; by default. The reason this &lt;code&gt;let&lt;/code&gt; restriction exists is so that value semantics can be guaranteed. If we want to be able to mutate &lt;code&gt;self&lt;/code&gt;, or any property of &lt;code&gt;self&lt;/code&gt;, or even nested properties (e.g. &lt;code&gt;self.origin.x&lt;/code&gt;), we need to mark our method as &lt;code&gt;mutating&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Rectangle {
-    mutating func translate(by offset: Point) {
-        origin = origin + offset
-    }
-}
-screen.translate(by: Point(x: 10, y: 10))
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The compiler enforces the &lt;code&gt;mutating&lt;/code&gt; keyword. Unless we use it, we are not allowed to mutate anything inside the method. By marking the method as &lt;code&gt;mutating&lt;/code&gt;, we change the behavior of &lt;code&gt;self&lt;/code&gt;. Instead of it being a &lt;code&gt;let&lt;/code&gt;, it now works like a &lt;code&gt;var&lt;/code&gt;: we can freely change any property. (To be precise, it’s not even a &lt;code&gt;var&lt;/code&gt;, but we will get to that in a little bit).
-&lt;/p&gt;
-&lt;p&gt;
-	If we define a &lt;code&gt;Rectangle&lt;/code&gt; variable using &lt;code&gt;let&lt;/code&gt;, we cannot call &lt;code&gt;translate&lt;/code&gt; on it, because the only &lt;code&gt;Rectangle&lt;/code&gt;s that are mutable are the ones defined using &lt;code&gt;var&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;highlight-swift&quot;&gt;let otherScreen = screen
-otherScreen.translate(by: Point(x: 10, y: 10)) // error
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Thinking back to the collections chapter, we can now see how the difference between &lt;code&gt;let&lt;/code&gt; and &lt;code&gt;var&lt;/code&gt; applies to our collections as well. The &lt;code&gt;append&lt;/code&gt; method on arrays is defined as &lt;code&gt;mutating&lt;/code&gt;, and therefore we are not allowed to call it on an array defined with &lt;code&gt;let&lt;/code&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	Likewise, if we think about a property setter on a struct, it makes sense that they are mutating. Because Swift automatically marks every setter as &lt;code&gt;mutating&lt;/code&gt;, you cannot call a setter on a &lt;code&gt;let&lt;/code&gt; variable.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;highlight-swift&quot;&gt;let point = Point.origin
-// doesn&amp;apos;t work, because the setter is mutating.
-point.x = 10 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	In many cases, it makes sense to have both a &lt;code&gt;mutating&lt;/code&gt; and a non-mutating variant of the same method. For example, arrays have both a &lt;code&gt;sort()&lt;/code&gt; method (which is mutating and sorts in place) and a &lt;code&gt;sorted()&lt;/code&gt; method (which returns a new array). We can also add a non-mutating variant of our &lt;code&gt;translate(by:_)&lt;/code&gt; method. Instead of mutating &lt;code&gt;self&lt;/code&gt;, we create a copy, mutate that, and return a new &lt;code&gt;Rectangle&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Rectangle {
-    func translated(by offset: Point) -&amp;gt; Rectangle {
-        var copy = self
-        copy.translate(by: offset)
-        return copy
-    }
-}
-screen.translated(by: Point(x: 20, y: 20))
-&lt;/code&gt;&lt;/pre&gt;
-&lt;blockquote&gt;
-	&lt;p&gt;
-		The names &lt;code&gt;sort&lt;/code&gt; and &lt;code&gt;sorted&lt;/code&gt; are not chosen at random, but are names that conform to the Swift &lt;a href=&quot;https://swift.org/documentation/api-design-guidelines/&quot;&gt;API Design Guidelines&lt;/a&gt;. Likewise, we applied these guidelines to &lt;code&gt;translate&lt;/code&gt; and &lt;code&gt;translated&lt;/code&gt;. There is even specific documentation for methods that have a mutating and a non-mutating variant: because &lt;code&gt;translate&lt;/code&gt; has a side-effect, it should read as an imperative verb phrase. The non-mutating variant should have a -ed or -ing suffix.
-	&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;
-	In functional programming, side-effects are often considered bad, because they might influence your code in unexpected ways. For example, if an object is referenced in multiple places, every change automatically happens in every place. As we have seen in the introduction, when dealing with multi-threaded code, this can easily lead to bugs: because the object you are just checking can be modified from a different thread, all your assumptions might be invalid.
-&lt;/p&gt;
-&lt;p&gt;
-	With Swift structs, &lt;code&gt;mutating&lt;/code&gt; does not have the same problems. The mutation of the struct is a local side-effect, and only applies to the current struct variable. Because every struct variable is unique (or in other words: every struct value has exactly one owner), it’s almost impossible to introduce bugs this way. Unless you’re referring to a global struct variable across threads, that is.
-&lt;/p&gt;
-&lt;p&gt;
-	To understand how the &lt;code&gt;mutating&lt;/code&gt; keyword works, we can look at the behavior of &lt;code&gt;inout&lt;/code&gt;. In Swift, we can mark function parameters as &lt;code&gt;inout&lt;/code&gt;. Before we do that, let’s define a free function that moves a rectangle by ten points on both axes. We cannot simply call &lt;code&gt;translate&lt;/code&gt; directly on the &lt;code&gt;rectangle&lt;/code&gt; parameter, because all function parameters are immutable by default. In order to change it, we create a mutable copy using &lt;code&gt;var&lt;/code&gt;, call &lt;code&gt;translate&lt;/code&gt; and return the changed value. Then we need to re-assign it to &lt;code&gt;screen&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func moveByTenTen(rectangle: Rectangle) -&amp;gt; Rectangle {
-    var changed = rectangle
-    changed.translate(by: Point(x: 10, y: 10))
-    return changed
-}
-screen = moveByTenTen(rectangle: screen)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	How could we write a function that changes the &lt;code&gt;rectangle&lt;/code&gt; in place? Thinking back, the &lt;code&gt;mutating&lt;/code&gt; keyword did exactly that. It makes the implicit &lt;code&gt;self&lt;/code&gt; parameter mutable, and it changes the value of the variable.
-&lt;/p&gt;
-&lt;p&gt;
-	In functions, we can mark parameters as &lt;code&gt;inout&lt;/code&gt;. Just like with a regular parameter, a copy of the value gets passed in to the function. However, we can change the copy (it’s as if it were defined as a &lt;code&gt;var&lt;/code&gt;). And once the function returns, the original value gets overwritten:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func moveByTwentyTwenty(rectangle: inout Rectangle) {
-    rectangle.translate(by: Point(x: 20, y: 20))
-}
-moveByTwentyTwenty(rectangle: &amp;amp;screen)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The &lt;code&gt;moveByTwentyTwenty&lt;/code&gt; function takes the &lt;code&gt;screen&lt;/code&gt; rectangle, changes it locally, and copies the new value back (overriding the previous value of &lt;code&gt;screen&lt;/code&gt;). This behavior is exactly the same as a &lt;code&gt;mutating&lt;/code&gt; method. In fact, &lt;code&gt;mutating&lt;/code&gt; methods are just like regular methods on struct, except that &lt;code&gt;self&lt;/code&gt; is marked as &lt;code&gt;inout&lt;/code&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	Just to make sure, we cannot call &lt;code&gt;moveByTwentyTwenty&lt;/code&gt; on a rectangle that’s defined using &lt;code&gt;let&lt;/code&gt;. We can only use it with mutable values:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;highlight-swift&quot;&gt;let immutableScreen = screen
-moveByTwentyTwenty(rectangle: &amp;amp;immutableScreen) // error
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Now it also makes sense how we could define a mutating operator like &lt;code&gt;+=&lt;/code&gt;. Such operators modify the left-hand side by adding the right-hand side:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func +=(lhs: inout Point, rhs: Point) {
-    lhs = lhs + rhs
-}
-var myPoint = Point.origin
-myPoint += Point(x: 10, y: 10)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	In the Functions chapter, we will go into more detail about &lt;code&gt;inout&lt;/code&gt;. For now, it suffices to say that &lt;code&gt;inout&lt;/code&gt; is in lots of places. For example, it’s now easy to understand how modifying a subscript works:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var array = [Point(x: 0, y: 0), Point(x: 10, y: 10)]
-array[0] += Point(x: 100, y: 100)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The expression &lt;code&gt;array[0]&lt;/code&gt; is automatically passed in as an &lt;code&gt;inout&lt;/code&gt; variable. In the Functions chapter, we will look in more detail at &lt;code&gt;inout&lt;/code&gt; parameters, and see why we can use expressions like &lt;code&gt;array[0]&lt;/code&gt; as an &lt;code&gt;inout&lt;/code&gt; parameter.
-&lt;/p&gt;
-			</description>
-			<pubDate>Tue, 16 Aug 2016 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/structs-and-mutation-in-swift</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/structs-and-mutation-in-swift</guid>
 		</item>
 	</channel>
 </rss>

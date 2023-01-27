@@ -3,13 +3,16 @@ import HTML
 
 extension BlogPost {
     @MainActor
-    var images: [Data] {
+    var images: [(light: Data, dark: Data)] {
         switch body {
         case .markdown: return []
         case .pieces(let p):
             return p.compactMap {
                 guard case let .swiftUI(view, size) = $0 else { return nil }
-                return view.render(size: size)
+                return (
+                    light: view.render(size: size, colorScheme: .light),
+                    dark: view.render(size: size, colorScheme: .dark)
+                )
             }
         }
     }
@@ -17,8 +20,13 @@ extension BlogPost {
 
 @MainActor
 extension View {
-    func render(size: ProposedViewSize) -> Data {
-        let renderer = ImageRenderer(content: self)
+    func render(size: ProposedViewSize, colorScheme: ColorScheme = .dark) -> Data {
+        let view = self
+            .padding()
+            .background(.background)
+            .colorScheme(colorScheme)
+            .preferredColorScheme(colorScheme)
+        let renderer = ImageRenderer(content: view)
         renderer.scale = 2
         renderer.proposedSize = size
         return renderer.cgImage!.png!

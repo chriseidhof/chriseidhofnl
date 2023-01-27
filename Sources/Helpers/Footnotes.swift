@@ -12,7 +12,9 @@ import Markdown
 let linkPrefix = "fnref"
 let refPrefix = "fnref-rev"
 
-struct FootnoteState {
+public struct FootnoteState {
+    public init() { }
+
     var counter: Int = 1
     var notes: [Int:String] = [:]
 }
@@ -57,10 +59,11 @@ extension String {
     }
 }
 
-typealias Definitions = [String: [InlineMarkup]]
+public typealias Definitions = [String: [InlineMarkup]]
 
 struct CollectDefinitions: MarkupRewriter {
     var definitions: Definitions = [:]
+
     mutating func visitParagraph(_ paragraph: Paragraph) -> Markup? {
         guard paragraph.childCount > 0,
               var t = paragraph.child(at: 0) as? Text,
@@ -83,25 +86,22 @@ struct AddInlineLinks: MarkupRewriter {
     }
 }
 
-extension String {
-    public func markdownWithFootnotes() -> HTML.Node {
-        let doc = Document(parsing: self)
-        var rewriter = CollectDefinitions()
-        var result = rewriter.visit(doc) ?? doc
 
-        guard !rewriter.definitions.isEmpty else {
-            return result.toNode()
-        }
+public struct FState {
+    public init() { }
+    
+    var footnotes: FootnoteState = .init()
+    var definitions: Definitions = [:]
 
-        var a = AddInlineLinks()
-        result = a.visit(result) ?? result
-        let node = result.toNode()
-        let footnotes = div(class: "footnotes") {
+    public var rendered: Node {
+        guard !footnotes.notes.isEmpty else { return .fragment([]) }
+
+        return div(class: "footnotes") {
             hr()
             ol {
-                a.state.notes.keys.sorted().map { key -> HTML.Node in
-                    let label = a.state.notes[key]!
-                    guard var paragraphChildren: [InlineMarkup] = rewriter.definitions[label] else {
+                footnotes.notes.keys.sorted().map { key -> HTML.Node in
+                    let label = footnotes.notes[key]!
+                    guard var paragraphChildren: [InlineMarkup] = definitions[label] else {
                         fatalError("No definition for footnote \(label)")
                     }
                     paragraphChildren.append(Text(" "))
@@ -112,6 +112,34 @@ extension String {
                 }
             }
         }
-        return .fragment([node, footnotes])
+    }
+}
+
+extension String {
+    public func markdownWithSeparateFootnotes(state: inout FState) -> Node {
+        let doc = Document(parsing: self)
+        var rewriter = CollectDefinitions(definitions: state.definitions)
+        var result = rewriter.visit(doc) ?? doc
+
+        guard !rewriter.definitions.isEmpty else {
+            return result.toNode()
+        }
+
+        var a = AddInlineLinks(state: state.footnotes)
+        result = a.visit(result) ?? result
+        state.footnotes = a.state
+        state.definitions = rewriter.definitions
+        return result.toNode()
+
+        /*
+
+         */
+
+    }
+
+    public func markdownWithFootnotes() -> HTML.Node {
+        var state = FState()
+        let result = markdownWithSeparateFootnotes(state: &state)
+        return .fragment([result, state.rendered])
     }
 }

@@ -24,9 +24,11 @@ extension BlogPost {
 
 extension BlogPost {
     @MainActor @RuleBuilder var generateImages: some Rule {
-        ForEach(Array(images.enumerated())) { (ix, img) in
+        ForEach(Array(images.enumerated())) { (ix, images) in
             let dest = link + "/\(ix).png"
-            Write(outputName: dest, data: img)
+            Write(outputName: dest, data: images.light)
+            let destDark = link + "/\(ix)-dark.png"
+            Write(outputName: destDark, data: images.dark)
         }
     }
 }
