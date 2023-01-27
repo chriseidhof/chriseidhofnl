@@ -4,7 +4,7 @@ title: "SwiftUI Views are Lists"
 headline: The View Protocol Has A Misleading Name
 ---
 
-When you write SwiftUI, all your views conform to the `View` protocol. The name of this protocol is a bit misleading: I it could be called `Views` or `ViewList`, or something else that suggests plurals.
+When you write SwiftUI, all your views conform to the `View` protocol. The name of this protocol is a bit misleading: I it could be called `Views` or `ViewList`, or something else that suggests plurals[^discussion].
 
 For example, consider the following view:
 
@@ -61,6 +61,10 @@ To create lists with a dynamic size, you can use conditionals such as `if`. Note
  }
 ```
 
-As mentioned, the `Layout` protocol lets you work with these view lists directly as of iOS 16 and macOS 13. You can also use [variadic views](https://movingparts.io/variadic-views-in-swiftui) — a non-public, but stable API — to loop over view lists. The variadic view API is really powerful (for example, you can write things like `filter`, `map` and `reduce` on view lists) but also quite low-level. I have a gist [here](https://gist.github.com/chriseidhof/5ff6ef8786f5635c18b20304ab9d9b01) with some examples, and plan to also write this up soon.
+As mentioned, the `Layout` protocol lets you work with these view lists directly as of iOS 16 and macOS 13. You can also use [variadic views](https://movingparts.io/variadic-views-in-swiftui) — a non-public, but stable API — to loop over view lists. The variadic view API is really powerful (for example, you can write things like `filter`, `map` and `reduce` on view lists) but also quite low-level. I have a gist [here](https://gist.github.com/chriseidhof/5ff6ef8786f5635c18b20304ab9d9b01) with some examples, and plan to also write this up soon[^variadics].
 
 > This article was inspired by the section that Florian wrote for our book [Thinking in SwiftUI](https://www.objc.io/books/thinking-in-swiftui). We're currently rewriting the book and hope to get it out soon.
+
+[^discussion]: Not everyone agrees with this, the [discussion on Mastodon](https://m.objc.io/@chris/109751198846392579) was quite interesting.
+
+[^variadics]: I did write this up, and [the post is here](/post/variadic-views).

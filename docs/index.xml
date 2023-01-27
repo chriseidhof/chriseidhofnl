@@ -246,7 +246,9 @@ extension View {
 			<title>SwiftUI Views are Lists</title>
 			<description>
 				&lt;p&gt;
-	When you write SwiftUI, all your views conform to the &lt;code&gt;View&lt;/code&gt; protocol. The name of this protocol is a bit misleading: I it could be called &lt;code&gt;Views&lt;/code&gt; or &lt;code&gt;ViewList&lt;/code&gt;, or something else that suggests plurals.
+	When you write SwiftUI, all your views conform to the &lt;code&gt;View&lt;/code&gt; protocol. The name of this protocol is a bit misleading: I it could be called &lt;code&gt;Views&lt;/code&gt; or &lt;code&gt;ViewList&lt;/code&gt;, or something else that suggests plurals
+&lt;sup&gt;&lt;a href=&quot;#fnrefdiscussion&quot; name=&quot;fnref-revdiscussion&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
+.
 &lt;/p&gt;
 &lt;p&gt;
 	For example, consider the following view:
@@ -306,13 +308,30 @@ extension View {
  }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
-	As mentioned, the &lt;code&gt;Layout&lt;/code&gt; protocol lets you work with these view lists directly as of iOS 16 and macOS 13. You can also use &lt;a href=&quot;https://movingparts.io/variadic-views-in-swiftui&quot;&gt;variadic views&lt;/a&gt; — a non-public, but stable API — to loop over view lists. The variadic view API is really powerful (for example, you can write things like &lt;code&gt;filter&lt;/code&gt;, &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;reduce&lt;/code&gt; on view lists) but also quite low-level. I have a gist &lt;a href=&quot;https://gist.github.com/chriseidhof/5ff6ef8786f5635c18b20304ab9d9b01&quot;&gt;here&lt;/a&gt; with some examples, and plan to also write this up soon.
+	As mentioned, the &lt;code&gt;Layout&lt;/code&gt; protocol lets you work with these view lists directly as of iOS 16 and macOS 13. You can also use &lt;a href=&quot;https://movingparts.io/variadic-views-in-swiftui&quot;&gt;variadic views&lt;/a&gt; — a non-public, but stable API — to loop over view lists. The variadic view API is really powerful (for example, you can write things like &lt;code&gt;filter&lt;/code&gt;, &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;reduce&lt;/code&gt; on view lists) but also quite low-level. I have a gist &lt;a href=&quot;https://gist.github.com/chriseidhof/5ff6ef8786f5635c18b20304ab9d9b01&quot;&gt;here&lt;/a&gt; with some examples, and plan to also write this up soon
+&lt;sup&gt;&lt;a href=&quot;#fnrefvariadics&quot; name=&quot;fnref-revvariadics&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;
+.
 &lt;/p&gt;
 &lt;blockquote&gt;
 	&lt;p&gt;
 		This article was inspired by the section that Florian wrote for our book &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui&quot;&gt;Thinking in SwiftUI&lt;/a&gt;. We’re currently rewriting the book and hope to get it out soon.
 	&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+	&lt;hr/&gt;
+	&lt;ol&gt;
+		&lt;li id=&quot;fnrefdiscussion&quot;&gt;
+			&lt;p&gt;
+				Not everyone agrees with this, the &lt;a href=&quot;https://m.objc.io/@chris/109751198846392579&quot;&gt;discussion on Mastodon&lt;/a&gt; was quite interesting.
+				 &lt;a href=&quot;#fnref-revdiscussion&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+		&lt;/li&gt;
+		&lt;li id=&quot;fnrefvariadics&quot;&gt;
+			&lt;p&gt;
+				I did write this up, and &lt;a href=&quot;http://chris.eidhof.nl/post/variadic-views&quot;&gt;the post is here&lt;/a&gt;.
+				 &lt;a href=&quot;#fnref-revvariadics&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+		&lt;/li&gt;
+	&lt;/ol&gt;
+&lt;/div&gt;
 			</description>
 			<pubDate>Wed, 25 Jan 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/swiftui-views-are-lists</link>

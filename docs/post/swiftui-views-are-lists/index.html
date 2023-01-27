@@ -28,7 +28,9 @@
 						</header>
 						<section class="postbody">
 							<p>
-								When you write SwiftUI, all your views conform to the <code>View</code> protocol. The name of this protocol is a bit misleading: I it could be called <code>Views</code> or <code>ViewList</code>, or something else that suggests plurals.
+								When you write SwiftUI, all your views conform to the <code>View</code> protocol. The name of this protocol is a bit misleading: I it could be called <code>Views</code> or <code>ViewList</code>, or something else that suggests plurals
+<sup><a href="#fnrefdiscussion" name="fnref-revdiscussion">1</a></sup>
+.
 							</p>
 							<p>
 								For example, consider the following view:
@@ -88,13 +90,30 @@
  }
 </code></pre>
 							<p>
-								As mentioned, the <code>Layout</code> protocol lets you work with these view lists directly as of iOS 16 and macOS 13. You can also use <a href="https://movingparts.io/variadic-views-in-swiftui">variadic views</a> — a non-public, but stable API — to loop over view lists. The variadic view API is really powerful (for example, you can write things like <code>filter</code>, <code>map</code> and <code>reduce</code> on view lists) but also quite low-level. I have a gist <a href="https://gist.github.com/chriseidhof/5ff6ef8786f5635c18b20304ab9d9b01">here</a> with some examples, and plan to also write this up soon.
+								As mentioned, the <code>Layout</code> protocol lets you work with these view lists directly as of iOS 16 and macOS 13. You can also use <a href="https://movingparts.io/variadic-views-in-swiftui">variadic views</a> — a non-public, but stable API — to loop over view lists. The variadic view API is really powerful (for example, you can write things like <code>filter</code>, <code>map</code> and <code>reduce</code> on view lists) but also quite low-level. I have a gist <a href="https://gist.github.com/chriseidhof/5ff6ef8786f5635c18b20304ab9d9b01">here</a> with some examples, and plan to also write this up soon
+<sup><a href="#fnrefvariadics" name="fnref-revvariadics">2</a></sup>
+.
 							</p>
 							<blockquote>
 								<p>
 									This article was inspired by the section that Florian wrote for our book <a href="https://www.objc.io/books/thinking-in-swiftui">Thinking in SwiftUI</a>. We’re currently rewriting the book and hope to get it out soon.
 								</p>
 							</blockquote>
+							<div class="footnotes">
+								<hr/>
+								<ol>
+									<li id="fnrefdiscussion">
+										<p>
+											Not everyone agrees with this, the <a href="https://m.objc.io/@chris/109751198846392579">discussion on Mastodon</a> was quite interesting.
+											 <a href="#fnref-revdiscussion">↩</a></p>
+									</li>
+									<li id="fnrefvariadics">
+										<p>
+											I did write this up, and <a href="/post/variadic-views">the post is here</a>.
+											 <a href="#fnref-revvariadics">↩</a></p>
+									</li>
+								</ol>
+							</div>
 						</section>
 						<footer class="group" id="post-meta">
 							<div>
