@@ -1,0 +1,77 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes #4 — Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes #4
+							</h1>
+							<h2 class="headline">
+								Workshops
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								While Florian was away the first few days this week to hold a workshop, I prepared some more things for next week’s workshop. During the workshop, we use an internal Mac app to present things to the attendees. For example, we show layout trees, render trees and have an interactive alignment visualization. Some of these only worked well in dark mode, and I fixed that. I used a combination of <code>.background(.background)</code> to set the background to the current background style, as well as <code>.backgroundStyle(colorScheme == .light ? …)</code> to set the current background style.
+							</p>
+							<p>
+								In the workshop app that our attendees receive, I also added interactive render tree examples:
+							</p>
+							<picture>
+   <source media="(prefers-color-scheme: dark)" srcset="/images/workshop-app-dark.png 2x">
+   <img srcset="/images/workshop-app.png 2x" style="width: auto;">
+</picture>
+
+							<p>
+								In our alignment demos, I used <a href="https://www.fivestars.blog/articles/reverse-masks-how-to/"><code>.reversedMask</code></a> to obscure parts of a view. You can see this in the screenshot below: the alignment guides are continuous lines with the text (+ padding) cut out:
+							</p>
+							<picture>
+   <source media="(prefers-color-scheme: dark)" srcset="/images/alignment-screenshot-dark.png 2x">
+   <img srcset="/images/alignment-screenshot.png 2x" style="width: auto;">
+</picture>
+
+							<p>
+								In recent years, I only wrote up to three posts a year, this week I wrote three posts (including this one). First, I wrote about how <a href="/post/swiftui-views-are-lists">SwiftUI views are lists</a> and about <a href="/post/variadic-views/">Variadic Views</a>. The variadic view posts includes rendered SwiftUI views that are automatically generated at compile time of this blog. The images automatically switch between light mode and dark mode (similar to the screenshots in this post).
+							</p>
+							<p>
+								At home, I made two of my favorite left over recipes: we used left over pasta sauce for empanada filling. Also, we used left over risotto and made a small batch of air fried mozarella arancinis.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Jan 27, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">@chris</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="prev"><a href="/post/variadic-views"><span class="arrow">←</span>
+									Variadic Views</a></span>
+							<span class="next"><a href="/post/swiftui-views-are-lists">SwiftUI Views are Lists
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
