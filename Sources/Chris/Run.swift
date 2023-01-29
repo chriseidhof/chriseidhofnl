@@ -12,6 +12,7 @@ struct Site: Rule {
         AboutMe().outputPath("about")
         Blog(posts: BlogPost.inContext())
         Snippets()
+//        SwiftUIViews()
         Write(outputName: ".nojekyll", data: Data())
         Write(outputName: "CNAME", data: "chris.eidhof.nl".data(using: .utf8)!)
         // TODO: aliases

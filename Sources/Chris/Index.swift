@@ -23,7 +23,7 @@ struct Index: Rule {
             p(class: "small") {
                 "Made by "
                 a(href: "https://m.objc.io/@chris", rel: "me") {
-                    "@chris"
+                    "Chris Eidhof"
                 }
                 "."
                 

@@ -84,7 +84,7 @@ extension BlogPost {
                         }
                         " by "
                         a(href: "https://m.objc.io/@chris") {
-                            "@chris"
+                            "Chris Eidhof"
                         }
                     }
                 }
