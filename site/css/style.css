@@ -431,7 +431,6 @@ a.back:hover, #archive-link:hover {
      list-style-type:number;
 }
  #post-meta {
-     font-family:  var(--all-caps-font);
      font-size: var(--small-font-size);
      margin-bottom:40px;
      line-height:1.4;
@@ -440,6 +439,12 @@ a.back:hover, #archive-link:hover {
      margin-top:40px;
      color: var(--secondary-color);
 }
+
+
+#post-meta time {
+     font-family:  var(--all-caps-font);
+}
+
  #post-meta.promo {
      background: var(--secondary-background-color);
      padding: 40px;
