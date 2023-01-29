@@ -60,8 +60,8 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
 	&lt;picture class=&quot;swiftui&quot;&gt;
-		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/variadic-views/0-dark.png 2x&quot;/&gt;
-		&lt;img srcset=&quot;http://chris.eidhof.nl/post/variadic-views/0.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/variadic-views/1-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/variadic-views/1.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
 	&lt;/picture&gt;
 &lt;/p&gt;
 &lt;p&gt;
@@ -94,8 +94,8 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
 	&lt;picture class=&quot;swiftui&quot;&gt;
-		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/variadic-views/1-dark.png 2x&quot;/&gt;
-		&lt;img srcset=&quot;http://chris.eidhof.nl/post/variadic-views/1.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/variadic-views/3-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/variadic-views/3.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
 	&lt;/picture&gt;
 &lt;/p&gt;
 &lt;p&gt;
@@ -126,8 +126,8 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
 	&lt;picture class=&quot;swiftui&quot;&gt;
-		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/variadic-views/2-dark.png 2x&quot;/&gt;
-		&lt;img srcset=&quot;http://chris.eidhof.nl/post/variadic-views/2.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/variadic-views/5-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/variadic-views/5.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
 	&lt;/picture&gt;
 &lt;/p&gt;
 &lt;p&gt;

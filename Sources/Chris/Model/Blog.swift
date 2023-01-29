@@ -10,6 +10,13 @@ import StaticSite
 import Yams
 import HTML
 
+
+extension BlogPost {
+    static let otherPosts: [BlogPost] = [
+        variadicViews
+    ]
+}
+
 extension BlogPost {
     var bodyNode: HTML.Node {
         switch body {
@@ -24,11 +31,13 @@ extension BlogPost {
 
 extension BlogPost {
     @MainActor @RuleBuilder var generateImages: some Rule {
-        ForEach(Array(images.enumerated())) { (ix, images) in
-            let dest = link + "/\(ix).png"
-            Write(outputName: dest, data: images.light)
-            let destDark = link + "/\(ix)-dark.png"
-            Write(outputName: destDark, data: images.dark)
+        switch body {
+        case .markdown(_):
+            EmptyRule()
+        case .pieces(let pieces):
+            ForEach(Array(pieces.enumerated())) { (ix, piece) in
+                AnyBuiltin(any: piece.generateImages(id: ix))
+            }
         }
     }
 }
@@ -52,9 +61,11 @@ struct Blog: Rule {
                         try! post.post.generateImages.builtin.run(environment: env)
                     }
                 }
+                .outputPath(post.post.link)
             }
-            WriteNode(outputName: post.post.outputName, node: post.page)
+            WriteNode(outputName: "index.html", node: post.page)
                 .title(post.post.metadata.title)
+                .outputPath(post.post.link)
         }
         WriteNode(outputName: "index.xml", node: feed, xml: true)
             .resetTemplates()
@@ -116,7 +127,7 @@ extension PostDate {
 
 enum PostBody {
     case markdown(String)
-    case pieces([PostPiece])
+    case pieces([any PostPiece])
 }
 
 struct BlogPost {
@@ -185,7 +196,7 @@ func loadPosts(path: String, buildDate: (_ filename: String, _ metadata: BlogPos
         let meta: BlogPost.Metadata = try decoder.decode(from: yaml!)
         return BlogPost(metadata: meta, body: .markdown(contents), link: buildLinkName(file))
     }
-    let all = parsed + otherPosts
+    let all = parsed + BlogPost.otherPosts
     return all.filter { $0.published }.sorted(by: { $0.date < $1.date }).reversed()
 }
 

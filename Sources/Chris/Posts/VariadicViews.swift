@@ -54,8 +54,8 @@ extension View {
 }
 
 @PieceBuilder
-fileprivate var myPostBody: [PostPiece] {
-    """
+fileprivate var myPostBody: [any PostPiece] {
+    Markdown("""
     This week's post about how the SwiftUI view protocol [really represents lists](/post/swiftui-views-are-lists/) stirred a bit of controversy on Mastodon. But I think we all learned a bit from the discussion that followed (I definitely did).
 
     To deal with these lists of views (e.g. during layout) we can use the underscored variadic view API. I learned about variadic views through the [Moving Parts](http://movingparts.io/variadic-views-in-swiftui) blog. I don't know whether this API is going to change in the future, whether it's App-Store-proof, and so on. It's probably underscored for a good reason. With that out of the way, let's get started!
@@ -104,11 +104,13 @@ fileprivate var myPostBody: [PostPiece] {
     HStack { subviews }
     ```
 
-    """.markdownPiece
+    """)
 
-    HStack { subviews }.embed()
+    SwiftUIView {
+        HStack { subviews }
+    }
 
-    """
+    Markdown("""
     Using our `variadic` method, we can write more helper methods. For example, we could intersperse views in between the elements:
 
     ```swift
@@ -138,14 +140,17 @@ fileprivate var myPostBody: [PostPiece] {
         }
     }
     ```
-    """.markdownPiece
+    """)
 
-    HStack {
-        subviews.intersperse {
-            Divider().fixedSize()
+    SwiftUIView {
+        HStack {
+            subviews.intersperse {
+                Divider().fixedSize()
+            }
         }
-    }.embed()
+    }
 
+    Markdown(
     """
     We can also write a more low-level abstraction like `reduce` (which unfortunately requires `AnyView`):
 
@@ -174,16 +179,19 @@ fileprivate var myPostBody: [PostPiece] {
         }
     }
     ```
-    """.markdownPiece
+    """)
 
-    HStack {
-        subviews.reduce { view1, view2 in
-            view2
-            Circle().frame(width: 5, height: 5)
-            view1
+    SwiftUIView {
+        HStack {
+            subviews.reduce { view1, view2 in
+                view2
+                Circle().frame(width: 5, height: 5)
+                view1
+            }
         }
-    }.embed()
+    }
 
+    Markdown(
     """
     Variadic views are also very useful when you want to write reusable components that take a list of views with different types. For example, you could write your own picker that has an interface like this:
 
@@ -248,5 +256,5 @@ fileprivate var myPostBody: [PostPiece] {
     ```
 
     I think variadic views are essential if we want to write components that mimic the first-party components. They're useful for small things (intersperse) and bigger things (components that want to be flexible about the types of the child views).
-    """.markdownPiece
+    """)
 }
