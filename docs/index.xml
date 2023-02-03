@@ -8,6 +8,32 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes #5</title>
+			<description>
+				&lt;p&gt;
+	During the first three days of this week we ran a workshop in PST. This was actually a two-day workshop, split into three days because of the timezone difference. I’m an early riser by nature, and staying up until midnight isn’t really my strength. While it’s pretty easy during the workshop as we are constantly either helping people work through exercises or explaining things, I did have to take some extra rest the day after.
+&lt;/p&gt;
+&lt;p&gt;
+	It is always kind of nice to start working at 6pm, as the day before is very long. I do find it hard to relax before work, my natural mode is to do all the things I need to do before early afternoon. I didn’t manage to really do nothing, so instead I spent a lot of time doing things around the new house, sorting out things in our current house.
+&lt;/p&gt;
+&lt;p&gt;
+	The house renovation has been pretty stressful for me, as there are so many dependencies and things going on that I don’t have a clue about. I think we mostly have been pretty lucky with the contractors. I also learned so much during the build, doing plastering, building drywalls, bricklaying, and so on. It’s a lot of fun but stressful. Luckily there’s a very clear end in sight.
+&lt;/p&gt;
+&lt;p&gt;
+	To me, having built and helped with many parts of our house gives the house a lot of “personal quality”. In our current house, I designed and built a very simple kitchen completely from scratch. Any store bought kitchen is probably better, but for me personally, having built the kitchen all by myself brings me much more satisfaction than the nicest store bought kitchen could ever give me. Of course, my wife doesn’t agree and so we bought a proper kitchen for the new house.
+&lt;/p&gt;
+&lt;p&gt;
+	Since the birth of our second daughter (and the house renovation) I cut down my running a lot. Instead of running twice a day most days, now I’m not even running every day. I’m not sure what I’ll do with that once we’ve moved. Part of me wants to get back into the groove of high mileage marathon training, and part of me wants to have more breadth: running, cycling, swimming, canoeing are all activities that we have the perfect surroundings for.
+&lt;/p&gt;
+&lt;p&gt;
+	I didn’t cook many fancy things, but I did make bagels. Last time, my bagels turned out to be really tasty but didn’t look right. This time around, the bagels looked perfect but were a bit bland. I’ll try again this weekend.
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 03 Feb 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-05</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-05</guid>
+		</item>
+		<item>
 			<title>Variadic Views</title>
 			<description>
 				&lt;p&gt;
@@ -1719,170 +1745,6 @@ func sendRequest(urlString: URLStringConvertible, method: ...) {
 			<pubDate>Thu, 27 Oct 2016 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/burnout</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/burnout</guid>
-		</item>
-		<item>
-			<title>Type Erasers in Swift</title>
-			<description>
-				&lt;p&gt;
-	The following post is an excerpt from our book &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot;&gt;Advanced Swift&lt;/a&gt;. We just updated it to Swift 3, so this is a great time to buy it.
-&lt;/p&gt;
-&lt;p&gt;
-	Sometimes, we can use a protocol as a standalone type. However, with a protocol like &lt;code&gt;IteratorProtocol&lt;/code&gt;, this isn’t (yet) possible, because it has an associated type. The compile error says: “Protocol ‘IteratorProtocol’ can only be used as a generic constraint because it has Self or associated type requirements.”
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ConstantIterator: IteratorProtocol {
-    mutating func next() -&amp;gt; Int? {
-        return 1
-    }
-}
-
-let iterator: IteratorProtocol = ConstantIterator() // Error
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	In a way, &lt;code&gt;IteratorProtocol&lt;/code&gt; used as a type is incomplete; we’d have to specify the associated type as well in order for this to be meaningful.
-&lt;/p&gt;
-&lt;blockquote&gt;
-	&lt;p&gt;
-		The Swift Core Team has stated that they want to support &lt;em&gt;generalized existentials&lt;/em&gt;
-		. This feature would allow for using protocols with associated types as standalone values, and it would also eliminate the need to write type erasers. For more information about what to expect in the future, see the &lt;a href=&quot;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160229/011666.html&quot;&gt;Swift Generics Manifesto&lt;/a&gt;.
-	&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;
-	In a future version of Swift, we might be able to solve this by saying something like the following:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let iterator: Any&amp;lt;IteratorProtocol where .Element == Int&amp;gt; = ConstantIterator()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Currently, we can’t yet express this. We can, however, use &lt;code&gt;IteratorProtocol&lt;/code&gt; as a constraint for a generic parameter:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func nextInt&amp;lt;I: IteratorProtocol&amp;gt;(iterator: inout I) -&amp;gt; Int?
-    where I.Element == Int {
-        return iterator.next()
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Similarly, we can store an iterator in a class or struct. The limitation is the same, in that we can only use it as a generic constraint, and not as a standalone type:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;class IteratorStore&amp;lt;I: IteratorProtocol&amp;gt; where I.Element == Int {
-    var iterator: I
-
-    init(iterator: I) {
-        self.iterator = iterator
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	This works, but it has a drawback: the specific type of the stored iterator “leaks out” through the generic parameter. In the current type system, we can’t express “any iterator, as long as the element type is &lt;code&gt;Int&lt;/code&gt;.” This is a problem if you want to, for example, put multiple &lt;code&gt;IteratorStore&lt;/code&gt;s into an array. All elements in an array must have the same type, and that includes any generic parameters; it’s not possible to create an array that can store both &lt;code&gt;IteratorStore&amp;lt;ConstantIterator&amp;gt;&lt;/code&gt; and &lt;code&gt;IteratorStore&amp;lt;FibsIterator&amp;gt;&lt;/code&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	Luckily, there are two ways around this — one is easy, the other one more efficient (but hacky). The process of removing a specific type (such as the iterator) is called &lt;em&gt;type erasure&lt;/em&gt;
-	.
-&lt;/p&gt;
-&lt;p&gt;
-	In the easy solution, we implement a wrapper class. Instead of storing the iterator directly, the class stores the iterator’s &lt;code&gt;next&lt;/code&gt; function. To do this, we must first copy the &lt;code&gt;iterator&lt;/code&gt; parameter to a &lt;code&gt;var&lt;/code&gt; variable so that we’re allowed to call its &lt;code&gt;next&lt;/code&gt; method (which is &lt;code&gt;mutating&lt;/code&gt;). We then wrap the call to &lt;code&gt;next()&lt;/code&gt; in a closure expression and assign that closure to a property. We used a class to signal that &lt;code&gt;IntIterator&lt;/code&gt; has reference semantics:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;class IntIterator {
-    var nextImpl: () -&amp;gt; Int?
-
-    init&amp;lt;I: IteratorProtocol&amp;gt;(_ iterator: I) where I.Element == Int {
-        var iteratorCopy = iterator
-        self.nextImpl = { iteratorCopy.next() }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Now, in our &lt;code&gt;IntIterator&lt;/code&gt;, the specific type of the iterator (e.g. &lt;code&gt;ConstantIterator&lt;/code&gt;) is only specified when creating a value. After that, the specific type is hidden, captured by the closure. We can create an &lt;code&gt;IntIterator&lt;/code&gt; with any kind of iterator, as long as the elements are integers:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var iter = IntIterator(ConstantIterator())
-iter = IntIterator([1,2,3].makeIterator())
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The code above allows us to specify the associated type constraints (e.g. &lt;code&gt;iter&lt;/code&gt; contains an iterator with &lt;code&gt;Int&lt;/code&gt; elements) using Swift’s current type system. Our &lt;code&gt;IntIterator&lt;/code&gt; can also easily conform to the &lt;code&gt;IteratorProtocol&lt;/code&gt; (and the inferred associated type is &lt;code&gt;Int&lt;/code&gt;):
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension IntIterator: IteratorProtocol {
-    func next() -&amp;gt; Int? {
-        return nextImpl()
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	In fact, by abstracting over &lt;code&gt;Int&lt;/code&gt; and adding a generic parameter, we can change &lt;code&gt;IntIterator&lt;/code&gt; to work just like &lt;code&gt;AnyIterator&lt;/code&gt; does:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;class AnyIterator&amp;lt;A&amp;gt;: IteratorProtocol {
-    var nextImpl: () -&amp;gt; A?
-
-    init&amp;lt;I: IteratorProtocol&amp;gt;(_ iterator: I) where I.Element == A {
-        var iteratorCopy = iterator
-        self.nextImpl = { iteratorCopy.next() }
-    }
-
-    func next() -&amp;gt; A? {
-        return nextImpl()
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The specific iterator type (&lt;code&gt;I&lt;/code&gt;) is only specified in the initializer, and after that, it’s “erased.”
-&lt;/p&gt;
-&lt;p&gt;
-	From this refactoring, we can come up with a simple algorithm for creating a type eraser. First, we create a struct or class named &lt;code&gt;AnyProtocolName&lt;/code&gt;. Then, for each associated type, we add a generic parameter. Finally, for each method, we store the implementation in a property on &lt;code&gt;AnyProtocolName&lt;/code&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	For a simple protocol like &lt;code&gt;IteratorProtocol&lt;/code&gt;, this only takes a few lines of code, but for more complex protocols (such as &lt;code&gt;Sequence&lt;/code&gt;), this is quite a lot of work. Even worse, the size of the object or struct will increase linearly with each protocol method (because a new closure is added for each method).
-&lt;/p&gt;
-&lt;hr/&gt;
-&lt;p&gt;
-	The standard library takes a different approach to erasing types. We start by creating a simple class that conforms to &lt;code&gt;IteratorProtocol&lt;/code&gt;. Its generic type is the &lt;code&gt;Element&lt;/code&gt; of the iterator, and the implementation will simply crash:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;class IteratorBox&amp;lt;A&amp;gt;: IteratorProtocol {
-    func next() -&amp;gt; A? {
-        fatalError(&amp;quot;This method is abstract.&amp;quot;)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Then, we create another class, &lt;code&gt;IteratorBoxHelper&lt;/code&gt;, which is also generic. Here, the generic parameter is the specific iterator type (for example, &lt;code&gt;ConstantIterator&lt;/code&gt;). The &lt;code&gt;next&lt;/code&gt; method simply forwards to the &lt;code&gt;next&lt;/code&gt; method of the underlying iterator:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift-example&quot;&gt;class IteratorBoxHelper&amp;lt;I: IteratorProtocol&amp;gt; {
-    var iterator: I
-    init(iterator: I) {
-        self.iterator = iterator
-    }
-
-    func next() -&amp;gt; I.Element? {
-        return iterator.next()
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Now for the hacky part. We change &lt;code&gt;IteratorBoxHelper&lt;/code&gt; so that it’s a subclass of &lt;code&gt;IteratorBox&lt;/code&gt;, and the two generic parameters are constrained in such a way that &lt;code&gt;IteratorBox&lt;/code&gt; gets &lt;code&gt;I&lt;/code&gt;’s element as the generic parameter:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;class IteratorBoxHelper&amp;lt;I: IteratorProtocol&amp;gt;: IteratorBox&amp;lt;I.Element&amp;gt; {
-    var iterator: I
-    init(_ iterator: I) {
-        self.iterator = iterator
-    }
-
-    override func next() -&amp;gt; I.Element? {
-        return iterator.next()
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	This allows us to create a value of &lt;code&gt;IteratorBoxHelper&lt;/code&gt; and use it as an &lt;code&gt;IteratorBox&lt;/code&gt;, effectively erasing the type of &lt;code&gt;I&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let iter: IteratorBox&amp;lt;Int&amp;gt; = IteratorBoxHelper(ConstantIterator())
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	In the standard library, the &lt;code&gt;IteratorBox&lt;/code&gt; and &lt;code&gt;IteratorBoxHelper&lt;/code&gt; are then made private, and yet another wrapper (&lt;code&gt;AnyIterator&lt;/code&gt;) makes sure that these implementation details are hidden from the public interface.
-&lt;/p&gt;
-&lt;hr/&gt;
-&lt;p&gt;
-	In my (limited) testing, I found that the struct version of &lt;code&gt;AnyIterator&lt;/code&gt; was about 10% faster (I’m not exactly sure why, probably because of less indirection). I &lt;a href=&quot;https://lists.swift.org/pipermail/swift-dev/Week-of-Mon-20160905/002852.html&quot;&gt;started a topic&lt;/a&gt; on the swift-dev mailing list, but I’m not sure if anyone is taking it and making the change. If anyone reading this feels like proposing that change (and thoroughly testing performance), go ahead!
-&lt;/p&gt;
-			</description>
-			<pubDate>Thu, 20 Oct 2016 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/type-erasers-in-swift</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/type-erasers-in-swift</guid>
 		</item>
 	</channel>
 </rss>

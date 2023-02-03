@@ -32,6 +32,16 @@ let package = Package(
                 .product(name: "SwiftSyntaxParser", package: "SwiftSyntax")
             ]),
         .target(
+            name: "SwiftUIViews",
+            dependencies: [
+                "StaticSite",
+                "HTML",
+                "Yams",
+                "SwiftSyntax",
+                "Helpers",
+                .product(name: "SwiftSyntaxParser", package: "SwiftSyntax")
+            ]),
+        .target(
             name: "Chris",
             dependencies: [
                 "StaticSite",
