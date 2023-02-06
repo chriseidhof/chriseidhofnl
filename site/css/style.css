@@ -211,7 +211,7 @@ src: url('concourse_4_caps_bold.woff2') format('woff2');
      --border-color: #eee;
      --pink: rgb(255, 45, 85);
      --accent-color: var(--blue);
-     --code-font: triplicate_a_code;
+     --code-font: 'SF Mono', SFMono-Regular, ui-monospace, triplicate_a_code;
      --base-font: valkyrie_a;
      --heading-font: concourse_4;
      --all-caps-font: valkyrie_a_caps;
@@ -468,6 +468,11 @@ a.back:hover, #archive-link:hover {
      top:0px;
      font-size: 17px;
 }
+
+#wrapper footer {
+    font-family: var(--heading-font);
+}
+
  #footer {
      box-shadow: inset 0 1px 0 var(--border-color);
      padding: 40px 0 0 0;
@@ -481,6 +486,7 @@ a.back:hover, #archive-link:hover {
      margin:80px 0 0 0;
 }
  .footnotes {
+     font-family: var(--heading-font);
      font-size: var(--small-font-size);
 }
 
