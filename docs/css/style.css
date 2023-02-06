@@ -146,6 +146,60 @@ font-display: auto;
 src: url('valkyrie_a_caps_bold.woff2') format('woff2');
 }
 
+@font-face {
+font-family: concourse_4;
+font-style: normal;
+font-weight: normal;
+font-stretch: normal;
+font-display: auto;
+src: url('concourse_4_regular.woff2') format('woff2');
+}
+
+@font-face {
+font-family: concourse_4;
+font-style: italic;
+font-weight: normal;
+font-stretch: normal;
+font-display: auto;
+src: url('concourse_4_italic.woff2') format('woff2');
+}
+
+@font-face {
+font-family: concourse_4;
+font-style: normal;
+font-weight: bold;
+font-stretch: normal;
+font-display: auto;
+src: url('concourse_4_bold.woff2') format('woff2');
+}
+
+@font-face {
+font-family: concourse_4;
+font-style: italic;
+font-weight: bold;
+font-stretch: normal;
+font-display: auto;
+src: url('concourse_4_bold_italic.woff2') format('woff2');
+}
+
+@font-face {
+font-family: concourse_4_caps;
+font-style: normal;
+font-weight: normal;
+font-stretch: normal;
+font-display: auto;
+src: url('concourse_4_caps_regular.woff2') format('woff2');
+}
+
+@font-face {
+font-family: concourse_4_caps;
+font-style: normal;
+font-weight: bold;
+font-stretch: normal;
+font-display: auto;
+src: url('concourse_4_caps_bold.woff2') format('woff2');
+}
+
  :root {
      --background-color: #fff;
      --secondary-background-color: #fdfdfd;
@@ -159,7 +213,9 @@ src: url('valkyrie_a_caps_bold.woff2') format('woff2');
      --accent-color: var(--blue);
      --code-font: triplicate_a_code;
      --base-font: valkyrie_a;
+     --heading-font: concourse_4;
      --all-caps-font: valkyrie_a_caps;
+     --all-caps-heading-font: concourse_4_caps;
      --small-font-size: 0.8em;
 }
  @media (prefers-color-scheme: dark) {
@@ -245,21 +301,22 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
      padding-bottom:20px;
 }
  h1 {
-     font-size:30px;
+     font: 30px var(--heading-font);
+/*     font-size:30px;*/
      letter-spacing:-1px;
      color: var(--primary-color);
 }
  h2 {
-     font:italic 19px/1.3em Georgia,serif;
+     font: 19px/1.3em var(--heading-font);
      color:#bbb;
 }
  .post h2 {
      margin-bottom:20px;
      color:inherit;
-     font:18px/1.7em var(--base-font), "Helvetica Neue",Helvetica,Arial,sans-serif;
+     font:18px/1.7em var(--heading-font);
 }
  .post h2.headline {
-     font: 22px/1.3em var(--base-font), sans-serif;
+     font: 22px/1.3em var(--heading-font), sans-serif;
      color: var(--quaternary-color);
      margin:-5px 0 40px 0;
 }
@@ -377,13 +434,13 @@ strong {
  #post-list a {
      color:var(--secondary-color);
      display:block;
-     font:19px/1.7 var(--base-font), "Helvetica Neue",helvetica,Arial,sans-serif;
+     font:19px/1.7 var(--heading-font), "Helvetica Neue",helvetica,Arial,sans-serif;
 }
  #post-list .dates {
      float:right;
      position:relative;
      top:1px;
-     font:15px/1.8 var(--all-caps-font), "Helvetica Neue",helvetica,Arial,sans-serif;
+     font:15px/1.8 var(--all-caps-heading-font), "Helvetica Neue",helvetica,Arial,sans-serif;
      color:#bbb;
 }
  #post-list-footer {
@@ -431,7 +488,8 @@ a.back:hover, #archive-link:hover {
      list-style-type:number;
 }
  #post-meta {
-     font-size: var(--small-font-size);
+     font: var(--small-font-size) var(--heading-font);
+/*     font-size: var(--small-font-size);*/
      margin-bottom:40px;
      line-height:1.4;
      border-top:1px solid var(--border-color);
@@ -442,7 +500,7 @@ a.back:hover, #archive-link:hover {
 
 
 #post-meta time {
-     font-family:  var(--all-caps-font);
+     font-family:  var(--all-caps-heading-font);
 }
 
  #post-meta.promo {
@@ -507,7 +565,7 @@ a.back:hover, #archive-link:hover {
 }
  h2.month {
      width:100%;
-     font: var(--small-font-size) var(--all-caps-font), "Helvetica Neue",helvetica,Arial,sans-serif;
+     font: var(--small-font-size) var(--all-caps-heading-font), "Helvetica Neue",helvetica,Arial,sans-serif;
 /*     text-transform:uppercase;*/
      margin-top:40px;
      margin-bottom:10px;
