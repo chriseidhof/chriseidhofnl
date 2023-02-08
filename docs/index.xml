@@ -8,6 +8,64 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>SwiftUI Environment Tips</title>
+			<description>
+				&lt;p&gt;
+	In our &lt;a href=&quot;https://www.objc.io/workshops/&quot;&gt;SwiftUI workshop&lt;/a&gt; we always include an exercise where you learn about how the environment works. Often, we build some kind of stylesheet that gets passed down the environment, from the root view. The stylesheet could look like this:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Stylesheet {
+    var buttonColor: Color = .blue
+    var cardColor: Color = .primary.opacity(0.1)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	In a child view, we then read and use the stylesheet (you’ll also have to add an environment key for this to work):
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Nested1: View {
+    @Environment(\.stylesheet) private var stylesheet
+    var body: some View {
+        Text(&amp;quot;Hello&amp;quot;)
+            .background(stylesheet.buttonColor)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	In the above view, the code works fine, but we could also write it using a more specific key path:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Nested2: View {
+    @Environment(\.stylesheet.buttonColor) private var buttonColor
+    var body: some View {
+        Text(&amp;quot;Hello&amp;quot;)
+            .background(buttonColor)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This technique is useful when you have nested types (e.g. typically a stylesheet has more than just two colors, and might be composed out of other structs). There’s a &lt;em&gt;performance advantage&lt;/em&gt;
+	 as well: when anything in the stylesheet changes, &lt;code&gt;Nested1&lt;/code&gt; will be rerendered. &lt;code&gt;Nested2&lt;/code&gt;, however, will only get rerendered whenever the &lt;code&gt;buttonColor&lt;/code&gt; property changes. This can make a big difference performance-wise (although often it doesn’t matter).
+&lt;/p&gt;
+&lt;p&gt;
+	You can also use this with other properties — even computed properties. For example:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Nested3: View {
+    @Environment(\.dynamicTypeSize.isAccessibilitySize) 
+    private var isAccesibilitySize
+    
+    var body: some View {
+        // ...
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Another thing you might notice in the code samples above is that we marked our environment property as &lt;code&gt;private&lt;/code&gt;. We always do this for Environment, State, StateObject as well as ScaledMetric. These properties are populated just before the body renders, and it makes no sense to expose them to the outside. We even have a very crude &lt;a href=&quot;https://gist.github.com/chriseidhof/d8c079ca97099a6122f37890a144e9b0&quot;&gt;swiftlint rule&lt;/a&gt; for this.
+&lt;/p&gt;
+			</description>
+			<pubDate>Wed, 08 Feb 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/swiftui-environment-tips</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-environment-tips</guid>
+		</item>
+		<item>
 			<title>Weeknotes #5</title>
 			<description>
 				&lt;p&gt;
@@ -1728,26 +1786,6 @@ func sendRequest(urlString: URLStringConvertible, method: ...) {
 			<pubDate>Thu, 24 Nov 2016 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/protocol-oriented-programming</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/protocol-oriented-programming</guid>
-		</item>
-		<item>
-			<title>On Burnout</title>
-			<description>
-				&lt;p&gt;
-	I’ve seen a number of blogposts and talks recently that talk about depression, burn-out, and other mental problems.  One post recommended reading a book. Another one recommended talking to friends and family. These things might help, but I doubt that they actually solve the root cause (looking back, they definitely didn’t solve my problems, at best suppress them).
-&lt;/p&gt;
-&lt;p&gt;
-	I recommend something different. If you have a mental issue, go see a professional. Take it seriously.  I know there’s a stigma attached to this, let’s try to break through that.
-&lt;/p&gt;
-&lt;p&gt;
-	If your leg is broken, you’d probably go to the hospital. With mental issues, you often don’t visually see that something is wrong. It might feel harder to justify seeing a professional. Some people are functioning very well while suffering from mental problems. For example, I can often turn my suppressed anger into productivity (alas, the anger still gets suppressed).
-&lt;/p&gt;
-&lt;p&gt;
-	It’s scary to take that step. I started seeing a therapist about a year and a half ago, to deal with my depression. It’s been one the best things I’ve ever done for myself. If you’re suffering from a mental issue, consider doing the same.
-&lt;/p&gt;
-			</description>
-			<pubDate>Thu, 27 Oct 2016 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/burnout</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/burnout</guid>
 		</item>
 	</channel>
 </rss>

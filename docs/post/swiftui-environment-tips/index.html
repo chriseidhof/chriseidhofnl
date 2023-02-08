@@ -1,0 +1,100 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			SwiftUI Environment Tips — Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								SwiftUI Environment Tips
+							</h1>
+							<h2 class="headline">
+								Precise Updates
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								In our <a href="https://www.objc.io/workshops/">SwiftUI workshop</a> we always include an exercise where you learn about how the environment works. Often, we build some kind of stylesheet that gets passed down the environment, from the root view. The stylesheet could look like this:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Stylesheet</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">buttonColor</span>: <span class="hljs-identifier">Color</span> = .<span class="hljs-identifier">blue</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">cardColor</span>: <span class="hljs-identifier">Color</span> = .<span class="hljs-identifier">primary</span>.<span class="hljs-identifier">opacity</span>(<span class="hljs-number">0.1</span>)
+}
+</code></pre>
+							<p>
+								In a child view, we then read and use the stylesheet (you’ll also have to add an environment key for this to work):
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Nested1</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">Environment</span>(\.<span class="hljs-identifier">stylesheet</span>) <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">stylesheet</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Hello</span><span class="hljs-string">"</span>)
+            .<span class="hljs-identifier">background</span>(<span class="hljs-identifier">stylesheet</span>.<span class="hljs-identifier">buttonColor</span>)
+    }
+}
+</code></pre>
+							<p>
+								In the above view, the code works fine, but we could also write it using a more specific key path:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Nested2</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">Environment</span>(\.<span class="hljs-identifier">stylesheet</span>.<span class="hljs-identifier">buttonColor</span>) <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">buttonColor</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Hello</span><span class="hljs-string">"</span>)
+            .<span class="hljs-identifier">background</span>(<span class="hljs-identifier">buttonColor</span>)
+    }
+}
+</code></pre>
+							<p>
+								This technique is useful when you have nested types (e.g. typically a stylesheet has more than just two colors, and might be composed out of other structs). There’s a <em>performance advantage</em>
+								 as well: when anything in the stylesheet changes, <code>Nested1</code> will be rerendered. <code>Nested2</code>, however, will only get rerendered whenever the <code>buttonColor</code> property changes. This can make a big difference performance-wise (although often it doesn’t matter).
+							</p>
+							<p>
+								You can also use this with other properties — even computed properties. For example:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Nested3</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">Environment</span>(\.<span class="hljs-identifier">dynamicTypeSize</span>.<span class="hljs-identifier">isAccessibilitySize</span>) 
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">isAccesibilitySize</span>
+    
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+        <span class="hljs-comment">// ...</span>
+    }
+}
+
+</code></pre>
+							<p>
+								Another thing you might notice in the code samples above is that we marked our environment property as <code>private</code>. We always do this for Environment, State, StateObject as well as ScaledMetric. These properties are populated just before the body renders, and it makes no sense to expose them to the outside. We even have a very crude <a href="https://gist.github.com/chriseidhof/d8c079ca97099a6122f37890a144e9b0">swiftlint rule</a> for this.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Feb 8, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-05">Weeknotes #5
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
