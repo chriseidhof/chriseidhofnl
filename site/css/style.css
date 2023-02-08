@@ -217,6 +217,9 @@ src: url('concourse_4_caps_bold.woff2') format('woff2');
      --all-caps-font: valkyrie_a_caps;
      --all-caps-heading-font: concourse_4_caps;
      --small-font-size: 0.8em;
+     /* code highlight colors */
+     --keyword-color: #9B2493;
+     --string-color: #C51A16;
 }
  @media (prefers-color-scheme: dark) {
      :root {
@@ -230,6 +233,8 @@ src: url('concourse_4_caps_bold.woff2') format('woff2');
          --blue: rgb(10, 132, 255);
          --pink: rgb(255, 55, 95);
          --accent-color: var(--pink);
+         --keyword-color: #fc5fa2;
+         --string-color: #FB6A5C;
     }
      #header img {
          filter: invert(100%);
@@ -671,6 +676,7 @@ a.back:hover, #archive-link:hover {
 }
  code .hljs-keyword {
      font-weight: bold;
+     color: var(--keyword-color);
 }
  code .hljs-keyword {
      font-weight: bold;
@@ -679,7 +685,7 @@ a.back:hover, #archive-link:hover {
      color:#bbb;
 }
  code .hljs-string, code .hljs-number {
-     color: #666;
+     color: var(--string-color);
 }
  .snippet {
      border: 1px solid var(--border-color);
