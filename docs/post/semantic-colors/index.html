@@ -1,0 +1,106 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Semantic Colors and Styles — Chris Eidhof
+		</title>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Semantic Colors and Styles
+							</h1>
+							<h2 class="headline">
+								Context-Aware Styling
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								In SwiftUI, most colors are <em>semantic colors</em>
+								 that get resolved at runtime. For example, here are a few colors (rendered on macOS) in both light mode and dark mode. It’s a little hard to see, but even colors like <code>.blue</code> and <code>.red</code> are slighly different:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/semantic-colors/1-dark.png 2x"/>
+									<img srcset="/post/semantic-colors/1.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								Note that the above colors might be influenced by other things as well. For example, they can change when you increase the color scheme contrast or enable other accessibility settings.
+							</p>
+							<p>
+								In my experience, most people build their apps in light mode, with dark mode often being added as an afterthought. This is absolutely fine. However, it does make sense to get into the habit of using <code>.primary</code> instead of <code>.black</code>, and using <code>.secondary</code> for a secondary color. Then those parts will automatically adapt.
+							</p>
+							<p>
+								By default, text (and shapes, etc.) are not rendered using the current foreground color (which is .primary by default) but using the current <em>foreground style</em>
+								. Here’s a rectangle filled with the four foreground styles:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/semantic-colors/3-dark.png 2x"/>
+									<img srcset="/post/semantic-colors/3.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								As far as I know, <code>Color.primary</code> and <code>Color.secondary</code> are (currently) not settable via the environment, but the foreground style is. For example, here’s the same view, but with a <code>.foregroundStyle(.blue, .green, Gradient(colors: [.red, .yellow])</code> applied. Note that the tertiary and quaternary styles are optional. The tertiary style defaults to the secondary style, and the quaternary to the tertiary style. As you can see, you don’t just have to use colors, you can also use any other type that conforms to <code>ShapeStyle</code>:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/semantic-colors/5-dark.png 2x"/>
+									<img srcset="/post/semantic-colors/5.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								There’s a fourth useful style: <code>BackgroundStyle</code>. You would typically use it using <code>.background</code>, for example, like so:
+							</p>
+							<pre><code class="swift"><span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Hello, world</span><span class="hljs-string">"</span>)
+    .<span class="hljs-identifier">padding</span>(<span class="hljs-number">10</span>)
+    .<span class="hljs-identifier">background</span>(.<span class="hljs-identifier">background</span>)
+    .<span class="hljs-identifier">padding</span>(<span class="hljs-number">20</span>)
+    .<span class="hljs-identifier">background</span>(.<span class="hljs-identifier">blue</span>)
+</code></pre>
+							<p>
+								On macOS, this will default to white in light mode, and a dark gray in dark mode. Similar to the foreground styles, you can also set it using the environment:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/semantic-colors/7-dark.png 2x"/>
+									<img srcset="/post/semantic-colors/7.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								In general, stick to using <code>.primary</code> and <code>.secondary</code> colors when you can. Also use the semantic foreground styles and background style, and you will be well prepared to add dark mode support to your app. Of course, you could go much further and define your own stylesheet, pass it through the environment and rely on that, but the builtin semantic styles will support both color scheme changes and respect accessibility settings.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Feb 9, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/swiftui-environment-tips">SwiftUI Environment Tips
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

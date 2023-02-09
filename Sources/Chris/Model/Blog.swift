@@ -13,7 +13,8 @@ import HTML
 
 extension BlogPost {
     static let otherPosts: [BlogPost] = [
-        variadicViews
+        variadicViews,
+        semanticColors,
     ]
 }
 
