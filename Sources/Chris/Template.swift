@@ -4,6 +4,7 @@ import HTML
 struct Main: Template {
     @Environment(\.title) var title
     @Environment(\.extraFooterContent) var extraFooterContent
+    @Environment(\.openGraphImage) var openGraphImage
 
     func run(content: Node) -> Node {
         let theTitle = title!.map { "\($0) — Chris Eidhof" } ?? "Chris Eidhof"
@@ -19,7 +20,10 @@ struct Main: Template {
                     theTitle
                 }
 //                meta(content: "Chris Eidhof", property: "og:title")
-//                meta(content: "website", property: "og:type")
+                meta(content: "website", customAttributes: ["property": "og:type"])
+                if let i = openGraphImage {
+                    meta(content: i, customAttributes: ["property": "og:image"])
+                }
 //                meta(content: "http://chris.eidhof.nl/", property: "og:url")
                 
             }

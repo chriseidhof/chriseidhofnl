@@ -2,18 +2,23 @@ import Foundation
 import StaticSite
 import Swim
 
+struct OpenGraphImage: EnvironmentKey {
+    static var defaultValue: String? = nil
+}
+
 struct ExtraFooterContent: EnvironmentKey {
     static var defaultValue: Node? = nil
 }
 
 extension EnvironmentValues {
+    public var openGraphImage: String? {
+        get { self[OpenGraphImage.self] }
+        set { self[OpenGraphImage.self] = newValue }
+    }
+
     public var extraFooterContent: Node? {
-        get {
-            self[ExtraFooterContent.self]
-        }
-        set {
-            self[ExtraFooterContent.self] = newValue
-        }
+        get { self[ExtraFooterContent.self] }
+        set { self[ExtraFooterContent.self] = newValue }
     }
 }
 

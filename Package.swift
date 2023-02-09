@@ -49,8 +49,12 @@ let package = Package(
                 "Yams",
                 "SwiftSyntax",
                 "Helpers",
-                .product(name: "SwiftSyntaxParser", package: "SwiftSyntax")
-            ]),
+                .product(name: "SwiftSyntaxParser", package: "SwiftSyntax"),
+            ],
+            resources: [
+                .copy("Share Images/logo.pdf"),
+            ]
+        ),
         .testTarget(
             name: "ChrisTests",
             dependencies: ["Chris"]),
