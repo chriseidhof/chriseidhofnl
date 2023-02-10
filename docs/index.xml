@@ -8,6 +8,43 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes #6</title>
+			<description>
+				&lt;p&gt;
+	We got our internet access working at the new house. We also won’t move before the end of March, probably later, but at least that part is working. We had a bit of a setback this week, as we found out that the plastering will take quite a bit longer than calculated. It’s a big chain of dependencies: we can’t paint before we’ve plastered, we can’t lay the floor before we’ve painted, and we can’t start plastering before the new window frames are installed (which should happen next week!).
+&lt;/p&gt;
+&lt;p&gt;
+	My best friend from The Netherlands came over, we just hung out, did a little bit of work on the house together (we put up a new bathroom ceiling). I made bagels, which turned out much tastier than last week, and they looked good, too!
+&lt;/p&gt;
+&lt;p&gt;
+	As I’m quite pressed for time these days, I need to be a bit creative about combining activities. I ran with the youngest in the running stroller (she gets to sleep, the rest of the family gets a break, and I get to do some exercise). Also, we bought a cargo bike last year, and it arrived last fall. Every time I cycle go to our new house I bring a few boxes.
+&lt;/p&gt;
+&lt;p&gt;
+	I’ve been using our cargo bike to transport kids (it fits a baby car seat and two small kids), transport building materials (although 6 bags of cement was pushing it), and I’ve already filled it up many times to move stuff over to the new house. It’s been a game-changer for me. I &lt;em&gt;think&lt;/em&gt;
+	 I would’ve still done most of the trips by bike if it wasn’t for the cargo bike, but this way I can avoid virtually all our car usage within the city limits.
+&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/cargo-bike.jpg&quot; title/&gt;&lt;/p&gt;
+&lt;p&gt;
+	I ordered “Airlineschienen” (I think it’s called lashing rail in English?) for the inside of the bike’s cargo box. This will let me flexibly attach a bunch of stuff, and should help me strap down the load. I’ll also use them to attach hooks for shopping bags (they tend to fall over when small), kids backpacks, etc.
+&lt;/p&gt;
+&lt;p&gt;
+	(I did “upgrade” our car recently, adding a hitch and an external AirPlay screen. Of course, this was much simpler/cheaper/more sustainable than buying a new (used) car.)
+&lt;/p&gt;
+&lt;p&gt;
+	We ran a two-day workshop, this time in CEST. It was really nice to have people in the workshop that already had a bunch of SwiftUI experience, we could go much deeper into the material and answer a lot of questions.
+&lt;/p&gt;
+&lt;p&gt;
+	We improved some minor things in our interactive workshop explanation app, in the workshop itself and recorded a few episodes around our new backend library (which we plan to use to modernize/rewrite the Swift Talk backend with).
+&lt;/p&gt;
+&lt;p&gt;
+	I published two blog posts this week that both came directly from questions in the workshop. The first post contains tips about the &lt;a href=&quot;http://chris.eidhof.nl/post/swiftui-environment-tips/&quot;&gt;SwiftUI Environment&lt;/a&gt; and the second post is about &lt;a href=&quot;http://chris.eidhof.nl/post/semantic-colors/&quot;&gt;semantic colors and styles&lt;/a&gt;. The second post includes some nice graphics that are automatically generated when building this site — they should look good with both the dark theme and the light theme.
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 10 Feb 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-06</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-06</guid>
+		</item>
+		<item>
 			<title>Semantic Colors and Styles</title>
 			<description>
 				&lt;p&gt;
@@ -1645,39 +1682,6 @@ header.setTitle(&amp;quot;hello&amp;quot;)
 			<pubDate>Wed, 01 Feb 2017 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/classes-and-protocols</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/classes-and-protocols</guid>
-		</item>
-		<item>
-			<title>Types vs TDD</title>
-			<description>
-				&lt;p&gt;
-	This morning, I read &lt;a href=&quot;http://blog.cleancoder.com/uncle-bob/2017/01/11/TheDarkPath.html&quot;&gt;an article&lt;/a&gt; against static typing. To be more precise: it argues against static typing in the way Swift/Kotlin implement it. I don’t know anything about Kotlin, so I’ll try to relate everything to Swift.  The main point of the article is that too much static typing is a bad thing. I agree: although my definition of “too much” is very different.
-&lt;/p&gt;
-&lt;p&gt;
-	The main point of critique is that we can’t possibly keep adding features to a language to solve actual problems, because we would end up with too many features. Instead, we should solve everything by writing tests. I don’t think it’s an either/or situation at all: we can have a solid type system and write “manual” tests.
-&lt;/p&gt;
-&lt;p&gt;
-	A type checker actually does testing for you. It’s not a replacement for TDD, but it allows you to completely get rid of a whole bunch of tests. For example, if you define a method &lt;code&gt;foo&lt;/code&gt; that returns an &lt;code&gt;Int&lt;/code&gt;, you can be sure it will only return &lt;code&gt;Int&lt;/code&gt;s. Not &lt;code&gt;String&lt;/code&gt;s, not &lt;code&gt;nil&lt;/code&gt; or &lt;code&gt;null&lt;/code&gt;, not anything else. No need to write a test.
-&lt;/p&gt;
-&lt;p&gt;
-	The article argues that specifying a type such as &lt;code&gt;Int&lt;/code&gt; is very inflexible: what if you ever wanted to change &lt;code&gt;foo&lt;/code&gt; to return an optional?  According to the article, you have to know this before you write the system. (And if I interpret the article correctly, it argues that TDD would solve this).
-&lt;/p&gt;
-&lt;p&gt;
-	I agree on at least one thing: at some point, code is going to change. However, I couldn’t disagree more on the statement that typing makes this hard.
-&lt;/p&gt;
-&lt;p&gt;
-	In Swift, once you change &lt;code&gt;foo&lt;/code&gt; to return an &lt;code&gt;Int?&lt;/code&gt;, the compiler will now show an error for each time you call &lt;code&gt;foo&lt;/code&gt;. This makes it &lt;em&gt;easy&lt;/em&gt;
-	 to make that change, because until you have reviewed every single call to &lt;code&gt;foo&lt;/code&gt;, the program simply won’t compile. I think of the compile errors as a todo-list, not as a &lt;a href=&quot;https://twitter.com/unclebobmartin/status/819262224686546945&quot;&gt;speed bump&lt;/a&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	When you make changes (small or large ones), it’s good to have a system in place that checks whether your code still works. With many kinds of changes, the compiler can do this automatically. You don’t have to write tests for that.
-&lt;/p&gt;
-&lt;p&gt;
-	Don’t get me wrong: types are not a silver bullet. You still need to test your code. But wouldn’t you rather test interesting parts, and leave the boring stuff to the compiler?
-&lt;/p&gt;
-			</description>
-			<pubDate>Thu, 12 Jan 2017 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/types-vs-tdd</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/types-vs-tdd</guid>
 		</item>
 	</channel>
 </rss>

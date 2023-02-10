@@ -20,10 +20,12 @@ struct Main: Template {
                     theTitle
                 }
 //                meta(content: "Chris Eidhof", property: "og:title")
+                /*
                 meta(content: "website", customAttributes: ["property": "og:type"])
-                if let i = openGraphImage {
-                    meta(content: i, customAttributes: ["property": "og:image"])
+                if let i = openGraphImage, let content = i, !content.isEmpty {
+                    meta(content: content, customAttributes: ["property": "og:image"])
                 }
+                 */
 //                meta(content: "http://chris.eidhof.nl/", property: "og:url")
                 
             }
