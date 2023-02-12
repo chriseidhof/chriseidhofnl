@@ -40,7 +40,7 @@ struct ShareImage<Contents: View>: View {
                     .padding(.bottom, 100)
                     .padding(100)
             }
-            .overlay(alignment: .bottomTrailing) {
+            .overlay(alignment: .bottom) {
                 logo
                     .renderingMode(.template)
                     .resizable()
