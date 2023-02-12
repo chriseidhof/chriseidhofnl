@@ -10,7 +10,6 @@ import StaticSite
 import Yams
 import HTML
 
-
 extension BlogPost {
     static let otherPosts: [BlogPost] = [
         variadicViews,
@@ -31,6 +30,11 @@ extension BlogPost {
 }
 
 extension BlogPost {
+
+    @MainActor @RuleBuilder var shareImageRule: some Rule {
+        Write(outputName: "og-image.png", data: shareImage)
+    }
+
     @MainActor @RuleBuilder var generateImages: some Rule {
         switch body {
         case .markdown(_):
@@ -60,6 +64,14 @@ struct Blog: Rule {
                 WithEnvironment { env in // this is ugly but I couldn't get it to work otherwise
                     DispatchQueue.main.sync {
                         try! post.post.generateImages.builtin.run(environment: env)
+//                        try! post.post.shareImageRule.builtin.run(environment: env)
+                    }
+                }
+                .outputPath(post.post.link)
+            } else {
+                WithEnvironment { env in
+                    DispatchQueue.main.sync {
+                        try! post.post.shareImageRule.builtin.run(environment: env)
                     }
                 }
                 .outputPath(post.post.link)
@@ -160,6 +172,7 @@ struct BlogPost {
         var advanced_swift: Bool?
         var published: Bool?
     }
+
 }
 
 extension BlogPost {

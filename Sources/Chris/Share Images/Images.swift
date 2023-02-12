@@ -11,10 +11,12 @@ struct DefaultShareImageContents<Title: View, Subtitle: View>: View {
     @ViewBuilder var subtitle: Subtitle
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             title
                 .font(.custom("Concourse 4", size: 100))
+                .minimumScaleFactor(0.3)
             subtitle
+                .minimumScaleFactor(0.3)
                 .font(.custom("Concourse 4", size: 70))
                 .foregroundColor(.secondary)
         }
@@ -34,6 +36,9 @@ struct ShareImage<Contents: View>: View {
             .frame(width: 1200, height: 630)
             .overlay {
                 contents
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(.bottom, 100)
+                    .padding(100)
             }
             .overlay(alignment: .bottomTrailing) {
                 logo
@@ -55,5 +60,14 @@ struct ShareImage_Previews: PreviewProvider {
         }
         result.colorScheme(.dark)
         result.colorScheme(.light)
+
+        ShareImage {
+            DefaultShareImageContents(title: {
+                Text("Accessing an API using CoreData's NSIncrementalStore")
+            }, subtitle: {
+                EmptyView()
+
+            })
+        }
     }
 }
