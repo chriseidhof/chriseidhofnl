@@ -29,10 +29,15 @@ extension BlogPost {
     }
 }
 
+fileprivate let shareImageName = "og-image.png"
 extension BlogPost {
 
+    var shareImageLink: String {
+        (link as NSString).appendingPathComponent(shareImageName)
+    }
+
     @MainActor @RuleBuilder var shareImageRule: some Rule {
-        Write(outputName: "og-image.png", data: shareImage)
+        Write(outputName: shareImageName, data: shareImage)
     }
 
     @MainActor @RuleBuilder var generateImages: some Rule {
@@ -78,6 +83,7 @@ struct Blog: Rule {
             }
             WriteNode(outputName: "index.html", node: post.page)
                 .title(post.post.metadata.title)
+                .environment(keyPath: \.openGraphImage, value: post.post.shareImageLink)
                 .outputPath(post.post.link)
         }
         WriteNode(outputName: "index.xml", node: feed, xml: true)
