@@ -65,22 +65,15 @@ struct Blog: Rule {
         )
         .title("Archive")
         ForEach(posts) { post in
-            if case .pieces = post.post.body {
-                WithEnvironment { env in // this is ugly but I couldn't get it to work otherwise
-                    DispatchQueue.main.sync {
+            WithEnvironment { env in // this is ugly but I couldn't get it to work otherwise
+                DispatchQueue.main.sync {
+                    try! post.post.shareImageRule.builtin.run(environment: env)
+                    if case .pieces = post.post.body {
                         try! post.post.generateImages.builtin.run(environment: env)
-//                        try! post.post.shareImageRule.builtin.run(environment: env)
                     }
                 }
-                .outputPath(post.post.link)
-            } else {
-                WithEnvironment { env in
-                    DispatchQueue.main.sync {
-                        try! post.post.shareImageRule.builtin.run(environment: env)
-                    }
-                }
-                .outputPath(post.post.link)
             }
+            .outputPath(post.post.link)
             WriteNode(outputName: "index.html", node: post.page)
                 .title(post.post.metadata.title)
                 .environment(keyPath: \.openGraphImage, value: post.post.shareImageLink)
