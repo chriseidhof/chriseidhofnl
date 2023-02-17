@@ -8,6 +8,27 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes #7</title>
+			<description>
+				&lt;p&gt;
+	This week I mostly spent coordinating the house renovation, and doing lots of odd jobs. We had to take down a very old ceiling (not sure if it was the original ceiling from when the house was built) consisting of plaster, reed matting, and boards, ending up with just the ceiling joists. The next day, we covered the spaces in between the ceiling joists with drywall, which turned out really nice!
+&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/ceiling.jpg&quot; title/&gt;&lt;/p&gt;
+&lt;p&gt;
+	We also cleaned up almost everything in the house, because next week the plastering company will start and they need a completely empty space. To move stuff over (from our current house to the basement of the new place) I borrowed a trailer and drove my car with a trailer for the first time in my life (so far, it went fine).
+&lt;/p&gt;
+&lt;p&gt;
+	Yesterday, the windows were finally installed. We had the holes cut out months ago, and since then, the place has been pretty dark. Now we finally have light! It actually makes an immense difference, things are finally starting to look a bit more like the result we had in mind.
+&lt;/p&gt;
+&lt;p&gt;
+	Work-wise, I worked on some backend stuff for our workshop app, did the bookkeeping (we do this using &lt;a href=&quot;https://www.ledger-cli.org&quot;&gt;ledger&lt;/a&gt;) and chatted with a bunch of people. Next week we’ll finally start writing again, really looking forward to that.
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 17 Feb 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-07</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-07</guid>
+		</item>
+		<item>
 			<title>Weeknotes #6</title>
 			<description>
 				&lt;p&gt;
@@ -1629,59 +1650,6 @@ print(p0.value) // what does this print?
 			<pubDate>Mon, 03 Jul 2017 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/reducers</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/reducers</guid>
-		</item>
-		<item>
-			<title>Classes That Conform To Protocols</title>
-			<description>
-				&lt;p&gt;
-	The other day, someone asked how to have a variable which stores a &lt;code&gt;UIView&lt;/code&gt; that also conforms to a protocol. In Objective-C, you would simply write &lt;code&gt;UIView&amp;lt;HeaderViewProtocol&amp;gt;&lt;/code&gt;. In  current Swift, you can’t write something like that. This posts shows two workarounds.
-&lt;/p&gt;
-&lt;p&gt;
-	First, let’s set the stage, and assume we have a &lt;code&gt;HeaderViewProtocol&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;protocol HeaderViewProtocol {
-    func setTitle(_ string: String)
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Until &lt;a href=&quot;https://github.com/apple/swift/blob/master/docs/GenericsManifesto.md#generalized-existentials&quot;&gt;generalized existentials&lt;/a&gt; arrive, we’ll have to make do with a workaround. The most mechanical solution would be to write a struct which has two properties, one for the protocol and one for the &lt;code&gt;UIView&lt;/code&gt;. Both point to the same reference:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct AnyHeaderView {
-    let view: UIView
-    let headerView: HeaderViewProtocol
-    init&amp;lt;T: UIView&amp;gt;(view: T) where T: HeaderViewProtocol {
-        self.view = view
-        self.headerView = view
-    }
-}
-
-let header = AnyHeaderView(view: myView)
-header.headerView.setTitle(&amp;quot;hi&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Alternatively, we could also completely &lt;a href=&quot;http://chris.eidhof.nl/post/protocol-oriented-programming/&quot;&gt;get rid of the protocol&lt;/a&gt;, and create a &lt;code&gt;HeaderView&lt;/code&gt; struct which simply stores a view and a way to set the title:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct HeaderView {
-    let view: UIView
-    let setTitle: (String) -&amp;gt; ()
-}
-
-var label = UILabel()
-let header = HeaderView(view: label) { str in
-    label.text = str
-}
-header.setTitle(&amp;quot;hello&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	One benefit of this solution is that there are no protocols involved. More importantly, we can have multiple “implementations” of &lt;code&gt;HeaderView&lt;/code&gt; for a single class. This eliminates the need to subclass. I prefer this solution, as it’s really simple: just bundle up a function and a view.
-&lt;/p&gt;
-&lt;p&gt;
-	(If your protocol has associated types or a &lt;code&gt;Self&lt;/code&gt; constraint, it will be a bit more work to write the type-eraser, see &lt;a href=&quot;http://chris.eidhof.nl/post/type-erasers-in-swift/&quot;&gt;here&lt;/a&gt; for an explanation).
-&lt;/p&gt;
-			</description>
-			<pubDate>Wed, 01 Feb 2017 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/classes-and-protocols</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/classes-and-protocols</guid>
 		</item>
 	</channel>
 </rss>
