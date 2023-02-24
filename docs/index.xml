@@ -8,6 +8,41 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes #8</title>
+			<description>
+				&lt;p&gt;
+	This week we mostly spent on writing the update of &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt;. I think by now we rewrote every chapter from scratch, and also added a new chapter about view trees. The ideas are still the same, but due to us diving deeper and definitely due to all the workshops we’ve hosted our explanations have gotten way better.
+&lt;/p&gt;
+&lt;p&gt;
+	Over the weekend, I succesfully made bagels again (I think I now finally have found a way for me that produces consistent good results). I did burn my thumb, though.
+&lt;/p&gt;
+&lt;p&gt;
+	I moved a bunch of the heaviest stuff I own (e.g. my table saw) to the basement of our new house, where I’ll be temporarily setting up my small workshop. I renovated the basement myself (as it wasn’t super important that it got done quickly or with a high quality). It feels quite nice to finally put at least one room to use.
+&lt;/p&gt;
+&lt;p&gt;
+	The first two days of the week I helped out quite a bit around the new house to get everything prepared, because on Wednesday the plasterers started. This meant helping out moving cables out of the way (above the ceiling panels), cleaning, moving everything out of their way, and so on. They will be plastering everything with a thick layer of clay (Lehm/loam). This material works well with the radiant wall heating and has a lot of nice properties – among other things, it regulates humidity and absorbs a bunch of unwanted particles. Let’s see how that turns out once we live there!
+&lt;/p&gt;
+&lt;p&gt;
+	For the book, we worked mostly on the state and advanced layout chapters. I wrote a flow layout example in many different ways: once using the &lt;code&gt;Layout&lt;/code&gt; protocol and once using &lt;code&gt;ZStack&lt;/code&gt; and preferences. I then added alignment (both vertically within a single line as well as the horizontal alignment of the lines). I tried at least four different ways to implement the algorithm, and I’m still not completely sure what the simplest implementation is (they all have different qualities). We also started writing the environment chapter, as we already have written all the other chapters (although none are quite finished yet).
+&lt;/p&gt;
+&lt;p&gt;
+	I love writing in VIM (or Spacemacs), but we started a few drafts in Dropbox Paper. To our own surprise, this worked really well for us. In fact, we’re still using it now that the chapters are almost done. It combines a very minimal UI (with features similar to Markdown) with change tracking and commenting. There’s no messing around with embedding images, you simply drag them into the document and you’re done. Later, once we are done writing, we’ll use the &lt;a href=&quot;https://talk.objc.io/episodes/S01E342-attributed-string-builder-part-6&quot;&gt;attributed string builder&lt;/a&gt; library to render this all into a nice PDF.
+&lt;/p&gt;
+&lt;p&gt;
+	When I went to get my bike repaired, the owner of the repair shop mentioned he wouldn’t be in the day after because he needed to attend a seminar the next day. Asking more about this, it turns out that it was about electric bikes, automatic firmware updates, and so on. I’m a little scared for that future. I just want to ride my bike, I really, really don’t want it bricked because of a software update of sorts.
+&lt;/p&gt;
+&lt;p&gt;
+	One other thing I had to think about this week is how most software has become very complex. I read &lt;a href=&quot;https://jvns.ca/blog/2023/02/16/writing-javascript-without-a-build-system/&quot;&gt;a post by Julia Evans&lt;/a&gt; about build systems, and I feel the same way. While we do use a build system for most projects (either Xcode projects or SPM) I’m very hesitant to depend on many libraries, because coming back to a project a few years later will inevitably be painful as the dependencies have changed. Complexity isn’t just in the build system — in our workshops, I often notice that people don’t grasp essential parts of Swift (value types, generics, and so on). The language has become so big that it’s hard to really understand, even if you work with it every single day.
+&lt;/p&gt;
+&lt;p&gt;
+	In general, I wonder if at some point people will be so fed up with that complexity that there will be a trend back to simpler languages or ways of doing things. Or maybe something like &lt;a href=&quot;https://www.unison-lang.org&quot;&gt;Unison&lt;/a&gt; will catch on.
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 17 Feb 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-08</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-08</guid>
+		</item>
+		<item>
 			<title>Weeknotes #7</title>
 			<description>
 				&lt;p&gt;
@@ -1455,201 +1490,6 @@ print(p0.value) // what does this print?
 			<pubDate>Wed, 19 Jul 2017 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/references</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/references</guid>
-		</item>
-		<item>
-			<title>Reducers</title>
-			<description>
-				&lt;blockquote&gt;
-	&lt;p&gt;
-		This blogpost is part of an upcoming project, more about that soon.
-	&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;
-	Reducers are a way to deal with state changes, and are great for dealing with asynchronous code. They come in a number of different ways, and are used in architectures like &lt;a href=&quot;http://redux.js.org/docs/introduction/Motivation.html&quot;&gt;Redux&lt;/a&gt;, &lt;a href=&quot;https://guide.elm-lang.org/architecture/&quot;&gt;Elm&lt;/a&gt;, &lt;a href=&quot;https://facebook.github.io/flux/&quot;&gt;Flux&lt;/a&gt; and more.
-&lt;/p&gt;
-&lt;p&gt;
-	Instead of giving a definition up front, we’ll look refactor an example app that is well-suited to write with reducers. For a playground with the full code (both &lt;a href=&quot;https://github.com/chriseidhof/reducers-examples/blob/master/Reducers.playground/Pages/Currency%20Conversion.xcplaygroundpage/Contents.swift&quot;&gt;before&lt;/a&gt; and &lt;a href=&quot;https://github.com/chriseidhof/reducers-examples/blob/master/Reducers.playground/Pages/Currency%20Conversion%20-%20Reducers.xcplaygroundpage/Contents.swift&quot;&gt;after&lt;/a&gt; refactoring) see &lt;a href=&quot;https://github.com/chriseidhof/reducers-examples&quot;&gt;reducers-examples&lt;/a&gt; on GitHub.
-&lt;/p&gt;
-&lt;h2&gt;
-	Example
-&lt;/h2&gt;
-&lt;p&gt;
-	To demonstrate reducers, we will write a simple currency conversion app that converts EUR amounts into USD amounts. It has three views: an text field for the input amount, a button to reload the current exchange rate and an output label. The output label will only display the amount if the input amount can be parsed and the current exchange rate are loaded. If the exchanges rates are loaded, changing the input amount should immediately change the output. Here’s the code that computes the output rate (this is hooked up to the &lt;code&gt;.editingChanged&lt;/code&gt; event of the text field):
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var rate: Double?    
-@objc func inputChanged() {
-    guard let rate = rate else { return }
-    guard let text = input.text, let number = Double(text) else { return }
-    output.text = &amp;quot;\(number * rate) USD&amp;quot;
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Next up, the code that reloads the exchange rates:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;@objc func reload() {
-    URLSession.shared.dataTask(with: ratesURL()) { (data, _, _) in
-        guard let data = data,
-            let json = try? JSONSerialization.jsonObject(with: data, options: []),
-            let dict = json as? [String:Any],
-            let dataDict = dict[&amp;quot;rates&amp;quot;] as? [String:Double],
-            let rate = dataDict[Currency.usd.rawValue] else { return }
-        DispatchQueue.main.async { [weak self] in
-            self?.rate = rate
-            self?.inputChanged()
-        }
-    }.resume()
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The code above is hard to test. First of all, there’s a dependency on the shared &lt;code&gt;URLSession&lt;/code&gt;. To make this more testable, we could consider pulling that out into a configurable property. Even if we do that, the code is still hard to test. We’d like to test that the parsing happens correctly, that we switch back to the main thread before updating the UI, that we set the rate and that we finally call &lt;code&gt;inputChanged()&lt;/code&gt;. The asynchronous code makes it especially hard to verify that our logic is correct.
-&lt;/p&gt;
-&lt;p&gt;
-	We can pull out most of the logic into a &lt;code&gt;State&lt;/code&gt; struct to make the logic easy to test. The &lt;code&gt;State&lt;/code&gt; struct encapsulates the input amount and the conversion rate, and exposes a single computed property (the output):
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct State {
-    private var inputAmount: Double? = nil
-    private var rate: Double? = nil
-    var output: Double? {
-        guard let i = inputAmount, let r = rate else { return nil }
-        return i * r
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Next up, we’ll define three messages that this state can receive. The input can change, the reload button could be pressed, or new rate data could be available. The third message is not sent from the outside. Instead of defining these as methods, we’ll define the messages as an enum (we’ll see why shortly):
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;enum Message {
-    case inputChanged(String?)
-    case ratesAvailable(data: Data?)
-    case reload
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Now that we have defined our state and our &lt;code&gt;Message&lt;/code&gt; enum, we can write a method to interpet messages. Because &lt;code&gt;State&lt;/code&gt; is a struct, we define it as a &lt;code&gt;mutating&lt;/code&gt; method &lt;code&gt;send(_:)&lt;/code&gt;. We switch over the message and interpet it. In case the input changed, we try to parse it. When new rate data is available, we parse it and assign it to &lt;code&gt;self.rate&lt;/code&gt;. We’ll leave out the &lt;code&gt;reload&lt;/code&gt; case for now.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;mutating func send(_ message: Message) {
-    switch message {
-    case .inputChanged(let input):
-        inputAmount = input.flatMap { Double($0) }
-    case .ratesAvailable(data: let data):
-        guard let data = data,
-            let json = try? JSONSerialization.jsonObject(with: data, options: []),
-            let dict = json as? [String:Any],
-            let dataDict = dict[&amp;quot;rates&amp;quot;] as? [String:Double],
-            let rate = dataDict[Currency.usd.rawValue] else { return }
-        self.rate = rate
-    case .reload:
-        // TODO: load ratesURL() and update the rates
-        fatalError()
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	In the &lt;code&gt;.reload&lt;/code&gt; case, we’d like to load the &lt;code&gt;ratesURL()&lt;/code&gt; and then send the &lt;code&gt;.ratesAvailable()&lt;/code&gt; message. If we would use &lt;code&gt;URLSession.sharedSession&lt;/code&gt; directly, we lose our testability. We’d either have to inject the session, mock it, or find a different way to make it testable. Even if we we would do that, we’d have a problem in the &lt;code&gt;URLSession&lt;/code&gt;‘s callback: we cannot update &lt;code&gt;self&lt;/code&gt; because it’s a struct, not a class.
-&lt;/p&gt;
-&lt;p&gt;
-	Instead of performing the URL loading side-effect directly, we’ll create a &lt;code&gt;Command&lt;/code&gt; enum that describes the side-effect:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;enum Command {
-    case load(URL, onComplete: (Data?) -&amp;gt; Message)
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Note that we cannot use &lt;code&gt;onComplete&lt;/code&gt; as a callback (because we cannot change the struct value in a callback). Instead, it transforms the optional data back into a &lt;code&gt;Message&lt;/code&gt;. We’ll add &lt;code&gt;Command?&lt;/code&gt; as a return type for &lt;code&gt;send(_:)&lt;/code&gt;. If there’s no side-effect to be executed, we simply return &lt;code&gt;nil&lt;/code&gt;.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;mutating func send(_ message: Message) -&amp;gt; Command? {
-    switch message {
-    case .inputChanged(let input):
-        inputAmount = input.flatMap { Double($0) }
-        return nil
-    case .ratesAvailable(data: let data):
-        guard let data = data,
-            let json = try? JSONSerialization.jsonObject(with: data, options: []),
-            let dict = json as? [String:Any],
-            let dataDict = dict[&amp;quot;rates&amp;quot;] as? [String:Double],
-            let rate = dataDict[Currency.usd.rawValue] else { return nil }
-        self.rate = rate
-        return nil
-    case .reload:
-        return .load(ratesURL(), onComplete: Message.ratesAvailable)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Note that the code above is completely synchronous. In a test, we can construct a value of &lt;code&gt;State&lt;/code&gt; and send it any message we want. Afterwards, we can verify that it changed the state as we expected, and that the correct side-effect is executed. For example, in the reload case, we can even test that the &lt;code&gt;onComplete&lt;/code&gt; is set to the &lt;code&gt;.ratesAvailable&lt;/code&gt; message. In our initial (non-reducer) code, testing this would involve a lot of mocking and stubbing.
-&lt;/p&gt;
-&lt;p&gt;
-	To interpret commands, we can define a separate extension on &lt;code&gt;State.Command&lt;/code&gt; that interprets a command. Instead of having asynchronous code in our &lt;code&gt;State&lt;/code&gt;’s logic, we can simply test this &lt;code&gt;interpret(_:)&lt;/code&gt; method once, in isolation.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension State.Command {
-    func interpret(_ callback: @escaping (State.Message) -&amp;gt; ()) {
-        switch self {
-        case let .load(url, onComplete: transform):
-            URLSession.shared.dataTask(with: url, completionHandler: { (data, _, _) in
-                DispatchQueue.main.async {
-                    callback(transform(data))
-                }
-            }).resume()
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Finally, we need to hook up our &lt;code&gt;State&lt;/code&gt; to the view controller we’re refactoring. Instead of the &lt;code&gt;rate&lt;/code&gt; property that we had before, we’ll now define a &lt;code&gt;State&lt;/code&gt; property:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var state = State() {
-    didSet {
-        self.output.text = state.output.map { &amp;quot;\($0) USD&amp;quot; } ?? &amp;quot;&amp;quot;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	We can also define a &lt;code&gt;send&lt;/code&gt; method on the view controller. It sends a message to the state, and if there’s any &lt;code&gt;Command&lt;/code&gt;, it interprets that command.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;private func send(_ message: State.Message) {
-    state.send(message)?.interpret(self.send)
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The only thing left is sending the correct messages in the view controller’s &lt;code&gt;inputChanged&lt;/code&gt; and &lt;code&gt;reload&lt;/code&gt; actions:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;@objc func inputChanged() {
-    send(.inputChanged(input.text))
-}
-
-@objc func reload() {
-    send(State.Message.reload)
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Note that it’s easy to test &lt;code&gt;inputChanged&lt;/code&gt; and &lt;code&gt;reload&lt;/code&gt;. We don’t have to mock the state, but just test that the right &lt;code&gt;Message&lt;/code&gt; is sent. We can then separately test the implementation of &lt;code&gt;send(_:)&lt;/code&gt; on the state struct.
-&lt;/p&gt;
-&lt;h2&gt;
-	Reducers, Defined
-&lt;/h2&gt;
-&lt;p&gt;
-	Our &lt;code&gt;send(_:)&lt;/code&gt; method on &lt;code&gt;State&lt;/code&gt; is defined as a mutating method, and it is a &lt;em&gt;reducer&lt;/em&gt;
-	. Generally, we could say that the a reducer is a function of type &lt;code&gt;(inout State, Message) -&amp;gt; Command&lt;/code&gt;, if &lt;code&gt;State&lt;/code&gt; is a value type. More generally, its type is &lt;code&gt;(State, Message) -&amp;gt; (State, Command)&lt;/code&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	There is another important requirement in order for a method to be a reducer: it has to be a pure method, with no side-effects. There is no way in Swift to let the compiler enforce this. Instead of reading global state, we have to send &lt;code&gt;Input&lt;/code&gt; messages to the reducers. And instead of having a side-effect that modifies global state, a reducer returns &lt;code&gt;Output&lt;/code&gt; messages.
-&lt;/p&gt;
-&lt;p&gt;
-	If you have an object-oriented programming background, you might be reminded of objects. Just like objects, reducers encapsulate state and allow only certain messages. However, unlike objects, reducers have no side-effects and are therefore highly testable. We can intercept and inspect both the input and the output messages without having to create mock classes. Reducers don’t have asynchronous code; instead, the asynchrony is pushed outside to the code that drives the reducer. This also greatly helps for testability.
-&lt;/p&gt;
-&lt;p&gt;
-	Note that instead of a &lt;code&gt;Message&lt;/code&gt; enum, we could have also defined our messages as &lt;code&gt;mutating&lt;/code&gt; methods on the &lt;code&gt;State&lt;/code&gt; type. However, by defining messages as an enum, we gain a lot of flexibility: we can easily check that the right message is sent, we can serialize messages (for example, to send over the network) and we can easily forward them to other parts of the state.
-&lt;/p&gt;
-&lt;p&gt;
-	The &lt;code&gt;State&lt;/code&gt; type with its &lt;code&gt;send(_:)&lt;/code&gt; method is an example of the &lt;a href=&quot;https://www.destroyallsoftware.com/screencasts/catalog/functional-core-imperative-shell&quot;&gt;“functional core, imperative shell”&lt;/a&gt; pattern. The reducer is the functional core, and is very easy to test. The view controller’s &lt;code&gt;send&lt;/code&gt; method is the imperative shell: it interprets the side-effects. This pattern can also be applied at a large scale.
-&lt;/p&gt;
-&lt;p&gt;
-	For some other examples using reducers, check out my &lt;a href=&quot;https://github.com/chriseidhof/tea-in-swift&quot;&gt;Swift implementation of The Elm Architecture&lt;/a&gt;, or this &lt;a href=&quot;https://gist.github.com/inamiy/bd257c60e670de8a144b1f97a07bacec&quot;&gt;awesome list&lt;/a&gt; of Elm-inspired frameworks. Matt Gallagher also just wrote a post about &lt;a href=&quot;http://www.cocoawithlove.com/blog/statements-messages-reducers.html&quot;&gt;statements, messages and reducers&lt;/a&gt;&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 03 Jul 2017 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/reducers</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/reducers</guid>
 		</item>
 	</channel>
 </rss>

@@ -1,0 +1,80 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes #8 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes #8 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2023-08/og-image.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes #8
+							</h1>
+							<h2 class="headline">
+								Book Writing
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								This week we mostly spent on writing the update of <a href="https://www.objc.io/books/thinking-in-swiftui/">Thinking in SwiftUI</a>. I think by now we rewrote every chapter from scratch, and also added a new chapter about view trees. The ideas are still the same, but due to us diving deeper and definitely due to all the workshops we’ve hosted our explanations have gotten way better.
+							</p>
+							<p>
+								Over the weekend, I succesfully made bagels again (I think I now finally have found a way for me that produces consistent good results). I did burn my thumb, though.
+							</p>
+							<p>
+								I moved a bunch of the heaviest stuff I own (e.g. my table saw) to the basement of our new house, where I’ll be temporarily setting up my small workshop. I renovated the basement myself (as it wasn’t super important that it got done quickly or with a high quality). It feels quite nice to finally put at least one room to use.
+							</p>
+							<p>
+								The first two days of the week I helped out quite a bit around the new house to get everything prepared, because on Wednesday the plasterers started. This meant helping out moving cables out of the way (above the ceiling panels), cleaning, moving everything out of their way, and so on. They will be plastering everything with a thick layer of clay (Lehm/loam). This material works well with the radiant wall heating and has a lot of nice properties – among other things, it regulates humidity and absorbs a bunch of unwanted particles. Let’s see how that turns out once we live there!
+							</p>
+							<p>
+								For the book, we worked mostly on the state and advanced layout chapters. I wrote a flow layout example in many different ways: once using the <code>Layout</code> protocol and once using <code>ZStack</code> and preferences. I then added alignment (both vertically within a single line as well as the horizontal alignment of the lines). I tried at least four different ways to implement the algorithm, and I’m still not completely sure what the simplest implementation is (they all have different qualities). We also started writing the environment chapter, as we already have written all the other chapters (although none are quite finished yet).
+							</p>
+							<p>
+								I love writing in VIM (or Spacemacs), but we started a few drafts in Dropbox Paper. To our own surprise, this worked really well for us. In fact, we’re still using it now that the chapters are almost done. It combines a very minimal UI (with features similar to Markdown) with change tracking and commenting. There’s no messing around with embedding images, you simply drag them into the document and you’re done. Later, once we are done writing, we’ll use the <a href="https://talk.objc.io/episodes/S01E342-attributed-string-builder-part-6">attributed string builder</a> library to render this all into a nice PDF.
+							</p>
+							<p>
+								When I went to get my bike repaired, the owner of the repair shop mentioned he wouldn’t be in the day after because he needed to attend a seminar the next day. Asking more about this, it turns out that it was about electric bikes, automatic firmware updates, and so on. I’m a little scared for that future. I just want to ride my bike, I really, really don’t want it bricked because of a software update of sorts.
+							</p>
+							<p>
+								One other thing I had to think about this week is how most software has become very complex. I read <a href="https://jvns.ca/blog/2023/02/16/writing-javascript-without-a-build-system/">a post by Julia Evans</a> about build systems, and I feel the same way. While we do use a build system for most projects (either Xcode projects or SPM) I’m very hesitant to depend on many libraries, because coming back to a project a few years later will inevitably be painful as the dependencies have changed. Complexity isn’t just in the build system — in our workshops, I often notice that people don’t grasp essential parts of Swift (value types, generics, and so on). The language has become so big that it’s hard to really understand, even if you work with it every single day.
+							</p>
+							<p>
+								In general, I wonder if at some point people will be so fed up with that complexity that there will be a trend back to simpler languages or ways of doing things. Or maybe something like <a href="https://www.unison-lang.org">Unison</a> will catch on.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Feb 17, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-07">Weeknotes #7
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
