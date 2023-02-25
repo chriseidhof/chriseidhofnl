@@ -3,6 +3,17 @@ import HTML
 import Foundation
 import Helpers
 
+enum CacheKey: EnvironmentKey {
+    static var defaultValue: URL = cachePath
+}
+
+extension EnvironmentValues {
+    var cache: URL {
+        get { self[CacheKey.self] }
+        set { self[CacheKey.self] = newValue }
+    }
+}
+
 struct Site: Rule {
     var body: some Rule {
         Copy("css")
@@ -23,11 +34,19 @@ let fm = FileManager.default
 let basePath = URL(fileURLWithPath: fm.currentDirectoryPath)
 let siteOutputPath = basePath.appendingPathComponent("docs")
 let baseEnvironment = EnvironmentValues(inputBaseURL: basePath.appendingPathComponent("site"), outputBaseURL: siteOutputPath)
+let cachePath = URL.temporaryDirectory.appendingPathComponent("_cache")
 
 func recreateBuildDir() throws {
     let fm = FileManager.default
     let p = siteOutputPath.path
+
     if fm.fileExists(atPath: p) {
+        if fm.fileExists(atPath: cachePath.path()) {
+            try fm.removeItem(at: cachePath)
+        }
+//        try fm.createDirectory(at: cachePath, withIntermediateDirectories: true)
+        try fm.copyItem(at: siteOutputPath, to: cachePath)
+        print("Cache", cachePath.path())
         for c in try fm.contentsOfDirectory(atPath: p) {
             try fm.removeItem(atPath: (p as NSString).appendingPathComponent(c))
         }

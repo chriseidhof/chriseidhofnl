@@ -9,6 +9,11 @@ import Foundation
 import SwiftUI
 
 extension BlogPost {
+    var shareImageHashValue: String {
+        // ugly but works
+        metadata.title + (metadata.headline ?? "nil")
+    }
+
     @MainActor
     var shareImage: Data {
         ShareImage {

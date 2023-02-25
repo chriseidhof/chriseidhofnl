@@ -29,15 +29,46 @@ extension BlogPost {
     }
 }
 
-fileprivate let shareImageName = "og-image.png"
-extension BlogPost {
 
+struct WriteOrUseCache: Rule {
+    @Environment(\.cache) private var cache
+    @Environment(\.relativeOutputPath) private var relativeOutputPath
+
+    var outputName: String
+    var data: () -> Data
+
+    var body: some Rule {
+        let c = cache!
+        let r = relativeOutputPath!
+        let url = c.appendingPathComponent(r).appendingPathComponent(outputName)
+        let exists = FileManager.default.fileExists(atPath: url.path)
+        if exists {
+            let theData = try! Data(contentsOf: url)
+            Write(outputName: outputName, data: theData)
+        } else {
+            let theData = (try? Data(contentsOf: url)) ?? data()
+            Write(outputName: outputName, data: theData)
+        }
+    }
+}
+
+import CryptoKit
+
+extension BlogPost {
+    var shareImageName: String {
+        let digest = Insecure.MD5.hash(data: shareImageHashValue.data(using: .utf8)!)
+        let hex: String = digest.map {
+            String(format: "%02hhx", $0)
+        }.joined()
+        return "og-image-\(hex.prefix(4)).png"
+
+    }
     var shareImageLink: String {
         (link as NSString).appendingPathComponent(shareImageName)
     }
 
     @MainActor @RuleBuilder var shareImageRule: some Rule {
-        Write(outputName: shareImageName, data: shareImage)
+        WriteOrUseCache(outputName: shareImageName, data: { shareImage })
     }
 
     @MainActor @RuleBuilder var generateImages: some Rule {
@@ -163,7 +194,7 @@ struct BlogPost {
         return metadata.published ?? true
     }
  
-    struct Metadata: Codable, Equatable {
+    struct Metadata: Codable, Equatable, Hashable {
         var headline: String?
         var title: String
         var date: String
