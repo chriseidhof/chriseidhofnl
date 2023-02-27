@@ -8,7 +8,7 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
-			<title>Weeknotes #8</title>
+			<title>Weeknotes № 8</title>
 			<description>
 				&lt;p&gt;
 	This week we mostly spent on writing the update of &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt;. I think by now we rewrote every chapter from scratch, and also added a new chapter about view trees. The ideas are still the same, but due to us diving deeper and definitely due to all the workshops we’ve hosted our explanations have gotten way better.
@@ -43,7 +43,7 @@
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-08</guid>
 		</item>
 		<item>
-			<title>Weeknotes #7</title>
+			<title>Weeknotes № 7</title>
 			<description>
 				&lt;p&gt;
 	This week I mostly spent coordinating the house renovation, and doing lots of odd jobs. We had to take down a very old ceiling (not sure if it was the original ceiling from when the house was built) consisting of plaster, reed matting, and boards, ending up with just the ceiling joists. The next day, we covered the spaces in between the ceiling joists with drywall, which turned out really nice!
@@ -64,7 +64,7 @@
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-07</guid>
 		</item>
 		<item>
-			<title>Weeknotes #6</title>
+			<title>Weeknotes № 6</title>
 			<description>
 				&lt;p&gt;
 	We got our internet access working at the new house. We also won’t move before the end of March, probably later, but at least that part is working. We had a bit of a setback this week, as we found out that the plastering will take quite a bit longer than calculated. It’s a big chain of dependencies: we can’t paint before we’ve plastered, we can’t lay the floor before we’ve painted, and we can’t start plastering before the new window frames are installed (which should happen next week!).
@@ -223,7 +223,7 @@
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-environment-tips</guid>
 		</item>
 		<item>
-			<title>Weeknotes #5</title>
+			<title>Weeknotes № 5</title>
 			<description>
 				&lt;p&gt;
 	During the first three days of this week we ran a workshop in PST. This was actually a two-day workshop, split into three days because of the timezone difference. I’m an early riser by nature, and staying up until midnight isn’t really my strength. While it’s pretty easy during the workshop as we are constantly either helping people work through exercises or explaining things, I did have to take some extra rest the day after.
@@ -454,7 +454,7 @@ extension View {
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/variadic-views</guid>
 		</item>
 		<item>
-			<title>Weeknotes #4</title>
+			<title>Weeknotes № 4</title>
 			<description>
 				&lt;p&gt;
 	While Florian was away the first few days this week to hold a workshop, I prepared some more things for next week’s workshop. During the workshop, we use an internal Mac app to present things to the attendees. For example, we show layout trees, render trees and have an interactive alignment visualization. Some of these only worked well in dark mode, and I fixed that. I used a combination of &lt;code&gt;.background(.background)&lt;/code&gt; to set the background to the current background style, as well as &lt;code&gt;.backgroundStyle(colorScheme == .light ? …)&lt;/code&gt; to set the current background style.
@@ -582,7 +582,7 @@ extension View {
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-views-are-lists</guid>
 		</item>
 		<item>
-			<title>Weeknotes #3</title>
+			<title>Weeknotes № 3</title>
 			<description>
 				&lt;p&gt;
 	After a super busy week last week, I took things a bit easier, especially on the house renovation part. Lots of family time instead!
@@ -605,7 +605,7 @@ extension View {
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-03</guid>
 		</item>
 		<item>
-			<title>Weeknotes #2</title>
+			<title>Weeknotes № 2</title>
 			<description>
 				&lt;p&gt;
 	At the end of last week, we recorded some &lt;a href=&quot;https://talk.objc.io&quot;&gt;Swift Talk&lt;/a&gt; episodes that build up our new &lt;a href=&quot;https://github.com/objcio/attributed-string-builder&quot;&gt;attributed string builder&lt;/a&gt; library. This project allows you to build up an attributed string using result builders, from a number of different sources. For example, you can write Markdown, plain strings, use NSImages or even embed SwiftUI views, all combining into a single attributed string with uniform styling.
@@ -645,7 +645,7 @@ extension View {
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-02</guid>
 		</item>
 		<item>
-			<title>Weeknotes #1</title>
+			<title>Weeknotes № 1</title>
 			<description>
 				&lt;p&gt;
 	I’d like to write more this year, so here’s an attempt at a proven format that’s new to me: a weekly log of the stuff I’ve worked on. New year, new format!
