@@ -46,9 +46,14 @@ table{
  .post h1, h3, h4, h5, p, .postbody ul, #post-list li, pre {
      margin-bottom: 20px;
 }
+
+li p {
+    margin-bottom: 0;
+}
+
  .postbody ul li {
-     list-style-type:disc;
-     list-style-position:outside;
+     list-style-type: "→ ";
+     list-style-position: outside;
 }
 /*========================================= Dark Mode / Light Mode =========================================== */
 
