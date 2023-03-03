@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 9 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 9 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2023-09/og-image-f220.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 9
+							</h1>
+							<h2 class="headline">
+								Book Writing
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								This week we continued writing our book. I wrote the first draft of the last chapter that wasn’t written yet (Environment). We both spent a lot of time editing and finetuning the other chapters. I think the animations chapter and the section on alignment will be extremely helpful.
+							</p>
+							<p>
+								Together with <a href="https://www.juulspee.nl">Juul</a> we added a bunch of new features to the workshop app, which included changing three applications: the Mac app that the attendees use, the instructor app and the server (written in Swift). To provide a unified API to all three I used the technique described in the <a href="/post/simpler-swift-apis/">previous post</a>. I also tried to look into distributed actors, as they seem to solve exactly this problem, but I couldn’t wrap my head around them (and how to use them for my client/server purposes) in a single morning.
+							</p>
+							<p>
+								I went through a big fight with libpq (or actually, with Swift Package Manager trying to understand that the package is installed on my machine). I really dread fixing these kinds of errors (the package is there, but for some reason SPM can’t see it). In the end I came up with a hack to make it work on my machine (it worked fine in Docker). In the future, I’d really like to replace our postgres dependency with sqlite, compiled in using the <a href="https://www.sqlite.org/amalgamation.html">amalgamation</a>. That way, it’s almost impossible for that dependency to break. Also, it’ll allow us to upload a single binary to our server (containing everything).
+							</p>
+							<p>
+								We recorded a bunch of new episodes in our backend series, should be a lot of fun to watch.
+							</p>
+							<p>
+								At the new home, plastering is going well (even though we had to stop for a day due to low temperatures). We also had some trees felled — one neighbor was very happy about that and another neighbor went full-on passive-aggresive on me. Oh well. We’re now pretty sure we’ll have to move out of our rental house before we’ll be able to move into the new house. Should be interesting…
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Mar 3, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/simpler-swift-apis">You Don&apos;t Need Routes
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

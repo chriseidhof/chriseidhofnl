@@ -8,6 +8,29 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 9</title>
+			<description>
+				&lt;p&gt;
+	This week we continued writing our book. I wrote the first draft of the last chapter that wasn’t written yet (Environment). We both spent a lot of time editing and finetuning the other chapters. I think the animations chapter and the section on alignment will be extremely helpful.
+&lt;/p&gt;
+&lt;p&gt;
+	Together with &lt;a href=&quot;https://www.juulspee.nl&quot;&gt;Juul&lt;/a&gt; we added a bunch of new features to the workshop app, which included changing three applications: the Mac app that the attendees use, the instructor app and the server (written in Swift). To provide a unified API to all three I used the technique described in the &lt;a href=&quot;http://chris.eidhof.nl/post/simpler-swift-apis/&quot;&gt;previous post&lt;/a&gt;. I also tried to look into distributed actors, as they seem to solve exactly this problem, but I couldn’t wrap my head around them (and how to use them for my client/server purposes) in a single morning.
+&lt;/p&gt;
+&lt;p&gt;
+	I went through a big fight with libpq (or actually, with Swift Package Manager trying to understand that the package is installed on my machine). I really dread fixing these kinds of errors (the package is there, but for some reason SPM can’t see it). In the end I came up with a hack to make it work on my machine (it worked fine in Docker). In the future, I’d really like to replace our postgres dependency with sqlite, compiled in using the &lt;a href=&quot;https://www.sqlite.org/amalgamation.html&quot;&gt;amalgamation&lt;/a&gt;. That way, it’s almost impossible for that dependency to break. Also, it’ll allow us to upload a single binary to our server (containing everything).
+&lt;/p&gt;
+&lt;p&gt;
+	We recorded a bunch of new episodes in our backend series, should be a lot of fun to watch.
+&lt;/p&gt;
+&lt;p&gt;
+	At the new home, plastering is going well (even though we had to stop for a day due to low temperatures). We also had some trees felled — one neighbor was very happy about that and another neighbor went full-on passive-aggresive on me. Oh well. We’re now pretty sure we’ll have to move out of our rental house before we’ll be able to move into the new house. Should be interesting…
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 03 Mar 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-09</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-09</guid>
+		</item>
+		<item>
 			<title>You Don&apos;t Need Routes</title>
 			<description>
 				&lt;p&gt;
@@ -1133,105 +1156,6 @@ List(0..&amp;lt;1000) { id in
 			<pubDate>Fri, 08 Dec 2017 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/swift-analytics</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/swift-analytics</guid>
-		</item>
-		<item>
-			<title>A Micro Auto Layout DSL</title>
-			<description>
-				&lt;p&gt;
-	These days, I’m using fewer external libraries. First, I don’t like most Swift libraries out there, they’re often implemented in a complicated way and contain too many protocols for my taste. Second, I’m not sure how they’ll be maintained in the future, and most libraries are pretty big – I don’t really want to own that code. Third, I’m too lazy to set up a dependency manager, so I’ll keep my projects dependency-free.
-&lt;/p&gt;
-&lt;p&gt;
-	However, the other day as I was writing some UIKit code, I found myself annoyed at the verbosity of Auto Layout. Here’s some code that I wrote over and over again:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let view = UIView()
-let label = UILabel()
-view.addSubview(label)
-label.translatesAutoresizingMaskIntoConstraints = false
-NSLayoutConstraint.activate([
-    label.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-    label.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-    label.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-])
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	It’s always the same pattern: adding the subview, setting &lt;code&gt;translatesAutoresizingMaskIntoConstraints&lt;/code&gt; to false, and then activating the constraints. The first anchor and the second anchor are almost always the same, and on the left-hand side we always have the child and on the right-hand side we always have the parent view. Often, when I write the code above, I forget to active the constraints or forget to set &lt;code&gt;translatesAutoresizingMaskIntoConstraints&lt;/code&gt;. Let’s try to solve as many of these problems as we can in as little code as possible.
-&lt;/p&gt;
-&lt;p&gt;
-	Rather than pulling in a library, I decided to write my own. The first bit of my micro-library is a function that, given a child and a parent, returns a layout constraint:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;typealias Constraint = (_ child: UIView, _ parent: UIView) -&amp;gt; NSLayoutConstraint
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Ideally, we would now write a method &lt;code&gt;equal&lt;/code&gt; which allows us to write following:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let constraint: Constraint = equal(\.topAnchor, \.safeAreaLayoutGuide.topAnchor)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Note that &lt;code&gt;constraint&lt;/code&gt; is just a description of a layout constraint – it’s still waiting for a concrete child and parent view. It says that, given a child and parent, the child’s top anchor should be equal to the parent’s &lt;code&gt;safeAreaLayoutGuide.topAnchor&lt;/code&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	We can implement &lt;code&gt;equal&lt;/code&gt; with a little bit of keypath magic:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func equal&amp;lt;Axis, Anchor&amp;gt;(_ keyPath: KeyPath&amp;lt;UIView, Anchor&amp;gt;, _ to: KeyPath&amp;lt;UIView, Anchor&amp;gt;, constant: CGFloat = 0) -&amp;gt; Constraint where Anchor: NSLayoutAnchor&amp;lt;Axis&amp;gt; {
-    return { view, parent in
-        view[keyPath: keyPath].constraint(equalTo: parent[keyPath: to], constant: constant)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Most of the time, the two layout anchors are the same (e.g. &lt;code&gt;leadingAnchor&lt;/code&gt; and &lt;code&gt;leadingAnchor&lt;/code&gt;), so let’s write a small helper for that case:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func equal&amp;lt;Axis, Anchor&amp;gt;(_ keyPath: KeyPath&amp;lt;UIView, Anchor&amp;gt;, constant: CGFloat = 0) -&amp;gt; Constraint where Anchor: NSLayoutAnchor&amp;lt;Axis&amp;gt; {
-    return equal(keyPath, keyPath, constant: constant)
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Finally, let’s solve the last two problems: we don’t want to forget to set &lt;code&gt;translatesAutoresizingMaskIntoConstraints&lt;/code&gt; to false, and we don’t want to forget to activate the constraints. What if we create another version of &lt;code&gt;addSubview&lt;/code&gt; that does this for us?
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension UIView {
-    func addSubview(_ child: UIView, constraints: [Constraint]) {
-        addSubview(child)
-        child.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate(constraints.map { $0(child, self) })
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	We now have everything in place to rewrite our initial example:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let view = UIView()
-let label = UILabel()
-view.addSubview(label, constraints: [
-   equal(\.leadingAnchor),
-   equal(\.topAnchor, \.safeAreaLayoutGuide.topAnchor),
-   equal(\.trailingAnchor)
-])
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The code is shorter and much more to the point. The &lt;code&gt;translatesAutoresizingMaskIntoConstraints&lt;/code&gt; is set automatically, and all constraints are activated. Instead of depending on a big library, we wrote three methods; 15 lines of code in total. Obviously, there are many things you can’t do with this: for example, you can’t easily keep a reference to a specific constraint and change the &lt;code&gt;constant&lt;/code&gt; property. That’s fine, we can keep using the regular Auto Layout API for this.
-&lt;/p&gt;
-&lt;p&gt;
-	There are a few obvious extensions that are left as an exercise:
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Add a way to constrain an anchor to a constant (instead of another anchor and a constant)
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Add a way to constrain to a different view than the parent (e.g. the content view of a &lt;code&gt;UIVisualEffectView&lt;/code&gt;)
-		&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;
-	Thanks to Florian Kugler for helping me simplify the code a lot. We also made a &lt;a href=&quot;https://talk.objc.io/episodes/S01E75-auto-layout-with-key-paths&quot;&gt;Swift Talk&lt;/a&gt; episode about the code above, check it out.
-&lt;/p&gt;
-			</description>
-			<pubDate>Fri, 27 Oct 2017 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/micro-autolayout-dsl</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/micro-autolayout-dsl</guid>
 		</item>
 	</channel>
 </rss>
