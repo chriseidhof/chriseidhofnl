@@ -8,6 +8,71 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>You Don&apos;t Need Routes</title>
+			<description>
+				&lt;p&gt;
+	For the Mac app we use during our workshops, we also have a web server with an API. The server handles user registration and some other minor things. We just added support for sending one-way messages (from the instructors to the attendees). This involved the following steps:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			I added endpoints for each separate messages
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			I added a route parser for each endpoint
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			I added the code to actually handle the endpoint (update the database, etc.)
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			I added endpoints to the client library
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			I added all the necessary data and wrapper methods to the client library for each endpoint
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	This is a bit of work, and we are already using a simple trick to make this easier. Because we will only use this API from Swift, our endpoints require that you post JSON to them. For example, to add a message, you can simply send the following &lt;code&gt;Codable&lt;/code&gt; struct, encoded as JSON:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct AddMessage: Codable, Hashable {
+    var workshop: String
+    var message: Message
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We can share this struct between client and server and they automatically have matching interfaces. As I was out for a walk, it dawned on me that we could also do the same for our endpoints! Instead of having separate routes for each API endpoint, we could just have a single API endpoint that takes in a huge enum and switches on that. We can then share that enum with the client and they’d automatically be in sync.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;public enum APICall: Hashable, Codable {
+    case addWorkshop(WorkshopData)
+    case addMessage(AddMessage)
+    case messages(workshop: String)
+    // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This saves us from a lot of manual typing, as we don’t need separate endpoints and routes, neither in the client nor the server. We simply add a case to the enum and add a corresponding wrapper call on the client. On the train, I made the change and was able to delete a bunch of code from both client and server.
+&lt;/p&gt;
+&lt;p&gt;
+	One possible improvement would be to somehow encode the result type in this enum as well. Our &lt;code&gt;messages&lt;/code&gt; call will always return a &lt;code&gt;[Message]&lt;/code&gt; array, but that’s not encoded in the type system. However, for now, this greatly simplifies our code.
+&lt;/p&gt;
+&lt;p&gt;
+	I wouldn’t recommend this approach when your API is consumed from other languages, as it will probably feel quite weird for those developers. But when you’re writing a server that will only be used by Swift clients, this is really nice.
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 03 Mar 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/simpler-swift-apis</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/simpler-swift-apis</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 8</title>
 			<description>
 				&lt;p&gt;
@@ -1167,329 +1232,6 @@ view.addSubview(label, constraints: [
 			<pubDate>Fri, 27 Oct 2017 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/micro-autolayout-dsl</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/micro-autolayout-dsl</guid>
-		</item>
-		<item>
-			<title>Struct References</title>
-			<description>
-				&lt;blockquote&gt;
-	&lt;p&gt;
-		The full code for this is available as a &lt;a href=&quot;http://chris.eidhof.nl/snippets/2019-07-24-struct-references/&quot;&gt;snippet&lt;/a&gt; or  &lt;a href=&quot;https://gist.github.com/chriseidhof/3423e722d1da4e8cce7cfdf85f026ef7&quot;&gt;gist&lt;/a&gt;.
-	&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;
-	Recently I was trying to find a good use for Swift’s new keypaths. This post shows one example that accidentally came up. This is something I’ve researched, and not something I’ve used in production code. That said, I think it’s very cool and I’d like to show it.
-&lt;/p&gt;
-&lt;p&gt;
-	Consider a simple address book application. It contains a table view with people, and a detail view controller which shows a &lt;code&gt;Person&lt;/code&gt; instance. If &lt;code&gt;Person&lt;/code&gt; were defined as a class, it’d look like this:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;class Person {
-    var name: String
-    var addresses: [Address]
-    init(name: String, addresses: [Address]) {
-        self.name = name
-        self.addresses = addresses
-    }
-}
-
-class Address {
-    var street: String
-    init(street: String) {
-        self.street = street
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The definition for our (fake) view controller has a single person property, which gets passed in through the initializer. It also has a &lt;code&gt;change&lt;/code&gt; method which changes a property of the person.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;final class PersonVC {
-    var person: Person
-    init(person: Person) {
-        self.person = person
-    }
-    
-    func change() {
-        person.name = &amp;quot;New Name&amp;quot;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Let’s consider the problems with &lt;code&gt;Person&lt;/code&gt; being an object:
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Because &lt;code&gt;person&lt;/code&gt; is a reference, a different part of the code might change it. This is very useful as it allows communication. At the same time, we need to make sure that we stay notified of those changes (for example, through KVO) otherwise we might be displaying data that’s out of sync. Making sure we stay notified is not straightforward.
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Getting notified when &lt;code&gt;addresses&lt;/code&gt; change is even harder. Observing nested properties that are objects is difficult.
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			If we need an independent local copy of &lt;code&gt;Person&lt;/code&gt;, we’d need to implement something like &lt;code&gt;NSCopying&lt;/code&gt;. This is quite a bit of work. Even when we have that, we still have to think: do we want a deep copy (e.g. should the addresses also be copied) or a shallow copy (the &lt;code&gt;addresses&lt;/code&gt; array is independent, but the addresses inside still point to the same objects)?
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			If we think of &lt;code&gt;Person&lt;/code&gt; as being in an array inside &lt;code&gt;AddressBook&lt;/code&gt;, we might want to know when the address book changes (for example, to serialize it). Knowing when something inside your object graph changes either requires a lot of boilerplate, or a lot of observing.
-		&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;
-	If &lt;code&gt;Person&lt;/code&gt; and &lt;code&gt;Address&lt;/code&gt; were structs, we’d have different issues:
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Each struct is an independent copy. This is useful, because we know it’s always consistent and can’t change underneath us. However, after we change a &lt;code&gt;Person&lt;/code&gt; in the detail view controller, we’d need a way to communicate those changes back to the table view (or to the address book). With objects, this happens /automatically (by changing the &lt;code&gt;Person&lt;/code&gt; in place).
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			We can observe the root address book struct, and know of any changes that happen within. Still, we can’t easily observe parts of it (e.g. observe the first person’s name).
-		&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;
-	The solution that I present combines the best of both worlds:
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			We have mutable shared references
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			The underlying data is structs, so we can always get our own independent copy
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			We can observe any part: either at the root level, or observe individual properties (e.g. the first person’s name)
-		&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;
-	I’ll first show how to use it, then how it works and finally discuss some of the limitations and gotchas.
-&lt;/p&gt;
-&lt;p&gt;
-	Let’s create an address book using structs:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Address {
-    var street: String
-}
-struct Person {
-    var name: String
-    var addresses: [Address]
-}
-
-typealias Addressbook = [Person]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Now we can use our &lt;code&gt;Ref&lt;/code&gt; type (short for &lt;code&gt;Reference&lt;/code&gt;). We create a new &lt;code&gt;addressBook&lt;/code&gt; reference with an initial empty array. Then we append a &lt;code&gt;Person&lt;/code&gt;. Now for the cool part: by using subscripts, we can get a &lt;em&gt;reference&lt;/em&gt;
-	 to the first person, and then a &lt;em&gt;reference&lt;/em&gt;
-	 to their name. We can change the value of the reference to &lt;code&gt;&amp;quot;New Name&amp;quot;&lt;/code&gt; and verify that we’ve changed the original address book:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let addressBook = Ref&amp;lt;Addressbook&amp;gt;(initialValue: [])
-addressBook.value.append(Person(name: &amp;quot;Test&amp;quot;, addresses: []))
-let firstPerson: Ref&amp;lt;Person&amp;gt; = addressBook[0]
-let nameOfFirstPerson: Ref&amp;lt;String&amp;gt; = firstPerson[\.name]
-nameOfFirstPerson.value = &amp;quot;New Name&amp;quot;
-addressBook.value // shows [Person(name: &amp;quot;New Name&amp;quot;, addresses: [])]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The types for &lt;code&gt;firstPerson&lt;/code&gt; and &lt;code&gt;nameOfFirstPerson&lt;/code&gt; can be omitted, they’re just there for readability.
-&lt;/p&gt;
-&lt;p&gt;
-	If at any point we want to get our own independent value of &lt;code&gt;Person&lt;/code&gt;, we can do that. From there on, we can work with &lt;code&gt;myOwnCopy&lt;/code&gt; and be sure it’s not changed from underneath us. No need to implement &lt;code&gt;NSCopying&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var myOwnCopy: Person = firstPerson.value
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	We can observe any &lt;code&gt;Ref&lt;/code&gt;. Just like with reactive libraries, we get a disposable back which controls the lifetime of an observer:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var disposable: Any?
-disposable = addressBook.addObserver { newValue in
-    print(newValue) // Prints the entire address book
-}
-
-disposable = nil // stop observing
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	We can also observe &lt;code&gt;nameOfFirstPerson&lt;/code&gt;. In the current implementation, this gets triggered anytime anything changes in the address book, but more about that later.
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;nameOfFirstPerson.addObserver { newValue in
-    print(newValue) // Prints a string
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Let’s go back to our &lt;code&gt;PersonVC&lt;/code&gt;. We can change its implementation to use a &lt;code&gt;Ref&lt;/code&gt;. The view controller can now subscribe to changes. In reactive programming, a signal is typically read-only (you only receive changes), and you need to figure another way to communicate back. In the &lt;code&gt;Ref&lt;/code&gt; approach, we can write back using &lt;code&gt;person.value&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;final class PersonVC {
-    let person: Ref&amp;lt;Person&amp;gt;
-    var disposeBag: Any?
-    init(person: Ref&amp;lt;Person&amp;gt;) {
-        self.person = person
-        disposeBag = person.addObserver { newValue in
-            print(&amp;quot;update view for new person value: \(newValue)&amp;quot;)
-        }
-    }
-    
-    func change() {
-        person.value.name = &amp;quot;New Name&amp;quot;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The &lt;code&gt;PersonVC&lt;/code&gt; doesn’t know where the &lt;code&gt;Ref&amp;lt;Person&amp;gt;&lt;/code&gt; comes from: a person array, a database, or somewhere else. In fact, we can add undo support to our address book by wrapping our array inside a &lt;a href=&quot;http://chris.eidhof.nl/post/undo-history-in-swift/&quot;&gt;&lt;code&gt;History&lt;/code&gt; struct&lt;/a&gt;, and we don’t need to change the &lt;code&gt;PersonVC&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let source: Ref&amp;lt;History&amp;lt;Addressbook&amp;gt;&amp;gt; = Ref(initialValue: History(initialValue: []))
-let addressBook: Ref&amp;lt;Addressbook&amp;gt; = source[\.value]
-addressBook.value.append(Person(name: &amp;quot;Test&amp;quot;, addresses: []))
-addressBook[0].value.name = &amp;quot;New Name&amp;quot;
-print(addressBook[0].value)
-source.value.undo()
-print(addressBook[0].value)
-source.value.redo()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	There’s a lot of other things we could add to this: caching, &lt;a href=&quot;https://gist.github.com/chriseidhof/40fde6c2be5519d5bb341fc65b3029ad&quot;&gt;serialization&lt;/a&gt;, automatic synchronization (e.g. only modify and observe on a private queue), but that’s future work.
-&lt;/p&gt;
-&lt;h3&gt;
-	Implementation Details
-&lt;/h3&gt;
-&lt;p&gt;
-	Let’s look at how this thing is implemented. We’ll start by defining the &lt;code&gt;Ref&lt;/code&gt; class. A &lt;code&gt;Ref&lt;/code&gt; consists of a way to get and set a value, and a way to add an observer. It has an initializer that asks for just those three things:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;final class Ref&amp;lt;A&amp;gt; {
-    typealias Observer = (A) -&amp;gt; ()
-    
-    private let _get: () -&amp;gt; A
-    private let _set: (A) -&amp;gt; ()
-    private let _addObserver: (@escaping Observer) -&amp;gt; Disposable
-    
-    var value: A {
-        get {
-            return _get()
-        }
-        set {
-            _set(newValue)
-        }
-    }
-    
-    init(get: @escaping () -&amp;gt; A, set: @escaping (A) -&amp;gt; (), addObserver: @escaping (@escaping Observer) -&amp;gt; Disposable) {
-        _get = get
-        _set = set
-        _addObserver = addObserver
-    }    
-
-    func addObserver(observer: @escaping Observer) -&amp;gt; Disposable {
-        return _addObserver(observer)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	We can now add an initializer that observers a single struct value. It creates a dictionary of observers and a variable. Whenever the variable changes, all observers get notified. It uses the initializer defined above and passes on &lt;code&gt;get&lt;/code&gt;, &lt;code&gt;set&lt;/code&gt;, and &lt;code&gt;addObserver&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Ref {
-    convenience init(initialValue: A) {
-        var observers: [Int: Observer] = [:]
-        var theValue = initialValue {
-            didSet { observers.values.forEach { $0(theValue) } }
-        }
-        var freshId = (Int.min...).makeIterator()
-        let get = { theValue }
-        let set = { newValue in theValue = newValue }
-        let addObserver = { (newObserver: @escaping Observer) -&amp;gt; Disposable in
-            let id = freshId.next()!
-            observers[id] = newObserver
-            return Disposable {
-                observers[id] = nil
-            }
-        }
-        self.init(get: get, set: set, addObserver: addObserver)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Let’s consider we have &lt;code&gt;Person&lt;/code&gt; reference. In order to get a reference to its &lt;code&gt;name&lt;/code&gt; property, we need a way to both read and write the name. A &lt;code&gt;WritableKeyPath&lt;/code&gt; provides just that. We can thus add a &lt;code&gt;subscript&lt;/code&gt; to &lt;code&gt;Ref&lt;/code&gt; that creates a reference to part of the &lt;code&gt;Person&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Ref {
-    subscript&amp;lt;B&amp;gt;(keyPath: WritableKeyPath&amp;lt;A,B&amp;gt;) -&amp;gt; Ref&amp;lt;B&amp;gt; {
-        let parent = self
-        return Ref&amp;lt;B&amp;gt;(get: { parent._get()[keyPath: keyPath] }, set: {
-            var oldValue = parent.value
-            oldValue[keyPath: keyPath] = $0
-            parent._set(oldValue)
-        }, addObserver: { observer in
-            parent.addObserver { observer($0[keyPath: keyPath]) }
-        })
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The code above is a bit hard to read, but in order to use the library, you don’t really need to understand how it’s implemented.
-&lt;/p&gt;
-&lt;p&gt;
-	One day, keypaths in Swift will also support subscripts, but until then, we’ll have to add another subscript for collections. The implementation is almost the same as above, except that we use indices rather than keypaths:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Ref where A: MutableCollection {
-    subscript(index: A.Index) -&amp;gt; Ref&amp;lt;A.Element&amp;gt; {
-        return Ref&amp;lt;A.Element&amp;gt;(get: { self._get()[index] }, set: { newValue in
-            var old = self.value
-            old[index] = newValue
-            self._set(old)
-        }, addObserver: { observer in
-                self.addObserver { observer($0[index]) }
-        })
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	That’s all there is to it. The code uses a lot of advanced Swift features, but it’s under a hundred lines. It wouldn’t be possible without all the new Swift 4 additions: it relies on keypaths, generic subscripts, open-ended ranges, and a lot of features that were previously available in Swift.
-&lt;/p&gt;
-&lt;h3&gt;
-	Discussion
-&lt;/h3&gt;
-&lt;p&gt;
-	As stated before, this is research code, not production-level code. I’m very interested to see where and how this breaks once I start using it in a real app. Here’s a snippet that had some very counter-intuitive behavior for me:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var twoPeople: Ref&amp;lt;Addressbook&amp;gt; = Ref(initialValue:
-    [Person(name: &amp;quot;One&amp;quot;, addresses: []),
-     Person(name: &amp;quot;Two&amp;quot;, addresses: [])])
-let p0 = twoPeople[0]
-twoPeople.value.removeFirst()
-print(p0.value) // what does this print?
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	I’d be really interested in pushing this further. I can imagine adding support for queues, so that you can do something like:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;var source = Ref&amp;lt;Addressbook&amp;gt;(initialValue: [], 
-    queue: DispatchQueue(label: &amp;quot;private queue&amp;quot;))
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	I can also imagine that you could use this with a database. The &lt;code&gt;Var&lt;/code&gt; would allow you to both read and write, as well as subscribe to any notifications:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;final class MyDatabase {
-   func readPerson(id: Person.Id) -&amp;gt; Var&amp;lt;Person&amp;gt; {
-   }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	I’d love to hear comments and feedback. If you want to get a deeper understanding of how this works, try implementing it yourself (even after you’ve had a look at the code). By the way, we also made two &lt;a href=&quot;http://talk.objc.io/&quot;&gt;Swift Talk&lt;/a&gt; episodes about this: &lt;a href=&quot;https://talk.objc.io/episodes/S01E61-mutable-shared-structs-part-1&quot;&gt;part 1&lt;/a&gt; and &lt;a href=&quot;https://talk.objc.io/episodes/S01E63-mutable-shared-structs-part-2&quot;&gt;part 2&lt;/a&gt;. If you’re interested in Florian and me building this from scratch, please subscribe there.
-&lt;/p&gt;
-&lt;blockquote&gt;
-	&lt;p&gt;
-		Update: thanks to Egor Sobko for pointing out a subtle but crucial mistake: I was sending the observers &lt;code&gt;initialValue&lt;/code&gt; rather than &lt;code&gt;theValue&lt;/code&gt;. Fixed!
-	&lt;/p&gt;
-&lt;/blockquote&gt;
-			</description>
-			<pubDate>Wed, 19 Jul 2017 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/references</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/references</guid>
 		</item>
 	</channel>
 </rss>

@@ -1,0 +1,110 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			You Don&apos;t Need Routes — Chris Eidhof
+		</title>
+		<meta content="You Don't Need Routes — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/simpler-swift-apis/og-image-e032.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								You Don&apos;t Need Routes
+							</h1>
+							<h2 class="headline">
+								Simpler Swift APIs
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								For the Mac app we use during our workshops, we also have a web server with an API. The server handles user registration and some other minor things. We just added support for sending one-way messages (from the instructors to the attendees). This involved the following steps:
+							</p>
+							<ul>
+								<li>
+									<p>
+										I added endpoints for each separate messages
+									</p>
+								</li>
+								<li>
+									<p>
+										I added a route parser for each endpoint
+									</p>
+								</li>
+								<li>
+									<p>
+										I added the code to actually handle the endpoint (update the database, etc.)
+									</p>
+								</li>
+								<li>
+									<p>
+										I added endpoints to the client library
+									</p>
+								</li>
+								<li>
+									<p>
+										I added all the necessary data and wrapper methods to the client library for each endpoint
+									</p>
+								</li>
+							</ul>
+							<p>
+								This is a bit of work, and we are already using a simple trick to make this easier. Because we will only use this API from Swift, our endpoints require that you post JSON to them. For example, to add a message, you can simply send the following <code>Codable</code> struct, encoded as JSON:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">AddMessage</span>: <span class="hljs-identifier">Codable</span>, <span class="hljs-identifier">Hashable</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">workshop</span>: <span class="hljs-identifier">String</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">message</span>: <span class="hljs-identifier">Message</span>
+}
+</code></pre>
+							<p>
+								We can share this struct between client and server and they automatically have matching interfaces. As I was out for a walk, it dawned on me that we could also do the same for our endpoints! Instead of having separate routes for each API endpoint, we could just have a single API endpoint that takes in a huge enum and switches on that. We can then share that enum with the client and they’d automatically be in sync.
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> <span class="hljs-identifier">APICall</span>: <span class="hljs-identifier">Hashable</span>, <span class="hljs-identifier">Codable</span> {
+    <span class="hljs-keyword">case</span> <span class="hljs-identifier">addWorkshop</span>(<span class="hljs-identifier">WorkshopData</span>)
+    <span class="hljs-keyword">case</span> <span class="hljs-identifier">addMessage</span>(<span class="hljs-identifier">AddMessage</span>)
+    <span class="hljs-keyword">case</span> <span class="hljs-identifier">messages</span>(<span class="hljs-identifier">workshop</span>: <span class="hljs-identifier">String</span>)
+    <span class="hljs-comment">// ...</span>
+}
+</code></pre>
+							<p>
+								This saves us from a lot of manual typing, as we don’t need separate endpoints and routes, neither in the client nor the server. We simply add a case to the enum and add a corresponding wrapper call on the client. On the train, I made the change and was able to delete a bunch of code from both client and server.
+							</p>
+							<p>
+								One possible improvement would be to somehow encode the result type in this enum as well. Our <code>messages</code> call will always return a <code>[Message]</code> array, but that’s not encoded in the type system. However, for now, this greatly simplifies our code.
+							</p>
+							<p>
+								I wouldn’t recommend this approach when your API is consumed from other languages, as it will probably feel quite weird for those developers. But when you’re writing a server that will only be used by Swift clients, this is really nice.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Mar 3, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-08">Weeknotes № 8
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
