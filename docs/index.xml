@@ -8,6 +8,29 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 10</title>
+			<description>
+				&lt;p&gt;
+	This week we tried to  “ship” a bunch of Thinking in SwiftUI chapters to &lt;a href=&quot;https://oleb.net&quot;&gt;Ole&lt;/a&gt;, who’s doing the technical review. We managed to get the chapters on view layout, view trees and environment over to him. We went through all of these chapters once again, and also added a bunch of diagrams.
+&lt;/p&gt;
+&lt;p&gt;
+	I wanted to get the State chapter ready as well, but reading through it I felt that we could do better. So we went back, added some more explanations and some diagrams. &lt;a href=&quot;https://m.objc.io/@chris/110000399994383042&quot;&gt;Here’s a sample&lt;/a&gt; of what the state diagrams could look like (this is a first version).
+&lt;/p&gt;
+&lt;p&gt;
+	I had some nice quality time with my oldest daughter this week. Among other things, we built a small kid-sized picknick table together out of scrap wood, which we both really enjoyed.
+&lt;/p&gt;
+&lt;p&gt;
+	At the new house, I moved over a whole bunch of stuff (to the basement). We had three trees cut down a few weeks back, and the logs were massive and had been laying around in the garden because I couldn’t move them alone. We turned them into smaller chunks using the chainsaw and I then split them using a wedge and a large sledge hammer. This was quite fun (hard physical work outside) but also pretty exhausting.
+&lt;/p&gt;
+&lt;p&gt;
+	As an experiment, I tried implementing a pure Git library in Swift, using some of the ideas from &lt;a href=&quot;https://wyag.thb.lt&quot;&gt;Write yourself a Git&lt;/a&gt;. It went quite well, I managed to read trees, blobs and commits. The core of Git is extremely simple (honestly), and I think building a few commands on top of this small library (such as committing, or maybe even merging) will be a very interesting learning experience.
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 10 Mar 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-10</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-10</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 9</title>
 			<description>
 				&lt;p&gt;
@@ -1067,95 +1090,6 @@ List(0..&amp;lt;1000) { id in
 			<pubDate>Tue, 01 Oct 2019 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/race-report-berlin-marathon</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/race-report-berlin-marathon</guid>
-		</item>
-		<item>
-			<title>Swift Analytics</title>
-			<description>
-				&lt;p&gt;
-	There have been a number of blog posts about the best way to do analytics in Swift:
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			John writes about using &lt;a href=&quot;https://www.swiftbysundell.com/posts/building-an-enum-based-analytics-system-in-swift&quot;&gt;enums&lt;/a&gt;.
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Matt writes about using &lt;a href=&quot;http://matt.diephouse.com/2017/12/when-not-to-use-an-enum/&quot;&gt;structs&lt;/a&gt;.
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Dave writes about using &lt;a href=&quot;https://davedelong.com/blog/2017/12/07/misusing-enums/&quot;&gt;protocols&lt;/a&gt;.
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Soroush writes about &lt;a href=&quot;http://khanlou.com/2017/12/misusing-subclassing/&quot;&gt;subclasses&lt;/a&gt;.
-		&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;
-	Krzysztof &lt;a href=&quot;https://twitter.com/kprofic/status/938910246810062848&quot;&gt;asked&lt;/a&gt; about whether I would do a function-based version.
-&lt;/p&gt;
-&lt;p&gt;
-	I think all solutions are valid. They’re different embeddings of the same problem. Another version to consider is the simplest one: just inlining the network calls into your code. Maybe that already does the job, and you’re set.
-&lt;/p&gt;
-&lt;p&gt;
-	Now imagine that you find you make mistakes when writing the code. For example, you forget to provide the name, or you mistype the metadata keys. To prevent this, you could wrap up the network calls in functions. Functional programmers call this a &lt;em&gt;shallow embedding&lt;/em&gt;
-	: you express your domain logic in a very thin wrapper. It’s the easiest way to add type-safety to an untyped domain.
-&lt;/p&gt;
-&lt;p&gt;
-	A &lt;em&gt;deep embedding&lt;/em&gt;
-	 is when you can also inspect (and possibly modify) the data. This is useful when you write tests, or when you need to change the structure at a later point. Matt’s struct-based solution provides the most minimal way to inspect the data: he just bundles up the analytics parameters. By providing type-safe initializers, the construction is made type-safe, even though the actual embedding (a string and a dictionary) loses the type-safety. This is a great choice, unless you need to transform the data afterwords.
-&lt;/p&gt;
-&lt;p&gt;
-	John’s enum-based approach is another deep embedding: by providing cases for each possible event, he maintains the structure and type-safety. If you need to transform analytic events (for example, merging multiple events, or changing them in some other way) the enum approach is great: as long as you get out an enum value at the end, you know the data is well-formed.
-&lt;/p&gt;
-&lt;p&gt;
-	Dave’s protocol-based approach allows you to have multiple different representations for your analytics events. For example, you could use Dave’s approach with John’s enums, Matt’s structs, and Soroush’s subclasses, at the same time, as long as they all conform to the protocol.
-&lt;/p&gt;
-&lt;p&gt;
-	Another approach would be to group all the function wrappers in a protocol that you can send events to. Then you could have two implementations: one for testing/serialization, and for direct sending of the events. This is often used with dependency injection.
-&lt;/p&gt;
-&lt;p&gt;
-	Each approach above adds a little bit of complexity to the code.
-&lt;/p&gt;
-&lt;p&gt;
-	I’m a big fan of using the simplest possible solution for your problem and team:
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			If you’re a precise programmer and don’t care about testing, just inline your network calls
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			If you want more type-safety, wrap your network calls in functions
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			If you use Matt’s struct-based initializer, you know the result is well-formed.
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			If you plan to transform your values and want this to be safe, use John’s enums
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			If you need ultimate flexibility, use Dave’s protocols
-		&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-			</description>
-			<pubDate>Fri, 08 Dec 2017 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/swift-analytics</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/swift-analytics</guid>
 		</item>
 	</channel>
 </rss>
