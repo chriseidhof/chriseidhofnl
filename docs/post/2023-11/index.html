@@ -1,0 +1,77 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 11 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 11 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2023-11/og-image-7254.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 11
+							</h1>
+							<h2 class="headline">
+								Book Writing
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								This week we managed to send over all our remaining chapters except for the introduction to technical review. At the last minute, we added a section about coordinate spaces and anchors. In thinking about this, we realized that anchors are purely convenience, it really seems to be just a measurement in the global coordinate space that can automatically be converted to another view’s local coordinate space.
+							</p>
+							<p>
+								What triggered this was us using anchors to add lines (pointers) to our diagrams, as shown <a href="https://m.objc.io/@chris/110015766999219930">here</a>. Anchors are great for measuring things at different parts of the view tree. Note that the diagrams aren’t finished yet, for example, we’d like to avoid lines going through text and want to have nicer shapes and line endings (the arrows at the line ends are not looking good).
+							</p>
+							<p>
+								I also worked a bit on the pure Swift Git library (after being tired from writing and editing), and can read a repository’s commits and explore the other objects in the repository as well using an interactive SwiftUI app.
+							</p>
+							<p>
+								While we gave away a whole bunch of things that we don’t want to move, we still ended up with a bunch of trash. Getting this picked up caused me a whole lot of stress this week, with people going through our trash as it was out, ripping open our bags and throwing everything on the street. I confronted the people who did it and told them very clearly to not do this again.
+							</p>
+							<p>
+								At day care, there was a presentation at night for the parents, about small kids and media. While the idea behind it was good, the presentation was pretty boring, had unrealistic figures and I felt that it was generally a bit uninformed. I wonder if people are aware of the risks and possibilities that all the new technology has. I did speak up, as did another parent, and I think I got my message across. I guess in the end, we’ll end up not understanding the technology our kids use, not supervising it (once they become teenagers). I guess the only thing we can try is to remain in touch with our kids and try to keep the conversation going.
+							</p>
+							<p>
+								I started going to therapy a few months ago, to deal with all the stress around renovation and moving, as well as working on some personal things. It’s been incredibly useful. I did realize that work is one of the most relaxing things for me, being in the zone with interesting challenges that I know I can solve. Most of the other areas of my life cause more stress than work does, which is pretty funny to me.
+							</p>
+							<p>
+								I’m looking forward to building some garden beds this weekend over at the new house. I cleared away the last bits of trunks that were still laying around that area, and will build at least one raised bed this weekend, hopefully as a family activity.
+							</p>
+							<p>
+								I also experimented a bit more with ChatGPT and see if I can use it in my daily workflow (essentially treating it as a fast, “dumb” assistant). I’ve previously used it to generate sample data for a workshop (sample JSON including a Codable struct), and it worked really well for that. This week I had it generate a pretty-printed version of <code>CGSize</code>, <code>CGPoint</code> and <code>CGRect</code>. I would have typed it faster myself, but I want to get into the habit of experimenting with it to automate boring bits. Essentially, I have no trust in the correctness of its output, so for me, the key is using it in places where correctness can either be verified very easily (a pretty printer) or where correctness isn’t a factor (sample data for displaying a list of shopping items).
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Mar 11, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-10">Weeknotes № 10
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

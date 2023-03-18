@@ -8,6 +8,38 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 11</title>
+			<description>
+				&lt;p&gt;
+	This week we managed to send over all our remaining chapters except for the introduction to technical review. At the last minute, we added a section about coordinate spaces and anchors. In thinking about this, we realized that anchors are purely convenience, it really seems to be just a measurement in the global coordinate space that can automatically be converted to another view’s local coordinate space.
+&lt;/p&gt;
+&lt;p&gt;
+	What triggered this was us using anchors to add lines (pointers) to our diagrams, as shown &lt;a href=&quot;https://m.objc.io/@chris/110015766999219930&quot;&gt;here&lt;/a&gt;. Anchors are great for measuring things at different parts of the view tree. Note that the diagrams aren’t finished yet, for example, we’d like to avoid lines going through text and want to have nicer shapes and line endings (the arrows at the line ends are not looking good).
+&lt;/p&gt;
+&lt;p&gt;
+	I also worked a bit on the pure Swift Git library (after being tired from writing and editing), and can read a repository’s commits and explore the other objects in the repository as well using an interactive SwiftUI app.
+&lt;/p&gt;
+&lt;p&gt;
+	While we gave away a whole bunch of things that we don’t want to move, we still ended up with a bunch of trash. Getting this picked up caused me a whole lot of stress this week, with people going through our trash as it was out, ripping open our bags and throwing everything on the street. I confronted the people who did it and told them very clearly to not do this again.
+&lt;/p&gt;
+&lt;p&gt;
+	At day care, there was a presentation at night for the parents, about small kids and media. While the idea behind it was good, the presentation was pretty boring, had unrealistic figures and I felt that it was generally a bit uninformed. I wonder if people are aware of the risks and possibilities that all the new technology has. I did speak up, as did another parent, and I think I got my message across. I guess in the end, we’ll end up not understanding the technology our kids use, not supervising it (once they become teenagers). I guess the only thing we can try is to remain in touch with our kids and try to keep the conversation going.
+&lt;/p&gt;
+&lt;p&gt;
+	I started going to therapy a few months ago, to deal with all the stress around renovation and moving, as well as working on some personal things. It’s been incredibly useful. I did realize that work is one of the most relaxing things for me, being in the zone with interesting challenges that I know I can solve. Most of the other areas of my life cause more stress than work does, which is pretty funny to me.
+&lt;/p&gt;
+&lt;p&gt;
+	I’m looking forward to building some garden beds this weekend over at the new house. I cleared away the last bits of trunks that were still laying around that area, and will build at least one raised bed this weekend, hopefully as a family activity.
+&lt;/p&gt;
+&lt;p&gt;
+	I also experimented a bit more with ChatGPT and see if I can use it in my daily workflow (essentially treating it as a fast, “dumb” assistant). I’ve previously used it to generate sample data for a workshop (sample JSON including a Codable struct), and it worked really well for that. This week I had it generate a pretty-printed version of &lt;code&gt;CGSize&lt;/code&gt;, &lt;code&gt;CGPoint&lt;/code&gt; and &lt;code&gt;CGRect&lt;/code&gt;. I would have typed it faster myself, but I want to get into the habit of experimenting with it to automate boring bits. Essentially, I have no trust in the correctness of its output, so for me, the key is using it in places where correctness can either be verified very easily (a pretty printer) or where correctness isn’t a factor (sample data for displaying a list of shopping items).
+&lt;/p&gt;
+			</description>
+			<pubDate>Sat, 11 Mar 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-11</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-11</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 10</title>
 			<description>
 				&lt;p&gt;
@@ -1027,72 +1059,6 @@ List(0..&amp;lt;1000) { id in
 			<pubDate>Mon, 30 Dec 2019 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2019</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2019</guid>
-		</item>
-		<item>
-			<title>Race Report: Berlin Marathon</title>
-			<description>
-				&lt;p&gt;
-	In 2015, I ran the Berlin Marathon in just under three hours: 2:59:41. It was my fourth attempt at the marathon. Even though I hit the wall at km 34, I had run the first bit fast enough to still make it under three hours. Before the race, I believed I could run under three hours, but actually doing so was a really magical feeling.
-&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/berlin2015.png&quot; title/&gt;&lt;em&gt;Berlin 2015: Still ran 2:59&lt;/em&gt;
-&lt;/p&gt;
-&lt;p&gt;
-	In the years after, I kept on training, and kept running marathons about twice a year. Even though I felt I could run under three hours, I never managed again. Sometimes, I had a good excuse: in Seville in 2018 I felt prepared, but it was too hot and I came down with a stomach bug after. I didn’t expect to hit the wall so early, though:
-&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/seville2018.png&quot; title/&gt;
-	&lt;br/&gt;&lt;em&gt;Seville 2018: 3:28&lt;/em&gt;
-&lt;/p&gt;
-&lt;p&gt;
-	After four years of decent training, and no personal bests in the marathon, I felt a bit like a &lt;em&gt;Trainingsweltmeister&lt;/em&gt;
-	 (literal translation: world champion in training). Even though I would run a PB on the 10k or half marathon every once in a while, I always failed hard at keeping my pace during the marathon, even though I felt prepared most of the times I ran.
-&lt;/p&gt;
-&lt;p&gt;
-	In September 2018, I decided to change things around a bit. First of all, I had read &lt;a href=&quot;https://www.goodreads.com/book/show/363482.Advanced_Marathoning&quot;&gt;Advanced Marathoning&lt;/a&gt; and decided to follow one of their schedules later that year. In the second week of the schedule, there was a 26k run with 13k at marathon pace. Because I still had a few months before the start of the schedule, I started working my way towards that goal (when I started that September, I could barely manage 1 kilometer at my goal marathon pace).
-&lt;/p&gt;
-&lt;p&gt;
-	I really enjoyed running the schedules, even though the mileage was much higher than I normally ran. I only had a few days of being ill, and managed to do my key workouts well (for example, running &lt;a href=&quot;https://www.strava.com/activities/2187511089&quot;&gt;26k with 23k at marathon pace&lt;/a&gt;). I even ran very close to my PB during a local 10k race at the end of the biggest week of training (120k).
-&lt;/p&gt;
-&lt;p&gt;
-	I felt more prepared than every for the 2019 Rotterdam Marathon. There were friends and family along the course, I was excited, and despite being sleep-deprived, I felt like running 2:55 or similar should be very doable. The first 15k felt easy, but towards the half-way point it already felt a bit too difficult. Hoping for a bad patch, I slowed down a little bit, but from km 27 onwards I really had to slow down, finishing in a time of 3:16.
-&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/rotterdam2019.png&quot; title/&gt;&lt;/p&gt;
-&lt;p&gt;
-	After Rotterdam, I was disappointed, frustrated, and a confused: why doesn’t the hard work pay off? In the preparation, I sometimes got up at 5am, running in the dark with a headlight. I even ran in snow storms, rain, and temperatures below the freezing point.  I still don’t know what went wrong exactly, but I think there were two main factors at play: first of all, it was warm that day (compared to the months before). Second: I had some really rough nights in the months (and specificaly the days) before the marathon. My then 1-year old daughter would be awake for multiple hours during the night, and I would sit at her bedside, comforting her and gently getting her back to sleep. Even today, I think I had maybe ten full nights of sleep since the beginning of the year.
-&lt;/p&gt;
-&lt;p&gt;
-	After four years of working hard but getting no results, I started to doubt myself. If you see a discrepancy between what you expect (running under 3 hours) and reality (running way slower) for long enough, at some point, you start to believe reality. Am I getting too old? Am I overestimating myself? Is it something else?
-&lt;/p&gt;
-&lt;p&gt;
-	Rather than giving up, I made a few changes at the end of April. I started running with a more accurate heart rate monitor (a strap, rather than Garmin’s built-in optical monitor). I hired a personal trainer for intensive weekly strength sessions. I started running my long sessions before breakfast, often without eating anything during the run. I increased my mileage to an average of 110k per week, topping at 140k. I focused more on recovery: immediately get some carbs and protein in after the run (a glass of chocolate milk after a short run, and after longer runs, I make myself a raspberry/banana/protein milkshake). I do a bit more stretching and lots of foam rolling. In the summer, I took ice baths after my long runs (or sometimes I just sat in one of the lakes).
-&lt;/p&gt;
-&lt;p&gt;
-	Going into the 2019 Berlin Marathon, I felt more prepared than ever: I only missed about 3 days of training during my 18-week schedule, I managed to get to my goal weight, and during the last weeks, I was working very little (spending lots of time with my daughter instead). During the week before the marathon, my daughter had a bad week sleep-wise, which meant I had to get up a few times a night. For the last two nights before the marathon, I slept on a sofa in the office, rather than at home.
-&lt;/p&gt;
-&lt;p&gt;
-	On the morning of the marathon, I felt tired and slightly hungry (I had carb-loaded for a few days, but the last meal the night before was a bit lighter). On the train, I was annoyed at all the people around me, and I was sweating because it was too hot. Only about half an hour before the start I actually looked forward to running/
-&lt;/p&gt;
-&lt;p&gt;
-	I decided to run the first km just a tiny bit slower than my goal pace, and then run the rest of the race based on heart rate (trying to keep it around 170bpm for most of the race). This went really well, and my split times were much faster than I had expected. Knowing from my training that I can maintain that heart rate for a long time (usually without breakfast!) helped me a lot, mentally. Except for one or two people, I hadn’t told anyone my goal time, but I hoped to run 2:53 or 2:52. My plan was to run around 1:25 for the first half, and then run a slower second half. I ran &lt;a href=&quot;https://berlin.r.mikatiming.com/2019/?content=detail&amp;fpid=search&amp;pid=search&amp;idp=99999905C9AF82000049A6FD&amp;lang=EN&amp;event=MAL&amp;search%5Bname%5D=eidhof&amp;search_event=MAL&quot;&gt;1:25:01&lt;/a&gt;, felt great, and decided to keep pushing during the second half. The crowd support was great, and I saw many friends along the course (this helped me a lot, mentally).
-&lt;/p&gt;
-&lt;p&gt;
-	At 32km, with 10k left, it felt like my legs slowly started filling with concrete. However, I did the math, and realized that even if I dramatically slowed down my pace (from 4:00/km to around 4:30/km), I would still manage to run a 2:52. From then on, I kept on biting off small chunks: off towards km 36. Throughout the race, I had been eating a gel every 6km, and tried to drink a bit at every aid station. At 36k, I had my final gel, and realized it was only 2 more kilometers until my daughter, wife, and parents would be cheering me on (I took them by surprise, they expected me much later and only saw me at the last moment). From km 40 onwards, I realized I could run under 2:50. I kept pushing, and managed to finish in 2:48 (just barely under 2:49).
-&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/berlin2019.png&quot; title/&gt;
-	&lt;br/&gt;&lt;em&gt;Berlin 2019: 2:48:51&lt;/em&gt;
-&lt;/p&gt;
-&lt;p&gt;
-	Going into the race, I didn’t really believe I could run faster than 2:52. Let alone run 4:00/km for an entire marathon. I knew I’d be happy if I would break the 3-hour mark. This result completely took me by surprise, and even now, a few days later, I have trouble believing that I actually did it. I even mis-tweeted my finish time: I wrote I had run 2:52, but instead, it was 2:48!  At 32k, I already had to push back the tears in my eyes, and after the finish, I sobbed for the longest time. I think I managed to squeeze everything out of myself, as both my body and mind felt completely depleted (way more than normally).
-&lt;/p&gt;
-&lt;p&gt;
-	Running a marathon isn’t necessarily the healthiest thing to do (although training for one probably isn’t the worst thing you could do, either). I mostly really like the preparation: feeling both your body and mind adapt, getting fitter and faster. I am pretty relieved that after four years, I now know I wasn’t a complete fool to feel like I could run under three hours again: all the hard work paid off.
-&lt;/p&gt;
-&lt;p&gt;
-	I’m not sure what my running goals for the future will be. I feel like there’s still some room for improvement (better sleep, better conditions on race day (no rain), more strength and an improved running technique). However, for now, I’ll just enjoy the autumn running, with no specific goals. (Okay, I will admit I have been looking at spring marathons in 2020…)
-&lt;/p&gt;
-			</description>
-			<pubDate>Tue, 01 Oct 2019 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/race-report-berlin-marathon</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/race-report-berlin-marathon</guid>
 		</item>
 	</channel>
 </rss>
