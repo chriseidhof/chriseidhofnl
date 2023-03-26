@@ -8,6 +8,26 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 12</title>
+			<description>
+				&lt;p&gt;
+	Last weekend, we spent the entire sunny weekend around our new house, and with my 5-yo daughter we tackled a whole bunch of small projects: building some walls, sorting out wood, and building and planting our first raised bed.
+&lt;/p&gt;
+&lt;p&gt;
+	We recorded a few Swift Talk episodes on Monday, and afterwards (while in Berlin) I met up with a bunch of nice people. The episodes themselves are about using &lt;code&gt;Codable&lt;/code&gt; for routing. This is an interesting technique we actually prototyped a few years ago to get bidirectional conversion between an enum and a (String) route you’d use for a web server.
+&lt;/p&gt;
+&lt;p&gt;
+	We also continued polishing our book. I wrote a section about matched geometry effect which Florian promptly rewrote into something much clearer. I would like to also turn this into a blog post, hopefully soon.
+&lt;/p&gt;
+&lt;p&gt;
+	Over at the house, the plasterers finished, the painter came over for an afternoon to try out the paint, and the tilers started on the upstairs bathroom. Things are looking way more finished, even though it’s still quite a ways to go. I had moved a whole bunch of stuff already, and yesterday we had our family help us move almost everything else. We do still have the bare essentials over at the old place, and we’ll move that on our last day here (next week!). Before moving in, we’ll stay in a holiday home for a few weeks while everything is getting finished.
+&lt;/p&gt;
+			</description>
+			<pubDate>Sun, 26 Mar 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-12</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-12</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 11</title>
 			<description>
 				&lt;p&gt;
@@ -1027,38 +1047,6 @@ List(0..&amp;lt;1000) { id in
 			<pubDate>Tue, 06 Jul 2021 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/fewer-dependencies</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/fewer-dependencies</guid>
-		</item>
-		<item>
-			<title>2019</title>
-			<description>
-				&lt;p&gt;
-	This was my first full year of being a dad (my daughter was born at the end of March in 2018), and to accomodate for that, I did not plan anything big. I focused on spending lots of time with the family, working and running (in that order). Compared to 2018, I got a lot better at spending time at home while doing nothing: I used to feel a bit guilty for not being “productive”, but I do believe just being there and spending time with my daughter is one of the best things I can do for her.
-&lt;/p&gt;
-&lt;p&gt;
-	The best month was September: I took a month off of work (except for maintenance things here and there), and also really drastically &lt;a href=&quot;https://www.calnewport.com/books/digital-minimalism/&quot;&gt;limited social media&lt;/a&gt; (I mainly use Twitter) and other digital entertainment (Youtube, Hacker News, etc.). I still spent an average of 30 minutes on my phone every day, but that mostly consisted of things like Google Maps, Spotify and browsing/reading recipes. The rest of the time I spent running and hanging around with my daughter. I did miss work, after a month, and I was glad to get back to it in October.
-&lt;/p&gt;
-&lt;p&gt;
-	As part of getting adjusted to being a family, we also decided to go on a few trips together: I spoke and gave a workshop in Montreal at &lt;a href=&quot;https://nsnorth.ca/&quot;&gt;NSNorth&lt;/a&gt;, and brought the rest of the family. We learned that flying such a long distance is quite doable, and are glad we did it, but we wouldn’t do it again anytime soon. Instead, in June, we went on a train trip to Vienna, Krakow, and Warsaw, which was lots of fun. My daughter loved crawling around the train and saying hi to all the other passengers.
-&lt;/p&gt;
-&lt;p&gt;
-	As an experiment, I also traveled to Argentina to speak, and combined it with a hiking holiday in Patagonia, together with my brother. Being away from the family for two weeks was hard, but I did have a great time nonetheless. Another lesson learned: I wouldn’t want to travel for that long without the family anytime soon.
-&lt;/p&gt;
-&lt;p&gt;
-	Work-wise, it was a really interesting year, despite not shipping big new things ourselves. SwiftUI came out, and it’s been a lot of fun learning about it. So much fun that we even decided to write a short book about it (the official announcement for this will come soon). For a few weeks in October/November, I spent the weekdays in a holiday apartment a short bike ride away from where we live. With no internet connection and no distractions, I managed to be extremely productive. I would get started at 7:30 in the morning, and leave by 15:00, leaving lots of time for everything that isn’t work.
-&lt;/p&gt;
-&lt;p&gt;
-	I decided to run a higher mileage in 2019. I ran 4386 kilometers (2725 miles), and really enjoyed it. While it didn’t bring immediate results in the Rotterdam marathon, it worked really, really well for the Berlin marathon. I smashed my PB and ran 2:48. Here’s my &lt;a href=&quot;http://chris.eidhof.nl/post/race-report-berlin-marathon/&quot;&gt;race report&lt;/a&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	For 2020, in reverse order, my goal is to run an even higher mileage so I can further improve my marathon PB. I might get injured doing that, but at least I want to give it a real try. Work-wise, we’re writing the new book, and we also really want to ship an app again (Mac, iOS or something hybrid). While we have some ideas about what it’s going to be, we haven’t fully decided yet. Personally, I want to keep spending lots of quality time with the family.
-&lt;/p&gt;
-&lt;p&gt;
-	I plan to do another month (or maybe even longer) without digital entertainment, and also plan to again take a full month off to just be at home. Finally, I’ll fly as little as possible in 2020 (at the very least not for speaking at conferences or going on holidays).
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 30 Dec 2019 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2019</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2019</guid>
 		</item>
 	</channel>
 </rss>
