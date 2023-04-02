@@ -8,6 +8,39 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 13</title>
+			<description>
+				&lt;p&gt;
+	We spent a lot of last week moving our stuff, culminating on Friday where we had to actually leave our old place. This was pretty stressful with two kids running around, and the oldest getting pretty sick at the beginning of the week. But we managed, all of our stuff is in the basement of the new place and we are in a furnished apartment for the next weeks.
+&lt;/p&gt;
+&lt;p&gt;
+	A lot of stuff got done: the tilers finished the upstairs bathroom and unexpectedly also finished the downstairs one, the electricity is mostly done, and the painter painted two more rooms. Now it’s a bit of a waiting game where little will happen next week, but hopefully everything should be finished somewhere around the end of this month.
+&lt;/p&gt;
+&lt;p&gt;
+	We also prepared and recorded a bunch of Swift Talk episodes in which we reimplemented SwiftUI’s anchors from “scratch” (only using preferences and geometry readers). Doing this gave us a lot of insight into how these actually work and their limitations. We reimplemented parts of SwiftUI many times (anchors, &lt;a href=&quot;https://talk.objc.io/episodes/S01E260-matched-geometry-effect-part-3&quot;&gt;matched geometry effect&lt;/a&gt;, the &lt;a href=&quot;https://talk.objc.io/collections/swiftui-layout-explained&quot;&gt;layout system&lt;/a&gt;, the &lt;a href=&quot;https://talk.objc.io/collections/swiftui-state-explained&quot;&gt;state system&lt;/a&gt;) and every time we learn a lot about how these things work. We also get feedback from other people that it helps them, which is always nice.
+&lt;/p&gt;
+&lt;p&gt;
+	I’ve been working on a pure Swift implementation of Git’s core data model recently, and can currently read out (simple) repositories and their objects (commits, trees, and blobs). On the train back from the studio I also managed to read out Packfiles. I’d like to add support for writing things as well as adding support for the index. At its core, git truly is simple and beautiful, even though I’m the first to admit that the interface has often confused me.
+&lt;/p&gt;
+&lt;p&gt;
+	We started preparing for another workshop sometime at the middle of this month, should be really fun. We’ve gotten into a really good flow where we know exactly what topics to cover, but can still create a completely custom workshop for the team we’re working with. One of the things I’m also pretty happy about is that we have a hard limit on team sizes (sixteen people max) so that we can really make it personal and spend a decent amount of time with all the individual attendees. Preparing and running the workshops is pretty stressful but also very rewarding.
+&lt;/p&gt;
+&lt;p&gt;
+	Another random thought that occupied me a bit is that my nationality never felt like a big part of my identity while I lived in the Netherlands, but does so now. Even when I emigrated to Berlin it was never a big deal – there were so many foreigners in my little bubble there that I hardly ever stood out. However, here on the countryside, it’s a different story. There are a lot of people that are from here and have never really been anywhere else. It feels like even Germans from other parts of Germany stand out, let alone foreigners like me. I don’t really mind, but it’s been an interesting observation.
+&lt;/p&gt;
+&lt;p&gt;
+	I’ve also been thinking about AI a bit recently (who hasn’t?). I don’t have a very strong opinion on the topic, I believe it’ll change our daily lives (especially for us computer people), but I don’t feel like anyone can really predict &lt;em&gt;how&lt;/em&gt;
+	 it’ll change things. I’m not sure whether it’ll be good or bad (probably both?). One of my favorite bloggers on the topic is &lt;a href=&quot;https://simonwillison.net&quot;&gt;Simon Willison&lt;/a&gt;, who’s doing pretty practical experiments as well as trying to take a more high-level view.
+&lt;/p&gt;
+&lt;p&gt;
+	I’ve experimented with ChatGPT to do generate sample data (for our workshops), and it was great at that, even providing JSON data and matching Swift structs that conform to &lt;code&gt;Codable&lt;/code&gt;. I tried using it to generate some algorithms that I know (e.g. a flow layout) but I’m not quite comfortable giving that part up (even though it did do a pretty good job). It also is useful for generating ideas. For example, I let it generate ten or twenty ideas for marketing our new book. Much of it isn’t stuff I couldn’t think of myself, but there were one or two things that I could definitely use. I don’t personally feel like letting it do things that feel important to me – most of programming, writing, and other forms of communication.
+&lt;/p&gt;
+			</description>
+			<pubDate>Sun, 02 Apr 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-13</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-13</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 12</title>
 			<description>
 				&lt;p&gt;
@@ -991,62 +1024,6 @@ List(0..&amp;lt;1000) { id in
 			<pubDate>Tue, 28 Dec 2021 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2021</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2021</guid>
-		</item>
-		<item>
-			<title>Dependencies</title>
-			<description>
-				&lt;p&gt;
-	Over the last years, I’ve noticed a change when programming. I used to liberately add third-party dependencies to my code. I would use libraries, or even build on top of frameworks like Ruby on Rails. These days, I tend to use few or no third-party dependencies.
-&lt;/p&gt;
-&lt;p&gt;
-	It’s not that I don’t like third-party code. However, a lot of the projects I’ve worked on have been around for quite a few years — which also means keeping their dependencies up to date. Sometimes the API breaks, sometimes there are security issues, sometimes a dependency is just not maintained anymore, and very often, a dependency somehow stops working when I upgrade my machine.
-&lt;/p&gt;
-&lt;p&gt;
-	I hate dealing with this. My app was working fine, and now I have to debug why Nokogiri does not install, or making sure that my app works with the most recent version of Rails, or seeing one of those Javascript libraries pull in hundreds of additional dependencies. And once I do get everything working again, it turns out one of the dependencies updated itself and doesn’t work with my code anymore.
-&lt;/p&gt;
-&lt;p&gt;
-	A few years ago, we rewrote our &lt;a href=&quot;http://talk.objc.io&quot;&gt;Swift Talk&lt;/a&gt; backend from Ruby on Rails to Swift (&lt;a href=&quot;https://github.com/objcio/swift-talk-backend&quot;&gt;here’s the code&lt;/a&gt;). Our Ruby backend had over 70 gem dependencies. The Swift version has fewer than ten dependencies, only two of which we don’t maintain ourselves (SourceKitten and SwiftNIO). We can always compile this without any problems, even after we haven’t worked on it for a while. (As an aside, rewriting from Ruby to Swift also made everything much faster and way less resource-intensive.)
-&lt;/p&gt;
-&lt;p&gt;
-	A few weeks ago, we also rewrote the code that generates objc.io (a static site) into Swift
-&lt;sup&gt;&lt;a href=&quot;#fnref1&quot; name=&quot;fnref-rev1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
-. Previously, we used an old version of Middleman with a whole bunch of gems, which themselves come with their &lt;em&gt;own&lt;/em&gt;
-	 dependencies. Additionaly, there were git submodules, Bower, NPM and CSS compilation steps. Bit by bit, it stopped building on all but one of our machines, even the Docker version somehow didn’t work anymore.
-&lt;/p&gt;
-&lt;p&gt;
-	At some point, we were tired of it, and wanted to change something on our website. We decided to bite the bullet and just rewrite it in Swift with very few dependencies
-&lt;sup&gt;&lt;a href=&quot;#fnref2&quot; name=&quot;fnref-rev2&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;
-. While we might still have issues whenever these dependencies change, at least we’ll probably get type errors and won’t have any silent issues. The rewrite took us only about a week and a half. I expect that, for the next few years, we can just keep updating and expanding our site with minimal effort spent on maintaining dependencies. While were at it, we also ripped out almost all Javascript, keeping only a few essential bits. (As an aside, the Ruby version used to take minutes to generate, whereas the Swift version is done within two seconds).
-&lt;/p&gt;
-&lt;p&gt;
-	There’s a fine line between minimizing dependencies and &lt;a href=&quot;https://en.wikipedia.org/wiki/Not_invented_here&quot;&gt;NIH syndrome&lt;/a&gt;. I’m not sure that our approach is the best way to do things, but I’m really happy that we have full control over our code, and — more importantly — that everything fits into our heads.
-&lt;/p&gt;
-&lt;p&gt;
-	There are many upsides to fewer dependencies: we understand the code, it’s written in our own style, we don’t have to spend time keeping the dependencies up to date, and we can fix any issues ourselves without having to wait for something to be approved. However, there are some downsides as well. For example: our code isn’t as battle-tested as other code out there. (This is why we used cmark rather than our own half-working Markdown parser that only parses an extended subset of Markdown.) Another drawback is that there are some really useful features in existing frameworks that we had to write ourselves. We wanted to have asset hashing, and while this is a single flag in most static site generators, we instead spent a morning implementing this.
-&lt;/p&gt;
-&lt;p&gt;
-	All in all, I do have to say that minimizing dependencies works really well for us. We have done this with a number of projects, and it’s just so nice to be able to just run a project that you’ve left alone for weeks, months or even years, and everything still works.
-&lt;/p&gt;
-&lt;div class=&quot;footnotes&quot;&gt;
-	&lt;hr/&gt;
-	&lt;ol&gt;
-		&lt;li id=&quot;fnref1&quot;&gt;
-			&lt;p&gt;
-				We took a very &lt;em&gt;practical&lt;/em&gt;
-				 approach and just wanted to get it done before our holidays. We did pull out some of the code into a library, and this very site is generated using that same code. &lt;a href=&quot;https://github.com/objcio/StaticSite&quot;&gt;Here’s&lt;/a&gt; the library.
-				 &lt;a href=&quot;#fnref-rev1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
-		&lt;/li&gt;
-		&lt;li id=&quot;fnref2&quot;&gt;
-			&lt;p&gt;
-				To be fair, we did end up depending on &lt;a href=&quot;https://github.com/jpsim/Yams&quot;&gt;Yams&lt;/a&gt;, &lt;a href=&quot;https://github.com/apple/swift-syntax&quot;&gt;SwiftSyntax&lt;/a&gt;, &lt;a href=&quot;https://github.com/robb/Swim&quot;&gt;Swim&lt;/a&gt; and &lt;a href=&quot;https://github.com/jgm/cmark&quot;&gt;cmark&lt;/a&gt;.
-				 &lt;a href=&quot;#fnref-rev2&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
-		&lt;/li&gt;
-	&lt;/ol&gt;
-&lt;/div&gt;
-			</description>
-			<pubDate>Tue, 06 Jul 2021 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/fewer-dependencies</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/fewer-dependencies</guid>
 		</item>
 	</channel>
 </rss>
