@@ -6,7 +6,7 @@ headline: The Declaration Order Matters
 
 One of the SwiftUI APIs that always kept confusing me is matchedGeometryEffect. I often thought I could use it but couldn't figure out exactly how to make it work, always getting weird effects. I tried to distill the problematic code down to the essence:
 
-```
+```swift
 struct ContentView: View {
     @State private var detail = false
     @Namespace private var ns

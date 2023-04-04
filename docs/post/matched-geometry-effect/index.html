@@ -33,25 +33,25 @@
 							<p>
 								One of the SwiftUI APIs that always kept confusing me is matchedGeometryEffect. I often thought I could use it but couldn’t figure out exactly how to make it work, always getting weird effects. I tried to distill the problematic code down to the essence:
 							</p>
-							<pre><code>struct ContentView: View {
-    @State private var detail = false
-    @Namespace private var ns
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">detail</span> = <span class="hljs-keyword">false</span>
+    @<span class="hljs-identifier">Namespace</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">ns</span>
 
-    var body: some View {
-        ZStack {
-            if detail {
-                Color.red
-                    .frame(width: 100, height: 100)
-                    .matchedGeometryEffect(id: &quot;rect&quot;, in: ns)
-            } else {
-                Color.red
-                    .frame(width: 300, height: 300)
-                    .matchedGeometryEffect(id: &quot;rect&quot;, in: ns)
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">ZStack</span> {
+            <span class="hljs-keyword">if</span> <span class="hljs-identifier">detail</span> {
+                <span class="hljs-identifier">Color</span>.<span class="hljs-identifier">red</span>
+                    .<span class="hljs-identifier">frame</span>(<span class="hljs-identifier">width</span>: <span class="hljs-number">100</span>, <span class="hljs-identifier">height</span>: <span class="hljs-number">100</span>)
+                    .<span class="hljs-identifier">matchedGeometryEffect</span>(<span class="hljs-identifier">id</span>: <span class="hljs-string">"</span><span class="hljs-string">rect</span><span class="hljs-string">"</span>, <span class="hljs-identifier">in</span>: <span class="hljs-identifier">ns</span>)
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-identifier">Color</span>.<span class="hljs-identifier">red</span>
+                    .<span class="hljs-identifier">frame</span>(<span class="hljs-identifier">width</span>: <span class="hljs-number">300</span>, <span class="hljs-identifier">height</span>: <span class="hljs-number">300</span>)
+                    .<span class="hljs-identifier">matchedGeometryEffect</span>(<span class="hljs-identifier">id</span>: <span class="hljs-string">"</span><span class="hljs-string">rect</span><span class="hljs-string">"</span>, <span class="hljs-identifier">in</span>: <span class="hljs-identifier">ns</span>)
             }
         }
-        .animation(.default, value: detail)
-        .onTapGesture {
-            detail.toggle()
+        .<span class="hljs-identifier">animation</span>(.<span class="hljs-identifier">default</span>, <span class="hljs-identifier">value</span>: <span class="hljs-identifier">detail</span>)
+        .<span class="hljs-identifier">onTapGesture</span> {
+            <span class="hljs-identifier">detail</span>.<span class="hljs-identifier">toggle</span>()
         }
     }
 }
