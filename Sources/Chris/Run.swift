@@ -18,6 +18,7 @@ struct Site: Rule {
     var body: some Rule {
         Copy("css")
         Copy("images")
+        Copy("movies")
         Copy(from: "well-known", to: ".well-known")
         Index()
         AboutMe().outputPath("about")

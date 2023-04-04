@@ -1,0 +1,132 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			When Matched Geometry Effect Doesn&apos;t Work — Chris Eidhof
+		</title>
+		<meta content="When Matched Geometry Effect Doesn't Work — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/matched-geometry-effect/og-image-5d32.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								When Matched Geometry Effect Doesn&apos;t Work
+							</h1>
+							<h2 class="headline">
+								The Declaration Order Matters
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								One of the SwiftUI APIs that always kept confusing me is matchedGeometryEffect. I often thought I could use it but couldn’t figure out exactly how to make it work, always getting weird effects. I tried to distill the problematic code down to the essence:
+							</p>
+							<pre><code>struct ContentView: View {
+    @State private var detail = false
+    @Namespace private var ns
+
+    var body: some View {
+        ZStack {
+            if detail {
+                Color.red
+                    .frame(width: 100, height: 100)
+                    .matchedGeometryEffect(id: &quot;rect&quot;, in: ns)
+            } else {
+                Color.red
+                    .frame(width: 300, height: 300)
+                    .matchedGeometryEffect(id: &quot;rect&quot;, in: ns)
+            }
+        }
+        .animation(.default, value: detail)
+        .onTapGesture {
+            detail.toggle()
+        }
+    }
+}
+</code></pre>
+							<p>
+								When you run the code above, you will see that there is something like a transition between the two red squares, but there’s nothing smooth about it. Why doesn’t the small square grow bigger, and why doesn’t the large square grow smaller? They only seem to shift.
+							</p>
+							<video class="light-video" width="320" height="320" autoplay playsinline muted loop>
+   <source src="/movies/mge-light.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<video class="dark-video" width="318" height="318" autoplay playsinline muted loop>
+   <source src="/movies/mge-dark.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+							<p>
+								What helped me understand is <a href="https://talk.objc.io/episodes/S01E260-matched-geometry-effect-part-3">reimplementing matchedGeometryEffect</a>. While there is a bit more to it, the matched geometry effect will essentially apply a <code>frame</code> and an <code>offset</code> modifier. Let’s consider only the if-branch:
+							</p>
+							<pre><code class="swift"><span class="hljs-identifier">Color</span>.<span class="hljs-identifier">red</span>
+    .<span class="hljs-identifier">frame</span>(<span class="hljs-identifier">width</span>: <span class="hljs-number">100</span>, <span class="hljs-identifier">height</span>: <span class="hljs-number">100</span>)
+    .<span class="hljs-identifier">matchedGeometryEffect</span>(<span class="hljs-identifier">id</span>: <span class="hljs-string">"</span><span class="hljs-string">rect</span><span class="hljs-string">"</span>, <span class="hljs-identifier">in</span>: <span class="hljs-identifier">ns</span>)
+</code></pre>
+							<p>
+								If we virtually “inline” the matched geometry effect, the code looks like this:
+							</p>
+							<pre><code class="swift"><span class="hljs-identifier">Color</span>.<span class="hljs-identifier">red</span>
+    .<span class="hljs-identifier">frame</span>(<span class="hljs-identifier">width</span>: <span class="hljs-number">100</span>, <span class="hljs-identifier">height</span>: <span class="hljs-number">100</span>)
+    .<span class="hljs-identifier">offset</span>(<span class="hljs-identifier">x</span>: <<span class="hljs-identifier">matchedX</span>>, <span class="hljs-identifier">y</span>: <<span class="hljs-identifier">matchedY</span>>)
+    .<span class="hljs-identifier">frame</span>(<span class="hljs-identifier">width</span>: <<span class="hljs-identifier">matchedWidth</span>>, <span class="hljs-identifier">height</span>: <<span class="hljs-identifier">matchedHeight</span>>)
+</code></pre>
+							<p>
+								While the outer frame and offset will have an effect on where the view is positioned, we can see that the inner frame will ultimately control the size, overriding the proposed size of the outer frame modifier. In other words: the red square will <em>always</em>
+								 render at 100⨉100.
+							</p>
+							<p>
+								To fix this, we need to change the order of our modifiers so that the <code>matchedGeometryEffect</code> is directly applied to the color. As the color is completely flexible, this doesn’t cause any problems. Here’s the changed <code>if</code> branch, the <code>else</code> branch needs to change as well:
+							</p>
+							<pre><code class="swift"><span class="hljs-identifier">Color</span>.<span class="hljs-identifier">red</span>
+     .<span class="hljs-identifier">matchedGeometryEffect</span>(<span class="hljs-identifier">id</span>: <span class="hljs-string">"</span><span class="hljs-string">rect</span><span class="hljs-string">"</span>, <span class="hljs-identifier">in</span>: <span class="hljs-identifier">ns</span>)
+     .<span class="hljs-identifier">frame</span>(<span class="hljs-identifier">width</span>: <span class="hljs-number">100</span>, <span class="hljs-identifier">height</span>: <span class="hljs-number">100</span>)
+</code></pre>
+							<p>
+								Now our rectangle animates smoothly between the two states:
+							</p>
+							<video class="light-video" width="318" height="318" autoplay playsinline muted loop>
+   <source src="/movies/mge-fixed-light.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<video class="dark-video" width="318" height="318" autoplay playsinline muted loop>
+   <source src="/movies/mge-fixed-dark.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+							<p>
+								(Of course, the above animation could be done in a much simpler way by removing the if/else, but I wanted to work with a minimal example that uses matched geometry effect.)
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Apr 4, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-13">Weeknotes № 13
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

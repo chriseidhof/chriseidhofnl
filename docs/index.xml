@@ -8,6 +8,93 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>When Matched Geometry Effect Doesn&apos;t Work</title>
+			<description>
+				&lt;p&gt;
+	One of the SwiftUI APIs that always kept confusing me is matchedGeometryEffect. I often thought I could use it but couldn’t figure out exactly how to make it work, always getting weird effects. I tried to distill the problematic code down to the essence:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;struct ContentView: View {
+    @State private var detail = false
+    @Namespace private var ns
+
+    var body: some View {
+        ZStack {
+            if detail {
+                Color.red
+                    .frame(width: 100, height: 100)
+                    .matchedGeometryEffect(id: &amp;quot;rect&amp;quot;, in: ns)
+            } else {
+                Color.red
+                    .frame(width: 300, height: 300)
+                    .matchedGeometryEffect(id: &amp;quot;rect&amp;quot;, in: ns)
+            }
+        }
+        .animation(.default, value: detail)
+        .onTapGesture {
+            detail.toggle()
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	When you run the code above, you will see that there is something like a transition between the two red squares, but there’s nothing smooth about it. Why doesn’t the small square grow bigger, and why doesn’t the large square grow smaller? They only seem to shift.
+&lt;/p&gt;
+&lt;video class=&quot;light-video&quot; width=&quot;320&quot; height=&quot;320&quot; autoplay playsinline muted loop&gt;
+   &lt;source src=&quot;http://chris.eidhof.nl/movies/mge-light.mp4&quot; type=&quot;video/mp4&quot;&gt;
+  Your browser does not support the video tag.
+&lt;/video&gt;
+&lt;video class=&quot;dark-video&quot; width=&quot;318&quot; height=&quot;318&quot; autoplay playsinline muted loop&gt;
+   &lt;source src=&quot;http://chris.eidhof.nl/movies/mge-dark.mp4&quot; type=&quot;video/mp4&quot;&gt;
+  Your browser does not support the video tag.
+&lt;/video&gt;
+
+&lt;p&gt;
+	What helped me understand is &lt;a href=&quot;https://talk.objc.io/episodes/S01E260-matched-geometry-effect-part-3&quot;&gt;reimplementing matchedGeometryEffect&lt;/a&gt;. While there is a bit more to it, the matched geometry effect will essentially apply a &lt;code&gt;frame&lt;/code&gt; and an &lt;code&gt;offset&lt;/code&gt; modifier. Let’s consider only the if-branch:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Color.red
+    .frame(width: 100, height: 100)
+    .matchedGeometryEffect(id: &amp;quot;rect&amp;quot;, in: ns)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	If we virtually “inline” the matched geometry effect, the code looks like this:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Color.red
+    .frame(width: 100, height: 100)
+    .offset(x: &amp;lt;matchedX&amp;gt;, y: &amp;lt;matchedY&amp;gt;)
+    .frame(width: &amp;lt;matchedWidth&amp;gt;, height: &amp;lt;matchedHeight&amp;gt;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	While the outer frame and offset will have an effect on where the view is positioned, we can see that the inner frame will ultimately control the size, overriding the proposed size of the outer frame modifier. In other words: the red square will &lt;em&gt;always&lt;/em&gt;
+	 render at 100⨉100.
+&lt;/p&gt;
+&lt;p&gt;
+	To fix this, we need to change the order of our modifiers so that the &lt;code&gt;matchedGeometryEffect&lt;/code&gt; is directly applied to the color. As the color is completely flexible, this doesn’t cause any problems. Here’s the changed &lt;code&gt;if&lt;/code&gt; branch, the &lt;code&gt;else&lt;/code&gt; branch needs to change as well:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Color.red
+     .matchedGeometryEffect(id: &amp;quot;rect&amp;quot;, in: ns)
+     .frame(width: 100, height: 100)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Now our rectangle animates smoothly between the two states:
+&lt;/p&gt;
+&lt;video class=&quot;light-video&quot; width=&quot;318&quot; height=&quot;318&quot; autoplay playsinline muted loop&gt;
+   &lt;source src=&quot;http://chris.eidhof.nl/movies/mge-fixed-light.mp4&quot; type=&quot;video/mp4&quot;&gt;
+  Your browser does not support the video tag.
+&lt;/video&gt;
+&lt;video class=&quot;dark-video&quot; width=&quot;318&quot; height=&quot;318&quot; autoplay playsinline muted loop&gt;
+   &lt;source src=&quot;http://chris.eidhof.nl/movies/mge-fixed-dark.mp4&quot; type=&quot;video/mp4&quot;&gt;
+  Your browser does not support the video tag.
+&lt;/video&gt;
+
+&lt;p&gt;
+	(Of course, the above animation could be done in a much simpler way by removing the if/else, but I wanted to work with a minimal example that uses matched geometry effect.)
+&lt;/p&gt;
+			</description>
+			<pubDate>Tue, 04 Apr 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/matched-geometry-effect</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/matched-geometry-effect</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 13</title>
 			<description>
 				&lt;p&gt;
@@ -989,41 +1076,6 @@ List(0..&amp;lt;1000) { id in
 			<pubDate>Mon, 28 Mar 2022 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/swiftui-state-lifetime</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-state-lifetime</guid>
-		</item>
-		<item>
-			<title>2021</title>
-			<description>
-				&lt;p&gt;
-	The year is almost over, so time for a quick recap.
-&lt;/p&gt;
-&lt;p&gt;
-	Work-wise, we started the year by releasing a new app called &lt;a href=&quot;https://www.buildandshipapps.com&quot;&gt;Narrated&lt;/a&gt;. It’s a Mac app to create more personal screen recordings by including your camera. It was really fun to build and ship, but it hasn’t been a success commercially at all by any means. Our goal was to actually get the entire app out within a few months, and we did manage to go from prototype to finished app within about three months.
-&lt;/p&gt;
-&lt;p&gt;
-	At the beginning of the year, we started preparing a &lt;a href=&quot;https://www.objc.io/workshops/swiftui/&quot;&gt;SwiftUI workshop&lt;/a&gt;. We tried to think hard about what parts are difficult to learn, and focus on that. For example: everyone can figure out how to create a button, but hardly anyone actually understands the layout system.
-&lt;/p&gt;
-&lt;p&gt;
-	It’s been incredibly rewarding running these workshops for teams both with and without SwiftUI experience at companies across the globe. At first, I was a bit hesitant about running an online workshop, but it turned out to work really well. I think part of it was preparing better than we ever did before. We have well thought-out exercises that all build on top of each other, as well as a Mac app that describes all the exercises and has a large number of interactive explanations. With each workshop we ran, we were able to iterate on this, improving the exercises, explanations and structure.
-&lt;/p&gt;
-&lt;p&gt;
-	At some point in the first half of the year, we got fed up with our website build system (Middleman/Ruby and some Javascript build systems) that had been in place for (eight?) years. Over the years, it stopped working on more and more of our computers until we only had one machine left that was able to build it. We decided to bite the bullet, and rewrote it in Swift. It only took us a few days to rewrite, and we should be set for the next few years. No more strange gem installs that stop working or npm dependencies that break. As a bonus, our site now builds in 2 seconds rather than multiple minutes (I think it took about 13 minutes on CI). We extract most of the code into a &lt;a href=&quot;https://github.com/objcio/StaticSite&quot;&gt;simple framework&lt;/a&gt;. I also rewrote &lt;a href=&quot;https://github.com/chriseidhof/chriseidhofnl&quot;&gt;this website&lt;/a&gt; with it.
-&lt;/p&gt;
-&lt;p&gt;
-	In the middle of last year we started on a new edition of &lt;a href=&quot;https://www.objc.io/books/advanced-swift/&quot;&gt;Advanced Swift&lt;/a&gt; (we’re hoping to ship it early 2022). We decided to revisit and update every single chapter, as well as adding a new chapter on Swift’s new concurrency system. The new concurrency stuff took us a while to understand, but I’m very impressed by its design. Concurrency is still hard, but this new system definitely helps to boil down concurrent and asynchronous code to its essential complexity, rather than complex code that’s further obfuscated by lots of nested callbacks and/or reactive programming.
-&lt;/p&gt;
-&lt;p&gt;
-	Of course, we also continued Swift Talk. I personally learned a ton &lt;a href=&quot;https://talk.objc.io/collections/swiftui-layout-explained&quot;&gt;reimplementing SwiftUI’s layout system&lt;/a&gt;. We also built a simple &lt;a href=&quot;https://talk.objc.io/collections/swiftui-path-builder&quot;&gt;vector drawing app&lt;/a&gt;, reimplemented &lt;a href=&quot;https://talk.objc.io/episodes/S01E260-matched-geometry-effect-part-3&quot;&gt;matchedGeometryEffect&lt;/a&gt; and SwiftUI’s &lt;a href=&quot;https://talk.objc.io/collections/swiftui-state-explained&quot;&gt;state handling&lt;/a&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	Running-wise, it was a pretty good year. Having two clear running goals (a spring marathon and a fall marathon) gave me purpose and meaning every single day. Even when all races were cancelled, I ran a solo marathon in April in &lt;a href=&quot;https://www.strava.com/activities/5188278197#10959190775&quot;&gt;2:36&lt;/a&gt;. This was a massive PB. In preparation, I also ran PBs on the 10k (33 min) and HM (1:13). In the second half of the year I didn’t run any PBs, but did manage to win a few races. One of the most fun races for me was the Usedom Marathon where I finished in second place. I essentially ran that as a long run at 80% effort (just like the winner, who finished multiple minutes ahead of me). The Berlin marathon result (my main goal for the year) was disappointing for me as I don’t think I got anywhere close to what my training predicted.
-&lt;/p&gt;
-&lt;p&gt;
-	As a family, I think we managed to get through the pandemic relatively well. We leased a plot in a community garden, which helped: we spent a lot of our free time outside doing physical labour and playing. I actually have good hopes for the future, but if anything, we’ll just have to take things as they come.
-&lt;/p&gt;
-			</description>
-			<pubDate>Tue, 28 Dec 2021 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2021</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2021</guid>
 		</item>
 	</channel>
 </rss>

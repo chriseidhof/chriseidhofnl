@@ -735,3 +735,20 @@ div.intro {
      background-color: var(--secondary-background-color);
      border-radius: 3px;
 }
+
+
+/* From https://stackoverflow.com/questions/59967310/how-to-load-a-different-video-for-dark-mode */
+
+.dark-video {
+    display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    .dark-video {
+        display: block;
+    }
+
+    .light-video {
+        display: none;
+    }
+}
