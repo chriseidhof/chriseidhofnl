@@ -43,7 +43,7 @@
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Nested1</span>: <span class="hljs-identifier">View</span> {
     @<span class="hljs-identifier">Environment</span>(\.<span class="hljs-identifier">stylesheet</span>) <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">stylesheet</span>
-    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
         <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Hello</span><span class="hljs-string">"</span>)
             .<span class="hljs-identifier">background</span>(<span class="hljs-identifier">stylesheet</span>.<span class="hljs-identifier">buttonColor</span>)
     }
@@ -54,7 +54,7 @@
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Nested2</span>: <span class="hljs-identifier">View</span> {
     @<span class="hljs-identifier">Environment</span>(\.<span class="hljs-identifier">stylesheet</span>.<span class="hljs-identifier">buttonColor</span>) <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">buttonColor</span>
-    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
         <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Hello</span><span class="hljs-string">"</span>)
             .<span class="hljs-identifier">background</span>(<span class="hljs-identifier">buttonColor</span>)
     }
@@ -71,7 +71,7 @@
     @<span class="hljs-identifier">Environment</span>(\.<span class="hljs-identifier">dynamicTypeSize</span>.<span class="hljs-identifier">isAccessibilitySize</span>) 
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">isAccesibilitySize</span>
     
-    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
         <span class="hljs-comment">// ...</span>
     }
 }

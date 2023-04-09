@@ -114,7 +114,7 @@
 								We’ll start by defining a <code>Person</code> object. Because we want to show how
 								Objective-C’s powerful runtime system works, we’ll have to make it an <code>NSObject</code>subclass (in pure Swift, a struct might have been a better choice):
 							</p>
-							<pre><code class="swift"><span class="hljs-identifier">final</span> <span class="hljs-keyword">class</span> <span class="hljs-identifier">Person</span>: <span class="hljs-identifier">NSObject</span> {
+							<pre><code class="swift">final <span class="hljs-keyword">class</span> <span class="hljs-identifier">Person</span>: <span class="hljs-identifier">NSObject</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">first</span>: <span class="hljs-identifier">String</span>
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">last</span>: <span class="hljs-identifier">String</span>
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">yearOfBirth</span>: <span class="hljs-identifier">Int</span>
@@ -145,9 +145,9 @@
 								use them to express the individual sorting criteria.
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">let</span> <span class="hljs-identifier">lastDescriptor</span> = <span class="hljs-identifier">NSSortDescriptor</span>(<span class="hljs-identifier">key</span>: <span class="hljs-string">"</span><span class="hljs-string">last</span><span class="hljs-string">"</span>, <span class="hljs-identifier">ascending</span>: <span class="hljs-keyword">true</span>,
-  <span class="hljs-identifier">selector</span>: <span class="hljs-keyword">#selector</span>(<span class="hljs-identifier">NSString</span>.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>(<span class="hljs-keyword">_</span>:)))
+  <span class="hljs-identifier">selector</span>: #<span class="hljs-identifier">selector</span>(<span class="hljs-identifier">NSString</span>.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>(_:)))
 <span class="hljs-keyword">let</span> <span class="hljs-identifier">firstDescriptor</span> = <span class="hljs-identifier">NSSortDescriptor</span>(<span class="hljs-identifier">key</span>: <span class="hljs-string">"</span><span class="hljs-string">first</span><span class="hljs-string">"</span>, <span class="hljs-identifier">ascending</span>: <span class="hljs-keyword">true</span>, 
-  <span class="hljs-identifier">selector</span>: <span class="hljs-keyword">#selector</span>(<span class="hljs-identifier">NSString</span>.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>(<span class="hljs-keyword">_</span>:)))
+  <span class="hljs-identifier">selector</span>: #<span class="hljs-identifier">selector</span>(<span class="hljs-identifier">NSString</span>.<span class="hljs-identifier">localizedCaseInsensitiveCompare</span>(_:)))
 <span class="hljs-keyword">let</span> <span class="hljs-identifier">yearDescriptor</span> = <span class="hljs-identifier">NSSortDescriptor</span>(<span class="hljs-identifier">key</span>: <span class="hljs-string">"</span><span class="hljs-string">yearOfBirth</span><span class="hljs-string">"</span>, <span class="hljs-identifier">ascending</span>: <span class="hljs-keyword">true</span>)
 </code></pre>
 							<p>
@@ -266,7 +266,7 @@
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">sortDescriptor</span><<span class="hljs-identifier">Value</span>, <span class="hljs-identifier">Key</span>>(
   <span class="hljs-identifier">key</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">Value</span>) -> <span class="hljs-identifier">Key</span>,
-    <span class="hljs-keyword">_</span> <span class="hljs-identifier">isOrderedBefore</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">Key</span>, <span class="hljs-identifier">Key</span>) -> <span class="hljs-identifier">Bool</span>) 
+    _ <span class="hljs-identifier">isOrderedBefore</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">Key</span>, <span class="hljs-identifier">Key</span>) -> <span class="hljs-identifier">Bool</span>) 
     -> <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Value</span>> {
     <span class="hljs-keyword">return</span> { <span class="hljs-identifier">isOrderedBefore</span>(<span class="hljs-identifier">key</span>($0), <span class="hljs-identifier">key</span>($1)) }
 }
@@ -293,7 +293,7 @@
 							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">sortDescriptor</span><<span class="hljs-identifier">Value</span>, <span class="hljs-identifier">Key</span>>(
     <span class="hljs-identifier">key</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">Value</span>) -> <span class="hljs-identifier">Key</span>,
     <span class="hljs-identifier">ascending</span>: <span class="hljs-identifier">Bool</span> = <span class="hljs-keyword">true</span>,
-    <span class="hljs-keyword">_</span> <span class="hljs-identifier">comparator</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">Key</span>) -> (<span class="hljs-identifier">Key</span>) -> <span class="hljs-identifier">ComparisonResult</span>
+    _ <span class="hljs-identifier">comparator</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">Key</span>) -> (<span class="hljs-identifier">Key</span>) -> <span class="hljs-identifier">ComparisonResult</span>
     ) -> <span class="hljs-identifier">SortDescriptor</span><<span class="hljs-identifier">Value</span>> {
     <span class="hljs-keyword">return</span> { <span class="hljs-identifier">lhs</span>, <span class="hljs-identifier">rhs</span> <span class="hljs-keyword">in</span>
         <span class="hljs-keyword">let</span> <span class="hljs-identifier">order</span>: <span class="hljs-identifier">ComparisonResult</span> = <span class="hljs-identifier">ascending</span> ? .<span class="hljs-identifier">orderedAscending</span> : .<span class="hljs-identifier">orderedDescending</span>
@@ -365,7 +365,7 @@
 								descriptors, and combined them into a single sort descriptor. Alternatively, we
 								could have written an operator to combine two sort functions:
 							</p>
-							<pre><code class="swift"><span class="hljs-identifier">infix</span> <span class="hljs-keyword">operator</span> <||> : <span class="hljs-identifier">LogicalDisjunctionPrecedence</span>
+							<pre><code class="swift">infix <span class="hljs-keyword">operator</span> <||> : <span class="hljs-identifier">LogicalDisjunctionPrecedence</span>
 <span class="hljs-keyword">func</span> <||><<span class="hljs-identifier">A</span>>(<span class="hljs-identifier">lhs</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">A</span>,<span class="hljs-identifier">A</span>) -> <span class="hljs-identifier">Bool</span>, <span class="hljs-identifier">rhs</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">A</span>,<span class="hljs-identifier">A</span>) -> <span class="hljs-identifier">Bool</span>) -> (<span class="hljs-identifier">A</span>,<span class="hljs-identifier">A</span>) -> <span class="hljs-identifier">Bool</span> {
     <span class="hljs-keyword">return</span> { <span class="hljs-identifier">x</span>,<span class="hljs-identifier">y</span> <span class="hljs-keyword">in</span>
         <span class="hljs-keyword">if</span> <span class="hljs-identifier">lhs</span>(<span class="hljs-identifier">x</span>,<span class="hljs-identifier">y</span>) { <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span> }
@@ -408,12 +408,12 @@
 								right-hand isn’t they’re ascending, and the other way around. Finally, if they
 								are both non-<code>nil</code>, we can use the <code>compare</code> function to compare them.
 							</p>
-							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">lift</span><<span class="hljs-identifier">A</span>>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">compare</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">A</span>) -> (<span class="hljs-identifier">A</span>) -> <span class="hljs-identifier">ComparisonResult</span>) -> (<span class="hljs-identifier">A</span>?) -> (<span class="hljs-identifier">A</span>?) -> <span class="hljs-identifier">ComparisonResult</span> {
+							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">lift</span><<span class="hljs-identifier">A</span>>(_ <span class="hljs-identifier">compare</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">A</span>) -> (<span class="hljs-identifier">A</span>) -> <span class="hljs-identifier">ComparisonResult</span>) -> (<span class="hljs-identifier">A</span>?) -> (<span class="hljs-identifier">A</span>?) -> <span class="hljs-identifier">ComparisonResult</span> {
     <span class="hljs-keyword">return</span> { <span class="hljs-identifier">lhs</span> <span class="hljs-keyword">in</span> { <span class="hljs-identifier">rhs</span> <span class="hljs-keyword">in</span>
         <span class="hljs-keyword">switch</span> (<span class="hljs-identifier">lhs</span>, <span class="hljs-identifier">rhs</span>) {
         <span class="hljs-keyword">case</span> (<span class="hljs-keyword">nil</span>, <span class="hljs-keyword">nil</span>): <span class="hljs-keyword">return</span> .<span class="hljs-identifier">orderedSame</span>
-        <span class="hljs-keyword">case</span> (<span class="hljs-keyword">nil</span>, <span class="hljs-keyword">_</span>): <span class="hljs-keyword">return</span> .<span class="hljs-identifier">orderedAscending</span>
-        <span class="hljs-keyword">case</span> (<span class="hljs-keyword">_</span>, <span class="hljs-keyword">nil</span>): <span class="hljs-keyword">return</span> .<span class="hljs-identifier">orderedDescending</span>
+        <span class="hljs-keyword">case</span> (<span class="hljs-keyword">nil</span>, _): <span class="hljs-keyword">return</span> .<span class="hljs-identifier">orderedAscending</span>
+        <span class="hljs-keyword">case</span> (_, <span class="hljs-keyword">nil</span>): <span class="hljs-keyword">return</span> .<span class="hljs-identifier">orderedDescending</span>
         <span class="hljs-keyword">case</span> <span class="hljs-keyword">let</span> (<span class="hljs-identifier">l</span>?, <span class="hljs-identifier">r</span>?): <span class="hljs-keyword">return</span> <span class="hljs-identifier">compare</span>(<span class="hljs-identifier">l</span>)(<span class="hljs-identifier">r</span>)
         <span class="hljs-keyword">default</span>: <span class="hljs-identifier">fatalError</span>() <span class="hljs-comment">// Impossible case</span>
         }

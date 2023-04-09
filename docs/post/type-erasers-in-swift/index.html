@@ -37,7 +37,7 @@
 								Sometimes, we can use a protocol as a standalone type. However, with a protocol like <code>IteratorProtocol</code>, this isn’t (yet) possible, because it has an associated type. The compile error says: “Protocol ‘IteratorProtocol’ can only be used as a generic constraint because it has Self or associated type requirements.”
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ConstantIterator</span>: <span class="hljs-identifier">IteratorProtocol</span> {
-    <span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">next</span>() -> <span class="hljs-identifier">Int</span>? {
+    mutating <span class="hljs-keyword">func</span> <span class="hljs-identifier">next</span>() -> <span class="hljs-identifier">Int</span>? {
         <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
     }
 }
@@ -90,7 +90,7 @@
 							<pre><code class="swift"><span class="hljs-keyword">class</span> <span class="hljs-identifier">IntIterator</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">nextImpl</span>: () -> <span class="hljs-identifier">Int</span>?
 
-    <span class="hljs-keyword">init</span><<span class="hljs-identifier">I</span>: <span class="hljs-identifier">IteratorProtocol</span>>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">iterator</span>: <span class="hljs-identifier">I</span>) <span class="hljs-keyword">where</span> <span class="hljs-identifier">I</span>.<span class="hljs-identifier">Element</span> == <span class="hljs-identifier">Int</span> {
+    <span class="hljs-keyword">init</span><<span class="hljs-identifier">I</span>: <span class="hljs-identifier">IteratorProtocol</span>>(_ <span class="hljs-identifier">iterator</span>: <span class="hljs-identifier">I</span>) <span class="hljs-keyword">where</span> <span class="hljs-identifier">I</span>.<span class="hljs-identifier">Element</span> == <span class="hljs-identifier">Int</span> {
         <span class="hljs-keyword">var</span> <span class="hljs-identifier">iteratorCopy</span> = <span class="hljs-identifier">iterator</span>
         <span class="hljs-keyword">self</span>.<span class="hljs-identifier">nextImpl</span> = { <span class="hljs-identifier">iteratorCopy</span>.<span class="hljs-identifier">next</span>() }
     }
@@ -117,7 +117,7 @@
 							<pre><code class="swift"><span class="hljs-keyword">class</span> <span class="hljs-identifier">AnyIterator</span><<span class="hljs-identifier">A</span>>: <span class="hljs-identifier">IteratorProtocol</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">nextImpl</span>: () -> <span class="hljs-identifier">A</span>?
 
-    <span class="hljs-keyword">init</span><<span class="hljs-identifier">I</span>: <span class="hljs-identifier">IteratorProtocol</span>>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">iterator</span>: <span class="hljs-identifier">I</span>) <span class="hljs-keyword">where</span> <span class="hljs-identifier">I</span>.<span class="hljs-identifier">Element</span> == <span class="hljs-identifier">A</span> {
+    <span class="hljs-keyword">init</span><<span class="hljs-identifier">I</span>: <span class="hljs-identifier">IteratorProtocol</span>>(_ <span class="hljs-identifier">iterator</span>: <span class="hljs-identifier">I</span>) <span class="hljs-keyword">where</span> <span class="hljs-identifier">I</span>.<span class="hljs-identifier">Element</span> == <span class="hljs-identifier">A</span> {
         <span class="hljs-keyword">var</span> <span class="hljs-identifier">iteratorCopy</span> = <span class="hljs-identifier">iterator</span>
         <span class="hljs-keyword">self</span>.<span class="hljs-identifier">nextImpl</span> = { <span class="hljs-identifier">iteratorCopy</span>.<span class="hljs-identifier">next</span>() }
     }
@@ -165,11 +165,11 @@
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">class</span> <span class="hljs-identifier">IteratorBoxHelper</span><<span class="hljs-identifier">I</span>: <span class="hljs-identifier">IteratorProtocol</span>>: <span class="hljs-identifier">IteratorBox</span><<span class="hljs-identifier">I</span>.<span class="hljs-identifier">Element</span>> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">iterator</span>: <span class="hljs-identifier">I</span>
-    <span class="hljs-keyword">init</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">iterator</span>: <span class="hljs-identifier">I</span>) {
+    <span class="hljs-keyword">init</span>(_ <span class="hljs-identifier">iterator</span>: <span class="hljs-identifier">I</span>) {
         <span class="hljs-keyword">self</span>.<span class="hljs-identifier">iterator</span> = <span class="hljs-identifier">iterator</span>
     }
 
-    <span class="hljs-identifier">override</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">next</span>() -> <span class="hljs-identifier">I</span>.<span class="hljs-identifier">Element</span>? {
+    override <span class="hljs-keyword">func</span> <span class="hljs-identifier">next</span>() -> <span class="hljs-identifier">I</span>.<span class="hljs-identifier">Element</span>? {
         <span class="hljs-keyword">return</span> <span class="hljs-identifier">iterator</span>.<span class="hljs-identifier">next</span>()
     }
 }

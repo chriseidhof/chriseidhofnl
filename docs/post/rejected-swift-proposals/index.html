@@ -112,7 +112,7 @@
 							<p>
 								This proposal is about letting trailing closures in <code>guard</code> conditions compile. For example, like this:
 							</p>
-							<pre><code class="swift"><span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">object</span> = <span class="hljs-identifier">someSequence</span>.<span class="hljs-identifier">findElement</span> { $0.<span class="hljs-identifier">passesTest</span>() } <span class="hljs-keyword">else</span> {
+							<pre><code class="swift"><span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">object</span> = <span class="hljs-identifier">someSequence</span>.<span class="hljs-identifier">findElement</span> <span class="hljs-keyword">else</span>{ $0.<span class="hljs-identifier">passesTest</span>() } <span class="hljs-keyword">else</span> {
   <span class="hljs-keyword">return</span>
 }
 </code></pre>

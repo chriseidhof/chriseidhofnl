@@ -58,13 +58,13 @@
 								Next up, the code that reloads the exchange rates:
 							</p>
 							<pre><code class="swift">@<span class="hljs-identifier">objc</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">reload</span>() {
-    <span class="hljs-identifier">URLSession</span>.<span class="hljs-identifier">shared</span>.<span class="hljs-identifier">dataTask</span>(<span class="hljs-identifier">with</span>: <span class="hljs-identifier">ratesURL</span>()) { (<span class="hljs-identifier">data</span>, <span class="hljs-keyword">_</span>, <span class="hljs-keyword">_</span>) <span class="hljs-keyword">in</span>
+    <span class="hljs-identifier">URLSession</span>.<span class="hljs-identifier">shared</span>.<span class="hljs-identifier">dataTask</span>(<span class="hljs-identifier">with</span>: <span class="hljs-identifier">ratesURL</span>()) { (<span class="hljs-identifier">data</span>, _, _) <span class="hljs-keyword">in</span>
         <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">data</span> = <span class="hljs-identifier">data</span>,
             <span class="hljs-keyword">let</span> <span class="hljs-identifier">json</span> = <span class="hljs-keyword">try</span>? <span class="hljs-identifier">JSONSerialization</span>.<span class="hljs-identifier">jsonObject</span>(<span class="hljs-identifier">with</span>: <span class="hljs-identifier">data</span>, <span class="hljs-identifier">options</span>: []),
             <span class="hljs-keyword">let</span> <span class="hljs-identifier">dict</span> = <span class="hljs-identifier">json</span> <span class="hljs-keyword">as</span>? [<span class="hljs-identifier">String</span>:<span class="hljs-keyword">Any</span>],
             <span class="hljs-keyword">let</span> <span class="hljs-identifier">dataDict</span> = <span class="hljs-identifier">dict</span>[<span class="hljs-string">"</span><span class="hljs-string">rates</span><span class="hljs-string">"</span>] <span class="hljs-keyword">as</span>? [<span class="hljs-identifier">String</span>:<span class="hljs-identifier">Double</span>],
             <span class="hljs-keyword">let</span> <span class="hljs-identifier">rate</span> = <span class="hljs-identifier">dataDict</span>[<span class="hljs-identifier">Currency</span>.<span class="hljs-identifier">usd</span>.<span class="hljs-identifier">rawValue</span>] <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
-        <span class="hljs-identifier">DispatchQueue</span>.<span class="hljs-identifier">main</span>.<span class="hljs-identifier">async</span> { [<span class="hljs-identifier">weak</span> <span class="hljs-keyword">self</span>] <span class="hljs-keyword">in</span>
+        <span class="hljs-identifier">DispatchQueue</span>.<span class="hljs-identifier">main</span>.<span class="hljs-identifier">async</span> { [weak <span class="hljs-keyword">self</span>] <span class="hljs-keyword">in</span>
             <span class="hljs-keyword">self</span>?.<span class="hljs-identifier">rate</span> = <span class="hljs-identifier">rate</span>
             <span class="hljs-keyword">self</span>?.<span class="hljs-identifier">inputChanged</span>()
         }
@@ -99,7 +99,7 @@
 							<p>
 								Now that we have defined our state and our <code>Message</code> enum, we can write a method to interpet messages. Because <code>State</code> is a struct, we define it as a <code>mutating</code> method <code>send(_:)</code>. We switch over the message and interpet it. In case the input changed, we try to parse it. When new rate data is available, we parse it and assign it to <code>self.rate</code>. We’ll leave out the <code>reload</code> case for now.
 							</p>
-							<pre><code class="swift"><span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">send</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">message</span>: <span class="hljs-identifier">Message</span>) {
+							<pre><code class="swift">mutating <span class="hljs-keyword">func</span> <span class="hljs-identifier">send</span>(_ <span class="hljs-identifier">message</span>: <span class="hljs-identifier">Message</span>) {
     <span class="hljs-keyword">switch</span> <span class="hljs-identifier">message</span> {
     <span class="hljs-keyword">case</span> .<span class="hljs-identifier">inputChanged</span>(<span class="hljs-keyword">let</span> <span class="hljs-identifier">input</span>):
         <span class="hljs-identifier">inputAmount</span> = <span class="hljs-identifier">input</span>.<span class="hljs-identifier">flatMap</span> { <span class="hljs-identifier">Double</span>($0) }
@@ -129,7 +129,7 @@
 							<p>
 								Note that we cannot use <code>onComplete</code> as a callback (because we cannot change the struct value in a callback). Instead, it transforms the optional data back into a <code>Message</code>. We’ll add <code>Command?</code> as a return type for <code>send(_:)</code>. If there’s no side-effect to be executed, we simply return <code>nil</code>.
 							</p>
-							<pre><code class="swift"><span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">send</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">message</span>: <span class="hljs-identifier">Message</span>) -> <span class="hljs-identifier">Command</span>? {
+							<pre><code class="swift">mutating <span class="hljs-keyword">func</span> <span class="hljs-identifier">send</span>(_ <span class="hljs-identifier">message</span>: <span class="hljs-identifier">Message</span>) -> <span class="hljs-identifier">Command</span>? {
     <span class="hljs-keyword">switch</span> <span class="hljs-identifier">message</span> {
     <span class="hljs-keyword">case</span> .<span class="hljs-identifier">inputChanged</span>(<span class="hljs-keyword">let</span> <span class="hljs-identifier">input</span>):
         <span class="hljs-identifier">inputAmount</span> = <span class="hljs-identifier">input</span>.<span class="hljs-identifier">flatMap</span> { <span class="hljs-identifier">Double</span>($0) }
@@ -154,10 +154,10 @@
 								To interpret commands, we can define a separate extension on <code>State.Command</code> that interprets a command. Instead of having asynchronous code in our <code>State</code>’s logic, we can simply test this <code>interpret(_:)</code> method once, in isolation.
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">State</span>.<span class="hljs-identifier">Command</span> {
-    <span class="hljs-keyword">func</span> <span class="hljs-identifier">interpret</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">callback</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">State</span>.<span class="hljs-identifier">Message</span>) -> ()) {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">interpret</span>(_ <span class="hljs-identifier">callback</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">State</span>.<span class="hljs-identifier">Message</span>) -> ()) {
         <span class="hljs-keyword">switch</span> <span class="hljs-keyword">self</span> {
         <span class="hljs-keyword">case</span> <span class="hljs-keyword">let</span> .<span class="hljs-identifier">load</span>(<span class="hljs-identifier">url</span>, <span class="hljs-identifier">onComplete</span>: <span class="hljs-identifier">transform</span>):
-            <span class="hljs-identifier">URLSession</span>.<span class="hljs-identifier">shared</span>.<span class="hljs-identifier">dataTask</span>(<span class="hljs-identifier">with</span>: <span class="hljs-identifier">url</span>, <span class="hljs-identifier">completionHandler</span>: { (<span class="hljs-identifier">data</span>, <span class="hljs-keyword">_</span>, <span class="hljs-keyword">_</span>) <span class="hljs-keyword">in</span>
+            <span class="hljs-identifier">URLSession</span>.<span class="hljs-identifier">shared</span>.<span class="hljs-identifier">dataTask</span>(<span class="hljs-identifier">with</span>: <span class="hljs-identifier">url</span>, <span class="hljs-identifier">completionHandler</span>: { (<span class="hljs-identifier">data</span>, _, _) <span class="hljs-keyword">in</span>
                 <span class="hljs-identifier">DispatchQueue</span>.<span class="hljs-identifier">main</span>.<span class="hljs-identifier">async</span> {
                     <span class="hljs-identifier">callback</span>(<span class="hljs-identifier">transform</span>(<span class="hljs-identifier">data</span>))
                 }
@@ -178,7 +178,7 @@
 							<p>
 								We can also define a <code>send</code> method on the view controller. It sends a message to the state, and if there’s any <code>Command</code>, it interprets that command.
 							</p>
-							<pre><code class="swift"><span class="hljs-keyword">private</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">send</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">message</span>: <span class="hljs-identifier">State</span>.<span class="hljs-identifier">Message</span>) {
+							<pre><code class="swift"><span class="hljs-keyword">private</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">send</span>(_ <span class="hljs-identifier">message</span>: <span class="hljs-identifier">State</span>.<span class="hljs-identifier">Message</span>) {
     <span class="hljs-identifier">state</span>.<span class="hljs-identifier">send</span>(<span class="hljs-identifier">message</span>)?.<span class="hljs-identifier">interpret</span>(<span class="hljs-keyword">self</span>.<span class="hljs-identifier">send</span>)
 }
 </code></pre>

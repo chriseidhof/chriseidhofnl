@@ -60,7 +60,7 @@
 							<p>
 								The definition for our (fake) view controller has a single person property, which gets passed in through the initializer. It also has a <code>change</code> method which changes a property of the person.
 							</p>
-							<pre><code class="swift"><span class="hljs-identifier">final</span> <span class="hljs-keyword">class</span> <span class="hljs-identifier">PersonVC</span> {
+							<pre><code class="swift">final <span class="hljs-keyword">class</span> <span class="hljs-identifier">PersonVC</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">person</span>: <span class="hljs-identifier">Person</span>
     <span class="hljs-keyword">init</span>(<span class="hljs-identifier">person</span>: <span class="hljs-identifier">Person</span>) {
         <span class="hljs-keyword">self</span>.<span class="hljs-identifier">person</span> = <span class="hljs-identifier">person</span>
@@ -187,7 +187,7 @@
 							<p>
 								Let’s go back to our <code>PersonVC</code>. We can change its implementation to use a <code>Ref</code>. The view controller can now subscribe to changes. In reactive programming, a signal is typically read-only (you only receive changes), and you need to figure another way to communicate back. In the <code>Ref</code> approach, we can write back using <code>person.value</code>:
 							</p>
-							<pre><code class="swift"><span class="hljs-identifier">final</span> <span class="hljs-keyword">class</span> <span class="hljs-identifier">PersonVC</span> {
+							<pre><code class="swift">final <span class="hljs-keyword">class</span> <span class="hljs-identifier">PersonVC</span> {
     <span class="hljs-keyword">let</span> <span class="hljs-identifier">person</span>: <span class="hljs-identifier">Ref</span><<span class="hljs-identifier">Person</span>>
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">disposeBag</span>: <span class="hljs-keyword">Any</span>?
     <span class="hljs-keyword">init</span>(<span class="hljs-identifier">person</span>: <span class="hljs-identifier">Ref</span><<span class="hljs-identifier">Person</span>>) {
@@ -223,7 +223,7 @@
 							<p>
 								Let’s look at how this thing is implemented. We’ll start by defining the <code>Ref</code> class. A <code>Ref</code> consists of a way to get and set a value, and a way to add an observer. It has an initializer that asks for just those three things:
 							</p>
-							<pre><code class="swift"><span class="hljs-identifier">final</span> <span class="hljs-keyword">class</span> <span class="hljs-identifier">Ref</span><<span class="hljs-identifier">A</span>> {
+							<pre><code class="swift">final <span class="hljs-keyword">class</span> <span class="hljs-identifier">Ref</span><<span class="hljs-identifier">A</span>> {
     <span class="hljs-keyword">typealias</span> <span class="hljs-identifier">Observer</span> = (<span class="hljs-identifier">A</span>) -> ()
     
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">_get</span>: () -> <span class="hljs-identifier">A</span>
@@ -254,7 +254,7 @@
 								We can now add an initializer that observers a single struct value. It creates a dictionary of observers and a variable. Whenever the variable changes, all observers get notified. It uses the initializer defined above and passes on <code>get</code>, <code>set</code>, and <code>addObserver</code>:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">Ref</span> {
-    <span class="hljs-identifier">convenience</span> <span class="hljs-keyword">init</span>(<span class="hljs-identifier">initialValue</span>: <span class="hljs-identifier">A</span>) {
+    convenience <span class="hljs-keyword">init</span>(<span class="hljs-identifier">initialValue</span>: <span class="hljs-identifier">A</span>) {
         <span class="hljs-keyword">var</span> <span class="hljs-identifier">observers</span>: [<span class="hljs-identifier">Int</span>: <span class="hljs-identifier">Observer</span>] = [:]
         <span class="hljs-keyword">var</span> <span class="hljs-identifier">theValue</span> = <span class="hljs-identifier">initialValue</span> {
             didSet { <span class="hljs-identifier">observers</span>.<span class="hljs-identifier">values</span>.<span class="hljs-identifier">forEach</span> { $0(<span class="hljs-identifier">theValue</span>) } }
@@ -269,7 +269,7 @@
                 <span class="hljs-identifier">observers</span>[<span class="hljs-identifier">id</span>] = <span class="hljs-keyword">nil</span>
             }
         }
-        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">init</span>(<span class="hljs-identifier">get</span>: <span class="hljs-identifier">get</span>, <span class="hljs-identifier">set</span>: <span class="hljs-identifier">set</span>, <span class="hljs-identifier">addObserver</span>: <span class="hljs-identifier">addObserver</span>)
+        <span class="hljs-keyword">self</span>.<span class="hljs-keyword">init</span>(<span class="hljs-identifier">get</span>: <span class="hljs-identifier">get</span>, <span class="hljs-identifier">set</span>: <span class="hljs-identifier">set</span>, <span class="hljs-identifier">addObserver</span>: <span class="hljs-identifier">addObserver</span>)
     }
 }
 </code></pre>
@@ -332,7 +332,7 @@
 							<p>
 								I can also imagine that you could use this with a database. The <code>Var</code> would allow you to both read and write, as well as subscribe to any notifications:
 							</p>
-							<pre><code class="swift"><span class="hljs-identifier">final</span> <span class="hljs-keyword">class</span> <span class="hljs-identifier">MyDatabase</span> {
+							<pre><code class="swift">final <span class="hljs-keyword">class</span> <span class="hljs-identifier">MyDatabase</span> {
    <span class="hljs-keyword">func</span> <span class="hljs-identifier">readPerson</span>(<span class="hljs-identifier">id</span>: <span class="hljs-identifier">Person</span>.<span class="hljs-identifier">Id</span>) -> <span class="hljs-identifier">Var</span><<span class="hljs-identifier">Person</span>> {
    }
 }

@@ -1,9 +1,9 @@
 import Foundation
 import SwiftSyntax
-import SwiftSyntaxParser
 import HTML
 import Swim
 import StaticSite
+import SwiftParser
 
 struct Highlighter: Visitor {
     func visitElement(name: String, attributes: [String : String], child: Node?) -> Node {
@@ -32,7 +32,7 @@ extension TriviaPiece {
     }
 }
 
-class SwiftSyntaxHighlighter: SyntaxRewriter {
+class SwiftSyntaxHighlighter: SyntaxVisitor {
     var html: String = ""
     
     func write(trivia: Trivia) {
@@ -47,107 +47,31 @@ class SwiftSyntaxHighlighter: SyntaxRewriter {
         }
     }
 
-    override func visit(_ token: TokenSyntax) -> Syntax {
+    override func visit(_ token: TokenSyntax) -> SyntaxVisitorContinueKind {
         write(trivia: token.leadingTrivia)
         switch token.tokenKind {
         case .floatingLiteral, .integerLiteral:
             html.append("<span class=\"hljs-number\">\(token.text)</span>")
-        case _ where token.tokenKind.isKeyword:
+        case _ where token.tokenKind.isLexerClassifiedKeyword:
             html.append("<span class=\"hljs-keyword\">\(token.text)</span>")
         case .identifier:
             html.append("<span class=\"hljs-identifier\">\(token.text)</span>")
-        case .rawStringDelimiter, .stringSegment, .stringLiteral, .stringQuote, .multilineStringQuote:
+        case .rawStringDelimiter, .stringSegment, .stringQuote, .multilineStringQuote:
             html.append("<span class=\"hljs-string\">\(token.text)</span>")
         default:
             html.append(token.text)
-//
-//        case .eof:
-//            <#code#>
-//        case .leftParen:
-//            <#code#>
-//        case .rightParen:
-//            <#code#>
-//        case .leftBrace:
-//            <#code#>
-//        case .rightBrace:
-//            <#code#>
-//        case .leftSquareBracket:
-//            <#code#>
-//        case .rightSquareBracket:
-//            <#code#>
-//        case .leftAngle:
-//            <#code#>
-//        case .rightAngle:
-//            <#code#>
-//        case .period:
-//            <#code#>
-//        case .prefixPeriod:
-//            <#code#>
-//        case .comma:
-//            <#code#>
-//        case .ellipsis:
-//            <#code#>
-//        case .colon:
-//            <#code#>
-//        case .semicolon:
-//            <#code#>
-//        case .equal:
-//            <#code#>
-//        case .atSign:
-//            <#code#>
-//        case .pound:
-//            <#code#>
-//        case .prefixAmpersand:
-//            <#code#>
-//        case .arrow:
-//            <#code#>
-//        case .backtick:
-//            <#code#>
-//        case .backslash:
-//            <#code#>
-//        case .exclamationMark:
-//            <#code#>
-//        case .postfixQuestionMark:
-//            <#code#>
-//        case .infixQuestionMark:
-//            <#code#>
-//        case .stringQuote:
-//            <#code#>
-//        case .singleQuote:
-//            <#code#>
-//        case .multilineStringQuote:
-//            _
-//        case .unknown(_):
-//            <#code#>
-//
-//        case .unspacedBinaryOperator(_):
-//            <#code#>
-//        case .spacedBinaryOperator(_):
-//            <#code#>
-//        case .postfixOperator(_):
-//            <#code#>
-//        case .prefixOperator(_):
-//            <#code#>
-//        case .dollarIdentifier(_):
-//            <#code#>
-//        case .contextualKeyword(_):
-//            <#code#>
-//        case .stringInterpolationAnchor:
-//            <#code#>
-//        case .yield:
-//            <#code#>
         }
         write(trivia: token.trailingTrivia)
-        return Syntax(token)
+        return .visitChildren
     }
 }
 
 extension String {
     public var highlightedAsSwift: String {
         do {
-            let parsed = try SyntaxParser.parse(source: self)
-            let highlighter = SwiftSyntaxHighlighter()
-            _ = highlighter.visit(parsed)
+            let parsed = try Parser.parse(source: self)
+            let highlighter = SwiftSyntaxHighlighter(viewMode: .all)
+            highlighter.walk(parsed)
             return highlighter.html
         } catch {
             print(error)

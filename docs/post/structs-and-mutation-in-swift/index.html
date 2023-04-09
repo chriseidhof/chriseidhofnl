@@ -163,7 +163,7 @@
 								The compiler tells us that we cannot assign to the <code>origin</code> property, because <code>self</code> is immutable (writing <code>origin =</code> is shorthand for <code>self.origin =</code>). We could think of <code>self</code> as an extra, implicit parameter that gets passed to every method on <code>Rectangle</code>. You never have to pass the parameter, but it’s always there inside the method body. And it’s defined as <code>let</code> by default. The reason this <code>let</code> restriction exists is so that value semantics can be guaranteed. If we want to be able to mutate <code>self</code>, or any property of <code>self</code>, or even nested properties (e.g. <code>self.origin.x</code>), we need to mark our method as <code>mutating</code>:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">Rectangle</span> {
-    <span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">translate</span>(<span class="hljs-identifier">by</span> <span class="hljs-identifier">offset</span>: <span class="hljs-identifier">Point</span>) {
+    mutating <span class="hljs-keyword">func</span> <span class="hljs-identifier">translate</span>(<span class="hljs-identifier">by</span> <span class="hljs-identifier">offset</span>: <span class="hljs-identifier">Point</span>) {
         <span class="hljs-identifier">origin</span> = <span class="hljs-identifier">origin</span> + <span class="hljs-identifier">offset</span>
     }
 }

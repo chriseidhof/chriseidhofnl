@@ -28,9 +28,9 @@
 
 <span class="hljs-keyword">import</span> <span class="hljs-identifier">Foundation</span>
 
-<span class="hljs-identifier">final</span> <span class="hljs-keyword">class</span> <span class="hljs-identifier">Disposable</span> {
+final <span class="hljs-keyword">class</span> <span class="hljs-identifier">Disposable</span> {
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">dispose</span>: () -> ()
-    <span class="hljs-keyword">init</span>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">dispose</span>: @<span class="hljs-identifier">escaping</span> () -> ()) {
+    <span class="hljs-keyword">init</span>(_ <span class="hljs-identifier">dispose</span>: @<span class="hljs-identifier">escaping</span> () -> ()) {
         <span class="hljs-keyword">self</span>.<span class="hljs-identifier">dispose</span> = <span class="hljs-identifier">dispose</span>
     }
     
@@ -40,7 +40,7 @@
 }
 
 
-<span class="hljs-identifier">final</span> <span class="hljs-keyword">class</span> <span class="hljs-identifier">Ref</span><<span class="hljs-identifier">A</span>> {
+final <span class="hljs-keyword">class</span> <span class="hljs-identifier">Ref</span><<span class="hljs-identifier">A</span>> {
     <span class="hljs-keyword">typealias</span> <span class="hljs-identifier">Observer</span> = (<span class="hljs-identifier">A</span>) -> ()
     
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">_get</span>: () -> <span class="hljs-identifier">A</span>
@@ -68,7 +68,7 @@
 }
 
 <span class="hljs-keyword">extension</span> <span class="hljs-identifier">Ref</span> {
-    <span class="hljs-identifier">convenience</span> <span class="hljs-keyword">init</span>(<span class="hljs-identifier">initialValue</span>: <span class="hljs-identifier">A</span>) {
+    convenience <span class="hljs-keyword">init</span>(<span class="hljs-identifier">initialValue</span>: <span class="hljs-identifier">A</span>) {
         <span class="hljs-keyword">var</span> <span class="hljs-identifier">observers</span>: [<span class="hljs-identifier">Int</span>: <span class="hljs-identifier">Observer</span>] = [:]
         <span class="hljs-keyword">var</span> <span class="hljs-identifier">theValue</span> = <span class="hljs-identifier">initialValue</span> {
             didSet {
@@ -87,7 +87,7 @@
                 <span class="hljs-identifier">observers</span>[<span class="hljs-identifier">id</span>] = <span class="hljs-keyword">nil</span>
             }
         }
-        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">init</span>(<span class="hljs-identifier">get</span>: <span class="hljs-identifier">get</span>, <span class="hljs-identifier">set</span>: <span class="hljs-identifier">set</span>, <span class="hljs-identifier">addObserver</span>: <span class="hljs-identifier">addObserver</span>)
+        <span class="hljs-keyword">self</span>.<span class="hljs-keyword">init</span>(<span class="hljs-identifier">get</span>: <span class="hljs-identifier">get</span>, <span class="hljs-identifier">set</span>: <span class="hljs-identifier">set</span>, <span class="hljs-identifier">addObserver</span>: <span class="hljs-identifier">addObserver</span>)
     }
 }
 
@@ -135,12 +135,12 @@
         <span class="hljs-keyword">self</span>.<span class="hljs-identifier">initialValue</span> = <span class="hljs-identifier">initialValue</span>
     }
     
-    <span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">undo</span>() {
+    mutating <span class="hljs-keyword">func</span> <span class="hljs-identifier">undo</span>() {
         <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">item</span> = <span class="hljs-identifier">history</span>.<span class="hljs-identifier">popLast</span>() <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
         <span class="hljs-identifier">redoStack</span>.<span class="hljs-identifier">append</span>(<span class="hljs-identifier">item</span>)
     }
     
-    <span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">redo</span>() {
+    mutating <span class="hljs-keyword">func</span> <span class="hljs-identifier">redo</span>() {
         <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">item</span> = <span class="hljs-identifier">redoStack</span>.<span class="hljs-identifier">popLast</span>() <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
         <span class="hljs-identifier">history</span>.<span class="hljs-identifier">append</span>(<span class="hljs-identifier">item</span>)
     }

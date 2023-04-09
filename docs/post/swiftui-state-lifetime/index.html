@@ -39,7 +39,7 @@
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Item</span>: <span class="hljs-identifier">View</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">id</span>: <span class="hljs-identifier">Int</span>
     @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">counter</span> = <span class="hljs-number">0</span>
-    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
         <span class="hljs-identifier">VStack</span> {
             <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Item </span>\(<span class="hljs-identifier">id</span>)<span class="hljs-string"></span><span class="hljs-string">"</span>)
             <span class="hljs-identifier">Button</span>(<span class="hljs-string">"</span><span class="hljs-string">Counter: </span>\(<span class="hljs-identifier">counter</span>)<span class="hljs-string"></span><span class="hljs-string">"</span>) {
@@ -111,7 +111,7 @@
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ItemWrapper</span>: <span class="hljs-identifier">View</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">id</span>: <span class="hljs-identifier">Int</span>
     
-    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
         <span class="hljs-identifier">ZStack</span> {
             <span class="hljs-identifier">Item</span>(<span class="hljs-identifier">id</span>: <span class="hljs-identifier">id</span>)
         }

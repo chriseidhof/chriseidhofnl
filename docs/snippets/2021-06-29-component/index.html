@@ -58,13 +58,13 @@
 
 <span class="hljs-keyword">protocol</span> <span class="hljs-identifier">BuiltinComponent</span> {
     <span class="hljs-keyword">func</span> <span class="hljs-identifier">render</span>() -> <span class="hljs-identifier">Node</span>
-    <span class="hljs-keyword">func</span> <span class="hljs-identifier">readPreference</span><<span class="hljs-identifier">Key</span>: <span class="hljs-identifier">PreferenceKey</span>>(<span class="hljs-identifier">key</span>: <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Type</span>) -> <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Value</span>?
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">readPreference</span><<span class="hljs-identifier">Key</span>: <span class="hljs-identifier">PreferenceKey</span>>(<span class="hljs-identifier">key</span>: <span class="hljs-identifier">Key</span>.Type) -> <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Value</span>?
 }
 
 <span class="hljs-comment">// We should make this work so that we can take any user-defined component and use it as if it were a builtin component.</span>
 
 <span class="hljs-keyword">struct</span> <span class="hljs-identifier">AnyBuiltinComponent</span>: <span class="hljs-identifier">BuiltinComponent</span> {
-    <span class="hljs-keyword">func</span> <span class="hljs-identifier">readPreference</span><<span class="hljs-identifier">Key</span>>(<span class="hljs-identifier">key</span>: <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Type</span>) -> <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Value</span>? <span class="hljs-keyword">where</span> <span class="hljs-identifier">Key</span> : <span class="hljs-identifier">PreferenceKey</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">readPreference</span><<span class="hljs-identifier">Key</span>>(<span class="hljs-identifier">key</span>: <span class="hljs-identifier">Key</span>.Type) -> <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Value</span>? <span class="hljs-keyword">where</span> <span class="hljs-identifier">Key</span> : <span class="hljs-identifier">PreferenceKey</span> {
         <span class="hljs-identifier">fatalError</span>(<span class="hljs-string">"</span><span class="hljs-string">TODO</span><span class="hljs-string">"</span>)
     }
     
@@ -83,7 +83,7 @@
 <span class="hljs-comment">// Swim nodes are components</span>
 
 <span class="hljs-keyword">extension</span> <span class="hljs-identifier">Node</span>: <span class="hljs-identifier">Component</span> & <span class="hljs-identifier">BuiltinComponent</span> {
-    <span class="hljs-keyword">func</span> <span class="hljs-identifier">readPreference</span><<span class="hljs-identifier">Key</span>>(<span class="hljs-identifier">key</span>: <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Type</span>) -> <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Value</span>? <span class="hljs-keyword">where</span> <span class="hljs-identifier">Key</span> : <span class="hljs-identifier">PreferenceKey</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">readPreference</span><<span class="hljs-identifier">Key</span>>(<span class="hljs-identifier">key</span>: <span class="hljs-identifier">Key</span>.Type) -> <span class="hljs-identifier">Key</span>.<span class="hljs-identifier">Value</span>? <span class="hljs-keyword">where</span> <span class="hljs-identifier">Key</span> : <span class="hljs-identifier">PreferenceKey</span> {
         <span class="hljs-keyword">return</span> <span class="hljs-keyword">nil</span>
     }
     <span class="hljs-keyword">func</span> <span class="hljs-identifier">render</span>() -> <span class="hljs-identifier">Node</span> {

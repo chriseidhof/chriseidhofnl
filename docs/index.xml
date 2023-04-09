@@ -8,6 +8,29 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 14</title>
+			<description>
+				&lt;p&gt;
+	I worked a bit on porting some “older” features we had in our test implementation of attributed string builder, and added them to our &lt;a href=&quot;https://github.com/objcio/attributed-string-builder&quot;&gt;public repository&lt;/a&gt;. We’re planning to use that for publishing our book. We want back and forth a lot, but we believe it’s easier to work with our own implementation based off of attributed strings than trying to wrangle LaTeX or desktop programs such as InDesign into the layout we want. By using attributed strings, we can write our book while automatically having our code checked, syntax highlighted and have proper previews.
+&lt;/p&gt;
+&lt;p&gt;
+	I wrote a &lt;a href=&quot;https://github.com/chriseidhof/swiftui-video-recording&quot;&gt;small library&lt;/a&gt; that helps me to record a SwiftUI view as an mp4 video. I always find it annoying to precisely record a video of an interaction, transition or animation, and this should hopefully make it a little bit easier, as it records exactly the bounds of a view: I don’t have to fiddle with positioning QuickTime or hope I get the timing right.
+&lt;/p&gt;
+&lt;p&gt;
+	I also wrote up a quick blog post about &lt;a href=&quot;http://chris.eidhof.nl/post/matched-geometry-effect&quot;&gt;matched geometry effect&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	I was really tired from the move last week, and this week went pretty slow because of that. I didn’t even have the energy for my daily run, but instead of fighting that I just rested. I started preparing an upcoming workshop, working a bit on the book (we forgot to write about EnviromentObject). While I did feel very tired, I am also way less stressed now that it’s only the final bits of the house.
+&lt;/p&gt;
+&lt;p&gt;
+	We spent a few days in and around our new house, cleaning things, building more raised beds, and so on. It feels pretty great to do that now that spring is really starting.
+&lt;/p&gt;
+			</description>
+			<pubDate>Sun, 09 Apr 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-14</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-14</guid>
+		</item>
+		<item>
 			<title>When Matched Geometry Effect Doesn&apos;t Work</title>
 			<description>
 				&lt;p&gt;
@@ -977,105 +1000,6 @@ extension View {
 			<pubDate>Thu, 05 Jan 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-01</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-01</guid>
-		</item>
-		<item>
-			<title>Lifetime of State Properties in SwiftUI</title>
-			<description>
-				&lt;p&gt;
-	This post is a look inside how (a small part of) SwiftUI works. I’m mainly writing this as part of my extended memory, so that I can go back to it and read about how it works. We’re currently in the process of updating our book &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt; and figuring out some of the obscure behaviors of SwiftUI. While this might not make it into the book (we keep the book concise on purpose) I figured it’s worth writing up.
-&lt;/p&gt;
-&lt;p&gt;
-	One of the challenging parts of SwiftUI is really understanding the way it manages view state (for example, through &lt;code&gt;@State&lt;/code&gt; and &lt;code&gt;@StateObject&lt;/code&gt;). In theory, it’s pretty simple: anytime you want associated view state you just create a property with &lt;code&gt;@State&lt;/code&gt; and you’re done. For example, here’s a simple view with associated state:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Item: View {
-    var id: Int
-    @State private var counter = 0
-    var body: some View {
-        VStack {
-            Text(&amp;quot;Item \(id)&amp;quot;)
-            Button(&amp;quot;Counter: \(counter)&amp;quot;) {
-                counter += 1
-            }
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	When SwiftUI renders this view, it creates associated storage to hold the value of &lt;code&gt;counter&lt;/code&gt;. As long as the view exists, the memory for &lt;code&gt;counter&lt;/code&gt; is there, and once the view stops existing, the memory is gone.
-&lt;/p&gt;
-&lt;p&gt;
-	However, when you have worked with &lt;code&gt;@State&lt;/code&gt; (or &lt;code&gt;@StateObject&lt;/code&gt;), you will notice that there might be some strange behavior. Sometimes your state disappears, especially when working with a &lt;code&gt;List&lt;/code&gt; (or to be precise: any view that uses &lt;code&gt;ForEach&lt;/code&gt; directly or indirectly).
-&lt;/p&gt;
-&lt;p&gt;
-	To understand this better, we have to ask ourselves an existential question:
-&lt;/p&gt;
-&lt;blockquote&gt;
-	&lt;p&gt;
-		What does it mean for a view to exist?
-	&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;
-	Joking aside, here’s what I think happens:
-&lt;/p&gt;
-&lt;p&gt;
-	When a &lt;code&gt;List&lt;/code&gt; is rendered on screen, it only allocates memory for the children that are directly on screen (on iOS, anyway). We can quickly verify this by initializing a &lt;code&gt;@State&lt;/code&gt; property with a value expression that prints a line:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct StateItemTest: View {
-    @State var item: Int = {
-        print(&amp;quot;Initing&amp;quot;)
-        return 0
-    }()
-    let body = Text(&amp;quot;Hello&amp;quot;)
-}
-
-// Later:
-List(0..&amp;lt;1000) { id in
-    StateItemTest()
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	When we show the list view, we’ll see a print statement for every row that’s on screen. But these are created lazily: as we scroll down more and more print statements appear. So we have now established at least one thing:
-&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;List creates its subviews lazily&lt;/em&gt;
-	. By the way, this is the same for &lt;code&gt;ForEach&lt;/code&gt; in other lazy contexts. For example, when you put a &lt;code&gt;ForEach&lt;/code&gt; inside a &lt;code&gt;LazyVStack&lt;/code&gt; and that inside a &lt;code&gt;ScrollView&lt;/code&gt;, you get the same effect.
-&lt;/p&gt;
-&lt;p&gt;
-	My next question was: &lt;em&gt;when do these state values get destroyed again?&lt;/em&gt;
-	 Is this when we scroll the views out of sight? We can verify this by having a long list of views with modifiable state properties. For example, we can put our &lt;code&gt;Item&lt;/code&gt; view from above inside a long list:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;List(0..&amp;lt;1000) { id in
-    Item(id: id)
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	When we run the above list, we can change some state at the top of the list, scroll to the very bottom, and scroll back up. The state will still be there. So we have established another thing:
-&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;The children of a &lt;code&gt;List&lt;/code&gt; will be kept around&lt;/em&gt;
-	. The lifetime of a &lt;code&gt;@State&lt;/code&gt;‘s property is directly tied to the lifetime of a view. Once a list child is created, it never goes away again, unless the list goes away itself. (You can verify this by putting the list inside a navigation link and navigating back). Again, this doesn’t just apply to &lt;code&gt;List&lt;/code&gt; but any lazy &lt;code&gt;ForEach&lt;/code&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	However, this behavior puzzled me. I’ve written many SwiftUI lists, and I swear that I have seen state objects go away. What gives? In my case, I’ve seen this behavior when loading a list that contains images for each cell, and the images would get reloaded after scrolling back up.
-&lt;/p&gt;
-&lt;p&gt;
-	It turns out that while the children of a &lt;code&gt;List&lt;/code&gt; will be kept around (including their associated state), the bodies of those views will get destroyed. These will get recreated lazily once the view appears on screen again. If we run the same example as before, but wrap our &lt;code&gt;Item&lt;/code&gt; view in another layer, we’ll see that our state goes away as the view disappears:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ItemWrapper: View {
-    var id: Int
-    
-    var body: some View {
-        ZStack {
-            Item(id: id)
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	This is the behavior in the version of SwiftUI that comes with Xcode 13. The full code is &lt;a href=&quot;https://gist.github.com/chriseidhof/440dbdbe9a5fa21ff5439b5f42582a44&quot;&gt;available as a gist&lt;/a&gt;. The behavior might change in the future, as none of this is documented.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 28 Mar 2022 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/swiftui-state-lifetime</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-state-lifetime</guid>
 		</item>
 	</channel>
 </rss>

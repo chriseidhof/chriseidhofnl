@@ -39,7 +39,7 @@
 								For example, consider the following view:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">MyView</span>: <span class="hljs-identifier">View</span> {
-     <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+     <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
          <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Hello</span><span class="hljs-string">"</span>)
          <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">World</span><span class="hljs-string">"</span>)
      }
@@ -54,7 +54,7 @@
 								. For example, we could even do something like this:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">MyOtherView</span>: <span class="hljs-identifier">View</span> {
-    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
         <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Another Text</span><span class="hljs-string">"</span>)
         <span class="hljs-identifier">MyView</span>()
     }

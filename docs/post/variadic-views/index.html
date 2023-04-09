@@ -41,7 +41,7 @@
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Helper</span><<span class="hljs-identifier">Result</span>: <span class="hljs-identifier">View</span>>: <span class="hljs-identifier">_VariadicView_MultiViewRoot</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">_body</span>: (<span class="hljs-identifier">_VariadicView</span>.<span class="hljs-identifier">Children</span>) -> <span class="hljs-identifier">Result</span>
 
-    <span class="hljs-keyword">func</span> <span class="hljs-identifier">body</span>(<span class="hljs-identifier">children</span>: <span class="hljs-identifier">_VariadicView</span>.<span class="hljs-identifier">Children</span>) -> <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">body</span>(<span class="hljs-identifier">children</span>: <span class="hljs-identifier">_VariadicView</span>.<span class="hljs-identifier">Children</span>) -> some <span class="hljs-identifier">View</span> {
         <span class="hljs-identifier">_body</span>(<span class="hljs-identifier">children</span>)
     }
 }
@@ -54,7 +54,7 @@
 								To use our <code>Helper</code> above, we can provide an extension on <code>View</code>:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">View</span> {
-    <span class="hljs-keyword">func</span> <span class="hljs-identifier">variadic</span><<span class="hljs-identifier">R</span>: <span class="hljs-identifier">View</span>>(@<span class="hljs-identifier">ViewBuilder</span> <span class="hljs-identifier">process</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">_VariadicView</span>.<span class="hljs-identifier">Children</span>) -> <span class="hljs-identifier">R</span>) -> <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">variadic</span><<span class="hljs-identifier">R</span>: <span class="hljs-identifier">View</span>>(@<span class="hljs-identifier">ViewBuilder</span> <span class="hljs-identifier">process</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">_VariadicView</span>.<span class="hljs-identifier">Children</span>) -> <span class="hljs-identifier">R</span>) -> some <span class="hljs-identifier">View</span> {
         <span class="hljs-identifier">_VariadicView</span>.<span class="hljs-identifier">Tree</span>(<span class="hljs-identifier">Helper</span>(<span class="hljs-identifier">_body</span>: <span class="hljs-identifier">process</span>), <span class="hljs-identifier">content</span>: { <span class="hljs-keyword">self</span> })
     }
 }
@@ -62,7 +62,7 @@
 							<p>
 								Again, the code above is pretty obscure but we only need to write it once. Before we start using this, let’s create a list of views:
 							</p>
-							<pre><code class="swift">@<span class="hljs-identifier">ViewBuilder</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">subviews</span>: <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+							<pre><code class="swift">@<span class="hljs-identifier">ViewBuilder</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">subviews</span>: some <span class="hljs-identifier">View</span> {
     <span class="hljs-identifier">Rectangle</span>()
         .<span class="hljs-identifier">frame</span>(<span class="hljs-identifier">width</span>: <span class="hljs-number">30</span>, <span class="hljs-identifier">height</span>: <span class="hljs-number">30</span>)
     <span class="hljs-identifier">ForEach</span>(<span class="hljs-number">0</span>..<<span class="hljs-number">3</span>) { <span class="hljs-identifier">ix</span> <span class="hljs-keyword">in</span>
@@ -86,7 +86,7 @@
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">View</span> {
     @<span class="hljs-identifier">ViewBuilder</span>
-    <span class="hljs-keyword">func</span> <span class="hljs-identifier">intersperse</span><<span class="hljs-identifier">V</span>: <span class="hljs-identifier">View</span>>(@<span class="hljs-identifier">ViewBuilder</span> <span class="hljs-keyword">_</span> <span class="hljs-identifier">divider</span>: () -> <span class="hljs-identifier">V</span>) -> <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">intersperse</span><<span class="hljs-identifier">V</span>: <span class="hljs-identifier">View</span>>(@<span class="hljs-identifier">ViewBuilder</span> _ <span class="hljs-identifier">divider</span>: () -> <span class="hljs-identifier">V</span>) -> some <span class="hljs-identifier">View</span> {
         <span class="hljs-keyword">let</span> <span class="hljs-identifier">el</span> = <span class="hljs-identifier">divider</span>()
         <span class="hljs-identifier">variadic</span> { <span class="hljs-identifier">children</span> <span class="hljs-keyword">in</span>
             <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">c</span> = <span class="hljs-identifier">children</span>.<span class="hljs-identifier">first</span> {
@@ -119,7 +119,7 @@
 								We can also write a more low-level abstraction like <code>reduce</code> (which unfortunately requires <code>AnyView</code>):
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">View</span> {
-    <span class="hljs-keyword">func</span> <span class="hljs-identifier">reduce</span><<span class="hljs-identifier">R</span>: <span class="hljs-identifier">View</span>>(@<span class="hljs-identifier">ViewBuilder</span> <span class="hljs-keyword">_</span> <span class="hljs-identifier">combine</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">AnyView</span>, <span class="hljs-identifier">AnyView</span>) -> <span class="hljs-identifier">R</span>) -> <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">reduce</span><<span class="hljs-identifier">R</span>: <span class="hljs-identifier">View</span>>(@<span class="hljs-identifier">ViewBuilder</span> _ <span class="hljs-identifier">combine</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">AnyView</span>, <span class="hljs-identifier">AnyView</span>) -> <span class="hljs-identifier">R</span>) -> some <span class="hljs-identifier">View</span> {
         <span class="hljs-identifier">variadic</span> { <span class="hljs-identifier">children</span> <span class="hljs-keyword">in</span>
             <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">c</span> = <span class="hljs-identifier">children</span>.<span class="hljs-identifier">first</span> {
                 <span class="hljs-identifier">children</span>.<span class="hljs-identifier">dropFirst</span>(<span class="hljs-number">1</span>).<span class="hljs-identifier">reduce</span>(<span class="hljs-identifier">AnyView</span>(<span class="hljs-identifier">c</span>), { <span class="hljs-identifier">l</span>, <span class="hljs-identifier">r</span> <span class="hljs-keyword">in</span>
@@ -153,7 +153,7 @@
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Sample</span>: <span class="hljs-identifier">View</span> {
     @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">selection</span>: <span class="hljs-identifier">Int</span>? = <span class="hljs-number">0</span>
 
-    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
         <span class="hljs-identifier">MyPicker</span>(<span class="hljs-identifier">selection</span>: <span class="hljs-identifier">$selection</span>) {
             <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">One</span><span class="hljs-string">"</span>).<span class="hljs-identifier">myTag</span>(<span class="hljs-number">1</span>)
             <span class="hljs-identifier">Image</span>(<span class="hljs-identifier">systemName</span>: <span class="hljs-string">"</span><span class="hljs-string">doc</span><span class="hljs-string">"</span>).<span class="hljs-identifier">myTag</span>(<span class="hljs-number">2</span>)
@@ -172,7 +172,7 @@
 }
 
 <span class="hljs-keyword">extension</span> <span class="hljs-identifier">View</span> {
-    <span class="hljs-keyword">func</span> <span class="hljs-identifier">myTag</span><<span class="hljs-identifier">Value</span>: <span class="hljs-identifier">Hashable</span>>(<span class="hljs-keyword">_</span> <span class="hljs-identifier">value</span>: <span class="hljs-identifier">Value</span>) -> <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">myTag</span><<span class="hljs-identifier">Value</span>: <span class="hljs-identifier">Hashable</span>>(_ <span class="hljs-identifier">value</span>: <span class="hljs-identifier">Value</span>) -> some <span class="hljs-identifier">View</span> {
         <span class="hljs-identifier">_trait</span>(<span class="hljs-identifier">MyTag</span>.<span class="hljs-keyword">self</span>, <span class="hljs-identifier">value</span>)
     }
 }
@@ -184,7 +184,7 @@
     @<span class="hljs-identifier">Binding</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">selection</span>: <span class="hljs-identifier">Selection</span>?
     @<span class="hljs-identifier">ViewBuilder</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">content</span>: <span class="hljs-identifier">Content</span>
 
-    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: <span class="hljs-identifier">some</span> <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
         <span class="hljs-identifier">HStack</span> {
             <span class="hljs-identifier">content</span>.<span class="hljs-identifier">variadic</span> { <span class="hljs-identifier">children</span> <span class="hljs-keyword">in</span>
                 <span class="hljs-identifier">ForEach</span>(<span class="hljs-identifier">children</span>) { <span class="hljs-identifier">child</span> <span class="hljs-keyword">in</span>

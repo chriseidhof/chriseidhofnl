@@ -89,7 +89,7 @@
 								Of course, the code isn’t complete without an <code>undo</code> method. This is as simple as removing the last item from the array. Depending on your preference, you could also make it <code>throw</code> when the undo stack is empty, but I’ve chosen not to do that.
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">UndoHistory</span> {
-    <span class="hljs-identifier">mutating</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">undo</span>() {
+    mutating <span class="hljs-keyword">func</span> <span class="hljs-identifier">undo</span>() {
         <span class="hljs-keyword">guard</span> !<span class="hljs-identifier">history</span>.<span class="hljs-identifier">isEmpty</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
         <span class="hljs-identifier">history</span>.<span class="hljs-identifier">removeLast</span>()
     }
@@ -104,26 +104,26 @@
 							<p>
 								Of course, our <code>UndoHistory</code> works on more than just simple <code>Person</code> structs. For example, if we want to create a table view controller that’s backed by an <code>Array</code>, we can use the <code>currentItem</code> property to get the array out [^1]:
 							</p>
-							<pre><code class="swift"><span class="hljs-identifier">final</span> <span class="hljs-keyword">class</span> <span class="hljs-identifier">MyTableViewController</span><<span class="hljs-identifier">Item</span>>: <span class="hljs-identifier">UITableViewController</span> {
+							<pre><code class="swift">final <span class="hljs-keyword">class</span> <span class="hljs-identifier">MyTableViewController</span><<span class="hljs-identifier">Item</span>>: <span class="hljs-identifier">UITableViewController</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">data</span>: <span class="hljs-identifier">UndoHistory</span><[<span class="hljs-identifier">Item</span>]>
     
     <span class="hljs-keyword">init</span>(<span class="hljs-identifier">value</span>: [<span class="hljs-identifier">Item</span>]) {
         <span class="hljs-identifier">data</span> = <span class="hljs-identifier">UndoHistory</span>(<span class="hljs-identifier">initialValue</span>: <span class="hljs-identifier">value</span>)
-        <span class="hljs-keyword">super</span>.<span class="hljs-identifier">init</span>(<span class="hljs-identifier">style</span>: .<span class="hljs-identifier">Plain</span>)
+        <span class="hljs-keyword">super</span>.<span class="hljs-keyword">init</span>(<span class="hljs-identifier">style</span>: .<span class="hljs-identifier">Plain</span>)
     }
     
-    <span class="hljs-identifier">override</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">tableView</span>(<span class="hljs-identifier">tableView</span>: <span class="hljs-identifier">UITableView</span>, <span class="hljs-identifier">numberOfRowsInSection</span> <span class="hljs-identifier">section</span>: <span class="hljs-identifier">Int</span>) -> <span class="hljs-identifier">Int</span> {
+    override <span class="hljs-keyword">func</span> <span class="hljs-identifier">tableView</span>(<span class="hljs-identifier">tableView</span>: <span class="hljs-identifier">UITableView</span>, <span class="hljs-identifier">numberOfRowsInSection</span> <span class="hljs-identifier">section</span>: <span class="hljs-identifier">Int</span>) -> <span class="hljs-identifier">Int</span> {
         <span class="hljs-keyword">return</span> <span class="hljs-identifier">data</span>.<span class="hljs-identifier">currentItem</span>.<span class="hljs-identifier">count</span>
     }
     
-    <span class="hljs-identifier">override</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">tableView</span>(<span class="hljs-identifier">tableView</span>: <span class="hljs-identifier">UITableView</span>, <span class="hljs-identifier">cellForRowAtIndexPath</span> <span class="hljs-identifier">indexPath</span>: <span class="hljs-identifier">NSIndexPath</span>) -> <span class="hljs-identifier">UITableViewCell</span> {
+    override <span class="hljs-keyword">func</span> <span class="hljs-identifier">tableView</span>(<span class="hljs-identifier">tableView</span>: <span class="hljs-identifier">UITableView</span>, <span class="hljs-identifier">cellForRowAtIndexPath</span> <span class="hljs-identifier">indexPath</span>: <span class="hljs-identifier">NSIndexPath</span>) -> <span class="hljs-identifier">UITableViewCell</span> {
         <span class="hljs-keyword">let</span> <span class="hljs-identifier">cell</span> = <span class="hljs-identifier">tableView</span>.<span class="hljs-identifier">dequeueReusableCellWithIdentifier</span>(<span class="hljs-string">"</span><span class="hljs-string">Identifier</span><span class="hljs-string">"</span>, <span class="hljs-identifier">forIndexPath</span>: <span class="hljs-identifier">indexPath</span>)
         <span class="hljs-keyword">let</span> <span class="hljs-identifier">item</span> = <span class="hljs-identifier">data</span>.<span class="hljs-identifier">currentItem</span>[<span class="hljs-identifier">indexPath</span>.<span class="hljs-identifier">row</span>]
         <span class="hljs-comment">// configure `cell` with `item`</span>
         <span class="hljs-keyword">return</span> <span class="hljs-identifier">cell</span>
     }
 
-    <span class="hljs-identifier">override</span> <span class="hljs-keyword">func</span> <span class="hljs-identifier">tableView</span>(<span class="hljs-identifier">tableView</span>: <span class="hljs-identifier">UITableView</span>, <span class="hljs-identifier">commitEditingStyle</span> <span class="hljs-identifier">editingStyle</span>: <span class="hljs-identifier">UITableViewCellEditingStyle</span>, <span class="hljs-identifier">forRowAtIndexPath</span> <span class="hljs-identifier">indexPath</span>: <span class="hljs-identifier">NSIndexPath</span>) {
+    override <span class="hljs-keyword">func</span> <span class="hljs-identifier">tableView</span>(<span class="hljs-identifier">tableView</span>: <span class="hljs-identifier">UITableView</span>, <span class="hljs-identifier">commitEditingStyle</span> <span class="hljs-identifier">editingStyle</span>: <span class="hljs-identifier">UITableViewCellEditingStyle</span>, <span class="hljs-identifier">forRowAtIndexPath</span> <span class="hljs-identifier">indexPath</span>: <span class="hljs-identifier">NSIndexPath</span>) {
         <span class="hljs-keyword">guard</span> <span class="hljs-identifier">editingStyle</span> == .<span class="hljs-identifier">Delete</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
         <span class="hljs-identifier">data</span>.<span class="hljs-identifier">currentItem</span>.<span class="hljs-identifier">removeAtIndex</span>(<span class="hljs-identifier">indexPath</span>.<span class="hljs-identifier">row</span>)
     }
