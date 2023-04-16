@@ -8,6 +8,38 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 15</title>
+			<description>
+				&lt;p&gt;
+	In Germany everyone gets time off for easter, and we spent time with friends and family. We also planted a bunch more things, really looking forward to summer where we’ll have a lot of fresh vegetables. We’re trying out a bunch of new things, so excited to see how well everything goes. The spinach, salad and onions are cropping up already.
+&lt;/p&gt;
+&lt;p&gt;
+	I worked on getting our book building software up to date. There are many dependencies (rendering using attributed strings, drawing diagrams, our own layout implementation to help generate explanations, and so on). We were still depending on an internal version of &lt;a href=&quot;https://github.com/objcio/attributed-string-builder&quot;&gt;attributed-string-builder&lt;/a&gt; which was essentially an extend subset of the public repository.
+&lt;/p&gt;
+&lt;p&gt;
+	I configured everything to (hopefully) be a very low-friction experience. I set up single Xcode project with virtually all code in Swift packages. For editing, we can just drop the package into the Xcode project and have a local editable version.
+&lt;/p&gt;
+&lt;p&gt;
+	While we wrote the book using Dropbox Paper, we now are typesetting it using attributed strings. All of our previous published books were typeset using a mix of homegrown scripts, Pandoc, LaTeX and a bunch of other stuff. We always had the full setup working on at least one machine, but we decided to try a different setup for this release.
+&lt;/p&gt;
+&lt;p&gt;
+	I also worked on a simple “connecting the dots” view to draw lines between arbitrary views in the view hierarchy. This works by propagating the center of each of the icons up (using anchors), and then drawing lines between all the connections. This technique is useful beyond this example, of course:
+&lt;/p&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/2023-15/1-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/2023-15/1.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	I’ll try to either write this up as a blog post or we’ll record it for Swift Talk.
+&lt;/p&gt;
+			</description>
+			<pubDate>Sun, 16 Apr 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-15</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-15</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 14</title>
 			<description>
 				&lt;p&gt;
@@ -952,54 +984,6 @@ extension View {
 			<pubDate>Fri, 13 Jan 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-02</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-02</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 1</title>
-			<description>
-				&lt;p&gt;
-	I’d like to write more this year, so here’s an attempt at a proven format that’s new to me: a weekly log of the stuff I’ve worked on. New year, new format!
-&lt;/p&gt;
-&lt;p&gt;
-	I started the week continuing to work on the update to our book &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt;. We’ve basically rewritten it from scratch. We chose to do this not only because we understand SwiftUI better, but also because we learned so much through the workshops we’ve been organizing over the last few years. Working with small groups we get a lot of direct feedback and questions, and that has improved our explanations a lot.
-&lt;/p&gt;
-&lt;p&gt;
-	Our current publishing setup generates two PDFs (one for screen, one for print) and an ePub. We input our own extended Markdown, convert this using a bunch of homegrown tooling, then generate Markdown as the output. This gets read by Pandoc, turned into LaTeX and finally into PDFs and ePub. The setup is a brittle, large, has many dependencies, takes a long time and is hard to debug or finetune for us.
-&lt;/p&gt;
-&lt;p&gt;
-	Instead, we are now experimenting with generating attributed strings and rendering those using TextKit. This is much faster (less than a second versus minutes) and gives us a lot more control (we’re good at Swift and not good at LaTeX). This week, I worked on adding footnotes, roughly laying things out, highlighting code and adding figures and diagrams that are automatically generated using SwiftUI (&lt;a href=&quot;https://m.objc.io/@chris/109621086933102165&quot;&gt;here’s an example&lt;/a&gt;). To construct the attributed strings we came up with a result builder that lets us build them from different sources (Markdown, plain strings, SwiftUI, highlighted code, etc.). We’ll probably make some episodes about this or open-source this
-&lt;sup&gt;&lt;a href=&quot;#fnref†&quot; name=&quot;fnref-rev†&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
-.
-&lt;/p&gt;
-&lt;p&gt;
-	I also worked on turning some of our interactive demos from the workshop into non-interactive diagrams for our book. &lt;a href=&quot;https://twitter.com/objcio/status/1494635294133522433&quot;&gt;Here’s an old version&lt;/a&gt; of one of those diagrams. We’ll probably turn this into a tree with numbers at the vertices and explanations in the text.
-&lt;/p&gt;
-&lt;p&gt;
-	I read a bit about the &lt;a href=&quot;https://gist.github.com/DougGregor/4f3ba5f4eadac474ae62eae836328b71&quot;&gt;new macro system in Swift&lt;/a&gt;. Very interesting stuff, but as of yet I understand very little about it. I’ll definitely look into this in more detail sometime soon.
-&lt;/p&gt;
-&lt;p&gt;
-	I have only logged into Twitter maybe once this week, and basically moved to Mastodon. There’s a lot less activity, but also much less noise. I like it there.
-&lt;/p&gt;
-&lt;p&gt;
-	At home, I had fun building a simple marble track out of scrap wood with the 4yo. In the house we’re renovating, I took down a wall and now we’re erecting a new wall (with a much larger door opening).
-&lt;/p&gt;
-&lt;p&gt;
-	Over the holidays I made a ginger bug (which started to foam), but the ginger soda I tried making from it didn’t start carbonating. I’m not sure if it’s turning into vinegar or alcohol now, but it doesn’t taste right. To get better at fermentation, I bought &lt;a href=&quot;https://www.wildfermentation.com/the-art-of-fermentation/&quot;&gt;The Art of Fermentation&lt;/a&gt;. I haven’t read too much yet, but at least the book is very well designed and I love the typography.
-&lt;/p&gt;
-&lt;div class=&quot;footnotes&quot;&gt;
-	&lt;hr/&gt;
-	&lt;ol&gt;
-		&lt;li id=&quot;fnref†&quot;&gt;
-			&lt;p&gt;
-				&lt;strong&gt;Update&lt;/strong&gt;
-				 we just released the &lt;a href=&quot;https://talk.objc.io/episodes/S01E337-attributed-string-builder-part-1&quot;&gt;first episode&lt;/a&gt; about this
-				 &lt;a href=&quot;#fnref-rev†&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
-		&lt;/li&gt;
-	&lt;/ol&gt;
-&lt;/div&gt;
-			</description>
-			<pubDate>Thu, 05 Jan 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-01</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-01</guid>
 		</item>
 	</channel>
 </rss>

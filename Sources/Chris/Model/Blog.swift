@@ -14,6 +14,7 @@ extension BlogPost {
     static let otherPosts: [BlogPost] = [
         variadicViews,
         semanticColors,
+        weeknotes15,
     ]
 }
 

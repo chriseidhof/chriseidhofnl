@@ -1,0 +1,77 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 15 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 15 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2023-15/og-image-11b6.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 15
+							</h1>
+							<h2 class="headline">
+								
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								In Germany everyone gets time off for easter, and we spent time with friends and family. We also planted a bunch more things, really looking forward to summer where we’ll have a lot of fresh vegetables. We’re trying out a bunch of new things, so excited to see how well everything goes. The spinach, salad and onions are cropping up already.
+							</p>
+							<p>
+								I worked on getting our book building software up to date. There are many dependencies (rendering using attributed strings, drawing diagrams, our own layout implementation to help generate explanations, and so on). We were still depending on an internal version of <a href="https://github.com/objcio/attributed-string-builder">attributed-string-builder</a> which was essentially an extend subset of the public repository.
+							</p>
+							<p>
+								I configured everything to (hopefully) be a very low-friction experience. I set up single Xcode project with virtually all code in Swift packages. For editing, we can just drop the package into the Xcode project and have a local editable version.
+							</p>
+							<p>
+								While we wrote the book using Dropbox Paper, we now are typesetting it using attributed strings. All of our previous published books were typeset using a mix of homegrown scripts, Pandoc, LaTeX and a bunch of other stuff. We always had the full setup working on at least one machine, but we decided to try a different setup for this release.
+							</p>
+							<p>
+								I also worked on a simple “connecting the dots” view to draw lines between arbitrary views in the view hierarchy. This works by propagating the center of each of the icons up (using anchors), and then drawing lines between all the connections. This technique is useful beyond this example, of course:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/2023-15/1-dark.png 2x"/>
+									<img srcset="/post/2023-15/1.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								I’ll try to either write this up as a blog post or we’ll record it for Swift Talk.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Apr 16, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-14">Weeknotes № 14
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
