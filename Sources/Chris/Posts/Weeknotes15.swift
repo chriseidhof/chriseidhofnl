@@ -25,6 +25,8 @@ fileprivate var myPostBody: [any PostPiece] {
     }
     Markdown("""
     I'll try to either write this up as a blog post or we'll record it for Swift Talk.
+
+    The painter spent last week painting the house, I helped with a bunch of preparation and final details. Next week we'll get the flooring done on the ground floor, and in a few more weeks we'll finally move in!
     """)
 }
 
