@@ -2,7 +2,7 @@ import SwiftUI
 import HTML
 import StaticSite
 
-let weeknotes15 = BlogPost(metadata: .init(headline: "", title: "Weeknotes № 15", date: "2023-04-16"), body: .pieces(myPostBody), link: "/post/2023-15")
+let weeknotes15 = BlogPost(metadata: .init(headline: "Book Layout", title: "Weeknotes № 15", date: "2023-04-16"), body: .pieces(myPostBody), link: "/post/2023-15")
 
 @PieceBuilder
 fileprivate var myPostBody: [any PostPiece] {
