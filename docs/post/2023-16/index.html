@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 16 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 16 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2023-16/og-image-d981.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 16
+							</h1>
+							<h2 class="headline">
+								Book Typesetting
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								At the start of the week, I worked on making our (private) SwiftUI library for drawing tree diagrams a bit simpler. It has code for both drawing the diagrams as well as parsing the type of a view and turning that into an interactive diagram. I separated that into two packages and simplified the tree diagramming library.
+							</p>
+							<p>
+								On Tuesday we recorded some Swift Talk episodes, and on Wednesday I spent time around the new house and with the family.
+							</p>
+							<p>
+								On Thursday and Friday, Florian and me sat down to finally start typesetting <a href="https://www.objc.io/books/thinking-in-swiftui/">Thinking in SwiftUI</a>. We tackled a whole bunch of stuff: the cover pages, much of the typography, highlighting, styling, and so on. A bunch of this code is in the <a href="https://github.com/objcio/attributed-string-builder">attributed string builders</a> package. We still need to add tests and documentation for those features, but for now, we just build what we need and test it by looking at the generated PDF.
+							</p>
+							<p>
+								I’m still not sure whether or not us writing the book generation ourselves (on top of attributed strings and TextKit) is a good idea, but it definitely is a lot of fun. For now it still seems very promising and much easier to write than LaTeX or using a program like InDesign. But let’s see what we think about this in a few years from now…
+							</p>
+							<p>
+								We left our temporary holiday home and went on a trip to visit our family in The Netherlands. When we get back, we’ll officialy and finally move into (the ground floor of) the new house. Very exciting!
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Apr 23, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-15">Weeknotes № 15
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
