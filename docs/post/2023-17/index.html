@@ -1,0 +1,109 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 17 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 17 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2023-17/og-image-8427.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 17
+							</h1>
+							<h2 class="headline">
+								Book Typesetting
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								We spent a lot of time working on laying out our book, and are getting much closer now. Even though we were “80%” done already, getting all the details right takes a lot of time and tweaking:
+							</p>
+							<ul>
+								<li>
+									<p>
+										We added internal links to the book
+									</p>
+								</li>
+								<li>
+									<p>
+										We added warnings for widows and orphans
+									</p>
+								</li>
+								<li>
+									<p>
+										We added support for print margins (i.e. margins that differ per page)
+									</p>
+								</li>
+								<li>
+									<p>
+										We added support to supress headers on title pages and empty pages (the header shows the chapter name and page number)
+									</p>
+								</li>
+								<li>
+									<p>
+										We added support for state to our attributed string builder library, this threads state through the rendering (useful for e.g. footnotes or numbering things)
+									</p>
+								</li>
+								<li>
+									<p>
+										We added a PDF outline to the book (the “table of contents” you see in Preview)
+									</p>
+								</li>
+								<li>
+									<p>
+										We tweaked all the small details (spacing, line height, list rendering, etc.)
+									</p>
+								</li>
+								<li>
+									<p>
+										We spent a long time going back and forth on different styles for rendering our diagrams. The view tree diagrams that we want to show have code, a preview and a diagram. Getting these all on a single page with a good layout wasn’t easy at all.
+									</p>
+								</li>
+							</ul>
+							<p>
+								I think we’re very close now to the output that we want. The main thing left is styling the diagrams further, not just the view tree diagrams but also render trees, layout trees, and so on.
+							</p>
+							<p>
+								Here’s a sample page showing the current state:
+							</p>
+							<img src="/images/tis-page.png" style="width: 216">
+
+							<p>
+								We spent a lot of time with the family while over in The Netherlands, and for the first time in half a year, I ran more than 100kms this week. I’m looking forward to build that mileage out again.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Apr 30, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-16">Weeknotes № 16
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
