@@ -8,6 +8,20 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 18</title>
+			<description>
+				&lt;p&gt;
+	For our book, I added support to draw nicer diagrams (with overlays on the arrows placed in exactly the right spot). I also changed the syntax highlighting so that we can generate custom attributed strings for certain parts. You can see both parts in action in &lt;a href=&quot;https://m.objc.io/@chris/110304502914075277&quot;&gt;this post&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	We also finally moved into our new house! It’s not finished yet, so we had to already move between the two floors twice, but by next week we’ll (hopefully) have a finished kitchen, finished bathrooms and a ground floor that’s completely done.
+&lt;/p&gt;
+			</description>
+			<pubDate>Sun, 07 May 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-18</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-18</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 17</title>
 			<description>
 				&lt;p&gt;
@@ -916,101 +930,6 @@ extension View {
 			<pubDate>Fri, 27 Jan 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-04</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-04</guid>
-		</item>
-		<item>
-			<title>SwiftUI Views are Lists</title>
-			<description>
-				&lt;p&gt;
-	When you write SwiftUI, all your views conform to the &lt;code&gt;View&lt;/code&gt; protocol. The name of this protocol is a bit misleading: I it could be called &lt;code&gt;Views&lt;/code&gt; or &lt;code&gt;ViewList&lt;/code&gt;, or something else that suggests plurals
-&lt;sup&gt;&lt;a href=&quot;#fnrefdiscussion&quot; name=&quot;fnref-revdiscussion&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
-.
-&lt;/p&gt;
-&lt;p&gt;
-	For example, consider the following view:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct MyView: View {
-     var body: some View {
-         Text(&amp;quot;Hello&amp;quot;)
-         Text(&amp;quot;World&amp;quot;)
-     }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	The type of &lt;code&gt;body&lt;/code&gt; is &lt;code&gt;some View&lt;/code&gt; (an opaque type), and &lt;code&gt;MyView&lt;/code&gt; itself conforms to the &lt;code&gt;View&lt;/code&gt; protocol. So how does the above view render? &lt;em&gt;It depends&lt;/em&gt;
-	. When you create an &lt;code&gt;HStack&lt;/code&gt; containing &lt;code&gt;MyView&lt;/code&gt;, the text will be on a single line, but when you create a &lt;code&gt;VStack&lt;/code&gt; the two texts will be below each other. Try this!
-&lt;/p&gt;
-&lt;p&gt;
-	This is not a gimmick: it is essential to how SwiftUI works. When we write views, we’re always constructing &lt;em&gt;lists of views&lt;/em&gt;
-	. For example, we could even do something like this:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct MyOtherView: View {
-    var body: some View {
-        Text(&amp;quot;Another Text&amp;quot;)
-        MyView()
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	You can create a &lt;code&gt;VStack&lt;/code&gt; with &lt;code&gt;MyOtherView&lt;/code&gt;, and will see the three views below each other, and when you create an &lt;code&gt;HStack&lt;/code&gt; they’re laid out on a single line.
-&lt;/p&gt;
-&lt;p&gt;
-	In general, we can say that anything that conforms to the &lt;code&gt;View&lt;/code&gt; protocol really represents a list of &lt;code&gt;View&lt;/code&gt;s. In the case of &lt;code&gt;MyOtherView&lt;/code&gt;, we could say the list has a single &lt;code&gt;Text&lt;/code&gt; view and another list (&lt;code&gt;MyView&lt;/code&gt;). These lists get flattened. In the case of &lt;code&gt;MyOtherView&lt;/code&gt;, the &lt;code&gt;body&lt;/code&gt; flattens down to a list containing three views.
-&lt;/p&gt;
-&lt;p&gt;
-	Container views such as &lt;code&gt;HStack&lt;/code&gt; and &lt;code&gt;VStack&lt;/code&gt; take these lists, iterate over them and lay them out. Using the &lt;code&gt;Layout&lt;/code&gt; protocol, you can also see these flattened lists. For example, you could construct your own &lt;code&gt;Layout&lt;/code&gt; implementation to print the number of subviews:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct MyLayout: Layout {
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -&amp;gt; CGSize {
-        .zero
-    }
-
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        print(subviews.count)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	When you have a &lt;code&gt;MyLayout { MyOtherView() }&lt;/code&gt; you’ll see that it will always print 3.
-&lt;/p&gt;
-&lt;p&gt;
-	To create lists with a dynamic size, you can use conditionals such as &lt;code&gt;if&lt;/code&gt;. Note that constructs like &lt;code&gt;ForEach&lt;/code&gt; produce a list as well. These can even be combined with other lists. For example, the code below creates a vertical stack with eight children:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt; VStack {
-     MyOtherView()
-     ForEach(0..&amp;lt;5) {
-         Text(&amp;quot;Label \($0)&amp;quot;)
-     }
- }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	As mentioned, the &lt;code&gt;Layout&lt;/code&gt; protocol lets you work with these view lists directly as of iOS 16 and macOS 13. You can also use &lt;a href=&quot;https://movingparts.io/variadic-views-in-swiftui&quot;&gt;variadic views&lt;/a&gt; — a non-public, but stable API — to loop over view lists. The variadic view API is really powerful (for example, you can write things like &lt;code&gt;filter&lt;/code&gt;, &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;reduce&lt;/code&gt; on view lists) but also quite low-level. I have a gist &lt;a href=&quot;https://gist.github.com/chriseidhof/5ff6ef8786f5635c18b20304ab9d9b01&quot;&gt;here&lt;/a&gt; with some examples, and plan to also write this up soon
-&lt;sup&gt;&lt;a href=&quot;#fnrefvariadics&quot; name=&quot;fnref-revvariadics&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;
-.
-&lt;/p&gt;
-&lt;blockquote&gt;
-	&lt;p&gt;
-		This article was inspired by the section that Florian wrote for our book &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui&quot;&gt;Thinking in SwiftUI&lt;/a&gt;. We’re currently rewriting the book and hope to get it out soon.
-	&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;div class=&quot;footnotes&quot;&gt;
-	&lt;hr/&gt;
-	&lt;ol&gt;
-		&lt;li id=&quot;fnrefdiscussion&quot;&gt;
-			&lt;p&gt;
-				Not everyone agrees with this, the &lt;a href=&quot;https://m.objc.io/@chris/109751198846392579&quot;&gt;discussion on Mastodon&lt;/a&gt; was quite interesting.
-				 &lt;a href=&quot;#fnref-revdiscussion&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
-		&lt;/li&gt;
-		&lt;li id=&quot;fnrefvariadics&quot;&gt;
-			&lt;p&gt;
-				I did write this up, and &lt;a href=&quot;http://chris.eidhof.nl/post/variadic-views&quot;&gt;the post is here&lt;/a&gt;.
-				 &lt;a href=&quot;#fnref-revvariadics&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
-		&lt;/li&gt;
-	&lt;/ol&gt;
-&lt;/div&gt;
-			</description>
-			<pubDate>Wed, 25 Jan 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/swiftui-views-are-lists</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-views-are-lists</guid>
 		</item>
 	</channel>
 </rss>
