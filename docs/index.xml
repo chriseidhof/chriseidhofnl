@@ -8,6 +8,27 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 19</title>
+			<description>
+				&lt;p&gt;
+	We spent last week iterating on the book, mostly drawing diagrams. Because our understanding of SwiftUI has gotten much better since the previous release, we also have much better explanations and much better visuals. We also had to change some things in the underlying infrastructure, but that all worked out. Can’t wait to get this ready.
+&lt;/p&gt;
+&lt;p&gt;
+	For a side project, I spent half a day researching how to sync data using CloudKit. It seems to be pretty easy. Last time I tried that, I had a hard time configuring things, and understanding how the pieces fit together, but it went without problems this time.
+&lt;/p&gt;
+&lt;p&gt;
+	Before we moved in, we started planting a bunch of things in raised beds, and I built two more raised beds last week. We sowed most things ourselves, and bought some small plants as well. We harvested spinach, radish, salat and a number of herbs. It is such a luxury to walk outside into the garden and directly harvest what we need. It also makes me appreciate how much effort goes into this: even with a few large raised beds we would not even come close to growing what we would need to be self-sufficient.
+&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/2023-05-14-garden.jpg&quot; title/&gt;&lt;/p&gt;
+&lt;p&gt;
+	Most of our kitchen arrived, which definitely helps in making the new house liveable. The main thing missing is the fridge, which is challenging but fine (we have a small portable cooler that holds the essentials for a family of four). Hopefully the fridge gets here soon.
+&lt;/p&gt;
+			</description>
+			<pubDate>Sun, 14 May 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-19</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-19</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 18</title>
 			<description>
 				&lt;p&gt;
@@ -897,39 +918,6 @@ extension View {
 			<pubDate>Fri, 27 Jan 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/variadic-views</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/variadic-views</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 4</title>
-			<description>
-				&lt;p&gt;
-	While Florian was away the first few days this week to hold a workshop, I prepared some more things for next week’s workshop. During the workshop, we use an internal Mac app to present things to the attendees. For example, we show layout trees, render trees and have an interactive alignment visualization. Some of these only worked well in dark mode, and I fixed that. I used a combination of &lt;code&gt;.background(.background)&lt;/code&gt; to set the background to the current background style, as well as &lt;code&gt;.backgroundStyle(colorScheme == .light ? …)&lt;/code&gt; to set the current background style.
-&lt;/p&gt;
-&lt;p&gt;
-	In the workshop app that our attendees receive, I also added interactive render tree examples:
-&lt;/p&gt;
-&lt;picture&gt;
-   &lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/images/workshop-app-dark.png 2x&quot;&gt;
-   &lt;img srcset=&quot;http://chris.eidhof.nl/images/workshop-app.png 2x&quot; style=&quot;width: auto;&quot;&gt;
-&lt;/picture&gt;
-
-&lt;p&gt;
-	In our alignment demos, I used &lt;a href=&quot;https://www.fivestars.blog/articles/reverse-masks-how-to/&quot;&gt;&lt;code&gt;.reversedMask&lt;/code&gt;&lt;/a&gt; to obscure parts of a view. You can see this in the screenshot below: the alignment guides are continuous lines with the text (+ padding) cut out:
-&lt;/p&gt;
-&lt;picture&gt;
-   &lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/images/alignment-screenshot-dark.png 2x&quot;&gt;
-   &lt;img srcset=&quot;http://chris.eidhof.nl/images/alignment-screenshot.png 2x&quot; style=&quot;width: auto;&quot;&gt;
-&lt;/picture&gt;
-
-&lt;p&gt;
-	In recent years, I only wrote up to three posts a year, this week I wrote three posts (including this one). First, I wrote about how &lt;a href=&quot;http://chris.eidhof.nl/post/swiftui-views-are-lists&quot;&gt;SwiftUI views are lists&lt;/a&gt; and about &lt;a href=&quot;http://chris.eidhof.nl/post/variadic-views/&quot;&gt;Variadic Views&lt;/a&gt;. The variadic view posts includes rendered SwiftUI views that are automatically generated at compile time of this blog. The images automatically switch between light mode and dark mode (similar to the screenshots in this post).
-&lt;/p&gt;
-&lt;p&gt;
-	At home, I made two of my favorite left over recipes: we used left over pasta sauce for empanada filling. Also, we used left over risotto and made a small batch of air fried mozarella arancinis.
-&lt;/p&gt;
-			</description>
-			<pubDate>Fri, 27 Jan 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-04</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-04</guid>
 		</item>
 	</channel>
 </rss>
