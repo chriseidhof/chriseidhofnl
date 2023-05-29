@@ -1,0 +1,63 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 21 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 21 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2023-21/og-image-777d.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 21
+							</h1>
+						</header>
+						<section class="postbody">
+							<p>
+								We prepared and recorded episodes that reimplement the core data structures of Git in Swift (without any third-party dependencies). The model of Git is really simple — I think it’s beautiful. In the episodes we recorded everything is read-only, but I managed to get writing to work as well. The tricky part is that objects in git are stored with zlib compression, which requires both a (static) binary header as well as a checksum. I spent quite some time getting the checksum right — but at least the end result is not a lot of code.
+							</p>
+							<p>
+								We also continued working on all the diagrams, mostly focusing on animations and transitions this week. For example, this accompanies a section about implementing a custom animatable (shake) modifier:
+							</p>
+							<p><img src="/images/2023-05-29-shake.png" title/></p>
+							<p>
+								I spent a lot of time with the kids and in the garden. We improved our watering setup (although I hope to get a better rainwater system soon) and I did a whole bunch of odd jobs that are nice to cross off the list.
+							</p>
+							<p>
+								Now that we moved in, I can really tell the difference in energy levels, especially when running. In hindsight, it kind of felt like I could only perform at 60% of my normal capacity (in life and in running). Now, I feel like I can do proper training again, even though I’m much slower than a year ago. But with time and patience I think I can get back towards running some good times again.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>May 28, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-20">Weeknotes № 20
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
