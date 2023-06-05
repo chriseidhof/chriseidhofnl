@@ -8,6 +8,26 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 22</title>
+			<description>
+				&lt;p&gt;
+	I modified our &lt;a href=&quot;https://github.com/objcio/attributed-string-builder/&quot;&gt;attributed-string-builder&lt;/a&gt; to accept modifiers that can be applied to SwiftUI environment. For example, this lets us modify the environment for all embeds inside an &lt;code&gt;AttributedStringConvertible&lt;/code&gt;. So far, the library has been really useful, and we’ve gotten really far with the rendering. For the full book, it’s becoming a bit slow (a few seconds to render), but compared to our previous LaTeX/Pandoc setup it’s blazingly fast. The flexibility and control we get from it is pretty amazing. I know you can have that same (and more) control in LaTeX, but because we write Swift every single day this has way less friction for us.
+&lt;/p&gt;
+&lt;p&gt;
+	We visualized more things, abstracted some of the visualizations away (when similar diagrams use the same abstraction we can be sure they render in the same way, and don’t have subtle errors). We also started working towards ordering a proof copy, with an increased paper size and printed using color instead of grayscale. We’ll have to see how all the text renders there. The first two chapters are now completely done with copy-editing, which means we can do the final typesetting there!
+&lt;/p&gt;
+&lt;p&gt;
+	We recorded two more Swift Talk episodes last week, both on our Git reimplementation. I think with a bit of effort this could actually be turned into a usable dependency-free Git implementation, although getting it secure and safe would probably be a major effort.
+&lt;/p&gt;
+&lt;p&gt;
+	I picked up my running a bit over the last weeks. I finally feel like I have energy for that again (was heavily blocked by the move). I’m slow compared to last year, but only focusing on building out my endurance. I can maintain last year’s marathon pace maybe for one or two kilometers. However, I’m trying to keep a &lt;a href=&quot;https://fs.blog/carol-dweck-mindset/&quot;&gt;growth mindset&lt;/a&gt; and improve every day. The weather has been really nice here, and it’s been amazing to dip in the lake after a run. Also, we finally moved into our actual bedrooms. The flooring was only finished on Friday so we had to improvise a bit until then.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 05 Jun 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-22</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-22</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 21</title>
 			<description>
 				&lt;p&gt;
@@ -670,64 +690,6 @@
 			<pubDate>Thu, 09 Feb 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/semantic-colors</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/semantic-colors</guid>
-		</item>
-		<item>
-			<title>SwiftUI Environment Tips</title>
-			<description>
-				&lt;p&gt;
-	In our &lt;a href=&quot;https://www.objc.io/workshops/&quot;&gt;SwiftUI workshop&lt;/a&gt; we always include an exercise where you learn about how the environment works. Often, we build some kind of stylesheet that gets passed down the environment, from the root view. The stylesheet could look like this:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Stylesheet {
-    var buttonColor: Color = .blue
-    var cardColor: Color = .primary.opacity(0.1)
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	In a child view, we then read and use the stylesheet (you’ll also have to add an environment key for this to work):
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Nested1: View {
-    @Environment(\.stylesheet) private var stylesheet
-    var body: some View {
-        Text(&amp;quot;Hello&amp;quot;)
-            .background(stylesheet.buttonColor)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	In the above view, the code works fine, but we could also write it using a more specific key path:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Nested2: View {
-    @Environment(\.stylesheet.buttonColor) private var buttonColor
-    var body: some View {
-        Text(&amp;quot;Hello&amp;quot;)
-            .background(buttonColor)
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	This technique is useful when you have nested types (e.g. typically a stylesheet has more than just two colors, and might be composed out of other structs). There’s a &lt;em&gt;performance advantage&lt;/em&gt;
-	 as well: when anything in the stylesheet changes, &lt;code&gt;Nested1&lt;/code&gt; will be rerendered. &lt;code&gt;Nested2&lt;/code&gt;, however, will only get rerendered whenever the &lt;code&gt;buttonColor&lt;/code&gt; property changes. This can make a big difference performance-wise (although often it doesn’t matter).
-&lt;/p&gt;
-&lt;p&gt;
-	You can also use this with other properties — even computed properties. For example:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Nested3: View {
-    @Environment(\.dynamicTypeSize.isAccessibilitySize) 
-    private var isAccesibilitySize
-    
-    var body: some View {
-        // ...
-    }
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Another thing you might notice in the code samples above is that we marked our environment property as &lt;code&gt;private&lt;/code&gt;. We always do this for Environment, State, StateObject as well as ScaledMetric. These properties are populated just before the body renders, and it makes no sense to expose them to the outside. We even have a very crude &lt;a href=&quot;https://gist.github.com/chriseidhof/d8c079ca97099a6122f37890a144e9b0&quot;&gt;swiftlint rule&lt;/a&gt; for this.
-&lt;/p&gt;
-			</description>
-			<pubDate>Wed, 08 Feb 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/swiftui-environment-tips</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-environment-tips</guid>
 		</item>
 	</channel>
 </rss>

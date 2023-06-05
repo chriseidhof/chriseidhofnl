@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 22 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 22 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2023-22/og-image-f163.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 22
+							</h1>
+							<h2 class="headline">
+								Running Again
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								I modified our <a href="https://github.com/objcio/attributed-string-builder/">attributed-string-builder</a> to accept modifiers that can be applied to SwiftUI environment. For example, this lets us modify the environment for all embeds inside an <code>AttributedStringConvertible</code>. So far, the library has been really useful, and we’ve gotten really far with the rendering. For the full book, it’s becoming a bit slow (a few seconds to render), but compared to our previous LaTeX/Pandoc setup it’s blazingly fast. The flexibility and control we get from it is pretty amazing. I know you can have that same (and more) control in LaTeX, but because we write Swift every single day this has way less friction for us.
+							</p>
+							<p>
+								We visualized more things, abstracted some of the visualizations away (when similar diagrams use the same abstraction we can be sure they render in the same way, and don’t have subtle errors). We also started working towards ordering a proof copy, with an increased paper size and printed using color instead of grayscale. We’ll have to see how all the text renders there. The first two chapters are now completely done with copy-editing, which means we can do the final typesetting there!
+							</p>
+							<p>
+								We recorded two more Swift Talk episodes last week, both on our Git reimplementation. I think with a bit of effort this could actually be turned into a usable dependency-free Git implementation, although getting it secure and safe would probably be a major effort.
+							</p>
+							<p>
+								I picked up my running a bit over the last weeks. I finally feel like I have energy for that again (was heavily blocked by the move). I’m slow compared to last year, but only focusing on building out my endurance. I can maintain last year’s marathon pace maybe for one or two kilometers. However, I’m trying to keep a <a href="https://fs.blog/carol-dweck-mindset/">growth mindset</a> and improve every day. The weather has been really nice here, and it’s been amazing to dip in the lake after a run. Also, we finally moved into our actual bedrooms. The flooring was only finished on Friday so we had to improvise a bit until then.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Jun 5, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-21">Weeknotes № 21
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
