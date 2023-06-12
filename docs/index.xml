@@ -8,6 +8,30 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 23</title>
+			<description>
+				&lt;p&gt;
+	Last week was WWDC week. Hard to miss, the Vision Pro was announced. I’m excited and worried about that device. I especially didn’t like the dad wearing the goggles to take videos of his kids. I already worry about myself (and others) using their phones and other devices too much when kids are around. You’re there but not really there. To me, this feels like an amazing device to use when I’m at home while everyone else is sleeping.
+&lt;/p&gt;
+&lt;p&gt;
+	A whole bunch of new SwiftUI things got announced. Looks like some really solid improvements. I think the Metal shaders are going to be a lot of fun (&lt;a href=&quot;https://mastodon.social/@dlx/110515723356297247&quot;&gt;Robb is already making cool stuff&lt;/a&gt;). The animation and state changes are very welcome, but will also require to rewrite major parts of our (almost finished) book. What makes this extra tricky is that of course, these APIs might still change until September.
+&lt;/p&gt;
+&lt;p&gt;
+	For the book, we went through and identified most of the parts that will need to change (we’ll blog about this very soon). We went ahead and drew our book’s cover in SwiftUI (the cover changes with each edition). We then also generated the hero image (for &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;the book’s page&lt;/a&gt;) in SwiftUI, as we couldn’t open the Sketch file anymore (we basically only use Sketch whenever we need to update that image). The hero image actually uses the generated PDF with the “live” book:
+&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/thinking-in-swiftui-hero-original.png&quot; title/&gt;&lt;/p&gt;
+&lt;p&gt;
+	We’ll be releasing the book this week, keep an eye on &lt;a href=&quot;https://www.objc.io/blog&quot;&gt;our blog&lt;/a&gt; and mailing list to keep updated.
+&lt;/p&gt;
+&lt;p&gt;
+	The weather has been amazing here and I went swimming in the lake with the kids almost every single day, which has been really fun for all of us.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 12 Jun 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-23</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-23</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 22</title>
 			<description>
 				&lt;p&gt;
@@ -626,70 +650,6 @@
 			<pubDate>Fri, 10 Feb 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-06</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-06</guid>
-		</item>
-		<item>
-			<title>Semantic Colors and Styles</title>
-			<description>
-				&lt;p&gt;
-	In SwiftUI, most colors are &lt;em&gt;semantic colors&lt;/em&gt;
-	 that get resolved at runtime. For example, here are a few colors (rendered on macOS) in both light mode and dark mode. It’s a little hard to see, but even colors like &lt;code&gt;.blue&lt;/code&gt; and &lt;code&gt;.red&lt;/code&gt; are slighly different:
-&lt;/p&gt;
-&lt;p&gt;
-	&lt;picture class=&quot;swiftui&quot;&gt;
-		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/semantic-colors/1-dark.png 2x&quot;/&gt;
-		&lt;img srcset=&quot;http://chris.eidhof.nl/post/semantic-colors/1.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
-	&lt;/picture&gt;
-&lt;/p&gt;
-&lt;p&gt;
-	Note that the above colors might be influenced by other things as well. For example, they can change when you increase the color scheme contrast or enable other accessibility settings.
-&lt;/p&gt;
-&lt;p&gt;
-	In my experience, most people build their apps in light mode, with dark mode often being added as an afterthought. This is absolutely fine. However, it does make sense to get into the habit of using &lt;code&gt;.primary&lt;/code&gt; instead of &lt;code&gt;.black&lt;/code&gt;, and using &lt;code&gt;.secondary&lt;/code&gt; for a secondary color. Then those parts will automatically adapt.
-&lt;/p&gt;
-&lt;p&gt;
-	By default, text (and shapes, etc.) are not rendered using the current foreground color (which is .primary by default) but using the current &lt;em&gt;foreground style&lt;/em&gt;
-	. Here’s a rectangle filled with the four foreground styles:
-&lt;/p&gt;
-&lt;p&gt;
-	&lt;picture class=&quot;swiftui&quot;&gt;
-		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/semantic-colors/3-dark.png 2x&quot;/&gt;
-		&lt;img srcset=&quot;http://chris.eidhof.nl/post/semantic-colors/3.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
-	&lt;/picture&gt;
-&lt;/p&gt;
-&lt;p&gt;
-	As far as I know, &lt;code&gt;Color.primary&lt;/code&gt; and &lt;code&gt;Color.secondary&lt;/code&gt; are (currently) not settable via the environment, but the foreground style is. For example, here’s the same view, but with a &lt;code&gt;.foregroundStyle(.blue, .green, Gradient(colors: [.red, .yellow])&lt;/code&gt; applied. Note that the tertiary and quaternary styles are optional. The tertiary style defaults to the secondary style, and the quaternary to the tertiary style. As you can see, you don’t just have to use colors, you can also use any other type that conforms to &lt;code&gt;ShapeStyle&lt;/code&gt;:
-&lt;/p&gt;
-&lt;p&gt;
-	&lt;picture class=&quot;swiftui&quot;&gt;
-		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/semantic-colors/5-dark.png 2x&quot;/&gt;
-		&lt;img srcset=&quot;http://chris.eidhof.nl/post/semantic-colors/5.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
-	&lt;/picture&gt;
-&lt;/p&gt;
-&lt;p&gt;
-	There’s a fourth useful style: &lt;code&gt;BackgroundStyle&lt;/code&gt;. You would typically use it using &lt;code&gt;.background&lt;/code&gt;, for example, like so:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Text(&amp;quot;Hello, world&amp;quot;)
-    .padding(10)
-    .background(.background)
-    .padding(20)
-    .background(.blue)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	On macOS, this will default to white in light mode, and a dark gray in dark mode. Similar to the foreground styles, you can also set it using the environment:
-&lt;/p&gt;
-&lt;p&gt;
-	&lt;picture class=&quot;swiftui&quot;&gt;
-		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/semantic-colors/7-dark.png 2x&quot;/&gt;
-		&lt;img srcset=&quot;http://chris.eidhof.nl/post/semantic-colors/7.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
-	&lt;/picture&gt;
-&lt;/p&gt;
-&lt;p&gt;
-	In general, stick to using &lt;code&gt;.primary&lt;/code&gt; and &lt;code&gt;.secondary&lt;/code&gt; colors when you can. Also use the semantic foreground styles and background style, and you will be well prepared to add dark mode support to your app. Of course, you could go much further and define your own stylesheet, pass it through the environment and rely on that, but the builtin semantic styles will support both color scheme changes and respect accessibility settings.
-&lt;/p&gt;
-			</description>
-			<pubDate>Thu, 09 Feb 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/semantic-colors</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/semantic-colors</guid>
 		</item>
 	</channel>
 </rss>
