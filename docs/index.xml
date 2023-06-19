@@ -8,6 +8,26 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 24</title>
+			<description>
+				&lt;p&gt;
+	We went over the chapters of our book and tried to make an inventory of what we need to add. Most significantly, - the state chapter needs to describe the new way that object observing works, and the animations chapter needs a number of additions.
+&lt;/p&gt;
+&lt;p&gt;
+	We then prepared everything for the launch. This is a bit of a tedious manual process (updating all the website pages, the bundles, all the items on Gumroad, etc.). On Friday we launched the &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui&quot;&gt;prerelease of Thinking in SwiftUI&lt;/a&gt;. We also did a &lt;a href=&quot;https://www.youtube.com/watch?v=pYgAd-LF-UE&quot;&gt;live Q&amp;amp;A&lt;/a&gt; which was really fun. We plan to do these weekly so please &lt;a href=&quot;https://github.com/objcio/thinking-in-swiftui-qa/&quot;&gt;send in your questions&lt;/a&gt;. Here’s the &lt;a href=&quot;https://www.youtube.com/watch?v=H4sSC7scvRw&quot;&gt;Q&amp;amp;A for this Friday&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	On Saturday I ran my first marathon in about a year. I have not trained as much (although I have been ramping up my mileage over the last month and a half) and I was very glad to see that I was only four minutes slower than last year (same course, but this year the weather was not as hot). I thought my shape was a lot worse, this is a good starting point to build off of. Although I did try to stay reasonably fit during the house renovation phase, I know I lost a lot of speed and endurance. Building these up again is very simple for me, but no so easy: when I consistently run a lot (more than 140k/week) over a long period of time (a year or longer) I get very fit.
+&lt;/p&gt;
+&lt;p&gt;
+	I’m thinking of structuring my upcoming training similar to &lt;a href=&quot;https://www.howtoskate.se&quot;&gt;Nils van der Poel&lt;/a&gt;. Although his event is quite different (a speed-skating 10k lasts less 13 minutes whereas a fast marathon lasts almost three hours). I wonder if I should do even more aerobic training and less threshold than he describes.
+&lt;/p&gt;
+			</description>
+			<pubDate>Sun, 18 Jun 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-24</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-24</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 23</title>
 			<description>
 				&lt;p&gt;
@@ -613,43 +633,6 @@
 			<pubDate>Fri, 17 Feb 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-07</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-07</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 6</title>
-			<description>
-				&lt;p&gt;
-	We got our internet access working at the new house. We also won’t move before the end of March, probably later, but at least that part is working. We had a bit of a setback this week, as we found out that the plastering will take quite a bit longer than calculated. It’s a big chain of dependencies: we can’t paint before we’ve plastered, we can’t lay the floor before we’ve painted, and we can’t start plastering before the new window frames are installed (which should happen next week!).
-&lt;/p&gt;
-&lt;p&gt;
-	My best friend from The Netherlands came over, we just hung out, did a little bit of work on the house together (we put up a new bathroom ceiling). I made bagels, which turned out much tastier than last week, and they looked good, too!
-&lt;/p&gt;
-&lt;p&gt;
-	As I’m quite pressed for time these days, I need to be a bit creative about combining activities. I ran with the youngest in the running stroller (she gets to sleep, the rest of the family gets a break, and I get to do some exercise). Also, we bought a cargo bike last year, and it arrived last fall. Every time I cycle go to our new house I bring a few boxes.
-&lt;/p&gt;
-&lt;p&gt;
-	I’ve been using our cargo bike to transport kids (it fits a baby car seat and two small kids), transport building materials (although 6 bags of cement was pushing it), and I’ve already filled it up many times to move stuff over to the new house. It’s been a game-changer for me. I &lt;em&gt;think&lt;/em&gt;
-	 I would’ve still done most of the trips by bike if it wasn’t for the cargo bike, but this way I can avoid virtually all our car usage within the city limits.
-&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/cargo-bike.jpg&quot; title/&gt;&lt;/p&gt;
-&lt;p&gt;
-	I ordered “Airlineschienen” (I think it’s called lashing rail in English?) for the inside of the bike’s cargo box. This will let me flexibly attach a bunch of stuff, and should help me strap down the load. I’ll also use them to attach hooks for shopping bags (they tend to fall over when small), kids backpacks, etc.
-&lt;/p&gt;
-&lt;p&gt;
-	(I did “upgrade” our car recently, adding a hitch and an external AirPlay screen. Of course, this was much simpler/cheaper/more sustainable than buying a new (used) car.)
-&lt;/p&gt;
-&lt;p&gt;
-	We ran a two-day workshop, this time in CEST. It was really nice to have people in the workshop that already had a bunch of SwiftUI experience, we could go much deeper into the material and answer a lot of questions.
-&lt;/p&gt;
-&lt;p&gt;
-	We improved some minor things in our interactive workshop explanation app, in the workshop itself and recorded a few episodes around our new backend library (which we plan to use to modernize/rewrite the Swift Talk backend with).
-&lt;/p&gt;
-&lt;p&gt;
-	I published two blog posts this week that both came directly from questions in the workshop. The first post contains tips about the &lt;a href=&quot;http://chris.eidhof.nl/post/swiftui-environment-tips/&quot;&gt;SwiftUI Environment&lt;/a&gt; and the second post is about &lt;a href=&quot;http://chris.eidhof.nl/post/semantic-colors/&quot;&gt;semantic colors and styles&lt;/a&gt;. The second post includes some nice graphics that are automatically generated when building this site — they should look good with both the dark theme and the light theme.
-&lt;/p&gt;
-			</description>
-			<pubDate>Fri, 10 Feb 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-06</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-06</guid>
 		</item>
 	</channel>
 </rss>
