@@ -8,6 +8,26 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 25</title>
+			<description>
+				&lt;p&gt;
+	Last week, we had the post-launch week of our book, which is always fun. It’s nice to see the first feedback, which has been good so far. We also released a new chapter on state and binding. This one already has a bunch of (hopefully) helpful custom diagrams in there that show how the state system works. The chapter itself focuses on doing state using the pre-iOS17 way, and has pointers to the iOS 17 chapter (in which we explain the key differences and how to use the new state system). We also did our &lt;a href=&quot;https://www.youtube.com/watch?v=H4sSC7scvRw&quot;&gt;second Q&amp;amp;A livestream&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	We also recorded some episodes in which we reimplement a simplified version of the new observation framework in SwiftUI. It turns out this is not that hard to do (although as always, tricky to get just right).
+&lt;/p&gt;
+&lt;p&gt;
+	I spent a morning and half an afternoon doing home improvement, mostly working on the final section of drywall (there’s one corner which wasn’t finished yet). Running also went well, I feel like I recovered very quickly from the marathon. I did take it quite easy the first few days of the week, which always helps.
+&lt;/p&gt;
+&lt;p&gt;
+	In the garden things are growing well. We’re starting to see some tomatoes appear, have strawberries and raspberries, and the cucumber is now producing really well too. The edamame plants I sowed are also still alive. I’ve never grown edamame before, so it’s definitely an experiment that can fail.
+&lt;/p&gt;
+			</description>
+			<pubDate>Sun, 25 Jun 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-25</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-25</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 24</title>
 			<description>
 				&lt;p&gt;
@@ -612,27 +632,6 @@
 			<pubDate>Fri, 24 Feb 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-08</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-08</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 7</title>
-			<description>
-				&lt;p&gt;
-	This week I mostly spent coordinating the house renovation, and doing lots of odd jobs. We had to take down a very old ceiling (not sure if it was the original ceiling from when the house was built) consisting of plaster, reed matting, and boards, ending up with just the ceiling joists. The next day, we covered the spaces in between the ceiling joists with drywall, which turned out really nice!
-&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/ceiling.jpg&quot; title/&gt;&lt;/p&gt;
-&lt;p&gt;
-	We also cleaned up almost everything in the house, because next week the plastering company will start and they need a completely empty space. To move stuff over (from our current house to the basement of the new place) I borrowed a trailer and drove my car with a trailer for the first time in my life (so far, it went fine).
-&lt;/p&gt;
-&lt;p&gt;
-	Yesterday, the windows were finally installed. We had the holes cut out months ago, and since then, the place has been pretty dark. Now we finally have light! It actually makes an immense difference, things are finally starting to look a bit more like the result we had in mind.
-&lt;/p&gt;
-&lt;p&gt;
-	Work-wise, I worked on some backend stuff for our workshop app, did the bookkeeping (we do this using &lt;a href=&quot;https://www.ledger-cli.org&quot;&gt;ledger&lt;/a&gt;) and chatted with a bunch of people. Next week we’ll finally start writing again, really looking forward to that.
-&lt;/p&gt;
-			</description>
-			<pubDate>Fri, 17 Feb 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-07</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-07</guid>
 		</item>
 	</channel>
 </rss>
