@@ -8,6 +8,23 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 26</title>
+			<description>
+				&lt;p&gt;
+	We were busy last week getting the layout chapter out, which is probably the chapter I’m most proud of. There’s still a lot more we could say about SwiftUI’s layout behavior, but I think it’s long enough already. We put a lot of effort into the explanations, I especially like the alignment explanations. We also prepared and recorded two more episodes.
+&lt;/p&gt;
+&lt;p&gt;
+	I started working on my talk for the upcoming &lt;a href=&quot;https://www.swiftconf.to&quot;&gt;Swift TO&lt;/a&gt; conference. Really looking forward to that. I made a little presentation helper for SwiftUI so I can use that to give my presentation.
+&lt;/p&gt;
+&lt;p&gt;
+	At home, I dug up most of the front garden. There were all kinds of weeds, large stones, large metal rods and other stuff. It feels like the previous owners haven’t really maintained it during the last few years, so we wanted a clean start.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 03 Jul 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-26</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-26</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 25</title>
 			<description>
 				&lt;p&gt;
@@ -597,41 +614,6 @@
 			<pubDate>Fri, 03 Mar 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/simpler-swift-apis</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/simpler-swift-apis</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 8</title>
-			<description>
-				&lt;p&gt;
-	This week we mostly spent on writing the update of &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt;. I think by now we rewrote every chapter from scratch, and also added a new chapter about view trees. The ideas are still the same, but due to us diving deeper and definitely due to all the workshops we’ve hosted our explanations have gotten way better.
-&lt;/p&gt;
-&lt;p&gt;
-	Over the weekend, I succesfully made bagels again (I think I now finally have found a way for me that produces consistent good results). I did burn my thumb, though.
-&lt;/p&gt;
-&lt;p&gt;
-	I moved a bunch of the heaviest stuff I own (e.g. my table saw) to the basement of our new house, where I’ll be temporarily setting up my small workshop. I renovated the basement myself (as it wasn’t super important that it got done quickly or with a high quality). It feels quite nice to finally put at least one room to use.
-&lt;/p&gt;
-&lt;p&gt;
-	The first two days of the week I helped out quite a bit around the new house to get everything prepared, because on Wednesday the plasterers started. This meant helping out moving cables out of the way (above the ceiling panels), cleaning, moving everything out of their way, and so on. They will be plastering everything with a thick layer of clay (Lehm/loam). This material works well with the radiant wall heating and has a lot of nice properties – among other things, it regulates humidity and absorbs a bunch of unwanted particles. Let’s see how that turns out once we live there!
-&lt;/p&gt;
-&lt;p&gt;
-	For the book, we worked mostly on the state and advanced layout chapters. I wrote a flow layout example in many different ways: once using the &lt;code&gt;Layout&lt;/code&gt; protocol and once using &lt;code&gt;ZStack&lt;/code&gt; and preferences. I then added alignment (both vertically within a single line as well as the horizontal alignment of the lines). I tried at least four different ways to implement the algorithm, and I’m still not completely sure what the simplest implementation is (they all have different qualities). We also started writing the environment chapter, as we already have written all the other chapters (although none are quite finished yet).
-&lt;/p&gt;
-&lt;p&gt;
-	I love writing in VIM (or Spacemacs), but we started a few drafts in Dropbox Paper. To our own surprise, this worked really well for us. In fact, we’re still using it now that the chapters are almost done. It combines a very minimal UI (with features similar to Markdown) with change tracking and commenting. There’s no messing around with embedding images, you simply drag them into the document and you’re done. Later, once we are done writing, we’ll use the &lt;a href=&quot;https://talk.objc.io/episodes/S01E342-attributed-string-builder-part-6&quot;&gt;attributed string builder&lt;/a&gt; library to render this all into a nice PDF.
-&lt;/p&gt;
-&lt;p&gt;
-	When I went to get my bike repaired, the owner of the repair shop mentioned he wouldn’t be in the day after because he needed to attend a seminar the next day. Asking more about this, it turns out that it was about electric bikes, automatic firmware updates, and so on. I’m a little scared for that future. I just want to ride my bike, I really, really don’t want it bricked because of a software update of sorts.
-&lt;/p&gt;
-&lt;p&gt;
-	One other thing I had to think about this week is how most software has become very complex. I read &lt;a href=&quot;https://jvns.ca/blog/2023/02/16/writing-javascript-without-a-build-system/&quot;&gt;a post by Julia Evans&lt;/a&gt; about build systems, and I feel the same way. While we do use a build system for most projects (either Xcode projects or SPM) I’m very hesitant to depend on many libraries, because coming back to a project a few years later will inevitably be painful as the dependencies have changed. Complexity isn’t just in the build system — in our workshops, I often notice that people don’t grasp essential parts of Swift (value types, generics, and so on). The language has become so big that it’s hard to really understand, even if you work with it every single day.
-&lt;/p&gt;
-&lt;p&gt;
-	In general, I wonder if at some point people will be so fed up with that complexity that there will be a trend back to simpler languages or ways of doing things. Or maybe something like &lt;a href=&quot;https://www.unison-lang.org&quot;&gt;Unison&lt;/a&gt; will catch on.
-&lt;/p&gt;
-			</description>
-			<pubDate>Fri, 24 Feb 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-08</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-08</guid>
 		</item>
 	</channel>
 </rss>
