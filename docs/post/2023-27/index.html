@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 27 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 27 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2023-27/og-image-f181.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 27
+							</h1>
+							<h2 class="headline">
+								Keyframe Animations
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								We spent most of last week getting the animation chapter ready for our Thinking in SwiftUI prerelease. Of all the chapters in our book this had the most additions for iOS 17. Phase animations, keyframe animations, completion handlers, custom animation curves, new transition APIs and custom keys for transactions.
+							</p>
+							<p>
+								Most of these APIs work as expected, but it took us a while longer to understand keyframes (especially since they still have some bugs that will hopefully be fixed soon). However, once we did figure them it turned out that they are pretty simple: they just animate a single (often compound) value over time, in a system that’s completely separate from regular SwiftUI animations. To understand it better, we also spent a day reimplementing the keyframe API. While our implementation doesn’t do cubic keyframes (arguably the most important keyframes) and doesn’t have the builder syntax, it really helped us understand how keyframe animations work.
+							</p>
+							<p>
+								In the house, I spent some time plastering defects in our wall. These happened during the final construction phase. The problem with loam (clay) walls is that they are a little less robust, on the other hand, the advantage is that they’re very easy to repair.
+							</p>
+							<p>
+								Running-wise, I’ve done some consistent high mileage, and am now ready to move to the next phase of marathon preparation: adding in some more speedwork. Doing a lot of slow running has been fun and I feel I have gotten fitter, now it’s time to get a bit faster as well.
+							</p>
+							<p>
+								I think it will always remain a bit of a challenge to be a Dutch person in Germany. It’s often the little things, for example, I just don’t use the car that often. When I walk to day care with my daughter, people often seem to feel sorry about that and offer a ride. Likewise, I have the feeling many drivers don’t really understand what it’s like to be a pedestrian or cyclist, creating dangerous situations (I’m pretty sure most of them don’t do it on purpose). I don’t really see any way to change this, and at the same time, I refuse to give up walking and cycling because of this.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Jul 10, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-26">Weeknotes № 26
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
