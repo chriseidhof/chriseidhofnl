@@ -8,6 +8,29 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 28</title>
+			<description>
+				&lt;p&gt;
+	Last week we put the finishing touches to the animation chapter, and recorded a bunch of episodes to cover the summer break. I worked a bit on my talk as well.
+&lt;/p&gt;
+&lt;p&gt;
+	For our keyframe reimplementation, we also wanted to have cubic bezier timing curves. This was interesting to implement: sampling a cubic bezier curve is actually really simple, I was basically able to take &lt;a href=&quot;https://en.wikipedia.org/wiki/Bézier_curve#Cubic_Bézier_curves&quot;&gt;Wikipedia’s algorithm&lt;/a&gt; and just write it down in Swift. The algorithm is a function from &lt;code&gt;t&lt;/code&gt; to a point (you can actually use &lt;code&gt;VectorArithmetic&lt;/code&gt; instead of a point, which I did). After plotting everything, I realized that the &lt;code&gt;t&lt;/code&gt; isn’t used as the time value. Instead, if you use a &lt;code&gt;CGPoint&lt;/code&gt;, the &lt;code&gt;x&lt;/code&gt; value is the time, and the &lt;code&gt;y&lt;/code&gt; value the progress. in other words, the &lt;code&gt;t&lt;/code&gt; is used to sample the result, but not as the time or value.
+&lt;/p&gt;
+&lt;p&gt;
+	This makes a lot of sense, but took me a while to figure out. To provide an efficient implementation, we need to then first find a &lt;code&gt;t&lt;/code&gt; for a given time (in other words, find &lt;code&gt;t&lt;/code&gt; for &lt;code&gt;x&lt;/code&gt;). There seem to be a number of efficient ways to do this &lt;a href=&quot;https://github.com/gre/bezier-easing/tree/master&quot;&gt;this&lt;/a&gt; and &lt;a href=&quot;https://github.com/WebKit/WebKit/blob/main/Source/WebCore/platform/graphics/UnitBezier.h&quot;&gt;this&lt;/a&gt; seems to be helpful. Once we have the correct &lt;code&gt;t&lt;/code&gt; we can get &lt;code&gt;y&lt;/code&gt; as well.
+&lt;/p&gt;
+&lt;p&gt;
+	When you have multiple cubic bezier keyframes after each other, the implementation uses Catmull-Rom to interpolate between the keyframes. I also managed to implement this (on top of quadratic bezier curves), getting the exact same timing curve. Hopefully we can get this to Swift Talk sometime soon!
+&lt;/p&gt;
+&lt;p&gt;
+	The summer holiday has started here, we had family visiting and will be going on a trip of our own. So next week there almost certainly won’t be any weeknotes.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 17 Jul 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-28</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-28</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 27</title>
 			<description>
 				&lt;p&gt;
@@ -549,29 +572,6 @@
 			<pubDate>Fri, 10 Mar 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-10</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-10</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 9</title>
-			<description>
-				&lt;p&gt;
-	This week we continued writing our book. I wrote the first draft of the last chapter that wasn’t written yet (Environment). We both spent a lot of time editing and finetuning the other chapters. I think the animations chapter and the section on alignment will be extremely helpful.
-&lt;/p&gt;
-&lt;p&gt;
-	Together with &lt;a href=&quot;https://www.juulspee.nl&quot;&gt;Juul&lt;/a&gt; we added a bunch of new features to the workshop app, which included changing three applications: the Mac app that the attendees use, the instructor app and the server (written in Swift). To provide a unified API to all three I used the technique described in the &lt;a href=&quot;http://chris.eidhof.nl/post/simpler-swift-apis/&quot;&gt;previous post&lt;/a&gt;. I also tried to look into distributed actors, as they seem to solve exactly this problem, but I couldn’t wrap my head around them (and how to use them for my client/server purposes) in a single morning.
-&lt;/p&gt;
-&lt;p&gt;
-	I went through a big fight with libpq (or actually, with Swift Package Manager trying to understand that the package is installed on my machine). I really dread fixing these kinds of errors (the package is there, but for some reason SPM can’t see it). In the end I came up with a hack to make it work on my machine (it worked fine in Docker). In the future, I’d really like to replace our postgres dependency with sqlite, compiled in using the &lt;a href=&quot;https://www.sqlite.org/amalgamation.html&quot;&gt;amalgamation&lt;/a&gt;. That way, it’s almost impossible for that dependency to break. Also, it’ll allow us to upload a single binary to our server (containing everything).
-&lt;/p&gt;
-&lt;p&gt;
-	We recorded a bunch of new episodes in our backend series, should be a lot of fun to watch.
-&lt;/p&gt;
-&lt;p&gt;
-	At the new home, plastering is going well (even though we had to stop for a day due to low temperatures). We also had some trees felled — one neighbor was very happy about that and another neighbor went full-on passive-aggresive on me. Oh well. We’re now pretty sure we’ll have to move out of our rental house before we’ll be able to move into the new house. Should be interesting…
-&lt;/p&gt;
-			</description>
-			<pubDate>Fri, 03 Mar 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-09</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-09</guid>
 		</item>
 	</channel>
 </rss>

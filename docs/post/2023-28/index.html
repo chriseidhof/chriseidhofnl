@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 28 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 28 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2023-28/og-image-0160.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 28
+							</h1>
+							<h2 class="headline">
+								Bezier Curves
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								Last week we put the finishing touches to the animation chapter, and recorded a bunch of episodes to cover the summer break. I worked a bit on my talk as well.
+							</p>
+							<p>
+								For our keyframe reimplementation, we also wanted to have cubic bezier timing curves. This was interesting to implement: sampling a cubic bezier curve is actually really simple, I was basically able to take <a href="https://en.wikipedia.org/wiki/Bézier_curve#Cubic_Bézier_curves">Wikipedia’s algorithm</a> and just write it down in Swift. The algorithm is a function from <code>t</code> to a point (you can actually use <code>VectorArithmetic</code> instead of a point, which I did). After plotting everything, I realized that the <code>t</code> isn’t used as the time value. Instead, if you use a <code>CGPoint</code>, the <code>x</code> value is the time, and the <code>y</code> value the progress. in other words, the <code>t</code> is used to sample the result, but not as the time or value.
+							</p>
+							<p>
+								This makes a lot of sense, but took me a while to figure out. To provide an efficient implementation, we need to then first find a <code>t</code> for a given time (in other words, find <code>t</code> for <code>x</code>). There seem to be a number of efficient ways to do this <a href="https://github.com/gre/bezier-easing/tree/master">this</a> and <a href="https://github.com/WebKit/WebKit/blob/main/Source/WebCore/platform/graphics/UnitBezier.h">this</a> seems to be helpful. Once we have the correct <code>t</code> we can get <code>y</code> as well.
+							</p>
+							<p>
+								When you have multiple cubic bezier keyframes after each other, the implementation uses Catmull-Rom to interpolate between the keyframes. I also managed to implement this (on top of quadratic bezier curves), getting the exact same timing curve. Hopefully we can get this to Swift Talk sometime soon!
+							</p>
+							<p>
+								The summer holiday has started here, we had family visiting and will be going on a trip of our own. So next week there almost certainly won’t be any weeknotes.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Jul 17, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-27">Weeknotes № 27
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
