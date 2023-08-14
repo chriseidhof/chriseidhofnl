@@ -2,7 +2,8 @@ import Foundation
 import SwiftUI
 
 let logo: Image = {
-    let img = NSImage(contentsOf: .homeDirectory.appending(path: "Sites/chriseidhofnl/Sources/Chris/Share Images/logo.pdf"))!
+    let url = Bundle.module.url(forResource: "logo", withExtension: "pdf")!
+    let img = NSImage(contentsOf: url)!
     return Image(nsImage: img)
 }()
 

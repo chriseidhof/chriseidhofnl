@@ -52,7 +52,7 @@ let package = Package(
                 .product(name: "SwiftSyntaxParser", package: "SwiftSyntax"),
             ],
             resources: [
-                .copy("Share Images/logo.pdf"),
+                .process("Resources"),
             ]
         ),
         .testTarget(

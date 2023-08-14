@@ -8,6 +8,51 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 29-32</title>
+			<description>
+				&lt;p&gt;
+	The last weeks we’ve mostly enjoyed our holiday (visiting the Baltic sea), spent time in the garden, and generally took it easy.
+&lt;/p&gt;
+&lt;p&gt;
+	I finished the keyframe implementation, I think it’s almost the same as the native implementation but it works on older platforms. It’s not efficient and the code isn’t very pretty yet. While I don’t worry too much about efficiency, I would like to clean up the code before putting it out.
+&lt;/p&gt;
+&lt;p&gt;
+	I’ve worked pretty hard on preparing the presentation that I gave last week at &lt;a href=&quot;http://swiftconf.to&quot;&gt;Swift TO&lt;/a&gt; and will give this week at &lt;a href=&quot;http://iosoho/events/295354940/&quot;&gt;iOSoho&lt;/a&gt;. There are almost 150 slides (build steps) for 30 minutes of talking (not including some of the hand-controlled animations). I don’t think I’ve ever had that many slides, and I don’t think it was too much.
+&lt;/p&gt;
+&lt;p&gt;
+	I created the presentation using SwiftUI. This was both scary (what if it breaks on stage?) as well as really fun and productive. I was able to use all the builtin views and drawing, and a lot more nerdy stuff:
+&lt;/p&gt;
+&lt;p&gt;
+	The presentation is a custom Mac app with two windows: one presenter window that I control and see, and a second presentation window that displays full-screen on the projector. Almost everything in the presentation is fake, to make things controllable and reliable. The simulator, the animated mouse clicks, the buttons, and the network loading.
+&lt;/p&gt;
+&lt;p&gt;
+	I reused our (internal) diagrams library to draw and animate all kinds of tree diagrams. I used &lt;a href=&quot;https://movingparts.io/pow&quot;&gt;Pow&lt;/a&gt; for some of the animated effects. Not just transitions, but also shimmer effects in the tree diagrams to highlight specific features. I used the &lt;a href=&quot;https://talk.objc.io/episodes/S01E326-iphone-simulator-chrome-part-2&quot;&gt;iPhone simulator chrome&lt;/a&gt; to draw my views as if they were running in the simulator.
+&lt;/p&gt;
+&lt;p&gt;
+	I dug up my old Logitech clicker, which works as if it were an external keyboard. I handled the keyboard events in SwiftUI, not only to move between slides but also to toggle specific features and trigger some animations.
+&lt;/p&gt;
+&lt;p&gt;
+	I couldn’t get all the animations to work exactly the way I wanted to. Specifically the tree diagrams have some broken animations. I think this is due to the vertices being rendered through preferences. Likewise, I wanted to add a few more custom animations that I just didn’t have the time to implement. However, for upcoming presentations I should be able to take what I have and improve upon this, slowly working my way towards the perfect presentation.
+&lt;/p&gt;
+&lt;p&gt;
+	Because anything can go wrong, I also spent a day implementing PDF export. This gave me a backup for when things fail as well as readable slides for other people. On recent versions of macOS, it’s now very easy to export SwiftUI views as vector PDFs. Some native views (e.g. &lt;code&gt;ProgressView&lt;/code&gt;) render as red circles with a line through them, but I could quickly work my way around that.
+&lt;/p&gt;
+&lt;p&gt;
+	Of course, I did all of this work after I had the story and outline for my presentation done. I knew what I wanted to say, how much time I had left to prepare and made the decision to bite the bullet and use SwiftUI. It was &lt;em&gt;way&lt;/em&gt;
+	 more work than doing a live-coding presentation or creating slides in Keynote, but I did enjoy it.
+&lt;/p&gt;
+&lt;p&gt;
+	I’ve gotten some great feedback on the presentation. There were even people fixing bugs in their codebase the same day, which is always very rewarding. My goal was to help people understand my mental model of SwiftUI, and from talking to the attendees, I think I have achieved that.
+&lt;/p&gt;
+&lt;p&gt;
+	I’m not sure whether the presentation video will be available publicly, but I’ll post the annotated slides here soon.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 14 Aug 2023 00:00:00 -0400</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-32</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-32</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 28</title>
 			<description>
 				&lt;p&gt;
@@ -26,7 +71,7 @@
 	The summer holiday has started here, we had family visiting and will be going on a trip of our own. So next week there almost certainly won’t be any weeknotes.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 17 Jul 2023 00:00:00 +0200</pubDate>
+			<pubDate>Mon, 17 Jul 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-28</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-28</guid>
 		</item>
@@ -49,7 +94,7 @@
 	I think it will always remain a bit of a challenge to be a Dutch person in Germany. It’s often the little things, for example, I just don’t use the car that often. When I walk to day care with my daughter, people often seem to feel sorry about that and offer a ride. Likewise, I have the feeling many drivers don’t really understand what it’s like to be a pedestrian or cyclist, creating dangerous situations (I’m pretty sure most of them don’t do it on purpose). I don’t really see any way to change this, and at the same time, I refuse to give up walking and cycling because of this.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 10 Jul 2023 00:00:00 +0200</pubDate>
+			<pubDate>Mon, 10 Jul 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-27</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-27</guid>
 		</item>
@@ -66,7 +111,7 @@
 	At home, I dug up most of the front garden. There were all kinds of weeds, large stones, large metal rods and other stuff. It feels like the previous owners haven’t really maintained it during the last few years, so we wanted a clean start.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 03 Jul 2023 00:00:00 +0200</pubDate>
+			<pubDate>Mon, 03 Jul 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-26</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-26</guid>
 		</item>
@@ -86,7 +131,7 @@
 	In the garden things are growing well. We’re starting to see some tomatoes appear, have strawberries and raspberries, and the cucumber is now producing really well too. The edamame plants I sowed are also still alive. I’ve never grown edamame before, so it’s definitely an experiment that can fail.
 &lt;/p&gt;
 			</description>
-			<pubDate>Sun, 25 Jun 2023 00:00:00 +0200</pubDate>
+			<pubDate>Sun, 25 Jun 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-25</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-25</guid>
 		</item>
@@ -106,7 +151,7 @@
 	I’m thinking of structuring my upcoming training similar to &lt;a href=&quot;https://www.howtoskate.se&quot;&gt;Nils van der Poel&lt;/a&gt;. Although his event is quite different (a speed-skating 10k lasts less 13 minutes whereas a fast marathon lasts almost three hours). I wonder if I should do even more aerobic training and less threshold than he describes.
 &lt;/p&gt;
 			</description>
-			<pubDate>Sun, 18 Jun 2023 00:00:00 +0200</pubDate>
+			<pubDate>Sun, 18 Jun 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-24</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-24</guid>
 		</item>
@@ -130,7 +175,7 @@
 	The weather has been amazing here and I went swimming in the lake with the kids almost every single day, which has been really fun for all of us.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 12 Jun 2023 00:00:00 +0200</pubDate>
+			<pubDate>Mon, 12 Jun 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-23</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-23</guid>
 		</item>
@@ -150,7 +195,7 @@
 	I picked up my running a bit over the last weeks. I finally feel like I have energy for that again (was heavily blocked by the move). I’m slow compared to last year, but only focusing on building out my endurance. I can maintain last year’s marathon pace maybe for one or two kilometers. However, I’m trying to keep a &lt;a href=&quot;https://fs.blog/carol-dweck-mindset/&quot;&gt;growth mindset&lt;/a&gt; and improve every day. The weather has been really nice here, and it’s been amazing to dip in the lake after a run. Also, we finally moved into our actual bedrooms. The flooring was only finished on Friday so we had to improvise a bit until then.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 05 Jun 2023 00:00:00 +0200</pubDate>
+			<pubDate>Mon, 05 Jun 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-22</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-22</guid>
 		</item>
@@ -171,7 +216,7 @@
 	Now that we moved in, I can really tell the difference in energy levels, especially when running. In hindsight, it kind of felt like I could only perform at 60% of my normal capacity (in life and in running). Now, I feel like I can do proper training again, even though I’m much slower than a year ago. But with time and patience I think I can get back towards running some good times again.
 &lt;/p&gt;
 			</description>
-			<pubDate>Sun, 28 May 2023 00:00:00 +0200</pubDate>
+			<pubDate>Sun, 28 May 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-21</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-21</guid>
 		</item>
@@ -191,7 +236,7 @@
 	I went for my first swim in the lake that’s across the street. Pretty cold, but really nice. In other water-related news, I also did a whole bunch of stuff in the garden, and I started the plumbing for our garden. I put all the lines above ground for now, to make sure there are no leaks and because we plan to build a terrace anyway.
 &lt;/p&gt;
 			</description>
-			<pubDate>Sun, 21 May 2023 00:00:00 +0200</pubDate>
+			<pubDate>Sun, 21 May 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-20</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-20</guid>
 		</item>
@@ -212,7 +257,7 @@
 	Most of our kitchen arrived, which definitely helps in making the new house liveable. The main thing missing is the fridge, which is challenging but fine (we have a small portable cooler that holds the essentials for a family of four). Hopefully the fridge gets here soon.
 &lt;/p&gt;
 			</description>
-			<pubDate>Sun, 14 May 2023 00:00:00 +0200</pubDate>
+			<pubDate>Sun, 14 May 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-19</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-19</guid>
 		</item>
@@ -226,7 +271,7 @@
 	We also finally moved into our new house! It’s not finished yet, so we had to already move between the two floors twice, but by next week we’ll (hopefully) have a finished kitchen, finished bathrooms and a ground floor that’s completely done.
 &lt;/p&gt;
 			</description>
-			<pubDate>Sun, 07 May 2023 00:00:00 +0200</pubDate>
+			<pubDate>Sun, 07 May 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-18</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-18</guid>
 		</item>
@@ -290,7 +335,7 @@
 	We spent a lot of time with the family while over in The Netherlands, and for the first time in half a year, I ran more than 100kms this week. I’m looking forward to build that mileage out again.
 &lt;/p&gt;
 			</description>
-			<pubDate>Sun, 30 Apr 2023 00:00:00 +0200</pubDate>
+			<pubDate>Sun, 30 Apr 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-17</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-17</guid>
 		</item>
@@ -313,7 +358,7 @@
 	We left our temporary holiday home and went on a trip to visit our family in The Netherlands. When we get back, we’ll officialy and finally move into (the ground floor of) the new house. Very exciting!
 &lt;/p&gt;
 			</description>
-			<pubDate>Sun, 23 Apr 2023 00:00:00 +0200</pubDate>
+			<pubDate>Sun, 23 Apr 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-16</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-16</guid>
 		</item>
@@ -348,7 +393,7 @@
 	The painter spent last week painting the house, I helped with a bunch of preparation and final details. Next week we’ll get the flooring done on the ground floor, and in a few more weeks we’ll finally move in!
 &lt;/p&gt;
 			</description>
-			<pubDate>Sun, 16 Apr 2023 00:00:00 +0200</pubDate>
+			<pubDate>Sun, 16 Apr 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-15</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-15</guid>
 		</item>
@@ -371,7 +416,7 @@
 	We spent a few days in and around our new house, cleaning things, building more raised beds, and so on. It feels pretty great to do that now that spring is really starting.
 &lt;/p&gt;
 			</description>
-			<pubDate>Sun, 09 Apr 2023 00:00:00 +0200</pubDate>
+			<pubDate>Sun, 09 Apr 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-14</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-14</guid>
 		</item>
@@ -458,7 +503,7 @@
 	(Of course, the above animation could be done in a much simpler way by removing the if/else, but I wanted to work with a minimal example that uses matched geometry effect.)
 &lt;/p&gt;
 			</description>
-			<pubDate>Tue, 04 Apr 2023 00:00:00 +0200</pubDate>
+			<pubDate>Tue, 04 Apr 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/matched-geometry-effect</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/matched-geometry-effect</guid>
 		</item>
@@ -491,7 +536,7 @@
 	I’ve experimented with ChatGPT to do generate sample data (for our workshops), and it was great at that, even providing JSON data and matching Swift structs that conform to &lt;code&gt;Codable&lt;/code&gt;. I tried using it to generate some algorithms that I know (e.g. a flow layout) but I’m not quite comfortable giving that part up (even though it did do a pretty good job). It also is useful for generating ideas. For example, I let it generate ten or twenty ideas for marketing our new book. Much of it isn’t stuff I couldn’t think of myself, but there were one or two things that I could definitely use. I don’t personally feel like letting it do things that feel important to me – most of programming, writing, and other forms of communication.
 &lt;/p&gt;
 			</description>
-			<pubDate>Sun, 02 Apr 2023 00:00:00 +0200</pubDate>
+			<pubDate>Sun, 02 Apr 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-13</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-13</guid>
 		</item>
@@ -511,7 +556,7 @@
 	Over at the house, the plasterers finished, the painter came over for an afternoon to try out the paint, and the tilers started on the upstairs bathroom. Things are looking way more finished, even though it’s still quite a ways to go. I had moved a whole bunch of stuff already, and yesterday we had our family help us move almost everything else. We do still have the bare essentials over at the old place, and we’ll move that on our last day here (next week!). Before moving in, we’ll stay in a holiday home for a few weeks while everything is getting finished.
 &lt;/p&gt;
 			</description>
-			<pubDate>Sun, 26 Mar 2023 00:00:00 +0100</pubDate>
+			<pubDate>Sun, 26 Mar 2023 00:00:00 -0400</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-12</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-12</guid>
 		</item>
@@ -543,35 +588,9 @@
 	I also experimented a bit more with ChatGPT and see if I can use it in my daily workflow (essentially treating it as a fast, “dumb” assistant). I’ve previously used it to generate sample data for a workshop (sample JSON including a Codable struct), and it worked really well for that. This week I had it generate a pretty-printed version of &lt;code&gt;CGSize&lt;/code&gt;, &lt;code&gt;CGPoint&lt;/code&gt; and &lt;code&gt;CGRect&lt;/code&gt;. I would have typed it faster myself, but I want to get into the habit of experimenting with it to automate boring bits. Essentially, I have no trust in the correctness of its output, so for me, the key is using it in places where correctness can either be verified very easily (a pretty printer) or where correctness isn’t a factor (sample data for displaying a list of shopping items).
 &lt;/p&gt;
 			</description>
-			<pubDate>Sat, 11 Mar 2023 00:00:00 +0100</pubDate>
+			<pubDate>Sat, 11 Mar 2023 00:00:00 -0500</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-11</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-11</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 10</title>
-			<description>
-				&lt;p&gt;
-	This week we tried to  “ship” a bunch of Thinking in SwiftUI chapters to &lt;a href=&quot;https://oleb.net&quot;&gt;Ole&lt;/a&gt;, who’s doing the technical review. We managed to get the chapters on view layout, view trees and environment over to him. We went through all of these chapters once again, and also added a bunch of diagrams.
-&lt;/p&gt;
-&lt;p&gt;
-	I wanted to get the State chapter ready as well, but reading through it I felt that we could do better. So we went back, added some more explanations and some diagrams. &lt;a href=&quot;https://m.objc.io/@chris/110000399994383042&quot;&gt;Here’s a sample&lt;/a&gt; of what the state diagrams could look like (this is a first version).
-&lt;/p&gt;
-&lt;p&gt;
-	I had some nice quality time with my oldest daughter this week. Among other things, we built a small kid-sized picknick table together out of scrap wood, which we both really enjoyed.
-&lt;/p&gt;
-&lt;p&gt;
-	At the new house, I moved over a whole bunch of stuff (to the basement). We had three trees cut down a few weeks back, and the logs were massive and had been laying around in the garden because I couldn’t move them alone. We turned them into smaller chunks using the chainsaw and I then split them using a wedge and a large sledge hammer. This was quite fun (hard physical work outside) but also pretty exhausting.
-&lt;/p&gt;
-&lt;p&gt;
-	The plasterers are pretty far now with the loam plastering. It’s turning out really nice, but the big issue is that it takes multiple weeks (at the least) to dry. As we’ll have to move out of our existing house within a few weeks, this isn’t ideal. So we found a small temporary place where we can hopefully live for a month or so as the final finishing steps happen (painting and flooring).
-&lt;/p&gt;
-&lt;p&gt;
-	As an experiment, I tried implementing a pure Git library in Swift, using some of the ideas from &lt;a href=&quot;https://wyag.thb.lt&quot;&gt;Write yourself a Git&lt;/a&gt;. It went quite well, I managed to read trees, blobs and commits. The core of Git is extremely simple (honestly), and I think building a few commands on top of this small library (such as committing, or maybe even merging) will be a very interesting learning experience.
-&lt;/p&gt;
-			</description>
-			<pubDate>Fri, 10 Mar 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-10</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-10</guid>
 		</item>
 	</channel>
 </rss>

@@ -1,0 +1,90 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 29-32 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 29-32 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2023-32/og-image-88c0.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 29-32
+							</h1>
+							<h2 class="headline">
+								SwiftUI Presentations
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								The last weeks we’ve mostly enjoyed our holiday (visiting the Baltic sea), spent time in the garden, and generally took it easy.
+							</p>
+							<p>
+								I finished the keyframe implementation, I think it’s almost the same as the native implementation but it works on older platforms. It’s not efficient and the code isn’t very pretty yet. While I don’t worry too much about efficiency, I would like to clean up the code before putting it out.
+							</p>
+							<p>
+								I’ve worked pretty hard on preparing the presentation that I gave last week at <a href="http://swiftconf.to">Swift TO</a> and will give this week at <a href="http://iosoho/events/295354940/">iOSoho</a>. There are almost 150 slides (build steps) for 30 minutes of talking (not including some of the hand-controlled animations). I don’t think I’ve ever had that many slides, and I don’t think it was too much.
+							</p>
+							<p>
+								I created the presentation using SwiftUI. This was both scary (what if it breaks on stage?) as well as really fun and productive. I was able to use all the builtin views and drawing, and a lot more nerdy stuff:
+							</p>
+							<p>
+								The presentation is a custom Mac app with two windows: one presenter window that I control and see, and a second presentation window that displays full-screen on the projector. Almost everything in the presentation is fake, to make things controllable and reliable. The simulator, the animated mouse clicks, the buttons, and the network loading.
+							</p>
+							<p>
+								I reused our (internal) diagrams library to draw and animate all kinds of tree diagrams. I used <a href="https://movingparts.io/pow">Pow</a> for some of the animated effects. Not just transitions, but also shimmer effects in the tree diagrams to highlight specific features. I used the <a href="https://talk.objc.io/episodes/S01E326-iphone-simulator-chrome-part-2">iPhone simulator chrome</a> to draw my views as if they were running in the simulator.
+							</p>
+							<p>
+								I dug up my old Logitech clicker, which works as if it were an external keyboard. I handled the keyboard events in SwiftUI, not only to move between slides but also to toggle specific features and trigger some animations.
+							</p>
+							<p>
+								I couldn’t get all the animations to work exactly the way I wanted to. Specifically the tree diagrams have some broken animations. I think this is due to the vertices being rendered through preferences. Likewise, I wanted to add a few more custom animations that I just didn’t have the time to implement. However, for upcoming presentations I should be able to take what I have and improve upon this, slowly working my way towards the perfect presentation.
+							</p>
+							<p>
+								Because anything can go wrong, I also spent a day implementing PDF export. This gave me a backup for when things fail as well as readable slides for other people. On recent versions of macOS, it’s now very easy to export SwiftUI views as vector PDFs. Some native views (e.g. <code>ProgressView</code>) render as red circles with a line through them, but I could quickly work my way around that.
+							</p>
+							<p>
+								Of course, I did all of this work after I had the story and outline for my presentation done. I knew what I wanted to say, how much time I had left to prepare and made the decision to bite the bullet and use SwiftUI. It was <em>way</em>
+								 more work than doing a live-coding presentation or creating slides in Keynote, but I did enjoy it.
+							</p>
+							<p>
+								I’ve gotten some great feedback on the presentation. There were even people fixing bugs in their codebase the same day, which is always very rewarding. My goal was to help people understand my mental model of SwiftUI, and from talking to the attendees, I think I have achieved that.
+							</p>
+							<p>
+								I’m not sure whether the presentation video will be available publicly, but I’ll post the annotated slides here soon.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Aug 14, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-28">Weeknotes № 28
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

@@ -21,6 +21,7 @@ struct Site: Rule {
         Copy("movies")
         Copy(from: "well-known", to: ".well-known")
         Index()
+        Presentations()
         AboutMe().outputPath("about")
         Blog(posts: BlogPost.inContext())
         Snippets()
