@@ -8,6 +8,26 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 34</title>
+			<description>
+				&lt;p&gt;
+	Last week we prepared and recorded more episodes about our SwiftUI keyframe reimplementation effort. I also worked on getting closer to the Catmull-Rom version that SwiftUI has implemented, but I’m not quite there yet. It’s close enough to be unnoticable, but I always feel like pushing that extra bit to get 100% accurate is somehow worth it when trying to understand how things work.
+&lt;/p&gt;
+&lt;p&gt;
+	We replaced our old blender at home (it broke over a year ago), so I’ve been on a bit of a smoothie trip, making all kinds of combinations (spinach/banana/ginger is one of my favorites). I also finally made gazpacho again: almost everything (except for the stale bread) came directly from the garden. Absolutely delicious.
+&lt;/p&gt;
+&lt;p&gt;
+	Towards the end of the week we started integrating the iOS 17 chapter of Thinking in SwiftUI into the rest of the book. This was a bit more work than expected but we have the basic contents in. Now some parts don’t flow as nicely, so that’ll be our focus for this week.
+&lt;/p&gt;
+&lt;p&gt;
+	Yesterday I ran a 24km race again on quite difficult terrain. I wasn’t really sure how fit I am, but it turned to be much better than expected. I started off quickly and built up a gap to the guy behind me. I was afraid I overpaced myself doing that, and the gap stayed at roughly the same distance. Towards the end there was a short but steep climb where he got much closer, but I still had enough left to not let him pass.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 28 Aug 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-34</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-34</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 33</title>
 			<description>
 				&lt;p&gt;
@@ -556,26 +576,6 @@
 			<pubDate>Sun, 02 Apr 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-13</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-13</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 12</title>
-			<description>
-				&lt;p&gt;
-	Last weekend, we spent the entire sunny weekend around our new house, and with my 5-yo daughter we tackled a whole bunch of small projects: building some walls, sorting out wood, and building and planting our first raised bed.
-&lt;/p&gt;
-&lt;p&gt;
-	We recorded a few Swift Talk episodes on Monday, and afterwards (while in Berlin) I met up with a bunch of nice people. The episodes themselves are about using &lt;code&gt;Codable&lt;/code&gt; for routing. This is an interesting technique we actually prototyped a few years ago to get bidirectional conversion between an enum and a (String) route you’d use for a web server.
-&lt;/p&gt;
-&lt;p&gt;
-	We also continued polishing our book. I wrote a section about matched geometry effect which Florian promptly rewrote into something much clearer. I would like to also turn this into a blog post, hopefully soon.
-&lt;/p&gt;
-&lt;p&gt;
-	Over at the house, the plasterers finished, the painter came over for an afternoon to try out the paint, and the tilers started on the upstairs bathroom. Things are looking way more finished, even though it’s still quite a ways to go. I had moved a whole bunch of stuff already, and yesterday we had our family help us move almost everything else. We do still have the bare essentials over at the old place, and we’ll move that on our last day here (next week!). Before moving in, we’ll stay in a holiday home for a few weeks while everything is getting finished.
-&lt;/p&gt;
-			</description>
-			<pubDate>Sun, 26 Mar 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-12</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-12</guid>
 		</item>
 	</channel>
 </rss>
