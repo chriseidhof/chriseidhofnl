@@ -3,7 +3,7 @@ import HTML
 import StaticSite
 import Swim
 
-let safeArea = BlogPost(metadata: .init(headline: "SwiftUI Safe Area", title: "How To Visualize The Safe Area", date: "2023-08-30"), body: .pieces(myPostBody), link: "/post/visualize-swiftui-safe-area")
+let safeArea = BlogPost(metadata: .init(headline: nil, title: "How To Visualize The Safe Area", date: "2023-08-30"), body: .pieces(myPostBody), link: "/post/visualize-swiftui-safe-area")
 
 extension View {
     func visualizeSafeArea() -> some View {
