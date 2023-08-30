@@ -133,7 +133,7 @@
 	It’s interesting to play around with this helper, applying it at different points in the view hierarchy. It helped me gain a good understanding of how the safe area behaves and how to modify it for my own needs.
 &lt;/p&gt;
 &lt;p&gt;
-	As always, if you’re interested how SwiftUI works below the hood, check out our book &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt;.
+	As always, if you’re interested how SwiftUI works below the hood, check out our book &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt;. In fact, this post was inspired by &lt;a href=&quot;https://github.com/objcio/thinking-in-swiftui-qa/issues/19&quot;&gt;a question&lt;/a&gt; from Ayman that we answered in our &lt;a href=&quot;https://github.com/objcio/thinking-in-swiftui-qa&quot;&gt;weekly Q&amp;amp;A&lt;/a&gt;.
 &lt;/p&gt;
 			</description>
 			<pubDate>Wed, 30 Aug 2023 00:00:00 +0200</pubDate>

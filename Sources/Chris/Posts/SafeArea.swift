@@ -220,6 +220,6 @@ fileprivate var myPostBody: [any PostPiece] {
     Markdown("""
     It's interesting to play around with this helper, applying it at different points in the view hierarchy. It helped me gain a good understanding of how the safe area behaves and how to modify it for my own needs.
 
-    As always, if you're interested how SwiftUI works below the hood, check out our book [Thinking in SwiftUI](https://www.objc.io/books/thinking-in-swiftui/).
+    As always, if you're interested how SwiftUI works below the hood, check out our book [Thinking in SwiftUI](https://www.objc.io/books/thinking-in-swiftui/). In fact, this post was inspired by [a question](https://github.com/objcio/thinking-in-swiftui-qa/issues/19) from Ayman that we answered in our [weekly Q&A](https://github.com/objcio/thinking-in-swiftui-qa).
     """)
 }
