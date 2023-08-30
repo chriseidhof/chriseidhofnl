@@ -2,10 +2,15 @@ import SwiftUI
 
 @MainActor
 extension View {
-    public func render(size: ProposedViewSize, colorScheme: ColorScheme = .dark) -> Data {
+    public func render(size: ProposedViewSize, background: Bool = true, colorScheme: ColorScheme = .dark) -> Data {
         let view = self
             .padding()
-            .background(.background)
+            .background {
+                if background {
+                    Rectangle()
+                        .fill(.background)
+                }
+            }
             .colorScheme(colorScheme)
             .preferredColorScheme(colorScheme)
         let renderer = ImageRenderer(content: view)

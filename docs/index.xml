@@ -8,10 +8,143 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>How To Visualize The Safe Area</title>
+			<description>
+				&lt;p&gt;
+	When we draw a SwiftUI view on screen, it only fills the safe area by default. For example, here we can see a yellow rectangle that fills the safe area, but leaves white space at the top and bottom of the screen.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Rectangle()
+    .fill(Color.yellow)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/visualize-swiftui-safe-area/1-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/visualize-swiftui-safe-area/1.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	We can change this behavior by adding the &lt;code&gt;.edgesIgnoringSafeArea&lt;/code&gt; modifier:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Rectangle()
+    .fill(Color.yellow)
+    .edgesIgnoringSafeArea(.all)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/visualize-swiftui-safe-area/3-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/visualize-swiftui-safe-area/3.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	When the layout happens, the safe area insets are passed around to all the views that do layout. Whenever a border of a view marked with &lt;code&gt;edgesIgnoringSafeArea&lt;/code&gt; touches the edge of the safe area, it will extend itself. For example, in the following view, the yellow color extends to the top but not to the bottom, as expected:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;VStack {
+    Color.yellow
+        .edgesIgnoringSafeArea(.all)
+    Text(&amp;quot;Hello&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/visualize-swiftui-safe-area/5-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/visualize-swiftui-safe-area/5.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	We can also make the safe area smaller (increase the insets) using a number of different modifiers. The &lt;code&gt;safeAreaInset&lt;/code&gt; (available since iOS 15) allows us to add to the non-safe area. The yellow color will now respect the safe area, but can also use the &lt;code&gt;edgesIgnoringSafeArea&lt;/code&gt; modifier to display beyond the safe area.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;VStack {
+    Color.yellow
+    Text(&amp;quot;Hello&amp;quot;)
+}
+.safeAreaInset(edge: .leading) {
+    Color.clear.frame(width: 20)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/visualize-swiftui-safe-area/7-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/visualize-swiftui-safe-area/7.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	Insetting a view’s safe area with another view is not the same as placing the the views next to each other. For example, when we add a bottom safe area inset to a scroll view, the scroll view will draw itself behind that inset but also lets the user scroll so that all the content is visible:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;myScrollView
+    .safeAreaInset(edge: .bottom) {
+        Text(&amp;quot;This is my bottom view&amp;quot;)
+            .frame(height: 100)
+            .frame(maxWidth: .infinity)
+            .background(Material.regular)
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/visualize-swiftui-safe-area/9-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/visualize-swiftui-safe-area/9.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	One of the interesting things is that we can visualize the safe area using an overlay and a geometry reader. We can add &lt;code&gt;edgesIgnoringSafeArea&lt;/code&gt; to the geometry reader. Inside the geometry reader, we get access to the size of the safe area insets as well as the safe area size itself:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension View {
+    func visualizeSafeArea() -&amp;gt; some View {
+        overlay {
+            GeometryReader { proxy in
+                ZStack {
+                    VStack(spacing: 0) {
+                        Color.yellow
+                            .frame(height: proxy.safeAreaInsets.top)
+                        Color.clear
+                            .frame(height: proxy.size.height)
+                        Color.red
+                            .frame(height: proxy.safeAreaInsets.bottom)
+                    }
+                    HStack(spacing: 0) {
+                        Color.green
+                            .frame(width: proxy.safeAreaInsets.leading)
+                        Color.clear
+                            .frame(width: proxy.size.width)
+                        Color.blue
+                            .frame(width: proxy.safeAreaInsets.trailing)
+                    }
+                }
+                .opacity(0.5)
+                .edgesIgnoringSafeArea(.all)
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Using the helper above, we can now visualize the safe area insets for any view. For example, let’s consider a gray rectangle that fills the safe area. We can see the yellow indicating the top safe area insets and the red indicating the bottom safe area insets:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Rectangle()
+    .fill(Color.gray)
+    .visualizeSafeArea()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/visualize-swiftui-safe-area/11-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/visualize-swiftui-safe-area/11.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	It’s interesting to play around with this helper, applying it at different points in the view hierarchy. It helped me gain a good understanding of how the safe area behaves and how to modify it for my own needs.
+&lt;/p&gt;
+&lt;p&gt;
+	As always, if you’re interested how SwiftUI works below the hood, check out our book &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt;.
+&lt;/p&gt;
+			</description>
+			<pubDate>Wed, 30 Aug 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/visualize-swiftui-safe-area</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/visualize-swiftui-safe-area</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 34</title>
 			<description>
 				&lt;p&gt;
-	Last week we prepared and recorded more episodes about our SwiftUI keyframe reimplementation effort. I also worked on getting closer to the Catmull-Rom version that SwiftUI has implemented, but I’m not quite there yet. It’s close enough to be unnoticable, but I always feel like pushing that extra bit to get 100% accurate is somehow worth it when trying to understand how things work.
+	Last week we prepared and recorded &lt;a href=&quot;https://talk.objc.io/episodes/S01E369-cubic-bezier-keyframes-part-1&quot;&gt;more episodes&lt;/a&gt; about our SwiftUI keyframe reimplementation effort. I also worked on getting closer to the Catmull-Rom version that SwiftUI has implemented, but I’m not quite there yet. It’s close enough to be unnoticable, but I always feel like pushing that extra bit to get 100% accurate is somehow worth it when trying to understand how things work.
 &lt;/p&gt;
 &lt;p&gt;
 	We replaced our old blender at home (it broke over a year ago), so I’ve been on a bit of a smoothie trip, making all kinds of combinations (spinach/banana/ginger is one of my favorites). I also finally made gazpacho again: almost everything (except for the stale bread) came directly from the garden. Absolutely delicious.
@@ -543,39 +676,6 @@
 			<pubDate>Tue, 04 Apr 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/matched-geometry-effect</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/matched-geometry-effect</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 13</title>
-			<description>
-				&lt;p&gt;
-	We spent a lot of last week moving our stuff, culminating on Friday where we had to actually leave our old place. This was pretty stressful with two kids running around, and the oldest getting pretty sick at the beginning of the week. But we managed, all of our stuff is in the basement of the new place and we are in a furnished apartment for the next weeks.
-&lt;/p&gt;
-&lt;p&gt;
-	A lot of stuff got done: the tilers finished the upstairs bathroom and unexpectedly also finished the downstairs one, the electricity is mostly done, and the painter painted two more rooms. Now it’s a bit of a waiting game where little will happen next week, but hopefully everything should be finished somewhere around the end of this month.
-&lt;/p&gt;
-&lt;p&gt;
-	We also prepared and recorded a bunch of Swift Talk episodes in which we reimplemented SwiftUI’s anchors from “scratch” (only using preferences and geometry readers). Doing this gave us a lot of insight into how these actually work and their limitations. We reimplemented parts of SwiftUI many times (anchors, &lt;a href=&quot;https://talk.objc.io/episodes/S01E260-matched-geometry-effect-part-3&quot;&gt;matched geometry effect&lt;/a&gt;, the &lt;a href=&quot;https://talk.objc.io/collections/swiftui-layout-explained&quot;&gt;layout system&lt;/a&gt;, the &lt;a href=&quot;https://talk.objc.io/collections/swiftui-state-explained&quot;&gt;state system&lt;/a&gt;) and every time we learn a lot about how these things work. We also get feedback from other people that it helps them, which is always nice.
-&lt;/p&gt;
-&lt;p&gt;
-	I’ve been working on a pure Swift implementation of Git’s core data model recently, and can currently read out (simple) repositories and their objects (commits, trees, and blobs). On the train back from the studio I also managed to read out Packfiles. I’d like to add support for writing things as well as adding support for the index. At its core, git truly is simple and beautiful, even though I’m the first to admit that the interface has often confused me.
-&lt;/p&gt;
-&lt;p&gt;
-	We started preparing for another workshop sometime at the middle of this month, should be really fun. We’ve gotten into a really good flow where we know exactly what topics to cover, but can still create a completely custom workshop for the team we’re working with. One of the things I’m also pretty happy about is that we have a hard limit on team sizes (sixteen people max) so that we can really make it personal and spend a decent amount of time with all the individual attendees. Preparing and running the workshops is pretty stressful but also very rewarding.
-&lt;/p&gt;
-&lt;p&gt;
-	Another random thought that occupied me a bit is that my nationality never felt like a big part of my identity while I lived in the Netherlands, but does so now. Even when I emigrated to Berlin it was never a big deal – there were so many foreigners in my little bubble there that I hardly ever stood out. However, here on the countryside, it’s a different story. There are a lot of people that are from here and have never really been anywhere else. It feels like even Germans from other parts of Germany stand out, let alone foreigners like me. I don’t really mind, but it’s been an interesting observation.
-&lt;/p&gt;
-&lt;p&gt;
-	I’ve also been thinking about AI a bit recently (who hasn’t?). I don’t have a very strong opinion on the topic, I believe it’ll change our daily lives (especially for us computer people), but I don’t feel like anyone can really predict &lt;em&gt;how&lt;/em&gt;
-	 it’ll change things. I’m not sure whether it’ll be good or bad (probably both?). One of my favorite bloggers on the topic is &lt;a href=&quot;https://simonwillison.net&quot;&gt;Simon Willison&lt;/a&gt;, who’s doing pretty practical experiments as well as trying to take a more high-level view.
-&lt;/p&gt;
-&lt;p&gt;
-	I’ve experimented with ChatGPT to do generate sample data (for our workshops), and it was great at that, even providing JSON data and matching Swift structs that conform to &lt;code&gt;Codable&lt;/code&gt;. I tried using it to generate some algorithms that I know (e.g. a flow layout) but I’m not quite comfortable giving that part up (even though it did do a pretty good job). It also is useful for generating ideas. For example, I let it generate ten or twenty ideas for marketing our new book. Much of it isn’t stuff I couldn’t think of myself, but there were one or two things that I could definitely use. I don’t personally feel like letting it do things that feel important to me – most of programming, writing, and other forms of communication.
-&lt;/p&gt;
-			</description>
-			<pubDate>Sun, 02 Apr 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-13</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-13</guid>
 		</item>
 	</channel>
 </rss>

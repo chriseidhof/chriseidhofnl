@@ -15,6 +15,7 @@ extension BlogPost {
         variadicViews,
         semanticColors,
         weeknotes15,
+        safeArea,
     ]
 }
 
