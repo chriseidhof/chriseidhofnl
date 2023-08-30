@@ -23,11 +23,11 @@
 	&lt;/picture&gt;
 &lt;/p&gt;
 &lt;p&gt;
-	We can change this behavior by adding the &lt;code&gt;.edgesIgnoringSafeArea&lt;/code&gt; modifier:
+	We can change this behavior by adding the &lt;code&gt;.ignoresSafeArea&lt;/code&gt; modifier:
 &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Rectangle()
     .fill(Color.yellow)
-    .edgesIgnoringSafeArea(.all)
+    .ignoresSafeArea()
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
 	&lt;picture class=&quot;swiftui&quot;&gt;
@@ -36,11 +36,11 @@
 	&lt;/picture&gt;
 &lt;/p&gt;
 &lt;p&gt;
-	When the layout happens, the safe area insets are passed around to all the views that do layout. Whenever a border of a view marked with &lt;code&gt;edgesIgnoringSafeArea&lt;/code&gt; touches the edge of the safe area, it will extend itself. For example, in the following view, the yellow color extends to the top but not to the bottom, as expected:
+	When the layout happens, the safe area insets are passed around to all the views that do layout. Whenever a border of a view marked with &lt;code&gt;ignoresSafeArea&lt;/code&gt; touches the edge of the safe area, it will extend itself. For example, in the following view, the yellow color extends to the top but not to the bottom, as expected:
 &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;VStack {
     Color.yellow
-        .edgesIgnoringSafeArea(.all)
+        .ignoresSafeArea()
     Text(&amp;quot;Hello&amp;quot;)
 }
 &lt;/code&gt;&lt;/pre&gt;
@@ -51,7 +51,7 @@
 	&lt;/picture&gt;
 &lt;/p&gt;
 &lt;p&gt;
-	We can also make the safe area smaller (increase the insets) using a number of different modifiers. The &lt;code&gt;safeAreaInset&lt;/code&gt; (available since iOS 15) allows us to add to the non-safe area. The yellow color will now respect the safe area, but can also use the &lt;code&gt;edgesIgnoringSafeArea&lt;/code&gt; modifier to display beyond the safe area.
+	We can also make the safe area smaller (increase the insets) using a number of different modifiers. The &lt;code&gt;safeAreaInset&lt;/code&gt; (available since iOS 15) allows us to add to the non-safe area. The yellow color will now respect the safe area, but can also use the &lt;code&gt;ignoresSafeArea&lt;/code&gt; modifier to display beyond the safe area.
 &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;VStack {
     Color.yellow
@@ -85,7 +85,7 @@
 	&lt;/picture&gt;
 &lt;/p&gt;
 &lt;p&gt;
-	One of the interesting things is that we can visualize the safe area using an overlay and a geometry reader. We can add &lt;code&gt;edgesIgnoringSafeArea&lt;/code&gt; to the geometry reader. Inside the geometry reader, we get access to the size of the safe area insets as well as the safe area size itself:
+	One of the interesting things is that we can visualize the safe area using an overlay and a geometry reader. We can add &lt;code&gt;ignoresSafeArea&lt;/code&gt; to the geometry reader. Inside the geometry reader, we get access to the size of the safe area insets as well as the safe area size itself:
 &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension View {
     func visualizeSafeArea() -&amp;gt; some View {
@@ -110,7 +110,7 @@
                     }
                 }
                 .opacity(0.5)
-                .edgesIgnoringSafeArea(.all)
+                .ignoresSafeArea()
             }
         }
     }

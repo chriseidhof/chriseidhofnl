@@ -28,7 +28,7 @@ extension View {
                     }
                 }
                 .opacity(0.5)
-                .edgesIgnoringSafeArea(.all)
+                .ignoresSafeArea()
             }
         }
     }
@@ -64,26 +64,26 @@ fileprivate var myPostBody: [any PostPiece] {
             .asPhone()
     }
     Markdown("""
-    We can change this behavior by adding the `.edgesIgnoringSafeArea` modifier:
+    We can change this behavior by adding the `.ignoresSafeArea` modifier:
 
     ```swift
     Rectangle()
         .fill(Color.yellow)
-        .edgesIgnoringSafeArea(.all)
+        .ignoresSafeArea()
     ```
     """)
     SwiftUIView(background: false) {
         Color.yellow
-            .edgesIgnoringSafeArea(.all)
+            .ignoresSafeArea()
             .asPhone()
     }
     Markdown("""
-    When the layout happens, the safe area insets are passed around to all the views that do layout. Whenever a border of a view marked with `edgesIgnoringSafeArea` touches the edge of the safe area, it will extend itself. For example, in the following view, the yellow color extends to the top but not to the bottom, as expected:
+    When the layout happens, the safe area insets are passed around to all the views that do layout. Whenever a border of a view marked with `ignoresSafeArea` touches the edge of the safe area, it will extend itself. For example, in the following view, the yellow color extends to the top but not to the bottom, as expected:
 
     ```swift
     VStack {
         Color.yellow
-            .edgesIgnoringSafeArea(.all)
+            .ignoresSafeArea()
         Text("Hello")
     }
     ```
@@ -92,14 +92,14 @@ fileprivate var myPostBody: [any PostPiece] {
     SwiftUIView(background: false) {
         VStack {
             Color.yellow
-                .edgesIgnoringSafeArea(.all)
+                .ignoresSafeArea()
             Text("Hello")
         }
         .asPhone()
     }
 
     Markdown("""
-    We can also make the safe area smaller (increase the insets) using a number of different modifiers. The `safeAreaInset` (available since iOS 15) allows us to add to the non-safe area. The yellow color will now respect the safe area, but can also use the `edgesIgnoringSafeArea` modifier to display beyond the safe area.
+    We can also make the safe area smaller (increase the insets) using a number of different modifiers. The `safeAreaInset` (available since iOS 15) allows us to add to the non-safe area. The yellow color will now respect the safe area, but can also use the `ignoresSafeArea` modifier to display beyond the safe area.
 
     ```swift
     VStack {
@@ -168,7 +168,7 @@ fileprivate var myPostBody: [any PostPiece] {
         .asPhone()
     }
     Markdown("""
-    One of the interesting things is that we can visualize the safe area using an overlay and a geometry reader. We can add `edgesIgnoringSafeArea` to the geometry reader. Inside the geometry reader, we get access to the size of the safe area insets as well as the safe area size itself:
+    One of the interesting things is that we can visualize the safe area using an overlay and a geometry reader. We can add `ignoresSafeArea` to the geometry reader. Inside the geometry reader, we get access to the size of the safe area insets as well as the safe area size itself:
 
     ```swift
     extension View {
@@ -194,7 +194,7 @@ fileprivate var myPostBody: [any PostPiece] {
                         }
                     }
                     .opacity(0.5)
-                    .edgesIgnoringSafeArea(.all)
+                    .ignoresSafeArea()
                 }
             }
         }

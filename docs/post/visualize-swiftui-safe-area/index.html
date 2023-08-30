@@ -40,11 +40,11 @@
 								</picture>
 							</p>
 							<p>
-								We can change this behavior by adding the <code>.edgesIgnoringSafeArea</code> modifier:
+								We can change this behavior by adding the <code>.ignoresSafeArea</code> modifier:
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">Rectangle</span>()
     .<span class="hljs-identifier">fill</span>(<span class="hljs-identifier">Color</span>.<span class="hljs-identifier">yellow</span>)
-    .<span class="hljs-identifier">edgesIgnoringSafeArea</span>(.<span class="hljs-identifier">all</span>)
+    .<span class="hljs-identifier">ignoresSafeArea</span>()
 </code></pre>
 							<p>
 								<picture class="swiftui">
@@ -53,11 +53,11 @@
 								</picture>
 							</p>
 							<p>
-								When the layout happens, the safe area insets are passed around to all the views that do layout. Whenever a border of a view marked with <code>edgesIgnoringSafeArea</code> touches the edge of the safe area, it will extend itself. For example, in the following view, the yellow color extends to the top but not to the bottom, as expected:
+								When the layout happens, the safe area insets are passed around to all the views that do layout. Whenever a border of a view marked with <code>ignoresSafeArea</code> touches the edge of the safe area, it will extend itself. For example, in the following view, the yellow color extends to the top but not to the bottom, as expected:
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">VStack</span> {
     <span class="hljs-identifier">Color</span>.<span class="hljs-identifier">yellow</span>
-        .<span class="hljs-identifier">edgesIgnoringSafeArea</span>(.<span class="hljs-identifier">all</span>)
+        .<span class="hljs-identifier">ignoresSafeArea</span>()
     <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Hello</span><span class="hljs-string">"</span>)
 }
 </code></pre>
@@ -68,7 +68,7 @@
 								</picture>
 							</p>
 							<p>
-								We can also make the safe area smaller (increase the insets) using a number of different modifiers. The <code>safeAreaInset</code> (available since iOS 15) allows us to add to the non-safe area. The yellow color will now respect the safe area, but can also use the <code>edgesIgnoringSafeArea</code> modifier to display beyond the safe area.
+								We can also make the safe area smaller (increase the insets) using a number of different modifiers. The <code>safeAreaInset</code> (available since iOS 15) allows us to add to the non-safe area. The yellow color will now respect the safe area, but can also use the <code>ignoresSafeArea</code> modifier to display beyond the safe area.
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">VStack</span> {
     <span class="hljs-identifier">Color</span>.<span class="hljs-identifier">yellow</span>
@@ -102,7 +102,7 @@
 								</picture>
 							</p>
 							<p>
-								One of the interesting things is that we can visualize the safe area using an overlay and a geometry reader. We can add <code>edgesIgnoringSafeArea</code> to the geometry reader. Inside the geometry reader, we get access to the size of the safe area insets as well as the safe area size itself:
+								One of the interesting things is that we can visualize the safe area using an overlay and a geometry reader. We can add <code>ignoresSafeArea</code> to the geometry reader. Inside the geometry reader, we get access to the size of the safe area insets as well as the safe area size itself:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">View</span> {
     <span class="hljs-keyword">func</span> <span class="hljs-identifier">visualizeSafeArea</span>() -> some <span class="hljs-identifier">View</span> {
@@ -127,7 +127,7 @@
                     }
                 }
                 .<span class="hljs-identifier">opacity</span>(<span class="hljs-number">0.5</span>)
-                .<span class="hljs-identifier">edgesIgnoringSafeArea</span>(.<span class="hljs-identifier">all</span>)
+                .<span class="hljs-identifier">ignoresSafeArea</span>()
             }
         }
     }
