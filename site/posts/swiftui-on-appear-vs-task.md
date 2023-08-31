@@ -4,9 +4,9 @@ title: "Running Code When Your View Appears"
 headline: onAppear and task are not the same
 ---
 
-When you're writing SwiftUI views, you definitely don't want to run expensive tasks in the view's initializer, as it might get called very often. Also, since the view doesn't have structural identity yet at that point, you can't reliably store data. Instead, you want to load data in the view's body before the view will be drawn on screen.
+When you're writing SwiftUI views, you definitely don't want to run expensive tasks in the view's initializer, as it might get called very often. Also, since the view doesn't have structural identity yet when the initializer runs, you can't reliably store data. Instead, you want to load data in the view's body before the view will be drawn on screen.
 
-You can achieve this using `.task` and `.onAppear`. The `onAppear` modifier has been around since the beginning. It takes a regular closure that is called whenever the view appears on screen[^1]. The `task` modifier supports async/await without you having to create a manual `Task`. The task also gets cancelled automatically when the view disappears.
+You can achieve this with `.task` or `.onAppear`. The `onAppear` modifier has been around since the beginning. It takes a regular closure that is called whenever the view appears on screen[^1]. The `task` modifier supports async/await without you having to create a manual `Task`. The task also gets cancelled automatically when the view disappears.
 
 Because `task` can do anything that `onAppear` can, is there still any reason to use `onAppear`? Or can we just move to `task`? At first, I thought the two are the same, it seems like `task` is built on top of `onAppear`. There is a small difference, however (which might be an essential difference depending on how you use it). Consider the following view:
 

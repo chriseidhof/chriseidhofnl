@@ -31,10 +31,10 @@
 						</header>
 						<section class="postbody">
 							<p>
-								When you’re writing SwiftUI views, you definitely don’t want to run expensive tasks in the view’s initializer, as it might get called very often. Also, since the view doesn’t have structural identity yet at that point, you can’t reliably store data. Instead, you want to load data in the view’s body before the view will be drawn on screen.
+								When you’re writing SwiftUI views, you definitely don’t want to run expensive tasks in the view’s initializer, as it might get called very often. Also, since the view doesn’t have structural identity yet when the initializer runs, you can’t reliably store data. Instead, you want to load data in the view’s body before the view will be drawn on screen.
 							</p>
 							<p>
-								You can achieve this using <code>.task</code> and <code>.onAppear</code>. The <code>onAppear</code> modifier has been around since the beginning. It takes a regular closure that is called whenever the view appears on screen
+								You can achieve this with <code>.task</code> or <code>.onAppear</code>. The <code>onAppear</code> modifier has been around since the beginning. It takes a regular closure that is called whenever the view appears on screen
 <sup><a href="#fnref1" name="fnref-rev1">1</a></sup>
 . The <code>task</code> modifier supports async/await without you having to create a manual <code>Task</code>. The task also gets cancelled automatically when the view disappears.
 							</p>
