@@ -34,11 +34,35 @@ extension View {
     }
 }
 
+fileprivate struct Read<Value, Content: View>: View {
+    @SwiftUI.Environment(\.self) private var env
+    var keyPath: KeyPath<SwiftUI.EnvironmentValues, Value>
+    var content: (Value) -> Content
+
+    var body: some View {
+        content(env[keyPath: keyPath])
+    }
+
+}
+
+extension View {
+    func readEnvironment<Value, Content: View>(_ keyPath: KeyPath<SwiftUI.EnvironmentValues, Value>, @ViewBuilder _ body: @escaping (Value) -> Content) -> some View {
+        Read(keyPath: keyPath, content: body)
+    }
+}
+
 extension View {
     fileprivate func asPhone() -> some View {
-        phone(date: sampleDate)
-            .shadow(radius: 10)
-            .padding(10)
+        readEnvironment(\.colorScheme) { scheme in
+            let p = phone(device: .myDevice, date: sampleDate, bezelColor: Color(white: 0.8))
+            if scheme == .light {
+                p
+                    .shadow(radius: 10)
+                    .padding(10)
+            } else {
+                p
+            }
+        }
     }
 }
 
