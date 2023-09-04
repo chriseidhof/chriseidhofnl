@@ -251,7 +251,7 @@ So we can check that this works. So here we have our render tree. It's all `phot
 
 ![](/images/presentations/swiftto-simulator-photo.png)
 
-There's one more problem with this code, and that has to do with a different subsystem of SwiftUI. If we turn on the blueprint mode of the simulator, we can see that this photo stretches beyond the simulator. It's much wider, and we want to display the entire photo.
+There's one more problem with this code, and that has to do with a different subsystem of SwiftUI. If we turn on the blueprint[^bp] mode of the simulator, we can see that this photo stretches beyond the simulator. It's much wider, and we want to display the entire photo.
 
 ![](/images/presentations/swiftto-simulator-blueprint.png)
 
@@ -470,3 +470,5 @@ They combine that information, and any preference value can be read by an ancest
 There is a lot more that has to do with all these trees. If you want to know more about it, you can actually read [our book](https://www.objc.io/books/thinking-in-swiftui/). It's almost done. We did a complete rewrite. I think this book is really fun to read, and it goes into all the details that you cannot possibly cover in a 30-minute talk.
 
 If you have any questions, please feel free to reach out. Thank you!
+
+[^bp]: Blueprint mode doesn't actually exist, the entire simulator is fake (it's just a SwiftUI view).
