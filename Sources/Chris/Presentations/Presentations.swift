@@ -18,26 +18,33 @@ struct Presentation {
 
 extension Presentation {
     static let all: [Presentation] = [
-        .init(title: "A Day in the Life of a SwiftUI View", link: "day-in-the-life", date: .init(year: 2023, month: 08, day: 12), location: "Toronto, Canada", conferenceName: "SwiftConf.to", sourcePDF: "2023-08-11-swiftto.pdf", transcript: "swiftto.md")
+        .init(title: "A Day in the Life of a SwiftUI View", link: "day-in-the-life", date: .init(year: 2023, month: 08, day: 12), location: "Toronto, Canada", conferenceName: "SwiftConf.to", conferenceLink: URL(string: "https://www.swiftconf.to")!, sourcePDF: "2023-08-11-swiftto.pdf", transcript: "swiftto.md")
     ]
 }
 
 extension Presentation {
     @NodeBuilder func page(path: String) -> Node {
         let markdown: String = try! baseEnvironment.read("presentations/\(transcript)")
-        article(class: "post") {
+        article(class: "post presentation") {
             header {
                 h1 { title }
                 // todo
-                date.dateString
-                location
-                conferenceName
+                p {
+                    date.dateString
+                    "•"
+                    location
+                    "•"
+                    if let u = conferenceLink {
+                        a(href: u.absoluteString) { conferenceName }
+                    } else {
+                        conferenceName
+                    }
+                }
 //                if let h = metadata.headline {
 //                    h2(class: "headline") { h }
 //                }
             }
             section(class: "postbody") {
-
                 markdown
                     .replaceSlidePlaceholders(path: path)
                     .markdownWithFootnotes()
@@ -66,6 +73,7 @@ struct Presentations: Rule {
     var body: some Rule {
         ForEach(Presentation.all) { presentation in
             PresentationRule(presentation: presentation)
+                .outputPath(presentation.link)
         }
         .outputPath("presentations")
     }
@@ -75,6 +83,7 @@ import PDFKit
 
 struct PresentationRule: Rule {
     var presentation: Presentation
+    @Environment(\.relativeOutputPath) var relativeOutputPath
 
     var body: some Rule {
         let filename = String(presentation.sourcePDF.dropLast(4))
@@ -86,14 +95,9 @@ struct PresentationRule: Rule {
                 return img.representation(using: .png, properties: [:])!
             })
         }
-        .outputPath(presentation.link)
-        EnvironmentReader { env in
-            WriteNode(outputName: "index.html", node: presentation.page(path: env.relativeOutputPath))
-        }
+        WriteNode(outputName: "index.html", node: presentation.page(path: relativeOutputPath!))
             .title(presentation.title)
 //            .environment(keyPath: \.openGraphImage, value: post.post.shareImageLink)
-            .outputPath(presentation.link)
-//        fatalError()
     }
 }
 

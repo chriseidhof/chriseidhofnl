@@ -712,28 +712,19 @@ a.back:hover, #archive-link:hover {
      padding-top: 0;
 }
  
-/* minilog */
+/* presentations */
 
-div.intro {
+.presentation header {
+    font-family: var(--heading-font);
     padding-bottom: 50px;
+
+    p {
+        color: var(--secondary-color);
+    }
 }
 
-#log-list a .dates {
-    color: var(--secondary-color);
-    font-size: 0.8em;
-    padding-bottom: 1em;
-}
-
-#log-list pre {
-    background-color: var(--background-color)
-}
-
-#log-list li {
-     border: 1px solid var(--border-color);
-     padding: 20px 20px 0 20px;
-     margin-bottom: 30px;
-     background-color: var(--secondary-background-color);
-     border-radius: 3px;
+.presentation iframe {
+    padding-bottom: 50px;
 }
 
 

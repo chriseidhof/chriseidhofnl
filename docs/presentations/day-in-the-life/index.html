@@ -19,26 +19,35 @@
 					<header id="header">
 						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
 					</header>
-					<article class="post">
+					<article class="post presentation">
 						<header>
 							<h1>
 								A Day in the Life of a SwiftUI View
 							</h1>
-							August 12th, 2023
-							Toronto, Canada
-							SwiftConf.to
+							<p>
+								August 12th, 2023
+								•
+								Toronto, Canada
+								•
+								<a href="https://www.swiftconf.to">SwiftConf.to</a>
+							</p>
 						</header>
 						<section class="postbody">
 							<p>
-								My talk is called A Day in the Life of a SwiftUI View because I needed a catchy title. What it is about is understanding the mental model behind SwiftUI, or at least my mental model. I want to share with you how I think this stuff happens. And I learned this by teaching a lot, writing about this, and actually re-implementing large parts of SwiftUI. I tried to re-implement the state system and the layout system. When I say I, I actually mean we. I did a lot of this work together with Florian, who’s my collaborator. I want to focus on how the code we write translates into view trees. And then how these view trees translate into render trees. And I’ll define this a little bit better as we go about it.
+								Here’s the video of my talk. Scroll down for an annotated transcript. The video contains some animations that I didn’t replicate in the annotated slides.
+							</p>
+							<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/0tJ474kjGrc?si=oFTuhj0L9GQajq03" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+
+							<p>
+								This talk is about understanding the mental model behind SwiftUI, or at least, my mental model. I want to share with you how I think this stuff happens. And I learned this by teaching <a href="https://www.objc.io/workshops/swiftui/">workshops</a>, <a href="https://www.objc.io/books/thinking-in-swiftui/">writing about this</a>, and actually <a href="https://talk.objc.io/collections/swiftui-layout-explained">re-implementing</a> large <a href="https://talk.objc.io/collections/swiftui-state-explained">parts of SwiftUI</a>. I tried to re-implement the state system and the layout system. When I say I, I actually mean we. I did a lot of this work together with Florian, who’s my collaborator. I want to focus on how the code we write translates into view trees. And then how these view trees translate into render trees. And I’ll define this a little bit better as we go about it.
 							</p>
 							<p><img src="/presentations/day-in-the-life/0.png" title/></p>
 							<p>
-								Let’s imagine we have this kind of content view that we wrote. And actually, we’re going to be writing this MyAsync image ourselves today. Now, what happens when we render a view like this?
+								Let’s imagine we have this kind of content view that we wrote. And actually, we’re going to be writing this MyAsyncImage ourselves today. Now, what happens when we render a view like this?
 							</p>
 							<p><img src="/presentations/day-in-the-life/1.png" title/></p>
 							<p>
-								So the first thing that happens is a render tree node is created. And the render tree is something that doesn’t exist. SwiftUI internally calls this the attribute graph. I call it the render tree because I think it feels a little bit simpler. And I think of it as a tree, even though it is a graph. Now, the attribute graph is something we never deal with directly. This is hidden from us. There is no way to deal with this, at least not currently, and I don’t think there will be ever. But it is essential to understanding how SwiftUI works and how to be effective with SwiftUI. OK, so this looks simple.
+								The first thing that happens is a render tree node is created. And the render tree is something that doesn’t exist. SwiftUI internally calls this the attribute graph. I call it the render tree because I think it feels a little bit simpler. And I think of it as a tree, even though it is a graph. Now, the attribute graph is something we never deal with directly. This is hidden from us. There is no way to deal with this, at least not currently, and I don’t think there will be ever. But it is essential to understanding how SwiftUI works and how to be effective with SwiftUI. OK, so this looks simple.
 							</p>
 							<p><img src="/presentations/day-in-the-life/1.png" title/></p>
 							<p>
@@ -46,11 +55,11 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/3.png" title/></p>
 							<p>
-								It runs the code in the body property, and it creates a view tree with a single node. And there’s the <code>logo.png</code> in that view tree. The view tree is something that we write. So I displayed it here as a tree, but this is just a struct value or multiple struct values. View trees are ephemeral. They go away very quickly. They’re used to render a view, and then they go away. The render tree is different. This behaves feels more like an object. The render tree is persistent. It’s going to be around even when your body re-executes. It’ll be there. And so the view trees are ephemeral, and the render trees are persistent. That’s very important to keep in mind.
+								It runs the code in the body property, and it creates a view tree with a single node. And there’s the <code>logo.png</code> in that view tree. The view tree is something that we write. I displayed it here as a tree, but this is just a struct value or multiple struct values. View trees are ephemeral. They go away very quickly. They’re used to render a view, and then they go away. The render tree is different. This behaves feels more like an object. The render tree is persistent. It’s going to be around even when your body re-executes. It’ll be there. And so the view trees are ephemeral, and the render trees are persistent. That’s very important to keep in mind.
 							</p>
 							<p><img src="/presentations/day-in-the-life/4.png" title/></p>
 							<p>
-								Now, what happens is once we have this view tree node, the corresponding node in the render tree gets created. So this is a one-to-one translation. So that’s pretty simple, right, so far.
+								Now, what happens is once we have this view tree node, the corresponding node in the render tree gets created. This is a one-to-one translation. That’s pretty simple, so far.
 							</p>
 							<p><img src="/presentations/day-in-the-life/5.png" title/></p>
 							<p>
@@ -66,18 +75,18 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/8.png" title/></p>
 							<p>
-								And here’s where the render tree comes into play. When you create a state property like this, what SwiftUI will do, it will allocate memory for that in the render tree. And it needs to, right? Because we want the state property to stay around after we loaded the data. So this needs to be persistent. And this is where SwiftUI stores that in the render tree node. And this is, I think, important to build up that mental model. What we can also see is that the state property is initially nil. So on line 2, we see that we assigned nil as the initial value. This is the value that’s used when the node in the render tree is created. You should only be accessing those state properties inside the body of your view. This is why I also made it private.
+								And here’s where the render tree comes into play. When you create a state property like this, what SwiftUI will do, it will allocate memory for that in the render tree. And it needs to, right? Because we want the state property to stay around after we loaded the data. So this needs to be persistent. And this is where SwiftUI stores that in the render tree node. And this is, I think, important to build up that mental model. What we can also see is that the state property is initially nil. On line 2, we see that we assigned nil as the initial value. This is the value that’s used when the node in the render tree is created. You should only be accessing those state properties inside the body of your view. This is why I also made it private.
 							</p>
 							<p><img src="/presentations/day-in-the-life/11.png" title/></p>
 							<p>
-								OK, let’s focus on the body of our view. We still need to write that. So a very first, very naive implementation would just be an image, right? Just force unwrap everything, and we’re done. This would be the view tree for that, just an image. So obviously, that’s wrong. So we need to do a little bit more.
+								OK, let’s focus on the body of our view. We still need to write that. So a very first, very naive implementation would just be an image, right? Just force unwrap everything, and we’re done. This would be the view tree for that, just an image. Obviously, that’s wrong, so we need to do a little bit more.
 							</p>
 							<p><img src="/presentations/day-in-the-life/13.png" title/></p>
 							<p>
 								Now, we could add an if let around here. So we can load that image data, check if we can convert that into an image, and then display the image. Otherwise, we display a progress view. And this is where it starts to get interesting, I think.
 							</p>
 							<p>
-								SwiftUI creates a conditional content as the root of our view tree. And it has an image and a progress view. And you can see the progress view is actually active. The image is not there. If you look at the type, if you would print the type of this body, you would see that it’s a conditional content with an image and a progress view. And so SwiftUI knows there will always be either an image or a progress view, never both, never neither. So this is all statically encoded into the type system. And this makes SwiftUI so efficient.
+								SwiftUI creates a conditional content as the root of our view tree. And it has an image and a progress view. And you can see the progress view is actually active. The image is not there. If you look at the type, if you would print the type of this body, you would see that it’s a conditional content with an image and a progress view. And so SwiftUI knows there will always be either an image or a progress view, never both, never neither. This is all statically encoded into the type system. And this makes SwiftUI so efficient.
 							</p>
 							<p>
 								OK, now we would like to start loading some data, and we want to write an onAppear. But we can’t, because we have an if/else. You cannot write onAppear on an if/else. So we need some kind of wrapper. It doesn’t really matter what you use here.
@@ -88,15 +97,15 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/17.png" title/></p>
 							<p>
-								We’re finally ready to write our onAppear, and we can start loading our data. So here, it’s also quite interesting. So we saw that this container view created a new root node. But if we add a modifier on that, that will be the new root node. So these modifiers, they also turn into sort of parents of the thing they’re applying to.
+								We’re finally ready to write our onAppear, and we can start loading our data. Here, it’s also quite interesting. We saw that this container view created a new root node. But if we add a modifier on that, that will be the new root node. These modifiers also turn into the parents of the thing they’re applying to.
 							</p>
 							<p><img src="/presentations/day-in-the-life/19.png" title/></p>
 							<p>
-								Now, because we have a presentation here, I’d like to load my code with as little code as possible, or load my data with as little code as possible. So I want to use async/await. An onAppear doesn’t play as nicely as task does. So we’re going to change this to a task, and now we can load our data in a single line, which is great for presentations. So this changes our view tree ever so slightly. So now we have a task instead of an onAppear. Otherwise, task and onAppear work exactly the same. They start executing the closure the moment the view appears on screen. And then if the body is re-executed, that task or that onAppear is not going to be executed again. OK, so I think we’re done with our view tree.
+								Now, because we have a presentation here, I’d like to load my code with as little code as possible, or load my data with as little code as possible. So I want to use async/await. An onAppear doesn’t play as nicely with async/await as task does. We’re going to change this to a task, and now we can load our data in a single line, which is great for presentations. This changes our view tree ever so slightly. Now we have a task instead of an onAppear. Otherwise, task and onAppear work exactly the same. They start executing the closure the moment the view appears on screen. And then if the body is re-executed, that task or that onAppear is not going to be executed again. OK, I think we’re done with our view tree.
 							</p>
 							<p><img src="/presentations/day-in-the-life/20.png" title/></p>
 							<p>
-								We’re good now. Now we can turn this into a render tree. And I think this is also very interesting. So this is a one-to-one translation. And we can really see this here.
+								We’re good now. Now we can turn this into a render tree. And I think this is also very interesting. This is a one-to-one translation, and we can really see this here.
 							</p>
 							<p><img src="/presentations/day-in-the-life/21.png" title/></p>
 							<p>
@@ -130,18 +139,17 @@
 							<p>
 								And both the removal and the insertions are transitions that happen in parallel. OK, so now we have our updated render tree, and we can discard the view tree. We don’t need it anymore. And all is good.
 							</p>
-							<TODO>
-
+							<p><img src="/presentations/day-in-the-life/31.png" title/></p>
 							<p>
 								You can see the progress indicator and the logo loaded. So we’re done, right? Not quite.
 							</p>
+							<p><img src="/images/presentations/swiftto-simulator-logo.png" title/></p>
 							<p>
 								Let’s rewrite our content view a little bit. I wonder if anybody already knows the problem here. But we will see it very quickly.
 							</p>
 							<p><img src="/presentations/day-in-the-life/32.png" title/></p>
 							<p>
-								So I’m going to add a state property here, just a Boolean, so that we can swap out between two images. I’ll add a VStack and a button. And then this button toggles the condition.
-								And then based on that condition, we display either the logo or the photo.
+								I’m going to add a state property here, just a boolean, so that we can swap out between two images. I’ll add a VStack and a button. And then this button toggles the condition. And then based on that condition, we display either the logo or the photo.
 							</p>
 							<p><img src="/presentations/day-in-the-life/36.png" title/></p>
 							<p>
@@ -165,20 +173,19 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/41.png" title/></p>
 							<p>
-								So SwiftUI can update the VStack and the button just fine. But of course, the MyAsync image is now invalid because it has a changed property.
+								SwiftUI can update the VStack and the button just fine. But of course, the MyAsyncImage is now invalid because it has a changed property.
 							</p>
 							<p><img src="/presentations/day-in-the-life/42.png" title/></p>
 							<p>
-								So we’re going to be re-executing that part. Before we do, let’s see what happens if we try to tap this button. So it doesn’t look like anything is happening. And I can tap this as many times as I want. I tried this when practicing, of course. It doesn’t change. So we have a problem.
+								We’re going to be re-executing that part. Before we do, let’s see what happens if we try to tap this button. It doesn’t look like anything is happening. And I can tap this as many times as I want. I tried this when practicing, of course. It doesn’t change. So we have a problem.
 							</p>
-							 <TODO>
-
+							<p><img src="/images/presentations/swiftto-simulator-logo-toggle.png" title/></p>
 							<p>
-								The problem is the implementation of our MyAsync image. So this is where we ended up with. I know it’s a bit much, but this is what we wrote in the previous slide.
+								The problem is the implementation of our MyAsyncImage. So this is where we ended up with. I know it’s a bit much, but this is what we wrote in the previous slide.
 							</p>
 							<p><img src="/presentations/day-in-the-life/44.png" title/></p>
 							<p>
-								So we have our MyAsync image. It now has this changed URL property and this image data. So that’s the old data, right, the 8,000 bytes. The task had already appeared. SwiftUI knows to re-execute the body. It looks at this code that we wrote earlier.
+								Here we have our MyAsyncImage. It now has this changed URL property and this image data. So that’s the old data, right, the 8,000 bytes. The task had already appeared. SwiftUI knows to re-execute the body. It looks at this code that we wrote earlier.
 							</p>
 							<p><img src="/presentations/day-in-the-life/45.png" title/></p>
 							<p>
@@ -186,7 +193,8 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/46.png" title/></p>
 							<p>
-								The thing that it doesn’t do is re-execute our task. The task node is just updated with the previous value, but it doesn’t re-execute this task for us because it only updates the render tree from the new view tree, and it doesn’t execute this task. So it never starts loading that photo data.
+								The thing that it doesn’t do is <em>re-execute our task</em>
+								. The task node is just updated with the previous value, but it doesn’t re-execute this task for us because it only updates the render tree from the new view tree, and it doesn’t execute this task. So it never starts loading that photo data.
 							</p>
 							<p><img src="/presentations/day-in-the-life/47.png" title/></p>
 							<p>
@@ -194,43 +202,44 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/48.png" title/></p>
 							<p>
-								This is where the problem is. We have a dependency here. We have a URL dependency here that is actually dependent on the URL property in our struct. And whenever you have a dependency like this in an onAppear or in a task, you potentially have a problem. if you’re doing code review, pay extreme attention to these kinds of dependencies. The problem, I think, is even worse because it looked like our code was doing just fine, right? Like our initial implementation of myasync image seemed to work. Like there’s no obvious bugs at first. Only when we used it differently, it stopped working. And so I think that’s very problematic.
+								This is where the problem is. We have a <em>dependency</em>
+								 here. We have a URL dependency here that is actually dependent on the URL property in our struct. And whenever you have a dependency like this in an onAppear or in a task, you potentially have a problem. if you’re doing code review, pay extreme attention to these kinds of dependencies. The problem, I think, is even worse because it looked like our code was doing just fine, right? Like our initial implementation of MyAsyncImage seemed to work. Like there’s no obvious bugs at first. Only when we used it differently, it stopped working. And so I think that’s very problematic.
 							</p>
 							<p><img src="/presentations/day-in-the-life/49.png" title/></p>
 							<p>
-								And so the reason is that we have this dependency. So we need to do something about that. And one thing we could do is actually add an identity modifier. And I add the URL as the identity.
+								The reason is that we have this dependency, and we need to do something about that. One thing we could do is actually add an <a href="https://developer.apple.com/documentation/swiftui/view/id(_:)">identity modifier</a>, and I’ll add the URL as the identity.
 							</p>
 							<p><img src="/presentations/day-in-the-life/51.png" title/></p>
 							<p>
-								And what that will do is it will create a new root node in our view tree.
+								That will create a new root node in our view tree.
 							</p>
 							<p><img src="/presentations/day-in-the-life/52.png" title/></p>
 							<p>
-								So we now have this identity. And the same for the render tree.
+								Now have this identity. And the same for the render tree.
 							</p>
 							<p><img src="/presentations/day-in-the-life/53.png" title/></p>
 							<p>
-								This identity is now kept in the render tree. And SwiftUI knows if this ever changes, it needs to do something.
+								The identity is now kept in the render tree. And SwiftUI knows if this ever changes, it needs to do something.
 							</p>
 							<p><img src="/presentations/day-in-the-life/54.png" title/></p>
 							<p>
-								So we displayed our logo. We have the data loaded. We have the logo.png as our identity. And now we’re going to change to photo.jpg.
+								We displayed our logo, we have the data loaded, and we have the <code>logo.png</code> as our identity. And now we’re going to change to <code>photo.jpg</code>.
 							</p>
 							<p><img src="/presentations/day-in-the-life/55.png" title/></p>
 							<p>
-								So our URL changes to photo.jpg, which means the view tree is invalidated.
+								Our URL changes to <code>photo.jpg</code>, which means the view tree is invalidated.
 							</p>
 							<p><img src="/presentations/day-in-the-life/56.png" title/></p>
 							<p>
-								And this is where it gets a little bit weird. SwiftUI constructs a new view tree with the new identity. And we can see the difference, right? In the render tree, it’s logo.png, whereas in the view tree, it’s photo.jpg.
+								And this is where it gets a little bit weird. SwiftUI constructs a new view tree with the new identity. And we can see the difference, right? In the render tree, it’s <code>logo.png</code>, whereas in the view tree, it’s <code>photo.jpg</code>.
 							</p>
 							<p><img src="/presentations/day-in-the-life/57.png" title/></p>
 							<p>
-								What happens next is pretty brute force. SwiftUI removes all of the nodes in the render tree, everything. This includes any associated state they had, any animations that were running, everything. And so you can really think of this as removing all the subviews in UIKit and any state that they have associated. And these objects are completely gone.
+								What happens next is pretty “brute force”. SwiftUI removes all of the nodes in the render tree, everything. This includes any associated state they had, any animations that were running, everything. And so you can really think of this as removing all the subviews in UIKit and any state that they have associated. And these objects are completely gone.
 							</p>
 							<p><img src="/presentations/day-in-the-life/59.png" title/></p>
 							<p>
-								So the good thing is that after they’re removed, SwiftUI adds them back again, but sort of as fresh instances. And now our task has the didAppear set to false.
+								The good thing is that, after they’re removed, SwiftUI adds them back again, but as fresh instances. And now our task has the didAppear set to false.
 							</p>
 							<p><img src="/presentations/day-in-the-life/60.png" title/></p>
 							<p>
@@ -250,22 +259,19 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/66.png" title/></p>
 							<p>
-								So SwiftUI will update our render tree with this new image and all is good. So let’s see if this works.
+								SwiftUI will update our render tree with this new image and all is good. Let’s see if this works.
 							</p>
-							<p><img src="/presentations/day-in-the-life/68.png" title/></p>
+							<p><img src="/images/presentations/swiftto-simulator-photo.png" title/></p>
 							<p>
-								We have our logo that we load. And if we tap the button, it starts loading the photo. And if we tap the button again, it starts loading the logo and so on. So it seems like now we’re good.
-							</p>
-							<p>
-								One of the problems, of course, is this identity modifier. It’s not nice to destroy all these nodes. It feels wasteful, and we should do better than that. So let’s take a small step back.
+								We have our logo that we load. And if we tap the button, it starts loading the photo. And if we tap the button again, it starts loading the logo and so on. So it seems like now we’re good. One of the problems, of course, is this identity modifier. It’s not nice to destroy all these nodes. It feels wasteful, and we should do better than that. So let’s take a small step back.
 							</p>
 							<p><img src="/presentations/day-in-the-life/70.png" title/></p>
 							<p>
-								If we would have used onAppear, you can use exactly the same technique. You would have had the same problem that you depend on the URL, and you can use the same technique to make onAppear work. But for onAppear, there is a simpler solution. You can use onChangeOf. And I always use these two in combination, onAppear and onChangeOf.
+								If we would have used onAppear, you can use exactly the same technique. You would have had the same problem that you depend on the URL, and you can use the same technique to make onAppear work. But for onAppear, there is a simpler solution. You can use <code>onChange(of:)</code>. And I always use these two in combination, onAppear and <code>onChange(of:)</code>.
 							</p>
 							<p><img src="/presentations/day-in-the-life/71.png" title/></p>
 							<p>
-								onAppear runs when my view first appears, and onChangeOf whenever this URL changes. In fact, this is so popular that people have been writing extensions that combine the two, so onAppear or changeOf. And in fact, even Apple saw this. And as of iOS 17, we can write onChange(of:initial:).
+								onAppear runs when my view first appears, and <code>onChange(of:)</code> whenever this URL changes. In fact, this is so popular that people have been writing extensions that combine the two, so <code>onAppear</code> and <code>onChange(of:)</code>. And in fact, even Apple saw this. And as of iOS 17, we can write <a href="https://developer.apple.com/documentation/swiftui/view/onchange(of:initial:_:)-4psgg">onChange(of:initial:)</a>.
 							</p>
 							<p><img src="/presentations/day-in-the-life/72.png" title/></p>
 							<p>
@@ -273,7 +279,7 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/73.png" title/></p>
 							<p>
-								So for tasks, there’s also a very simple solution. And we can actually move this identity into the task and give the task identity. So we can call a different version of the task modifier and pass in the identity.
+								For tasks, there’s also a very simple solution. And we can actually move this identity into the task and give the task identity. So we can call a <a href="https://developer.apple.com/documentation/swiftui/view/task(id:priority:_:)">different version</a> of the task modifier and pass in the identity.
 							</p>
 							<p><img src="/presentations/day-in-the-life/74.png" title/></p>
 							<p>
@@ -281,15 +287,13 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/75.png" title/></p>
 							<p>
-								So we can check that this works. So here we have our render tree. It’s all photo.jpg. And now we can look at the simulator, see that this still works, our updated version. So yeah, it seems fine.
+								So we can check that this works. So here we have our render tree. It’s all <code>photo.jpg</code>. And now we can look at the simulator, see that this still works, our updated version. So yeah, it seems fine.
 							</p>
-							<TODO>
-
+							<p><img src="/images/presentations/swiftto-simulator-photo.png" title/></p>
 							<p>
 								There’s one more problem with this code, and that has to do with a different subsystem of SwiftUI. If we turn on the blueprint mode of the simulator, we can see that this photo stretches beyond the simulator. It’s much wider, and we want to display the entire photo.
 							</p>
-							<TODO>
-
+							<p><img src="/images/presentations/swiftto-simulator-blueprint.png" title/></p>
 							<p>
 								And this is problematic. It looked fine at first, but we want to display that entire photo. And to understand this, we need to look into the layout system. And the first layout slide is a bit boring, because most of these modifiers don’t do anything.
 							</p>
@@ -303,19 +307,19 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/78.png" title/></p>
 							<p>
-								The identity is going to pass a value unchanged to the task, to the z-stack, to the conditional content. Finally, the conditional content is going to pass that value to our image node.
+								The identity is going to pass a value unchanged to the task, to the ZStack, to the conditional content. Finally, the conditional content is going to pass that value to our image node.
 							</p>
 							<p><img src="/presentations/day-in-the-life/82.png" title/></p>
 							<p>
-								So it’s going to propose 390 by 763 to our image node. And this is where it gets interesting. image node takes that proposal, and it says, well, I only need 265 by 80.
+								So it’s going to propose 390⨉763 to our image node. And this is where it gets interesting. image node takes that proposal, and it says, well, I only need 265⨉80.
 							</p>
 							<p><img src="/presentations/day-in-the-life/83.png" title/></p>
 							<p>
-								So that’s going to be my size. It’s going to propose that all the way back up. And as these nodes are all layout agnostic, it will go all the way to the body and to the MyAsync image.
+								So that’s going to be my size. It’s going to propose that all the way back up. And as these nodes are all layout agnostic, it will go all the way to the body and to the MyAsyncImage.
 							</p>
 							<p><img src="/presentations/day-in-the-life/87.png" title/></p>
 							<p>
-								And the MyAsync image will propose this size or report this size back to its parent.
+								And the MyAsyncImage will propose this size or report this size back to its parent.
 							</p>
 							<p><img src="/presentations/day-in-the-life/88.png" title/></p>
 							<p>
@@ -327,26 +331,26 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/90.png" title/></p>
 							<p>
-								We saw this already. When we propose the safe area, the image node says, well, I’m just 265 by 80. So it almost ignores this, right?
+								We saw this already. When we propose the safe area, the image node says, well, I’m just 265⨉80. So it almost ignores this, right?
 							</p>
 							<p><img src="/presentations/day-in-the-life/91.png" title/></p>
 							<p>
-								When we propose 200 by 200…
+								When we propose 200⨉200…
 							</p>
 							<p><img src="/presentations/day-in-the-life/93.png" title/></p>
 							<p>
-								The image node says, well, I was 265 by 80. So again, it seems like it ignores it. And then we have this special proposal. So we can propose nil by nil.
+								The image node says, well, I was 265⨉80. So again, it seems like it ignores it. And then we have this special proposal. So we can propose nil⨉nil.
 							</p>
 							<p><img src="/presentations/day-in-the-life/96.png" title/></p>
 							<p>
-								This means become your ideal size. For the auto layout people, this is the intrinsic content size. So you can propose nil by nil to a view to make it become its ideal size. When we do that, the image says, I’m 265 by 80.
+								This means become your ideal size. For the auto layout people, this is the intrinsic content size. So you can propose nil⨉nil to a view to make it become its ideal size. When we do that, the image says, I’m 265⨉80.
 							</p>
 							<p><img src="/presentations/day-in-the-life/97.png" title/></p>
 							<p>
 								So we’re a little bit stuck here, right?
 							</p>
 							<p>
-								There’s only one modifier image node that can change this. And it’s the resizable modifier. So let’s look at that. When we use this, it actually modifies the image node internally. So that’s why we have only a single node in the render tree here.
+								There’s only one modifier image node that can change this. And it’s the <a href="https://developer.apple.com/documentation/swiftui/image/resizable(capinsets:resizingmode:)">resizable modifier</a>. So let’s look at that. When we use this, it actually modifies the image node internally. So that’s why we have only a single node in the render tree here.
 							</p>
 							<p><img src="/presentations/day-in-the-life/99.png" title/></p>
 							<p>
@@ -354,7 +358,7 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/101.png" title/></p>
 							<p>
-								That’s going to be my size. So if you ever need designers who want to have the logo bigger, this is your go-to. When we propose 200 by 200…
+								That’s going to be my size. So if you ever need designers who want to have the logo bigger, this is your go-to. When we propose 200⨉200…
 							</p>
 							<p><img src="/presentations/day-in-the-life/103.png" title/></p>
 							<p>
@@ -362,18 +366,18 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/104.png" title/></p>
 							<p>
-								And when we propose nil by nil– let’s see.
+								And when we propose nil⨉nil– let’s see.
 							</p>
 							<p><img src="/presentations/day-in-the-life/106.png" title/></p>
 							<p>
-								When we propose nil by nil, the image node says, OK, I’m going to be 265 by 80.
+								When we propose nil⨉nil, the image node says, OK, I’m going to be 265⨉80.
 							</p>
 							<p><img src="/presentations/day-in-the-life/107.png" title/></p>
 							<p>
-								And this 265 by 80, it’s really the underlying bitmap size. And that’s why it’s reporting that. So then it renders at its original resolution. Now, there is no built-in way to images to do like aspect ratio resizing or anything like that.
+								And this 265⨉80, it’s really the underlying bitmap size. And that’s why it’s reporting that. So then it renders at its original resolution. Now, there is no built-in way to images to do like aspect ratio resizing or anything like that.
 							</p>
 							<p>
-								There is a modifier in SwiftUI, but it works for any SwiftUI view. And it’s the aspect ratio modifier. And we can say <code>aspectRatio(contentMode: .fits)</code>.
+								There is a modifier in SwiftUI, but it works for any SwiftUI view. And it’s the <a href="https://developer.apple.com/documentation/swiftui/view/aspectratio(_:contentmode:)-771ow">aspectRatio modifier</a>. And we can say <code>aspectRatio(contentMode: .fits)</code>.
 							</p>
 							<p><img src="/presentations/day-in-the-life/109.png" title/></p>
 							<p>
@@ -381,15 +385,15 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/110.png" title/></p>
 							<p>
-								Now it gets really cool, I think. So <code>aspectRatio</code> doesn’t know the underlying aspect ratio of the image. It needs to figure that out. And here’s what it’s doing: it’s going to propose nil by nil to the image.
+								Now it gets really cool, I think. So <code>aspectRatio</code> doesn’t know the underlying aspect ratio of the image. It needs to figure that out. And here’s what it’s doing: it’s going to propose nil⨉nil to the image.
 							</p>
 							<p><img src="/presentations/day-in-the-life/111.png" title/></p>
 							<p>
-								The image says I’m 265 by 80.
+								The image says I’m 265⨉80.
 							</p>
 							<p><img src="/presentations/day-in-the-life/112.png" title/></p>
 							<p>
-								Then the aspect ratio takes that 265 by 80, and it’s going to fit a rectangle inside the entire safe area, its proposal. It’s going to fit a rectangle with that same aspect ratio inside the safe area.
+								Then the aspect ratio takes that 265⨉80, and it’s going to fit a rectangle inside the entire safe area, its proposal. It’s going to fit a rectangle with that same aspect ratio inside the safe area.
 							</p>
 							<p><img src="/presentations/day-in-the-life/113.png" title/></p>
 							<p>
@@ -397,19 +401,19 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/114.png" title/></p>
 							<p>
-								I think this is really cool how this works, by proposing nil first. And let’s see what happens at different sizes. So if we had 200 by 200 as our proposal, the aspect ratio will do the same thing.
+								I think this is really cool how this works, by proposing nil first. And let’s see what happens at different sizes. So if we had 200⨉200 as our proposal, the aspect ratio will do the same thing.
 							</p>
 							<p><img src="/presentations/day-in-the-life/116.png" title/></p>
 							<p>
-								It doesn’t know the underlying aspect ratio because we didn’t specify it. It will propose nil by nil to the image.
+								It doesn’t know the underlying aspect ratio because we didn’t specify it. It will propose nil⨉nil to the image.
 							</p>
 							<p><img src="/presentations/day-in-the-life/117.png" title/></p>
 							<p>
-								The image says, well, my underlying size is 265 by 80.
+								The image says, well, my underlying size is 265⨉80.
 							</p>
 							<p><img src="/presentations/day-in-the-life/118.png" title/></p>
 							<p>
-								Then the aspect ratio takes that aspect ratio, fits it inside the 200 by 200, and it proposes 200 by 60.
+								Then the aspect ratio takes that aspect ratio, fits it inside the 200⨉200, and it proposes 200⨉60.
 							</p>
 							<p><img src="/presentations/day-in-the-life/119.png" title/></p>
 							<p>
@@ -425,11 +429,11 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/123.png" title/></p>
 							<p>
-								And aspect ratio needs to, again, propose nil by nil.
+								And aspect ratio needs to, again, propose nil⨉nil.
 							</p>
 							<p><img src="/presentations/day-in-the-life/124.png" title/></p>
 							<p>
-								The image says: my size is 629 by 271. This, again, stretches beyond the bounds.
+								The image says: my size is 629⨉271. This, again, stretches beyond the bounds.
 							</p>
 							<p><img src="/presentations/day-in-the-life/125.png" title/></p>
 							<p>
@@ -449,11 +453,11 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/130.png" title/></p>
 							<p>
-								So we can just add an if else around this image code. And then in the case that is resizable, we create a resizable image. Otherwise not. Unfortunately, this is the way we’d have to write it because the resizable modifier doesn’t take a Boolean.
+								So we can just add an if else around this image code. And then in the case that is resizable, we create a resizable image. Unfortunately, this is the way we’d have to write it because the resizable modifier doesn’t take a boolean.
 							</p>
 							<p><img src="/presentations/day-in-the-life/132.png" title/></p>
 							<p>
-								This is not very nice because now we need to initialize our image with a URL and that resizable Boolean. And that doesn’t look the same way as the image initializer does, where you have the dot resizable modifier. But we can add that very easily as well. To do that, we can make our property private.
+								This is not very nice because now we need to initialize our image with a URL and that resizable boolean. And that doesn’t look the same way as the image initializer does, where you have the resizable modifier. But we can add that very easily as well. To do that, we can make our property private.
 							</p>
 							<p><img src="/presentations/day-in-the-life/133.png" title/></p>
 							<p>
@@ -479,7 +483,7 @@
 							</p>
 							<p><img src="/presentations/day-in-the-life/137.png" title/></p>
 							<p>
-								When we talk about stack layouts, it’s also very interesting what happens in terms of proposing and reporting. A stack proposes to its children, and it starts by proposing 0 for the width. Let’s say we have an HStack. The children all report their sizes for that zero. And so it does this for each one of the children.
+								When we <a href="https://talk.objc.io/episodes/S01E319-inspecting-hstack-layout">talk about stack layouts</a>, it’s also very interesting what happens in terms of proposing and reporting. A stack proposes to its children, and it starts by proposing 0 for the width. Let’s say we have an HStack. The children all report their sizes for that zero. And so it does this for each one of the children.
 							</p>
 							<p><img src="/presentations/day-in-the-life/139.png" title/></p>
 							<p>
