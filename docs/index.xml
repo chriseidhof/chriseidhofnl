@@ -8,6 +8,26 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 35</title>
+			<description>
+				&lt;p&gt;
+	We finally recorded the final bits of our &lt;a href=&quot;https://talk.objc.io/episodes/S01E366-building-keyframe-animations-part-1&quot;&gt;keyframe reimplementation&lt;/a&gt;, including a Catmull-Rom implementation that turned out to be extremely simple and matches exactly what SwiftUI does. I’ve used our reimplementation in a macOS 13 app successfully.
+&lt;/p&gt;
+&lt;p&gt;
+	We also went over the entire &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;book&lt;/a&gt; and made it ready for a final copy-editing pass. The next steps after that is to do a little bit of typesetting for the PDF version and possible a bit more for the printed version. Then we can release it!
+&lt;/p&gt;
+&lt;p&gt;
+	I’ve been playing around with a new project that lets me record me typing code and then replay it in a smoother and animated way. This should be useful for making videos and when giving presentations (in SwiftUI).
+&lt;/p&gt;
+&lt;p&gt;
+	Last week, &lt;a href=&quot;https://www.swiftconf.to&quot;&gt;Swift TO&lt;/a&gt; released the videos of all the presentations. I created an annotated version of my presentation &lt;a href=&quot;http://chris.eidhof.nl/presentations/day-in-the-life&quot;&gt;A Day in the Life of a SwiftUI View&lt;/a&gt;. This definitely took a few hours here and there, but hopefully it’s useful to those of you that don’t want to or can’t watch videos.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 04 Sep 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-35</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-35</guid>
+		</item>
+		<item>
 			<title>Running Code When Your View Appears</title>
 			<description>
 				&lt;p&gt;
@@ -622,29 +642,6 @@
 			<pubDate>Sun, 16 Apr 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-15</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-15</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 14</title>
-			<description>
-				&lt;p&gt;
-	I worked a bit on porting some “older” features we had in our test implementation of attributed string builder, and added them to our &lt;a href=&quot;https://github.com/objcio/attributed-string-builder&quot;&gt;public repository&lt;/a&gt;. We’re planning to use that for publishing our book. We want back and forth a lot, but we believe it’s easier to work with our own implementation based off of attributed strings than trying to wrangle LaTeX or desktop programs such as InDesign into the layout we want. By using attributed strings, we can write our book while automatically having our code checked, syntax highlighted and have proper previews.
-&lt;/p&gt;
-&lt;p&gt;
-	I wrote a &lt;a href=&quot;https://github.com/chriseidhof/swiftui-video-recording&quot;&gt;small library&lt;/a&gt; that helps me to record a SwiftUI view as an mp4 video. I always find it annoying to precisely record a video of an interaction, transition or animation, and this should hopefully make it a little bit easier, as it records exactly the bounds of a view: I don’t have to fiddle with positioning QuickTime or hope I get the timing right.
-&lt;/p&gt;
-&lt;p&gt;
-	I also wrote up a quick blog post about &lt;a href=&quot;http://chris.eidhof.nl/post/matched-geometry-effect&quot;&gt;matched geometry effect&lt;/a&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	I was really tired from the move last week, and this week went pretty slow because of that. I didn’t even have the energy for my daily run, but instead of fighting that I just rested. I started preparing an upcoming workshop, working a bit on the book (we forgot to write about EnviromentObject). While I did feel very tired, I am also way less stressed now that it’s only the final bits of the house.
-&lt;/p&gt;
-&lt;p&gt;
-	We spent a few days in and around our new house, cleaning things, building more raised beds, and so on. It feels pretty great to do that now that spring is really starting.
-&lt;/p&gt;
-			</description>
-			<pubDate>Sun, 09 Apr 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-14</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-14</guid>
 		</item>
 	</channel>
 </rss>

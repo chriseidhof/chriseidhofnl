@@ -38,6 +38,8 @@ struct AboutMe: Rule {
 
         In also enjoy reading, gardening and spending lots of time with my kids. I like building physical things (I'm not very good at it, but I really enjoy woodworking).
 
+        I sometimes give talks at conferences. Here's an annotated version of my talk [A Day in the Life of a SwiftUI View](/presentations/day-in-the-life).
+
         Here's a bio for conferences:
 
         > Chris is the founder of [objc.io](https://www.objc.io). He wrote multiple books about Swift, runs the [Swift Talk](https://www.objc.io) video series and organizes SwiftUI workshops.
