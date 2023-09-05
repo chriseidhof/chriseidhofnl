@@ -1,6 +1,6 @@
 Here's the video of my talk. Scroll down for an annotated transcript. The video contains some animations that I didn't replicate in the annotated slides.
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/0tJ474kjGrc?si=oFTuhj0L9GQajq03" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/MRY3UCUVv98?si=oFTuhj0L9GQajq03" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
 
 This talk is about understanding the mental model behind SwiftUI, or at least, my mental model. I want to share with you how I think this stuff happens. And I learned this by teaching [workshops](https://www.objc.io/workshops/swiftui/), [writing about this](https://www.objc.io/books/thinking-in-swiftui/), and actually [re-implementing](https://talk.objc.io/collections/swiftui-layout-explained) large [parts of SwiftUI](https://talk.objc.io/collections/swiftui-state-explained). I tried to re-implement the state system and the layout system. When I say I, I actually mean we. I did a lot of this work together with Florian, who's my collaborator. I want to focus on how the code we write translates into view trees. And then how these view trees translate into render trees. And I'll define this a little bit better as we go about it. 
 
