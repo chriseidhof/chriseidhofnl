@@ -87,30 +87,40 @@ extension BlogPost {
 
 struct Blog: Rule {
     let posts: [BlogPost.InContext]
-    
+    let unpublished: [BlogPost]
+
     var recent: [BlogPost] {
         Array(posts.map { $0.post }.prefix(5))
     }
-        
+
+    @MainActor
+    @RuleBuilder func postAndShareImage(_ post: BlogPost.InContext) -> some Rule {
+        WithEnvironment { env in // this is ugly but I couldn't get it to work otherwise
+            DispatchQueue.main.sync {
+                try! post.post.shareImageRule.builtin.run(environment: env)
+                if case .pieces = post.post.body {
+                    try! post.post.generateImages.builtin.run(environment: env)
+                }
+            }
+        }
+        .outputPath(post.post.link)
+        WriteNode(outputName: "index.html", node: post.page)
+            .title(post.post.metadata.title)
+            .environment(keyPath: \.openGraphImage, value: post.post.shareImageLink)
+            .outputPath(post.post.link)
+    }
+
+    @MainActor
     @RuleBuilder var body: some Rule {
         WriteNode(outputName: "archive/index.html", node:
             posts.map { $0.post }.groupedByYear()
         )
         .title("Archive")
         ForEach(posts) { post in
-            WithEnvironment { env in // this is ugly but I couldn't get it to work otherwise
-                DispatchQueue.main.sync {
-                    try! post.post.shareImageRule.builtin.run(environment: env)
-                    if case .pieces = post.post.body {
-                        try! post.post.generateImages.builtin.run(environment: env)
-                    }
-                }
-            }
-            .outputPath(post.post.link)
-            WriteNode(outputName: "index.html", node: post.page)
-                .title(post.post.metadata.title)
-                .environment(keyPath: \.openGraphImage, value: post.post.shareImageLink)
-                .outputPath(post.post.link)
+            postAndShareImage(post)
+        }
+        ForEach(unpublished) { post in
+            postAndShareImage(.init(post: post))
         }
         WriteNode(outputName: "index.xml", node: feed, xml: true)
             .resetTemplates()
@@ -216,13 +226,17 @@ extension BlogPost {
             return "/post/\(name)"
         }
     }()
+
+    static var published: [BlogPost] {
+        return all.filter { $0.published }
+    }
     
     static var feed: [BlogPost] {
-        return Array(all.prefix(20))
+        return Array(published.prefix(20))
     }
     
     static var homePage: [BlogPost] {
-        return Array(all.prefix(5))
+        return Array(published.prefix(5))
     }
 }
 
@@ -243,7 +257,7 @@ func loadPosts(path: String, buildDate: (_ filename: String, _ metadata: BlogPos
         return BlogPost(metadata: meta, body: .markdown(contents), link: buildLinkName(file))
     }
     let all = parsed + BlogPost.otherPosts
-    return all.filter { $0.published }.sorted(by: { $0.date < $1.date }).reversed()
+    return all.sorted(by: { $0.date < $1.date }).reversed()
 }
 
 extension BlogPost {
@@ -253,10 +267,14 @@ extension BlogPost {
         var next: BlogPost?
     }
     
-    static func inContext() -> [InContext] {
-        let all = self.all
+    static func publishedInContext() -> [InContext] {
+        let all = self.all.filter { $0.published }
         return all.indices.map { i in
             InContext(previous: i > 0 ? all[i-1] : nil , post: all[i], next: i + 1 < all.endIndex ? all[i + 1] : nil)
         }
+    }
+
+    static func unpublishedInContext() -> [BlogPost] {
+        self.all.filter { !$0.published }
     }
 }

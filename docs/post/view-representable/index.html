@@ -1,0 +1,199 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Working With UIViewRepresentable — Chris Eidhof
+		</title>
+		<meta content="Working With UIViewRepresentable — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/view-representable/og-image-f683.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Working With UIViewRepresentable
+							</h1>
+							<h2 class="headline">
+								Gotchas and patterns
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								When we work with SwiftUI, we can always drop down to UIKit level by using <code>UIViewRepresentable</code>, <code>NSViewRepresentable</code> or <code>UIViewControllerRepresentable</code>. The documentation around these protocols is still pretty sparse, and it can be hard to get them to work exactly the way you want. I tried to come up with some rules and patterns for using them. These patterns are <em>not</em>
+								 final, if you have feedback about missing things or mistakes, please let me know.
+							</p>
+							<p>
+								There are a few different challenges. In this article, I want to focus on communicating state between SwiftUI and UIKit. I haven’t really explored layout yet. There are two separate ways of communicating: SwiftUI can let you know its state has changed, and you’ll need to update the underlying <code>UIView</code>. There’s also the other way around, where something in UIKit changed and you need to tell SwiftUI about it. I have come up with two rules for this (<a href="https://www.cocoawithlove.com">Matt</a> helped me with this, thank you):
+							</p>
+							<ul>
+								<li>
+									<p>
+										Updating a UIView in response to a SwiftUI state change, you need to go over all possible properties but only change the UIView when it’s really needed.
+									</p>
+								</li>
+								<li>
+									<p>
+										When updating SwiftUI in response to a UIKit change, you need to make sure these updates happen async.
+									</p>
+								</li>
+							</ul>
+							<p>
+								I’ll elaborate on both of these.
+							</p>
+							<p><strong>Building a Text View wrapper</strong>
+							</p>
+							<p>
+								We’ll focus on building a text view wrapper as our running example. My initial goal is to write a <code>MyTextView</code> component that takes a binding for both the text and the selected range. I’ll write this for the Mac, so we’ll be using <code>NSView</code> instead of <code>UIView</code>. I chose this because it’s the simplest example I could think of to demonstrate some of the common issues.
+							</p>
+							<p>
+								Here’s the (broken) initial version. It takes two bindings. It uses the fact that structs are values to communicate <code>self</code> to the view’s coordinator. This gives the coordinator access to both bindings.
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">MyTextView</span>: <span class="hljs-identifier">NSViewRepresentable</span> {
+    @<span class="hljs-identifier">Binding</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">text</span>: <span class="hljs-identifier">String</span>
+    @<span class="hljs-identifier">Binding</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">selection</span>: <span class="hljs-identifier">NSRange</span>
+
+    final <span class="hljs-keyword">class</span> <span class="hljs-identifier">Coordinator</span>: <span class="hljs-identifier">NSObject</span>, <span class="hljs-identifier">NSTextViewDelegate</span> {
+        <span class="hljs-keyword">var</span> <span class="hljs-identifier">parent</span>: <span class="hljs-identifier">MyTextView</span>
+        unowned <span class="hljs-keyword">var</span> <span class="hljs-identifier">textView</span>: <span class="hljs-identifier">NSTextView</span>!
+        <span class="hljs-keyword">init</span>(<span class="hljs-identifier">parent</span>: <span class="hljs-identifier">MyTextView</span>) {
+            <span class="hljs-keyword">self</span>.<span class="hljs-identifier">parent</span> = <span class="hljs-identifier">parent</span>
+        }
+
+        <span class="hljs-keyword">func</span> <span class="hljs-identifier">textDidChange</span>(_ <span class="hljs-identifier">notification</span>: <span class="hljs-identifier">Notification</span>) {
+            <span class="hljs-keyword">self</span>.<span class="hljs-identifier">parent</span>.<span class="hljs-identifier">text</span> = <span class="hljs-identifier">textView</span>.<span class="hljs-identifier">string</span>
+        }
+
+        <span class="hljs-keyword">func</span> <span class="hljs-identifier">textViewDidChangeSelection</span>(_ <span class="hljs-identifier">notification</span>: <span class="hljs-identifier">Notification</span>) {
+            <span class="hljs-keyword">self</span>.<span class="hljs-identifier">parent</span>.<span class="hljs-identifier">selection</span> = <span class="hljs-identifier">textView</span>.<span class="hljs-identifier">selectedRange</span>()
+        }
+    }
+
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">makeCoordinator</span>() -> <span class="hljs-identifier">Coordinator</span> {
+        <span class="hljs-identifier">Coordinator</span>(<span class="hljs-identifier">parent</span>: <span class="hljs-keyword">self</span>)
+    }
+
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">makeNSView</span>(<span class="hljs-identifier">context</span>: <span class="hljs-identifier">Context</span>) -> <span class="hljs-identifier">NSTextView</span> {
+        <span class="hljs-keyword">let</span> <span class="hljs-identifier">t</span> = <span class="hljs-identifier">NSTextView</span>()
+        <span class="hljs-identifier">context</span>.<span class="hljs-identifier">coordinator</span>.<span class="hljs-identifier">textView</span> = <span class="hljs-identifier">t</span>
+        <span class="hljs-identifier">t</span>.<span class="hljs-identifier">delegate</span> = <span class="hljs-identifier">context</span>.<span class="hljs-identifier">coordinator</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-identifier">t</span>
+    }
+
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">updateNSView</span>(_ <span class="hljs-identifier">t</span>: <span class="hljs-identifier">NSTextView</span>, <span class="hljs-identifier">context</span>: <span class="hljs-identifier">Context</span>) {
+        <span class="hljs-identifier">t</span>.<span class="hljs-identifier">textStorage</span>?.<span class="hljs-identifier">setAttributedString</span>(<span class="hljs-identifier">text</span>.<span class="hljs-identifier">highlight</span>())
+        <span class="hljs-identifier">t</span>.<span class="hljs-identifier">selectedRanges</span> = [.<span class="hljs-keyword">init</span>(<span class="hljs-identifier">range</span>: <span class="hljs-identifier">selection</span>)]
+    }
+}
+</code></pre>
+							<p>
+								When we run the example above, we can see that we get the dreaded “Modifying state during view update, this will cause undefined behavior” warning. This happens because when we set the attributed string from within <code>updateNSView</code>, the text view will fire a <code>textViewDidChangeSelection</code> notification. This notification isn’t posted asynchronously, but actually does happen during the <code>updateNSView</code>.
+							</p>
+							<p><strong>Updating SwiftUI in Response to an NSView Change</strong>
+							</p>
+							<p>
+								Whenever we update our SwiftUI state, we need to make sure this happens outside of <code>updateNSView</code>. In many cases, the framework already does this for you (for example, the above bug doesn’t happen when writing the UIKit equivalent). However, when it doesn’t, the simplest workaround that I know of is wrapping your update in a <code>DispatchQueue.main.async</code>. This feels wrong, but gets rid of the warning:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">textViewDidChangeSelection</span>(_ <span class="hljs-identifier">notification</span>: <span class="hljs-identifier">Notification</span>) {
+    <span class="hljs-keyword">let</span> <span class="hljs-identifier">r</span> = <span class="hljs-keyword">self</span>.<span class="hljs-identifier">textView</span>.<span class="hljs-identifier">selectedRange</span>()
+    <span class="hljs-identifier">DispatchQueue</span>.<span class="hljs-identifier">main</span>.<span class="hljs-identifier">async</span> {
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">parent</span>.<span class="hljs-identifier">selection</span> = <span class="hljs-identifier">r</span>
+    }
+}
+</code></pre>
+							<p>
+								Unfortunately, things are now still broken: we don’t get a warning, but the cursor behaves weirdly. (The insertion point is rendered at the start of the current selection whenever the length of the selection is zero).
+							</p>
+							<p><strong>Updating an NSView in Response to a SwiftUI State Change</strong>
+							</p>
+							<p>
+								In principle, this is simple. Whenever something changes, SwiftUI will call <code>updateNSView(:context:)</code>. However, you don’t know <em>what</em>
+								 changed, it could be any number of properties. In the above implementation, we simply set the two properties, but that’s not enough.
+							</p>
+							<p>
+								In our update method, we should take care to inspect each property, but only set the corresponding <code>NSView</code> value if it’s really necessary. For example:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">updateNSView</span>(_ <span class="hljs-identifier">t</span>: <span class="hljs-identifier">NSTextView</span>, <span class="hljs-identifier">context</span>: <span class="hljs-identifier">Context</span>) {
+    <span class="hljs-identifier">context</span>.<span class="hljs-identifier">coordinator</span>.<span class="hljs-identifier">parent</span> = <span class="hljs-keyword">self</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-identifier">t</span>.<span class="hljs-identifier">string</span> != <span class="hljs-identifier">text</span> {
+        <span class="hljs-identifier">t</span>.<span class="hljs-identifier">textStorage</span>?.<span class="hljs-identifier">setAttributedString</span>(<span class="hljs-identifier">text</span>.<span class="hljs-identifier">highlight</span>())
+    }
+    <span class="hljs-keyword">if</span> <span class="hljs-identifier">t</span>.<span class="hljs-identifier">selectedRange</span>() != <span class="hljs-identifier">selection</span> {
+        <span class="hljs-identifier">t</span>.<span class="hljs-identifier">selectedRanges</span> = [.<span class="hljs-keyword">init</span>(<span class="hljs-identifier">range</span>: <span class="hljs-identifier">selection</span>)]
+    }
+}
+</code></pre>
+							<p>
+								This solves almost all our problems. However, there is still a weird issue. When I’m typing at the end of the text field, some characters get inserted just before the last character, instead of at the end.
+							</p>
+							<p>
+								Here’s what happens (bear with me):
+							</p>
+							<p>
+								When I type a character at the end of the string, the selection changes. A <code>self.parent.setSelection…</code> is enqueued. Before that runs, however, the text is updated, and <code>updateNSView</code> happens. It will set the attributed string, which in turn causes the selection to change, which adds another <code>setSelection</code> to the queue (with the old selection value). This <em>also</em>
+								 enqueues a <code>self.parent.setSelection…</code> (but with the old value). The main queue then runs the first (correct) block to set the selection, and then the second (incorrect) block.
+							</p>
+							<p>
+								To keep the order of events correct, this means we also have to enqueue the changing of our text. That way, all events will happen in the order we expect:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">func</span> <span class="hljs-identifier">textDidChange</span>(_ <span class="hljs-identifier">notification</span>: <span class="hljs-identifier">Notification</span>) {
+    <span class="hljs-keyword">let</span> <span class="hljs-identifier">str</span> = <span class="hljs-identifier">textView</span>.<span class="hljs-identifier">string</span>
+    <span class="hljs-identifier">DispatchQueue</span>.<span class="hljs-identifier">main</span>.<span class="hljs-identifier">async</span> {
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">parent</span>.<span class="hljs-identifier">text</span> = <span class="hljs-identifier">str</span>
+    }
+}
+
+</code></pre>
+							<p><strong>More Issues and Gotchas</strong>
+							</p>
+							<p>
+								As mentioned, we need to check each property in <code>updateNSView(:context:)</code> and make sure to only update the <code>NSView</code> when it’s really needed. This relies on us being able to compare values.  Sometimes this isn’t possible. For example, when dealing with a map view, we might want to expose the <code>centerCoordinate</code> as a binding, but it might store an <code>MKMapRegion</code> internally. When the conversion between these two is lossy, we’ll need to cache each value that we set. Inside your coordinator, you could add a helper like this:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">previousValues</span>: [<span class="hljs-identifier">String</span>: <span class="hljs-keyword">Any</span>] = [:]
+<span class="hljs-keyword">func</span> <span class="hljs-identifier">setIfNeeded</span><<span class="hljs-identifier">Value</span>: <span class="hljs-identifier">Equatable</span>>(<span class="hljs-identifier">value</span>: <span class="hljs-identifier">Value</span>, <span class="hljs-identifier">name</span>: <span class="hljs-identifier">String</span>, <span class="hljs-identifier">update</span>: (<span class="hljs-identifier">NSTextView</span>) -> ()) {
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">previous</span> = <span class="hljs-identifier">previousValues</span>[<span class="hljs-identifier">name</span>] <span class="hljs-keyword">as</span>? <span class="hljs-identifier">Value</span>, <span class="hljs-identifier">previous</span> == <span class="hljs-identifier">value</span> {
+        <span class="hljs-keyword">return</span>
+    }
+    <span class="hljs-identifier">previousValues</span>[<span class="hljs-identifier">name</span>] = <span class="hljs-identifier">value</span>
+    <span class="hljs-identifier">update</span>(<span class="hljs-identifier">textView</span>)
+}   
+</code></pre>
+							<p>
+								When we set the new value, we first check whether or not we’ve previously set this value. Only if it’s different, we proceed to update the underlying platform view. In a way, this is similar to SwiftUI’s <code>onChange(of:)</code> modifier (only run the closure when something changed).
+							</p>
+							<p>
+								Similarly, when we want to start animations in SwiftUI, we’ll need to have some kind of state, and our coordinator needs to track when that state changes and only start a new animation then. You could use a method similar to <code>setIfNeeded</code> to achieve this.
+							</p>
+							<p>
+								Sometimes, we want to communicate events back from an NSView to SwiftUI. If the event modifies a value, we could simply modify the corresponding binding. For example, if the event would be <code>scrollViewDidScroll</code>, we can change the <code>scrollPosition</code> binding. However, for other events it’s more appropriate to just call a closure (this is what <code>Button</code> does each time the user taps). Of course, this closure could have parameters as well.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Sep 8, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

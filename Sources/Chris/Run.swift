@@ -23,7 +23,7 @@ struct Site: Rule {
         Index()
         Presentations()
         AboutMe().outputPath("about")
-        Blog(posts: BlogPost.inContext())
+        Blog(posts: BlogPost.publishedInContext(), unpublished: BlogPost.unpublishedInContext())
         Snippets()
 //        SwiftUIViews()
         Write(outputName: ".nojekyll", data: Data())
