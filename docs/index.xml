@@ -8,6 +8,29 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 36</title>
+			<description>
+				&lt;p&gt;
+	It feels like last week was the last warm week of summer, and so as a family, we took advantage of that every afternoon and went swimming in one of the lakes nearby. Our new house is a short walk to one of those lakes, and one of my dreams since we moved here half a year ago was swimming across the lake. I’ve been swimming all my life, but never any long distances or with good technique.
+&lt;/p&gt;
+&lt;p&gt;
+	On Wednesday I saw the calm water, hot sun and no boats so I decided on a whim that this was the day. Armed with goggles and a tow float I decided to swim across. The unknown of it was pretty scary for me (which did give me a nice speed boost). It’s a large lake, there are boats, I might cramp up or unknown other stuff might happen. In the end, it took less than ten minutes to swim across. After only two minutes my elastic watch strap came loose, so I had to change to breast stroke until I figured out I could just shove my watch all the way up to my elbow. Those ten minutes felt a lot longer than normal!
+&lt;/p&gt;
+&lt;p&gt;
+	I swam across another time a few days later (in eight minutes), wearing a cap as well (for visibility). My last swimming lesson was thirty years ago, and the freestyle part I never learned was that, most of the time, your face is below the surface. You basically only tilt your head out of the water a bit to get in some fresh air and then continue, looking down towards the bottom. For some reason this is pretty scary to me as well, even more so in a very clear lake. But after a few more “longer” swims I’m starting to get used to it. Next season, I’d love to build up to really long swims, maybe crossing the lake length-wise.
+&lt;/p&gt;
+&lt;p&gt;
+	Florian was away last week, I worked on the “typing recorder” app that I plan to use to record myself typing and play back in a smooth way (for presentations, workshops and videos). As part of this, I needed to do another &lt;code&gt;NSViewRepresentable&lt;/code&gt; implementation for &lt;code&gt;NSTextField&lt;/code&gt;. I had yet another one of these “Modifying state during view update” runtime warnings and decided it was time to fully understand these. I’ve written down a bunch of notes already that I hope to turn into a blog post soon.
+&lt;/p&gt;
+&lt;p&gt;
+	We finalized the copy editing for &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt;, &lt;a href=&quot;http://www.natalye.com&quot;&gt;Natalye&lt;/a&gt; went through the last bunch of edits so now it’s time to typeset everything. We’ll need to do this once for print and once for the PDF version.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 11 Sep 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-36</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-36</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 35</title>
 			<description>
 				&lt;p&gt;
@@ -607,41 +630,6 @@
 			<pubDate>Sun, 23 Apr 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-16</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-16</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 15</title>
-			<description>
-				&lt;p&gt;
-	In Germany everyone gets time off for easter, and we spent time with friends and family. We also planted a bunch more things, really looking forward to summer where we’ll have a lot of fresh vegetables. We’re trying out a bunch of new things, so excited to see how well everything goes. The spinach, salad and onions are cropping up already.
-&lt;/p&gt;
-&lt;p&gt;
-	I worked on getting our book building software up to date. There are many dependencies (rendering using attributed strings, drawing diagrams, our own layout implementation to help generate explanations, and so on). We were still depending on an internal version of &lt;a href=&quot;https://github.com/objcio/attributed-string-builder&quot;&gt;attributed-string-builder&lt;/a&gt; which was essentially an extend subset of the public repository.
-&lt;/p&gt;
-&lt;p&gt;
-	I configured everything to (hopefully) be a very low-friction experience. I set up single Xcode project with virtually all code in Swift packages. For editing, we can just drop the package into the Xcode project and have a local editable version.
-&lt;/p&gt;
-&lt;p&gt;
-	While we wrote the book using Dropbox Paper, we now are typesetting it using attributed strings. All of our previous published books were typeset using a mix of homegrown scripts, Pandoc, LaTeX and a bunch of other stuff. We always had the full setup working on at least one machine, but we decided to try a different setup for this release.
-&lt;/p&gt;
-&lt;p&gt;
-	I also worked on a simple “connecting the dots” view to draw lines between arbitrary views in the view hierarchy. This works by propagating the center of each of the icons up (using anchors), and then drawing lines between all the connections. This technique is useful beyond this example, of course:
-&lt;/p&gt;
-&lt;p&gt;
-	&lt;picture class=&quot;swiftui&quot;&gt;
-		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/2023-15/1-dark.png 2x&quot;/&gt;
-		&lt;img srcset=&quot;http://chris.eidhof.nl/post/2023-15/1.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
-	&lt;/picture&gt;
-&lt;/p&gt;
-&lt;p&gt;
-	I’ll try to either write this up as a blog post or we’ll record it for Swift Talk.
-&lt;/p&gt;
-&lt;p&gt;
-	The painter spent last week painting the house, I helped with a bunch of preparation and final details. Next week we’ll get the flooring done on the ground floor, and in a few more weeks we’ll finally move in!
-&lt;/p&gt;
-			</description>
-			<pubDate>Sun, 16 Apr 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-15</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-15</guid>
 		</item>
 	</channel>
 </rss>
