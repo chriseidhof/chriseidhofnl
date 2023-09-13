@@ -5,7 +5,7 @@ headline: Gotchas and patterns
 published: false
 ---
 
-When we work with SwiftUI, we can always drop down to UIKit level by using `UIViewRepresentable`, `NSViewRepresentable` or `UIViewControllerRepresentable`. The documentation around these protocols is still pretty sparse, and it can be hard to get them to work exactly the way you want. I tried to come up with some rules and patterns for using them. These patterns are *not* final, if you have feedback about missing things or mistakes, please let me know.
+When we work with SwiftUI, we can always drop down to UIKit level by using `UIViewRepresentable`, `NSViewRepresentable` or `UIViewControllerRepresentable`. The documentation around these protocols is still pretty sparse, and it can be hard to get them to work exactly the way you want. I tried to come up with some rules and patterns for using them. These patterns are *not* final, if you have feedback about missing things or mistakes, please let me know. 
 
 There are a few different challenges. In this article, I want to focus on communicating state between SwiftUI and UIKit/AppKit. Communication can happen in either direction: you'll need to update your `UIView` when SwiftUI's state changes, and you'll need to update your SwiftUI state based on UIView changes.
 
@@ -24,7 +24,7 @@ In my testing, these issues are becoming less relevant with UIKit, but are very 
 
 **Building a MapView wrapper**
 
-MapKit's `Map` view for SwiftUI was always very limited, and a popular target for wrapping in a representable. As of iOS 17 it gained a lot of new capabilities, but we'll still use it as our first example.
+MapKit's `Map` view for SwiftUI used to be very limited, and a popular target for wrapping in a representable. As of iOS 17 it gained a lot of new capabilities, but we'll still use it as our first example.
 
 We'll be writing a simple wrapper that takes a binding to the map view's center coordinate. As a first step, we'll create an `MKMapView` and set the delegate to be our coordinator.
 
@@ -275,3 +275,5 @@ Similarly, when we want to start animations in SwiftUI, we'll need to have some 
 Sometimes, we want to communicate events back from an NSView to SwiftUI. If the event modifies a value, we could simply modify the corresponding binding. For example, if the event would be `scrollViewDidScroll`, we can change the `scrollPosition` binding. However, for other events it's more appropriate to just call a closure (this is what `Button` does each time the user taps). Of course, this closure could have parameters as well.
 
 I'm sure there are many more issues when doing this in practice, if you have any feedback or comments I'd love to hear about it.
+
+If you want to learn more about SwiftUI, check out our book [Thinking in SwiftUI](https://www.objc.io/books/thinking-in-swiftui/).
