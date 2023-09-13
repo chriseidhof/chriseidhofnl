@@ -1,23 +1,22 @@
 ---
-date: 2023-09-08
+date: 2023-09-13
 title: "Working With UIViewRepresentable"
-headline: Gotchas and patterns
-published: false
+headline: Preventing Runtime Warnings and Loops
 ---
 
-When we work with SwiftUI, we can always drop down to UIKit level by using `UIViewRepresentable`, `NSViewRepresentable` or `UIViewControllerRepresentable`. The documentation around these protocols is still pretty sparse, and it can be hard to get them to work exactly the way you want. I tried to come up with some rules and patterns for using them. These patterns are *not* final, if you have feedback about missing things or mistakes, please let me know. 
+When we work with SwiftUI, we can always drop down to UIKit level by using `UIViewRepresentable`, `NSViewRepresentable` or `UIViewControllerRepresentable`. The documentation around these protocols is still pretty sparse, and it can be hard to get them to work exactly the way we want. I tried to come up with some rules and patterns for using them. These patterns are *not* final, if you have feedback about missing things or mistakes, please let me know. 
 
-There are a few different challenges. In this article, I want to focus on communicating state between SwiftUI and UIKit/AppKit. Communication can happen in either direction: you'll need to update your `UIView` when SwiftUI's state changes, and you'll need to update your SwiftUI state based on UIView changes.
+There are a few different challenges. In this article, I want to focus on communicating state between SwiftUI and UIKit/AppKit. Communication can happen in either direction: we'll need to update our `UIView` when SwiftUI's state changes, and we'll need to update our SwiftUI state based on UIView changes.
 
-I have come up with two rules for this. ([Matt](https://www.cocoawithlove.com) helped me with this, thank you):
+Here are two rules for working with representables. ([Matt](https://www.cocoawithlove.com) helped me with this, thank you):
 
-- When updating a UIView in response to a SwiftUI state change, you need to go over all the representable's properties, but only change the UIView properties that need it.
-- When updating SwiftUI in response to a UIKit change, you need to make sure these updates happen asynchronously.
+- When updating a UIView in response to a SwiftUI state change, we need to go over all the representable's properties, but only change the UIView properties that need it.
+- When updating SwiftUI in response to a UIKit change, we need to make sure these updates happen asynchronously.
 
-If you don't follow these rules, there are a few issues you might see:
+If we don't follow these rules, there are a few issues we might see:
 
 - The dreaded "Modifying state during view update, this will cause undefined behavior" warning
-- Unnecessary redraws of your `UIViewRepresentable`, or even infinite loops
+- Unnecessary redraws of our `UIViewRepresentable`, or even infinite loops
 - Strange behavior where the state and the view are a little bit out of sync
 
 In my testing, these issues are becoming less relevant with UIKit, but are very relevant when dealing with AppKit. My guess is that UIKit components have seen some internal changes to make writing view representables simpler. However, as we'll see, this isn't the case for every UIKit view.
@@ -45,7 +44,7 @@ struct HybridMap: UIViewRepresentable {
 }
 ```
 
-For the coordinator, there is a nice technique to pass in all properties of `HybridMap` directly (this is especially useful when you have more than one property). You can simply pass a copy of `self`, as `HybridMap` is a struct:
+For the coordinator, there is a nice technique to pass in all properties of `HybridMap` directly (this is especially useful when we have more than one property). You can simply pass a copy of `self`, as `HybridMap` is a struct:
 
 ```swift
 // ...
@@ -218,7 +217,7 @@ Unfortunately, things are still broken: we don't get a runtime warning anymore, 
 
 **Updating an NSView in Response to a SwiftUI State Change**
 
-In principle, this is simple. Whenever something changes, SwiftUI will call `updateNSView(:context:)`. However, you don't know *what* changed, it could be any number of properties. In the above implementation, we simply set the two properties, but that's not enough.
+In principle, this is simple. Whenever something changes, SwiftUI will call `updateNSView(:context:)`. However, we don't know *what* changed, it could be any number of properties. In the above implementation, we simply set the two properties, but that's not enough.
 
 In our update method, we should take care to inspect each property, but only set the corresponding `NSView` value if it's really necessary. For example:
 
@@ -251,11 +250,11 @@ func textDidChange(_ notification: Notification) {
 }
 ```
 
-This is tricky to find and tricky to debug. A simple rule of thumb would be that once you start enqueueing one change asynchronously, you probably need to do all of the other updates asynchronously as well.
+This is tricky to find and tricky to debug. A simple rule of thumb would be that once we start enqueueing one change asynchronously, we probably need to do all of the other updates asynchronously as well.
 
 **More Issues and Gotchas**
 
-As mentioned, we need to check each property in `updateNSView(:context:)` and make sure to only update the `NSView` when it's really needed. This relies on us being able to compare values.  Sometimes this isn't possible. For example, when dealing with the map view, we saw that the center coordinate conversion is lossy. In the cases where we can't read out the current value, we can cache each value that we set. Inside your coordinator, you could add a helper like this:
+As mentioned, we need to check each property in `updateNSView(:context:)` and make sure to only update the `NSView` when it's really needed. This relies on us being able to compare values.  Sometimes this isn't possible. For example, when dealing with the map view, we saw that the center coordinate conversion is lossy. In the cases where we can't read out the current value, we can cache each value that we set. Inside our coordinator, we could add a helper like this:
 
 ```swift
 private var previousValues: [String: Any] = [:]

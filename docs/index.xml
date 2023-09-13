@@ -8,6 +8,328 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Working With UIViewRepresentable</title>
+			<description>
+				&lt;p&gt;
+	When we work with SwiftUI, we can always drop down to UIKit level by using &lt;code&gt;UIViewRepresentable&lt;/code&gt;, &lt;code&gt;NSViewRepresentable&lt;/code&gt; or &lt;code&gt;UIViewControllerRepresentable&lt;/code&gt;. The documentation around these protocols is still pretty sparse, and it can be hard to get them to work exactly the way we want. I tried to come up with some rules and patterns for using them. These patterns are &lt;em&gt;not&lt;/em&gt;
+	 final, if you have feedback about missing things or mistakes, please let me know.
+&lt;/p&gt;
+&lt;p&gt;
+	There are a few different challenges. In this article, I want to focus on communicating state between SwiftUI and UIKit/AppKit. Communication can happen in either direction: we’ll need to update our &lt;code&gt;UIView&lt;/code&gt; when SwiftUI’s state changes, and we’ll need to update our SwiftUI state based on UIView changes.
+&lt;/p&gt;
+&lt;p&gt;
+	Here are two rules for working with representables. (&lt;a href=&quot;https://www.cocoawithlove.com&quot;&gt;Matt&lt;/a&gt; helped me with this, thank you):
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			When updating a UIView in response to a SwiftUI state change, we need to go over all the representable’s properties, but only change the UIView properties that need it.
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			When updating SwiftUI in response to a UIKit change, we need to make sure these updates happen asynchronously.
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	If we don’t follow these rules, there are a few issues we might see:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			The dreaded “Modifying state during view update, this will cause undefined behavior” warning
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Unnecessary redraws of our &lt;code&gt;UIViewRepresentable&lt;/code&gt;, or even infinite loops
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Strange behavior where the state and the view are a little bit out of sync
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	In my testing, these issues are becoming less relevant with UIKit, but are very relevant when dealing with AppKit. My guess is that UIKit components have seen some internal changes to make writing view representables simpler. However, as we’ll see, this isn’t the case for every UIKit view.
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Building a MapView wrapper&lt;/strong&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	MapKit’s &lt;code&gt;Map&lt;/code&gt; view for SwiftUI used to be very limited, and a popular target for wrapping in a representable. As of iOS 17 it gained a lot of new capabilities, but we’ll still use it as our first example.
+&lt;/p&gt;
+&lt;p&gt;
+	We’ll be writing a simple wrapper that takes a binding to the map view’s center coordinate. As a first step, we’ll create an &lt;code&gt;MKMapView&lt;/code&gt; and set the delegate to be our coordinator.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct HybridMap: UIViewRepresentable {
+    @Binding var position: CLLocationCoordinate2D
+    
+    // ...
+
+    func makeUIView(context: Context) -&amp;gt; MKMapView {
+        let view = MKMapView()
+        view.delegate = context.coordinator
+        view.preferredConfiguration = MKHybridMapConfiguration()
+        return view
+    }
+
+    // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	For the coordinator, there is a nice technique to pass in all properties of &lt;code&gt;HybridMap&lt;/code&gt; directly (this is especially useful when we have more than one property). You can simply pass a copy of &lt;code&gt;self&lt;/code&gt;, as &lt;code&gt;HybridMap&lt;/code&gt; is a struct:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;// ...
+class Coordinator: NSObject, MKMapViewDelegate {
+    var parent: HybridMap
+    init(parent: HybridMap) {
+        self.parent = parent
+    }
+
+    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        parent.position = mapView.centerCoordinate
+    }
+}
+
+func makeCoordinator() -&amp;gt; Coordinator {
+    Coordinator(parent: self)
+}
+// ...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Finally, here’s our &lt;code&gt;updateUIView&lt;/code&gt; method:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func updateUIView(_ view: MKMapView, context: Context) {
+    context.coordinator.parent = self
+    view.centerCoordinate = position
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We can now create a simple view with a state property for the position:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;let initialPosition = CLLocationCoordinate2D(latitude: 52.518611, longitude: 13.408333)
+
+struct ContentView: View {
+    @State private var position = initialPosition
+    
+    var body: some View {
+        VStack {
+            Text(&amp;quot;\(position.latitude) \(position.longitude)&amp;quot;)
+            Button(&amp;quot;Reset Position&amp;quot;) { position = initialPosition }
+            HybridMap(position: $position)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	When we launch the above app, we’ll immediately get a runtime warning: “Modifying state during view update, this will cause undefined behavior.”. To debug this, we can add print statements to the beginning and ending of both our &lt;code&gt;updateUIView&lt;/code&gt; as well as &lt;code&gt;mapViewDidChangeVisibleRegion&lt;/code&gt; methods:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func updateUIView(_ view: MKMapView, context: Context) {
+    print(&amp;quot;Begin updateUIView&amp;quot;, position)
+    defer { print(&amp;quot;End updateUIView&amp;quot;) }
+    context.coordinator.parent = self
+    view.centerCoordinate = position
+}
+// ...
+func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+    print(&amp;quot;Begin didChange&amp;quot;, mapView.centerCoordinate)
+    defer { print(&amp;quot;End didChange&amp;quot;) }
+    parent.position = mapView.centerCoordinate
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	When we launch the app, we get the following print statements:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Begin updateUIView CLLocationCoordinate2D(latitude: 52.518611, longitude: 13.408333)
+End updateUIView
+Begin didChange CLLocationCoordinate2D(latitude: 51.117027, longitude: 10.333652000000006)
+End didChange
+Begin didChange CLLocationCoordinate2D(latitude: 52.51861099999999, longitude: 13.40833300000003)
+End didChange
+Begin updateUIView CLLocationCoordinate2D(latitude: 52.51861099999999, longitude: 13.40833300000003)
+Begin didChange CLLocationCoordinate2D(latitude: 52.51861099999999, longitude: 13.40833300000003)
+[SwiftUI] Modifying state during view update, this will cause undefined behavior.
+End didChange
+End updateUIView
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Here’s what happens: first, the view is rendered and put on screen. After that, the &lt;code&gt;didChange&lt;/code&gt; runs. We can see that map views don’t store their center coordinate directly, my guess is that they only store the visible region as their source of truth. This is why the values in the print statements are different from our initial value. Towards the end, we see that a &lt;code&gt;didChange&lt;/code&gt; runs from within our &lt;code&gt;updateUIView&lt;/code&gt; method, updating our SwiftUI state. This causes the “Modifying state” error.
+&lt;/p&gt;
+&lt;p&gt;
+	As far as I know, the only reliable way I know of to get rid of this warning is by doing this state change asynchronously. The simplest way is by enqueueing another block on the main queue:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+    DispatchQueue.main.async {
+        self.parent.position = mapView.centerCoordinate
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This makes the runtime warning go away. However, we can’t drag the map anymore, after a single drag movement it halts. There is one more step left to make this representable work:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func updateUIView(_ view: MKMapView, context: Context) {
+    context.coordinator.parent = self
+    if view.centerCoordinate != position {
+        view.centerCoordinate = position
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	By only doing the view update when necessary we’re not triggering another &lt;code&gt;didChange&lt;/code&gt;. Both of these changes are specific instances of the rules at the beginning of the article:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			We need to change our SwiftUI state asynchronously in response to UIKit changes.
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			We need to only update properties of UIKit views when absolutely necessary
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Building a Text View wrapper&lt;/strong&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	As a second example, we’ll build an &lt;code&gt;NSTextView&lt;/code&gt; wrapper. My goal is to write a &lt;code&gt;MyTextView&lt;/code&gt; component that takes a binding for both the text and the selected range. This is for the Mac, so we’ll be using &lt;code&gt;NSView&lt;/code&gt; instead of &lt;code&gt;UIView&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	Here’s the (broken) initial version, with a structure very similar to our map view:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct MyTextView: NSViewRepresentable {
+    @Binding var text: String
+    @Binding var selection: NSRange
+
+    final class Coordinator: NSObject, NSTextViewDelegate {
+        var parent: MyTextView
+        unowned var textView: NSTextView!
+        init(parent: MyTextView) {
+            self.parent = parent
+        }
+
+        func textDidChange(_ notification: Notification) {
+            self.parent.text = textView.string
+        }
+
+        func textViewDidChangeSelection(_ notification: Notification) {
+            self.parent.selection = textView.selectedRange()
+        }
+    }
+
+    func makeCoordinator() -&amp;gt; Coordinator {
+        Coordinator(parent: self)
+    }
+
+    func makeNSView(context: Context) -&amp;gt; NSTextView {
+        let t = NSTextView()
+        context.coordinator.textView = t
+        t.delegate = context.coordinator
+        return t
+    }
+
+    func updateNSView(_ t: NSTextView, context: Context) {
+        t.textStorage?.setAttributedString(text.highlight())
+        t.selectedRanges = [.init(range: selection)]
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	When we run the example above, we can see that we get the dreaded “Modifying state during view update, this will cause undefined behavior” warning. This happens because when we set the attributed string from within &lt;code&gt;updateNSView&lt;/code&gt;, the text view will fire a &lt;code&gt;textViewDidChangeSelection&lt;/code&gt; notification. This notification isn’t posted asynchronously, but actually does happen during the &lt;code&gt;updateNSView&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Updating SwiftUI in Response to an NSView Change&lt;/strong&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	Similar to the map view, we can now wrap our update by enqueueing it on the main queue:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func textViewDidChangeSelection(_ notification: Notification) {
+    let r = self.textView.selectedRange()
+    DispatchQueue.main.async {
+        self.parent.selection = r
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Unfortunately, things are still broken: we don’t get a runtime warning anymore, but the cursor behaves weirdly. (The insertion point is rendered at the start of the current selection whenever the length of the selection is zero).
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Updating an NSView in Response to a SwiftUI State Change&lt;/strong&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	In principle, this is simple. Whenever something changes, SwiftUI will call &lt;code&gt;updateNSView(:context:)&lt;/code&gt;. However, we don’t know &lt;em&gt;what&lt;/em&gt;
+	 changed, it could be any number of properties. In the above implementation, we simply set the two properties, but that’s not enough.
+&lt;/p&gt;
+&lt;p&gt;
+	In our update method, we should take care to inspect each property, but only set the corresponding &lt;code&gt;NSView&lt;/code&gt; value if it’s really necessary. For example:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func updateNSView(_ t: NSTextView, context: Context) {
+    context.coordinator.parent = self
+    if t.string != text {
+        t.textStorage?.setAttributedString(text.highlight())
+    }
+    if t.selectedRange() != selection {
+        t.selectedRanges = [.init(range: selection)]
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This solves almost all our problems. However, there is still a weird issue. When I’m typing at the end of the text field, some characters get inserted just before the last character, instead of at the end.
+&lt;/p&gt;
+&lt;p&gt;
+	Here’s what happens (bear with me):
+&lt;/p&gt;
+&lt;p&gt;
+	When I type a character at the end of the string, the selection changes. A &lt;code&gt;self.parent.setSelection…&lt;/code&gt; is enqueued. Before that runs, however, the text is updated, and &lt;code&gt;updateNSView&lt;/code&gt; happens. It will set the attributed string, which in turn causes the selection to change, which adds another &lt;code&gt;setSelection&lt;/code&gt; to the queue (with the old selection value). The main queue then runs the first (correct) block to set the selection, and then the second (incorrect) block.
+&lt;/p&gt;
+&lt;p&gt;
+	To keep the order of events correct, this means we also have to enqueue the changing of our text. That way, all events will happen in the order we expect:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;func textDidChange(_ notification: Notification) {
+    let str = textView.string
+    DispatchQueue.main.async {
+        self.parent.text = str
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This is tricky to find and tricky to debug. A simple rule of thumb would be that once we start enqueueing one change asynchronously, we probably need to do all of the other updates asynchronously as well.
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;More Issues and Gotchas&lt;/strong&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	As mentioned, we need to check each property in &lt;code&gt;updateNSView(:context:)&lt;/code&gt; and make sure to only update the &lt;code&gt;NSView&lt;/code&gt; when it’s really needed. This relies on us being able to compare values.  Sometimes this isn’t possible. For example, when dealing with the map view, we saw that the center coordinate conversion is lossy. In the cases where we can’t read out the current value, we can cache each value that we set. Inside our coordinator, we could add a helper like this:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;private var previousValues: [String: Any] = [:]
+func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, update: (NSTextView) -&amp;gt; ()) {
+    if let previous = previousValues[name] as? Value, previous == value {
+        return
+    }
+    previousValues[name] = value
+    update(textView)
+}   
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	When we set the new value, we first check whether or not we’ve previously set this value. Only if it’s different, we proceed to update the underlying platform view. In a way, this is similar to SwiftUI’s &lt;code&gt;onChange(of:)&lt;/code&gt; modifier (only run the closure when something changed).
+&lt;/p&gt;
+&lt;p&gt;
+	Similarly, when we want to start animations in SwiftUI, we’ll need to have some kind of state, and our coordinator needs to track when that state changes and only start a new animation then. You could use a method similar to &lt;code&gt;setIfNeeded&lt;/code&gt; to achieve this.
+&lt;/p&gt;
+&lt;p&gt;
+	Sometimes, we want to communicate events back from an NSView to SwiftUI. If the event modifies a value, we could simply modify the corresponding binding. For example, if the event would be &lt;code&gt;scrollViewDidScroll&lt;/code&gt;, we can change the &lt;code&gt;scrollPosition&lt;/code&gt; binding. However, for other events it’s more appropriate to just call a closure (this is what &lt;code&gt;Button&lt;/code&gt; does each time the user taps). Of course, this closure could have parameters as well.
+&lt;/p&gt;
+&lt;p&gt;
+	I’m sure there are many more issues when doing this in practice, if you have any feedback or comments I’d love to hear about it.
+&lt;/p&gt;
+&lt;p&gt;
+	If you want to learn more about SwiftUI, check out our book &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt;.
+&lt;/p&gt;
+			</description>
+			<pubDate>Wed, 13 Sep 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/view-representable</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/view-representable</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 36</title>
 			<description>
 				&lt;p&gt;
@@ -607,29 +929,6 @@
 			<pubDate>Sun, 30 Apr 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-17</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-17</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 16</title>
-			<description>
-				&lt;p&gt;
-	At the start of the week, I worked on making our (private) SwiftUI library for drawing tree diagrams a bit simpler. It has code for both drawing the diagrams as well as parsing the type of a view and turning that into an interactive diagram. I separated that into two packages and simplified the tree diagramming library.
-&lt;/p&gt;
-&lt;p&gt;
-	On Tuesday we recorded some Swift Talk episodes, and on Wednesday I spent time around the new house and with the family.
-&lt;/p&gt;
-&lt;p&gt;
-	On Thursday and Friday, Florian and me sat down to finally start typesetting &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt;. We tackled a whole bunch of stuff: the cover pages, much of the typography, highlighting, styling, and so on. A bunch of this code is in the &lt;a href=&quot;https://github.com/objcio/attributed-string-builder&quot;&gt;attributed string builders&lt;/a&gt; package. We still need to add tests and documentation for those features, but for now, we just build what we need and test it by looking at the generated PDF.
-&lt;/p&gt;
-&lt;p&gt;
-	I’m still not sure whether or not us writing the book generation ourselves (on top of attributed strings and TextKit) is a good idea, but it definitely is a lot of fun. For now it still seems very promising and much easier to write than LaTeX or using a program like InDesign. But let’s see what we think about this in a few years from now…
-&lt;/p&gt;
-&lt;p&gt;
-	We left our temporary holiday home and went on a trip to visit our family in The Netherlands. When we get back, we’ll officialy and finally move into (the ground floor of) the new house. Very exciting!
-&lt;/p&gt;
-			</description>
-			<pubDate>Sun, 23 Apr 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-16</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-16</guid>
 		</item>
 	</channel>
 </rss>

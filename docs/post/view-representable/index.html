@@ -11,7 +11,7 @@
 		</title>
 		<meta content="Working With UIViewRepresentable — Chris Eidhof" property="og:title"/>
 		<meta content="website" property="og:type"/>
-		<meta content="/post/view-representable/og-image-f683.png" property="og:image"/>
+		<meta content="/post/view-representable/og-image-9ba4.png" property="og:image"/>
 	</head>
 	<body>
 		<section id="content">
@@ -26,34 +26,34 @@
 								Working With UIViewRepresentable
 							</h1>
 							<h2 class="headline">
-								Gotchas and patterns
+								Preventing Runtime Warnings and Loops
 							</h2>
 						</header>
 						<section class="postbody">
 							<p>
-								When we work with SwiftUI, we can always drop down to UIKit level by using <code>UIViewRepresentable</code>, <code>NSViewRepresentable</code> or <code>UIViewControllerRepresentable</code>. The documentation around these protocols is still pretty sparse, and it can be hard to get them to work exactly the way you want. I tried to come up with some rules and patterns for using them. These patterns are <em>not</em>
+								When we work with SwiftUI, we can always drop down to UIKit level by using <code>UIViewRepresentable</code>, <code>NSViewRepresentable</code> or <code>UIViewControllerRepresentable</code>. The documentation around these protocols is still pretty sparse, and it can be hard to get them to work exactly the way we want. I tried to come up with some rules and patterns for using them. These patterns are <em>not</em>
 								 final, if you have feedback about missing things or mistakes, please let me know.
 							</p>
 							<p>
-								There are a few different challenges. In this article, I want to focus on communicating state between SwiftUI and UIKit/AppKit. Communication can happen in either direction: you’ll need to update your <code>UIView</code> when SwiftUI’s state changes, and you’ll need to update your SwiftUI state based on UIView changes.
+								There are a few different challenges. In this article, I want to focus on communicating state between SwiftUI and UIKit/AppKit. Communication can happen in either direction: we’ll need to update our <code>UIView</code> when SwiftUI’s state changes, and we’ll need to update our SwiftUI state based on UIView changes.
 							</p>
 							<p>
-								I have come up with two rules for this. (<a href="https://www.cocoawithlove.com">Matt</a> helped me with this, thank you):
+								Here are two rules for working with representables. (<a href="https://www.cocoawithlove.com">Matt</a> helped me with this, thank you):
 							</p>
 							<ul>
 								<li>
 									<p>
-										When updating a UIView in response to a SwiftUI state change, you need to go over all the representable’s properties, but only change the UIView properties that need it.
+										When updating a UIView in response to a SwiftUI state change, we need to go over all the representable’s properties, but only change the UIView properties that need it.
 									</p>
 								</li>
 								<li>
 									<p>
-										When updating SwiftUI in response to a UIKit change, you need to make sure these updates happen asynchronously.
+										When updating SwiftUI in response to a UIKit change, we need to make sure these updates happen asynchronously.
 									</p>
 								</li>
 							</ul>
 							<p>
-								If you don’t follow these rules, there are a few issues you might see:
+								If we don’t follow these rules, there are a few issues we might see:
 							</p>
 							<ul>
 								<li>
@@ -63,7 +63,7 @@
 								</li>
 								<li>
 									<p>
-										Unnecessary redraws of your <code>UIViewRepresentable</code>, or even infinite loops
+										Unnecessary redraws of our <code>UIViewRepresentable</code>, or even infinite loops
 									</p>
 								</li>
 								<li>
@@ -99,7 +99,7 @@
 }
 </code></pre>
 							<p>
-								For the coordinator, there is a nice technique to pass in all properties of <code>HybridMap</code> directly (this is especially useful when you have more than one property). You can simply pass a copy of <code>self</code>, as <code>HybridMap</code> is a struct:
+								For the coordinator, there is a nice technique to pass in all properties of <code>HybridMap</code> directly (this is especially useful when we have more than one property). You can simply pass a copy of <code>self</code>, as <code>HybridMap</code> is a struct:
 							</p>
 							<pre><code class="swift"><span class="hljs-comment">// ...</span>
 <span class="hljs-keyword">class</span> <span class="hljs-identifier">Coordinator</span>: <span class="hljs-identifier">NSObject</span>, <span class="hljs-identifier">MKMapViewDelegate</span> {
@@ -277,7 +277,7 @@ End updateUIView
 							<p><strong>Updating an NSView in Response to a SwiftUI State Change</strong>
 							</p>
 							<p>
-								In principle, this is simple. Whenever something changes, SwiftUI will call <code>updateNSView(:context:)</code>. However, you don’t know <em>what</em>
+								In principle, this is simple. Whenever something changes, SwiftUI will call <code>updateNSView(:context:)</code>. However, we don’t know <em>what</em>
 								 changed, it could be any number of properties. In the above implementation, we simply set the two properties, but that’s not enough.
 							</p>
 							<p>
@@ -313,12 +313,12 @@ End updateUIView
 }
 </code></pre>
 							<p>
-								This is tricky to find and tricky to debug. A simple rule of thumb would be that once you start enqueueing one change asynchronously, you probably need to do all of the other updates asynchronously as well.
+								This is tricky to find and tricky to debug. A simple rule of thumb would be that once we start enqueueing one change asynchronously, we probably need to do all of the other updates asynchronously as well.
 							</p>
 							<p><strong>More Issues and Gotchas</strong>
 							</p>
 							<p>
-								As mentioned, we need to check each property in <code>updateNSView(:context:)</code> and make sure to only update the <code>NSView</code> when it’s really needed. This relies on us being able to compare values.  Sometimes this isn’t possible. For example, when dealing with the map view, we saw that the center coordinate conversion is lossy. In the cases where we can’t read out the current value, we can cache each value that we set. Inside your coordinator, you could add a helper like this:
+								As mentioned, we need to check each property in <code>updateNSView(:context:)</code> and make sure to only update the <code>NSView</code> when it’s really needed. This relies on us being able to compare values.  Sometimes this isn’t possible. For example, when dealing with the map view, we saw that the center coordinate conversion is lossy. In the cases where we can’t read out the current value, we can cache each value that we set. Inside our coordinator, we could add a helper like this:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">previousValues</span>: [<span class="hljs-identifier">String</span>: <span class="hljs-keyword">Any</span>] = [:]
 <span class="hljs-keyword">func</span> <span class="hljs-identifier">setIfNeeded</span><<span class="hljs-identifier">Value</span>: <span class="hljs-identifier">Equatable</span>>(<span class="hljs-identifier">value</span>: <span class="hljs-identifier">Value</span>, <span class="hljs-identifier">name</span>: <span class="hljs-identifier">String</span>, <span class="hljs-identifier">update</span>: (<span class="hljs-identifier">NSTextView</span>) -> ()) {
@@ -348,7 +348,7 @@ End updateUIView
 						<footer class="group" id="post-meta">
 							<div>
 								<span>Posted on 
-									<span><time>Sep 8, 2023</time>
+									<span><time>Sep 13, 2023</time>
 										 by 
 										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
 							</div>
@@ -356,6 +356,8 @@ End updateUIView
 					</article>
 					<footer>
 						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-36">Weeknotes № 36
+									<span class="arrow">→</span></a></span>
 						</nav>
 					</footer>
 				</section>
