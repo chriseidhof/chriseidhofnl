@@ -341,6 +341,11 @@ End updateUIView
 							<p>
 								I’m sure there are many more issues when doing this in practice, if you have any feedback or comments I’d love to hear about it.
 							</p>
+							<p><strong>Update</strong>
+							</p>
+							<p>
+								After some discussion on Mastodon, it seems like there’s one more obvious impromevent we could make. When there are multiple related events that happen in the same runloop cycle (e.g. setting the attributed string and the selection) we could also batch them up and enqueue them once. This only works if these events happen synchronously within the update method, that way our update method can create a queue, and at the end it can enqueue all those updates asynchronously as a single block. I’ve experimented with this and it seems promising.
+							</p>
 							<p>
 								If you want to learn more about SwiftUI, check out our book <a href="https://www.objc.io/books/thinking-in-swiftui/">Thinking in SwiftUI</a>.
 							</p>
