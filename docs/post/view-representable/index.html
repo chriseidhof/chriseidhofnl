@@ -85,7 +85,7 @@
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">HybridMap</span>: <span class="hljs-identifier">UIViewRepresentable</span> {
     @<span class="hljs-identifier">Binding</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">position</span>: <span class="hljs-identifier">CLLocationCoordinate2D</span>
-    
+
     <span class="hljs-comment">// ...</span>
 
     <span class="hljs-keyword">func</span> <span class="hljs-identifier">makeUIView</span>(<span class="hljs-identifier">context</span>: <span class="hljs-identifier">Context</span>) -> <span class="hljs-identifier">MKMapView</span> {
@@ -133,7 +133,7 @@
 
 <span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
     @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">position</span> = <span class="hljs-identifier">initialPosition</span>
-    
+
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
         <span class="hljs-identifier">VStack</span> {
             <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string"></span>\(<span class="hljs-identifier">position</span>.<span class="hljs-identifier">latitude</span>)<span class="hljs-string"> </span>\(<span class="hljs-identifier">position</span>.<span class="hljs-identifier">longitude</span>)<span class="hljs-string"></span><span class="hljs-string">"</span>)
@@ -300,7 +300,25 @@ End updateUIView
 								Here’s what happens (bear with me):
 							</p>
 							<p>
-								When I type a character at the end of the string, the selection changes. A <code>self.parent.setSelection…</code> is enqueued. Before that runs, however, the text is updated, and <code>updateNSView</code> happens. It will set the attributed string, which in turn causes the selection to change, which adds another <code>setSelection</code> to the queue (with the old selection value). The main queue then runs the first (correct) block to set the selection, and then the second (incorrect) block.
+								When I type a character at the end of the string, the selection changes. A <code>self.parent.setSelection…</code> is enqueued. The main queue now looks like this:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/view-representable/1-dark.png 2x"/>
+									<img srcset="/post/view-representable/1.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								Before that runs, however, the text is updated, and <code>updateNSView</code> happens. It will set the attributed string, which in turn causes the selection to change, which adds another <code>setSelection</code> to the queue (with the old selection value). The main queue now looks like this:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/view-representable/3-dark.png 2x"/>
+									<img srcset="/post/view-representable/3.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								The main queue then runs the first (correct) block to set the selection, and then the second (incorrect) block.
 							</p>
 							<p>
 								To keep the order of events correct, this means we also have to enqueue the changing of our text. That way, all events will happen in the order we expect:
@@ -315,6 +333,63 @@ End updateUIView
 							<p>
 								This is tricky to find and tricky to debug. A simple rule of thumb would be that once we start enqueueing one change asynchronously, we probably need to do all of the other updates asynchronously as well.
 							</p>
+							<p>
+								Now, when the user types a character, the following happens. First, the selection event is enqueued:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/view-representable/5-dark.png 2x"/>
+									<img srcset="/post/view-representable/5.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								Then, the text setting event is enqueued:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/view-representable/7-dark.png 2x"/>
+									<img srcset="/post/view-representable/7.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								The main queue is a first-in, first-out serial queue. During the next iteration of the run loop, the first block runs while the other is still in the queue:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/view-representable/9-dark.png 2x"/>
+									<img srcset="/post/view-representable/9.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								Because the <code>setSelection</code> changes the internal SwiftUI view, the view is marked as needing to redraw. This causes the <code>updateView</code> to be enqueued:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/view-representable/11-dark.png 2x"/>
+									<img srcset="/post/view-representable/11.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								After the <code>setSelection</code> block is done, the <code>setText</code> is removed from the queue:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/view-representable/13-dark.png 2x"/>
+									<img srcset="/post/view-representable/13.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								This <code>setText</code> also wants the view to redraw. However, because the view is already flagged as “dirty” by the <code>setSelection</code> block, no further block will be enqueued. So after <code>setText</code> runs, the queue looks like this:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/view-representable/15-dark.png 2x"/>
+									<img srcset="/post/view-representable/15.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								Then the <code>updateView</code> runs and because we have the if-conditions in our method, no further changes will happen. So in practice, even though we enqueued multiple blocks asynchronously, these got coalesced into a single <code>updateView</code>.
+							</p>
 							<p><strong>More Issues and Gotchas</strong>
 							</p>
 							<p>
@@ -327,7 +402,7 @@ End updateUIView
     }
     <span class="hljs-identifier">previousValues</span>[<span class="hljs-identifier">name</span>] = <span class="hljs-identifier">value</span>
     <span class="hljs-identifier">update</span>(<span class="hljs-identifier">textView</span>)
-}   
+}
 </code></pre>
 							<p>
 								When we set the new value, we first check whether or not we’ve previously set this value. Only if it’s different, we proceed to update the underlying platform view. In a way, this is similar to SwiftUI’s <code>onChange(of:)</code> modifier (only run the closure when something changed).
@@ -341,21 +416,28 @@ End updateUIView
 							<p>
 								I’m sure there are many more issues when doing this in practice, if you have any feedback or comments I’d love to hear about it.
 							</p>
-							<p><strong>Update</strong>
-							</p>
-							<p>
-								After some discussion on Mastodon, it seems like there’s one more obvious impromevent we could make. When there are multiple related events that happen in the same runloop cycle (e.g. setting the attributed string and the selection) we could also batch them up and enqueue them once. This only works if these events happen synchronously within the update method, that way our update method can create a queue, and at the end it can enqueue all those updates asynchronously as a single block. I’ve experimented with this and it seems promising.
-							</p>
 							<p>
 								If you want to learn more about SwiftUI, check out our book <a href="https://www.objc.io/books/thinking-in-swiftui/">Thinking in SwiftUI</a>.
 							</p>
+							<p><strong>Updates</strong>
+							</p>
+							<ul>
+								<li>
+									<p>
+										After some discussion on Mastodon (and some research) I added a section on multiple events (which includes the main queue diagrams).
+									</p>
+								</li>
+							</ul>
 						</section>
 						<footer class="group" id="post-meta">
 							<div>
 								<span>Posted on 
 									<span><time>Sep 13, 2023</time>
 										 by 
-										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a>
+										(Last update: 
+										<time>Sep 15, 2023</time>
+										)</span></span>
 							</div>
 						</footer>
 					</article>

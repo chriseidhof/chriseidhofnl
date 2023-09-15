@@ -86,6 +86,17 @@ extension BlogPost {
                         a(href: "https://m.objc.io/@chris") {
                             "Chris Eidhof"
                         }
+                        if let update = updateDate {
+                                "(Last update: "
+                                //                        time(datetime: "2019-12-30T00:00:00+00:00", itemprop: "datePublished", pubdate: "pubdate") {
+                                //                            "Mon, Dec 30, 2019"
+
+                                //                        }
+                                time {
+                                    update.date.pretty(style: .dayMonthYear)
+                                }
+                                ")"
+                        }
                     }
                 }
             }

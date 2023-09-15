@@ -16,6 +16,7 @@ extension BlogPost {
         semanticColors,
         weeknotes15,
         safeArea,
+        viewRepresentable,
     ]
 }
 
@@ -191,6 +192,9 @@ struct BlogPost {
     var date: PostDate {
         PostDate(string: metadata.date)
     }
+    var updateDate: PostDate? {
+        metadata.updatedAt.map { PostDate(string: $0) }
+    }
     
     var outputName: String {
         link + "/index.html"
@@ -210,6 +214,7 @@ struct BlogPost {
         var headline: String?
         var title: String
         var date: String
+        var updatedAt: String?
         var aliases: [String]?
         var advanced_swift: Bool?
         var published: Bool?

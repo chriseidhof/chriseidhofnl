@@ -65,7 +65,7 @@
 &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct HybridMap: UIViewRepresentable {
     @Binding var position: CLLocationCoordinate2D
-    
+
     // ...
 
     func makeUIView(context: Context) -&amp;gt; MKMapView {
@@ -113,7 +113,7 @@ func makeCoordinator() -&amp;gt; Coordinator {
 
 struct ContentView: View {
     @State private var position = initialPosition
-    
+
     var body: some View {
         VStack {
             Text(&amp;quot;\(position.latitude) \(position.longitude)&amp;quot;)
@@ -280,7 +280,25 @@ End updateUIView
 	Here’s what happens (bear with me):
 &lt;/p&gt;
 &lt;p&gt;
-	When I type a character at the end of the string, the selection changes. A &lt;code&gt;self.parent.setSelection…&lt;/code&gt; is enqueued. Before that runs, however, the text is updated, and &lt;code&gt;updateNSView&lt;/code&gt; happens. It will set the attributed string, which in turn causes the selection to change, which adds another &lt;code&gt;setSelection&lt;/code&gt; to the queue (with the old selection value). The main queue then runs the first (correct) block to set the selection, and then the second (incorrect) block.
+	When I type a character at the end of the string, the selection changes. A &lt;code&gt;self.parent.setSelection…&lt;/code&gt; is enqueued. The main queue now looks like this:
+&lt;/p&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/view-representable/1-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/view-representable/1.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	Before that runs, however, the text is updated, and &lt;code&gt;updateNSView&lt;/code&gt; happens. It will set the attributed string, which in turn causes the selection to change, which adds another &lt;code&gt;setSelection&lt;/code&gt; to the queue (with the old selection value). The main queue now looks like this:
+&lt;/p&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/view-representable/3-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/view-representable/3.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	The main queue then runs the first (correct) block to set the selection, and then the second (incorrect) block.
 &lt;/p&gt;
 &lt;p&gt;
 	To keep the order of events correct, this means we also have to enqueue the changing of our text. That way, all events will happen in the order we expect:
@@ -295,6 +313,63 @@ End updateUIView
 &lt;p&gt;
 	This is tricky to find and tricky to debug. A simple rule of thumb would be that once we start enqueueing one change asynchronously, we probably need to do all of the other updates asynchronously as well.
 &lt;/p&gt;
+&lt;p&gt;
+	Now, when the user types a character, the following happens. First, the selection event is enqueued:
+&lt;/p&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/view-representable/5-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/view-representable/5.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	Then, the text setting event is enqueued:
+&lt;/p&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/view-representable/7-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/view-representable/7.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	The main queue is a first-in, first-out serial queue. During the next iteration of the run loop, the first block runs while the other is still in the queue:
+&lt;/p&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/view-representable/9-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/view-representable/9.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	Because the &lt;code&gt;setSelection&lt;/code&gt; changes the internal SwiftUI view, the view is marked as needing to redraw. This causes the &lt;code&gt;updateView&lt;/code&gt; to be enqueued:
+&lt;/p&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/view-representable/11-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/view-representable/11.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	After the &lt;code&gt;setSelection&lt;/code&gt; block is done, the &lt;code&gt;setText&lt;/code&gt; is removed from the queue:
+&lt;/p&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/view-representable/13-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/view-representable/13.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	This &lt;code&gt;setText&lt;/code&gt; also wants the view to redraw. However, because the view is already flagged as “dirty” by the &lt;code&gt;setSelection&lt;/code&gt; block, no further block will be enqueued. So after &lt;code&gt;setText&lt;/code&gt; runs, the queue looks like this:
+&lt;/p&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/view-representable/15-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/view-representable/15.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	Then the &lt;code&gt;updateView&lt;/code&gt; runs and because we have the if-conditions in our method, no further changes will happen. So in practice, even though we enqueued multiple blocks asynchronously, these got coalesced into a single &lt;code&gt;updateView&lt;/code&gt;.
+&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;More Issues and Gotchas&lt;/strong&gt;
 &lt;/p&gt;
 &lt;p&gt;
@@ -307,7 +382,7 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
     }
     previousValues[name] = value
     update(textView)
-}   
+}
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
 	When we set the new value, we first check whether or not we’ve previously set this value. Only if it’s different, we proceed to update the underlying platform view. In a way, this is similar to SwiftUI’s &lt;code&gt;onChange(of:)&lt;/code&gt; modifier (only run the closure when something changed).
@@ -321,14 +396,18 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
 &lt;p&gt;
 	I’m sure there are many more issues when doing this in practice, if you have any feedback or comments I’d love to hear about it.
 &lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Update&lt;/strong&gt;
-&lt;/p&gt;
-&lt;p&gt;
-	After some discussion on Mastodon, it seems like there’s one more obvious impromevent we could make. When there are multiple related events that happen in the same runloop cycle (e.g. setting the attributed string and the selection) we could also batch them up and enqueue them once. This only works if these events happen synchronously within the update method, that way our update method can create a queue, and at the end it can enqueue all those updates asynchronously as a single block. I’ve experimented with this and it seems promising.
-&lt;/p&gt;
 &lt;p&gt;
 	If you want to learn more about SwiftUI, check out our book &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt;.
 &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Updates&lt;/strong&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			After some discussion on Mastodon (and some research) I added a section on multiple events (which includes the main queue diagrams).
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
 			</description>
 			<pubDate>Wed, 13 Sep 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/view-representable</link>
