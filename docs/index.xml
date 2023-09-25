@@ -8,6 +8,26 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 38</title>
+			<description>
+				&lt;p&gt;
+	Last week we recorded a bunch of episodes around building a small marquee component. We wanted to make it interactive (similar to a scroll view) which makes the underlying implementation a bit different from how you would normally write SwiftUI components. The animations are driven by a &lt;code&gt;TimelineView&lt;/code&gt; so we can also easily do some math around the gesture velocity.
+&lt;/p&gt;
+&lt;p&gt;
+	We also got our proof copy of the print book, so close to release now. We made a few final adjustments to this as well.
+&lt;/p&gt;
+&lt;p&gt;
+	In the evenings I spent some more time on my recording app. I hope to use it for a presentation next week (not sure yet if the presentation will happen). My goal is to make it very easy for me to make these kind of interactive text animations so that I can easily prototype and ship high-quality code animations. I’m currently mostly just trying to get that recording workflow perfect.
+&lt;/p&gt;
+&lt;p&gt;
+	I swam a bunch more, also with a wetsuit (it’s not necessary yet, just to try what it’s like). I feel like my fear of open-water swimming is definitely getting a lot less. As always, one of the best ways to deal with fear is confronting it, which is definitely working in this case.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 25 Sep 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-38</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-38</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 37</title>
 			<description>
 				&lt;p&gt;
@@ -955,20 +975,6 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
 			<pubDate>Sun, 14 May 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-19</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-19</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 18</title>
-			<description>
-				&lt;p&gt;
-	For our book, I added support to draw nicer diagrams (with overlays on the arrows placed in exactly the right spot). I also changed the syntax highlighting so that we can generate custom attributed strings for certain parts. You can see both parts in action in &lt;a href=&quot;https://m.objc.io/@chris/110304502914075277&quot;&gt;this post&lt;/a&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	We also finally moved into our new house! It’s not finished yet, so we had to already move between the two floors twice, but by next week we’ll (hopefully) have a finished kitchen, finished bathrooms and a ground floor that’s completely done.
-&lt;/p&gt;
-			</description>
-			<pubDate>Sun, 07 May 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-18</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-18</guid>
 		</item>
 	</channel>
 </rss>
