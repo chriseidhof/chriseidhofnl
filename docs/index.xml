@@ -8,6 +8,29 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 39</title>
+			<description>
+				&lt;p&gt;
+	We shipped &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt; last week! It’s now available in PDF and print. We’re very happy with the result (and open for suggestions, of course).
+&lt;/p&gt;
+&lt;p&gt;
+	One thing that’s currently missing which we might add (depending on how hard it is) is an ePub version. Without having implemented it, it’s a bit hard to predict how much work this is. I’m sure we can get an 80% solution in a few days, but actually shipping it will definitely be harder.
+&lt;/p&gt;
+&lt;p&gt;
+	My typing recording app is seeing some good progress. I’ve been bitten once again by the fact that I prototyped something without making my model values conform to &lt;code&gt;Identifiable&lt;/code&gt;. I stored them in an array and just used the array index as the identity. This works fine for a while, but will always come back to haunt you.
+&lt;/p&gt;
+&lt;p&gt;
+	We’ve also been busy with preparing new workshops. We updated the content in our workshop app to reflect what we learned from writing the book, and are also preparing some client-specific exercises.
+&lt;/p&gt;
+&lt;p&gt;
+	At home, we started some work on renovating the exterior walls. Big holes were cut to allow for new windows and larger windows. We had to reinsulate some parts, add corner rails for the plastering, and all kinds of other small jobs I’d never done before. In the end, none of it is very hard, but it all takes a while to figure out. The hardest part for me is that I don’t know how to do things the right way, both at a theoretical level (what insulation or products do I use) and at a practical level (how do I make sure this is attached correctly). YouTube can help a lot but is no replacement for actual experience and expertise.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 02 Oct 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-39</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-39</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 38</title>
 			<description>
 				&lt;p&gt;
@@ -954,27 +977,6 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
 			<pubDate>Sun, 21 May 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-20</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-20</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 19</title>
-			<description>
-				&lt;p&gt;
-	We spent last week iterating on the book, mostly drawing diagrams. Because our understanding of SwiftUI has gotten much better since the previous release, we also have much better explanations and much better visuals. We also had to change some things in the underlying infrastructure, but that all worked out. Can’t wait to get this ready.
-&lt;/p&gt;
-&lt;p&gt;
-	For a side project, I spent half a day researching how to sync data using CloudKit. It seems to be pretty easy. Last time I tried that, I had a hard time configuring things, and understanding how the pieces fit together, but it went without problems this time.
-&lt;/p&gt;
-&lt;p&gt;
-	Before we moved in, we started planting a bunch of things in raised beds, and I built two more raised beds last week. We sowed most things ourselves, and bought some small plants as well. We harvested spinach, radish, salat and a number of herbs. It is such a luxury to walk outside into the garden and directly harvest what we need. It also makes me appreciate how much effort goes into this: even with a few large raised beds we would not even come close to growing what we would need to be self-sufficient.
-&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/2023-05-14-garden.jpg&quot; title/&gt;&lt;/p&gt;
-&lt;p&gt;
-	Most of our kitchen arrived, which definitely helps in making the new house liveable. The main thing missing is the fridge, which is challenging but fine (we have a small portable cooler that holds the essentials for a family of four). Hopefully the fridge gets here soon.
-&lt;/p&gt;
-			</description>
-			<pubDate>Sun, 14 May 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-19</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-19</guid>
 		</item>
 	</channel>
 </rss>
