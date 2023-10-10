@@ -8,6 +8,26 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 40</title>
+			<description>
+				&lt;p&gt;
+	I’m taking some time off this month to focus on the family and get the final home improvement bits done before winter is here. I am working on some small side-projects and we will run a workshop this week.
+&lt;/p&gt;
+&lt;p&gt;
+	One of the things I experimented with is a generic programming library. This allows you to view your structs and enums as sums of products, and makes it relatively easy to write algorithms that operate on the structure of these types. For example, I’ve written a binary encoder/decoder, a method that generates a simple SwiftUI view for a type, a method that generates an editor (form) for a type, and a bunch more. I’m currently trying a few different approaches and am planning to blog a bit more about this soon. If you’re interested, &lt;a href=&quot;https://github.com/chriseidhof/generic-programming-tests&quot;&gt;here’s a repo&lt;/a&gt; with some of my experiments.
+&lt;/p&gt;
+&lt;p&gt;
+	In the typing recorder project that I wrote about in previous weeknotes, I started with a simple enum-based model layer. I was too lazy to make my model values &lt;code&gt;Identifiable&lt;/code&gt; but just had an array of enum values with the array index as the identifier. As always, this came back to haunt me. I finally changed my representation to include a stable identifier. This would have been much less work if I had done it from the beginning.
+&lt;/p&gt;
+&lt;p&gt;
+	I went for a quick dip in the lake after my long run on Sunday — it’s doable, but far from comfortable. Part of me wants to keep doing that, but I’m not sure how long I’ll last this year.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 09 Oct 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-40</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-40</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 39</title>
 			<description>
 				&lt;p&gt;
@@ -957,26 +977,6 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
 			<pubDate>Sun, 28 May 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-21</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-21</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 20</title>
-			<description>
-				&lt;p&gt;
-	We added a whole lot more diagrams to the book. One thing we struggled with is how to visually separate certain parts, and how to relate them to the text. One of the things we are now able to do is color our text inline (or apply any other attributes). Our Markdown renderer now uses a custom type for string interpolation that lets us embed any other type that converts to attributed strings.
-&lt;/p&gt;
-&lt;p&gt;
-	In &lt;a href=&quot;https://m.objc.io/@chris/110383108374505754&quot;&gt;this post&lt;/a&gt; you can see an example. The code is in our book repository, but I think we can move the Markdown-related infrastructure to our &lt;a href=&quot;https://github.com/objcio/attributed-string-builder&quot;&gt;attributed-string-builder&lt;/a&gt; repository.
-&lt;/p&gt;
-&lt;p&gt;
-	On Friday, our fridge arrived. We managed fine without one, but life is much easier with a functional fridge. I also cooked a meal where almost all ingredients came from the garden, except the rice and egg (a rice bowl with spinach, radish, fresh salad and herbs). We have already used up all the radishes we planted, a lot of the spinach and some of the salad. Even though I already built four raised beds, I think I need to build at least a few more this year. Luckily, these are pretty quick to put together (for now, I just use scrap wood and don’t make them very tall).
-&lt;/p&gt;
-&lt;p&gt;
-	I went for my first swim in the lake that’s across the street. Pretty cold, but really nice. In other water-related news, I also did a whole bunch of stuff in the garden, and I started the plumbing for our garden. I put all the lines above ground for now, to make sure there are no leaks and because we plan to build a terrace anyway.
-&lt;/p&gt;
-			</description>
-			<pubDate>Sun, 21 May 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-20</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-20</guid>
 		</item>
 	</channel>
 </rss>
