@@ -8,6 +8,17 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 42</title>
+			<description>
+				&lt;p&gt;
+	Still on my time off. We’re away in a holiday park, so I’m keeping the laptop mostly shut. I’ve done a tiny bit of work at the beginning of the week, hopefully I can share some of that soon. Mainly writing this post as to not break the streak.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 23 Oct 2023 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-42</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-42</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 41</title>
 			<description>
 				&lt;p&gt;
@@ -953,26 +964,6 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
 			<pubDate>Mon, 12 Jun 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-23</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-23</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 22</title>
-			<description>
-				&lt;p&gt;
-	I modified our &lt;a href=&quot;https://github.com/objcio/attributed-string-builder/&quot;&gt;attributed-string-builder&lt;/a&gt; to accept modifiers that can be applied to SwiftUI environment. For example, this lets us modify the environment for all embeds inside an &lt;code&gt;AttributedStringConvertible&lt;/code&gt;. So far, the library has been really useful, and we’ve gotten really far with the rendering. For the full book, it’s becoming a bit slow (a few seconds to render), but compared to our previous LaTeX/Pandoc setup it’s blazingly fast. The flexibility and control we get from it is pretty amazing. I know you can have that same (and more) control in LaTeX, but because we write Swift every single day this has way less friction for us.
-&lt;/p&gt;
-&lt;p&gt;
-	We visualized more things, abstracted some of the visualizations away (when similar diagrams use the same abstraction we can be sure they render in the same way, and don’t have subtle errors). We also started working towards ordering a proof copy, with an increased paper size and printed using color instead of grayscale. We’ll have to see how all the text renders there. The first two chapters are now completely done with copy-editing, which means we can do the final typesetting there!
-&lt;/p&gt;
-&lt;p&gt;
-	We recorded two more Swift Talk episodes last week, both on our Git reimplementation. I think with a bit of effort this could actually be turned into a usable dependency-free Git implementation, although getting it secure and safe would probably be a major effort.
-&lt;/p&gt;
-&lt;p&gt;
-	I picked up my running a bit over the last weeks. I finally feel like I have energy for that again (was heavily blocked by the move). I’m slow compared to last year, but only focusing on building out my endurance. I can maintain last year’s marathon pace maybe for one or two kilometers. However, I’m trying to keep a &lt;a href=&quot;https://fs.blog/carol-dweck-mindset/&quot;&gt;growth mindset&lt;/a&gt; and improve every day. The weather has been really nice here, and it’s been amazing to dip in the lake after a run. Also, we finally moved into our actual bedrooms. The flooring was only finished on Friday so we had to improvise a bit until then.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 05 Jun 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-22</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-22</guid>
 		</item>
 	</channel>
 </rss>
