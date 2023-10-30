@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 43 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 43 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2023-43/og-image-ad39.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 43
+							</h1>
+							<h2 class="headline">
+								TypeScript
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								I think a lot of Apple’s documentation could be improved. For example, I think SwiftUI’s layout system could be explained in a much better way. We try to do so in our workshops and books, but I think interactive explanations on a public website would be even better. A few years ago we reimplemented large parts of SwiftUI’s layout system in Swift. I started porting this to Javascript.
+							</p>
+							<p>
+								While in The Netherlands, I also met up with my friends from university. We had a very close-knit group of students during our Master’s and ended up all going super deep on Haskell and functional programming. When everyone at the table immediately recommended I switch to TypeScript I took their word for it. The switch was <em>so</em>
+								 worth it.
+							</p>
+							<p>
+								I installed the TypeScript compiler and VS Code. I also (based on my friends’ recommendations) enabled copilot and had such an incredibly productive time. I don’t have to worry too much about performance or feature-completeness, as the goal is to only use this for teaching. I just focus on adding the subset of views that I want to explain and make sure they behave in exactly the same way as the real SwiftUI. Luckily, we had already done most of the hard work in Swift, I only need to port it. I currently have stacks, frames, shapes, padding, background/overlay, images, geometry readers and a basic version of <code>Text</code> working.
+							</p>
+							<p>
+								There are a bunch of things missing before we can release this in some form. It needs better pretty printing (generating the code from the views), tracing (so that we can show the layout process), design (the surrounding explanations need to have at least some kind of design that goes beyond the browser’s default Times font).
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Oct 30, 2023</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-42">Weeknotes № 42
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

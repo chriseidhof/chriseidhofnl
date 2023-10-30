@@ -8,6 +8,27 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 43</title>
+			<description>
+				&lt;p&gt;
+	I think a lot of Apple’s documentation could be improved. For example, I think SwiftUI’s layout system could be explained in a much better way. We try to do so in our workshops and books, but I think interactive explanations on a public website would be even better. A few years ago we reimplemented large parts of SwiftUI’s layout system in Swift. I started porting this to Javascript.
+&lt;/p&gt;
+&lt;p&gt;
+	While in The Netherlands, I also met up with my friends from university. We had a very close-knit group of students during our Master’s and ended up all going super deep on Haskell and functional programming. When everyone at the table immediately recommended I switch to TypeScript I took their word for it. The switch was &lt;em&gt;so&lt;/em&gt;
+	 worth it.
+&lt;/p&gt;
+&lt;p&gt;
+	I installed the TypeScript compiler and VS Code. I also (based on my friends’ recommendations) enabled copilot and had such an incredibly productive time. I don’t have to worry too much about performance or feature-completeness, as the goal is to only use this for teaching. I just focus on adding the subset of views that I want to explain and make sure they behave in exactly the same way as the real SwiftUI. Luckily, we had already done most of the hard work in Swift, I only need to port it. I currently have stacks, frames, shapes, padding, background/overlay, images, geometry readers and a basic version of &lt;code&gt;Text&lt;/code&gt; working.
+&lt;/p&gt;
+&lt;p&gt;
+	There are a bunch of things missing before we can release this in some form. It needs better pretty printing (generating the code from the views), tracing (so that we can show the layout process), design (the surrounding explanations need to have at least some kind of design that goes beyond the browser’s default Times font).
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 30 Oct 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-43</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-43</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 42</title>
 			<description>
 				&lt;p&gt;
@@ -940,30 +961,6 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
 			<pubDate>Sun, 18 Jun 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-24</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-24</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 23</title>
-			<description>
-				&lt;p&gt;
-	Last week was WWDC week. Hard to miss, the Vision Pro was announced. I’m excited and worried about that device. I especially didn’t like the dad wearing the goggles to take videos of his kids. I already worry about myself (and others) using their phones and other devices too much when kids are around. You’re there but not really there. To me, this feels like an amazing device to use when I’m at home while everyone else is sleeping.
-&lt;/p&gt;
-&lt;p&gt;
-	A whole bunch of new SwiftUI things got announced. Looks like some really solid improvements. I think the Metal shaders are going to be a lot of fun (&lt;a href=&quot;https://mastodon.social/@dlx/110515723356297247&quot;&gt;Robb is already making cool stuff&lt;/a&gt;). The animation and state changes are very welcome, but will also require to rewrite major parts of our (almost finished) book. What makes this extra tricky is that of course, these APIs might still change until September.
-&lt;/p&gt;
-&lt;p&gt;
-	For the book, we went through and identified most of the parts that will need to change (we’ll blog about this very soon). We went ahead and drew our book’s cover in SwiftUI (the cover changes with each edition). We then also generated the hero image (for &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;the book’s page&lt;/a&gt;) in SwiftUI, as we couldn’t open the Sketch file anymore (we basically only use Sketch whenever we need to update that image). The hero image actually uses the generated PDF with the “live” book:
-&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/thinking-in-swiftui-hero-original.png&quot; title/&gt;&lt;/p&gt;
-&lt;p&gt;
-	We’ll be releasing the book this week, keep an eye on &lt;a href=&quot;https://www.objc.io/blog&quot;&gt;our blog&lt;/a&gt; and mailing list to keep updated.
-&lt;/p&gt;
-&lt;p&gt;
-	The weather has been amazing here and I went swimming in the lake with the kids almost every single day, which has been really fun for all of us.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 12 Jun 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-23</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-23</guid>
 		</item>
 	</channel>
 </rss>
