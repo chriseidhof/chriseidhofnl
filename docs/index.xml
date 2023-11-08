@@ -8,6 +8,23 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 44</title>
+			<description>
+				&lt;p&gt;
+	The first half of last week I was still away, so nothing much happened.
+&lt;/p&gt;
+&lt;p&gt;
+	The second half of the week we started preparing two more workshops. We prepare each workshop specifically for the company we teach, so it’s always quite a bit of work. We believe it’s useful for the company we work with (as they work on problems directly related to their day-to-day work). Oftentimes, we also learn something ourselves.
+&lt;/p&gt;
+&lt;p&gt;
+	In the odd hour, I worked on improving the SwiftUI layout port to the web. I think I’ve got enough of the SwiftUI part implemented, now it’s time to see how we can use this to create better explanations.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 06 Nov 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-44</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-44</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 43</title>
 			<description>
 				&lt;p&gt;
@@ -18,7 +35,7 @@
 	 worth it.
 &lt;/p&gt;
 &lt;p&gt;
-	I installed the TypeScript compiler and VS Code. I also (based on my friends’ recommendations) enabled copilot and had such an incredibly productive time. I don’t have to worry too much about performance or feature-completeness, as the goal is to only use this for teaching. I just focus on adding the subset of views that I want to explain and make sure they behave in exactly the same way as the real SwiftUI. Luckily, we had already done most of the hard work in Swift, I only need to port it. I currently have stacks, frames, shapes, padding, background/overlay, images, geometry readers and a basic version of &lt;code&gt;Text&lt;/code&gt; working.
+	I installed the TypeScript compiler and VS Code. I also (based on my friends’ recommendations) enabled copilot and had such an incredibly productive time. I don’t have to worry too much about my implementation’s performance or feature-completeness, as the goal is to only use this for teaching. I just focus on adding the subset of views that I want to explain and make sure they behave in exactly the same way as the real SwiftUI does. Luckily, we have already done most of the hard work in Swift, I only need to port it. I currently have stacks, frames, shapes, padding, background/overlay, images, geometry readers and a basic version of text working.
 &lt;/p&gt;
 &lt;p&gt;
 	There are a bunch of things missing before we can release this in some form. It needs better pretty printing (generating the code from the views), tracing (so that we can show the layout process), design (the surrounding explanations need to have at least some kind of design that goes beyond the browser’s default Times font).
@@ -941,26 +958,6 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
 			<pubDate>Sun, 25 Jun 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-25</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-25</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 24</title>
-			<description>
-				&lt;p&gt;
-	We went over the chapters of our book and tried to make an inventory of what we need to add. Most significantly, - the state chapter needs to describe the new way that object observing works, and the animations chapter needs a number of additions.
-&lt;/p&gt;
-&lt;p&gt;
-	We then prepared everything for the launch. This is a bit of a tedious manual process (updating all the website pages, the bundles, all the items on Gumroad, etc.). On Friday we launched the &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui&quot;&gt;prerelease of Thinking in SwiftUI&lt;/a&gt;. We also did a &lt;a href=&quot;https://www.youtube.com/watch?v=pYgAd-LF-UE&quot;&gt;live Q&amp;amp;A&lt;/a&gt; which was really fun. We plan to do these weekly so please &lt;a href=&quot;https://github.com/objcio/thinking-in-swiftui-qa/&quot;&gt;send in your questions&lt;/a&gt;. Here’s the &lt;a href=&quot;https://www.youtube.com/watch?v=H4sSC7scvRw&quot;&gt;Q&amp;amp;A for this Friday&lt;/a&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	On Saturday I ran my first marathon in about a year. I have not trained as much (although I have been ramping up my mileage over the last month and a half) and I was very glad to see that I was only four minutes slower than last year (same course, but this year the weather was not as hot). I thought my shape was a lot worse, this is a good starting point to build off of. Although I did try to stay reasonably fit during the house renovation phase, I know I lost a lot of speed and endurance. Building these up again is very simple for me, but no so easy: when I consistently run a lot (more than 140k/week) over a long period of time (a year or longer) I get very fit.
-&lt;/p&gt;
-&lt;p&gt;
-	I’m thinking of structuring my upcoming training similar to &lt;a href=&quot;https://www.howtoskate.se&quot;&gt;Nils van der Poel&lt;/a&gt;. Although his event is quite different (a speed-skating 10k lasts less 13 minutes whereas a fast marathon lasts almost three hours). I wonder if I should do even more aerobic training and less threshold than he describes.
-&lt;/p&gt;
-			</description>
-			<pubDate>Sun, 18 Jun 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-24</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-24</guid>
 		</item>
 	</channel>
 </rss>
