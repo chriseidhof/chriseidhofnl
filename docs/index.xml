@@ -8,6 +8,26 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 46-47</title>
+			<description>
+				&lt;p&gt;
+	Here are the combined weeknotes for the last two weeks.
+&lt;/p&gt;
+&lt;p&gt;
+	I visited my friend in London and met up with a bunch of friends. The NSLondon folks were nice enough to organize a drinks night, was great to see many old and new friends. London feels almost like the opposite of where we live (both in good and bad ways). One of my highlights was zipping through the streets in the dark rush hour on a rental E-bike (while being used to driving on the other side of the road). Felt dangerous but lots of fun.
+&lt;/p&gt;
+&lt;p&gt;
+	I made more progress on the SwiftUI web port. I’m starting to write out explanations of modifiers and views. I think in a few weeks we can start on the design work as well. I think I’d like to do the HTML/CSS myself for this one. While I did do lots of front-end web development years ago, I feel quite out of touch with modern front-end development. There are so many new things! I like a lot of it, but the one thing I’m trying to avoid for as long as I can is all those dependencies (bundlers, npm packages, etc.).
+&lt;/p&gt;
+&lt;p&gt;
+	We finished preparing two workshops (one in EST, one in PST, both in a single week). We also started some working on implementing the redesign of objc.io. This has been “ready” (that is, implemented in HTML/CSS) for over half a year, but we hadn’t gotten around to actually integrating it into our main website. So far, we only spent a day on this, but already made considerable progress.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 27 Nov 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-47</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-47</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 44</title>
 			<description>
 				&lt;p&gt;
@@ -17,12 +37,32 @@
 	The second half of the week we started preparing two more workshops. We prepare each workshop specifically for the company we teach, so it’s always quite a bit of work. We believe it’s useful for the company we work with (as they work on problems directly related to their day-to-day work). Oftentimes, we also learn something ourselves.
 &lt;/p&gt;
 &lt;p&gt;
-	In the odd hour, I worked on improving the SwiftUI layout port to the web. I think I’ve got enough of the SwiftUI part implemented, now it’s time to see how we can use this to create better explanations.
+	In the odd hour I had available I worked on improving the SwiftUI layout port to the web. I think I’ve got enough of the SwiftUI part implemented, now it’s time to see how we can use this to create better explanations.
 &lt;/p&gt;
 			</description>
 			<pubDate>Mon, 06 Nov 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-44</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-44</guid>
+		</item>
+		<item>
+			<title>Weeknotes № 45</title>
+			<description>
+				&lt;p&gt;
+	On Monday I was excited to finally have a regular week of work again without any travel or other big things. Little did I know. On Monday we all got really sick. It knocked the whole family out for multiple days.
+&lt;/p&gt;
+&lt;p&gt;
+	In the end, I did get a few days of solid work in last week. After finishing the projects we’ll build for our workshops, we split those up into individual exercises and write all the descriptions. We’ve gotten a lot more efficient at this, but it still takes a few iterations per workshop, even now.
+&lt;/p&gt;
+&lt;p&gt;
+	I also went and cleaned up a little bit of the Workshop app (our Mac app that the attendees use). I added a few small features. For example, all examples have live previews, I added support for better resizing that feels more native on the Mac. We have “fake” simulators in the app that show the solution in context, and I improved some of our fake iOS components (e.g. our simulation of a navigation view).
+&lt;/p&gt;
+&lt;p&gt;
+	In the evenings I kept tinkering with my web port of SwiftUI’s layout. Text layout now behaves almost exactly as SwiftUI’s Text view (which is based on CTFrameSetter). I added support for dark mode, and support to visualize a view’s origin and size. I added variables that allow you to change values in the source code by dragging them (similar to Bret Victor’s demos). There are so many more possibilities, but of course, my goal is for the end result to be very simple. So far TypeScript has really delivered on its promise, I feel confident making both small and large refactorings and having the type checker guide me through it.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 06 Nov 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-45</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-45</guid>
 		</item>
 		<item>
 			<title>Weeknotes № 43</title>
@@ -921,43 +961,6 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
 			<pubDate>Mon, 10 Jul 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-27</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-27</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 26</title>
-			<description>
-				&lt;p&gt;
-	We were busy last week getting the layout chapter out, which is probably the chapter I’m most proud of. There’s still a lot more we could say about SwiftUI’s layout behavior, but I think it’s long enough already. We put a lot of effort into the explanations, I especially like the alignment explanations. We also prepared and recorded two more episodes.
-&lt;/p&gt;
-&lt;p&gt;
-	I started working on my talk for the upcoming &lt;a href=&quot;https://www.swiftconf.to&quot;&gt;Swift TO&lt;/a&gt; conference. Really looking forward to that. I made a little presentation helper for SwiftUI so I can use that to give my presentation.
-&lt;/p&gt;
-&lt;p&gt;
-	At home, I dug up most of the front garden. There were all kinds of weeds, large stones, large metal rods and other stuff. It feels like the previous owners haven’t really maintained it during the last few years, so we wanted a clean start.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 03 Jul 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-26</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-26</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 25</title>
-			<description>
-				&lt;p&gt;
-	Last week, we had the post-launch week of our book, which is always fun. It’s nice to see the first feedback, which has been good so far. We also released a new chapter on state and binding. This one already has a bunch of (hopefully) helpful custom diagrams in there that show how the state system works. The chapter itself focuses on doing state using the pre-iOS17 way, and has pointers to the iOS 17 chapter (in which we explain the key differences and how to use the new state system). We also did our &lt;a href=&quot;https://www.youtube.com/watch?v=H4sSC7scvRw&quot;&gt;second Q&amp;amp;A livestream&lt;/a&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	We also recorded some episodes in which we reimplement a simplified version of the new observation framework in SwiftUI. It turns out this is not that hard to do (although as always, tricky to get just right).
-&lt;/p&gt;
-&lt;p&gt;
-	I spent a morning and half an afternoon doing home improvement, mostly working on the final section of drywall (there’s one corner which wasn’t finished yet). Running also went well, I feel like I recovered very quickly from the marathon. I did take it quite easy the first few days of the week, which always helps.
-&lt;/p&gt;
-&lt;p&gt;
-	In the garden things are growing well. We’re starting to see some tomatoes appear, have strawberries and raspberries, and the cucumber is now producing really well too. The edamame plants I sowed are also still alive. I’ve never grown edamame before, so it’s definitely an experiment that can fail.
-&lt;/p&gt;
-			</description>
-			<pubDate>Sun, 25 Jun 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-25</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-25</guid>
 		</item>
 	</channel>
 </rss>
