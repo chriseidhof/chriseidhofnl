@@ -8,6 +8,26 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 48</title>
+			<description>
+				&lt;p&gt;
+	We held two workshops last week, one in PT and one in ET. This meant staying up (quite) late for five days in a row. It always takes some getting used to. But the advantage is that I had lots of daylight time to do other stuff.
+&lt;/p&gt;
+&lt;p&gt;
+	I built a large wooden horse for my daughter. I finally took the time to set up my basement workshop (beyond the essentials). Got my dust collection going, which makes a massive difference (without dust collection, it isn’t much fun to spend longer than a few minutes there).
+&lt;/p&gt;
+&lt;p&gt;
+	After a chat with my friend I moved my SwiftUI in the browser project over to next.js. This took a few days (during which the code didn’t compile). I feel a bit out of my depth in the entire modern web ecosystem, but I’ll manage. The nice thing is that now I can wrap up my functionality in React components, which is definitely an improvement over doing everything by hand.
+&lt;/p&gt;
+&lt;p&gt;
+	I started slightly ramping up my running mileage and am hoping to start another 18-week marathon preparation in about a week from now. This should get me in shape for an April marathon. While it’s not realistic yet to train for a PB (I need a longer and more intensive buildup for that) I think I could aim for a second-best time. It depends a bit on how the next months go, training-wise.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 27 Nov 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-48</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-48</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 46-47</title>
 			<description>
 				&lt;p&gt;
@@ -938,29 +958,6 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
 			<pubDate>Mon, 17 Jul 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-28</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-28</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 27</title>
-			<description>
-				&lt;p&gt;
-	We spent most of last week getting the animation chapter ready for our Thinking in SwiftUI prerelease. Of all the chapters in our book this had the most additions for iOS 17. Phase animations, keyframe animations, completion handlers, custom animation curves, new transition APIs and custom keys for transactions.
-&lt;/p&gt;
-&lt;p&gt;
-	Most of these APIs work as expected, but it took us a while longer to understand keyframes (especially since they still have some bugs that will hopefully be fixed soon). However, once we did figure them it turned out that they are pretty simple: they just animate a single (often compound) value over time, in a system that’s completely separate from regular SwiftUI animations. To understand it better, we also spent a day reimplementing the keyframe API. While our implementation doesn’t do cubic keyframes (arguably the most important keyframes) and doesn’t have the builder syntax, it really helped us understand how keyframe animations work.
-&lt;/p&gt;
-&lt;p&gt;
-	In the house, I spent some time plastering defects in our wall. These happened during the final construction phase. The problem with loam (clay) walls is that they are a little less robust, on the other hand, the advantage is that they’re very easy to repair.
-&lt;/p&gt;
-&lt;p&gt;
-	Running-wise, I’ve done some consistent high mileage, and am now ready to move to the next phase of marathon preparation: adding in some more speedwork. Doing a lot of slow running has been fun and I feel I have gotten fitter, now it’s time to get a bit faster as well.
-&lt;/p&gt;
-&lt;p&gt;
-	I think it will always remain a bit of a challenge to be a Dutch person in Germany. It’s often the little things, for example, I just don’t use the car that often. When I walk to day care with my daughter, people often seem to feel sorry about that and offer a ride. Likewise, I have the feeling many drivers don’t really understand what it’s like to be a pedestrian or cyclist, creating dangerous situations (I’m pretty sure most of them don’t do it on purpose). I don’t really see any way to change this, and at the same time, I refuse to give up walking and cycling because of this.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 10 Jul 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-27</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-27</guid>
 		</item>
 	</channel>
 </rss>
