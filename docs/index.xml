@@ -8,6 +8,52 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 51-52</title>
+			<description>
+				&lt;p&gt;
+	In between Christmas and New Years I’ve been slowly making progress on my layout explanations website. Nicholas (the designer) has been putting out different possible designs, and I’ve been trying to implement some of it (both in SwiftUI as well as in my web port).
+&lt;/p&gt;
+&lt;p&gt;
+	I also spent a few days trying to figure out what happens when SwiftUI performs animations. I learned a few things:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			When you start an animation for a property while another animation for that property is already running, the results of these two animations get combined. The combined animation will always have the duration of the new animation. Also, at the end of the (new) animation, the value will be the result of the new animation. In between, these two values get interpolated. I’m hoping to write up some of my experiments soon.
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			When you create multiple transactions (e.g. change one property, animate a change to a second property and then change another property) in one go (e.g. in a button action) these cause SwiftUI to reevaluate the body multiple times (once per transaction). This is necessary to figure out which views should be animated and which should update immediately.
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	My goal is to understand animations so well that I can reimplement them without problems. I’m planning to also port the animation system to the web, so that I can use them for my visualizations in the layout explanations. Hopefully, at a later point, I can also use that to explain how animations work.
+&lt;/p&gt;
+&lt;p&gt;
+	Depending on when you’re reading this: happy new year!
+&lt;/p&gt;
+			</description>
+			<pubDate>Sun, 31 Dec 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-52</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-52</guid>
+		</item>
+		<item>
+			<title>Weeknotes № 49-50</title>
+			<description>
+				&lt;p&gt;
+	We recorded some Swift Talk episodes about tweakable values. We also continued implementing the new design for our website (and Swift Talk). It’s still not finished, hopefully soon.
+&lt;/p&gt;
+&lt;p&gt;
+	I also spent a bunch of time on my SwiftUI layout explanation site. It’s not so easy to figure out the right visualizations, but I think we’re making progress there. I also want to have some animations in there, which means I’m going to attempt to clone SwiftUI’s animation system. I’ve reimplemented (parts of) the layout system a few times, but have never tried doing the animation system. I think the main challenge will be to make sure additive animations work as expected. I’m not too worried about performance — it’s something that should work correctly in a real implementation, but for my purposes, I only want to be able to animate a few views at the time.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 18 Dec 2023 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2023-50</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-50</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 48</title>
 			<description>
 				&lt;p&gt;
@@ -23,7 +69,7 @@
 	I started slightly ramping up my running mileage and am hoping to start another 18-week marathon preparation in about a week from now. This should get me in shape for an April marathon. While it’s not realistic yet to train for a PB (I need a longer and more intensive buildup for that) I think I could aim for a second-best time. It depends a bit on how the next months go, training-wise.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 27 Nov 2023 00:00:00 +0100</pubDate>
+			<pubDate>Mon, 04 Dec 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-48</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-48</guid>
 		</item>
@@ -890,74 +936,6 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
 			<pubDate>Mon, 21 Aug 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-33</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-33</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 29-32</title>
-			<description>
-				&lt;p&gt;
-	The last weeks we’ve mostly enjoyed our holiday (visiting the Baltic sea), spent time in the garden, and generally took it easy.
-&lt;/p&gt;
-&lt;p&gt;
-	I finished the keyframe implementation, I think it’s almost the same as the native implementation but it works on older platforms. It’s not efficient and the code isn’t very pretty yet. While I don’t worry too much about efficiency, I would like to clean up the code before putting it out.
-&lt;/p&gt;
-&lt;p&gt;
-	I’ve worked pretty hard on preparing the presentation that I gave last week at &lt;a href=&quot;http://swiftconf.to&quot;&gt;Swift TO&lt;/a&gt; and will give this week at &lt;a href=&quot;https://www.meetup.com/iosoho/events/295354940/&quot;&gt;iOSoho&lt;/a&gt;. There are almost 150 slides (build steps) for 30 minutes of talking (not including some of the hand-controlled animations). I don’t think I’ve ever had that many slides, and I don’t think it was too much.
-&lt;/p&gt;
-&lt;p&gt;
-	I created the presentation using SwiftUI. This was both scary (what if it breaks on stage?) as well as really fun and productive. I was able to use all the builtin views and drawing, and a lot more nerdy stuff:
-&lt;/p&gt;
-&lt;p&gt;
-	The presentation is a custom Mac app with two windows: one presenter window that I control and see, and a second presentation window that displays full-screen on the projector. Almost everything in the presentation is fake, to make things controllable and reliable. The simulator, the animated mouse clicks, the buttons, and the network loading.
-&lt;/p&gt;
-&lt;p&gt;
-	I reused our (internal) diagrams library to draw and animate all kinds of tree diagrams. I used &lt;a href=&quot;https://movingparts.io/pow&quot;&gt;Pow&lt;/a&gt; for some of the animated effects. Not just transitions, but also shimmer effects in the tree diagrams to highlight specific features. I used the &lt;a href=&quot;https://talk.objc.io/episodes/S01E326-iphone-simulator-chrome-part-2&quot;&gt;iPhone simulator chrome&lt;/a&gt; to draw my views as if they were running in the simulator.
-&lt;/p&gt;
-&lt;p&gt;
-	I dug up my old Logitech clicker, which works as if it were an external keyboard. I handled the keyboard events in SwiftUI, not only to move between slides but also to toggle specific features and trigger some animations.
-&lt;/p&gt;
-&lt;p&gt;
-	I couldn’t get all the animations to work exactly the way I wanted to. Specifically the tree diagrams have some broken animations. I think this is due to the vertices being rendered through preferences. Likewise, I wanted to add a few more custom animations that I just didn’t have the time to implement. However, for upcoming presentations I should be able to take what I have and improve upon this, slowly working my way towards the perfect presentation.
-&lt;/p&gt;
-&lt;p&gt;
-	Because anything can go wrong, I also spent a day implementing PDF export. This gave me a backup for when things fail as well as readable slides for other people. On recent versions of macOS, it’s now very easy to export SwiftUI views as vector PDFs. Some native views (e.g. &lt;code&gt;ProgressView&lt;/code&gt;) render as red circles with a line through them, but I could quickly work my way around that.
-&lt;/p&gt;
-&lt;p&gt;
-	Of course, I did all of this work after I had the story and outline for my presentation done. I knew what I wanted to say, how much time I had left to prepare and made the decision to bite the bullet and use SwiftUI. It was &lt;em&gt;way&lt;/em&gt;
-	 more work than doing a live-coding presentation or creating slides in Keynote, but I did enjoy it.
-&lt;/p&gt;
-&lt;p&gt;
-	I’ve gotten some great feedback on the presentation. There were even people fixing bugs in their codebase the same day, which is always very rewarding. My goal was to help people understand my mental model of SwiftUI, and from talking to the attendees, I think I have achieved that.
-&lt;/p&gt;
-&lt;p&gt;
-	I’m not sure whether the presentation video will be available publicly, but I’ll post the annotated slides here soon.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 14 Aug 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-32</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-32</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 28</title>
-			<description>
-				&lt;p&gt;
-	Last week we put the finishing touches to the animation chapter, and recorded a bunch of episodes to cover the summer break. I worked a bit on my talk as well.
-&lt;/p&gt;
-&lt;p&gt;
-	For our keyframe reimplementation, we also wanted to have cubic bezier timing curves. This was interesting to implement: sampling a cubic bezier curve is actually really simple, I was basically able to take &lt;a href=&quot;https://en.wikipedia.org/wiki/Bézier_curve#Cubic_Bézier_curves&quot;&gt;Wikipedia’s algorithm&lt;/a&gt; and just write it down in Swift. The algorithm is a function from &lt;code&gt;t&lt;/code&gt; to a point (you can actually use &lt;code&gt;VectorArithmetic&lt;/code&gt; instead of a point, which I did). After plotting everything, I realized that the &lt;code&gt;t&lt;/code&gt; isn’t used as the time value. Instead, if you use a &lt;code&gt;CGPoint&lt;/code&gt;, the &lt;code&gt;x&lt;/code&gt; value is the time, and the &lt;code&gt;y&lt;/code&gt; value the progress. in other words, the &lt;code&gt;t&lt;/code&gt; is used to sample the result, but not as the time or value.
-&lt;/p&gt;
-&lt;p&gt;
-	This makes a lot of sense, but took me a while to figure out. To provide an efficient implementation, we need to then first find a &lt;code&gt;t&lt;/code&gt; for a given time (in other words, find &lt;code&gt;t&lt;/code&gt; for &lt;code&gt;x&lt;/code&gt;). There seem to be a number of efficient ways to do this &lt;a href=&quot;https://github.com/gre/bezier-easing/tree/master&quot;&gt;this&lt;/a&gt; and &lt;a href=&quot;https://github.com/WebKit/WebKit/blob/main/Source/WebCore/platform/graphics/UnitBezier.h&quot;&gt;this&lt;/a&gt; seems to be helpful. Once we have the correct &lt;code&gt;t&lt;/code&gt; we can get &lt;code&gt;y&lt;/code&gt; as well.
-&lt;/p&gt;
-&lt;p&gt;
-	When you have multiple cubic bezier keyframes after each other, the implementation uses Catmull-Rom to interpolate between the keyframes. I also managed to implement this (on top of quadratic bezier curves), getting the exact same timing curve. Hopefully we can get this to Swift Talk sometime soon!
-&lt;/p&gt;
-&lt;p&gt;
-	The summer holiday has started here, we had family visiting and will be going on a trip of our own. So next week there almost certainly won’t be any weeknotes.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 17 Jul 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-28</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-28</guid>
 		</item>
 	</channel>
 </rss>
