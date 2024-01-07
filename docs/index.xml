@@ -8,6 +8,72 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>SwiftUI Binding Tips</title>
+			<description>
+				&lt;p&gt;
+	When working with bindings in SwiftUI, it can be useful to modify bindings. For example, in a Slack I’m part of, someone had a binding to a Boolean and wanted to negate it. This was (roughly) the code they had:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Binding where Value == Bool {
+    func toggled() -&amp;gt; Self {
+        Self(
+            get: {
+                !wrappedValue
+            },
+            set: { newValue in
+                wrappedValue = !newValue
+            }
+        )
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	While the code works great, it always feels a bit cumbersome to write. There’s a simpler way to achieve this. We can start by creating a computed property on &lt;code&gt;Bool&lt;/code&gt; that’s both &lt;code&gt;get&lt;/code&gt; and &lt;code&gt;set&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Bool {
+    var flipped: Self {
+        get { !self }
+        set { self = !newValue }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Because &lt;code&gt;Binding&lt;/code&gt; supports dynamic member lookup, we can use our &lt;code&gt;flipped&lt;/code&gt; property directly where we use our binding:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;$myBinding.flipped
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We’ve also used this pattern sometimes when projecting into a binding. For example, let’s imagine we want to display a control that enables us to select edges. Our state looks like this:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;@State private var edges: Set&amp;lt;Edge&amp;gt; = [Edge.top, Edge.bottom]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	If we want to enable and disable a specific edge through a &lt;code&gt;Toggle&lt;/code&gt;, we’ll need to turn the binding from a &lt;code&gt;Set&amp;lt;Edge&amp;gt;&lt;/code&gt; into a &lt;code&gt;Bool&lt;/code&gt; binding. We can again achieve this using dynamic member lookup, but this time through a subscript:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Set {
+    subscript(contains el: Element) -&amp;gt; Bool {
+        get { contains(el) }
+        set {
+            if newValue {
+                insert(el)
+            } else {
+                remove(el)
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Now we can write &lt;code&gt;$edges[contains: .top]&lt;/code&gt; or &lt;code&gt;$edges[contains: .bottom]&lt;/code&gt; and get a &lt;code&gt;Bool&lt;/code&gt; binding out. The reason why we need a &lt;code&gt;subscript&lt;/code&gt; is that dynamic member lookup uses key paths, and both subscripts and computed properties can be part of key paths. A regular method cannot be part of a key path. While the technique is a little obscure, I still find it easier to read than writing all that logic inside a custom binding.
+&lt;/p&gt;
+&lt;p&gt;
+	In general, I much prefer components that take a &lt;code&gt;Binding&lt;/code&gt; over components that observe all kinds of complicated view models, global stores or other things. They are easier to test and reuse and don’t require complicated architectures. Hopefully the two tricks above help you turn the bindings that you have into the bindings that you need.
+&lt;/p&gt;
+			</description>
+			<pubDate>Sun, 07 Jan 2024 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/swiftui-binding-tricks</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-binding-tricks</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 51-52</title>
 			<description>
 				&lt;p&gt;
@@ -919,23 +985,6 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
 			<pubDate>Mon, 28 Aug 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-34</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-34</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 33</title>
-			<description>
-				&lt;p&gt;
-	After last week’s conference in Toronto I went to NYC to get the most out of the transatlantic flight. The kind folks at iOSoho gave me a stage as well. After spending so long on preparing my talk (I didn’t track the time, but my guess is that it easily adds up to two weeks full-time) it was nice to give the same talk again to get some more mileage out of the preparation.
-&lt;/p&gt;
-&lt;p&gt;
-	I spent the rest of my time in NYC by meeting a lot of friends, old and new. I love visiting the city, especially because of the people, the diversity and the buzz. I’ve had a lot of nice food and long walks with great people. However, in our current life situation, I think the life filled with nature, playing outside and swimming is nicer for us as a family right now (it sometimes feels like the opposite of New York). I miss things about the city, but would probably miss even more things about the countryside should we live in the city. The programmer in me wants to classify things: one should clearly be better than the other, but unfortunately, real life often doesn’t work like that. There are probably famous people who say this more eloquently, but one of the things I love about traveling is that it makes me appreciate home even more.
-&lt;/p&gt;
-&lt;p&gt;
-	I haven’t really done much programming or research last week. One of the things I did realize (also throught conversations with other people) is that I really enjoy understanding (and then explaining) things at a really fundamental level. For me, the best way to do this seems to be by actually reimplementing the thing I’d like to understand. This also has been a recurring theme of Swift Talk over the years, not by accident.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 21 Aug 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-33</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-33</guid>
 		</item>
 	</channel>
 </rss>

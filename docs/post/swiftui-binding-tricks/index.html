@@ -1,0 +1,111 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			SwiftUI Binding Tips — Chris Eidhof
+		</title>
+		<meta content="SwiftUI Binding Tips — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/swiftui-binding-tricks/og-image-1395.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								SwiftUI Binding Tips
+							</h1>
+							<h2 class="headline">
+								Leverage Dynamic Member Lookup
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								When working with bindings in SwiftUI, it can be useful to modify bindings. For example, in a Slack I’m part of, someone had a binding to a Boolean and wanted to negate it. This was (roughly) the code they had:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">Binding</span> <span class="hljs-keyword">where</span> <span class="hljs-identifier">Value</span> == <span class="hljs-identifier">Bool</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">toggled</span>() -> <span class="hljs-keyword">Self</span> {
+        <span class="hljs-keyword">Self</span>(
+            <span class="hljs-identifier">get</span>: {
+                !<span class="hljs-identifier">wrappedValue</span>
+            },
+            <span class="hljs-identifier">set</span>: { <span class="hljs-identifier">newValue</span> <span class="hljs-keyword">in</span>
+                <span class="hljs-identifier">wrappedValue</span> = !<span class="hljs-identifier">newValue</span>
+            }
+        )
+    }
+}
+</code></pre>
+							<p>
+								While the code works great, it always feels a bit cumbersome to write. There’s a simpler way to achieve this. We can start by creating a computed property on <code>Bool</code> that’s both <code>get</code> and <code>set</code>:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">Bool</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">flipped</span>: <span class="hljs-keyword">Self</span> {
+        get { !<span class="hljs-keyword">self</span> }
+        set { <span class="hljs-keyword">self</span> = !<span class="hljs-identifier">newValue</span> }
+    }
+}
+</code></pre>
+							<p>
+								Because <code>Binding</code> supports dynamic member lookup, we can use our <code>flipped</code> property directly where we use our binding:
+							</p>
+							<pre><code class="swift"><span class="hljs-identifier">$myBinding</span>.<span class="hljs-identifier">flipped</span>
+</code></pre>
+							<p>
+								We’ve also used this pattern sometimes when projecting into a binding. For example, let’s imagine we want to display a control that enables us to select edges. Our state looks like this:
+							</p>
+							<pre><code class="swift">@<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">edges</span>: <span class="hljs-identifier">Set</span><<span class="hljs-identifier">Edge</span>> = [<span class="hljs-identifier">Edge</span>.<span class="hljs-identifier">top</span>, <span class="hljs-identifier">Edge</span>.<span class="hljs-identifier">bottom</span>]
+</code></pre>
+							<p>
+								If we want to enable and disable a specific edge through a <code>Toggle</code>, we’ll need to turn the binding from a <code>Set&lt;Edge&gt;</code> into a <code>Bool</code> binding. We can again achieve this using dynamic member lookup, but this time through a subscript:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">extension</span> <span class="hljs-identifier">Set</span> {
+    <span class="hljs-keyword">subscript</span>(<span class="hljs-identifier">contains</span> <span class="hljs-identifier">el</span>: <span class="hljs-identifier">Element</span>) -> <span class="hljs-identifier">Bool</span> {
+        get { <span class="hljs-identifier">contains</span>(<span class="hljs-identifier">el</span>) }
+        set {
+            <span class="hljs-keyword">if</span> <span class="hljs-identifier">newValue</span> {
+                <span class="hljs-identifier">insert</span>(<span class="hljs-identifier">el</span>)
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-identifier">remove</span>(<span class="hljs-identifier">el</span>)
+            }
+        }
+    }
+}
+</code></pre>
+							<p>
+								Now we can write <code>$edges[contains: .top]</code> or <code>$edges[contains: .bottom]</code> and get a <code>Bool</code> binding out. The reason why we need a <code>subscript</code> is that dynamic member lookup uses key paths, and both subscripts and computed properties can be part of key paths. A regular method cannot be part of a key path. While the technique is a little obscure, I still find it easier to read than writing all that logic inside a custom binding.
+							</p>
+							<p>
+								In general, I much prefer components that take a <code>Binding</code> over components that observe all kinds of complicated view models, global stores or other things. They are easier to test and reuse and don’t require complicated architectures. Hopefully the two tricks above help you turn the bindings that you have into the bindings that you need.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Jan 7, 2024</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2023-52">Weeknotes № 51-52
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
