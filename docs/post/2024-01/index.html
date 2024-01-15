@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 1 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 1 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2024-01/og-image-c9e7.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 1
+							</h1>
+							<h2 class="headline">
+								Week Off
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								Last week the kids were still at home, so my week was mostly filled with care tasks.
+							</p>
+							<p>
+								I had officially started my marathon plan on Dec 18th, and while the first day or two went great, I then got a pretty intense cough which is still not completely gone. I only managed to put in a few runs. Last week, I only ran once. I was planning to prepare well for a late April marathon, but that’s not possible anymore (I could still run if I can get in some decent training, but not at the level I was hoping for).
+							</p>
+							<p>
+								I did make a bunch of progress on the layout explanation website. I now have fully working HStack explanations (visualizations that explain the internals of how an HStack lays out its children). While we’re still working on the design, the basic case is now visualized really well.
+							</p>
+							<p>
+								I’m still enjoying TypeScript. While I prefer Swift, it’s nice to have integrated Copilot support. The other day I pasted in a Swift snippet that I wrote a while ago and started translating it line-by-line, and Copilot did most of that work. I don’t really trust it generating more than one line (or more than I can immediately parse in my head), but when I’m on the train with no internet connection, I do miss it.
+							</p>
+							<p>
+								TypeScript’s structural types are both great and annoying. I miss Swift’s enums, which you have to simulate through tagged unions. The thing I miss the most is value semantics: in TypeScript (which is just types on top of Javascript), everything is an object, and almost everything is passed by reference. I’ve definitely seen my share of “spooky action at a distance”, where a value would all of a sudden change underneath me. As the code base matures, I’m adding more and more <code>clone</code> or <code>copy</code> methods to my types (giving me a new instance of an object with the same properties).
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Jan 8, 2024</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="prev"><a href="/post/2024-02"><span class="arrow">←</span>
+									Weeknotes № 2</a></span>
+							<span class="next"><a href="/post/swiftui-binding-tricks">SwiftUI Binding Tips
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
