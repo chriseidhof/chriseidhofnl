@@ -8,6 +8,23 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 3</title>
+			<description>
+				&lt;p&gt;
+	Last week was really busy, but in a relatively balanced way. We got fresh snow and spent a bunch of time pulling sledges. I also ran every single day of the week, without problems (92km in total). One more week until my 12-week marathon preparation starts. This week I’m hoping to do the same but with a bit more volume. I went to two local meetings (one for the day care and one town-wide gathering). We also went to a demonstration with the whole family yesterday, as I think it’s important that we all become a bit more tolerant and open for diversity.
+&lt;/p&gt;
+&lt;p&gt;
+	Together with Nicholas (the designer) I made a lot of progress on the new SwiftUI explanations website. I think we’re getting to a point where it’s almost ready to make it public. My goal is to have this out before the end February. There are still a few design issues that need to be solved and a bunch of content that needs to be written, but it’s all really starting to come together now. I hope to make a list of everything that needs to be done before launch within the next few days.
+&lt;/p&gt;
+&lt;p&gt;
+	I also started to prepare two in-person workshops in Germany that’ll happen within the next months. I’m really looking forward to the in-person part, as it’s been quite a while since I last did that.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 22 Jan 2024 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-03</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-03</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 2</title>
 			<description>
 				&lt;p&gt;
@@ -819,62 +836,6 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
 			<pubDate>Mon, 04 Sep 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-35</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-35</guid>
-		</item>
-		<item>
-			<title>Running Code When Your View Appears</title>
-			<description>
-				&lt;p&gt;
-	When you’re writing SwiftUI views, you definitely don’t want to run expensive tasks in the view’s initializer, as it might get called very often. Also, since the view doesn’t have structural identity yet when the initializer runs, you can’t reliably store data. Instead, you want to load data in the view’s body before the view will be drawn on screen.
-&lt;/p&gt;
-&lt;p&gt;
-	You can achieve this with &lt;code&gt;.task&lt;/code&gt; or &lt;code&gt;.onAppear&lt;/code&gt;. The &lt;code&gt;onAppear&lt;/code&gt; modifier has been around since the beginning. It takes a regular closure that is called whenever the view appears on screen
-&lt;sup&gt;&lt;a href=&quot;#fnref1&quot; name=&quot;fnref-rev1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
-. The &lt;code&gt;task&lt;/code&gt; modifier supports async/await without you having to create a manual &lt;code&gt;Task&lt;/code&gt;. The task also gets cancelled automatically when the view disappears.
-&lt;/p&gt;
-&lt;p&gt;
-	Because &lt;code&gt;task&lt;/code&gt; can do anything that &lt;code&gt;onAppear&lt;/code&gt; can, is there still any reason to use &lt;code&gt;onAppear&lt;/code&gt;? Or can we just move to &lt;code&gt;task&lt;/code&gt;? At first, I thought the two are the same, it seems like &lt;code&gt;task&lt;/code&gt; is built on top of &lt;code&gt;onAppear&lt;/code&gt;. There is a small difference, however (which might be an essential difference depending on how you use it). Consider the following view:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ContentView: View {
-    @State private var color0 = Color.red
-    @State private var color1 = Color.red
-    var body: some View {
-        VStack {
-            color0
-            color1
-        }
-        .onAppear { color0 = .green }
-        .task { color1 = .green }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	When you launch this app, you can see that the topmost view in the &lt;code&gt;VStack&lt;/code&gt; never renders in red, whereas the bottom view quickly flickers red before turning green. If you can’t see it, you can use QuickTime to create a screen recording and verify it that way.
-&lt;/p&gt;
-&lt;blockquote&gt;
-	&lt;p&gt;
-		We first noticed this behavior when implementing our own version of AsyncImage. We wanted to take a cached image, but when you use &lt;code&gt;task&lt;/code&gt;, you’ll always see the placeholder.
-	&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;
-	When you use &lt;code&gt;onAppear&lt;/code&gt; or &lt;code&gt;onPreferenceChange&lt;/code&gt; (possibly more modifiers), SwiftUI can execute your code before it even renders a single frame. Initially, the body executes, calls &lt;code&gt;onAppear&lt;/code&gt; and then runs the closure inside &lt;code&gt;onAppear&lt;/code&gt;. If this changes any state, the body is re-rendered before the view is even drawn on screen.
-&lt;/p&gt;
-&lt;p&gt;
-	I’m not sure why task behaves differently and if the source of this “problem” is with SwiftUI or the concurrency system. I’m not sure if it’s meant to be or considered a bug, but at least, at this moment in time, it does work differently.
-&lt;/p&gt;
-&lt;div class=&quot;footnotes&quot;&gt;
-	&lt;hr/&gt;
-	&lt;ol&gt;
-		&lt;li id=&quot;fnref1&quot;&gt;
-			&lt;p&gt;
-				The closure is called at least once when the view appears, but can also be called multiple times. For example, when the view is in a scroll view or a tab bar, the closure gets called each time the view becomes visible.
-				 &lt;a href=&quot;#fnref-rev1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
-		&lt;/li&gt;
-	&lt;/ol&gt;
-&lt;/div&gt;
-			</description>
-			<pubDate>Thu, 31 Aug 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/swiftui-on-appear-vs-task</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-on-appear-vs-task</guid>
 		</item>
 	</channel>
 </rss>
