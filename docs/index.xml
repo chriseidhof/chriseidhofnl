@@ -8,6 +8,23 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 4</title>
+			<description>
+				&lt;p&gt;
+	We’re in the polishing phase of the new SwiftUI web project, and I spent quite some time on getting the animations right. The framework now supports some basic transitions as well as animating the frame of views. Currently, property animations are not supported (although I think they should be very easy to add). On of the examples has a bunch of transitions and matched geometry effects, which turned out to be a bit tricky to get completely correct (but I think I got 95% of the way there).
+&lt;/p&gt;
+&lt;p&gt;
+	We also dug into explaining alignment in SwiftUI. I feel like this is one of the most underappreciated APIs. With a solid understanding you can save so much code. It’s always a topic in our workshops as well and seems to really help people.
+&lt;/p&gt;
+&lt;p&gt;
+	We’ve had a few sunny days last week and spent some time preparing the garden. I forgot how nice it can be to just be outside in the sun and do light physical labour. We also went to (yet another) demonstration with the family.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 29 Jan 2024 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-04</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-04</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 3</title>
 			<description>
 				&lt;p&gt;
@@ -816,26 +833,6 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
 			<pubDate>Mon, 11 Sep 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-36</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-36</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 35</title>
-			<description>
-				&lt;p&gt;
-	We finally recorded the final bits of our &lt;a href=&quot;https://talk.objc.io/episodes/S01E366-building-keyframe-animations-part-1&quot;&gt;keyframe reimplementation&lt;/a&gt;, including a Catmull-Rom implementation that turned out to be extremely simple and matches exactly what SwiftUI does. I’ve used our reimplementation in a macOS 13 app successfully.
-&lt;/p&gt;
-&lt;p&gt;
-	We also went over the entire &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;book&lt;/a&gt; and made it ready for a final copy-editing pass. The next steps after that is to do a little bit of typesetting for the PDF version and possible a bit more for the printed version. Then we can release it!
-&lt;/p&gt;
-&lt;p&gt;
-	I’ve been playing around with a new project that lets me record me typing code and then replay it in a smoother and animated way. This should be useful for making videos and when giving presentations (in SwiftUI).
-&lt;/p&gt;
-&lt;p&gt;
-	Last week, &lt;a href=&quot;https://www.swiftconf.to&quot;&gt;Swift TO&lt;/a&gt; released the videos of all the presentations. I created an annotated version of my presentation &lt;a href=&quot;http://chris.eidhof.nl/presentations/day-in-the-life&quot;&gt;A Day in the Life of a SwiftUI View&lt;/a&gt;. This definitely took a few hours here and there, but hopefully it’s useful to those of you that don’t want to or can’t watch videos.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 04 Sep 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-35</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-35</guid>
 		</item>
 	</channel>
 </rss>
