@@ -65,4 +65,6 @@ Now we can write `$edges[contains: .top]` or `$edges[contains: .bottom]` and get
 
 In general, I much prefer components that take a `Binding` over components that observe all kinds of complicated view models, global stores or other things. They are easier to test and reuse and don't require complicated architectures. Hopefully the two tricks above help you turn the bindings that you have into the bindings that you need.
 
+**Update**: [Stephen Celis](https://hachyderm.io/@stephencelis) writes in:
 
+> Another reason to prefer properties + dynamic member look up instead of constructing ad-hoc bindings is that ad-hoc bindings tend to break SwiftUI animation. Even if you do all the right stuff with the transaction, there is something weird deep in SwiftUI that causes an ad-hoc binding to be handed transactions with all animation info stripped away.
