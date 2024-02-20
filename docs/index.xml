@@ -8,6 +8,29 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 5-7</title>
+			<description>
+				&lt;p&gt;
+	Over the last few weeks I worked with a strong focus and did not take the time to write weeknotes. The &lt;a href=&quot;https://www.swiftuifieldguide.com&quot;&gt;SwiftUI Field Guide&lt;/a&gt; is now live. I’ll try to blog a bit more about the why and how in the upcoming weeks. It felt a bit like preparing for a marathon: I worked hard at it almost every single day (often also evenings, after the kids went to bed) for multiple months. In the days before the launch, I wanted to get everything as perfect as I could (there were still some pretty embarassing bugs just before the launch). The day after launching it, I felt happy but absolutely exhausted.
+&lt;/p&gt;
+&lt;p&gt;
+	It’s been a real pleasure building this. The design was all done by &lt;a href=&quot;https://nicholaschristowitz.com/&quot;&gt;Nick&lt;/a&gt; who also really obsessed over getting this right. I did the rest. There are so many little fun details in there: the site changes color when you’re in dark mode (and the “SwiftUI” colors change, too). The code is formatted using a pretty printer, making it responsive on mobile (this isn’t perfect, but in most examples it is better than doing nothing). The &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/hstack/#PeDNMT-&quot;&gt;more complex animations&lt;/a&gt; are done in “SwiftUI”.
+&lt;/p&gt;
+&lt;p&gt;
+	In my first prototype, I rendered everything using a flat canvas view. This worked well, but I realized at some point that I wanted more interactive elements such as scroll views and buttons. I didn’t really want to implement an entire scroll view myself. At some point, I switched to building up a DOM tree so that I could use the browser’s built-in scrolling (which in turn uses the platform’s built-in scrolling). Some views are still rendered using canvas (text and advanced shapes) where others use native DOM elements (a filled rounded rectangle, for example, is just a div with a background color and border radius).
+&lt;/p&gt;
+&lt;p&gt;
+	I really wanted to make everything work as close as possible to real SwiftUI as I could. Essentially, anything that lays out differently I consider a bug. Hopefully I can fix some of the remaining bugs very soon.
+&lt;/p&gt;
+&lt;p&gt;
+	In other news, I have been ramping up my marathon training again, and started a new schedule to (hopefully) run a marathon in late April. I typically prepare using at least a 16 week schedule, but due to illness at the beginning of the year I only have 12 weeks. I don’t want to run even later (in May) because I run much better when it’s cooler. I decided to use this marathon as a stepping stone to getting fit again. Clearly, there is no room for getting sick again — if COVID or something else happens I will have to set a different goal.
+&lt;/p&gt;
+			</description>
+			<pubDate>Tue, 20 Feb 2024 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-07</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-07</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 4</title>
 			<description>
 				&lt;p&gt;
@@ -818,29 +841,6 @@ func setIfNeeded&amp;lt;Value: Equatable&amp;gt;(value: Value, name: String, upd
 			<pubDate>Wed, 13 Sep 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/view-representable</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/view-representable</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 36</title>
-			<description>
-				&lt;p&gt;
-	It feels like last week was the last warm week of summer, and so as a family, we took advantage of that every afternoon and went swimming in one of the lakes nearby. Our new house is a short walk to one of those lakes, and one of my dreams since we moved here half a year ago was swimming across the lake. I’ve been swimming all my life, but never any long distances or with good technique.
-&lt;/p&gt;
-&lt;p&gt;
-	On Wednesday I saw the calm water, hot sun and no boats so I decided on a whim that this was the day. Armed with goggles and a tow float I decided to swim across. The unknown of it was pretty scary for me (which did give me a nice speed boost). It’s a large lake, there are boats, I might cramp up or unknown other stuff might happen. In the end, it took less than ten minutes to swim across. After only two minutes my elastic watch strap came loose, so I had to change to breast stroke until I figured out I could just shove my watch all the way up to my elbow. Those ten minutes felt a lot longer than normal!
-&lt;/p&gt;
-&lt;p&gt;
-	I swam across another time a few days later (in eight minutes), wearing a cap as well (for visibility). My last swimming lesson was thirty years ago, and the freestyle part I never learned was that, most of the time, your face is below the surface. You basically only tilt your head out of the water a bit to get in some fresh air and then continue, looking down towards the bottom. For some reason this is pretty scary to me as well, even more so in a very clear lake. But after a few more “longer” swims I’m starting to get used to it. Next season, I’d love to build up to really long swims, maybe crossing the lake length-wise.
-&lt;/p&gt;
-&lt;p&gt;
-	Florian was away last week, I worked on the “typing recorder” app that I plan to use to record myself typing and play back in a smooth way (for presentations, workshops and videos). As part of this, I needed to do another &lt;code&gt;NSViewRepresentable&lt;/code&gt; implementation for &lt;code&gt;NSTextField&lt;/code&gt;. I had yet another one of these “Modifying state during view update” runtime warnings and decided it was time to fully understand these. I’ve written down a bunch of notes already that I hope to turn into a blog post soon.
-&lt;/p&gt;
-&lt;p&gt;
-	We finalized the copy editing for &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt;, &lt;a href=&quot;http://www.natalye.com&quot;&gt;Natalye&lt;/a&gt; went through the last bunch of edits so now it’s time to typeset everything. We’ll need to do this once for print and once for the PDF version.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 11 Sep 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-36</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-36</guid>
 		</item>
 	</channel>
 </rss>

@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 5-7 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 5-7 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2024-07/og-image-f8c6.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 5-7
+							</h1>
+							<h2 class="headline">
+								Launched
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								Over the last few weeks I worked with a strong focus and did not take the time to write weeknotes. The <a href="https://www.swiftuifieldguide.com">SwiftUI Field Guide</a> is now live. I’ll try to blog a bit more about the why and how in the upcoming weeks. It felt a bit like preparing for a marathon: I worked hard at it almost every single day (often also evenings, after the kids went to bed) for multiple months. In the days before the launch, I wanted to get everything as perfect as I could (there were still some pretty embarassing bugs just before the launch). The day after launching it, I felt happy but absolutely exhausted.
+							</p>
+							<p>
+								It’s been a real pleasure building this. The design was all done by <a href="https://nicholaschristowitz.com/">Nick</a> who also really obsessed over getting this right. I did the rest. There are so many little fun details in there: the site changes color when you’re in dark mode (and the “SwiftUI” colors change, too). The code is formatted using a pretty printer, making it responsive on mobile (this isn’t perfect, but in most examples it is better than doing nothing). The <a href="https://www.swiftuifieldguide.com/layout/hstack/#PeDNMT-">more complex animations</a> are done in “SwiftUI”.
+							</p>
+							<p>
+								In my first prototype, I rendered everything using a flat canvas view. This worked well, but I realized at some point that I wanted more interactive elements such as scroll views and buttons. I didn’t really want to implement an entire scroll view myself. At some point, I switched to building up a DOM tree so that I could use the browser’s built-in scrolling (which in turn uses the platform’s built-in scrolling). Some views are still rendered using canvas (text and advanced shapes) where others use native DOM elements (a filled rounded rectangle, for example, is just a div with a background color and border radius).
+							</p>
+							<p>
+								I really wanted to make everything work as close as possible to real SwiftUI as I could. Essentially, anything that lays out differently I consider a bug. Hopefully I can fix some of the remaining bugs very soon.
+							</p>
+							<p>
+								In other news, I have been ramping up my marathon training again, and started a new schedule to (hopefully) run a marathon in late April. I typically prepare using at least a 16 week schedule, but due to illness at the beginning of the year I only have 12 weeks. I don’t want to run even later (in May) because I run much better when it’s cooler. I decided to use this marathon as a stepping stone to getting fit again. Clearly, there is no room for getting sick again — if COVID or something else happens I will have to set a different goal.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Feb 20, 2024</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2024-04">Weeknotes № 4
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
