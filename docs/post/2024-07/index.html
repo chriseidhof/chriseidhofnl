@@ -34,7 +34,7 @@
 								Over the last few weeks I worked with a strong focus and did not take the time to write weeknotes. The <a href="https://www.swiftuifieldguide.com">SwiftUI Field Guide</a> is now live. I’ll try to blog a bit more about the why and how in the upcoming weeks. It felt a bit like preparing for a marathon: I worked hard at it almost every single day (often also evenings, after the kids went to bed) for multiple months. In the days before the launch, I wanted to get everything as perfect as I could (there were still some pretty embarassing bugs just before the launch). The day after launching it, I felt happy but absolutely exhausted.
 							</p>
 							<p>
-								It’s been a real pleasure building this. The design was all done by <a href="https://nicholaschristowitz.com/">Nick</a> who also really obsessed over getting this right. I did the rest. There are so many little fun details in there: the site changes color when you’re in dark mode (and the “SwiftUI” colors change, too). The code is formatted using a pretty printer, making it responsive on mobile (this isn’t perfect, but in most examples it is better than doing nothing). The <a href="https://www.swiftuifieldguide.com/layout/hstack/#PeDNMT-">more complex animations</a> are done in “SwiftUI”.
+								It’s been a real pleasure building this. The design was all done by <a href="https://nicholaschristowitz.com/">Nick</a> who also really obsessed over getting this right. I did the rest. There are so many fun little details in there: the site changes color when you’re in dark mode (and the “SwiftUI” colors change, too). The code is formatted using a pretty printer, making it responsive on mobile (this isn’t perfect, but in most examples it is better than doing nothing). The <a href="https://www.swiftuifieldguide.com/layout/hstack/#PeDNMT-">more complex animations</a> are done in “SwiftUI”.
 							</p>
 							<p>
 								In my first prototype, I rendered everything using a flat canvas view. This worked well, but I realized at some point that I wanted more interactive elements such as scroll views and buttons. I didn’t really want to implement an entire scroll view myself. At some point, I switched to building up a DOM tree so that I could use the browser’s built-in scrolling (which in turn uses the platform’s built-in scrolling). Some views are still rendered using canvas (text and advanced shapes) where others use native DOM elements (a filled rounded rectangle, for example, is just a div with a background color and border radius).
@@ -57,6 +57,8 @@
 					</article>
 					<footer>
 						<nav id="post-nav">
+							<span class="prev"><a href="/post/2024-08"><span class="arrow">←</span>
+									Weeknotes № 8</a></span>
 							<span class="next"><a href="/post/2024-04">Weeknotes № 4
 									<span class="arrow">→</span></a></span>
 						</nav>
