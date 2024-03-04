@@ -8,6 +8,26 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 9</title>
+			<description>
+				&lt;p&gt;
+	I spent last week teaching a workshop in Berlin. It was the first time in years doing an in-person workshop, which was really great. Im doing another in-person workshop in Hanover this week, and giving a talk in Hamburg at their CocoaHeads meetup. Both teaching the workshop from last week as well as preparing everything for this week did take up most of my time and energy.
+&lt;/p&gt;
+&lt;p&gt;
+	Running-wise, I missed a few workouts. When I’m at home, I mostly run when it’s light out. I forgot to bring a headlamp, and couldn’t really do a speed workout in the dark with no vision while I was in Berlin. Luckily, my training schedule had a planned rest week anyway, so I’m not too worried about it. (Rest week doesn’t mean no running, it just means running a bit less).
+&lt;/p&gt;
+&lt;p&gt;
+	I did manage to release one new section and two new pages for the Field Guide. The new section is about &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/alignment/#customAlignmentIDs&quot;&gt;custom alignment IDs&lt;/a&gt;. I also added an &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/introduction/&quot;&gt;introduction&lt;/a&gt; and a page about &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/debugging/&quot;&gt;debugging techniques&lt;/a&gt;. I’m not sure yet what I’ll write about this week — there’s quite a backlog of things I’d like to cover still.
+&lt;/p&gt;
+&lt;p&gt;
+	I also went over and fixed some bugs in the Field Guide. Since the first release the numbers in the sliders were often misaligned (sometimes not, though). It was a very simple fix in the end (although I did spent quite some time trying to fix it before). Likewise, there was a bug where some of the HStack examples would get stuck in an infinite render loop, ultimately causing the page to get really slow and make the browser unresponsive. That should be fixed now, too.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 04 Mar 2024 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-09</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-09</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 8</title>
 			<description>
 				&lt;p&gt;
@@ -432,26 +452,6 @@
 			<pubDate>Mon, 25 Sep 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-38</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-38</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 37</title>
-			<description>
-				&lt;p&gt;
-	Last week we finalized the layout for Thinking in SwiftUI. Now we need to check the (print) proof copy and verify everything is okay before we can finally release it! I also spent some more time on my typing recorder app, it’s really starting to take shape. Hopefully I can demo it soon.
-&lt;/p&gt;
-&lt;p&gt;
-	I spent another day working on better understanding and analyzing what’s happening with &lt;code&gt;UIViewRepresentable&lt;/code&gt; and state, and typed these notes up into &lt;a href=&quot;http://chris.eidhof.nl/post/view-representable&quot;&gt;a blog post&lt;/a&gt;. After some initial confusion around processing multiple events (both from people who read it as well as myself) I also added some more explanations and diagrams to that post. Being able to quickly embed SwiftUI views in posts is starting to pay off, it’s almost no extra work. I’d like to look into how to do layout with view representables as well. Not sure yet how to tackle that and what use cases exist, but we’ll find out!
-&lt;/p&gt;
-&lt;p&gt;
-	I also ran a race on Saturday which was pretty tough! After about half a minute I was in second position and it stayed that way throughout the race. I lost contact with the winner very quickly. Even throughout the half-way point he just kept on increasing the lead which ultimately was a little bit demotivating. I still enjoyed the running, I just wasn’t motivated to really push hard.
-&lt;/p&gt;
-&lt;p&gt;
-	After the race there was a nice clear lake to swim in (a five minute walk from the finish line). Yesterday, I swam with a friend (so much more fun than swimming alone). We swam across our local lake and back, making it my farthest swim yet.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 18 Sep 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-37</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-37</guid>
 		</item>
 	</channel>
 </rss>
