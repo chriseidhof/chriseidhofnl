@@ -8,6 +8,26 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 10-11</title>
+			<description>
+				&lt;p&gt;
+	I’ve done two more weeks of weekly workshops (one in-person workshop in Germany, and one online for the US West Coast) and a talk at CocoaHeads Hamburg. It’s been pretty intense and I did not have a lot of time to work on the Field Guide.
+&lt;/p&gt;
+&lt;p&gt;
+	One cool thing is that I gave my presentation in Hamburg using the Field Guide. I just set up a new “page” with full-screen interactive explanations and stepped through them. After all the hard work we put in it felt almost like cheating to be able to set up a basic presentation so quickly.
+&lt;/p&gt;
+&lt;p&gt;
+	This week I’ll try to publish a new page about the safe area. I’ve been thinking about how to implement this for a long time, tried multiple approaches but ultimately settled on a relatively simple implementation (that’s correct in my limited testing). I have so many more ideas for where to take this, but currently only have limited time because of the workshops. I’m not yet set up for collaboration, so currently, I need to implement the SwiftUI part of the concept I want to explain, then implement the designs that Nicholas makes and finally write the explanations. Of course, we hardly ever get things right the first time around, so it’s always a few iterations of this process before we push things live.
+&lt;/p&gt;
+&lt;p&gt;
+	The marathon training was slightly compromised especially by the traveling involved. I still think I’m well prepared to run a decent time next month. My plan was always to use the upcoming spring marathon as a stepping stone to getting fit again. I’m far from PB level fit (2:36) but hope I can run 2:50 or similar. That means spending the next few weeks tweaking the details, not getting injured and not getting sick.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 18 Mar 2024 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-11</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-11</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 9</title>
 			<description>
 				&lt;p&gt;
@@ -432,26 +452,6 @@
 			<pubDate>Mon, 02 Oct 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-39</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-39</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 38</title>
-			<description>
-				&lt;p&gt;
-	Last week we recorded a bunch of episodes around building a small marquee component. We wanted to make it interactive (similar to a scroll view) which makes the underlying implementation a bit different from how you would normally write SwiftUI components. The animations are driven by a &lt;code&gt;TimelineView&lt;/code&gt; so we can also easily do some math around the gesture velocity.
-&lt;/p&gt;
-&lt;p&gt;
-	We also got our proof copy of the print book, so close to release now. We made a few final adjustments to this as well.
-&lt;/p&gt;
-&lt;p&gt;
-	In the evenings I spent some more time on my recording app. I hope to use it for a presentation next week (not sure yet if the presentation will happen). My goal is to make it very easy for me to make these kind of interactive text animations so that I can easily prototype and ship high-quality code animations. I’m currently mostly just trying to get that recording workflow perfect.
-&lt;/p&gt;
-&lt;p&gt;
-	I swam a bunch more, also with a wetsuit (it’s not necessary yet, just to try what it’s like). I feel like my fear of open-water swimming is definitely getting a lot less. As always, one of the best ways to deal with fear is confronting it, which is definitely working in this case.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 25 Sep 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-38</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-38</guid>
 		</item>
 	</channel>
 </rss>
