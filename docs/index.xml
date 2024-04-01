@@ -8,6 +8,35 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 12-13</title>
+			<description>
+				&lt;p&gt;
+	In between all the workshops and family stuff I’ve made progress in a few different areas of the SwiftUI Field Guide.
+&lt;/p&gt;
+&lt;p&gt;
+	I’ve been trying to implement gradients, which turned out to be a bit of a rabbit hole. First of all, currently all shapes are rendered using the canvas API (originally, the entire SwiftUI port was rendered in a single canvas). To implement different gradients, I wanted to switch that out to SVG rendering.
+&lt;/p&gt;
+&lt;p&gt;
+	In canvas, you define paths using the &lt;code&gt;Path2D&lt;/code&gt; type which isn’t “inspectable”. In other words, I needed to replicate the &lt;code&gt;Path2D&lt;/code&gt; API in my own type, which we can then use to turn into the SVG drawing commands. Mostly, everything works as before, but I need to put in a bit more time to make animations work as well.
+&lt;/p&gt;
+&lt;p&gt;
+	To draw gradients, SVG has builtin support for linear and radial gradients. However, I noticed that these don’t look quite the same as SwiftUI. In the end, a gradient is just a function that interpolates between two colors. SVG gradients use an RGB color space, and to interpolate between two colors, each of the components (red, green and blue) are interpolated separately. It took a while to figure out that SwiftUI uses a different color space. In fact, you can actually configure whether to use the device color space or a “perceptual” color space (with the perceptual color space being the default).
+&lt;/p&gt;
+&lt;p&gt;
+	From my testing, it looks like the perceptual color space used is &lt;a href=&quot;https://bottosson.github.io/posts/oklab/&quot;&gt;OKLab&lt;/a&gt;. After figuring that out, I searched for “OKLab SwiftUI” and found &lt;a href=&quot;https://twitter.com/DLX/status/1620465189069148160&quot;&gt;a tweet&lt;/a&gt; by (who else) Robb who seems to have figured out the same thing (more than one year before me, of course). I found &lt;a href=&quot;https://raphlinus.github.io/color/2021/01/18/oklab-critique.html&quot;&gt;this interactive review&lt;/a&gt; very helpful in understanding and visualizing the differences.
+&lt;/p&gt;
+&lt;p&gt;
+	For now, I’m approximating a perceptual gradient by generating a linear RGB gradient with a number of extra “hidden” stops in between (which are interpolated in the OKLab color space). The implementation isn’t perfect but it’s a good start.
+&lt;/p&gt;
+&lt;p&gt;
+	Early last December, I started to make calls to incorporate my new company. Most steps are done, but the German bureaucracy is not joking around on this one. I finally got my tax number a few weeks ago. However, for some opaque reason I couldn’t get a VAT ID After many calls to different agencies it took some steps to get the process unstuck (no one told me it was stuck, though). While I did apply for a new number now, the process might apparently take up to two months. I can’t send (or pay) any invoices outside of Germany until then, which is extremely annoying. It truly isn’t easy to start a business here. Luckily, my German is now good enough that I can at least talk to the people responsible for the individual steps. When they write letters, it’s nearly impossible to decipher them for someone like me, but in the end, they just seem to like to use complicated words and lots of jargon.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 01 Apr 2024 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-13</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-13</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 10-11</title>
 			<description>
 				&lt;p&gt;
@@ -429,29 +458,6 @@
 			<pubDate>Mon, 09 Oct 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-40</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-40</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 39</title>
-			<description>
-				&lt;p&gt;
-	We shipped &lt;a href=&quot;https://www.objc.io/books/thinking-in-swiftui/&quot;&gt;Thinking in SwiftUI&lt;/a&gt; last week! It’s now available in PDF and print. We’re very happy with the result (and open for suggestions, of course).
-&lt;/p&gt;
-&lt;p&gt;
-	One thing that’s currently missing which we might add (depending on how hard it is) is an ePub version. Without having implemented it, it’s a bit hard to predict how much work this is. I’m sure we can get an 80% solution in a few days, but actually shipping it will definitely be harder.
-&lt;/p&gt;
-&lt;p&gt;
-	My typing recording app is seeing some good progress. I’ve been bitten once again by the fact that I prototyped something without making my model values conform to &lt;code&gt;Identifiable&lt;/code&gt;. I stored them in an array and just used the array index as the identity. This works fine for a while, but will always come back to haunt you.
-&lt;/p&gt;
-&lt;p&gt;
-	We’ve also been busy with preparing new workshops. We updated the content in our workshop app to reflect what we learned from writing the book, and are also preparing some client-specific exercises.
-&lt;/p&gt;
-&lt;p&gt;
-	At home, we started some work on renovating the exterior walls. Big holes were cut to allow for new windows and larger windows. We had to reinsulate some parts, add corner rails for the plastering, and all kinds of other small jobs I’d never done before. In the end, none of it is very hard, but it all takes a while to figure out. The hardest part for me is that I don’t know how to do things the right way, both at a theoretical level (what insulation or products do I use) and at a practical level (how do I make sure this is attached correctly). YouTube can help a lot but is no replacement for actual experience and expertise.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 02 Oct 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-39</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-39</guid>
 		</item>
 	</channel>
 </rss>

@@ -1,0 +1,74 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 12-13 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 12-13 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2024-13/og-image-f398.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 12-13
+							</h1>
+							<h2 class="headline">
+								Shapes and Gradients
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								In between all the workshops and family stuff I’ve made progress in a few different areas of the SwiftUI Field Guide.
+							</p>
+							<p>
+								I’ve been trying to implement gradients, which turned out to be a bit of a rabbit hole. First of all, currently all shapes are rendered using the canvas API (originally, the entire SwiftUI port was rendered in a single canvas). To implement different gradients, I wanted to switch that out to SVG rendering.
+							</p>
+							<p>
+								In canvas, you define paths using the <code>Path2D</code> type which isn’t “inspectable”. In other words, I needed to replicate the <code>Path2D</code> API in my own type, which we can then use to turn into the SVG drawing commands. Mostly, everything works as before, but I need to put in a bit more time to make animations work as well.
+							</p>
+							<p>
+								To draw gradients, SVG has builtin support for linear and radial gradients. However, I noticed that these don’t look quite the same as SwiftUI. In the end, a gradient is just a function that interpolates between two colors. SVG gradients use an RGB color space, and to interpolate between two colors, each of the components (red, green and blue) are interpolated separately. It took a while to figure out that SwiftUI uses a different color space. In fact, you can actually configure whether to use the device color space or a “perceptual” color space (with the perceptual color space being the default).
+							</p>
+							<p>
+								From my testing, it looks like the perceptual color space used is <a href="https://bottosson.github.io/posts/oklab/">OKLab</a>. After figuring that out, I searched for “OKLab SwiftUI” and found <a href="https://twitter.com/DLX/status/1620465189069148160">a tweet</a> by (who else) Robb who seems to have figured out the same thing (more than one year before me, of course). I found <a href="https://raphlinus.github.io/color/2021/01/18/oklab-critique.html">this interactive review</a> very helpful in understanding and visualizing the differences.
+							</p>
+							<p>
+								For now, I’m approximating a perceptual gradient by generating a linear RGB gradient with a number of extra “hidden” stops in between (which are interpolated in the OKLab color space). The implementation isn’t perfect but it’s a good start.
+							</p>
+							<p>
+								Early last December, I started to make calls to incorporate my new company. Most steps are done, but the German bureaucracy is not joking around on this one. I finally got my tax number a few weeks ago. However, for some opaque reason I couldn’t get a VAT ID After many calls to different agencies it took some steps to get the process unstuck (no one told me it was stuck, though). While I did apply for a new number now, the process might apparently take up to two months. I can’t send (or pay) any invoices outside of Germany until then, which is extremely annoying. It truly isn’t easy to start a business here. Luckily, my German is now good enough that I can at least talk to the people responsible for the individual steps. When they write letters, it’s nearly impossible to decipher them for someone like me, but in the end, they just seem to like to use complicated words and lots of jargon.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Apr 1, 2024</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2024-11">Weeknotes № 10-11
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
