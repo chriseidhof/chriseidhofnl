@@ -1,0 +1,71 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 14-15 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 14-15 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2024-15/og-image-c3cf.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 14-15
+							</h1>
+							<h2 class="headline">
+								LazyVStacks, Workshops and Bureaucracy and Dynamic Type
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								It’s been a couple of really busy weeks. We released two new pages: one on <a href="https://www.swiftuifieldguide.com/layout/zstack/">ZStack</a> and one on <a href="https://www.swiftuifieldguide.com/layout/lazyvgrid/">LazyVGrid</a>. These come with a couple of subtle changes as well: on the lazy grid page (and sprinkled throughout a few other places in the site) we now use the SVG rendering of shapes, which also lets us do very subtle gradients. We added a few subtle interactions as well: for example, the spacing is visualized while you edit the grid’s spacing.
+							</p>
+							<p>
+								I started preparing for a talk next week and wanted to use the Field Guide as my slides. Because a lot of the examples use small font sizes that are probably unreadable in a presentation, I gave the implementation of Dynamic Type a bit of priority, and it looks like it’s now fully working throughout the site. At the moment, you can’t adjust it (except in the code), but hopefully we’ll manage to build some UI for that soon.
+							</p>
+							<p>
+								Under the hood, I’ve been moving more and more modifiers away from custom views and into custom layouts. For example, padding is now just a padding layout, and overlay is an overlay layout (all the stacks and grids are layouts, as well). By doing this, I can actually focus on only the layout code and don’t have to worry about other boilerplate things. It feels much more natural and efficient than creating regular views or view modifiers.
+							</p>
+							<p>
+								We have a number of workshops coming up, and Juul has been very hard at work improving our workshop app (a native Mac app that comes with each workshop). It feels much more polished, is easier to read and navigate. It also supports Dynamic Type now (even though the Mac itself doesn’t, yet.).
+							</p>
+							<p>
+								I feel like I’m now finally almost done with setting up the new company. I have a new invoicing workflow, finally got my VAT ID (this involved me calling the tax office every single day, at some point they even recognized me by my phone number). The German bureaucracy was never much of an issue to me, but this time it definitely lived up to the hype.
+							</p>
+							<p>
+								I also booked my travel to go to <a href="https://omt-conf.com">One More Thing</a>. I’ve never gotten lucky with getting a ticket to any of the Apple events (WWDC or Tech Talks) and so have never been at WWDC. But I’m excited to be around for the week, hoping to meet a lot of old and new friends.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Apr 16, 2024</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2024-13">Weeknotes № 12-13
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

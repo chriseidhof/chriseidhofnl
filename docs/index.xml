@@ -8,6 +8,32 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 14-15</title>
+			<description>
+				&lt;p&gt;
+	It’s been a couple of really busy weeks. We released two new pages: one on &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/zstack/&quot;&gt;ZStack&lt;/a&gt; and one on &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/lazyvgrid/&quot;&gt;LazyVGrid&lt;/a&gt;. These come with a couple of subtle changes as well: on the lazy grid page (and sprinkled throughout a few other places in the site) we now use the SVG rendering of shapes, which also lets us do very subtle gradients. We added a few subtle interactions as well: for example, the spacing is visualized while you edit the grid’s spacing.
+&lt;/p&gt;
+&lt;p&gt;
+	I started preparing for a talk next week and wanted to use the Field Guide as my slides. Because a lot of the examples use small font sizes that are probably unreadable in a presentation, I gave the implementation of Dynamic Type a bit of priority, and it looks like it’s now fully working throughout the site. At the moment, you can’t adjust it (except in the code), but hopefully we’ll manage to build some UI for that soon.
+&lt;/p&gt;
+&lt;p&gt;
+	Under the hood, I’ve been moving more and more modifiers away from custom views and into custom layouts. For example, padding is now just a padding layout, and overlay is an overlay layout (all the stacks and grids are layouts, as well). By doing this, I can actually focus on only the layout code and don’t have to worry about other boilerplate things. It feels much more natural and efficient than creating regular views or view modifiers.
+&lt;/p&gt;
+&lt;p&gt;
+	We have a number of workshops coming up, and Juul has been very hard at work improving our workshop app (a native Mac app that comes with each workshop). It feels much more polished, is easier to read and navigate. It also supports Dynamic Type now (even though the Mac itself doesn’t, yet.).
+&lt;/p&gt;
+&lt;p&gt;
+	I feel like I’m now finally almost done with setting up the new company. I have a new invoicing workflow, finally got my VAT ID (this involved me calling the tax office every single day, at some point they even recognized me by my phone number). The German bureaucracy was never much of an issue to me, but this time it definitely lived up to the hype.
+&lt;/p&gt;
+&lt;p&gt;
+	I also booked my travel to go to &lt;a href=&quot;https://omt-conf.com&quot;&gt;One More Thing&lt;/a&gt;. I’ve never gotten lucky with getting a ticket to any of the Apple events (WWDC or Tech Talks) and so have never been at WWDC. But I’m excited to be around for the week, hoping to meet a lot of old and new friends.
+&lt;/p&gt;
+			</description>
+			<pubDate>Tue, 16 Apr 2024 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-15</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-15</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 12-13</title>
 			<description>
 				&lt;p&gt;
@@ -438,26 +464,6 @@
 			<pubDate>Mon, 16 Oct 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-41</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-41</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 40</title>
-			<description>
-				&lt;p&gt;
-	I’m taking some time off this month to focus on the family and get the final home improvement bits done before winter is here. I am working on some small side-projects and we will run a workshop this week.
-&lt;/p&gt;
-&lt;p&gt;
-	One of the things I experimented with is a generic programming library. This allows you to view your structs and enums as sums of products, and makes it relatively easy to write algorithms that operate on the structure of these types. For example, I’ve written a binary encoder/decoder, a method that generates a simple SwiftUI view for a type, a method that generates an editor (form) for a type, and a bunch more. I’m currently trying a few different approaches and am planning to blog a bit more about this soon. If you’re interested, &lt;a href=&quot;https://github.com/chriseidhof/generic-programming-tests&quot;&gt;here’s a repo&lt;/a&gt; with some of my experiments.
-&lt;/p&gt;
-&lt;p&gt;
-	In the typing recorder project that I wrote about in previous weeknotes, I started with a simple enum-based model layer. I was too lazy to make my model values &lt;code&gt;Identifiable&lt;/code&gt; but just had an array of enum values with the array index as the identifier. As always, this came back to haunt me. I finally changed my representation to include a stable identifier. This would have been much less work if I had done it from the beginning.
-&lt;/p&gt;
-&lt;p&gt;
-	I went for a quick dip in the lake after my long run on Sunday — it’s doable, but far from comfortable. Part of me wants to keep doing that, but I’m not sure how long I’ll last this year.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 09 Oct 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-40</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-40</guid>
 		</item>
 	</channel>
 </rss>
