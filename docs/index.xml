@@ -8,6 +8,26 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 16</title>
+			<description>
+				&lt;p&gt;
+	After another workshop last week I did not have that much time to work on the Field Guide, but Dynamic Type is fully working now (and live). I’m hoping to write a bit about it soon as well.
+&lt;/p&gt;
+&lt;p&gt;
+	This week, I’m giving a talk at a conference, and I’m using the Field Guide for my slides. This is where Dynamic Type comes in really handy: I can bump up the dynamic type setting and all examples increase their font sizes, which is incredibly useful.
+&lt;/p&gt;
+&lt;p&gt;
+	In the future, I want to animate changes to the code (for example, animate the addition of a new modifier to existing code). I’ve been trying to think about this quite a bit. Currently, everything happens at the AST level, but should that maybe happen at the parse level (which doesn’t currently exist)? Or should I keep the syntax tree stable and somehow allow to add new root nodes? I’ve been experimenting a bit with the last approach but am not sure how it will work in practice. I’m unfortunately not aware of any research in that area (I’m sure there is some, I just don’t know what to search for).
+&lt;/p&gt;
+&lt;p&gt;
+	Over the last months I’ve been preparing well for a marathon, and last Sunday was the race. I am pretty fit although far from PB level. For the first 25k, I was leading the race, but then slowed down a little bit. Just a few minutes later two volunteers sent me and the guy behind me in the wrong direction. This took us a few kms to figure out, so we ended up back at the start line in almost world record time (without having run the full distance, of course). This was incredibly frustrating after having spent all the time, effort and money just to be on the starting line. On the other hand, I know all too well how all of these events are run by large groups of volunteers and am very thankful for that, mistakes can happen. I think I did prove to myself that my fitness is increasing again, and hopefully I’ll run a full marathon somewhere in a few months!
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 22 Apr 2024 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-16</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-16</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 14-15</title>
 			<description>
 				&lt;p&gt;
@@ -447,23 +467,6 @@
 			<pubDate>Mon, 23 Oct 2023 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-42</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-42</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 41</title>
-			<description>
-				&lt;p&gt;
-	As a short break from my time off, we ran a workshop last week. I also took the opportunity to finally (after we moved in a few months ago) get my desk set up. I switched the saw horses for my standing desk base, added cable management and brought out all the gear I use when running a workshop: proper lighting, DSLR mount, HDMI converter, and so on. (It turned out my micro HDMI cable broke and I had to use my phone as a camera instead).
-&lt;/p&gt;
-&lt;p&gt;
-	Because we ran the workshop in PST, we had to stay up quite late (I’m an early riser and not much of an evening person by default). A few days before these PST workshops I’ll start by adjusting my rhythm. The hardest part for me is sleeping in — even though I’m tired, I can’t help but wake up early. The other weird thing is my energy level throughout the day: I’m typically very awake early in the morning and get progressively more tired during the day. This kind of felt the other way around.
-&lt;/p&gt;
-&lt;p&gt;
-	During the workshop, one of the attendees mentioned that it was nice to actually work on getting a very simple view to be pixel-perfect. In their own app, they often blame things on the complexity of their app, whereas here it’s just a few small components and there’s no hiding behind complexity. It also made me feel that, as iOS developers writing SwiftUI, any time invested in understanding SwiftUI is very well spent. We’ll probably be using this framework every single day for the next ten years or longer, any investment we make now will probably pay off many times over.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 16 Oct 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-41</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-41</guid>
 		</item>
 	</channel>
 </rss>
