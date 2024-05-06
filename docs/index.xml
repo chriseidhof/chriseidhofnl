@@ -8,6 +8,23 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 18</title>
+			<description>
+				&lt;p&gt;
+	The &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/dynamic-type/&quot;&gt;Dynamic Type&lt;/a&gt; page on the Field Guide is finally live. There are still some things I’d like to tweak (especially on mobile). The values that we use are directly from the Human Interface Guidelines, I’m not sure if they’re 100% the same as Apple’s actual implementation, but definitely close enough. We also used these to implement Dynamic Type on the Mac: &lt;a href=&quot;https://github.com/chriseidhof/dynamic-type&quot;&gt;https://github.com/chriseidhof/dynamic-type&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	I played around with compiling Swift to WASM after seeing &lt;a href=&quot;https://m.objc.io/@maxd@mastodon.social/112373031107893812&quot;&gt;Max’s post&lt;/a&gt;. I really wanted to make it work with embedded Swift (to avoid large wasm binaries) but it’s still quite limited. I managed to produce &lt;a href=&quot;https://github.com/chriseidhof/wasm-testing&quot;&gt;a minimal Hello, World example&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	We recorded some more Swift Talk episodes, and I had a bunch of workshop-related planning and calls. I also went to Prague to give a talk about SwiftUI’s layout system, which was nice but short. It was good seeing old friends again. The talk was a mix of live-coding and presentation, which turned out well, I think. I traveled to Prague by train, which is easily my prefered way of long-distance transportation. I love sitting on the train, looking out the window and doing some work.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 06 May 2024 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-18</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-18</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 16</title>
 			<description>
 				&lt;p&gt;
@@ -456,17 +473,6 @@
 			<pubDate>Mon, 30 Oct 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-43</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-43</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 42</title>
-			<description>
-				&lt;p&gt;
-	Still on my time off. We’re away in a holiday park, so I’m keeping the laptop mostly shut. I’ve done a tiny bit of work at the beginning of the week, hopefully I can share some of that soon. Mainly writing this post as to not break the streak.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 23 Oct 2023 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-42</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-42</guid>
 		</item>
 	</channel>
 </rss>
