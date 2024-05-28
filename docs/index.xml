@@ -8,6 +8,29 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 21</title>
+			<description>
+				&lt;p&gt;
+	When I started, I managed to write weekly weeknotes, then the schedule changed to bi-weekly weeknotes and now it’s been three weeks. I’ve had a pretty busy few weeks behind me with preparing and teaching workshops, preparing my talk at &lt;a href=&quot;https://omt-conf.com&quot;&gt;One More Thing&lt;/a&gt;, national holidays, sick kids and other life things.
+&lt;/p&gt;
+&lt;p&gt;
+	My talk will be about animations in SwiftUI, and together with &lt;a href=&quot;https://www.juulspee.nl&quot;&gt;Juul&lt;/a&gt; and &lt;a href=&quot;https://nicholaschristowitz.com/projects/swiftuifieldguide/&quot;&gt;Nick&lt;/a&gt; we’re designing and implementing some (hopefully) very helpful visualizations. Because most of my work stuff feeds back into each other, we’ll be able to use this for the talk, during the workshops and hopefully on the SwiftUI Field Guide as well.
+&lt;/p&gt;
+&lt;p&gt;
+	During the preparations I realized a new way to debug animations in SwiftUI that lets you stop an animation at any point in time. Florian and me recorded &lt;a href=&quot;https://talk.objc.io/episodes/S01E405-debugging-animations&quot;&gt;an episode&lt;/a&gt; about this.
+&lt;/p&gt;
+&lt;p&gt;
+	Over the last years, and specifically over the last weeks I continued upgrading my home video conferencing setup. I use a DSLR with a teleprompter to have a good image quality while being able to look directly at the camera. I invested in an overhead microphone with an external audio interface. Rather than attaching all devices to my desk (as I’ve done previously) I now moved my camera, lights and microphone to be wall attached. This gives me a video feed that doesn’t shake as I type.
+&lt;/p&gt;
+&lt;p&gt;
+	It’ll be a busy few next weeks in between workshops and visiting the bay area, but I’m looking forward to some “downtime” after that so I can get back to improving the Field Guide.
+&lt;/p&gt;
+			</description>
+			<pubDate>Tue, 28 May 2024 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-21</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-21</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 18</title>
 			<description>
 				&lt;p&gt;
@@ -452,27 +475,6 @@
 			<pubDate>Mon, 06 Nov 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-45</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-45</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 43</title>
-			<description>
-				&lt;p&gt;
-	I think a lot of Apple’s documentation could be improved. For example, I think SwiftUI’s layout system could be explained in a much better way. We try to do so in our workshops and books, but I think interactive explanations on a public website would be even better. A few years ago we reimplemented large parts of SwiftUI’s layout system in Swift. I started porting this to Javascript.
-&lt;/p&gt;
-&lt;p&gt;
-	While in The Netherlands, I also met up with my friends from university. We had a very close-knit group of students during our Master’s and ended up all going super deep on Haskell and functional programming. When everyone at the table immediately recommended I switch to TypeScript I took their word for it. The switch was &lt;em&gt;so&lt;/em&gt;
-	 worth it.
-&lt;/p&gt;
-&lt;p&gt;
-	I installed the TypeScript compiler and VS Code. I also (based on my friends’ recommendations) enabled copilot and had such an incredibly productive time. I don’t have to worry too much about my implementation’s performance or feature-completeness, as the goal is to only use this for teaching. I just focus on adding the subset of views that I want to explain and make sure they behave in exactly the same way as the real SwiftUI does. Luckily, we have already done most of the hard work in Swift, I only need to port it. I currently have stacks, frames, shapes, padding, background/overlay, images, geometry readers and a basic version of text working.
-&lt;/p&gt;
-&lt;p&gt;
-	There are a bunch of things missing before we can release this in some form. It needs better pretty printing (generating the code from the views), tracing (so that we can show the layout process), design (the surrounding explanations need to have at least some kind of design that goes beyond the browser’s default Times font).
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 30 Oct 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-43</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-43</guid>
 		</item>
 	</channel>
 </rss>
