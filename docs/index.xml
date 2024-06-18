@@ -8,6 +8,23 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 23-24</title>
+			<description>
+				&lt;p&gt;
+	I ran another workshop (distributed across Australia, India and Turkey). I also started helping out at our local hackerspace again by teaching kids HTML for a few weeks. I went to Berlin and had my professional picture taken, and recorded &lt;a href=&quot;https://talk.objc.io/&quot;&gt;Swift Talk episodes&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	Last week, I went to Cupertino for WWDC. It was so good seeing everyone again. I did not win the WWDC lottery but went to &lt;a href=&quot;https://omt-conf.com&quot;&gt;One More Thing&lt;/a&gt; instead, and met a bunch of friends around that. Afterwards, I spent a night with friends in San Francisco and went for some really nice runs.
+&lt;/p&gt;
+&lt;p&gt;
+	The upcoming week marks one of the final workshops for a while – now it’s time to focus on the &lt;a href=&quot;https://www.swiftuifieldguide.com&quot;&gt;Field Guide&lt;/a&gt; again.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 17 Jun 2024 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-24</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-24</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 21</title>
 			<description>
 				&lt;p&gt;
@@ -455,26 +472,6 @@
 			<pubDate>Mon, 06 Nov 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-44</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-44</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 45</title>
-			<description>
-				&lt;p&gt;
-	On Monday I was excited to finally have a regular week of work again without any travel or other big things. Little did I know. On Monday we all got really sick. It knocked the whole family out for multiple days.
-&lt;/p&gt;
-&lt;p&gt;
-	In the end, I did get a few days of solid work in last week. After finishing the projects we’ll build for our workshops, we split those up into individual exercises and write all the descriptions. We’ve gotten a lot more efficient at this, but it still takes a few iterations per workshop, even now.
-&lt;/p&gt;
-&lt;p&gt;
-	I also went and cleaned up a little bit of the Workshop app (our Mac app that the attendees use). I added a few small features. For example, all examples have live previews, I added support for better resizing that feels more native on the Mac. We have “fake” simulators in the app that show the solution in context, and I improved some of our fake iOS components (e.g. our simulation of a navigation view).
-&lt;/p&gt;
-&lt;p&gt;
-	In the evenings I kept tinkering with my web port of SwiftUI’s layout. Text layout now behaves almost exactly as SwiftUI’s Text view (which is based on CTFrameSetter). I added support for dark mode, and support to visualize a view’s origin and size. I added variables that allow you to change values in the source code by dragging them (similar to Bret Victor’s demos). There are so many more possibilities, but of course, my goal is for the end result to be very simple. So far TypeScript has really delivered on its promise, I feel confident making both small and large refactorings and having the type checker guide me through it.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 06 Nov 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-45</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-45</guid>
 		</item>
 	</channel>
 </rss>
