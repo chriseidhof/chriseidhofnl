@@ -8,6 +8,78 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Phase Animator Behavior</title>
+			<description>
+				&lt;p&gt;
+	I’m currently still busy researching all the animation APIs in SwiftUI. I’d like to understand them at such a level that I have either my own working implementation or know how to build it.
+&lt;/p&gt;
+&lt;p&gt;
+	With &lt;code&gt;PhaseAnimator&lt;/code&gt;, I always was a little confused as to how it actually works and why it sometimes seems to skip phases. Here’s what I think is going on:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Initially the content closure of the phase animation is rendered using the first phase provided
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			When you start a phase animation (either using the trigger or automatically by not providing a trigger), it calls the animation closure to determine the timing curve and animates to the next phase.
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			When there are no more phases, it animates back to the initial phase.
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	Sounds simple enough. I wanted to do an animation where a view would move up a bit, then wait there and finally move back down. Here’s what I did to have the view move up and back down:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ContentView: View {
+    @State private var trigger = 0
+
+    var body: some View {
+        Image(systemName: &amp;quot;globe&amp;quot;)
+            .phaseAnimator([0, -100], trigger: trigger) { view, phase in
+                view.offset(y: phase)
+            }
+            .onTapGesture { trigger += 1}
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This works fine: whenever the trigger changes, the &lt;code&gt;.default&lt;/code&gt; animation is used to move to offset -100, then when that animation completes the view moves back to 0 using another &lt;code&gt;.default&lt;/code&gt; animation.
+&lt;/p&gt;
+&lt;p&gt;
+	I thought I could let the view stay at -100 by just adding another phase with -100 to the array of phases, but unfortunately, that does not work, it just moves from 0 to -100 and back to 0 without staying at -100.
+&lt;/p&gt;
+&lt;p&gt;
+	When I naively tried to reimplement &lt;code&gt;PhaseAnimator&lt;/code&gt; I got the same behavior. My implementation works by first animating from the first to the second phase, and in the completion handler I’d animate to the next phase, and so on.
+&lt;/p&gt;
+&lt;p&gt;
+	It took me a minute to realize why my code was behaving the same way. When you change a view’s position from (say) -100 to -100 the attribute graph does not change. The nodes are exactly the same before and after the update, and there is nothing to be animated. When there are no concrete animations, the animation’s completion handler is called immediately. In other words, we’re moving to the next phase straight away.
+&lt;/p&gt;
+&lt;p&gt;
+	To solve the actual problem I had, I instead added a delayed animation when animating back to the initial phase:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Image(systemName: &amp;quot;globe&amp;quot;)
+    .phaseAnimator([0, -100], trigger: trigger) { view, phase in
+        view.offset(y: phase)
+    } animation: { offset in
+        offset == 0 ? .default.delay(1) : .default
+    }
+    .onTapGesture { trigger += 1}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This works as expected: the view animates to -100, stays there for a second and then animates back to 0.
+&lt;/p&gt;
+			</description>
+			<pubDate>Sun, 22 Sep 2024 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/phase-animator</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/phase-animator</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 38</title>
 			<description>
 				&lt;p&gt;
@@ -458,26 +530,6 @@
 			<pubDate>Mon, 04 Dec 2023 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2023-48</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-48</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 46-47</title>
-			<description>
-				&lt;p&gt;
-	Here are the combined weeknotes for the last two weeks.
-&lt;/p&gt;
-&lt;p&gt;
-	I visited my friend in London and met up with a bunch of friends. The NSLondon folks were nice enough to organize a drinks night, was great to see many old and new friends. London feels almost like the opposite of where we live (both in good and bad ways). One of my highlights was zipping through the streets in the dark rush hour on a rental E-bike (while being used to driving on the other side of the road). Felt dangerous but lots of fun.
-&lt;/p&gt;
-&lt;p&gt;
-	I made more progress on the SwiftUI web port. I’m starting to write out explanations of modifiers and views. I think in a few weeks we can start on the design work as well. I think I’d like to do the HTML/CSS myself for this one. While I did do lots of front-end web development years ago, I feel quite out of touch with modern front-end development. There are so many new things! I like a lot of it, but the one thing I’m trying to avoid for as long as I can is all those dependencies (bundlers, npm packages, etc.).
-&lt;/p&gt;
-&lt;p&gt;
-	We finished preparing two workshops (one in EST, one in PST, both in a single week). We also started some working on implementing the redesign of objc.io. This has been “ready” (that is, implemented in HTML/CSS) for over half a year, but we hadn’t gotten around to actually integrating it into our main website. So far, we only spent a day on this, but already made considerable progress.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 27 Nov 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-47</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-47</guid>
 		</item>
 	</channel>
 </rss>

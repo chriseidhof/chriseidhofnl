@@ -1,0 +1,117 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Phase Animator Behavior — Chris Eidhof
+		</title>
+		<meta content="Phase Animator Behavior — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/phase-animator/og-image-5574.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Phase Animator Behavior
+							</h1>
+							<h2 class="headline">
+								Unexpected Results
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								I’m currently still busy researching all the animation APIs in SwiftUI. I’d like to understand them at such a level that I have either my own working implementation or know how to build it.
+							</p>
+							<p>
+								With <code>PhaseAnimator</code>, I always was a little confused as to how it actually works and why it sometimes seems to skip phases. Here’s what I think is going on:
+							</p>
+							<ul>
+								<li>
+									<p>
+										Initially the content closure of the phase animation is rendered using the first phase provided
+									</p>
+								</li>
+								<li>
+									<p>
+										When you start a phase animation (either using the trigger or automatically by not providing a trigger), it calls the animation closure to determine the timing curve and animates to the next phase.
+									</p>
+								</li>
+								<li>
+									<p>
+										When there are no more phases, it animates back to the initial phase.
+									</p>
+								</li>
+							</ul>
+							<p>
+								Sounds simple enough. I wanted to do an animation where a view would move up a bit, then wait there and finally move back down. Here’s what I did to have the view move up and back down:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">trigger</span> = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">Image</span>(<span class="hljs-identifier">systemName</span>: <span class="hljs-string">"</span><span class="hljs-string">globe</span><span class="hljs-string">"</span>)
+            .<span class="hljs-identifier">phaseAnimator</span>([<span class="hljs-number">0</span>, -<span class="hljs-number">100</span>], <span class="hljs-identifier">trigger</span>: <span class="hljs-identifier">trigger</span>) { <span class="hljs-identifier">view</span>, <span class="hljs-identifier">phase</span> <span class="hljs-keyword">in</span>
+                <span class="hljs-identifier">view</span>.<span class="hljs-identifier">offset</span>(<span class="hljs-identifier">y</span>: <span class="hljs-identifier">phase</span>)
+            }
+            .<span class="hljs-identifier">onTapGesture</span> { <span class="hljs-identifier">trigger</span> += <span class="hljs-number">1</span>}
+    }
+}
+</code></pre>
+							<p>
+								This works fine: whenever the trigger changes, the <code>.default</code> animation is used to move to offset -100, then when that animation completes the view moves back to 0 using another <code>.default</code> animation.
+							</p>
+							<p>
+								I thought I could let the view stay at -100 by just adding another phase with -100 to the array of phases, but unfortunately, that does not work, it just moves from 0 to -100 and back to 0 without staying at -100.
+							</p>
+							<p>
+								When I naively tried to reimplement <code>PhaseAnimator</code> I got the same behavior. My implementation works by first animating from the first to the second phase, and in the completion handler I’d animate to the next phase, and so on.
+							</p>
+							<p>
+								It took me a minute to realize why my code was behaving the same way. When you change a view’s position from (say) -100 to -100 the attribute graph does not change. The nodes are exactly the same before and after the update, and there is nothing to be animated. When there are no concrete animations, the animation’s completion handler is called immediately. In other words, we’re moving to the next phase straight away.
+							</p>
+							<p>
+								To solve the actual problem I had, I instead added a delayed animation when animating back to the initial phase:
+							</p>
+							<pre><code>Image(systemName: &quot;globe&quot;)
+    .phaseAnimator([0, -100], trigger: trigger) { view, phase in
+        view.offset(y: phase)
+    } animation: { offset in
+        offset == 0 ? .default.delay(1) : .default
+    }
+    .onTapGesture { trigger += 1}
+</code></pre>
+							<p>
+								This works as expected: the view animates to -100, stays there for a second and then animates back to 0.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Sep 22, 2024</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2024-38">Weeknotes № 38
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
