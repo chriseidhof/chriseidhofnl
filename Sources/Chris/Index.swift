@@ -14,7 +14,7 @@ struct Index: Rule {
     @NodeBuilder var aboutMe: Node {
         HTML.footer(id: "about-me") {
             let miniBio = """
-            I'm Chris Eidhof, co-founder of [objc.io](https://www.objc.io), where we [write books](https://www.objc.io/books/) and [create videos](https://talk.objc.io) about Swift, SwiftUI, iOS, Mac and other similar topics. This is my personal blog. More [about me](/about).
+            I'm Chris Eidhof, co-founder of [objc.io](https://www.objc.io) and creator of [SwiftUI Field Guide](https://www.swiftuifieldguide.com/). This is my personal blog. More [about me](/about).
             """
             miniBio.fromMarkdown
             
