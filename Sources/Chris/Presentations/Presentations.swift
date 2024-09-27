@@ -12,13 +12,14 @@ struct Presentation {
     var location: String
     var conferenceName: String
     var conferenceLink: URL?
-    var sourcePDF: String
+    var sourcePDF: String?
     var transcript: String
 }
 
 extension Presentation {
     static let all: [Presentation] = [
-        .init(title: "A Day in the Life of a SwiftUI View", link: "day-in-the-life", date: .init(year: 2023, month: 08, day: 12), location: "Toronto, Canada", conferenceName: "SwiftConf.to", conferenceLink: URL(string: "https://www.swiftconf.to")!, sourcePDF: "2023-08-11-swiftto.pdf", transcript: "swiftto.md")
+        .init(title: "A Day in the Life of a SwiftUI View", link: "day-in-the-life", date: .init(year: 2023, month: 08, day: 12), location: "Toronto, Canada", conferenceName: "SwiftConf.to", conferenceLink: URL(string: "https://www.swiftconf.to")!, sourcePDF: "2023-08-11-swiftto.pdf", transcript: "swiftto.md"),
+        .init(title: "SwiftUI Animations", link: "swiftui-animations", date: .init(year: 2024, month: 09, day: 24), location: "Paris, France", conferenceName: "Swift Connection", conferenceLink: URL(string: "https://swiftconnection.io")!, sourcePDF: nil, transcript: "swiftconnection.md")
     ]
 }
 
@@ -86,14 +87,16 @@ struct PresentationRule: Rule {
     @Environment(\.relativeOutputPath) var relativeOutputPath
 
     var body: some Rule {
-        let filename = String(presentation.sourcePDF.dropLast(4))
-        let url = Bundle.module.url(forResource: .init(filename), withExtension: "pdf")!
-        let document = PDFDocument(url: url)!
-        ForEach(Array(0..<document.pageCount)) { ix in
-            WriteOrUseCache(outputName: "\(ix).png", data: {
-                let img = document.image(page: ix).bitmap()
-                return img.representation(using: .png, properties: [:])!
-            })
+        if let p = presentation.sourcePDF {
+            let filename = String(p.dropLast(4))
+            let url = Bundle.module.url(forResource: .init(filename), withExtension: "pdf")!
+            let document = PDFDocument(url: url)!
+            ForEach(Array(0..<document.pageCount)) { ix in
+                WriteOrUseCache(outputName: "\(ix).png", data: {
+                    let img = document.image(page: ix).bitmap()
+                    return img.representation(using: .png, properties: [:])!
+                })
+            }
         }
         WriteNode(outputName: "index.html", node: presentation.page(path: relativeOutputPath!))
             .title(presentation.title)
