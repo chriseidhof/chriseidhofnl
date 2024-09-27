@@ -1,4 +1,4 @@
-Here's the video of my talk. Scroll down for an annotated transcript (cleaned up by an LLM).
+Here's the video of a home-recorded version of my talk. The real talk will follow soon. Scroll down for a transcript (cleaned up by an LLM).
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/mzpZNaseAIE" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
 
