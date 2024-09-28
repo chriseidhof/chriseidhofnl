@@ -320,6 +320,7 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
      font: 19px/1.3em var(--heading-font);
      color:#bbb;
 }
+
  .post h2 {
      margin-bottom:20px;
      color:inherit;
