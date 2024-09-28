@@ -36,47 +36,178 @@
 							<p>
 								Here’s the video of a home-recorded version of my talk. The real talk will follow soon. Scroll down for a transcript (cleaned up by an LLM).
 							</p>
-							<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/mzpZNaseAIE" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+							<div id="player-container">
+<div id="player" width="560" height="315"></div>
+</div>
 
 							<p>
 								Today, I want to talk about animations and switches. There’s a lot to say about animations — we could discuss the theory, the different curves, and how to ensure continuity. We could also dive into the design of animations. However, today we’ll focus solely on how to implement animations in SwiftUI. There are several ways to do this, but we’ll cover four main approaches.
 							</p>
 							<p>
+								<span class="timestamp">
+								0:24
+								</span>
 								The first approach we’ll discuss is a basic animation, which allows us to animate a stroke or any other visual element. The second method involves phase animations, which let you break down animations into phases. Then we’ll explore keyframe animations, such as one you might have seen before. Finally, we’ll touch on particle animations. SwiftUI’s basic animations will cover most of your needs and get you pretty far. For example, let’s say we want to animate the stroke of a heart shape.
 							</p>
 							<p>
-								To start, we wrap the heart shape inside a ZStack and add another copy of it with a red stroke, overlapping the original stroke. To animate this, we need to shorten the stroke, which we can do using the trim modifier. If we trim it to 0.5, we’ll only see half the heart; at 0.75, we’ll see 75% of it. The goal is to animate this value. To achieve that, we’ll add a tap gesture and a state property. The line where we set the trim to 0.75 is what we want to animate, and this value should either be 0 or 1, depending on the current state. When we convert this to a ternary operator, we have two different states. But at this point, nothing is animating yet.
+								<span class="timestamp">
+								1:00
+								</span>
+								 To start, we wrap the heart shape inside a ZStack and add another copy of it with a red stroke, overlapping the original stroke. To animate this, we need to shorten the stroke, which we can do using the trim modifier. If we trim it to 0.5, we’ll only see half the heart; at 0.75, we’ll see 75% of it. The goal is to animate this value. To achieve that, we’ll add a tap gesture and a state property. The line where we set the trim to 0.75 is what we want to animate, and this value should either be 0 or 1, depending on the current state. When we convert this to a ternary operator, we have two different states. But at this point, nothing is animating yet.
 							</p>
 							<p>
-								Now comes the question: what does it mean to animate? In terms of a computer screen, we’re drawing frames 60 times per second (or sometimes even faster). To animate something means that, over a specific period, we change what’s displayed by showing intermediate frames. For our heart animation, if the animation takes one second, we want to start with the stroke trimmed to 0, move towards 1, and show intermediate values during every frame of the animation. These intermediate values are calculated through interpolation.
+								<span class="timestamp">
+								2:00
+								</span>
+								 Now comes the question: what does it mean to animate? In terms of a computer screen, we’re drawing frames 60 times per second (or sometimes even faster). To animate something means that, over a specific period, we change what’s displayed by showing intermediate frames. For our heart animation, if the animation takes one second, we want to start with the stroke trimmed to 0, move towards 1, and show intermediate values during every frame of the animation. These intermediate values are calculated through interpolation.
 							</p>
 							<p>
-								Fortunately, animating in SwiftUI is quite easy. We can make the heart tappable using the contentShape modifier, and we’ll add an animation that triggers whenever the isOn value changes. Now, when we tap the heart, it animates. This is one of the many simple animations you can create in SwiftUI.
+								<span class="timestamp">
+								2:43
+								</span>
+								 Fortunately, animating in SwiftUI is quite easy. We can make the heart tappable using the contentShape modifier, and we’ll add an animation that triggers whenever the isOn value changes. Now, when we tap the heart, it animates. This is one of the many simple animations you can create in SwiftUI.
 							</p>
 							<p>
-								But what’s really happening behind the scenes? To better understand, we can look at the render tree. This is similar to an attribute graph or even a UIView tree for those familiar with UIKit. It’s created by executing the view tree based on the code we wrote. When we change the isOn value, the render tree updates. It first updates the stroke animation, then the subtree, and finally the tap gesture. During these updates, there’s a symbol between the frame and the tap gesture representing the current transaction. Every state change in SwiftUI has an associated transaction that carries information like the current animation, passing through the view tree as the state changes. The dot animation function applies the animation to the transaction, updating the render tree whenever an animatable property changes. We can even view the timeline of these changes.
+								<span class="timestamp">
+								3:08
+								</span>
+								 But what’s really happening behind the scenes? To better understand, we can look at the render tree. This is similar to an attribute graph or even a UIView tree for those familiar with UIKit. It’s created by executing the view tree based on the code we wrote. When we change the isOn value, the render tree updates. It first updates the stroke animation, then the subtree, and finally the tap gesture. During these updates, there’s a symbol between the frame and the tap gesture representing the current transaction. Every state change in SwiftUI has an associated transaction that carries information like the current animation, passing through the view tree as the state changes. The dot animation function applies the animation to the transaction, updating the render tree whenever an animatable property changes. We can even view the timeline of these changes.
 							</p>
 							<p>
-								We’ve now covered animating from state A to state B. SwiftUI takes snapshots of the view before and after the change, animating the differences. But what if we want to animate through multiple stages, like having a heart jump out, rotate, and return to its original position? This is where phase animations become useful.
+								<span class="timestamp">
+								6:24
+								</span>
+								 We’ve now covered animating from state A to state B. SwiftUI takes snapshots of the view before and after the change, animating the differences. But what if we want to animate through multiple stages, like having a heart jump out, rotate, and return to its original position? This is where phase animations become useful.
 							</p>
 							<p>
-								Phase animations allow you to define different phases that the animation passes through. For instance, let’s say we want our heart to change color (red or gray), animate the transition, and also scale up and down. We can use a phase animator, wrapping our heart and defining two phases (false for rest and true for active). As the isOn value changes, SwiftUI animates from the rest phase to the active phase and then back again. We can scale the heart and add other effects like rotation and offset to complete the phase animation.
+								<span class="timestamp">
+								6:54
+								</span>
+								 Phase animations allow you to define different phases that the animation passes through. For instance, let’s say we want our heart to change color (red or gray), animate the transition, and also scale up and down. We can use a phase animator, wrapping our heart and defining two phases (false for rest and true for active). As the isOn value changes, SwiftUI animates from the rest phase to the active phase and then back again. We can scale the heart and add other effects like rotation and offset to complete the phase animation.
 							</p>
 							<p>
-								Now, let’s move on to keyframe animations. This is useful when we want to animate multiple properties at different intervals. For example, we can animate both the stroke and opacity of a heart but with a delay between the two. Keyframe animations allow us to control individual properties and their timing more precisely. With a keyframe animator, we’re not just animating the view tree but the actual values over time.
+								<span class="timestamp">
+								9:27
+								</span>
+								 Now, let’s move on to keyframe animations. This is useful when we want to animate multiple properties at different intervals. For example, we can animate both the stroke and opacity of a heart but with a delay between the two. Keyframe animations allow us to control individual properties and their timing more precisely. With a keyframe animator, we’re not just animating the view tree but the actual values over time.
 							</p>
 							<p>
-								Keyframe animations involve more work since we need to define the keyframes for each property. For example, we can animate the heart’s opacity and stroke progress over two seconds. The keyframe closure runs for every frame of the animation, so we can define how each property changes over time. It’s worth noting that while keyframe animations provide great flexibility, they require more detailed work compared to basic animations.
+								<span class="timestamp">
+								10:31
+								</span>
+								 Keyframe animations involve more work since we need to define the keyframes for each property. For example, we can animate the heart’s opacity and stroke progress over two seconds. The keyframe closure runs for every frame of the animation, so we can define how each property changes over time. It’s worth noting that while keyframe animations provide great flexibility, they require more detailed work compared to basic animations.
 							</p>
 							<p>
-								Finally, let’s discuss particle animations using a TimelineView and a Canvas. A canvas allows for immediate-mode drawing, which means we directly control the drawing commands. For this example, we’ll animate particles around a heart symbol. The heart is drawn at the origin of the canvas, and we use a TimelineView to update the canvas every frame, similar to how CADisplayLink works. We’ll calculate elapsed time and animate the particles based on that. Each particle can have random properties like amplitude and delay, and we can control their movement and opacity as they appear and disappear over time.
+								<span class="timestamp">
+								14:55
+								</span>
+								 Finally, let’s discuss particle animations using a TimelineView and a Canvas. A canvas allows for immediate-mode drawing, which means we directly control the drawing commands. For this example, we’ll animate particles around a heart symbol. The heart is drawn at the origin of the canvas, and we use a TimelineView to update the canvas every frame, similar to how CADisplayLink works. We’ll calculate elapsed time and animate the particles based on that. Each particle can have random properties like amplitude and delay, and we can control their movement and opacity as they appear and disappear over time.
 							</p>
 							<p>
-								While particle animations are very flexible, they can become complex and tedious to manage. You have to manually handle things like fading particles out and removing them from the array. This kind of animation is powerful but involves a lot of manual work.
+								<span class="timestamp">
+								21:58
+								</span>
+								 While particle animations are very flexible, they can become complex and tedious to manage. You have to manually handle things like fading particles out and removing them from the array. This kind of animation is powerful but involves a lot of manual work.
 							</p>
 							<p>
-								That’s all I have to say for today. I’m happy to take any questions <a href="https://m.objc.io/@chris">online</a>. Thank you.
+								<span class="timestamp">
+								22:06
+								</span>
+								 That’s all I have to say for today. I’m happy to take any questions <a href="https://m.objc.io/@chris">online</a>. Thank you.
 							</p>
+							<script src="https://www.youtube.com/iframe_api"></script>
+
+							<script>
+        // Load the IFrame Player API code asynchronously.
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '360',
+                width: '640',
+                videoId: 'mzpZNaseAIE',
+                playerVars: {
+                    'origin': window.location.origin,
+                    'enablejsapi': 1,
+                    'modestbranding': 1,
+                    'rel': 0
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            convertTimestamps();
+            setupFloatingPlayer();
+        }
+        
+        function setupFloatingPlayer() {
+            const playerContainer = document.getElementById('player-container');
+            const playerRect = playerContainer.getBoundingClientRect();
+            const initialTop = playerRect.top + window.pageYOffset;
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > initialTop) {
+                    playerContainer.classList.add('floating');
+                } else {
+                    playerContainer.classList.remove('floating');
+                }
+            });
+        }
+
+        function convertTimestamps() {
+            const timestamps = document.querySelectorAll('.timestamp');
+            timestamps.forEach(span => {
+                const seconds = convertToSeconds(span.textContent);
+                span.onclick = () => skipTo(seconds);
+            });
+        }
+
+        function convertToSeconds(timeString) {
+            const [minutes, seconds] = timeString.split(':').map(Number);
+            return minutes * 60 + seconds;
+        }
+
+        function skipTo(seconds) {
+            player.seekTo(seconds, true);
+        }
+    </script>
+
+							<style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        #player-container {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            padding: 10px;
+            transition: all 0.3s ease;
+        }
+        #player-container.floating {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            height: 200px;
+        }
+        #player {
+            width: 100%;
+        }
+        .timestamp {
+            cursor: pointer;
+        }
+    </style>
+
 						</section>
 					</article>
 				</section>

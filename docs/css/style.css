@@ -743,3 +743,7 @@ a.back:hover, #archive-link:hover {
         display: none;
     }
 }
+
+.timestamp:hover {
+    opacity: 0.7;
+}
