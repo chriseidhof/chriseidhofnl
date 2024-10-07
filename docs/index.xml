@@ -8,6 +8,40 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 41</title>
+			<description>
+				&lt;p&gt;
+	As we are now tied to the school holidays, we made the best off of a few consecutive days off and went to the Netherlands to visit family last week. I did not bring my bike and went for a single bike ride on a mountain bike (on the completely flat roads). I did go for my first run in months, which was awesome. It was much harder than I remember running to be and I definitely had all kinds of soreness, but my injury didn’t get any worse.
+&lt;/p&gt;
+&lt;p&gt;
+	I worked a bit on my presentation for &lt;a href=&quot;https://pragmaconference.com&quot;&gt;Pragma Conference&lt;/a&gt;. Really looking forward to meeting everyone there as well as giving my talk. Because it’s the end of the year, all of a sudden we had a bunch of workshop requests, most of which are still not fully confirmed. Even though there’s just one quarter left, it’s not possible to tell whether the end of this year will be extremely busy or not.
+&lt;/p&gt;
+&lt;p&gt;
+	I also spent last week rewriting some of the internals of my typing recorder. It’s now a little easier for me to edit mistakes. This doesn’t work perfectly yet and there’s always a possibility of an edit breaking the entire document. I should probably at the very least implement undo and redo.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 07 Oct 2024 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-41</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-41</guid>
+		</item>
+		<item>
+			<title>Weeknotes № 40</title>
+			<description>
+				&lt;p&gt;
+	Last week I went to Paris to speak at &lt;a href=&quot;https://swiftconnection.io&quot;&gt;Swift Connection&lt;/a&gt;. This was really fun — I met new and old friends and it was generally really nice to be among other Swift developers (in our tiny town I’m the only one).
+&lt;/p&gt;
+&lt;p&gt;
+	My presentation was about different techniques available for building SwiftUI animations. This was the first time I used the new “play back typing” tool during a presentation. This went really well, there was a small hiccup but luckily someone in the audience caught it and called it out. While the talk was still fresh I recorded a version at home and &lt;a href=&quot;https://chris.eidhof.nl/presentations/swiftui-animations/&quot;&gt;published it here&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	The train ride back from Paris to Fürstenberg went well, too. I was able to spend a lot of that time working productively. I have no numbers, but when I think about it purely in terms of efficiency: the whole hassle of flying (going to the airport, waiting, checking in, and so on) is a lot more stressful to me, and I wonder if I could have gotten any more work done, even with the few hours saved.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 30 Sep 2024 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-40</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-40</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 39</title>
 			<description>
 				&lt;p&gt;
@@ -481,52 +515,6 @@
 			<pubDate>Sun, 07 Jan 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/swiftui-binding-tricks</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-binding-tricks</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 51-52</title>
-			<description>
-				&lt;p&gt;
-	In between Christmas and New Years I’ve been slowly making progress on my layout explanations website. Nicholas (the designer) has been putting out different possible designs, and I’ve been trying to implement some of it (both in SwiftUI as well as in my web port).
-&lt;/p&gt;
-&lt;p&gt;
-	I also spent a few days trying to figure out what happens when SwiftUI performs animations. I learned a few things:
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			When you start an animation for a property while another animation for that property is already running, the results of these two animations get combined. The combined animation will always have the duration of the new animation. Also, at the end of the (new) animation, the value will be the result of the new animation. In between, these two values get interpolated. I’m hoping to write up some of my experiments soon.
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			When you create multiple transactions (e.g. change one property, animate a change to a second property and then change another property) in one go (e.g. in a button action) these cause SwiftUI to reevaluate the body multiple times (once per transaction). This is necessary to figure out which views should be animated and which should update immediately.
-		&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;
-	My goal is to understand animations so well that I can reimplement them without problems. I’m planning to also port the animation system to the web, so that I can use them for my visualizations in the layout explanations. Hopefully, at a later point, I can also use that to explain how animations work.
-&lt;/p&gt;
-&lt;p&gt;
-	Depending on when you’re reading this: happy new year!
-&lt;/p&gt;
-			</description>
-			<pubDate>Sun, 31 Dec 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-52</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-52</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 49-50</title>
-			<description>
-				&lt;p&gt;
-	We recorded some Swift Talk episodes about tweakable values. We also continued implementing the new design for our website (and Swift Talk). It’s still not finished, hopefully soon.
-&lt;/p&gt;
-&lt;p&gt;
-	I also spent a bunch of time on my SwiftUI layout explanation site. It’s not so easy to figure out the right visualizations, but I think we’re making progress there. I also want to have some animations in there, which means I’m going to attempt to clone SwiftUI’s animation system. I’ve reimplemented (parts of) the layout system a few times, but have never tried doing the animation system. I think the main challenge will be to make sure additive animations work as expected. I’m not too worried about performance — it’s something that should work correctly in a real implementation, but for my purposes, I only want to be able to animate a few views at the time.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 18 Dec 2023 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2023-50</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2023-50</guid>
 		</item>
 	</channel>
 </rss>
