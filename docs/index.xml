@@ -11,6 +11,24 @@
 			<title>Weeknotes № 41</title>
 			<description>
 				&lt;p&gt;
+	It looks to be quite a busy end-of-the-year, after a few months of focusing on other stuff there’ll be a batch of workshops all at once, mostly on location (which is more time and cost intensive, but also definitely more fun). I’ve been preparing a bunch, and also preparing a lot more background material. I’m hoping to integrate some of the things from my presentations as well, for example, the fake animation debugger from my &lt;a href=&quot;https://chris.eidhof.nl/presentations/swiftui-animations/&quot;&gt;Swift Connection talk&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	One of the libraries I’ve used throughout the last months is my Mac &lt;a href=&quot;https://github.com/chriseidhof/dynamic-type&quot;&gt;Dynamic Type&lt;/a&gt; library. I took the iOS dynamic type sizes and replicated the dynamic type API so that my Mac apps (or fake simulator previews) can have dynamic type support as well. This has been great for presentations (I can just increase the font size &lt;em&gt;and&lt;/em&gt;
+	 everything else related to that because most things have a &lt;code&gt;@ScaledMetric&lt;/code&gt; in front of them). It’s also super useful in our &lt;a href=&quot;https://www.swiftuifieldguide.com/workshops/&quot;&gt;workshop app&lt;/a&gt;, and we’re working on adding some more support for that as well.
+&lt;/p&gt;
+&lt;p&gt;
+	I’ve played around with a few more “reusable” bonus exercises for our workshop. It’s really hard to find good exercises that teach a subject, are realistic and yet small enough that you can solve it in a short timeframe. However, when you do find good examples, it’s quite rewarding.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 14 Oct 2024 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-41</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-41</guid>
+		</item>
+		<item>
+			<title>Weeknotes № 41</title>
+			<description>
+				&lt;p&gt;
 	As we are now tied to the school holidays, we made the best off of a few consecutive days off and went to the Netherlands to visit family last week. I did not bring my bike and went for a single bike ride on a mountain bike (on the completely flat roads). I did go for my first run in months, which was awesome. It was much harder than I remember running to be and I definitely had all kinds of soreness, but my injury didn’t get any worse.
 &lt;/p&gt;
 &lt;p&gt;
@@ -21,8 +39,8 @@
 &lt;/p&gt;
 			</description>
 			<pubDate>Mon, 07 Oct 2024 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-41</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-41</guid>
+			<link>http://chris.eidhof.nl/post/2024-40</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-40</guid>
 		</item>
 		<item>
 			<title>Weeknotes № 40</title>
@@ -38,8 +56,8 @@
 &lt;/p&gt;
 			</description>
 			<pubDate>Mon, 30 Sep 2024 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-40</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-40</guid>
+			<link>http://chris.eidhof.nl/post/2024-39</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-39</guid>
 		</item>
 		<item>
 			<title>Weeknotes № 39</title>
@@ -55,8 +73,8 @@
 &lt;/p&gt;
 			</description>
 			<pubDate>Mon, 23 Sep 2024 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-39</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-39</guid>
+			<link>http://chris.eidhof.nl/post/2024-38</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-38</guid>
 		</item>
 		<item>
 			<title>Phase Animator Behavior</title>
@@ -150,8 +168,8 @@
 &lt;/p&gt;
 			</description>
 			<pubDate>Mon, 16 Sep 2024 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-38</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-38</guid>
+			<link>http://chris.eidhof.nl/post/2024-37</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-37</guid>
 		</item>
 		<item>
 			<title>Weeknotes № 23-24</title>
@@ -441,80 +459,6 @@
 			<pubDate>Mon, 08 Jan 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-01</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-01</guid>
-		</item>
-		<item>
-			<title>SwiftUI Binding Tips</title>
-			<description>
-				&lt;p&gt;
-	When working with bindings in SwiftUI, it can be useful to modify bindings. For example, in a Slack I’m part of, someone had a binding to a Boolean and wanted to negate it. This was (roughly) the code they had:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Binding where Value == Bool {
-    func toggled() -&amp;gt; Self {
-        Self(
-            get: {
-                !wrappedValue
-            },
-            set: { newValue in
-                wrappedValue = !newValue
-            }
-        )
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	While the code works great, it always feels a bit cumbersome to write. There’s a simpler way to achieve this. We can start by creating a computed property on &lt;code&gt;Bool&lt;/code&gt; that’s both &lt;code&gt;get&lt;/code&gt; and &lt;code&gt;set&lt;/code&gt;:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Bool {
-    var flipped: Self {
-        get { !self }
-        set { self = !newValue }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Because &lt;code&gt;Binding&lt;/code&gt; supports dynamic member lookup, we can use our &lt;code&gt;flipped&lt;/code&gt; property directly where we use our binding:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;$myBinding.flipped
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	We’ve also used this pattern sometimes when projecting into a binding. For example, let’s imagine we want to display a control that enables us to select edges. Our state looks like this:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;@State private var edges: Set&amp;lt;Edge&amp;gt; = [Edge.top, Edge.bottom]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	If we want to enable and disable a specific edge through a &lt;code&gt;Toggle&lt;/code&gt;, we’ll need to turn the binding from a &lt;code&gt;Set&amp;lt;Edge&amp;gt;&lt;/code&gt; into a &lt;code&gt;Bool&lt;/code&gt; binding. We can again achieve this using dynamic member lookup, but this time through a subscript:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;extension Set {
-    subscript(contains el: Element) -&amp;gt; Bool {
-        get { contains(el) }
-        set {
-            if newValue {
-                insert(el)
-            } else {
-                remove(el)
-            }
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	Now we can write &lt;code&gt;$edges[contains: .top]&lt;/code&gt; or &lt;code&gt;$edges[contains: .bottom]&lt;/code&gt; and get a &lt;code&gt;Bool&lt;/code&gt; binding out. The reason why we need a &lt;code&gt;subscript&lt;/code&gt; is that dynamic member lookup uses key paths, and both subscripts and computed properties can be part of key paths. A regular method cannot be part of a key path. While the technique is a little obscure, I still find it easier to read than writing all that logic inside a custom binding.
-&lt;/p&gt;
-&lt;p&gt;
-	In general, I much prefer components that take a &lt;code&gt;Binding&lt;/code&gt; over components that observe all kinds of complicated view models, global stores or other things. They are easier to test and reuse and don’t require complicated architectures. Hopefully the two tricks above help you turn the bindings that you have into the bindings that you need.
-&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Update&lt;/strong&gt;
-	: &lt;a href=&quot;https://hachyderm.io/@stephencelis&quot;&gt;Stephen Celis&lt;/a&gt; writes in:
-&lt;/p&gt;
-&lt;blockquote&gt;
-	&lt;p&gt;
-		Another reason to prefer properties + dynamic member look up instead of constructing ad-hoc bindings is that ad-hoc bindings tend to break SwiftUI animation. Even if you do all the right stuff with the transaction, there is something weird deep in SwiftUI that causes an ad-hoc binding to be handed transactions with all animation info stripped away.
-	&lt;/p&gt;
-&lt;/blockquote&gt;
-			</description>
-			<pubDate>Sun, 07 Jan 2024 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/swiftui-binding-tricks</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-binding-tricks</guid>
 		</item>
 	</channel>
 </rss>
