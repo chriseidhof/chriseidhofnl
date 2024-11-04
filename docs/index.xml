@@ -8,6 +8,66 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 44</title>
+			<description>
+				&lt;p&gt;
+	Going to &lt;a href=&quot;http://pragmamark.org&quot;&gt;pragma&lt;/a&gt; was awesome as always. We went with the whole family and took so many trains! (I even got a status upgrade by Deutsche Bahn and am now a gold member.)
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Fürstenberg → Berlin
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Berlin → München
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			München → Kufstein
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Kufstein → Innsbruck
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	We then stayed in Innsbruck for two nights, and went on to Verona by taking two more trains:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Innsbrück → Brenner
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Brenner → Verona
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	After a night in Verona, we took a train straight to Bologna and a bus to top it off. The kids also really enjoyed all the travel. We did a reasonable job with packing, but should probably have packed lighter still. Our way back from Bologna was much easier: it only took us one train to get to Munich, and two more trains the next day to get home. We would definitely do something like this again.
+&lt;/p&gt;
+&lt;p&gt;
+	I managed to implement a very basic version of the attribute graph based on &lt;a href=&quot;https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=9609985dbef43633f4deb88c949a9776e0cd766b&quot;&gt;this paper&lt;/a&gt;. It seems to work for basic stuff, but I’m not 100% sure yet how to do all the SwiftUI-specific things. For example, how does layout work? The parent proposes a size, so the child is dependent on that. Yet the child may at a later point change its state and the parent needs to relayout.
+&lt;/p&gt;
+&lt;p&gt;
+	My talk at Pragma went well. I had my talk ready a few weeks before the conference, yet like to practice a lot in the days before the actual talk. Due to the kids and traveling, I was only able to go through my talk twice in the final week, but it still went okay. In general, there were a lot of great talks and conversations at the conference.
+&lt;/p&gt;
+&lt;p&gt;
+	For most things I have been using &lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;jj&lt;/a&gt; instead of git as my daily driver. It works surprisingly well. In my career I’ve used CVS, SVN and git. Each always felt like a big step forward and somehow made the previous tool feel old and outdated. jj has a similar effect for me.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 04 Nov 2024 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-44</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-44</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 42-43</title>
 			<description>
 				&lt;p&gt;
@@ -439,26 +499,6 @@
 			<pubDate>Mon, 22 Jan 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-03</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-03</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 2</title>
-			<description>
-				&lt;p&gt;
-	The persistent cough I’ve had for weeks is finally getting better. I started running again (small steps). Originally, I wanted to start my marathon preparation a few weeks ago, but I had to postpone to get healthy again first. This means I can’t do a 16-week prep as usual, so I’ll do a 12-week version. While it won’t get me in the shape I want yet, it’s definitely going to be a good place to then build from.
-&lt;/p&gt;
-&lt;p&gt;
-	We spent a day preparing for Swift Talk episodes, and I spent the rest of the week working on the new project (explaining SwiftUI in the browser). I made some really good progress: I separated updating views from laying views out, I added initial support for animations and transitions and implemented matched geometry effect. Some of the explanations we’re hoping to achieve are way better with animations, and this seemed like the easiest way to achieve that.
-&lt;/p&gt;
-&lt;p&gt;
-	I also incorporated a new company. Or to be more precise: I took the first steps to being incorporated, as this process is quite elaborate in Germany, involving multiple in-person meetings. While the existing company I run with Florian is going to stay around, this new project will run under the new company.
-&lt;/p&gt;
-&lt;p&gt;
-	Finally, I did a few smaller home improvement projects. For the first time, I worked with aluminum. It was pretty basic: just cutting stuff and drilling holes. The only tricky bit is that I wanted to tap threads, but that didn’t really work out the way I wanted (three of the holes ended up great, but on one of them I made a mistake and the bolts wouldn’t grip in the threads. I kind of want to learn to weld as well, but I’ve read that welding aluminum is pretty tricky.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 15 Jan 2024 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-02</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-02</guid>
 		</item>
 	</channel>
 </rss>

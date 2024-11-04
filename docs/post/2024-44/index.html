@@ -1,0 +1,105 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 44 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 44 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2024-44/og-image-f14c.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 44
+							</h1>
+							<h2 class="headline">
+								Pragma Conf
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								Going to <a href="http://pragmamark.org">pragma</a> was awesome as always. We went with the whole family and took so many trains! (I even got a status upgrade by Deutsche Bahn and am now a gold member.)
+							</p>
+							<ul>
+								<li>
+									<p>
+										Fürstenberg → Berlin
+									</p>
+								</li>
+								<li>
+									<p>
+										Berlin → München
+									</p>
+								</li>
+								<li>
+									<p>
+										München → Kufstein
+									</p>
+								</li>
+								<li>
+									<p>
+										Kufstein → Innsbruck
+									</p>
+								</li>
+							</ul>
+							<p>
+								We then stayed in Innsbruck for two nights, and went on to Verona by taking two more trains:
+							</p>
+							<ul>
+								<li>
+									<p>
+										Innsbrück → Brenner
+									</p>
+								</li>
+								<li>
+									<p>
+										Brenner → Verona
+									</p>
+								</li>
+							</ul>
+							<p>
+								After a night in Verona, we took a train straight to Bologna and a bus to top it off. The kids also really enjoyed all the travel. We did a reasonable job with packing, but should probably have packed lighter still. Our way back from Bologna was much easier: it only took us one train to get to Munich, and two more trains the next day to get home. We would definitely do something like this again.
+							</p>
+							<p>
+								I managed to implement a very basic version of the attribute graph based on <a href="https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=9609985dbef43633f4deb88c949a9776e0cd766b">this paper</a>. It seems to work for basic stuff, but I’m not 100% sure yet how to do all the SwiftUI-specific things. For example, how does layout work? The parent proposes a size, so the child is dependent on that. Yet the child may at a later point change its state and the parent needs to relayout.
+							</p>
+							<p>
+								My talk at Pragma went well. I had my talk ready a few weeks before the conference, yet like to practice a lot in the days before the actual talk. Due to the kids and traveling, I was only able to go through my talk twice in the final week, but it still went okay. In general, there were a lot of great talks and conversations at the conference.
+							</p>
+							<p>
+								For most things I have been using <a href="https://github.com/martinvonz/jj">jj</a> instead of git as my daily driver. It works surprisingly well. In my career I’ve used CVS, SVN and git. Each always felt like a big step forward and somehow made the previous tool feel old and outdated. jj has a similar effect for me.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Nov 4, 2024</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2024-43">Weeknotes № 42-43
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
