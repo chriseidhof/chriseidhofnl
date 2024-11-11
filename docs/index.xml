@@ -8,6 +8,29 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 45</title>
+			<description>
+				&lt;p&gt;
+	Last week I mostly spent preparing for two upcoming workshops. We have a good outline for our &lt;a href=&quot;https://www.swiftuifieldguide.com/workshops/&quot;&gt;SwiftUI Workshop&lt;/a&gt;, yet customize each workshop heavily for the client we work with. Once we know what exercises to do, we create a new repository with the starting point for exercise 1, then a commit for each exercies. It’s been helpful to use either &lt;a href=&quot;https://retcon.app&quot;&gt;Retcon&lt;/a&gt; or &lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;Jujutsu&lt;/a&gt; to rewrite history and add pieces to older commits.
+&lt;/p&gt;
+&lt;p&gt;
+	I spent more time exploring how the attribute graph works in SwiftUI. One useful thing I did was extracting all the named symbols using &lt;code&gt;nm -C&lt;/code&gt;, then feeding that into an LLM to get a description of &lt;code&gt;AttributeGraph.framework&lt;/code&gt;. This is what came out: &lt;a href=&quot;https://gist.github.com/chriseidhof/c6037948c1e6c1639fa19f891dfa368c&quot;&gt;transcript.md&lt;/a&gt;. I’ve also tried modeling an AG-based SwiftUI layout system with some success. At first, I was stumped about how to do this in an acyclic way, but I think I have something figured out now (not sure if it’s how SwiftUI does it, though). Once I feel more comfortable that it’s correct, I’ll try to write about it.
+&lt;/p&gt;
+&lt;p&gt;
+	I still have my foot injury and hope it will go away by waiting it out, so can’t do any running. This has easily been the longest I’ve been without running, but luckily, I’ve been really enjoying gravel biking. I went for a few nice rides last week. I got a new bike as well (Canyon Grizl), I think I’ll prepare my older bike for indoor training and then for road cycling. On Sunday I rode for quite a long time in the cold and after about an hour and a half I noticed I was starting to get a little cold, slightly drowsy and (in hindsight) some other signs of early hypothermia. I thought I’d dressed warm enough, but will definitely need to up my layering for long rides.
+&lt;/p&gt;
+&lt;p&gt;
+	I had an appointment to get my passport renewed and had to go to Berlin. One of the best parts was getting coffee with &lt;a href=&quot;https://nicholaschristowitz.com&quot;&gt;Nicholas&lt;/a&gt; afterwards. I had a miso chocolate chip cookie which was absolutely delicious. A few days later I tried baking some myself and they turned out quite nice but not nearly as good as the ones I had in Berlin. I’ll try some other recipes as well, there’s definitely room for improvement.
+&lt;/p&gt;
+&lt;p&gt;
+	I’m trying out yet another note taking form, Zettelkasten. So far it seems to work well and I like the things it promises (better/easier writing). Often, I’m most excited about tools as I start using them, let’s see how this holds up in a few months.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 11 Nov 2024 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-45</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-45</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 44</title>
 			<description>
 				&lt;p&gt;
@@ -482,23 +505,6 @@
 			<pubDate>Mon, 29 Jan 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-04</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-04</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 3</title>
-			<description>
-				&lt;p&gt;
-	Last week was really busy, but in a relatively balanced way. We got fresh snow and spent a bunch of time pulling sledges. I also ran every single day of the week, without problems (92km in total). One more week until my 12-week marathon preparation starts. This week I’m hoping to do the same but with a bit more volume. I went to two local meetings (one for the day care and one town-wide gathering). We also went to a demonstration with the whole family yesterday, as I think it’s important that we all become a bit more tolerant and open for diversity.
-&lt;/p&gt;
-&lt;p&gt;
-	Together with Nicholas (the designer) I made a lot of progress on the new SwiftUI explanations website. I think we’re getting to a point where it’s almost ready to make it public. My goal is to have this out before the end February. There are still a few design issues that need to be solved and a bunch of content that needs to be written, but it’s all really starting to come together now. I hope to make a list of everything that needs to be done before launch within the next few days.
-&lt;/p&gt;
-&lt;p&gt;
-	I also started to prepare two in-person workshops in Germany that’ll happen within the next months. I’m really looking forward to the in-person part, as it’s been quite a while since I last did that.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 22 Jan 2024 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-03</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-03</guid>
 		</item>
 	</channel>
 </rss>

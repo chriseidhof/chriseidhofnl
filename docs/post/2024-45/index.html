@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 45 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 45 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2024-45/og-image-a301.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 45
+							</h1>
+							<h2 class="headline">
+								Workshop Prep
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								Last week I mostly spent preparing for two upcoming workshops. We have a good outline for our <a href="https://www.swiftuifieldguide.com/workshops/">SwiftUI Workshop</a>, yet customize each workshop heavily for the client we work with. Once we know what exercises to do, we create a new repository with the starting point for exercise 1, then a commit for each exercies. It’s been helpful to use either <a href="https://retcon.app">Retcon</a> or <a href="https://github.com/martinvonz/jj">Jujutsu</a> to rewrite history and add pieces to older commits.
+							</p>
+							<p>
+								I spent more time exploring how the attribute graph works in SwiftUI. One useful thing I did was extracting all the named symbols using <code>nm -C</code>, then feeding that into an LLM to get a description of <code>AttributeGraph.framework</code>. This is what came out: <a href="https://gist.github.com/chriseidhof/c6037948c1e6c1639fa19f891dfa368c">transcript.md</a>. I’ve also tried modeling an AG-based SwiftUI layout system with some success. At first, I was stumped about how to do this in an acyclic way, but I think I have something figured out now (not sure if it’s how SwiftUI does it, though). Once I feel more comfortable that it’s correct, I’ll try to write about it.
+							</p>
+							<p>
+								I still have my foot injury and hope it will go away by waiting it out, so can’t do any running. This has easily been the longest I’ve been without running, but luckily, I’ve been really enjoying gravel biking. I went for a few nice rides last week. I got a new bike as well (Canyon Grizl), I think I’ll prepare my older bike for indoor training and then for road cycling. On Sunday I rode for quite a long time in the cold and after about an hour and a half I noticed I was starting to get a little cold, slightly drowsy and (in hindsight) some other signs of early hypothermia. I thought I’d dressed warm enough, but will definitely need to up my layering for long rides.
+							</p>
+							<p>
+								I had an appointment to get my passport renewed and had to go to Berlin. One of the best parts was getting coffee with <a href="https://nicholaschristowitz.com">Nicholas</a> afterwards. I had a miso chocolate chip cookie which was absolutely delicious. A few days later I tried baking some myself and they turned out quite nice but not nearly as good as the ones I had in Berlin. I’ll try some other recipes as well, there’s definitely room for improvement.
+							</p>
+							<p>
+								I’m trying out yet another note taking form, Zettelkasten. So far it seems to work well and I like the things it promises (better/easier writing). Often, I’m most excited about tools as I start using them, let’s see how this holds up in a few months.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Nov 11, 2024</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2024-44">Weeknotes № 44
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
