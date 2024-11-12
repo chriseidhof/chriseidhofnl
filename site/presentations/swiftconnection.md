@@ -1,4 +1,8 @@
-Here's the video of a home-recorded version of my talk. The real talk will follow soon. Scroll down for a transcript (cleaned up by an LLM).
+Here is the presentation I gave at Swift Connection:
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/CPzf_0tRwcE?si=LaN7TbNh3ZEDghUC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+Below is a video of a home-recorded version of that same talk. Scroll down for a transcript (cleaned up by an LLM).
 
 <div id="player-container">
 <div id="player" width="560" height="315"></div>

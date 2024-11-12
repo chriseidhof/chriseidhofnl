@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+		<meta content="Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<b>Please don&apos;t share this, it&apos;s an unpublished note</b>
+					<div class="post">
+						<h1>
+							Layout using the Attribute Graph
+						</h1>
+						<p>
+							Let’s imagine we have an stack with two children:
+						</p>
+						<pre><code class="swift"><span class="hljs-identifier">HStack</span> {
+    <span class="hljs-identifier">Color</span>.<span class="hljs-identifier">blue</span>
+    <span class="hljs-identifier">Nested</span>() 
+}
+</code></pre>
+						<p>
+							I think these are the constraints that happen when we lay out the following view:
+						</p>
+						<p><img src="/images/media/2024-11-1208-20PastedImage.png" title/></p>
+						<p>
+							In other words, whenever either the color or the nested view changes its structure or internal state (e.g. the nested could have an internal state prop that causes it to reevaluate its body) the layout computer is marked as potentially dirty. It then relayouts. The actual size/position of either child is then dependent on the result of that (captured in <code>ChildGeometries</code>). This way, there is no cycle.
+						</p>
+					</div>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

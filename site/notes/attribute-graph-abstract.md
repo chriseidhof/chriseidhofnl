@@ -1,9 +1,4 @@
----
-date: 2024-11-11
-title: "Attribute Graph in Abstract"
-headline: Unpublished
-published: false
----
+# The Attribute Graph
 
 The attribute graph is the structure that makes SwiftUI observe state changes. It works by building a directed acyclic graph of dependencies. It is based on the ideas of the eval/vite system (see references). The big idea is that when a node in the graph becomes invalid (e.g. a source node changes state) it recursively marks all dependent nodes as "potentially invalid". It also marks its direct outgoing edges as "pending". Whenever another node is requested, it goes through the following process to recompute:
 

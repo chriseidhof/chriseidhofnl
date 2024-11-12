@@ -22,6 +22,12 @@ struct Site: Rule {
         Copy(from: "well-known", to: ".well-known")
         Index()
         Presentations()
+        Notes()
+        remainder
+    }
+    
+    @RuleBuilder
+    var remainder: some Rule {
         AboutMe().outputPath("about")
         Blog(posts: BlogPost.publishedInContext(), unpublished: BlogPost.unpublishedInContext())
         Snippets()

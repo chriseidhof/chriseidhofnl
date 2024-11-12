@@ -134,11 +134,9 @@ var unpublished: HTML.Node {
     footer(class: "group promo", id: "post-meta") {
         p {
             """
-            Please don't share this post, it's not published yet.
+            Please don't share this, it's not published yet.
             """.fromMarkdown
 
         }
-
     }
-
 }
