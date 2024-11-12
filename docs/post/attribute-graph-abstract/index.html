@@ -7,9 +7,9 @@
 		<link href="/css/style.css" rel="stylesheet"/>
 		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
 		<title>
-			Attribute Graph in Abstract — Chris Eidhof
+			Attribute Graph in Abstract (Unpublished) — Chris Eidhof
 		</title>
-		<meta content="Attribute Graph in Abstract — Chris Eidhof" property="og:title"/>
+		<meta content="Attribute Graph in Abstract (Unpublished) — Chris Eidhof" property="og:title"/>
 		<meta content="website" property="og:type"/>
 		<meta content="/post/attribute-graph-abstract/og-image-dfa0.png" property="og:image"/>
 	</head>
@@ -29,6 +29,13 @@
 								Unpublished
 							</h2>
 						</header>
+						<footer class="group promo" id="post-meta">
+							<p>
+								<p>
+									Please don’t share this post, it’s not published yet.
+								</p>
+							</p>
+						</footer>
 						<section class="postbody">
 							<p>
 								The attribute graph is the structure that makes SwiftUI observe state changes. It works by building a directed acyclic graph of dependencies. It is based on the ideas of the eval/vite system (see references). The big idea is that when a node in the graph becomes invalid (e.g. a source node changes state) it recursively marks all dependent nodes as “potentially invalid”. It also marks its direct outgoing edges as “pending”. Whenever another node is requested, it goes through the following process to recompute:
@@ -100,9 +107,7 @@
   url={https://api.semanticscholar.org/CorpusID:55468721}
 }
 </code></pre>
-							<p>
-								https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=9609985dbef43633f4deb88c949a9776e0cd766b
-							</p>
+							<p><a href="https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=9609985dbef43633f4deb88c949a9776e0cd766b">https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=9609985dbef43633f4deb88c949a9776e0cd766b</a></p>
 						</section>
 						<footer class="group" id="post-meta">
 							<div>

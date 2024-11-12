@@ -106,7 +106,7 @@ struct Blog: Rule {
         }
         .outputPath(post.post.link)
         WriteNode(outputName: "index.html", node: post.page)
-            .title(post.post.metadata.title)
+            .title(post.post.metadata.title + (post.post.metadata.published == false ? " (Unpublished)" : ""))
             .environment(keyPath: \.openGraphImage, value: post.post.shareImageLink)
             .outputPath(post.post.link)
     }

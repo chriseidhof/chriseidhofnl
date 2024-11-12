@@ -52,4 +52,4 @@ The attribute graph is based on the ideas in this paper:
 }
 ```
 
-https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=9609985dbef43633f4deb88c949a9776e0cd766b
+<https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=9609985dbef43633f4deb88c949a9776e0cd766b>

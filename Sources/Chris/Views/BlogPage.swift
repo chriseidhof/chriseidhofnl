@@ -57,6 +57,9 @@ extension BlogPost {
                     h2(class: "headline") { h }
                 }
             }
+            if metadata.published == false {
+                unpublished
+            }
             section(class: "postbody") {
                 switch body {
                 case .markdown(let m):
@@ -125,4 +128,17 @@ var advancedSwiftPromo: HTML.Node {
         
     }
     
+}
+
+var unpublished: HTML.Node {
+    footer(class: "group promo", id: "post-meta") {
+        p {
+            """
+            Please don't share this post, it's not published yet.
+            """.fromMarkdown
+
+        }
+
+    }
+
 }
