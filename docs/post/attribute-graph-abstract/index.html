@@ -1,0 +1,124 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Attribute Graph in Abstract — Chris Eidhof
+		</title>
+		<meta content="Attribute Graph in Abstract — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/attribute-graph-abstract/og-image-dfa0.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Attribute Graph in Abstract
+							</h1>
+							<h2 class="headline">
+								Unpublished
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								The attribute graph is the structure that makes SwiftUI observe state changes. It works by building a directed acyclic graph of dependencies. It is based on the ideas of the eval/vite system (see references). The big idea is that when a node in the graph becomes invalid (e.g. a source node changes state) it recursively marks all dependent nodes as “potentially invalid”. It also marks its direct outgoing edges as “pending”. Whenever another node is requested, it goes through the following process to recompute:
+							</p>
+							<ul>
+								<li>
+									<p>
+										If the node isn’t potentially dirty, it uses the previous (cached) value
+									</p>
+								</li>
+								<li>
+									<p>
+										The node recomputes every incoming edge
+									</p>
+								</li>
+								<li>
+									<p>
+										If the node now has incoming pending edges, it recomputes itself, otherwise, nothing has changed so it doesn’t need to recompute
+									</p>
+								</li>
+								<li>
+									<p>
+										The node marks all its incoming edges as not pending
+									</p>
+								</li>
+							</ul>
+							<p>
+								(When there is an edge A -&gt; B we say that A has an outgoing edge to B and B has an incoming edge from A. These are the same edge reference type, e.g. changing the pending state in the outgoing edge also changes the pending state of the corresponding incoming edge).
+							</p>
+							<p>
+								In the paper, an optimization is described for optional/conditional branches. For example, if we have a dependency on an if-statement, we only want to evaluate the body if the condition does not change.
+							</p>
+							<p>
+								The attribute graph is one way to implement <em>Incremental Computing</em>
+								 by only computing what’s needed. It feels like phase one (marking all dependent nodes as potentially dirty) might be a bit expensive, but somehow that information needs to be propagated anyway.
+							</p>
+							<h2>
+								Example
+							</h2>
+							<p>
+								Let’s consider the following expression (this is written in plain Swift):
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">var</span> <span class="hljs-identifier">a</span> = <span class="hljs-number">10</span>
+<span class="hljs-keyword">var</span> <span class="hljs-identifier">b</span> = <span class="hljs-number">20</span>
+<span class="hljs-keyword">var</span> <span class="hljs-identifier">c</span> = <span class="hljs-identifier">a</span> + <span class="hljs-identifier">b</span>
+<span class="hljs-keyword">var</span> <span class="hljs-identifier">d</span> = <span class="hljs-identifier">c</span> * <span class="hljs-number">2</span>
+</code></pre>
+							<p>
+								When you model this using the attribute graph, you get out the following structure:
+							</p>
+							<p><img src="/images/media/2024-11-1208-43PastedImage.png" title/></p>
+							<p>
+								When <code>a</code> changes, the outgoing edge will be marked as pending (denoted by the ⨉) and everything that depends directly (or indirectly) on a will be marked as potentially dirty (gray):
+							</p>
+							<p><img src="/images/media/2024-11-1208-47PastedImage.png" title/></p>
+							<p>
+								Nothing else happens. When the value of <code>d</code> is requested, it first evaluates all its dependencies (just <code>c</code>). Evaluating <code>c</code> will evaluate both <code>a</code> and <code>b</code>. In either case, there is nothing to be done, but after the evaluation of <code>c</code>’s dependencies, the pending edge will still be there. Whenever there is a pending edge, <code>c</code> will reevaluate its expression (<code>a</code> + <code>b</code>). When the result changes, <code>c</code> will mark its outgoing edges as pending. <code>d</code> will see that its one incoming edge is pending and will re-evaluate itself as well.
+							</p>
+							<h2>
+								References
+							</h2>
+							<p>
+								The attribute graph is based on the ideas in this paper:
+							</p>
+							<pre><code>@inproceedings{Hudson1993ASF,
+  title={A System for Efficient and Flexible One-Way Constraint Evaluation in C++},
+  author={Scott E. Hudson},
+  year={1993},
+  url={https://api.semanticscholar.org/CorpusID:55468721}
+}
+</code></pre>
+							<p>
+								https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=9609985dbef43633f4deb88c949a9776e0cd766b
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Nov 11, 2024</time>
+										 by 
+										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
