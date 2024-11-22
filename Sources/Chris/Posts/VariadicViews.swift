@@ -56,8 +56,10 @@ extension View {
 @PieceBuilder
 fileprivate var myPostBody: [any PostPiece] {
     Markdown("""
+    > Update (Nov 2024): This is finally officially supported, we show this at the bottom of the post.
+    
     This week's post about how the SwiftUI view protocol [really represents lists](/post/swiftui-views-are-lists/) stirred a bit of controversy on Mastodon. But I think we all learned a bit from the discussion that followed (I definitely did).
-
+    
     To deal with these lists of views (e.g. during layout) we can use the underscored variadic view API. I learned about variadic views through the [Moving Parts](http://movingparts.io/variadic-views-in-swiftui) blog. I don't know whether this API is going to change in the future, whether it's App-Store-proof, and so on. It's probably underscored for a good reason. With that out of the way, let's get started!
 
     First, I wanted to get a way to iterate over the view list and turn them into views. This code is a bit weird, but we only need to write it once. To get access to the view list, we need to construct a type that conforms to `_VariadicView_MultiViewRoot`[^1]. The only requirement we need to implement is the `body` method. We can provide that using a closure:
@@ -256,5 +258,27 @@ fileprivate var myPostBody: [any PostPiece] {
     ```
 
     I think variadic views are essential if we want to write components that mimic the first-party components. They're useful for small things (intersperse) and bigger things (components that want to be flexible about the types of the child views).
+    """)
+    Markdown("""
+    ## Update (November 2024)
+    
+    With iOS 18 (and aligned releases) the new [`Group(subviews:transform:)`](https://developer.apple.com/documentation/swiftui/group/init(subviews:transform:)) API got released, which has *exactly* the same purpose. Rather than traits, we can use *layout values* to pass information up the view tree.
+    
+    You can create a very similar API using the `Helper` above:
+    
+    ```swift
+    struct MyGroup<Subviews: View, R: View>: View {
+        var subviews: Subviews
+        var transform: (_VariadicView.Children) -> R
+        init(subviews: Subviews, @ViewBuilder transform: @escaping (_VariadicView.Children) -> R) {
+            self.subviews = subviews
+            self.transform = transform
+        }
+
+        var body: some View {
+            _VariadicView.Tree(Helper(_body: process), content: { self })
+        }
+    }
+    ```
     """)
 }

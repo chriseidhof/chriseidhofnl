@@ -27,6 +27,11 @@
 							</h1>
 						</header>
 						<section class="postbody">
+							<blockquote>
+								<p>
+									Update (Nov 2024): This is finally officially supported, we show this at the bottom of the post.
+								</p>
+							</blockquote>
 							<p>
 								This week’s post about how the SwiftUI view protocol <a href="/post/swiftui-views-are-lists/">really represents lists</a> stirred a bit of controversy on Mastodon. But I think we all learned a bit from the discussion that followed (I definitely did).
 							</p>
@@ -210,6 +215,30 @@
 							<p>
 								I think variadic views are essential if we want to write components that mimic the first-party components. They’re useful for small things (intersperse) and bigger things (components that want to be flexible about the types of the child views).
 							</p>
+							<h2>
+								Update (November 2024)
+							</h2>
+							<p>
+								With iOS 18 (and aligned releases) the new <a href="https://developer.apple.com/documentation/swiftui/group/init(subviews:transform:)"><code>Group(subviews:transform:)</code></a> API got released, which has <em>exactly</em>
+								 the same purpose. Rather than traits, we can use <em>layout values</em>
+								 to pass information up the view tree.
+							</p>
+							<p>
+								You can create a very similar API using the <code>Helper</code> above:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">MyGroup</span><<span class="hljs-identifier">Subviews</span>: <span class="hljs-identifier">View</span>, <span class="hljs-identifier">R</span>: <span class="hljs-identifier">View</span>>: <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">subviews</span>: <span class="hljs-identifier">Subviews</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">transform</span>: (<span class="hljs-identifier">_VariadicView</span>.<span class="hljs-identifier">Children</span>) -> <span class="hljs-identifier">R</span>
+    <span class="hljs-keyword">init</span>(<span class="hljs-identifier">subviews</span>: <span class="hljs-identifier">Subviews</span>, @<span class="hljs-identifier">ViewBuilder</span> <span class="hljs-identifier">transform</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">_VariadicView</span>.<span class="hljs-identifier">Children</span>) -> <span class="hljs-identifier">R</span>) {
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">subviews</span> = <span class="hljs-identifier">subviews</span>
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">transform</span> = <span class="hljs-identifier">transform</span>
+    }
+
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">_VariadicView</span>.<span class="hljs-identifier">Tree</span>(<span class="hljs-identifier">Helper</span>(<span class="hljs-identifier">_body</span>: <span class="hljs-identifier">process</span>), <span class="hljs-identifier">content</span>: { <span class="hljs-keyword">self</span> })
+    }
+}
+</code></pre>
 							<div class="footnotes">
 								<hr/>
 								<ol>

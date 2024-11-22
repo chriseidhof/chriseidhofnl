@@ -32,7 +32,7 @@
 	My Zettelkasten is filling up with articles about SwiftUI, animations and some about therapy. I’m at 51 notes now, I doubt it’ll keep growing that quickly but let’s see.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 18 Nov 2024 00:00:00 +0000</pubDate>
+			<pubDate>Mon, 18 Nov 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-46</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-46</guid>
 		</item>
@@ -55,7 +55,7 @@
 	I’m trying out yet another note taking form, Zettelkasten. So far it seems to work well and I like the things it promises (better/easier writing). Often, I’m most excited about tools as I start using them, let’s see how this holds up in a few months.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 11 Nov 2024 00:00:00 +0000</pubDate>
+			<pubDate>Mon, 11 Nov 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-45</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-45</guid>
 		</item>
@@ -115,7 +115,7 @@
 	For most things I have been using &lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;jj&lt;/a&gt; instead of git as my daily driver. It works surprisingly well. In my career I’ve used CVS, SVN and git. Each always felt like a big step forward and somehow made the previous tool feel old and outdated. jj has a similar effect for me.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 04 Nov 2024 00:00:00 +0000</pubDate>
+			<pubDate>Mon, 04 Nov 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-44</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-44</guid>
 		</item>
@@ -138,7 +138,7 @@
 	I played around a bit with sqlite. It’s still kind of weird that there’s no one way to create personal databases these days. For example, I’d like to create an invoice system that’s backed by sqlite, but it’s so much code to write this. I’d like to make this easier.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 28 Oct 2024 00:00:00 +0000</pubDate>
+			<pubDate>Mon, 28 Oct 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-43</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-43</guid>
 		</item>
@@ -156,7 +156,7 @@
 	I’ve played around with a few more “reusable” bonus exercises for our workshop. It’s really hard to find good exercises that teach a subject, are realistic and yet small enough that you can solve it in a short timeframe. However, when you do find good examples, it’s quite rewarding.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 14 Oct 2024 00:00:00 +0100</pubDate>
+			<pubDate>Mon, 14 Oct 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-41</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-41</guid>
 		</item>
@@ -173,7 +173,7 @@
 	I also spent last week rewriting some of the internals of my typing recorder. It’s now a little easier for me to edit mistakes. This doesn’t work perfectly yet and there’s always a possibility of an edit breaking the entire document. I should probably at the very least implement undo and redo.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 07 Oct 2024 00:00:00 +0100</pubDate>
+			<pubDate>Mon, 07 Oct 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-40</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-40</guid>
 		</item>
@@ -190,7 +190,7 @@
 	The train ride back from Paris to Fürstenberg went well, too. I was able to spend a lot of that time working productively. I have no numbers, but when I think about it purely in terms of efficiency: the whole hassle of flying (going to the airport, waiting, checking in, and so on) is a lot more stressful to me, and I wonder if I could have gotten any more work done, even with the few hours saved.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 30 Sep 2024 00:00:00 +0100</pubDate>
+			<pubDate>Mon, 30 Sep 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-39</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-39</guid>
 		</item>
@@ -207,7 +207,7 @@
 	I’m trying to fly less, and both of my trips this month have been long international train rides. Even the 10 hour train ride to Paris went really well, I was able to just sit, look out the window, work, listen to things and read. For some reason it felt more relaxing than a short flight.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 23 Sep 2024 00:00:00 +0100</pubDate>
+			<pubDate>Mon, 23 Sep 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-38</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-38</guid>
 		</item>
@@ -279,7 +279,7 @@
 	This works as expected: the view animates to -100, stays there for a second and then animates back to 0.
 &lt;/p&gt;
 			</description>
-			<pubDate>Sun, 22 Sep 2024 00:00:00 +0100</pubDate>
+			<pubDate>Sun, 22 Sep 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/phase-animator</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/phase-animator</guid>
 		</item>
@@ -302,7 +302,7 @@
 	The context for that is that I’m preparing a workshop about the SwiftUI animation subsystem. I’ve been diving very deep into animations, both at the practical level (how does it work in SwiftUI) as well as the theoretical level (continuity of animations, timing curves, motion design, etc.). I’ll now have to find a way to turn all of that information into something teachable. My plan is to provide this workshop both to companies (a bespoke in-house training session) as well as in the form of a course that individuals can buy online. For the latter, I’m planning to use the “recording” project in order to show people my solutions to the exercises.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 16 Sep 2024 00:00:00 +0100</pubDate>
+			<pubDate>Mon, 16 Sep 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-37</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-37</guid>
 		</item>
@@ -319,7 +319,7 @@
 	The upcoming week marks one of the final workshops for a while – now it’s time to focus on the &lt;a href=&quot;https://www.swiftuifieldguide.com&quot;&gt;Field Guide&lt;/a&gt; again.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 17 Jun 2024 00:00:00 +0100</pubDate>
+			<pubDate>Mon, 17 Jun 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-24</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-24</guid>
 		</item>
@@ -342,7 +342,7 @@
 	It’ll be a busy few next weeks in between workshops and visiting the bay area, but I’m looking forward to some “downtime” after that so I can get back to improving the Field Guide.
 &lt;/p&gt;
 			</description>
-			<pubDate>Tue, 28 May 2024 00:00:00 +0100</pubDate>
+			<pubDate>Tue, 28 May 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-21</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-21</guid>
 		</item>
@@ -359,7 +359,7 @@
 	We recorded some more Swift Talk episodes, and I had a bunch of workshop-related planning and calls. I also went to Prague to give a talk about SwiftUI’s layout system, which was nice but short. It was good seeing old friends again. The talk was a mix of live-coding and presentation, which turned out well, I think. I traveled to Prague by train, which is easily my prefered way of long-distance transportation. I love sitting on the train, looking out the window and doing some work.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 06 May 2024 00:00:00 +0100</pubDate>
+			<pubDate>Mon, 06 May 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-18</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-18</guid>
 		</item>
@@ -379,7 +379,7 @@
 	Over the last months I’ve been preparing well for a marathon, and last Sunday was the race. I am pretty fit although far from PB level. For the first 25k, I was leading the race, but then slowed down a little bit. Just a few minutes later two volunteers sent me and the guy behind me in the wrong direction. This took us a few kms to figure out, so we ended up back at the start line in almost world record time (without having run the full distance, of course). This was incredibly frustrating after having spent all the time, effort and money just to be on the starting line. On the other hand, I know all too well how all of these events are run by large groups of volunteers and am very thankful for that, mistakes can happen. I think I did prove to myself that my fitness is increasing again, and hopefully I’ll run a full marathon somewhere in a few months!
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 22 Apr 2024 00:00:00 +0100</pubDate>
+			<pubDate>Mon, 22 Apr 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-16</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-16</guid>
 		</item>
@@ -405,7 +405,7 @@
 	I also booked my travel to go to &lt;a href=&quot;https://omt-conf.com&quot;&gt;One More Thing&lt;/a&gt;. I’ve never gotten lucky with getting a ticket to any of the Apple events (WWDC or Tech Talks) and so have never been at WWDC. But I’m excited to be around for the week, hoping to meet a lot of old and new friends.
 &lt;/p&gt;
 			</description>
-			<pubDate>Tue, 16 Apr 2024 00:00:00 +0100</pubDate>
+			<pubDate>Tue, 16 Apr 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-15</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-15</guid>
 		</item>
@@ -434,7 +434,7 @@
 	Early last December, I started to make calls to incorporate my new company. Most steps are done, but the German bureaucracy is not joking around on this one. I finally got my tax number a few weeks ago. However, for some opaque reason I couldn’t get a VAT ID After many calls to different agencies it took some steps to get the process unstuck (no one told me it was stuck, though). While I did apply for a new number now, the process might apparently take up to two months. I can’t send (or pay) any invoices outside of Germany until then, which is extremely annoying. It truly isn’t easy to start a business here. Luckily, my German is now good enough that I can at least talk to the people responsible for the individual steps. When they write letters, it’s nearly impossible to decipher them for someone like me, but in the end, they just seem to like to use complicated words and lots of jargon.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 01 Apr 2024 00:00:00 +0100</pubDate>
+			<pubDate>Mon, 01 Apr 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-13</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-13</guid>
 		</item>
@@ -454,7 +454,7 @@
 	The marathon training was slightly compromised especially by the traveling involved. I still think I’m well prepared to run a decent time next month. My plan was always to use the upcoming spring marathon as a stepping stone to getting fit again. I’m far from PB level fit (2:36) but hope I can run 2:50 or similar. That means spending the next few weeks tweaking the details, not getting injured and not getting sick.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 18 Mar 2024 00:00:00 +0000</pubDate>
+			<pubDate>Mon, 18 Mar 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-11</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-11</guid>
 		</item>
@@ -474,7 +474,7 @@
 	I also went over and fixed some bugs in the Field Guide. Since the first release the numbers in the sliders were often misaligned (sometimes not, though). It was a very simple fix in the end (although I did spent quite some time trying to fix it before). Likewise, there was a bug where some of the HStack examples would get stuck in an infinite render loop, ultimately causing the page to get really slow and make the browser unresponsive. That should be fixed now, too.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 04 Mar 2024 00:00:00 +0000</pubDate>
+			<pubDate>Mon, 04 Mar 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-09</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-09</guid>
 		</item>
@@ -491,7 +491,7 @@
 	I had a good week of running as well, adding up to 123km. I’m not sure if I’ll ever make the time to get in PB shape again (it just requires a lot of training for me), I think I should be able to comfortably run a sub 3 marathon again.
 &lt;/p&gt;
 			</description>
-			<pubDate>Mon, 26 Feb 2024 00:00:00 +0000</pubDate>
+			<pubDate>Mon, 26 Feb 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-08</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-08</guid>
 		</item>
@@ -514,7 +514,7 @@
 	In other news, I have been ramping up my marathon training again, and started a new schedule to (hopefully) run a marathon in late April. I typically prepare using at least a 16 week schedule, but due to illness at the beginning of the year I only have 12 weeks. I don’t want to run even later (in May) because I run much better when it’s cooler. I decided to use this marathon as a stepping stone to getting fit again. Clearly, there is no room for getting sick again — if COVID or something else happens I will have to set a different goal.
 &lt;/p&gt;
 			</description>
-			<pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate>
+			<pubDate>Tue, 20 Feb 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-07</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-07</guid>
 		</item>
