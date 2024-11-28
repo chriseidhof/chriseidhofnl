@@ -21,11 +21,12 @@ struct Index: Rule {
         }
         HTML.footer(id: "footer") {
             p(class: "small") {
-                "Made by "
-                a(href: "https://m.objc.io/@chris", rel: "me") {
-                    "Chris Eidhof"
-                }
-                "."
+                "Made by Chris Eidhof "
+
+                "(" %% a(href: "https://m.objc.io/@chris", rel: "me") {
+                    "Mastodon"
+                } %% ", " %% a(href: "https://bsky.app/profile/chriseidhof.bsky.social") { "BSky" }
+                %% ")."
                 
             }
             

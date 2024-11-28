@@ -220,11 +220,11 @@
 							</h2>
 							<p>
 								With iOS 18 (and aligned releases) the new <a href="https://developer.apple.com/documentation/swiftui/group/init(subviews:transform:)"><code>Group(subviews:transform:)</code></a> API got released, which has <em>exactly</em>
-								 the same purpose. Rather than traits, we can use <em>layout values</em>
+								 the same purpose. Rather than traits, we use <em>layout values</em>
 								 to pass information up the view tree.
 							</p>
 							<p>
-								You can create a very similar API using the <code>Helper</code> above:
+								You can create an API for variadic views that’s very similar to the <code>Group</code> API:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">MyGroup</span><<span class="hljs-identifier">Subviews</span>: <span class="hljs-identifier">View</span>, <span class="hljs-identifier">R</span>: <span class="hljs-identifier">View</span>>: <span class="hljs-identifier">View</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">subviews</span>: <span class="hljs-identifier">Subviews</span>
@@ -255,8 +255,8 @@
 							<div>
 								<span>Posted on 
 									<span><time>Jan 27, 2023</time>
-										 by 
-										<a href="https://m.objc.io/@chris">Chris Eidhof</a></span></span>
+										 by Chris Eidhof 
+										(<a href="https://m.objc.io/@chris" rel="me">Mastodon</a>, <a href="https://bsky.app/profile/chriseidhof.bsky.social">BSky</a>).</span></span>
 							</div>
 						</footer>
 					</article>

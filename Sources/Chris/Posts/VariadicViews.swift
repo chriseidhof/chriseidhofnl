@@ -262,9 +262,9 @@ fileprivate var myPostBody: [any PostPiece] {
     Markdown("""
     ## Update (November 2024)
     
-    With iOS 18 (and aligned releases) the new [`Group(subviews:transform:)`](https://developer.apple.com/documentation/swiftui/group/init(subviews:transform:)) API got released, which has *exactly* the same purpose. Rather than traits, we can use *layout values* to pass information up the view tree.
+    With iOS 18 (and aligned releases) the new [`Group(subviews:transform:)`](https://developer.apple.com/documentation/swiftui/group/init(subviews:transform:)) API got released, which has *exactly* the same purpose. Rather than traits, we use *layout values* to pass information up the view tree.
     
-    You can create a very similar API using the `Helper` above:
+    You can create an API for variadic views that's very similar to the `Group` API:
     
     ```swift
     struct MyGroup<Subviews: View, R: View>: View {

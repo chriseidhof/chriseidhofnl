@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 47 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 47 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2024-47/og-image-97c8.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 47
+							</h1>
+							<h2 class="headline">
+								London
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								Last week was intense but really fun. We taught a SwiftUI workshop on site which is always quite involved (with travel) but so worth it. There’s just no substitute for real face-to-face interaction. I think most people really appreciated our visualizations and explanations. We put a lot of time and effort into these, so it’s always great when this gets appreciated. This week we’ll do another on-site workshop but closer to home (in Hamburg)
+							</p>
+							<p>
+								To prepare the exercises I’ve used <a href="https://github.com/martinvonz/jj">jj</a> (instead of git) extensively. It’s such a time saver because we need to rewrite commits all the time.
+							</p>
+							<p>
+								After getting back from London I took an extra day off (for the most part, at least) to spend more time with the family. We also went to the Dutch embassy in The Netherlands to celebrate “Sinterklaas”, which was a lot of fun. I had quite the persistent cold so hardly did any exercise. Now it’s time for more traveling.
+							</p>
+							<p>
+								I took a minute to at least provide a brief update to my post about <a href="/post/variadic-views/">variadic views</a> and how they relate to the new <code>Group(subviews:transform:)</code> API. It’s pretty cool that you can still use variadic views as a drop-in replacement for targeting older platforms.
+							</p>
+							<p>
+								I spent more time trying to implement the SwiftUI part of the attribute graph but couldn’t quite get it right. It’s definitely proven to be a bit tricky to write all of this code without any cycles. Specifically, I was trying to implement the node in the graph that allows you to attach an arbitrary <code>Layout</code>. Once that works, things like <code>.frame</code>, <code>.padding</code> or even <code>HStack</code> will be really easy to port over.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Nov 24, 2024</time>
+										 by Chris Eidhof 
+										(<a href="https://m.objc.io/@chris" rel="me">Mastodon</a>, <a href="https://bsky.app/profile/chriseidhof.bsky.social">BSky</a>).</span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2024-46">Weeknotes № 46
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

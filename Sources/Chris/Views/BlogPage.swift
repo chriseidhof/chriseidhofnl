@@ -85,10 +85,11 @@ extension BlogPost {
                         time {
                             date.date.pretty(style: .dayMonthYear)
                         }
-                        " by "
-                        a(href: "https://m.objc.io/@chris") {
-                            "Chris Eidhof"
-                        }
+                        " by Chris Eidhof "
+                        "(" %% a(href: "https://m.objc.io/@chris", rel: "me") {
+                            "Mastodon"
+                        } %% ", " %% a(href: "https://bsky.app/profile/chriseidhof.bsky.social") { "BSky" }
+                        %% ")."
                         if let update = updateDate {
                                 "(Last update: "
                                 //                        time(datetime: "2019-12-30T00:00:00+00:00", itemprop: "datePublished", pubdate: "pubdate") {

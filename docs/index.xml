@@ -8,6 +8,29 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 47</title>
+			<description>
+				&lt;p&gt;
+	Last week was intense but really fun. We taught a SwiftUI workshop on site which is always quite involved (with travel) but so worth it. There’s just no substitute for real face-to-face interaction. I think most people really appreciated our visualizations and explanations. We put a lot of time and effort into these, so it’s always great when this gets appreciated. This week we’ll do another on-site workshop but closer to home (in Hamburg)
+&lt;/p&gt;
+&lt;p&gt;
+	To prepare the exercises I’ve used &lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;jj&lt;/a&gt; (instead of git) extensively. It’s such a time saver because we need to rewrite commits all the time.
+&lt;/p&gt;
+&lt;p&gt;
+	After getting back from London I took an extra day off (for the most part, at least) to spend more time with the family. We also went to the Dutch embassy in The Netherlands to celebrate “Sinterklaas”, which was a lot of fun. I had quite the persistent cold so hardly did any exercise. Now it’s time for more traveling.
+&lt;/p&gt;
+&lt;p&gt;
+	I took a minute to at least provide a brief update to my post about &lt;a href=&quot;http://chris.eidhof.nl/post/variadic-views/&quot;&gt;variadic views&lt;/a&gt; and how they relate to the new &lt;code&gt;Group(subviews:transform:)&lt;/code&gt; API. It’s pretty cool that you can still use variadic views as a drop-in replacement for targeting older platforms.
+&lt;/p&gt;
+&lt;p&gt;
+	I spent more time trying to implement the SwiftUI part of the attribute graph but couldn’t quite get it right. It’s definitely proven to be a bit tricky to write all of this code without any cycles. Specifically, I was trying to implement the node in the graph that allows you to attach an arbitrary &lt;code&gt;Layout&lt;/code&gt;. Once that works, things like &lt;code&gt;.frame&lt;/code&gt;, &lt;code&gt;.padding&lt;/code&gt; or even &lt;code&gt;HStack&lt;/code&gt; will be really easy to port over.
+&lt;/p&gt;
+			</description>
+			<pubDate>Sun, 24 Nov 2024 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-47</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-47</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 46</title>
 			<description>
 				&lt;p&gt;
@@ -494,29 +517,6 @@
 			<pubDate>Mon, 26 Feb 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-08</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-08</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 5-7</title>
-			<description>
-				&lt;p&gt;
-	Over the last few weeks I worked with a strong focus and did not take the time to write weeknotes. The &lt;a href=&quot;https://www.swiftuifieldguide.com&quot;&gt;SwiftUI Field Guide&lt;/a&gt; is now live. I’ll try to blog a bit more about the why and how in the upcoming weeks. It felt a bit like preparing for a marathon: I worked hard at it almost every single day (often also evenings, after the kids went to bed) for multiple months. In the days before the launch, I wanted to get everything as perfect as I could (there were still some pretty embarassing bugs just before the launch). The day after launching it, I felt happy but absolutely exhausted.
-&lt;/p&gt;
-&lt;p&gt;
-	It’s been a real pleasure building this. The design was all done by &lt;a href=&quot;https://nicholaschristowitz.com/&quot;&gt;Nick&lt;/a&gt; who also really obsessed over getting this right. I did the rest. There are so many fun little details in there: the site changes color when you’re in dark mode (and the “SwiftUI” colors change, too). The code is formatted using a pretty printer, making it responsive on mobile (this isn’t perfect, but in most examples it is better than doing nothing). The &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/hstack/#PeDNMT-&quot;&gt;more complex animations&lt;/a&gt; are done in “SwiftUI”.
-&lt;/p&gt;
-&lt;p&gt;
-	In my first prototype, I rendered everything using a flat canvas view. This worked well, but I realized at some point that I wanted more interactive elements such as scroll views and buttons. I didn’t really want to implement an entire scroll view myself. At some point, I switched to building up a DOM tree so that I could use the browser’s built-in scrolling (which in turn uses the platform’s built-in scrolling). Some views are still rendered using canvas (text and advanced shapes) where others use native DOM elements (a filled rounded rectangle, for example, is just a div with a background color and border radius).
-&lt;/p&gt;
-&lt;p&gt;
-	I really wanted to make everything work as close as possible to real SwiftUI as I could. Essentially, anything that lays out differently I consider a bug. Hopefully I can fix some of the remaining bugs very soon.
-&lt;/p&gt;
-&lt;p&gt;
-	In other news, I have been ramping up my marathon training again, and started a new schedule to (hopefully) run a marathon in late April. I typically prepare using at least a 16 week schedule, but due to illness at the beginning of the year I only have 12 weeks. I don’t want to run even later (in May) because I run much better when it’s cooler. I decided to use this marathon as a stepping stone to getting fit again. Clearly, there is no room for getting sick again — if COVID or something else happens I will have to set a different goal.
-&lt;/p&gt;
-			</description>
-			<pubDate>Tue, 20 Feb 2024 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-07</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-07</guid>
 		</item>
 	</channel>
 </rss>
