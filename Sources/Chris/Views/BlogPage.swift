@@ -88,7 +88,7 @@ extension BlogPost {
                         " by Chris Eidhof "
                         "(" %% a(href: "https://m.objc.io/@chris", rel: "me") {
                             "Mastodon"
-                        } %% ", " %% a(href: "https://bsky.app/profile/chriseidhof.bsky.social") { "BSky" }
+                        } %% ", " %% a(href: "https://bsky.app/profile/eidhof.nl") { "BSky" }
                         %% ")."
                         if let update = updateDate {
                                 "(Last update: "
