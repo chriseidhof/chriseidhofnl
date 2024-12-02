@@ -1,0 +1,116 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			SwiftUI Animations — Chris Eidhof
+		</title>
+		<meta content="SwiftUI Animations — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post presentation">
+						<header>
+							<h1>
+								SwiftUI Animations
+							</h1>
+							<p>
+								October 29th, 2024
+								•
+								Bologna, Italy
+								•
+								<a href="https://pragmaconference.com/">Pragma Conference</a>
+							</p>
+						</header>
+						<section class="postbody">
+							<p>
+								Here is the presentation I gave at the Pragma Conference:
+							</p>
+							<iframe width="100%" height="400" src="https://www.youtube.com/watch?v=oF8u7f8Ak6Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+							<p>
+								This is the transcript of that talk, with some light edits by an LLM.
+							</p>
+							<p>
+								Today I want to talk about SwiftUI animations and show you a way to visually think about these animations and how SwiftUI works under the hood. I think this visual approach is very helpful for understanding the concepts. I work at <a href="https://www.objc.io">objc.io</a>, and I have a new project called the <a href="https://www.swiftuifieldguide.com">SwiftUI Field Guide</a> that you might be interested in.
+							</p>
+							<p>
+								When it comes to animations, there’s so much we could talk about. The theory of animations is fascinating - it goes all the way back to Walt Disney and his team’s work on animation principles. There’s so much to explore, from easing curves to continuity and interpolation, which we’ll briefly cover. There’s also the broad topic of animation design, though we won’t delve deeply into that today.
+							</p>
+							<p>
+								Instead, we’ll focus on how SwiftUI works and its built-in animation system. We’ll look at the <code>.animation</code> modifier, which is mostly really cool but can sometimes exhibit unexpected behavior. We’ll explore the <code>withAnimation</code> function and discuss the challenges that can arise when using <code>.animation</code> (implicit animations). We’ll also touch on custom animatable views and modifiers, transitions for when views are inserted and removed, phase animators, and keyframe animations. While there’s even more to cover, like <code>TimelineView</code> and <code>Canvas</code>, we’ll primarily focus on built-in animations, examining how they work both practically and visually.
+							</p>
+							<p>
+								Let’s start by building a little toggle control. We’ll begin with a <code>Capsule</code> and add a frame to make it smaller. We’ll fill it to ensure we have a nice background color. To make it a proper toggle, we need an indicator, so we’ll add a circle in an overlay. Because it’s in an overlay, it will become the same size as the switch, so we don’t need to specify any size there. We can add a bit of padding to inset it slightly and align it to the leading edge. This already looks like a switch or toggle in the off state.
+							</p>
+							<p>
+								The next step is adding a tap gesture to make it interactive. We’ll add a state property, and while we can tap it now, nothing happens because we’re not using that property yet. Let’s make use of it by changing the background color or fill color of our capsule depending on whether it’s on or not. We can also switch between trailing alignment and leading alignment depending on the state. Now our toggle works, but it’s not animating yet.
+							</p>
+							<p>
+								This brings us to a profound question: what does it mean to animate? We’re going between the off state and the on state, but there’s no animation. What does it mean for a view to animate? We have our state before and our state after, but just switching between them isn’t animation. Think about it - if we want to animate over one second, we want that green to fade to gray gradually, and we want that circle to move between positions.
+							</p>
+							<p>
+								But what does it mean to move something on screen? The computer draws these frames 60 or 120 times per second, so over that one-second duration where we want to animate, we need to draw all the positions in between. We need to take our start position and end position and draw the circle at all the intermediate positions. This is done through interpolation between the positions.
+							</p>
+							<p>
+								Luckily, doing this in SwiftUI is really easy - we just add <code>.animation</code> and specify that we want to animate when the isOn value changes. Now when we tap it, it animates smoothly. While many animations in SwiftUI are this simple, I was initially frustrated by this simplicity. I wondered how it could possibly be this easy - either we’d hit limitations quickly, or it was too magical for anyone to understand.
+							</p>
+							<p>
+								This is where the visual debugger becomes incredibly helpful. Using the render tree in instruments, we can see what SwiftUI keeps in memory. It’s a persistent tree, similar to the UIView tree, though we never deal with it directly. Officially, it’s called the Attribute Graph. We can step through the changes and see exactly how SwiftUI handles these animations, from state changes to transaction management to property animations.
+							</p>
+							<p>
+								Understanding how SwiftUI manages these animations under the hood - how it handles interruptions, how it attaches animations to specific properties, and how it manages the render tree - helps us work more effectively with the framework. While the simple cases work magically with just .animation, knowing these details helps tremendously when we need to handle more complex scenarios or debug unexpected behaviors.
+							</p>
+							<p>
+								The beauty of SwiftUI’s animation system is that it handles many complex cases automatically, like interrupting animations mid-way or managing multiple animated properties simultaneously. But when you need more control or run into unexpected behavior, understanding the underlying system helps you make informed decisions about how to structure your animations.
+							</p>
+							<p>
+								Let’s look at a more complex example to understand these concepts better. Consider a circle where we want to animate multiple properties simultaneously. We’ll start by adding a state property and tap gesture, just like before. We can change the fill color between blue and red, and initially, it changes without animation. Adding .animation makes this transition smooth. We can then animate the width, and you’ll see it changing both color and size synchronously. We can even animate the alignment between leading and trailing with maxWidth infinity, allowing the circle to take up the entire proposed width.
+							</p>
+							<p>
+								Here’s where things get interesting: the .animation modifier animates the entire subtree beneath it. This means if we move the animation modifier upward in our view hierarchy, theoretically only the properties in that subtree should animate. However, this doesn’t always work as you might expect. When I first encountered this behavior, it was quite confusing. Even when we move the .animation modifier to just above the circle, everything still animates just like before.
+							</p>
+							<p>
+								The reason for this behavior becomes clear when we examine the render tree. The leaf views in SwiftUI contain the animatable properties themselves. The circle has X, Y, width, and height properties that are inherently animatable, regardless of where the animation modifier is placed in the hierarchy. This is why we couldn’t turn off the animation for certain properties by moving the modifier - those properties belong to the leaf view itself.
+							</p>
+							<p>
+								One particularly powerful feature of SwiftUI is its handling of interruptible animations. You can interrupt an animation mid-way through, and SwiftUI will handle this gracefully. Looking at the timeline, we can see how SwiftUI manages these interruptions, smoothly transitioning between different states even when the animation is interrupted multiple times. SwiftUI maintains a single animation per property and intelligently replaces it with new animations as needed.
+							</p>
+							<p>
+								Transitions offer another powerful way to animate in SwiftUI. Consider a green rectangle that we want to animate as it appears and disappears. By wrapping it in a condition and using .transition, we can control how the view enters and exits the scene. The default transition is a fade, but SwiftUI provides various built-in transitions like scale, and you can even combine them. For instance, combining scale with opacity creates a fade-in-and-scale effect that can look quite polished.
+							</p>
+							<p>
+								When working with transitions, it’s important to understand that as conditions change and views are removed from the render tree, their associated state and running animations are also removed. However, SwiftUI’s transition system makes it easy to animate these changes smoothly. You can create custom transitions from any view modifier, opening up endless possibilities for creative animations.
+							</p>
+							<p>
+								One of the most interesting challenges in SwiftUI animation is creating effects that animate between identical states - for example, making a view shake when tapped. In traditional imperative animation systems, this might require complex completion handlers. However, SwiftUI provides elegant solutions through its animation system.
+							</p>
+							<p>
+								To create a shake animation, we start with a state property (since we always need a state change to trigger an animation) and a custom view modifier. By conforming to the Animatable protocol, we can tell SwiftUI which properties we want to animate. This allows us to create smooth animations even when the start and end states are the same. For instance, we can feed our animated value into a sine function to create a smooth shaking effect.
+							</p>
+							<p>
+								The animation system provides different timing curves - linear, ease-in-out, and others - each appropriate for different types of animations. For a shake effect, a linear curve works well since we’re feeding it into a sine wave that already provides curvature. Understanding these timing curves and how they affect your animations is crucial for creating natural-feeling motion.
+							</p>
+							<p>
+								While we’ve covered a lot of ground, there’s much more to explore in SwiftUI animations. Phase animators and keyframe animations build on top of these core concepts to provide even more powerful tools for creating sophisticated animations. These advanced features become much easier to understand and use effectively once you grasp the fundamental principles we’ve discussed.
+							</p>
+							<p>
+								I encourage you to experiment with these concepts and explore the additional animation capabilities SwiftUI provides. Whether you’re using phase animators, keyframe animations, or other advanced features, understanding the core animation system will help you create more sophisticated and polished animations in your applications.
+							</p>
+						</section>
+					</article>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

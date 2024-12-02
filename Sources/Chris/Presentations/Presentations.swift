@@ -19,7 +19,8 @@ struct Presentation {
 extension Presentation {
     static let all: [Presentation] = [
         .init(title: "A Day in the Life of a SwiftUI View", link: "day-in-the-life", date: .init(year: 2023, month: 08, day: 12), location: "Toronto, Canada", conferenceName: "SwiftConf.to", conferenceLink: URL(string: "https://www.swiftconf.to")!, sourcePDF: "2023-08-11-swiftto.pdf", transcript: "swiftto.md"),
-        .init(title: "SwiftUI Animations", link: "swiftui-animations", date: .init(year: 2024, month: 09, day: 24), location: "Paris, France", conferenceName: "Swift Connection", conferenceLink: URL(string: "https://swiftconnection.io")!, sourcePDF: nil, transcript: "swiftconnection.md")
+        .init(title: "SwiftUI Animations", link: "swiftui-animations", date: .init(year: 2024, month: 09, day: 24), location: "Paris, France", conferenceName: "Swift Connection", conferenceLink: URL(string: "https://swiftconnection.io")!, sourcePDF: nil, transcript: "swiftconnection.md"),
+        .init(title: "SwiftUI Animations", link: "swiftui-animations2", date: .init(year: 2024, month: 10, day: 29), location: "Bologna, Italy", conferenceName: "Pragma Conference", conferenceLink: URL(string: "https://pragmaconference.com/")!, sourcePDF: nil, transcript: "pragma24.md")
     ]
 }
 
