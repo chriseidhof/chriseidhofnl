@@ -8,6 +8,43 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 49</title>
+			<description>
+				&lt;p&gt;
+	Last week was more personal stuff and less work. I spent a morning teaching a zine workshop to primary school kids, which was really fun. One of our kids was sick and I had to take care of her for a day, which only left three short days of work time. I spent an evening rehearsing a short play with other parents for the day care. I think the last time I was in a play was almost thirty years ago.
+&lt;/p&gt;
+&lt;p&gt;
+	Because of weather and responsibilities, I cycled indoors quite a bit (instead of in the forest). This is definitely better than running on the treadmill (which I used to do a few years ago). A lot more comfortable and not as loud.
+&lt;/p&gt;
+&lt;p&gt;
+	I recorded short videos and posted them on Bluesky and Mastodon (hope to keep doing that for the rest of December):
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3lccp3fl2xs2z&quot;&gt;How to use Flexible Frames&lt;/a&gt;&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3lcf64ao7vk2n&quot;&gt;Image Resizing and Aspect Ratio&lt;/a&gt;&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3lchrl3jtbs2v&quot;&gt;Scaled Metric&lt;/a&gt;&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3lcmrzsuyl22u&quot;&gt;Text&lt;/a&gt;&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	I spent more time figuring out how the attribute graph works. At the same time, I tried porting some of GraphViz’s layout algorithm to SwiftUI.
+&lt;/p&gt;
+&lt;p&gt;
+	I had a call with Nathan from &lt;a href=&quot;https://retcon.app&quot;&gt;Retcon&lt;/a&gt;. We talked about a bunch of stuff, but one quote really stuck with me: “when designing puzzles in games, the designers want people to try the wrong solution first”. I always feel anytime we make a mistake and later do it right, learning is much better. Maybe I could use this as inspiration for my teaching.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 09 Dec 2024 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-49</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-49</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 48</title>
 			<description>
 				&lt;p&gt;
@@ -502,26 +539,6 @@
 			<pubDate>Mon, 18 Mar 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-11</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-11</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 9</title>
-			<description>
-				&lt;p&gt;
-	I spent last week teaching a workshop in Berlin. It was the first time in years doing an in-person workshop, which was really great. Im doing another in-person workshop in Hanover this week, and giving a talk in Hamburg at their CocoaHeads meetup. Both teaching the workshop from last week as well as preparing everything for this week did take up most of my time and energy.
-&lt;/p&gt;
-&lt;p&gt;
-	Running-wise, I missed a few workouts. When I’m at home, I mostly run when it’s light out. I forgot to bring a headlamp, and couldn’t really do a speed workout in the dark with no vision while I was in Berlin. Luckily, my training schedule had a planned rest week anyway, so I’m not too worried about it. (Rest week doesn’t mean no running, it just means running a bit less).
-&lt;/p&gt;
-&lt;p&gt;
-	I did manage to release one new section and two new pages for the Field Guide. The new section is about &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/alignment/#customAlignmentIDs&quot;&gt;custom alignment IDs&lt;/a&gt;. I also added an &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/introduction/&quot;&gt;introduction&lt;/a&gt; and a page about &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/debugging/&quot;&gt;debugging techniques&lt;/a&gt;. I’m not sure yet what I’ll write about this week — there’s quite a backlog of things I’d like to cover still.
-&lt;/p&gt;
-&lt;p&gt;
-	I also went over and fixed some bugs in the Field Guide. Since the first release the numbers in the sliders were often misaligned (sometimes not, though). It was a very simple fix in the end (although I did spent quite some time trying to fix it before). Likewise, there was a bug where some of the HStack examples would get stuck in an infinite render loop, ultimately causing the page to get really slow and make the browser unresponsive. That should be fixed now, too.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 04 Mar 2024 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-09</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-09</guid>
 		</item>
 	</channel>
 </rss>
