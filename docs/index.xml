@@ -8,6 +8,74 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 50</title>
+			<description>
+				&lt;p&gt;
+	Last week I again tried to not focus too much on work, and instead went to Berlin to meet friends and get my passport renewed. I also played my first theatre role in almost thirty years. The previous role was at the closing play of primary school, this time it was at the youngest’s day care.
+&lt;/p&gt;
+&lt;p&gt;
+	I put out new videos last week with a focus on alignment:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3lcuimlkuhs2a&quot;&gt;Aligning stacks, frames and overlays&lt;/a&gt;&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3lcwqelejhs2b&quot;&gt;First Text Baseline alignment&lt;/a&gt;&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3lczc2omr622z&quot;&gt;Explicit Alignment Guides&lt;/a&gt;&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3ld3zsqzi6s2y&quot;&gt;Sizing of ZStack vs overlay&lt;/a&gt;&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3ld6jo2xk5s22&quot;&gt;Aligning custom icons&lt;/a&gt;&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	I am still going strong on the Zettelkasten note taking method. My note with attribute graph questions is getting quite long, hopefully at some point I’ll be able to ask someone about it.
+&lt;/p&gt;
+&lt;p&gt;
+	I read a bit about &lt;a href=&quot;http://peterfadde.com/Research/Deliberate_Performance-PI-1011.pdf&quot;&gt;deliberate performance&lt;/a&gt;. In short, you can increase performance by:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;strong&gt;Experimenting&lt;/strong&gt;
+			. Form hypotheses and these these out.
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;strong&gt;Estimating&lt;/strong&gt;
+			. How long will this take me? How big / expensive will this thing take me?
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;strong&gt;Extrapolition&lt;/strong&gt;
+			. How can you apply the learned things to other areas? How does this concept generalize?
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;strong&gt;Explanation&lt;/strong&gt;
+			 Writing, teaching, etc.
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	It’s fun to see how we apply these in our workshops as well. We give a quick intro, let the attendees solve a solution, have them explain their solution and then try to discuss the theory or what it means in the abstract.
+&lt;/p&gt;
+&lt;p&gt;
+	I read more about &lt;a href=&quot;https://www.pathsensitive.com/2019/07/the-best-refactoring-youve-never-heard.html&quot;&gt;defunctionalization&lt;/a&gt;. We also &lt;a href=&quot;https://www.objc.io/blog/2019/09/10/defunctionalization/&quot;&gt;wrote about this&lt;/a&gt; in 2019. It’s been a pattern I keep seeing everywhere: in the Elm Architecture, in TCA and while thinking about building virtual machines (you can start with a naive functional implementation of whatever it is you want to build and then use CPS + defunctionalization to build a very efficient iterative implementation).
+&lt;/p&gt;
+&lt;p&gt;
+	I’ve been thinking about using the stuff I learned about the attribute graph implementation to take yet another stab at an incremental static site generator (just for fun). Not sure when I’ll have time for that.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 16 Dec 2024 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-50</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-50</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 49</title>
 			<description>
 				&lt;p&gt;
@@ -519,26 +587,6 @@
 			<pubDate>Mon, 01 Apr 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-13</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-13</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 10-11</title>
-			<description>
-				&lt;p&gt;
-	I’ve done two more weeks of weekly workshops (one in-person workshop in Germany, and one online for the US West Coast) and a talk at CocoaHeads Hamburg. It’s been pretty intense and I did not have a lot of time to work on the Field Guide.
-&lt;/p&gt;
-&lt;p&gt;
-	One cool thing is that I gave my presentation in Hamburg using the Field Guide. I just set up a new “page” with full-screen interactive explanations and stepped through them. After all the hard work we put in it felt almost like cheating to be able to set up a basic presentation so quickly.
-&lt;/p&gt;
-&lt;p&gt;
-	This week I’ll try to publish a new page about the safe area. I’ve been thinking about how to implement this for a long time, tried multiple approaches but ultimately settled on a relatively simple implementation (that’s correct in my limited testing). I have so many more ideas for where to take this, but currently only have limited time because of the workshops. I’m not yet set up for collaboration, so currently, I need to implement the SwiftUI part of the concept I want to explain, then implement the designs that Nicholas makes and finally write the explanations. Of course, we hardly ever get things right the first time around, so it’s always a few iterations of this process before we push things live.
-&lt;/p&gt;
-&lt;p&gt;
-	The marathon training was slightly compromised especially by the traveling involved. I still think I’m well prepared to run a decent time next month. My plan was always to use the upcoming spring marathon as a stepping stone to getting fit again. I’m far from PB level fit (2:36) but hope I can run 2:50 or similar. That means spending the next few weeks tweaking the details, not getting injured and not getting sick.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 18 Mar 2024 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-11</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-11</guid>
 		</item>
 	</channel>
 </rss>
