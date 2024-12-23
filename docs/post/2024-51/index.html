@@ -1,0 +1,88 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Weeknotes № 51 — Chris Eidhof
+		</title>
+		<meta content="Weeknotes № 51 — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/2024-51/og-image-5db9.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Weeknotes № 51
+							</h1>
+							<h2 class="headline">
+								Wrapping Up
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								Last week I finished almost all preparation for the first workshop of next year. There was a weird crash in the Workshop app. This app has evolved a lot over the last few years, and I didn’t quite understand the reason it was crashing (duplicate symbols?). I did remove the last remaining static framework by changing it into a Swift package and that finally got rid of the crash.
+							</p>
+							<p>
+								We researched more attribute graph stuff for <a href="https://talk.objc.io">Swift Talk</a>. There are six episodes already and we could easily do ten more, but not sure yet where we’ll draw the line. It’d definitely be fun to do state management, the environment, preferences, etc.
+							</p>
+							<p>
+								I thought more about some patterns that I’ve used over the years: defunctionalization, explicit witnesses and incremental programming systems. I also have some more ideas written down about the incremental static site generator I’d like to build. I experimented a bit with some of those topics, hopefully I’ll be able to at least write about some of that.
+							</p>
+							<p>
+								I created four more one-minute videos:
+							</p>
+							<ul>
+								<li>
+									<p><a href="https://bsky.app/profile/eidhof.nl/post/3ldftzlvzxc2m">Basic Animations</a></p>
+								</li>
+								<li>
+									<p><a href="https://bsky.app/profile/eidhof.nl/post/3ldiqmhcsys2z">Phase Animations</a></p>
+								</li>
+								<li>
+									<p><a href="https://bsky.app/profile/eidhof.nl/post/3ldkwkcr5322k">Keyframe Animations</a></p>
+								</li>
+								<li>
+									<p><a href="https://bsky.app/profile/eidhof.nl/post/3ldnv7ikcdk2z">Animatable</a></p>
+								</li>
+							</ul>
+							<p>
+								I’ve been thinking a bit about how to build a workflow system in Swift. This is a system that would have long-running tasks (think days or months) with discrete steps that also include user-input. For example: an email arrives, triggers a new workflow instance, some automated stuff happens but before a reply gets sent I get to review and edit it. I’d like to come up with a simple core model for describing these workflows, but it turns out to not be all that easy. I think I’ll ultimately have to go for a graph structure as I’d want forks and joins in the workflows. In writing about it just now, I realized I should start with a simpler (non-persistent) implementation to test out what the API would feel like.
+							</p>
+							<p>
+								I started reading “Stories Sell” by Matthew Dicks. So far it seems quite interesting.
+							</p>
+							<p>
+								I went for two longer gravel rides on the weekend: one was 53km and the other one 86km. It’s definitely more challenging in low temperatures, on the longer one I even got rained on quite a bit. I did bring an extra jacket and a thermos flask of tea, next time I’ll bring a spare pair of dry gloves as well. I rode some beautiful new (to me) trails.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Dec 23, 2024</time>
+										 by Chris Eidhof 
+										(<a href="https://m.objc.io/@chris" rel="me">Mastodon</a>, <a href="https://bsky.app/profile/eidhof.nl">BSky</a>).</span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2024-50">Weeknotes № 50
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

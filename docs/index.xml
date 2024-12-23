@@ -8,6 +8,49 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Weeknotes № 51</title>
+			<description>
+				&lt;p&gt;
+	Last week I finished almost all preparation for the first workshop of next year. There was a weird crash in the Workshop app. This app has evolved a lot over the last few years, and I didn’t quite understand the reason it was crashing (duplicate symbols?). I did remove the last remaining static framework by changing it into a Swift package and that finally got rid of the crash.
+&lt;/p&gt;
+&lt;p&gt;
+	We researched more attribute graph stuff for &lt;a href=&quot;https://talk.objc.io&quot;&gt;Swift Talk&lt;/a&gt;. There are six episodes already and we could easily do ten more, but not sure yet where we’ll draw the line. It’d definitely be fun to do state management, the environment, preferences, etc.
+&lt;/p&gt;
+&lt;p&gt;
+	I thought more about some patterns that I’ve used over the years: defunctionalization, explicit witnesses and incremental programming systems. I also have some more ideas written down about the incremental static site generator I’d like to build. I experimented a bit with some of those topics, hopefully I’ll be able to at least write about some of that.
+&lt;/p&gt;
+&lt;p&gt;
+	I created four more one-minute videos:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3ldftzlvzxc2m&quot;&gt;Basic Animations&lt;/a&gt;&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3ldiqmhcsys2z&quot;&gt;Phase Animations&lt;/a&gt;&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3ldkwkcr5322k&quot;&gt;Keyframe Animations&lt;/a&gt;&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3ldnv7ikcdk2z&quot;&gt;Animatable&lt;/a&gt;&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	I’ve been thinking a bit about how to build a workflow system in Swift. This is a system that would have long-running tasks (think days or months) with discrete steps that also include user-input. For example: an email arrives, triggers a new workflow instance, some automated stuff happens but before a reply gets sent I get to review and edit it. I’d like to come up with a simple core model for describing these workflows, but it turns out to not be all that easy. I think I’ll ultimately have to go for a graph structure as I’d want forks and joins in the workflows. In writing about it just now, I realized I should start with a simpler (non-persistent) implementation to test out what the API would feel like.
+&lt;/p&gt;
+&lt;p&gt;
+	I started reading “Stories Sell” by Matthew Dicks. So far it seems quite interesting.
+&lt;/p&gt;
+&lt;p&gt;
+	I went for two longer gravel rides on the weekend: one was 53km and the other one 86km. It’s definitely more challenging in low temperatures, on the longer one I even got rained on quite a bit. I did bring an extra jacket and a thermos flask of tea, next time I’ll bring a spare pair of dry gloves as well. I rode some beautiful new (to me) trails.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 23 Dec 2024 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-51</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-51</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 50</title>
 			<description>
 				&lt;p&gt;
@@ -558,35 +601,6 @@
 			<pubDate>Tue, 16 Apr 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-15</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-15</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 12-13</title>
-			<description>
-				&lt;p&gt;
-	In between all the workshops and family stuff I’ve made progress in a few different areas of the SwiftUI Field Guide.
-&lt;/p&gt;
-&lt;p&gt;
-	I’ve been trying to implement gradients, which turned out to be a bit of a rabbit hole. First of all, currently all shapes are rendered using the canvas API (originally, the entire SwiftUI port was rendered in a single canvas). To implement different gradients, I wanted to switch that out to SVG rendering.
-&lt;/p&gt;
-&lt;p&gt;
-	In canvas, you define paths using the &lt;code&gt;Path2D&lt;/code&gt; type which isn’t “inspectable”. In other words, I needed to replicate the &lt;code&gt;Path2D&lt;/code&gt; API in my own type, which we can then use to turn into the SVG drawing commands. Mostly, everything works as before, but I need to put in a bit more time to make animations work as well.
-&lt;/p&gt;
-&lt;p&gt;
-	To draw gradients, SVG has builtin support for linear and radial gradients. However, I noticed that these don’t look quite the same as SwiftUI. In the end, a gradient is just a function that interpolates between two colors. SVG gradients use an RGB color space, and to interpolate between two colors, each of the components (red, green and blue) are interpolated separately. It took a while to figure out that SwiftUI uses a different color space. In fact, you can actually configure whether to use the device color space or a “perceptual” color space (with the perceptual color space being the default).
-&lt;/p&gt;
-&lt;p&gt;
-	From my testing, it looks like the perceptual color space used is &lt;a href=&quot;https://bottosson.github.io/posts/oklab/&quot;&gt;OKLab&lt;/a&gt;. After figuring that out, I searched for “OKLab SwiftUI” and found &lt;a href=&quot;https://twitter.com/DLX/status/1620465189069148160&quot;&gt;a tweet&lt;/a&gt; by (who else) Robb who seems to have figured out the same thing (more than one year before me, of course). I found &lt;a href=&quot;https://raphlinus.github.io/color/2021/01/18/oklab-critique.html&quot;&gt;this interactive review&lt;/a&gt; very helpful in understanding and visualizing the differences.
-&lt;/p&gt;
-&lt;p&gt;
-	For now, I’m approximating a perceptual gradient by generating a linear RGB gradient with a number of extra “hidden” stops in between (which are interpolated in the OKLab color space). The implementation isn’t perfect but it’s a good start.
-&lt;/p&gt;
-&lt;p&gt;
-	Early last December, I started to make calls to incorporate my new company. Most steps are done, but the German bureaucracy is not joking around on this one. I finally got my tax number a few weeks ago. However, for some opaque reason I couldn’t get a VAT ID After many calls to different agencies it took some steps to get the process unstuck (no one told me it was stuck, though). While I did apply for a new number now, the process might apparently take up to two months. I can’t send (or pay) any invoices outside of Germany until then, which is extremely annoying. It truly isn’t easy to start a business here. Luckily, my German is now good enough that I can at least talk to the people responsible for the individual steps. When they write letters, it’s nearly impossible to decipher them for someone like me, but in the end, they just seem to like to use complicated words and lots of jargon.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 01 Apr 2024 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-13</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-13</guid>
 		</item>
 	</channel>
 </rss>
