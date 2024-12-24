@@ -8,6 +8,47 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>2024 in Review</title>
+			<description>
+				&lt;p&gt;
+	This was a fun and busy year that flew by. At a personal level, a lot has happened (the oldest started school, we went on a bicycle holiday, and I started therapy again.)
+&lt;/p&gt;
+&lt;p&gt;
+	Work-wise, the biggest thing is that I started a new company in addition to objc.io. This is the new home for our workshops as well as new projects.
+&lt;/p&gt;
+&lt;p&gt;
+	The first project under the new company is the &lt;a href=&quot;https://www.swiftuifieldguide.com&quot;&gt;SwiftUI Field Guide&lt;/a&gt;. This is a website that tries to show how the SwiftUI layout system works by providing interactive examples. A lot of work went into it, and I’m very proud of how it turned out. I essentially reimplemented (a small part of) SwiftUI in TypeScript. It’s what I wished SwiftUI documentation would be like: way more visual and interactive. I went into all kinds of rabbit holes in order to build this. For example, just trying to implement gradients (which are used in one or two places) sent me off deep into color space land where I learned about &lt;a href=&quot;https://bottosson.github.io/posts/oklab/&quot;&gt;OKlab&lt;/a&gt; and other things.
+&lt;/p&gt;
+&lt;p&gt;
+	I gave presentations in Hamburg, Prague, Cupertino, Paris and Bologna. They focused on the SwiftUI Layout system as well as animations. For the newer presentations, I used a new tool that lets me record me typing (during preparation) and play it back smoothly (during the actual presentation) while making sure previews are directly visible. This has been a lot of fun to work on. I used that same tool in my recent videos on Bluesky and Mastodon to give one-minute overviews of SwiftUI topics.
+&lt;/p&gt;
+&lt;p&gt;
+	I held workshops at companies like DKB, Rossmann, Dexcom, Etsy, Wallapop, Sketch, Atlassian, Amex and StarFinanz. The learning has been tremendous from all sides – obviously the goal of a workshop is that the attendees learn, yet I learn a lot as well. It’s been really great doing more in-person workshops this year.
+&lt;/p&gt;
+&lt;p&gt;
+	Except for Cupertino I traveled everywhere by train: London, Paris, Bologna and within Germany. It felt good to do that and I was able to use a lot of that time productively (I find that much harder when traveling by car or plane).
+&lt;/p&gt;
+&lt;p&gt;
+	I moved to &lt;a href=&quot;https://jj-vcs.github.io/jj/latest/&quot;&gt;jujutsu&lt;/a&gt; over the last months as my main way of interacting with Git, although I still love &lt;a href=&quot;https://retcon.app&quot;&gt;Retcon&lt;/a&gt;. Both of these make rewriting history a lot simpler. With jujutsu, even the mental model is greatly simplified compared to regular git, which really helps me. Beyond that, I haven’t used a lot of new technology: I did write a lot of TypeScript in VSCode which was okay but I still strongly prefer Swift and Xcode. As an experiment, I’m using the helix editor to write this post, I do feel it has the potential to be a vim replacement for me. One new workflow I’ve gotten used to is using the Zettelkasten note taking strategy (using &lt;a href=&quot;https://zettelkasten.de/the-archive/&quot;&gt;The Archive&lt;/a&gt;).
+&lt;/p&gt;
+&lt;p&gt;
+	At objc.io, we recorded weekly Swift Talk episodes and moved our office from Berlin to Fürstenberg. Our Berlin studio had water damage that the landlord wasn’t interested in fixing, and after half a year we had enough of that. For me, it also means I can actually cycle to and work from an office, which feels nice (I’ve worked from home for almost all of the last twenty years).
+&lt;/p&gt;
+&lt;p&gt;
+	Out of all the code I wrote this year, maybe the &lt;a href=&quot;https://github.com/chriseidhof/dynamic-type&quot;&gt;Dynamic Type&lt;/a&gt; package has been the simplest and most useful. I’m using this package in my presentations, in our Workshop app and for a number of internal tools. It’s been pretty incredible to just have iOS-like dynamic type (including things like ScaledMetric) everywhere. During a presentation, I can increase or decrease the font size. When I’m demoing the workshop app in a conference room at a client, I can just scale things up and down where needed.
+&lt;/p&gt;
+&lt;p&gt;
+	Ever since getting back from our cycling holiday I’ve had a foot injury, I think because I walked on flip-flops too much. While I am now mostly pain-free, I still have issues when running. Somewhere towards the end of summer, I switched to cycling, mostly gravel but some road cycling as well. Running has been a massive part of my identity for the last twenty years, but it’s been surprisingly easy and fun to replace it with cycling. I’m not quite sure what 2025 will look like exercise-wise. If I can keep up the cycling, I do want to do a longer bikepacking trip.
+&lt;/p&gt;
+&lt;p&gt;
+	Here’s to a fun and productive 2025!
+&lt;/p&gt;
+			</description>
+			<pubDate>Tue, 24 Dec 2024 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-review</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-review</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 51</title>
 			<description>
 				&lt;p&gt;
@@ -575,32 +616,6 @@
 			<pubDate>Mon, 22 Apr 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-16</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-16</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 14-15</title>
-			<description>
-				&lt;p&gt;
-	It’s been a couple of really busy weeks. We released two new pages: one on &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/zstack/&quot;&gt;ZStack&lt;/a&gt; and one on &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/lazyvgrid/&quot;&gt;LazyVGrid&lt;/a&gt;. These come with a couple of subtle changes as well: on the lazy grid page (and sprinkled throughout a few other places in the site) we now use the SVG rendering of shapes, which also lets us do very subtle gradients. We added a few subtle interactions as well: for example, the spacing is visualized while you edit the grid’s spacing.
-&lt;/p&gt;
-&lt;p&gt;
-	I started preparing for a talk next week and wanted to use the Field Guide as my slides. Because a lot of the examples use small font sizes that are probably unreadable in a presentation, I gave the implementation of Dynamic Type a bit of priority, and it looks like it’s now fully working throughout the site. At the moment, you can’t adjust it (except in the code), but hopefully we’ll manage to build some UI for that soon.
-&lt;/p&gt;
-&lt;p&gt;
-	Under the hood, I’ve been moving more and more modifiers away from custom views and into custom layouts. For example, padding is now just a padding layout, and overlay is an overlay layout (all the stacks and grids are layouts, as well). By doing this, I can actually focus on only the layout code and don’t have to worry about other boilerplate things. It feels much more natural and efficient than creating regular views or view modifiers.
-&lt;/p&gt;
-&lt;p&gt;
-	We have a number of workshops coming up, and Juul has been very hard at work improving our workshop app (a native Mac app that comes with each workshop). It feels much more polished, is easier to read and navigate. It also supports Dynamic Type now (even though the Mac itself doesn’t, yet.).
-&lt;/p&gt;
-&lt;p&gt;
-	I feel like I’m now finally almost done with setting up the new company. I have a new invoicing workflow, finally got my VAT ID (this involved me calling the tax office every single day, at some point they even recognized me by my phone number). The German bureaucracy was never much of an issue to me, but this time it definitely lived up to the hype.
-&lt;/p&gt;
-&lt;p&gt;
-	I also booked my travel to go to &lt;a href=&quot;https://omt-conf.com&quot;&gt;One More Thing&lt;/a&gt;. I’ve never gotten lucky with getting a ticket to any of the Apple events (WWDC or Tech Talks) and so have never been at WWDC. But I’m excited to be around for the week, hoping to meet a lot of old and new friends.
-&lt;/p&gt;
-			</description>
-			<pubDate>Tue, 16 Apr 2024 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-15</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-15</guid>
 		</item>
 	</channel>
 </rss>
