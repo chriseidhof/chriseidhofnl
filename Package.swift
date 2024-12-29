@@ -14,9 +14,9 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/jpsim/Yams", from: "2.0.0"),
-        .package(name: "HTML", url: "https://github.com/robb/Swim.git", .branch("main")),
-        .package(url: "file:///Users/chris/objc.io/StaticSite/", .branch("main")),
-        .package(name: "SwiftSyntax", url: "https://github.com/apple/swift-syntax.git", .branch("main")),
+        .package(url: "https://github.com/robb/Swim.git", branch: "main"),
+        .package(url: "file:///Users/chris/objc.io/StaticSite/", branch: "main"),
+        .package(url: "https://github.com/apple/swift-syntax.git", branch: "main"),
     ],
     targets: [
         .executableTarget(
@@ -26,30 +26,30 @@ let package = Package(
             name: "Helpers",
             dependencies: [
                 "StaticSite",
-                "HTML",
+                .product(name: "HTML", package: "Swim"),
                 "Yams",
-                "SwiftSyntax",
-                .product(name: "SwiftSyntaxParser", package: "SwiftSyntax")
+                .product(name: "SwiftSyntax", package: "swift-syntax"),
+                .product(name: "SwiftSyntaxParser", package: "swift-syntax")
             ]),
         .target(
             name: "SwiftUIViews",
             dependencies: [
                 "StaticSite",
-                "HTML",
                 "Yams",
-                "SwiftSyntax",
+                .product(name: "SwiftSyntax", package: "swift-syntax"),
                 "Helpers",
-                .product(name: "SwiftSyntaxParser", package: "SwiftSyntax")
+                .product(name: "HTML", package: "Swim"),
+                .product(name: "SwiftSyntaxParser", package: "swift-syntax")
             ]),
         .target(
             name: "Chris",
             dependencies: [
                 "StaticSite",
-                "HTML",
                 "Yams",
-                "SwiftSyntax",
                 "Helpers",
-                .product(name: "SwiftSyntaxParser", package: "SwiftSyntax"),
+                .product(name: "HTML", package: "Swim"),
+                .product(name: "SwiftSyntaxParser", package: "swift-syntax"),
+                .product(name: "SwiftSyntax", package: "swift-syntax"),
             ],
             resources: [
                 .process("Resources"),
