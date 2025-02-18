@@ -224,21 +224,8 @@
 								 to pass information up the view tree.
 							</p>
 							<p>
-								You can create an API for variadic views that’s very similar to the <code>Group</code> API:
+								You can create an API for variadic views that’s very similar to the <code>Group</code> API.
 							</p>
-							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">MyGroup</span><<span class="hljs-identifier">Subviews</span>: <span class="hljs-identifier">View</span>, <span class="hljs-identifier">R</span>: <span class="hljs-identifier">View</span>>: <span class="hljs-identifier">View</span> {
-    <span class="hljs-keyword">var</span> <span class="hljs-identifier">subviews</span>: <span class="hljs-identifier">Subviews</span>
-    <span class="hljs-keyword">var</span> <span class="hljs-identifier">transform</span>: (<span class="hljs-identifier">_VariadicView</span>.<span class="hljs-identifier">Children</span>) -> <span class="hljs-identifier">R</span>
-    <span class="hljs-keyword">init</span>(<span class="hljs-identifier">subviews</span>: <span class="hljs-identifier">Subviews</span>, @<span class="hljs-identifier">ViewBuilder</span> <span class="hljs-identifier">transform</span>: @<span class="hljs-identifier">escaping</span> (<span class="hljs-identifier">_VariadicView</span>.<span class="hljs-identifier">Children</span>) -> <span class="hljs-identifier">R</span>) {
-        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">subviews</span> = <span class="hljs-identifier">subviews</span>
-        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">transform</span> = <span class="hljs-identifier">transform</span>
-    }
-
-    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
-        <span class="hljs-identifier">_VariadicView</span>.<span class="hljs-identifier">Tree</span>(<span class="hljs-identifier">Helper</span>(<span class="hljs-identifier">_body</span>: <span class="hljs-identifier">process</span>), <span class="hljs-identifier">content</span>: { <span class="hljs-keyword">self</span> })
-    }
-}
-</code></pre>
 							<div class="footnotes">
 								<hr/>
 								<ol>
