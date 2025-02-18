@@ -264,21 +264,6 @@ fileprivate var myPostBody: [any PostPiece] {
     
     With iOS 18 (and aligned releases) the new [`Group(subviews:transform:)`](https://developer.apple.com/documentation/swiftui/group/init(subviews:transform:)) API got released, which has *exactly* the same purpose. Rather than traits, we use *layout values* to pass information up the view tree.
     
-    You can create an API for variadic views that's very similar to the `Group` API:
-    
-    ```swift
-    struct MyGroup<Subviews: View, R: View>: View {
-        var subviews: Subviews
-        var transform: (_VariadicView.Children) -> R
-        init(subviews: Subviews, @ViewBuilder transform: @escaping (_VariadicView.Children) -> R) {
-            self.subviews = subviews
-            self.transform = transform
-        }
-
-        var body: some View {
-            _VariadicView.Tree(Helper(_body: process), content: { self })
-        }
-    }
-    ```
+    You can create an API for variadic views that's very similar to the `Group` API.
     """)
 }
