@@ -4,7 +4,7 @@ title: "SwiftUI Phase Animation \"Bug\""
 headline: An Unexpected Behavior
 ---
 
-I noticed that phase animators weren't behaving as expected, and I initially assumed I'd found a bug in SwiftUI. It took me way too long to realize the problem here, that's why I am writing this up. Spoiler alert: *phase animators are not the problem*.
+I noticed that phase animators weren't behaving as expected, and I initially assumed I'd found a bug in SwiftUI. It took me way too long to realize the problem here, that's why I am writing this up. Spoiler alert: *there is no bug*.
 
 I am preparing a workshop on SwiftUI Animations (this is a follow-up to our regular [SwiftUI Workshop](https://www.swiftuifieldguide.com/workshops/)). As I went through the exercises, I created a very minimal shake animation to demo how phase animators work. 
 
@@ -30,7 +30,7 @@ struct ContentView: View {
 }
 ```
 
-If you run the example above, you can even set a breakpoint and see that the `linear` animation gets used. What's more, you can add a `transaction { print($0.animation) }` to content closure, and you'll see the correct animation printed out. Yet it does not animate slowly.
+If you run the example above, you can even set a breakpoint and see that the `linear` animation gets used. What's more, you can add a `transaction { print($0.animation) }` to the content closure, and you'll see the correct animation printed out. Yet it does not animate slowly.
 
 In fact, the problem has two causes:
 
