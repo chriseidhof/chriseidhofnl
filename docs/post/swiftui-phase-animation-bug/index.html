@@ -1,0 +1,131 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			SwiftUI Phase Animation &quot;Bug&quot; — Chris Eidhof
+		</title>
+		<meta content="SwiftUI Phase Animation &quot;Bug&quot; — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/swiftui-phase-animation-bug/og-image-e236.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img src="/images/logo.png" style="width: 2em"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								SwiftUI Phase Animation &quot;Bug&quot;
+							</h1>
+							<h2 class="headline">
+								An Unexpected Behavior
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								I noticed that phase animators weren’t behaving as expected, and I initially assumed I’d found a bug in SwiftUI. It took me way too long to realize the problem here, that’s why I am writing this up. Spoiler alert: <em>phase animators are not the problem</em>
+								.
+							</p>
+							<p>
+								I am preparing a workshop on SwiftUI Animations (this is a follow-up to our regular <a href="https://www.swiftuifieldguide.com/workshops/">SwiftUI Workshop</a>). As I went through the exercises, I created a very minimal shake animation to demo how phase animators work.
+							</p>
+							<p>
+								A phase animator lets you animate between multiple phases (in the example below, the initial phase is 0, the second phase is 20 and the third phase -20). It starts by displaying the view at its initial phase. When we change the trigger value, it animates to the second phase. When that animation completes, it animates to the third phase. Finally, it animates back to the initial phase. This is essentially really nice way to run nested animations in completion handlers. In the animation closure, you get the <em>target phase</em>
+								 in and can choose which animation curve you want to animate towards that value.
+							</p>
+							<p>
+								Here’s my attempt at trying to create a shake animation with a custom timing curve for the first part of the animation. I exaggerated the curve so that it’s really clear that this doesn’t work:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">trigger</span> = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">Button</span>(<span class="hljs-string">"</span><span class="hljs-string">Hello</span><span class="hljs-string">"</span>) {
+            <span class="hljs-identifier">trigger</span> += <span class="hljs-number">1</span>
+        }.<span class="hljs-identifier">phaseAnimator</span>([<span class="hljs-number">0</span>, <span class="hljs-number">20</span>, -<span class="hljs-number">20</span>], <span class="hljs-identifier">trigger</span>: <span class="hljs-identifier">trigger</span>) {
+            $0.<span class="hljs-identifier">offset</span>(<span class="hljs-identifier">x</span>: $1) <span class="hljs-comment">// somehow always animates with the default animation</span>
+        } <span class="hljs-identifier">animation</span>: { <span class="hljs-identifier">phase</span> <span class="hljs-keyword">in</span>
+            <span class="hljs-keyword">switch</span> <span class="hljs-identifier">phase</span> {
+            <span class="hljs-keyword">case</span> <span class="hljs-number">20</span>: .<span class="hljs-identifier">linear</span>(<span class="hljs-identifier">duration</span>: <span class="hljs-number">5</span>)
+            <span class="hljs-keyword">default</span>: .<span class="hljs-identifier">default</span>
+            }
+        }
+    }
+}
+</code></pre>
+							<p>
+								If you run the example above, you can even set a breakpoint and see that the <code>linear</code> animation gets used. What’s more, you can add a <code>transaction { print($0.animation) }</code> to content closure, and you’ll see the correct animation printed out. Yet it does not animate slowly.
+							</p>
+							<p>
+								In fact, the problem has two causes:
+							</p>
+							<ul>
+								<li>
+									<p>
+										SwiftUI buttons have an implicit animation going on. This happens even with a custom <code>ButtonStyle</code>. I haven’t verified this, but I think it animates when you depress a button (when <code>isPressed</code> changes back to false).
+									</p>
+								</li>
+								<li>
+									<p>
+										Layout modifiers such as <code>offset</code> are applied at the leaf nodes in the view tree (in this case, the actual button). In other words, the <code>offset</code> itself does not animate, but instead, the <code>x</code> position of the button animates.
+									</p>
+								</li>
+							</ul>
+							<p>
+								As far as I’m aware, the button animation behavior is not documented. The layout behavior is underdocumented and could be much clearer. There are a number of solutions: the easiest is to apply a <code>geometryGroup</code> before the <code>offset</code>. This causes the offset to apply to the group as a whole, rather than being applied at the leaf views. Interestingly, the documentation of <code>geometryGroup</code> actually explains that position and size are set at the leaf views.
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">trigger</span> = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">Button</span>(<span class="hljs-string">"</span><span class="hljs-string">Hello</span><span class="hljs-string">"</span>) {
+            <span class="hljs-identifier">trigger</span> += <span class="hljs-number">1</span>
+        }.<span class="hljs-identifier">phaseAnimator</span>([<span class="hljs-number">0</span>, <span class="hljs-number">20</span>, -<span class="hljs-number">20</span>], <span class="hljs-identifier">trigger</span>: <span class="hljs-identifier">trigger</span>) {
+            $0
+                .<span class="hljs-identifier">geometryGroup</span>() <span class="hljs-comment">// this now animates as a whole rather than at the leaf views</span>
+                .<span class="hljs-identifier">offset</span>(<span class="hljs-identifier">x</span>: $1)
+        } <span class="hljs-identifier">animation</span>: { <span class="hljs-identifier">phase</span> <span class="hljs-keyword">in</span>
+            <span class="hljs-keyword">switch</span> <span class="hljs-identifier">phase</span> {
+            <span class="hljs-keyword">case</span> <span class="hljs-number">20</span>: .<span class="hljs-identifier">linear</span>(<span class="hljs-identifier">duration</span>: <span class="hljs-number">5</span>)
+            <span class="hljs-keyword">default</span>: .<span class="hljs-identifier">default</span>
+            }
+        }
+    }
+}
+</code></pre>
+							<p>
+								The geometry group above now animates its frame and uses the animation it receives from the current transaction (the five second linear animation). Internally, the button animates its pressed state but that doesn’t influence the position anymore.
+							</p>
+							<p>
+								Alternatively, for my purposes (demoing phase animators) I could use an <code>onTapGesture</code> instead of a button, as I don’t need all the extra stuff that button provides (highlighting, styling and accessibility). Or use a different modifier than <code>offset</code>, such as rotation or scale (these don’t apply at the leaf nodes).
+							</p>
+							<p>
+								This is not the first time I’ve been bitten by the default button animations, and probably not the last. Hopefully writing this post will help me remember in the future.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Mar 3, 2025</time>
+										 by Chris Eidhof 
+										(<a href="https://m.objc.io/@chris" rel="me">Mastodon</a>, <a href="https://bsky.app/profile/eidhof.nl">BSky</a>).</span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2024-52">Weeknotes № 52
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

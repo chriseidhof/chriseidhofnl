@@ -8,6 +8,92 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>SwiftUI Phase Animation &quot;Bug&quot;</title>
+			<description>
+				&lt;p&gt;
+	I noticed that phase animators weren’t behaving as expected, and I initially assumed I’d found a bug in SwiftUI. It took me way too long to realize the problem here, that’s why I am writing this up. Spoiler alert: &lt;em&gt;phase animators are not the problem&lt;/em&gt;
+	.
+&lt;/p&gt;
+&lt;p&gt;
+	I am preparing a workshop on SwiftUI Animations (this is a follow-up to our regular &lt;a href=&quot;https://www.swiftuifieldguide.com/workshops/&quot;&gt;SwiftUI Workshop&lt;/a&gt;). As I went through the exercises, I created a very minimal shake animation to demo how phase animators work.
+&lt;/p&gt;
+&lt;p&gt;
+	A phase animator lets you animate between multiple phases (in the example below, the initial phase is 0, the second phase is 20 and the third phase -20). It starts by displaying the view at its initial phase. When we change the trigger value, it animates to the second phase. When that animation completes, it animates to the third phase. Finally, it animates back to the initial phase. This is essentially really nice way to run nested animations in completion handlers. In the animation closure, you get the &lt;em&gt;target phase&lt;/em&gt;
+	 in and can choose which animation curve you want to animate towards that value.
+&lt;/p&gt;
+&lt;p&gt;
+	Here’s my attempt at trying to create a shake animation with a custom timing curve for the first part of the animation. I exaggerated the curve so that it’s really clear that this doesn’t work:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ContentView: View {
+    @State var trigger = 0
+    var body: some View {
+        Button(&amp;quot;Hello&amp;quot;) {
+            trigger += 1
+        }.phaseAnimator([0, 20, -20], trigger: trigger) {
+            $0.offset(x: $1) // somehow always animates with the default animation
+        } animation: { phase in
+            switch phase {
+            case 20: .linear(duration: 5)
+            default: .default
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	If you run the example above, you can even set a breakpoint and see that the &lt;code&gt;linear&lt;/code&gt; animation gets used. What’s more, you can add a &lt;code&gt;transaction { print($0.animation) }&lt;/code&gt; to content closure, and you’ll see the correct animation printed out. Yet it does not animate slowly.
+&lt;/p&gt;
+&lt;p&gt;
+	In fact, the problem has two causes:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			SwiftUI buttons have an implicit animation going on. This happens even with a custom &lt;code&gt;ButtonStyle&lt;/code&gt;. I haven’t verified this, but I think it animates when you depress a button (when &lt;code&gt;isPressed&lt;/code&gt; changes back to false).
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Layout modifiers such as &lt;code&gt;offset&lt;/code&gt; are applied at the leaf nodes in the view tree (in this case, the actual button). In other words, the &lt;code&gt;offset&lt;/code&gt; itself does not animate, but instead, the &lt;code&gt;x&lt;/code&gt; position of the button animates.
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	As far as I’m aware, the button animation behavior is not documented. The layout behavior is underdocumented and could be much clearer. There are a number of solutions: the easiest is to apply a &lt;code&gt;geometryGroup&lt;/code&gt; before the &lt;code&gt;offset&lt;/code&gt;. This causes the offset to apply to the group as a whole, rather than being applied at the leaf views. Interestingly, the documentation of &lt;code&gt;geometryGroup&lt;/code&gt; actually explains that position and size are set at the leaf views.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ContentView: View {
+    @State var trigger = 0
+    var body: some View {
+        Button(&amp;quot;Hello&amp;quot;) {
+            trigger += 1
+        }.phaseAnimator([0, 20, -20], trigger: trigger) {
+            $0
+                .geometryGroup() // this now animates as a whole rather than at the leaf views
+                .offset(x: $1)
+        } animation: { phase in
+            switch phase {
+            case 20: .linear(duration: 5)
+            default: .default
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The geometry group above now animates its frame and uses the animation it receives from the current transaction (the five second linear animation). Internally, the button animates its pressed state but that doesn’t influence the position anymore.
+&lt;/p&gt;
+&lt;p&gt;
+	Alternatively, for my purposes (demoing phase animators) I could use an &lt;code&gt;onTapGesture&lt;/code&gt; instead of a button, as I don’t need all the extra stuff that button provides (highlighting, styling and accessibility). Or use a different modifier than &lt;code&gt;offset&lt;/code&gt;, such as rotation or scale (these don’t apply at the leaf nodes).
+&lt;/p&gt;
+&lt;p&gt;
+	This is not the first time I’ve been bitten by the default button animations, and probably not the last. Hopefully writing this post will help me remember in the future.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 03 Mar 2025 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/swiftui-phase-animation-bug</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-phase-animation-bug</guid>
+		</item>
+		<item>
 			<title>Weeknotes № 52</title>
 			<description>
 				&lt;p&gt;
@@ -596,23 +682,6 @@
 			<pubDate>Tue, 28 May 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-21</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-21</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 18</title>
-			<description>
-				&lt;p&gt;
-	The &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/dynamic-type/&quot;&gt;Dynamic Type&lt;/a&gt; page on the Field Guide is finally live. There are still some things I’d like to tweak (especially on mobile). The values that we use are directly from the Human Interface Guidelines, I’m not sure if they’re 100% the same as Apple’s actual implementation, but definitely close enough. We also used these to implement Dynamic Type on the Mac: &lt;a href=&quot;https://github.com/chriseidhof/dynamic-type&quot;&gt;https://github.com/chriseidhof/dynamic-type&lt;/a&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	I played around with compiling Swift to WASM after seeing &lt;a href=&quot;https://m.objc.io/@maxd@mastodon.social/112373031107893812&quot;&gt;Max’s post&lt;/a&gt;. I really wanted to make it work with embedded Swift (to avoid large wasm binaries) but it’s still quite limited. I managed to produce &lt;a href=&quot;https://github.com/chriseidhof/wasm-testing&quot;&gt;a minimal Hello, World example&lt;/a&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	We recorded some more Swift Talk episodes, and I had a bunch of workshop-related planning and calls. I also went to Prague to give a talk about SwiftUI’s layout system, which was nice but short. It was good seeing old friends again. The talk was a mix of live-coding and presentation, which turned out well, I think. I traveled to Prague by train, which is easily my prefered way of long-distance transportation. I love sitting on the train, looking out the window and doing some work.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 06 May 2024 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-18</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-18</guid>
 		</item>
 	</channel>
 </rss>
