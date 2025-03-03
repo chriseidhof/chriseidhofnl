@@ -31,7 +31,7 @@
 						</header>
 						<section class="postbody">
 							<p>
-								I noticed that phase animators weren’t behaving as expected, and I initially assumed I’d found a bug in SwiftUI. It took me way too long to realize the problem here, that’s why I am writing this up. Spoiler alert: <em>phase animators are not the problem</em>
+								I noticed that phase animators weren’t behaving as expected, and I initially assumed I’d found a bug in SwiftUI. It took me way too long to realize the problem here, that’s why I am writing this up. Spoiler alert: <em>there is no bug</em>
 								.
 							</p>
 							<p>
@@ -61,7 +61,7 @@
 }
 </code></pre>
 							<p>
-								If you run the example above, you can even set a breakpoint and see that the <code>linear</code> animation gets used. What’s more, you can add a <code>transaction { print($0.animation) }</code> to content closure, and you’ll see the correct animation printed out. Yet it does not animate slowly.
+								If you run the example above, you can even set a breakpoint and see that the <code>linear</code> animation gets used. What’s more, you can add a <code>transaction { print($0.animation) }</code> to the content closure, and you’ll see the correct animation printed out. Yet it does not animate slowly.
 							</p>
 							<p>
 								In fact, the problem has two causes:

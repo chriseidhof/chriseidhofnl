@@ -11,7 +11,7 @@
 			<title>SwiftUI Phase Animation &quot;Bug&quot;</title>
 			<description>
 				&lt;p&gt;
-	I noticed that phase animators weren’t behaving as expected, and I initially assumed I’d found a bug in SwiftUI. It took me way too long to realize the problem here, that’s why I am writing this up. Spoiler alert: &lt;em&gt;phase animators are not the problem&lt;/em&gt;
+	I noticed that phase animators weren’t behaving as expected, and I initially assumed I’d found a bug in SwiftUI. It took me way too long to realize the problem here, that’s why I am writing this up. Spoiler alert: &lt;em&gt;there is no bug&lt;/em&gt;
 	.
 &lt;/p&gt;
 &lt;p&gt;
@@ -41,7 +41,7 @@
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
-	If you run the example above, you can even set a breakpoint and see that the &lt;code&gt;linear&lt;/code&gt; animation gets used. What’s more, you can add a &lt;code&gt;transaction { print($0.animation) }&lt;/code&gt; to content closure, and you’ll see the correct animation printed out. Yet it does not animate slowly.
+	If you run the example above, you can even set a breakpoint and see that the &lt;code&gt;linear&lt;/code&gt; animation gets used. What’s more, you can add a &lt;code&gt;transaction { print($0.animation) }&lt;/code&gt; to the content closure, and you’ll see the correct animation printed out. Yet it does not animate slowly.
 &lt;/p&gt;
 &lt;p&gt;
 	In fact, the problem has two causes:
