@@ -44,7 +44,7 @@
 	If you run the example above, you can even set a breakpoint and see that the &lt;code&gt;linear&lt;/code&gt; animation gets used. What’s more, you can add a &lt;code&gt;transaction { print($0.animation) }&lt;/code&gt; to the content closure, and you’ll see the correct animation printed out. Yet it does not animate slowly.
 &lt;/p&gt;
 &lt;p&gt;
-	In fact, the problem has two causes:
+	The problem has two causes:
 &lt;/p&gt;
 &lt;ul&gt;
 	&lt;li&gt;

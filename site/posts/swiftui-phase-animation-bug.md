@@ -32,7 +32,7 @@ struct ContentView: View {
 
 If you run the example above, you can even set a breakpoint and see that the `linear` animation gets used. What's more, you can add a `transaction { print($0.animation) }` to the content closure, and you'll see the correct animation printed out. Yet it does not animate slowly.
 
-In fact, the problem has two causes:
+The problem has two causes:
 
 - SwiftUI buttons have an implicit animation going on. This happens even with a custom `ButtonStyle`. I haven't verified this, but I think it animates when you depress a button (when `isPressed` changes back to false). 
 - Layout modifiers such as `offset` are applied at the leaf nodes in the view tree (in this case, the actual button). In other words, the `offset` itself does not animate, but instead, the `x` position of the button animates. 
