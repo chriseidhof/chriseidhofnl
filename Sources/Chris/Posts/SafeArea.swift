@@ -52,7 +52,7 @@ extension View {
 }
 
 extension View {
-    fileprivate func asPhone() -> some View {
+    func asPhone() -> some View {
         readEnvironment(\.colorScheme) { scheme in
             let p = phone(device: .myDevice, date: sampleDate, bezelColor: Color(white: 0.8))
             if scheme == .light {

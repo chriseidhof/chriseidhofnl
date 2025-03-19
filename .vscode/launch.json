@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:chriseidhofnl}",
+            "name": "Debug Website",
+            "program": "${workspaceFolder:chriseidhofnl}/.build/debug/Website",
+            "preLaunchTask": "swift: Build Debug Website"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:chriseidhofnl}",
+            "name": "Release Website",
+            "program": "${workspaceFolder:chriseidhofnl}/.build/release/Website",
+            "preLaunchTask": "swift: Build Release Website"
+        }
+    ]
+}

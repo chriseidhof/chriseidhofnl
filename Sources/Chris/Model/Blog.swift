@@ -17,6 +17,7 @@ extension BlogPost {
         weeknotes15,
         safeArea,
         viewRepresentable,
+        avoidGroups,
     ]
 }
 
