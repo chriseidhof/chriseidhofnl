@@ -35,7 +35,7 @@ fileprivate var myPostBody: [any PostPiece] {
     .onAppear {  } /* works */
     ```
 
-    So far, so good. And yet, every time I see this it makes me uneasy, because `Group` has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn't really put my finger on it. In this post, I've boiled down the problem, so that in the future, I have an explanation to can link to.
+    So far, so good. And yet, every time I see this it makes me uneasy, because `Group` has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn't really put my finger on it. In this post, I've boiled down the problem, so that in the future, I have an explanation that I can [link to](https://simonwillison.net/2024/Jul/13/give-people-something-to-link-to/).
 
     ## Group Variadics
 
@@ -100,7 +100,7 @@ fileprivate var myPostBody: [any PostPiece] {
 
     ## Aside: View Lists
 
-    Before we look at the problem, let's consider some theory. If we look at the definition of (say) `HStack`, we'll see that it's generic over a single `Content` parameter that conforms to view. Looking at the type, we could say that an `HStack` has a single subview. But clearly we know that an `HStack` has multiple subviews!
+    Before we look at the problem, let's consider some theory. If we look at the definition of (say) `HStack`, we'll see that it's generic over a single `Content` parameter that conforms to `View`. Looking at the type, we could say that an `HStack` has a single subview. But clearly we know that an `HStack` has multiple subviews!
 
     The `HStack` receives a single type that conforms to the `View` protocol, but it can *flatten* that into a list of subviews. For example, the two texts in the group above turn into a `TupleView<(Text, Text)>`. The HStack can flatten the tuple view to get a list of the two subviews. A few years ago I wrote more about how [SwiftUI Views are Lists](https://chris.eidhof.nl/post/swiftui-views-are-lists/).
 
@@ -148,7 +148,7 @@ fileprivate var myPostBody: [any PostPiece] {
     }
     ````
 
-    Wrapping in a `VStack` works with both the view builder variant as well as the `Group`, which seems to conform that `Group` is really just a way to get view builder syntax, nothing more.
+    Wrapping in a `VStack` works with both the view builder variant as well as the `Group`, which seems to confirm that `Group` is really just a way to get view builder syntax, nothing more.
 
     > Note: The `onAppear` problem still exists: if you replace the padding and background with an `onAppear`, it'll still only get called once for the entire group. At least this behavior is consistent between the Simulator and previews, and between `Group` and view builders.
 
