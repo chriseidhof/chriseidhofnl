@@ -33,7 +33,7 @@ struct Main: Template {
                         section(id: "wrapper") {
                             header(id: "header") {
                                 a(href: "/", id: "title") {
-                                    img(alt: "CE logo", src: "/images/logo.png", style: "width: 32px; height: 19px;")
+                                    "Chris Eidhof"
                                 }
                                 
                             }

@@ -16,10 +16,9 @@ let months = [
 
 extension Array where Element == BlogPost {
     func groupedByYear() -> Node {
-        HTML.div(id: "archive-list") {
             self.group(by: \.date.year).map { (year) -> Node in
                 [
-                    h1(class: "archive") { "\(year[0].date.year)" },
+                    h1 { "\(year[0].date.year)" },
                     year.group(by: \.date.month).map { (month) -> Node in
                         [
                             h2(class: "month") { "\(months[month[0].date.month])" },
@@ -28,31 +27,29 @@ extension Array where Element == BlogPost {
                     }.asNode()
                 ].asNode()
             }.asNode()
-        }
     }
     
     func list(showYear: Bool) -> Node {
-        ul(id: "post-list") {
+        Node.fragment(
             self.map { (post: BlogPost) in
-                li {
+                article {
                     a(href: post.link) {
-                        aside(class: "dates") {
-                            "\(post.date.date.pretty(style: showYear ? .dayMonthYear : .dayMonth))"
-                        }
-                        
-                    }
-                    a(href: post.link) {
-                        post.metadata.title
-                        h2 {
+                        h2 { post.metadata.title }
+                        p {
                             post.metadata.headline ?? ""
                         }
-                        
+                        a(href: post.link) {
+                            time {
+                                "\(post.date.date.pretty(style: showYear ? .dayMonthYear : .dayMonth))"
+                            }
+
+                        }
+
                     }
-                    
+
                 }
             }
-        }
-
+        )
     }
 }
 
