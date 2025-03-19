@@ -9,7 +9,7 @@ fileprivate var myPostBody: [any PostPiece] {
     Markdown("""
     In [our SwiftUI workshops](https://www.swiftuifieldguide.com/workshops/), we often see people reaching for the `Group` view. There's a lot of code out there that does this, and yet, I noticed myself avoiding `Group`, even though it can be pretty handy. In investigating, I realized that it's not even `Group` that is the problem. It seems to be the meeting point of SwiftUI and UIKit.
 
-    In my understanding, `Group` is just a way to view builder syntax, but doesn't really add any "structure" or "container" node. 
+    In my understanding, `Group` is just a way to get view builder syntax, but doesn't really add any "structure" or "container" node. 
     
     In SwiftUI, when you have an `if/else` statement and want to apply a modifier to that, it won't compile:
 
