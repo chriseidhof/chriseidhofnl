@@ -11,10 +11,13 @@
 			<title>Why I Avoid Group</title>
 			<description>
 				&lt;p&gt;
-	In &lt;a href=&quot;https://www.swiftuifieldguide.com/workshops/&quot;&gt;our workshops&lt;/a&gt;, we often see people reaching for &lt;code&gt;Group&lt;/code&gt;. There’s a lot of code out there that does the same, and yet, I noticed myself avoiding it, even though it can be pretty handy. In investigating, I realized that it’s not even &lt;code&gt;Group&lt;/code&gt; that is the problem. It seems to be the meeting point of SwiftUI and UIKit.
+	In &lt;a href=&quot;https://www.swiftuifieldguide.com/workshops/&quot;&gt;our SwiftUI workshops&lt;/a&gt;, we often see people reaching for the &lt;code&gt;Group&lt;/code&gt; view. There’s a lot of code out there that does this, and yet, I noticed myself avoiding &lt;code&gt;Group&lt;/code&gt;, even though it can be pretty handy. In investigating, I realized that it’s not even &lt;code&gt;Group&lt;/code&gt; that is the problem. It seems to be the meeting point of SwiftUI and UIKit.
 &lt;/p&gt;
 &lt;p&gt;
-	In my understanding, &lt;code&gt;Group&lt;/code&gt; is just a way to view builder syntax, but doesn’t really add any “structure” or “container” node. For example, if you have an &lt;code&gt;if/else&lt;/code&gt; statement and want to apply a modifier to that, it won’t compile:
+	In my understanding, &lt;code&gt;Group&lt;/code&gt; is just a way to view builder syntax, but doesn’t really add any “structure” or “container” node.
+&lt;/p&gt;
+&lt;p&gt;
+	In SwiftUI, when you have an &lt;code&gt;if/else&lt;/code&gt; statement and want to apply a modifier to that, it won’t compile:
 &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;if let image {
     Image(image)
@@ -36,7 +39,7 @@
 .onAppear {  } /* works */
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
-	So far, so good. And yet, every time I see this it makes me uneasy, because &lt;code&gt;Group&lt;/code&gt; has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn’t really put my finger on it. In this post, I’ve boiled down the problem, so that in the future, I have a clear explanation I can link to.
+	So far, so good. And yet, every time I see this it makes me uneasy, because &lt;code&gt;Group&lt;/code&gt; has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn’t really put my finger on it. In this post, I’ve boiled down the problem, so that in the future, I have an explanation to can link to.
 &lt;/p&gt;
 &lt;h2&gt;
 	Group Variadics
@@ -74,7 +77,7 @@
 	The complete difference in behavior above is the reason why I avoid &lt;code&gt;Group&lt;/code&gt;.  From my interpretation, the &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/group&quot;&gt;Group documentation page&lt;/a&gt; makes it clear that the preview behavior is correct, and the Simulator behavior is a bug.
 &lt;/p&gt;
 &lt;p&gt;
-	Some modifiers do seem to work differently. In the documentation, it says:
+	Some modifiers do seem to work differently. In the official documentation, it says:
 &lt;/p&gt;
 &lt;blockquote&gt;
 	&lt;p&gt;
@@ -99,14 +102,14 @@
 	Aside: View Lists
 &lt;/h2&gt;
 &lt;p&gt;
-	Before we look at the problem, let’s consider some theory. If we look at the definition of (say) &lt;code&gt;HStack&lt;/code&gt;, we’ll see that it’s generic over a single &lt;code&gt;Content&lt;/code&gt; parameter that conforms to view. Looking at the type, we could say that an &lt;code&gt;HStack&lt;/code&gt; as a single subview. But clearly we know that an &lt;code&gt;HStack&lt;/code&gt; has multiple subviews!
+	Before we look at the problem, let’s consider some theory. If we look at the definition of (say) &lt;code&gt;HStack&lt;/code&gt;, we’ll see that it’s generic over a single &lt;code&gt;Content&lt;/code&gt; parameter that conforms to view. Looking at the type, we could say that an &lt;code&gt;HStack&lt;/code&gt; has a single subview. But clearly we know that an &lt;code&gt;HStack&lt;/code&gt; has multiple subviews!
 &lt;/p&gt;
 &lt;p&gt;
 	The &lt;code&gt;HStack&lt;/code&gt; receives a single type that conforms to the &lt;code&gt;View&lt;/code&gt; protocol, but it can &lt;em&gt;flatten&lt;/em&gt;
 	 that into a list of subviews. For example, the two texts in the group above turn into a &lt;code&gt;TupleView&amp;lt;(Text, Text)&amp;gt;&lt;/code&gt;. The HStack can flatten the tuple view to get a list of the two subviews. A few years ago I wrote more about how &lt;a href=&quot;https://chris.eidhof.nl/post/swiftui-views-are-lists/&quot;&gt;SwiftUI Views are Lists&lt;/a&gt;.
 &lt;/p&gt;
 &lt;p&gt;
-	When a flattened view list turns out to be a single item list it’s called a &lt;em&gt;unary view&lt;/em&gt;
+	When a flattened view list turns out to be a single item it’s called a &lt;em&gt;unary view&lt;/em&gt;
 	, and if it’s zero or more items, it’s a &lt;em&gt;multiview&lt;/em&gt;
 	. You can also read about this in &lt;a href=&quot;https://movingparts.io/variadic-views-in-swiftui&quot;&gt;Robb’s post&lt;/a&gt; or my own post on &lt;a href=&quot;https://chris.eidhof.nl/post/variadic-views/&quot;&gt;variadic views&lt;/a&gt;.
 &lt;/p&gt;
@@ -157,14 +160,14 @@
 &lt;/p&gt;
 &lt;blockquote&gt;
 	&lt;p&gt;
-		The &lt;code&gt;onAppear&lt;/code&gt; problem still exists: if you replace the padding and background with an &lt;code&gt;onAppear&lt;/code&gt;, it’ll still only get called once for the entire group. At least this behavior is consistent between the Simulator and previews, and between &lt;code&gt;Group&lt;/code&gt; and view builders.
+		Note: The &lt;code&gt;onAppear&lt;/code&gt; problem still exists: if you replace the padding and background with an &lt;code&gt;onAppear&lt;/code&gt;, it’ll still only get called once for the entire group. At least this behavior is consistent between the Simulator and previews, and between &lt;code&gt;Group&lt;/code&gt; and view builders.
 	&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2&gt;
 	Other Possible Problems
 &lt;/h2&gt;
 &lt;p&gt;
-	If my hunch is correct, it might be a problem where UIKit meets SwiftUI. There are actually a few places where this happens. Many of the builtin components still use UIKit under the hood and could be a candidate for this behavior. For example, let’s try navigation views:
+	If my hunch is correct, it might be a problem where UIKit meets SwiftUI. There are actually a few places where this happens. Many of the builtin components still use UIKit under the hood and could be a candidate for this behavior. For example, let’s try navigation stacks:
 &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;NavigationStack {
     Group {
@@ -192,7 +195,7 @@
     }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
-	Again, for these broken cases you can fix the behavior by having a stable unary view as the root. I haven’t tested this in detail, there are probably more broken implementations.
+	Again, for these broken cases you can fix the behavior by having a stable unary view as the root. I haven’t tested all of the framework, but I expect there to be more broken UIKit-wrapping containers.
 &lt;/p&gt;
 &lt;h2&gt;
 	Conclusion

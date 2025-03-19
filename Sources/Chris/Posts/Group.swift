@@ -7,9 +7,11 @@ let avoidGroups = BlogPost(metadata: .init(title: "Why I Avoid Group", date: "20
 @PieceBuilder
 fileprivate var myPostBody: [any PostPiece] {
     Markdown("""
-    In [our workshops](https://www.swiftuifieldguide.com/workshops/), we often see people reaching for `Group`. There's a lot of code out there that does the same, and yet, I noticed myself avoiding it, even though it can be pretty handy. In investigating, I realized that it's not even `Group` that is the problem. It seems to be the meeting point of SwiftUI and UIKit.
+    In [our SwiftUI workshops](https://www.swiftuifieldguide.com/workshops/), we often see people reaching for the `Group` view. There's a lot of code out there that does this, and yet, I noticed myself avoiding `Group`, even though it can be pretty handy. In investigating, I realized that it's not even `Group` that is the problem. It seems to be the meeting point of SwiftUI and UIKit.
 
-    In my understanding, `Group` is just a way to view builder syntax, but doesn't really add any "structure" or "container" node. For example, if you have an `if/else` statement and want to apply a modifier to that, it won't compile:
+    In my understanding, `Group` is just a way to view builder syntax, but doesn't really add any "structure" or "container" node. 
+    
+    In SwiftUI, when you have an `if/else` statement and want to apply a modifier to that, it won't compile:
 
     ```swift
     if let image {
@@ -33,7 +35,7 @@ fileprivate var myPostBody: [any PostPiece] {
     .onAppear {  } /* works */
     ```
 
-    So far, so good. And yet, every time I see this it makes me uneasy, because `Group` has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn't really put my finger on it. In this post, I've boiled down the problem, so that in the future, I have a clear explanation I can link to.
+    So far, so good. And yet, every time I see this it makes me uneasy, because `Group` has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn't really put my finger on it. In this post, I've boiled down the problem, so that in the future, I have an explanation to can link to.
 
     ## Group Variadics
 
@@ -78,7 +80,7 @@ fileprivate var myPostBody: [any PostPiece] {
     Markdown("""
     The complete difference in behavior above is the reason why I avoid `Group`.  From my interpretation, the [Group documentation page](https://developer.apple.com/documentation/swiftui/group) makes it clear that the preview behavior is correct, and the Simulator behavior is a bug.
 
-    Some modifiers do seem to work differently. In the documentation, it says:
+    Some modifiers do seem to work differently. In the official documentation, it says:
 
     > The modifier applies to all members of the group — and not to the group itself. For example, if you apply onAppear(perform:) to the above group, it applies to all of the views produced by the if isLoggedIn conditional, and it executes every time isLoggedIn changes.
 
@@ -98,11 +100,11 @@ fileprivate var myPostBody: [any PostPiece] {
 
     ## Aside: View Lists
 
-    Before we look at the problem, let's consider some theory. If we look at the definition of (say) `HStack`, we'll see that it's generic over a single `Content` parameter that conforms to view. Looking at the type, we could say that an `HStack` as a single subview. But clearly we know that an `HStack` has multiple subviews!
+    Before we look at the problem, let's consider some theory. If we look at the definition of (say) `HStack`, we'll see that it's generic over a single `Content` parameter that conforms to view. Looking at the type, we could say that an `HStack` has a single subview. But clearly we know that an `HStack` has multiple subviews!
 
     The `HStack` receives a single type that conforms to the `View` protocol, but it can *flatten* that into a list of subviews. For example, the two texts in the group above turn into a `TupleView<(Text, Text)>`. The HStack can flatten the tuple view to get a list of the two subviews. A few years ago I wrote more about how [SwiftUI Views are Lists](https://chris.eidhof.nl/post/swiftui-views-are-lists/).
 
-    When a flattened view list turns out to be a single item list it's called a *unary view*, and if it's zero or more items, it's a *multiview*. You can also read about this in [Robb's post](https://movingparts.io/variadic-views-in-swiftui) or my own post on [variadic views](https://chris.eidhof.nl/post/variadic-views/).
+    When a flattened view list turns out to be a single item it's called a *unary view*, and if it's zero or more items, it's a *multiview*. You can also read about this in [Robb's post](https://movingparts.io/variadic-views-in-swiftui) or my own post on [variadic views](https://chris.eidhof.nl/post/variadic-views/).
 
     ## Investigating the Problem
 
@@ -148,11 +150,11 @@ fileprivate var myPostBody: [any PostPiece] {
 
     Wrapping in a `VStack` works with both the view builder variant as well as the `Group`, which seems to conform that `Group` is really just a way to get view builder syntax, nothing more.
 
-    > The `onAppear` problem still exists: if you replace the padding and background with an `onAppear`, it'll still only get called once for the entire group. At least this behavior is consistent between the Simulator and previews, and between `Group` and view builders.
+    > Note: The `onAppear` problem still exists: if you replace the padding and background with an `onAppear`, it'll still only get called once for the entire group. At least this behavior is consistent between the Simulator and previews, and between `Group` and view builders.
 
     ## Other Possible Problems
 
-    If my hunch is correct, it might be a problem where UIKit meets SwiftUI. There are actually a few places where this happens. Many of the builtin components still use UIKit under the hood and could be a candidate for this behavior. For example, let's try navigation views:
+    If my hunch is correct, it might be a problem where UIKit meets SwiftUI. There are actually a few places where this happens. Many of the builtin components still use UIKit under the hood and could be a candidate for this behavior. For example, let's try navigation stacks:
 
     ```swift
     NavigationStack {
@@ -181,7 +183,7 @@ fileprivate var myPostBody: [any PostPiece] {
         }
     ```
 
-    Again, for these broken cases you can fix the behavior by having a stable unary view as the root. I haven't tested this in detail, there are probably more broken implementations.
+    Again, for these broken cases you can fix the behavior by having a stable unary view as the root. I haven't tested all of the framework, but I expect there to be more broken UIKit-wrapping containers.
 
     ## Conclusion
 

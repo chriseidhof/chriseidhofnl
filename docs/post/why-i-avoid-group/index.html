@@ -28,10 +28,13 @@
 						</header>
 						<section class="postbody">
 							<p>
-								In <a href="https://www.swiftuifieldguide.com/workshops/">our workshops</a>, we often see people reaching for <code>Group</code>. There’s a lot of code out there that does the same, and yet, I noticed myself avoiding it, even though it can be pretty handy. In investigating, I realized that it’s not even <code>Group</code> that is the problem. It seems to be the meeting point of SwiftUI and UIKit.
+								In <a href="https://www.swiftuifieldguide.com/workshops/">our SwiftUI workshops</a>, we often see people reaching for the <code>Group</code> view. There’s a lot of code out there that does this, and yet, I noticed myself avoiding <code>Group</code>, even though it can be pretty handy. In investigating, I realized that it’s not even <code>Group</code> that is the problem. It seems to be the meeting point of SwiftUI and UIKit.
 							</p>
 							<p>
-								In my understanding, <code>Group</code> is just a way to view builder syntax, but doesn’t really add any “structure” or “container” node. For example, if you have an <code>if/else</code> statement and want to apply a modifier to that, it won’t compile:
+								In my understanding, <code>Group</code> is just a way to view builder syntax, but doesn’t really add any “structure” or “container” node.
+							</p>
+							<p>
+								In SwiftUI, when you have an <code>if/else</code> statement and want to apply a modifier to that, it won’t compile:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">image</span> {
     <span class="hljs-identifier">Image</span>(<span class="hljs-identifier">image</span>)
@@ -53,7 +56,7 @@
 .<span class="hljs-identifier">onAppear</span> {  } <span class="hljs-comment">/* works */</span>
 </code></pre>
 							<p>
-								So far, so good. And yet, every time I see this it makes me uneasy, because <code>Group</code> has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn’t really put my finger on it. In this post, I’ve boiled down the problem, so that in the future, I have a clear explanation I can link to.
+								So far, so good. And yet, every time I see this it makes me uneasy, because <code>Group</code> has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn’t really put my finger on it. In this post, I’ve boiled down the problem, so that in the future, I have an explanation to can link to.
 							</p>
 							<h2>
 								Group Variadics
@@ -91,7 +94,7 @@
 								The complete difference in behavior above is the reason why I avoid <code>Group</code>.  From my interpretation, the <a href="https://developer.apple.com/documentation/swiftui/group">Group documentation page</a> makes it clear that the preview behavior is correct, and the Simulator behavior is a bug.
 							</p>
 							<p>
-								Some modifiers do seem to work differently. In the documentation, it says:
+								Some modifiers do seem to work differently. In the official documentation, it says:
 							</p>
 							<blockquote>
 								<p>
@@ -116,14 +119,14 @@
 								Aside: View Lists
 							</h2>
 							<p>
-								Before we look at the problem, let’s consider some theory. If we look at the definition of (say) <code>HStack</code>, we’ll see that it’s generic over a single <code>Content</code> parameter that conforms to view. Looking at the type, we could say that an <code>HStack</code> as a single subview. But clearly we know that an <code>HStack</code> has multiple subviews!
+								Before we look at the problem, let’s consider some theory. If we look at the definition of (say) <code>HStack</code>, we’ll see that it’s generic over a single <code>Content</code> parameter that conforms to view. Looking at the type, we could say that an <code>HStack</code> has a single subview. But clearly we know that an <code>HStack</code> has multiple subviews!
 							</p>
 							<p>
 								The <code>HStack</code> receives a single type that conforms to the <code>View</code> protocol, but it can <em>flatten</em>
 								 that into a list of subviews. For example, the two texts in the group above turn into a <code>TupleView&lt;(Text, Text)&gt;</code>. The HStack can flatten the tuple view to get a list of the two subviews. A few years ago I wrote more about how <a href="https://chris.eidhof.nl/post/swiftui-views-are-lists/">SwiftUI Views are Lists</a>.
 							</p>
 							<p>
-								When a flattened view list turns out to be a single item list it’s called a <em>unary view</em>
+								When a flattened view list turns out to be a single item it’s called a <em>unary view</em>
 								, and if it’s zero or more items, it’s a <em>multiview</em>
 								. You can also read about this in <a href="https://movingparts.io/variadic-views-in-swiftui">Robb’s post</a> or my own post on <a href="https://chris.eidhof.nl/post/variadic-views/">variadic views</a>.
 							</p>
@@ -174,14 +177,14 @@
 							</p>
 							<blockquote>
 								<p>
-									The <code>onAppear</code> problem still exists: if you replace the padding and background with an <code>onAppear</code>, it’ll still only get called once for the entire group. At least this behavior is consistent between the Simulator and previews, and between <code>Group</code> and view builders.
+									Note: The <code>onAppear</code> problem still exists: if you replace the padding and background with an <code>onAppear</code>, it’ll still only get called once for the entire group. At least this behavior is consistent between the Simulator and previews, and between <code>Group</code> and view builders.
 								</p>
 							</blockquote>
 							<h2>
 								Other Possible Problems
 							</h2>
 							<p>
-								If my hunch is correct, it might be a problem where UIKit meets SwiftUI. There are actually a few places where this happens. Many of the builtin components still use UIKit under the hood and could be a candidate for this behavior. For example, let’s try navigation views:
+								If my hunch is correct, it might be a problem where UIKit meets SwiftUI. There are actually a few places where this happens. Many of the builtin components still use UIKit under the hood and could be a candidate for this behavior. For example, let’s try navigation stacks:
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">NavigationStack</span> {
     <span class="hljs-identifier">Group</span> {
@@ -209,7 +212,7 @@
     }
 </code></pre>
 							<p>
-								Again, for these broken cases you can fix the behavior by having a stable unary view as the root. I haven’t tested this in detail, there are probably more broken implementations.
+								Again, for these broken cases you can fix the behavior by having a stable unary view as the root. I haven’t tested all of the framework, but I expect there to be more broken UIKit-wrapping containers.
 							</p>
 							<h2>
 								Conclusion
