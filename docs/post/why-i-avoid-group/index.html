@@ -56,7 +56,7 @@
 .<span class="hljs-identifier">onAppear</span> {  } <span class="hljs-comment">/* works */</span>
 </code></pre>
 							<p>
-								So far, so good. And yet, every time I see this it makes me uneasy, because <code>Group</code> has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn’t really put my finger on it. In this post, I’ve boiled down the problem, so that in the future, I have an explanation to can link to.
+								So far, so good. And yet, every time I see this it makes me uneasy, because <code>Group</code> has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn’t really put my finger on it. In this post, I’ve boiled down the problem, so that in the future, I have an explanation that I can <a href="https://simonwillison.net/2024/Jul/13/give-people-something-to-link-to/">link to</a>.
 							</p>
 							<h2>
 								Group Variadics
@@ -119,7 +119,7 @@
 								Aside: View Lists
 							</h2>
 							<p>
-								Before we look at the problem, let’s consider some theory. If we look at the definition of (say) <code>HStack</code>, we’ll see that it’s generic over a single <code>Content</code> parameter that conforms to view. Looking at the type, we could say that an <code>HStack</code> has a single subview. But clearly we know that an <code>HStack</code> has multiple subviews!
+								Before we look at the problem, let’s consider some theory. If we look at the definition of (say) <code>HStack</code>, we’ll see that it’s generic over a single <code>Content</code> parameter that conforms to <code>View</code>. Looking at the type, we could say that an <code>HStack</code> has a single subview. But clearly we know that an <code>HStack</code> has multiple subviews!
 							</p>
 							<p>
 								The <code>HStack</code> receives a single type that conforms to the <code>View</code> protocol, but it can <em>flatten</em>
@@ -173,7 +173,7 @@
 }
 </code></pre>
 							<p>
-								Wrapping in a <code>VStack</code> works with both the view builder variant as well as the <code>Group</code>, which seems to conform that <code>Group</code> is really just a way to get view builder syntax, nothing more.
+								Wrapping in a <code>VStack</code> works with both the view builder variant as well as the <code>Group</code>, which seems to confirm that <code>Group</code> is really just a way to get view builder syntax, nothing more.
 							</p>
 							<blockquote>
 								<p>

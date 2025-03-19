@@ -39,7 +39,7 @@
 .onAppear {  } /* works */
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
-	So far, so good. And yet, every time I see this it makes me uneasy, because &lt;code&gt;Group&lt;/code&gt; has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn’t really put my finger on it. In this post, I’ve boiled down the problem, so that in the future, I have an explanation to can link to.
+	So far, so good. And yet, every time I see this it makes me uneasy, because &lt;code&gt;Group&lt;/code&gt; has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn’t really put my finger on it. In this post, I’ve boiled down the problem, so that in the future, I have an explanation that I can &lt;a href=&quot;https://simonwillison.net/2024/Jul/13/give-people-something-to-link-to/&quot;&gt;link to&lt;/a&gt;.
 &lt;/p&gt;
 &lt;h2&gt;
 	Group Variadics
@@ -102,7 +102,7 @@
 	Aside: View Lists
 &lt;/h2&gt;
 &lt;p&gt;
-	Before we look at the problem, let’s consider some theory. If we look at the definition of (say) &lt;code&gt;HStack&lt;/code&gt;, we’ll see that it’s generic over a single &lt;code&gt;Content&lt;/code&gt; parameter that conforms to view. Looking at the type, we could say that an &lt;code&gt;HStack&lt;/code&gt; has a single subview. But clearly we know that an &lt;code&gt;HStack&lt;/code&gt; has multiple subviews!
+	Before we look at the problem, let’s consider some theory. If we look at the definition of (say) &lt;code&gt;HStack&lt;/code&gt;, we’ll see that it’s generic over a single &lt;code&gt;Content&lt;/code&gt; parameter that conforms to &lt;code&gt;View&lt;/code&gt;. Looking at the type, we could say that an &lt;code&gt;HStack&lt;/code&gt; has a single subview. But clearly we know that an &lt;code&gt;HStack&lt;/code&gt; has multiple subviews!
 &lt;/p&gt;
 &lt;p&gt;
 	The &lt;code&gt;HStack&lt;/code&gt; receives a single type that conforms to the &lt;code&gt;View&lt;/code&gt; protocol, but it can &lt;em&gt;flatten&lt;/em&gt;
@@ -156,7 +156,7 @@
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
-	Wrapping in a &lt;code&gt;VStack&lt;/code&gt; works with both the view builder variant as well as the &lt;code&gt;Group&lt;/code&gt;, which seems to conform that &lt;code&gt;Group&lt;/code&gt; is really just a way to get view builder syntax, nothing more.
+	Wrapping in a &lt;code&gt;VStack&lt;/code&gt; works with both the view builder variant as well as the &lt;code&gt;Group&lt;/code&gt;, which seems to confirm that &lt;code&gt;Group&lt;/code&gt; is really just a way to get view builder syntax, nothing more.
 &lt;/p&gt;
 &lt;blockquote&gt;
 	&lt;p&gt;
