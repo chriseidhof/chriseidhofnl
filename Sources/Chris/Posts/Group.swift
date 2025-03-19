@@ -7,7 +7,7 @@ let avoidGroups = BlogPost(metadata: .init(title: "Why I Avoid Group", date: "20
 @PieceBuilder
 fileprivate var myPostBody: [any PostPiece] {
     Markdown("""
-    In [our workshops](https://www.swiftuifieldguide.com/workshops/), we often see people reaching for `Group`. There's a lot of code out there that does the same, and yet, I noticed myself avoiding it, even though it can be pretty handy. In investigating, I realized that it's not even `Group` that is the problem.
+    In [our workshops](https://www.swiftuifieldguide.com/workshops/), we often see people reaching for `Group`. There's a lot of code out there that does the same, and yet, I noticed myself avoiding it, even though it can be pretty handy. In investigating, I realized that it's not even `Group` that is the problem. It seems to be the meeting point of SwiftUI and UIKit.
 
     In my understanding, `Group` is just a way to view builder syntax, but doesn't really add any "structure" or "container" node. For example, if you have an `if/else` statement and want to apply a modifier to that, it won't compile:
 
@@ -33,11 +33,11 @@ fileprivate var myPostBody: [any PostPiece] {
     .onAppear {  } /* works */
     ```
 
-    So far, so good. And yet, everytime I see this it makes me uneasy, because `Group` has such strange, unpredictive behavior. For some reason, it always seems to come back and bite me. However, I couldn't really put my finger on it. In this post I boiled down the problem, so that in the future, I have a clear explanation I can link to.
+    So far, so good. And yet, every time I see this it makes me uneasy, because `Group` has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn't really put my finger on it. In this post, I've boiled down the problem, so that in the future, I have a clear explanation I can link to.
 
     ## Group Variadics
 
-    You can also use `Group` to apply some modifiers to *each* of the subviews rather than to the subviews as a whole. For example, you can apply padding and a background to each of the elements in a `Group`:
+    You can also use `Group` to apply some modifiers to *each* of the subviews rather than to the group as a whole. For example, you can apply padding and a background to each of the elements in a `Group`:
 
     ```swift
     Group {
@@ -76,13 +76,13 @@ fileprivate var myPostBody: [any PostPiece] {
         .asPhone()
     }
     Markdown("""
-    The difference above is the reason why I avoid `Group`.  From my interpretation, the [Group documentation page](https://developer.apple.com/documentation/swiftui/group) makes it clear that the preview behavior is correct, and the Simulator behavior is a bug.
+    The complete difference in behavior above is the reason why I avoid `Group`.  From my interpretation, the [Group documentation page](https://developer.apple.com/documentation/swiftui/group) makes it clear that the preview behavior is correct, and the Simulator behavior is a bug.
 
     Some modifiers do seem to work differently. In the documentation, it says:
 
     > The modifier applies to all members of the group — and not to the group itself. For example, if you apply onAppear(perform:) to the above group, it applies to all of the views produced by the if isLoggedIn conditional, and it executes every time isLoggedIn changes.
 
-    In my testing, I saw a different behavior, it only called `onAppear` once. If I understand the intended behavior correctly, this would also print twice (and yet it doesn't):
+    In my testing, I saw a different behavior, it only called `onAppear` once. If I understand the document correctly, the code below would print twice (and yet it doesn't):
 
     ```swift
     Group {
@@ -106,7 +106,7 @@ fileprivate var myPostBody: [any PostPiece] {
 
     ## Investigating the Problem
 
-    At first, I thought the problem was with `Group`. But it seems to be a problem with the "root view" that renders a SwiftUI view. I believe (but haven't verified) that ultimately, at the very root of our app, there is still some UIKit that renders our root view. If that root view is not a *unary view* the behavior can be unexpected.
+    At first, I thought the problem was with `Group`. But it seems to be a problem with the "root view" that renders a SwiftUI view. I believe (but haven't verified) that ultimately, at the very root of our app, there is still some UIKit that renders our root view. If that root view is not a *unary view*, the behavior can be unexpected.
 
     For example, with the code below, the root view is not unary but actually returns two views:
 
@@ -187,7 +187,7 @@ fileprivate var myPostBody: [any PostPiece] {
 
     I think the behavior of `Group` (or to be more precise: applying modifiers to lists of views) is just too unreliable to use in production. Why does it differ between the Simulator and previews? Why does `onAppear` on a list get called once, but the background gets applied to each item?
 
-    For me, I'm avoiding this use of `Group` entirely and always choose for "stable containers" such as a stack (`VStack` and `ZStack` are my favorite, for some reason `HStack` feels wrong). Going back to the initial example, I would write it like this:
+    For me, I'm avoiding `Group` where possible, and always choose for "stable containers" such as a stack (`VStack` and `ZStack` are my favorite, for some strange reason, `HStack` feels wrong). Going back to the initial example, I would write it like this:
 
     ```swift
     VStack {

@@ -8,6 +8,219 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Why I Avoid Group</title>
+			<description>
+				&lt;p&gt;
+	In &lt;a href=&quot;https://www.swiftuifieldguide.com/workshops/&quot;&gt;our workshops&lt;/a&gt;, we often see people reaching for &lt;code&gt;Group&lt;/code&gt;. There’s a lot of code out there that does the same, and yet, I noticed myself avoiding it, even though it can be pretty handy. In investigating, I realized that it’s not even &lt;code&gt;Group&lt;/code&gt; that is the problem. It seems to be the meeting point of SwiftUI and UIKit.
+&lt;/p&gt;
+&lt;p&gt;
+	In my understanding, &lt;code&gt;Group&lt;/code&gt; is just a way to view builder syntax, but doesn’t really add any “structure” or “container” node. For example, if you have an &lt;code&gt;if/else&lt;/code&gt; statement and want to apply a modifier to that, it won’t compile:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;if let image {
+    Image(image)
+} else {
+    Text(&amp;quot;Loading…&amp;quot;)
+}
+.onAppear {  } /* does not compile */
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	You can fix this by wrapping everything in a &lt;code&gt;Group&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Group {
+    if let image {
+        Image(image)
+    } else {
+        Text(&amp;quot;Loading…&amp;quot;)
+    }
+}
+.onAppear {  } /* works */
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	So far, so good. And yet, every time I see this it makes me uneasy, because &lt;code&gt;Group&lt;/code&gt; has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn’t really put my finger on it. In this post, I’ve boiled down the problem, so that in the future, I have a clear explanation I can link to.
+&lt;/p&gt;
+&lt;h2&gt;
+	Group Variadics
+&lt;/h2&gt;
+&lt;p&gt;
+	You can also use &lt;code&gt;Group&lt;/code&gt; to apply some modifiers to &lt;em&gt;each&lt;/em&gt;
+	 of the subviews rather than to the group as a whole. For example, you can apply padding and a background to each of the elements in a &lt;code&gt;Group&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Group {
+    Text(&amp;quot;One&amp;quot;)
+    Text(&amp;quot;Two&amp;quot;)
+}
+.padding()
+.background(.blue)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	If you create a new Xcode project and add this as the &lt;code&gt;body&lt;/code&gt; of your &lt;code&gt;ContentView&lt;/code&gt;, it will look like this in the previews:
+&lt;/p&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/why-i-avoid-group/1-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/why-i-avoid-group/1.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	However, if you then run that very same app in the Simulator, it looks very different:
+&lt;/p&gt;
+&lt;p&gt;
+	&lt;picture class=&quot;swiftui&quot;&gt;
+		&lt;source media=&quot;(prefers-color-scheme: dark)&quot; srcset=&quot;http://chris.eidhof.nl/post/why-i-avoid-group/3-dark.png 2x&quot;/&gt;
+		&lt;img srcset=&quot;http://chris.eidhof.nl/post/why-i-avoid-group/3.png 2x&quot; style=&quot;width: auto;&quot;/&gt;
+	&lt;/picture&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	The complete difference in behavior above is the reason why I avoid &lt;code&gt;Group&lt;/code&gt;.  From my interpretation, the &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/group&quot;&gt;Group documentation page&lt;/a&gt; makes it clear that the preview behavior is correct, and the Simulator behavior is a bug.
+&lt;/p&gt;
+&lt;p&gt;
+	Some modifiers do seem to work differently. In the documentation, it says:
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		The modifier applies to all members of the group — and not to the group itself. For example, if you apply onAppear(perform:) to the above group, it applies to all of the views produced by the if isLoggedIn conditional, and it executes every time isLoggedIn changes.
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	In my testing, I saw a different behavior, it only called &lt;code&gt;onAppear&lt;/code&gt; once. If I understand the document correctly, the code below would print twice (and yet it doesn’t):
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Group {
+    Text(&amp;quot;One&amp;quot;)
+    Text(&amp;quot;Two&amp;quot;)
+}
+.onAppear {
+    print(&amp;quot;Appear&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	It seems that the behavior not only differs between simulator and previews, but also between different modifiers.
+&lt;/p&gt;
+&lt;h2&gt;
+	Aside: View Lists
+&lt;/h2&gt;
+&lt;p&gt;
+	Before we look at the problem, let’s consider some theory. If we look at the definition of (say) &lt;code&gt;HStack&lt;/code&gt;, we’ll see that it’s generic over a single &lt;code&gt;Content&lt;/code&gt; parameter that conforms to view. Looking at the type, we could say that an &lt;code&gt;HStack&lt;/code&gt; as a single subview. But clearly we know that an &lt;code&gt;HStack&lt;/code&gt; has multiple subviews!
+&lt;/p&gt;
+&lt;p&gt;
+	The &lt;code&gt;HStack&lt;/code&gt; receives a single type that conforms to the &lt;code&gt;View&lt;/code&gt; protocol, but it can &lt;em&gt;flatten&lt;/em&gt;
+	 that into a list of subviews. For example, the two texts in the group above turn into a &lt;code&gt;TupleView&amp;lt;(Text, Text)&amp;gt;&lt;/code&gt;. The HStack can flatten the tuple view to get a list of the two subviews. A few years ago I wrote more about how &lt;a href=&quot;https://chris.eidhof.nl/post/swiftui-views-are-lists/&quot;&gt;SwiftUI Views are Lists&lt;/a&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	When a flattened view list turns out to be a single item list it’s called a &lt;em&gt;unary view&lt;/em&gt;
+	, and if it’s zero or more items, it’s a &lt;em&gt;multiview&lt;/em&gt;
+	. You can also read about this in &lt;a href=&quot;https://movingparts.io/variadic-views-in-swiftui&quot;&gt;Robb’s post&lt;/a&gt; or my own post on &lt;a href=&quot;https://chris.eidhof.nl/post/variadic-views/&quot;&gt;variadic views&lt;/a&gt;.
+&lt;/p&gt;
+&lt;h2&gt;
+	Investigating the Problem
+&lt;/h2&gt;
+&lt;p&gt;
+	At first, I thought the problem was with &lt;code&gt;Group&lt;/code&gt;. But it seems to be a problem with the “root view” that renders a SwiftUI view. I believe (but haven’t verified) that ultimately, at the very root of our app, there is still some UIKit that renders our root view. If that root view is not a &lt;em&gt;unary view&lt;/em&gt;
+	, the behavior can be unexpected.
+&lt;/p&gt;
+&lt;p&gt;
+	For example, with the code below, the root view is not unary but actually returns two views:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Group {
+    Text(&amp;quot;One&amp;quot;)
+    Text(&amp;quot;Two&amp;quot;)
+}
+.padding()
+.background(.blue)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	We can see the exact same behavior difference between previews and the Simulator when we replace the &lt;code&gt;Group&lt;/code&gt; with an explicit view builder:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ContentView: View {
+    var body: some View {
+        helper
+            .padding()
+            .background(.blue)
+    }
+
+    @ViewBuilder var helper: some View {
+        Text(&amp;quot;One&amp;quot;)
+        Text(&amp;quot;Two&amp;quot;)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	To fix the differences in behavior, we can just wrap our &lt;code&gt;body&lt;/code&gt; in a &lt;code&gt;VStack&lt;/code&gt;. This way, the &lt;code&gt;VStack&lt;/code&gt; is the new, stable, unary root view and SwiftUI will have no problems rendering this as expected:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;VStack {
+    helper
+        .padding()
+        .background(.blue)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Wrapping in a &lt;code&gt;VStack&lt;/code&gt; works with both the view builder variant as well as the &lt;code&gt;Group&lt;/code&gt;, which seems to conform that &lt;code&gt;Group&lt;/code&gt; is really just a way to get view builder syntax, nothing more.
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		The &lt;code&gt;onAppear&lt;/code&gt; problem still exists: if you replace the padding and background with an &lt;code&gt;onAppear&lt;/code&gt;, it’ll still only get called once for the entire group. At least this behavior is consistent between the Simulator and previews, and between &lt;code&gt;Group&lt;/code&gt; and view builders.
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;
+	Other Possible Problems
+&lt;/h2&gt;
+&lt;p&gt;
+	If my hunch is correct, it might be a problem where UIKit meets SwiftUI. There are actually a few places where this happens. Many of the builtin components still use UIKit under the hood and could be a candidate for this behavior. For example, let’s try navigation views:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;NavigationStack {
+    Group {
+        Text(&amp;quot;One&amp;quot;)
+        Text(&amp;quot;Two&amp;quot;)
+    }
+    .padding()
+    .background(.blue)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This renders as expected: the modifiers are applied to the items and not to the group as a whole.
+&lt;/p&gt;
+&lt;p&gt;
+	Sheets are broken, though, ImageRenderer is broken and UIHostingView doesn’t work either.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;Text(&amp;quot;Hello&amp;quot;)
+    .sheet(isPresented: .constant(true)) {
+        Group {
+            Text(&amp;quot;One&amp;quot;)
+            Text(&amp;quot;Two&amp;quot;)
+        }
+        .padding()
+        .background(.blue)
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Again, for these broken cases you can fix the behavior by having a stable unary view as the root. I haven’t tested this in detail, there are probably more broken implementations.
+&lt;/p&gt;
+&lt;h2&gt;
+	Conclusion
+&lt;/h2&gt;
+&lt;p&gt;
+	I think the behavior of &lt;code&gt;Group&lt;/code&gt; (or to be more precise: applying modifiers to lists of views) is just too unreliable to use in production. Why does it differ between the Simulator and previews? Why does &lt;code&gt;onAppear&lt;/code&gt; on a list get called once, but the background gets applied to each item?
+&lt;/p&gt;
+&lt;p&gt;
+	For me, I’m avoiding &lt;code&gt;Group&lt;/code&gt; where possible, and always choose for “stable containers” such as a stack (&lt;code&gt;VStack&lt;/code&gt; and &lt;code&gt;ZStack&lt;/code&gt; are my favorite, for some strange reason, &lt;code&gt;HStack&lt;/code&gt; feels wrong). Going back to the initial example, I would write it like this:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;VStack {
+    if let image {
+        Image(image)
+    } else {
+        Text(&amp;quot;Loading…&amp;quot;)
+    }
+}
+.onAppear {  } /* works */
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Note: all of this is tested with iOS 18.2, hopefully some of this will be fixed in the future.
+&lt;/p&gt;
+			</description>
+			<pubDate>Wed, 19 Mar 2025 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/why-i-avoid-group</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/why-i-avoid-group</guid>
+		</item>
+		<item>
 			<title>SwiftUI Phase Animation &quot;Bug&quot;</title>
 			<description>
 				&lt;p&gt;
@@ -659,29 +872,6 @@
 			<pubDate>Mon, 17 Jun 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-24</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-24</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 21</title>
-			<description>
-				&lt;p&gt;
-	When I started, I managed to write weekly weeknotes, then the schedule changed to bi-weekly weeknotes and now it’s been three weeks. I’ve had a pretty busy few weeks behind me with preparing and teaching workshops, preparing my talk at &lt;a href=&quot;https://omt-conf.com&quot;&gt;One More Thing&lt;/a&gt;, national holidays, sick kids and other life things.
-&lt;/p&gt;
-&lt;p&gt;
-	My talk will be about animations in SwiftUI, and together with &lt;a href=&quot;https://www.juulspee.nl&quot;&gt;Juul&lt;/a&gt; and &lt;a href=&quot;https://nicholaschristowitz.com/projects/swiftuifieldguide/&quot;&gt;Nick&lt;/a&gt; we’re designing and implementing some (hopefully) very helpful visualizations. Because most of my work stuff feeds back into each other, we’ll be able to use this for the talk, during the workshops and hopefully on the SwiftUI Field Guide as well.
-&lt;/p&gt;
-&lt;p&gt;
-	During the preparations I realized a new way to debug animations in SwiftUI that lets you stop an animation at any point in time. Florian and me recorded &lt;a href=&quot;https://talk.objc.io/episodes/S01E405-debugging-animations&quot;&gt;an episode&lt;/a&gt; about this.
-&lt;/p&gt;
-&lt;p&gt;
-	Over the last years, and specifically over the last weeks I continued upgrading my home video conferencing setup. I use a DSLR with a teleprompter to have a good image quality while being able to look directly at the camera. I invested in an overhead microphone with an external audio interface. Rather than attaching all devices to my desk (as I’ve done previously) I now moved my camera, lights and microphone to be wall attached. This gives me a video feed that doesn’t shake as I type.
-&lt;/p&gt;
-&lt;p&gt;
-	It’ll be a busy few next weeks in between workshops and visiting the bay area, but I’m looking forward to some “downtime” after that so I can get back to improving the Field Guide.
-&lt;/p&gt;
-			</description>
-			<pubDate>Tue, 28 May 2024 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-21</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-21</guid>
 		</item>
 	</channel>
 </rss>

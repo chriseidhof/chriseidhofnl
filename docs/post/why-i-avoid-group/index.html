@@ -1,0 +1,255 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Why I Avoid Group — Chris Eidhof
+		</title>
+		<meta content="Why I Avoid Group — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/why-i-avoid-group/og-image-eed3.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title"><img alt="CE logo" src="/images/logo.png" style="width: 32px; height: 19px;"/></a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Why I Avoid Group
+							</h1>
+						</header>
+						<section class="postbody">
+							<p>
+								In <a href="https://www.swiftuifieldguide.com/workshops/">our workshops</a>, we often see people reaching for <code>Group</code>. There’s a lot of code out there that does the same, and yet, I noticed myself avoiding it, even though it can be pretty handy. In investigating, I realized that it’s not even <code>Group</code> that is the problem. It seems to be the meeting point of SwiftUI and UIKit.
+							</p>
+							<p>
+								In my understanding, <code>Group</code> is just a way to view builder syntax, but doesn’t really add any “structure” or “container” node. For example, if you have an <code>if/else</code> statement and want to apply a modifier to that, it won’t compile:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">image</span> {
+    <span class="hljs-identifier">Image</span>(<span class="hljs-identifier">image</span>)
+} <span class="hljs-keyword">else</span> {
+    <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Loading…</span><span class="hljs-string">"</span>)
+}
+.<span class="hljs-identifier">onAppear</span> {  } <span class="hljs-comment">/* does not compile */</span>
+</code></pre>
+							<p>
+								You can fix this by wrapping everything in a <code>Group</code>:
+							</p>
+							<pre><code class="swift"><span class="hljs-identifier">Group</span> {
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">image</span> {
+        <span class="hljs-identifier">Image</span>(<span class="hljs-identifier">image</span>)
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Loading…</span><span class="hljs-string">"</span>)
+    }
+}
+.<span class="hljs-identifier">onAppear</span> {  } <span class="hljs-comment">/* works */</span>
+</code></pre>
+							<p>
+								So far, so good. And yet, every time I see this it makes me uneasy, because <code>Group</code> has such strange, unpredictable behavior. For some reason, it always seems to come back and bite me. However, I couldn’t really put my finger on it. In this post, I’ve boiled down the problem, so that in the future, I have a clear explanation I can link to.
+							</p>
+							<h2>
+								Group Variadics
+							</h2>
+							<p>
+								You can also use <code>Group</code> to apply some modifiers to <em>each</em>
+								 of the subviews rather than to the group as a whole. For example, you can apply padding and a background to each of the elements in a <code>Group</code>:
+							</p>
+							<pre><code class="swift"><span class="hljs-identifier">Group</span> {
+    <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">One</span><span class="hljs-string">"</span>)
+    <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Two</span><span class="hljs-string">"</span>)
+}
+.<span class="hljs-identifier">padding</span>()
+.<span class="hljs-identifier">background</span>(.<span class="hljs-identifier">blue</span>)
+</code></pre>
+							<p>
+								If you create a new Xcode project and add this as the <code>body</code> of your <code>ContentView</code>, it will look like this in the previews:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/why-i-avoid-group/1-dark.png 2x"/>
+									<img srcset="/post/why-i-avoid-group/1.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								However, if you then run that very same app in the Simulator, it looks very different:
+							</p>
+							<p>
+								<picture class="swiftui">
+									<source media="(prefers-color-scheme: dark)" srcset="/post/why-i-avoid-group/3-dark.png 2x"/>
+									<img srcset="/post/why-i-avoid-group/3.png 2x" style="width: auto;"/>
+								</picture>
+							</p>
+							<p>
+								The complete difference in behavior above is the reason why I avoid <code>Group</code>.  From my interpretation, the <a href="https://developer.apple.com/documentation/swiftui/group">Group documentation page</a> makes it clear that the preview behavior is correct, and the Simulator behavior is a bug.
+							</p>
+							<p>
+								Some modifiers do seem to work differently. In the documentation, it says:
+							</p>
+							<blockquote>
+								<p>
+									The modifier applies to all members of the group — and not to the group itself. For example, if you apply onAppear(perform:) to the above group, it applies to all of the views produced by the if isLoggedIn conditional, and it executes every time isLoggedIn changes.
+								</p>
+							</blockquote>
+							<p>
+								In my testing, I saw a different behavior, it only called <code>onAppear</code> once. If I understand the document correctly, the code below would print twice (and yet it doesn’t):
+							</p>
+							<pre><code class="swift"><span class="hljs-identifier">Group</span> {
+    <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">One</span><span class="hljs-string">"</span>)
+    <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Two</span><span class="hljs-string">"</span>)
+}
+.<span class="hljs-identifier">onAppear</span> {
+    <span class="hljs-identifier">print</span>(<span class="hljs-string">"</span><span class="hljs-string">Appear</span><span class="hljs-string">"</span>)
+}
+</code></pre>
+							<p>
+								It seems that the behavior not only differs between simulator and previews, but also between different modifiers.
+							</p>
+							<h2>
+								Aside: View Lists
+							</h2>
+							<p>
+								Before we look at the problem, let’s consider some theory. If we look at the definition of (say) <code>HStack</code>, we’ll see that it’s generic over a single <code>Content</code> parameter that conforms to view. Looking at the type, we could say that an <code>HStack</code> as a single subview. But clearly we know that an <code>HStack</code> has multiple subviews!
+							</p>
+							<p>
+								The <code>HStack</code> receives a single type that conforms to the <code>View</code> protocol, but it can <em>flatten</em>
+								 that into a list of subviews. For example, the two texts in the group above turn into a <code>TupleView&lt;(Text, Text)&gt;</code>. The HStack can flatten the tuple view to get a list of the two subviews. A few years ago I wrote more about how <a href="https://chris.eidhof.nl/post/swiftui-views-are-lists/">SwiftUI Views are Lists</a>.
+							</p>
+							<p>
+								When a flattened view list turns out to be a single item list it’s called a <em>unary view</em>
+								, and if it’s zero or more items, it’s a <em>multiview</em>
+								. You can also read about this in <a href="https://movingparts.io/variadic-views-in-swiftui">Robb’s post</a> or my own post on <a href="https://chris.eidhof.nl/post/variadic-views/">variadic views</a>.
+							</p>
+							<h2>
+								Investigating the Problem
+							</h2>
+							<p>
+								At first, I thought the problem was with <code>Group</code>. But it seems to be a problem with the “root view” that renders a SwiftUI view. I believe (but haven’t verified) that ultimately, at the very root of our app, there is still some UIKit that renders our root view. If that root view is not a <em>unary view</em>
+								, the behavior can be unexpected.
+							</p>
+							<p>
+								For example, with the code below, the root view is not unary but actually returns two views:
+							</p>
+							<pre><code class="swift"><span class="hljs-identifier">Group</span> {
+    <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">One</span><span class="hljs-string">"</span>)
+    <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Two</span><span class="hljs-string">"</span>)
+}
+.<span class="hljs-identifier">padding</span>()
+.<span class="hljs-identifier">background</span>(.<span class="hljs-identifier">blue</span>)
+</code></pre>
+							<p>
+								We can see the exact same behavior difference between previews and the Simulator when we replace the <code>Group</code> with an explicit view builder:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">helper</span>
+            .<span class="hljs-identifier">padding</span>()
+            .<span class="hljs-identifier">background</span>(.<span class="hljs-identifier">blue</span>)
+    }
+
+    @<span class="hljs-identifier">ViewBuilder</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">helper</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">One</span><span class="hljs-string">"</span>)
+        <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Two</span><span class="hljs-string">"</span>)
+    }
+}
+</code></pre>
+							<p>
+								To fix the differences in behavior, we can just wrap our <code>body</code> in a <code>VStack</code>. This way, the <code>VStack</code> is the new, stable, unary root view and SwiftUI will have no problems rendering this as expected:
+							</p>
+							<pre><code class="swift"><span class="hljs-identifier">VStack</span> {
+    <span class="hljs-identifier">helper</span>
+        .<span class="hljs-identifier">padding</span>()
+        .<span class="hljs-identifier">background</span>(.<span class="hljs-identifier">blue</span>)
+}
+</code></pre>
+							<p>
+								Wrapping in a <code>VStack</code> works with both the view builder variant as well as the <code>Group</code>, which seems to conform that <code>Group</code> is really just a way to get view builder syntax, nothing more.
+							</p>
+							<blockquote>
+								<p>
+									The <code>onAppear</code> problem still exists: if you replace the padding and background with an <code>onAppear</code>, it’ll still only get called once for the entire group. At least this behavior is consistent between the Simulator and previews, and between <code>Group</code> and view builders.
+								</p>
+							</blockquote>
+							<h2>
+								Other Possible Problems
+							</h2>
+							<p>
+								If my hunch is correct, it might be a problem where UIKit meets SwiftUI. There are actually a few places where this happens. Many of the builtin components still use UIKit under the hood and could be a candidate for this behavior. For example, let’s try navigation views:
+							</p>
+							<pre><code class="swift"><span class="hljs-identifier">NavigationStack</span> {
+    <span class="hljs-identifier">Group</span> {
+        <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">One</span><span class="hljs-string">"</span>)
+        <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Two</span><span class="hljs-string">"</span>)
+    }
+    .<span class="hljs-identifier">padding</span>()
+    .<span class="hljs-identifier">background</span>(.<span class="hljs-identifier">blue</span>)
+}
+</code></pre>
+							<p>
+								This renders as expected: the modifiers are applied to the items and not to the group as a whole.
+							</p>
+							<p>
+								Sheets are broken, though, ImageRenderer is broken and UIHostingView doesn’t work either.
+							</p>
+							<pre><code class="swift"><span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Hello</span><span class="hljs-string">"</span>)
+    .<span class="hljs-identifier">sheet</span>(<span class="hljs-identifier">isPresented</span>: .<span class="hljs-identifier">constant</span>(<span class="hljs-keyword">true</span>)) {
+        <span class="hljs-identifier">Group</span> {
+            <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">One</span><span class="hljs-string">"</span>)
+            <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Two</span><span class="hljs-string">"</span>)
+        }
+        .<span class="hljs-identifier">padding</span>()
+        .<span class="hljs-identifier">background</span>(.<span class="hljs-identifier">blue</span>)
+    }
+</code></pre>
+							<p>
+								Again, for these broken cases you can fix the behavior by having a stable unary view as the root. I haven’t tested this in detail, there are probably more broken implementations.
+							</p>
+							<h2>
+								Conclusion
+							</h2>
+							<p>
+								I think the behavior of <code>Group</code> (or to be more precise: applying modifiers to lists of views) is just too unreliable to use in production. Why does it differ between the Simulator and previews? Why does <code>onAppear</code> on a list get called once, but the background gets applied to each item?
+							</p>
+							<p>
+								For me, I’m avoiding <code>Group</code> where possible, and always choose for “stable containers” such as a stack (<code>VStack</code> and <code>ZStack</code> are my favorite, for some strange reason, <code>HStack</code> feels wrong). Going back to the initial example, I would write it like this:
+							</p>
+							<pre><code class="swift"><span class="hljs-identifier">VStack</span> {
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">image</span> {
+        <span class="hljs-identifier">Image</span>(<span class="hljs-identifier">image</span>)
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Loading…</span><span class="hljs-string">"</span>)
+    }
+}
+.<span class="hljs-identifier">onAppear</span> {  } <span class="hljs-comment">/* works */</span>
+</code></pre>
+							<p>
+								Note: all of this is tested with iOS 18.2, hopefully some of this will be fixed in the future.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Mar 19, 2025</time>
+										 by Chris Eidhof 
+										(<a href="https://m.objc.io/@chris" rel="me">Mastodon</a>, <a href="https://bsky.app/profile/eidhof.nl">BSky</a>).</span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/swiftui-phase-animation-bug">SwiftUI Phase Animation &quot;Bug&quot;
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

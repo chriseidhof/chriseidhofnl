@@ -322,9 +322,10 @@ p a:hover, #post-list a:hover, #post-list li:hover .dates, #title:hover {
 }
 
  .post h2 {
-     margin-bottom:20px;
+     margin-top: 1.3em;
+     margin-bottom: 1.3em;
      color:inherit;
-     font:18px/1.7em var(--heading-font);
+     font: 1.3em var(--heading-font);
 }
  .post h2.headline {
      font: 22px/1.3em var(--heading-font), sans-serif;
