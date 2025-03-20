@@ -14,7 +14,7 @@
 	In &lt;a href=&quot;https://www.swiftuifieldguide.com/workshops/&quot;&gt;our SwiftUI workshops&lt;/a&gt;, we often see people reaching for the &lt;code&gt;Group&lt;/code&gt; view. There’s a lot of code out there that does this, and yet, I noticed myself avoiding &lt;code&gt;Group&lt;/code&gt;, even though it can be pretty handy. In investigating, I realized that it’s not even &lt;code&gt;Group&lt;/code&gt; that is the problem. It seems to be the meeting point of SwiftUI and UIKit.
 &lt;/p&gt;
 &lt;p&gt;
-	In my understanding, &lt;code&gt;Group&lt;/code&gt; is just a way to view builder syntax, but doesn’t really add any “structure” or “container” node.
+	In my understanding, &lt;code&gt;Group&lt;/code&gt; is just a way to get view builder syntax, but doesn’t really add any “structure” or “container” node.
 &lt;/p&gt;
 &lt;p&gt;
 	In SwiftUI, when you have an &lt;code&gt;if/else&lt;/code&gt; statement and want to apply a modifier to that, it won’t compile:
