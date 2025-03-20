@@ -19,7 +19,7 @@
  @media (prefers-color-scheme: dark) {
      :root {
          --background-color: #161616;
-         --secondary-background-color: #222;
+         --secondary-background-color: #000;
          --primary-color: #ddd;
          --secondary-color: #ccc;
          --tertiary-color: #999;
@@ -27,7 +27,7 @@
          --border-color: #222;
          --blue: rgb(10, 132, 255);
          --pink: rgb(255, 55, 95);
-         --accent-color: var(--pink);
+/*         --accent-color: var(--pink);*/
          --keyword-color: #fc5fa2;
          --string-color: #FB6A5C;
          --identifier-color: #fff;
@@ -61,6 +61,16 @@ h6 {
     margin-top: 1.5em;
     margin-bottom: 0.5em;
     font-size: 1em;
+}
+
+header a {
+    font-weight: bold;
+    color: var(--quaternary-color);
+    border-bottom: none;
+}
+
+header a:hover {
+    color: var(--accent-color);
 }
 
 h1 {
@@ -115,12 +125,13 @@ nav {
 }
 
 a {
-    color: #0366d6;
+    color: var(--accent-color);
     text-decoration: none;
+    border-bottom: 1px dotted var(--accent-color);
 }
 
 a:hover {
-    text-decoration: underline;
+    border-bottom: 1px solid var(--accent-color);
 }
 
 article>a {
@@ -173,7 +184,7 @@ article blockquote {
 }
 
 article>a:hover h2 {
-    color: #0366d6;
+    color: var(--accent-color);
 }
 
 p img {
