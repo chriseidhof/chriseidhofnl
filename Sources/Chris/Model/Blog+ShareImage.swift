@@ -11,7 +11,7 @@ import SwiftUI
 extension BlogPost {
     var shareImageHashValue: String {
         // ugly but works
-        metadata.title + (metadata.headline ?? "nil")
+        metadata.title + (metadata.headline ?? "nil") + "light"
     }
 
     @MainActor
@@ -24,6 +24,7 @@ extension BlogPost {
                     Text(h)
                 }
             }
-        }.render(size: .unspecified, colorScheme: .dark)
+        }.render(size: .unspecified, colorScheme: .light)
     }
 }
+

@@ -14,11 +14,11 @@ struct DefaultShareImageContents<Title: View, Subtitle: View>: View {
     var body: some View {
         VStack(alignment: .leading) {
             title
-                .font(.custom("Concourse 4", size: 100))
+                .font(.system(size: 100))
                 .minimumScaleFactor(0.3)
             subtitle
                 .minimumScaleFactor(0.3)
-                .font(.custom("Concourse 4", size: 70))
+                .font(.system(size: 70, design: .rounded))
                 .foregroundColor(.secondary)
         }
     }
@@ -34,7 +34,6 @@ struct ShareImage<Contents: View>: View {
     var body: some View {
         Rectangle()
             .fill(.background)
-            .frame(width: 1200, height: 630)
             .overlay {
                 contents
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -42,14 +41,12 @@ struct ShareImage<Contents: View>: View {
                     .padding(100)
             }
             .overlay(alignment: .bottom) {
-                logo
-                    .renderingMode(.template)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+                Text("Chris Eidhof")
+                    .font(.system(size: 50))
                     .frame(height: 100)
                     .padding(50)
-                    .opacity(0.1)
             }
+            .frame(width: 1200, height: 630)
 //            .colorScheme(.dark)
     }
 }
