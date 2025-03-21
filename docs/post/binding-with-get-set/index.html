@@ -52,7 +52,7 @@
 								When we change either <code>value1</code> or <code>value2</code>, the <code>body</code> of <code>ContentView</code> will re-render. This is expected. However, we only want <code>Nested</code> to re-render its body when <code>value2</code> changes, not when <code>value1</code> changes.
 							</p>
 							<p>
-								Under the hood, SwiftUI will look at the <code>Nested</code> instance in the attribute graph and compare it against the new value of <code>Nested</code> that we’re constructing above. If these are “the same”, it will not re-render. It is not documented how this comparison works, but Javier <a href="https://swiftui-lab.com/equatableview/">found out some things</a> and there are some old tweets by SwiftUI team members. SwiftUI compares the old and new view on a field-by-field basis, and only if all fields are the same, it stops re-rendering.
+								Under the hood, SwiftUI looks at the <code>Nested</code> value in the attribute graph and compares it against the new value of <code>Nested</code> that we’re constructing above. If these are “the same”, it will not re-render the body of <code>Nested</code>. It is not documented how this comparison works, but Javier <a href="https://swiftui-lab.com/equatableview/">found out some things</a> and there are some old tweets by SwiftUI team members. SwiftUI compares the old and new view on a field-by-field basis, and only if all fields are the same, it stops re-rendering.
 							</p>
 							<p>
 								In the example above, SwiftUI can do this comparison, and indeed, the <code>body</code> of <code>Nested</code> will not be re-rendered unless the actual value of <code>value2</code> changed.
