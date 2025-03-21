@@ -88,7 +88,8 @@ h2 {
 
 h2.headline {
     color: var(--tertiary-color);
-    font-weight: 500;
+    font-weight: 200;
+    font-style: italic;
 }
 
 article {

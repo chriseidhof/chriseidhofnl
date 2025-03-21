@@ -8,6 +8,57 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Bindings</title>
+			<description>
+				&lt;p&gt;
+	In SwiftUI, there are two &lt;em&gt;kinds&lt;/em&gt;
+	 of bindings. There are bindings created using keypaths, and then there are bindings created using &lt;code&gt;Binding(get:set:)&lt;/code&gt;. These are not the same at all.
+&lt;/p&gt;
+&lt;p&gt;
+	For example, consider the following (contrived) view:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ContentView: View {
+    @State var value1 = false
+    @State var value2 = false
+    var body: some View {
+        VStack {
+            Toggle(&amp;quot;Test&amp;quot;, isOn: $value1)
+            Nested(value2: $value2)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	When we change either &lt;code&gt;value1&lt;/code&gt; or &lt;code&gt;value2&lt;/code&gt;, the &lt;code&gt;body&lt;/code&gt; of &lt;code&gt;ContentView&lt;/code&gt; will re-render. This is expected. However, we only want &lt;code&gt;Nested&lt;/code&gt; to re-render its body when &lt;code&gt;value2&lt;/code&gt; changes, not when &lt;code&gt;value1&lt;/code&gt; changes.
+&lt;/p&gt;
+&lt;p&gt;
+	Under the hood, SwiftUI will look at the &lt;code&gt;Nested&lt;/code&gt; instance in the attribute graph and compare it against the new value of &lt;code&gt;Nested&lt;/code&gt; that we’re constructing above. If these are “the same”, it will not re-render. It is not documented how this comparison works, but Javier &lt;a href=&quot;https://swiftui-lab.com/equatableview/&quot;&gt;found out some things&lt;/a&gt; and there are some old tweets by SwiftUI team members. SwiftUI compares the old and new view on a field-by-field basis, and only if all fields are the same, it stops re-rendering.
+&lt;/p&gt;
+&lt;p&gt;
+	In the example above, SwiftUI can do this comparison, and indeed, the &lt;code&gt;body&lt;/code&gt; of &lt;code&gt;Nested&lt;/code&gt; will not be re-rendered unless the actual value of &lt;code&gt;value2&lt;/code&gt; changed.
+&lt;/p&gt;
+&lt;h2&gt;
+	Manual Binding Problems
+&lt;/h2&gt;
+&lt;p&gt;
+	Instead of writing &lt;code&gt;$value2&lt;/code&gt;, we could have also constructed a &lt;em&gt;manual binding&lt;/em&gt;
+	 using &lt;code&gt;Binding(get: { value2 }, set: { value2 = $0 })&lt;/code&gt;. This has a different behavior: every time &lt;code&gt;ContentView&lt;/code&gt; re-renders its body, &lt;code&gt;Nested&lt;/code&gt; will re-render its body as well. Even when only &lt;code&gt;value1&lt;/code&gt; changes. While we don’t have access to the SwiftUI source code, I think the problem is that these manual bindings store closures instead of a “pointer” to the state value. Every time the body of &lt;code&gt;ContentView&lt;/code&gt; executes, a new closure is constructed. Swift cannot compare closures and thus SwiftUI needs to re-render the body of &lt;code&gt;Nested&lt;/code&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+	While the above is a contrived example (no one would write &lt;code&gt;Binding(get:set:)&lt;/code&gt; instead of &lt;code&gt;$value2&lt;/code&gt;) the distinction between binding types becomes important when creating member bindings. For example, in &lt;a href=&quot;http://chris.eidhof.nl/post/swiftui-binding-tricks/&quot;&gt;SwiftUI Binding Tricks&lt;/a&gt; we look at creating a binding of &lt;code&gt;Bool&lt;/code&gt; from a state property of type &lt;code&gt;Set&lt;/code&gt;. While it might be easier to write this using a &lt;code&gt;Binding(get:set:)&lt;/code&gt; we do create a potential efficiency trap. When you write something like &lt;code&gt;$selection[contains: element]&lt;/code&gt; a binding with a keypath is constructed, and SwiftUI can compare these kinds of bindings effectively. At least one of the companies we’ve worked with has documentation and warnings in place because using &lt;code&gt;Binding(get:set:)&lt;/code&gt; caused way too many view body redraws.
+&lt;/p&gt;
+&lt;h2&gt;
+	Conclusion
+&lt;/h2&gt;
+&lt;p&gt;
+	I think we should avoid &lt;code&gt;Binding(get:set:)&lt;/code&gt; in production code. In most cases, you will probably not see a big difference in performance, but it can come back to bite you. With some practice, bindings using key paths rather than &lt;code&gt;Binding(get:set:)&lt;/code&gt; are just as easy to write and often simplify testing.
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 21 Mar 2025 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/binding-with-get-set</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/binding-with-get-set</guid>
+		</item>
+		<item>
 			<title>Why I Avoid Group</title>
 			<description>
 				&lt;p&gt;
@@ -858,23 +909,6 @@
 			<pubDate>Mon, 16 Sep 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-37</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-37</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 23-24</title>
-			<description>
-				&lt;p&gt;
-	I ran another workshop (distributed across Australia, India and Turkey). I also started helping out at our local hackerspace again by teaching kids HTML for a few weeks. I went to Berlin and had my professional picture taken, and recorded &lt;a href=&quot;https://talk.objc.io/&quot;&gt;Swift Talk episodes&lt;/a&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	Last week, I went to Cupertino for WWDC. It was so good seeing everyone again. I did not win the WWDC lottery but went to &lt;a href=&quot;https://omt-conf.com&quot;&gt;One More Thing&lt;/a&gt; instead, and met a bunch of friends around that. Afterwards, I spent a night with friends in San Francisco and went for some really nice runs.
-&lt;/p&gt;
-&lt;p&gt;
-	The upcoming week marks one of the final workshops for a while – now it’s time to focus on the &lt;a href=&quot;https://www.swiftuifieldguide.com&quot;&gt;Field Guide&lt;/a&gt; again.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 17 Jun 2024 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-24</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-24</guid>
 		</item>
 	</channel>
 </rss>

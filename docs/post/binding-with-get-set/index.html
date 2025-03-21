@@ -7,9 +7,9 @@
 		<link href="/css/style.css" rel="stylesheet"/>
 		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
 		<title>
-			Bindings (Unpublished) — Chris Eidhof
+			Bindings — Chris Eidhof
 		</title>
-		<meta content="Bindings (Unpublished) — Chris Eidhof" property="og:title"/>
+		<meta content="Bindings — Chris Eidhof" property="og:title"/>
 		<meta content="website" property="og:type"/>
 		<meta content="/post/binding-with-get-set/og-image-f67f.png" property="og:image"/>
 	</head>
@@ -29,14 +29,50 @@
 								Not all Bindings are created equal
 							</h2>
 						</header>
-						<footer class="group promo" id="post-meta">
-							<p>
-								<p>
-									Please don’t share this, it’s not published yet.
-								</p>
-							</p>
-						</footer>
 						<section class="postbody">
+							<p>
+								In SwiftUI, there are two <em>kinds</em>
+								 of bindings. There are bindings created using keypaths, and then there are bindings created using <code>Binding(get:set:)</code>. These are not the same at all.
+							</p>
+							<p>
+								For example, consider the following (contrived) view:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">value1</span> = <span class="hljs-keyword">false</span>
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">value2</span> = <span class="hljs-keyword">false</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">VStack</span> {
+            <span class="hljs-identifier">Toggle</span>(<span class="hljs-string">"</span><span class="hljs-string">Test</span><span class="hljs-string">"</span>, <span class="hljs-identifier">isOn</span>: <span class="hljs-identifier">$value1</span>)
+            <span class="hljs-identifier">Nested</span>(<span class="hljs-identifier">value2</span>: <span class="hljs-identifier">$value2</span>)
+        }
+    }
+}
+</code></pre>
+							<p>
+								When we change either <code>value1</code> or <code>value2</code>, the <code>body</code> of <code>ContentView</code> will re-render. This is expected. However, we only want <code>Nested</code> to re-render its body when <code>value2</code> changes, not when <code>value1</code> changes.
+							</p>
+							<p>
+								Under the hood, SwiftUI will look at the <code>Nested</code> instance in the attribute graph and compare it against the new value of <code>Nested</code> that we’re constructing above. If these are “the same”, it will not re-render. It is not documented how this comparison works, but Javier <a href="https://swiftui-lab.com/equatableview/">found out some things</a> and there are some old tweets by SwiftUI team members. SwiftUI compares the old and new view on a field-by-field basis, and only if all fields are the same, it stops re-rendering.
+							</p>
+							<p>
+								In the example above, SwiftUI can do this comparison, and indeed, the <code>body</code> of <code>Nested</code> will not be re-rendered unless the actual value of <code>value2</code> changed.
+							</p>
+							<h2>
+								Manual Binding Problems
+							</h2>
+							<p>
+								Instead of writing <code>$value2</code>, we could have also constructed a <em>manual binding</em>
+								 using <code>Binding(get: { value2 }, set: { value2 = $0 })</code>. This has a different behavior: every time <code>ContentView</code> re-renders its body, <code>Nested</code> will re-render its body as well. Even when only <code>value1</code> changes. While we don’t have access to the SwiftUI source code, I think the problem is that these manual bindings store closures instead of a “pointer” to the state value. Every time the body of <code>ContentView</code> executes, a new closure is constructed. Swift cannot compare closures and thus SwiftUI needs to re-render the body of <code>Nested</code>.
+							</p>
+							<p>
+								While the above is a contrived example (no one would write <code>Binding(get:set:)</code> instead of <code>$value2</code>) the distinction between binding types becomes important when creating member bindings. For example, in <a href="/post/swiftui-binding-tricks/">SwiftUI Binding Tricks</a> we look at creating a binding of <code>Bool</code> from a state property of type <code>Set</code>. While it might be easier to write this using a <code>Binding(get:set:)</code> we do create a potential efficiency trap. When you write something like <code>$selection[contains: element]</code> a binding with a keypath is constructed, and SwiftUI can compare these kinds of bindings effectively. At least one of the companies we’ve worked with has documentation and warnings in place because using <code>Binding(get:set:)</code> caused way too many view body redraws.
+							</p>
+							<h2>
+								Conclusion
+							</h2>
+							<p>
+								I think we should avoid <code>Binding(get:set:)</code> in production code. In most cases, you will probably not see a big difference in performance, but it can come back to bite you. With some practice, bindings using key paths rather than <code>Binding(get:set:)</code> are just as easy to write and often simplify testing.
+							</p>
 						</section>
 						<footer class="group" id="post-meta">
 							<div>
@@ -49,6 +85,8 @@
 					</article>
 					<footer>
 						<nav id="post-nav">
+							<span class="next"><a href="/post/why-i-avoid-group">Why I Avoid Group
+									<span class="arrow">→</span></a></span>
 						</nav>
 					</footer>
 				</section>
