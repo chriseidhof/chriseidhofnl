@@ -143,6 +143,7 @@ article>a {
 
 article>a:hover {
     text-decoration: none;
+    border: none;
 }
 
 code, pre {

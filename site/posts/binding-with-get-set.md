@@ -5,4 +5,4 @@ headline: Not all Bindings are created equal
 published: false
 ---
 
-TODO
+
