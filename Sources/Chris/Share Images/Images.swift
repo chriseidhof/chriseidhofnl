@@ -25,6 +25,10 @@ struct DefaultShareImageContents<Title: View, Subtitle: View>: View {
     }
 }
 
+extension Color {
+    static let accentBlue = Color(red: 0, green: 122/255.0, blue: 1)
+}
+
 struct ShareImage<Contents: View>: View {
     init(@ViewBuilder contents: () -> Contents) {
         self.contents = contents()
@@ -34,16 +38,27 @@ struct ShareImage<Contents: View>: View {
 
     var body: some View {
         Rectangle()
-            .fill(.cyan.gradient)
+            .fill(Color.cyan.gradient)
             .overlay {
                     Color.clear.overlay {
                         VStack(alignment: .leading) {
-                            logo
-                                .resizable()
-                                .renderingMode(.template)
-                                .scaledToFit()
-                                .frame(height: 200)
+//                            logo
+//                                .resizable()
+//                                .renderingMode(.template)
+//                                .scaledToFit()
+//                                .frame(height: 50)
+//                                .padding(.bottom, 60)
                             contents
+                                .frame(maxHeight: .infinity)
+                                .overlay(alignment: .topLeading) {
+                                    logo.resizable()
+                                        .renderingMode(.template)
+                                        .scaledToFit()
+                                        .frame(height: 60)
+                                        .opacity(0.5)
+                                        .foregroundStyle(.white)
+                                        .blendMode(.screen)
+                                }
                         }
                             .bold()
                                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
