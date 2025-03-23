@@ -10,16 +10,17 @@ let logo: Image = {
 struct DefaultShareImageContents<Title: View, Subtitle: View>: View {
     @ViewBuilder var title: Title
     @ViewBuilder var subtitle: Subtitle
+//    @Environment(\.st)
 
     var body: some View {
         VStack(alignment: .leading) {
             title
-                .font(.system(size: 100))
+                .font(.system(size: 100, design: .rounded))
                 .minimumScaleFactor(0.3)
             subtitle
                 .minimumScaleFactor(0.3)
-                .font(.system(size: 70, design: .rounded))
-                .foregroundColor(.secondary)
+                .font(.system(size: 60, weight: .light, design: .default))
+//                .foregroundStyle(.primary.opacity(0.6))
         }
     }
 }
@@ -33,18 +34,37 @@ struct ShareImage<Contents: View>: View {
 
     var body: some View {
         Rectangle()
-            .fill(.background)
+            .fill(.cyan.gradient)
             .overlay {
-                contents
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .padding(.bottom, 100)
-                    .padding(100)
-            }
-            .overlay(alignment: .bottom) {
-                Text("Chris Eidhof")
-                    .font(.system(size: 50))
-                    .frame(height: 100)
-                    .padding(50)
+                    Color.clear.overlay {
+                        VStack(alignment: .leading) {
+                            logo
+                                .resizable()
+                                .renderingMode(.template)
+                                .scaledToFit()
+                                .frame(height: 200)
+                            contents
+                        }
+                            .bold()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+//                                .padding(.bottom, 100)
+//                                .padding(100)
+                        }
+                    .background {
+//                            .blur(radius: 20)
+////                            .rotationEffect(.degrees(/*4*/))
+//                            .opacity(0.2)
+//                            .foregroundStyle(.black)
+//                            .padding(100)
+//                            .blendMode(.colorBurn)
+
+                    }
+                    .foregroundStyle(.white)
+//                    Text("Chris Eidhof")
+//                        .font(.system(size: 50, design: .rounded))
+//                        .opacity(0.3)
+//                        .frame(/*height*/: 100)
+                .padding(80)
             }
             .frame(width: 1200, height: 630)
 //            .colorScheme(.dark)
@@ -56,8 +76,10 @@ struct ShareImage_Previews: PreviewProvider {
         let result = ShareImage {
             DefaultShareImageContents(title: { Text("This is my title") }, subtitle: { Text("This is the subtitle") })
         }
-        result.colorScheme(.dark)
+//        result.colorScheme(.dark)
         result.colorScheme(.light)
+            .scaleEffect(0.5)
+            .frame(width: 1200*0.5, height: 630*0.5)
 
         ShareImage {
             DefaultShareImageContents(title: {
