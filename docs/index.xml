@@ -53,6 +53,16 @@
 &lt;p&gt;
 	I think we should avoid &lt;code&gt;Binding(get:set:)&lt;/code&gt; in production code. In most cases, you will probably not see a big difference in performance, but it can come back to bite you. With some practice, bindings using key paths rather than &lt;code&gt;Binding(get:set:)&lt;/code&gt; are just as easy to write and often simplify testing.
 &lt;/p&gt;
+&lt;h2&gt;
+	References
+&lt;/h2&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			Jacob Van Order wrote an article where he &lt;a href=&quot;https://jacobvanorder.github.io/swiftui-bindings-digging-a-little-deeper/&quot;&gt;measures the different approaches&lt;/a&gt; using the SwiftUI Instruments templates.
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
 			</description>
 			<pubDate>Fri, 21 Mar 2025 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/binding-with-get-set</link>

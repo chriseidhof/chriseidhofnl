@@ -36,3 +36,7 @@ While the above is a contrived example (no one would write `Binding(get:set:)` i
 ## Conclusion
 
 I think we should avoid `Binding(get:set:)` in production code. In most cases, you will probably not see a big difference in performance, but it can come back to bite you. With some practice, bindings using key paths rather than `Binding(get:set:)` are just as easy to write and often simplify testing.
+
+## References
+
+- Jacob Van Order wrote an article where he [measures the different approaches](https://jacobvanorder.github.io/swiftui-bindings-digging-a-little-deeper/) using the SwiftUI Instruments templates. 

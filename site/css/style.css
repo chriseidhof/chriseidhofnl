@@ -314,3 +314,9 @@ nav#post-nav .next {
   text-align: right;
   margin-left: auto;
 }
+
+
+ul {
+    list-style-type: "→  ";
+    list-style-position: outside;
+}
