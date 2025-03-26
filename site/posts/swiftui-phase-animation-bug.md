@@ -8,7 +8,7 @@ I noticed that phase animators weren't behaving as expected, and I initially ass
 
 I am preparing a workshop on SwiftUI Animations (this is a follow-up to our regular [SwiftUI Workshop](https://www.swiftuifieldguide.com/workshops/)). As I went through the exercises, I created a very minimal shake animation to demo how phase animators work. 
 
-A phase animator lets you animate between multiple phases (in the example below, the initial phase is 0, the second phase is 20 and the third phase -20). It starts by displaying the view at its initial phase. When we change the trigger value, it animates to the second phase. When that animation completes, it animates to the third phase. Finally, it animates back to the initial phase. This is essentially really nice way to run nested animations in completion handlers. In the animation closure, you get the *target phase* in and can choose which animation curve you want to animate towards that value.
+A phase animator lets you animate between multiple phases (in the example below, the initial phase is 0, the second phase is 20 and the third phase -20). It starts by displaying the view at its initial phase. When we change the trigger value, it animates to the second phase. When that animation completes, it animates to the third phase. Finally, it animates back to the initial phase. This is essentially a really nice way to run nested animations in completion handlers. In the animation closure, you get the *target phase* in and can choose which animation curve you want to animate towards that value.
 
 Here's my attempt at trying to create a shake animation with a custom timing curve for the first part of the animation. I exaggerated the curve so that it's really clear that this doesn't work:
 

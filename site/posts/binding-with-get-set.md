@@ -23,7 +23,7 @@ struct ContentView: View {
 
 When we change either `value1` or `value2`, the `body` of `ContentView` will re-render. This is expected. However, we only want `Nested` to re-render its body when `value2` changes, not when `value1` changes. 
 
-Under the hood, SwiftUI looks at the `Nested` value in the attribute graph and compares it against the new value of `Nested` that we're constructing above. If these are "the same", it will not re-render the body of `Nestedima`. It is not documented how this comparison works, but Javier [found out some things](https://swiftui-lab.com/equatableview/) and there are some old tweets by SwiftUI team members. SwiftUI compares the old and new view on a field-by-field basis, and only if all fields are the same, it stops re-rendering.
+Under the hood, SwiftUI looks at the `Nested` value in the attribute graph and compares it against the new value of `Nested` that we're constructing above. If these are "the same", it will not re-render the body of `Nested`. It is not documented how this comparison works, but Javier [found out some things](https://swiftui-lab.com/equatableview/) and there are some old tweets by SwiftUI team members. SwiftUI compares the old and new view on a field-by-field basis, and only if all fields are the same, it stops re-rendering.
 
 In the example above, SwiftUI can do this comparison, and indeed, the `body` of `Nested` will not be re-rendered unless the actual value of `value2` changed.
 

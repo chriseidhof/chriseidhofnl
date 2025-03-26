@@ -38,7 +38,7 @@
 								I am preparing a workshop on SwiftUI Animations (this is a follow-up to our regular <a href="https://www.swiftuifieldguide.com/workshops/">SwiftUI Workshop</a>). As I went through the exercises, I created a very minimal shake animation to demo how phase animators work.
 							</p>
 							<p>
-								A phase animator lets you animate between multiple phases (in the example below, the initial phase is 0, the second phase is 20 and the third phase -20). It starts by displaying the view at its initial phase. When we change the trigger value, it animates to the second phase. When that animation completes, it animates to the third phase. Finally, it animates back to the initial phase. This is essentially really nice way to run nested animations in completion handlers. In the animation closure, you get the <em>target phase</em>
+								A phase animator lets you animate between multiple phases (in the example below, the initial phase is 0, the second phase is 20 and the third phase -20). It starts by displaying the view at its initial phase. When we change the trigger value, it animates to the second phase. When that animation completes, it animates to the third phase. Finally, it animates back to the initial phase. This is essentially a really nice way to run nested animations in completion handlers. In the animation closure, you get the <em>target phase</em>
 								 in and can choose which animation curve you want to animate towards that value.
 							</p>
 							<p>

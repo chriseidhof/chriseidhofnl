@@ -148,7 +148,7 @@ article>a:hover {
 }
 
 code, pre {
-    font-family: ui-monospace, 'SF Mono', SFMono-Regular;
+    font-family: ui-monospace, 'SF Mono', SFMono-Regular, monospace;
 }
 
 article pre {
