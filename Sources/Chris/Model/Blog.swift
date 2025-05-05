@@ -18,6 +18,7 @@ extension BlogPost {
         safeArea,
         viewRepresentable,
         avoidGroups,
+        alignmentGuides,
     ]
 }
 

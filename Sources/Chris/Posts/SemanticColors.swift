@@ -6,6 +6,7 @@ let semanticColors = BlogPost(metadata: .init(headline: "Context-Aware Styling",
 
 struct Display: ViewModifier {
     var name: String
+    var lightVsDark: Bool
     @SwiftUI.Environment(\.colorScheme) var colorScheme
 
     func body(content: Content) -> some View {
@@ -20,31 +21,35 @@ struct Display: ViewModifier {
                     .foregroundColor(textColor)
                     .monospaced()
                 HStack {
-                    VStack {
+                    if lightVsDark {
+                        VStack {
+                            box
+                                .colorScheme(.light)
+                                .preferredColorScheme(.light)
+                            Text("Light Mode")
+                                .foregroundColor(textColor)
+                                .font(.caption)
+                        }
+                        VStack {
+                            box
+                                .colorScheme(.dark)
+                                .preferredColorScheme(.dark)
+                            Text("Dark Mode")
+                                .foregroundColor(textColor)
+                                .font(.caption)
+                        }
+                    } else {
                         box
-                            .colorScheme(.light)
-                            .preferredColorScheme(.light)
-                        Text("Light Mode")
-                            .foregroundColor(textColor)
-                            .font(.caption)
-                    }
-                    VStack {
-                        box
-                            .colorScheme(.dark)
-                            .preferredColorScheme(.dark)
-                        Text("Dark Mode")
-                            .foregroundColor(textColor)
-                            .font(.caption)
                     }
                 }
-            }.padding(5)
+            }.padding(4)
         }
     }
 }
 
 extension View {
-    func display(name: String) -> some View {
-        modifier(Display(name: name))
+    func display(name: String, lightVsDark: Bool = false) -> some View {
+        modifier(Display(name: name, lightVsDark: lightVsDark))
     }
 }
 
@@ -52,12 +57,12 @@ extension View {
 var example0: some View {
     Grid(horizontalSpacing: 20, verticalSpacing: 20) {
         GridRow {
-            Color.primary.display(name: "Color.primary")
-            Color.secondary.display(name: "Color.secondary")
+            Color.primary.display(name: "Color.primary", lightVsDark: true)
+            Color.secondary.display(name: "Color.secondary", lightVsDark: true)
         }
         GridRow {
-            Color.blue.display(name: "Color.blue")
-            Color.red.display(name: "Color.red")
+            Color.blue.display(name: "Color.blue", lightVsDark: true)
+            Color.red.display(name: "Color.red", lightVsDark: true)
         }
     }
 }
@@ -66,12 +71,12 @@ var example0: some View {
 var foregroundStyles: some View {
     Grid(horizontalSpacing: 20, verticalSpacing: 20) {
         GridRow {
-            Rectangle().fill(.primary).display(name: "Rectangle().fill(.primary)")
-            Rectangle().fill(.secondary).display(name: "Rectangle().fill(.secondary)")
+            Rectangle().fill(.primary).display(name: "Rectangle().fill(.primary)", lightVsDark: true)
+            Rectangle().fill(.secondary).display(name: "Rectangle().fill(.secondary)", lightVsDark: true)
         }
         GridRow {
-            Rectangle().fill(.tertiary).display(name: "Rectangle().fill(.tertiary)")
-            Rectangle().fill(.quaternary).display(name: "Rectangle().fill(.quaternary)")
+            Rectangle().fill(.tertiary).display(name: "Rectangle().fill(.tertiary)", lightVsDark: true)
+            Rectangle().fill(.quaternary).display(name: "Rectangle().fill(.quaternary)", lightVsDark: true)
         }
     }
 }
@@ -123,7 +128,7 @@ fileprivate var myPostBody: [any PostPiece] {
                     .background(.background)
                     .padding(20)
                     .background(.blue)
-                    .display(name: "No explicit background style")
+                    .display(name: "No explicit background style", lightVsDark: true)
                 Text("Hello, world")
                     .padding(10)
                     .background(.background)
@@ -131,7 +136,7 @@ fileprivate var myPostBody: [any PostPiece] {
                     .background(.blue)
                     .backgroundStyle(.mint)
 
-                    .display(name: ".backgroundStyle(.mint)")
+                    .display(name: ".backgroundStyle(.mint)", lightVsDark: true)
             }
         }
     }
