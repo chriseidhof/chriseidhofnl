@@ -8,6 +8,165 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>SwiftUI View Model Ownership</title>
+			<description>
+				&lt;p&gt;
+	When we cover SwiftUI’s state system in &lt;a href=&quot;https://www.swiftuifieldguide.com/workshops/&quot;&gt;our workshops&lt;/a&gt;, we often get asked: &lt;em&gt;How can I set up my view model in a view?&lt;/em&gt;
+	 There’s a bit more to this question, so let’s try to spell out the requirements:
+&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			We want our view to create a view model and maintain ownership: when the view goes away, the object should go away.
+		&lt;/p&gt;
+	&lt;/li&gt;
+	&lt;li&gt;
+		&lt;p&gt;
+			We want our view model to be an object (not a struct) and the object should use the &lt;a href=&quot;https://developer.apple.com/documentation/observation&quot;&gt;Observation&lt;/a&gt; framework.
+		&lt;/p&gt;
+	&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+	Getting this right is trickier than expected.
+&lt;/p&gt;
+&lt;p&gt;
+	Let’s consider a view model that counts the number of people in a room. Here’s the model definition:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;@Observable class RoomVM {
+    let roomName: String
+    var count: Int = 0
+    init(roomName: String) {
+        self.roomName = roomName
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	When we now want to create a &lt;code&gt;RoomView&lt;/code&gt; we are faced with a choice: we need to think about ownership. When the lifetime of our view model is tied to the lifetime of the &lt;code&gt;RoomView&lt;/code&gt;, we say that the &lt;code&gt;RoomView&lt;/code&gt; is the &lt;em&gt;owner&lt;/em&gt;
+	 of our object. That means we should use an &lt;code&gt;@State&lt;/code&gt; property. When the view model is passed from the outside, we are not the owner, and we should not use an &lt;code&gt;@State&lt;/code&gt; property.
+&lt;/p&gt;
+&lt;p&gt;
+	In our requirements, we wanted the &lt;code&gt;RoomView&lt;/code&gt; to be the owner. This means we should use an &lt;code&gt;@State&lt;/code&gt; property. My personal rule of thumb is to always mark all &lt;code&gt;@State&lt;/code&gt; properties as private and to always initialize them on the same line as the declaration. For example, for a simple &lt;code&gt;Int&lt;/code&gt; property I’d write:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct CounterView: View {
+    @State private var value = 0
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	If you are unable to use those two rules (marking as private and setting the initial value), you should either reconsider using a &lt;code&gt;@State&lt;/code&gt; property or you should make sure to pay extra attention to the code you’re writing. In our case, we want an API that looks like &lt;code&gt;RoomView(name: &amp;quot;Main Room&amp;quot;)&lt;/code&gt;.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct RoomView0: View {
+    var name: String
+    @State var viewModel: RoomVM = // ...
+    var body: some View {
+        LabeledContent(viewModel.roomName) {
+            Stepper(&amp;quot;\(viewModel.count)&amp;quot;, value: $viewModel.count)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;
+	The init Trap
+&lt;/h2&gt;
+&lt;p&gt;
+	What do we write after the equals sign above? Ideally, we’d write &lt;code&gt;RoomVM(roomName: name)&lt;/code&gt; but that doesn’t compile, because the &lt;code&gt;name&lt;/code&gt; is not available yet. Luckily after a bit of searching, we’ll find a solution somewhere on a blog, forum post or in a video:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct RoomView1: View {
+    var name: String
+    @State var viewModel: RoomVM
+    init(name: String) {
+        self.name = name
+        self.viewModel = RoomVM(roomName: name)
+    }
+
+    var body: some View {
+        LabeledContent(viewModel.roomName) {
+            Stepper(&amp;quot;\(viewModel.count)&amp;quot;, value: $viewModel.count)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The code above is broken, and it is not obvious. For example, if you run the following snippet, it works exactly as intended. We can navigate to a room, change the value, and when we navigate away the view model is destroyed.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ContentView: View {
+    var rooms = [&amp;quot;Main Room&amp;quot;, &amp;quot;Breakout&amp;quot;, &amp;quot;Hallway&amp;quot;]
+    var body: some View {
+        NavigationView {
+            List {
+                ForEach(rooms, id: \.self) { room in
+                    NavigationLink(room) {
+                        RoomView1(name: room)
+                    }
+                }
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Let’s now consider a different way of using our &lt;code&gt;RoomView1&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ContentView: View {
+    var rooms = [&amp;quot;Main Room&amp;quot;, &amp;quot;Breakout&amp;quot;, &amp;quot;Hallway&amp;quot;]
+    @State var selectedRoom: String = &amp;quot;Main Room&amp;quot;
+    var body: some View {
+        VStack {
+            RoomView1(name: selectedRoom)
+            Picker(&amp;quot;Select a room&amp;quot;, selection: $selectedRoom) {
+                ForEach(rooms, id: \.self) { room in
+                    Text(room)
+                }
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	When we change the counter for a room, then select a different picker value, we never see the &lt;code&gt;RoomView&lt;/code&gt; update: it always will show the initial room (“Main Room”). Why does this happen?
+&lt;/p&gt;
+&lt;p&gt;
+	In our &lt;code&gt;RoomView1&lt;/code&gt;‘s initializer, we’re not actually changing the value of the state property. &lt;em&gt;When we assign to a state property outside of the view’s &lt;code&gt;body&lt;/code&gt;, we are changing the initial value that’s used when that view is created in the &lt;a href=&quot;https://talk.objc.io/episodes/S01E438-attribute-graph-part-10&quot;&gt;attribute graph&lt;/a&gt;.&lt;/em&gt;
+	 You can only modify the state’s value inside the body of a view.
+&lt;/p&gt;
+&lt;p&gt;
+	This is why I have that personal rule of always making the state property as private (so no one can assign from the outside) and initializing it straight away (so I’m not allowed to initialize it in the view’s &lt;code&gt;init&lt;/code&gt;). And yet: we cannot do this for our example above.
+&lt;/p&gt;
+&lt;h2&gt;
+	Fixing The Issue
+&lt;/h2&gt;
+&lt;p&gt;
+	There’s no one perfect way to solve this, but here’s one approach. Because we have a dependency on &lt;code&gt;name&lt;/code&gt; in our view model expression, we also need to add an &lt;code&gt;onChange(of:)&lt;/code&gt;. Each time the name changes, we create a new view model.
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct RoomView2: View {
+    var name: String
+    @State var viewModel: RoomVM
+    init(name: String) {
+        self.name = name
+        self.viewModel = RoomVM(roomName: name)
+    }
+
+    var body: some View {
+        LabeledContent(viewModel.roomName) {
+            Stepper(&amp;quot;\(viewModel.count)&amp;quot;, value: $viewModel.count)
+        }
+        .onChange(of: name) {
+            self.viewModel = RoomVM(roomName: name)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Another way to think about this is that the &lt;code&gt;name&lt;/code&gt; uniquely determines the identity of our &lt;code&gt;RoomView2&lt;/code&gt;. When that name changes, the identity changes and we should recreate our view model. The code above works as expected in all scenarios.
+&lt;/p&gt;
+&lt;p&gt;
+	One of the hardest parts about this problem is that, initially, our code seemed to work correctly. It seemed to just do the right thing. It’s hard to catch this problem during testing, but as long as you stick to the private/initial value rules, you’ll never have that problem. If you do need to break the rule, pay extra attention and add on &lt;code&gt;onChange(of:)&lt;/code&gt; for every property that your view model depends on.
+&lt;/p&gt;
+			</description>
+			<pubDate>Tue, 06 May 2025 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/swiftui-view-model</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-view-model</guid>
+		</item>
+		<item>
 			<title>SwiftUI Alignment Guide Bug</title>
 			<description>
 				&lt;p&gt;
@@ -865,78 +1024,6 @@
 			<pubDate>Mon, 23 Sep 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-38</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-38</guid>
-		</item>
-		<item>
-			<title>Phase Animator Behavior</title>
-			<description>
-				&lt;p&gt;
-	I’m currently still busy researching all the animation APIs in SwiftUI. I’d like to understand them at such a level that I have either my own working implementation or know how to build it.
-&lt;/p&gt;
-&lt;p&gt;
-	With &lt;code&gt;PhaseAnimator&lt;/code&gt;, I always was a little confused as to how it actually works and why it sometimes seems to skip phases. Here’s what I think is going on:
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Initially the content closure of the phase animation is rendered using the first phase provided
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			When you start a phase animation (either using the trigger or automatically by not providing a trigger), it calls the animation closure to determine the timing curve and animates to the next phase.
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			When there are no more phases, it animates back to the initial phase.
-		&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;
-	Sounds simple enough. I wanted to do an animation where a view would move up a bit, then wait there and finally move back down. Here’s what I did to have the view move up and back down:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ContentView: View {
-    @State private var trigger = 0
-
-    var body: some View {
-        Image(systemName: &amp;quot;globe&amp;quot;)
-            .phaseAnimator([0, -100], trigger: trigger) { view, phase in
-                view.offset(y: phase)
-            }
-            .onTapGesture { trigger += 1}
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	This works fine: whenever the trigger changes, the &lt;code&gt;.default&lt;/code&gt; animation is used to move to offset -100, then when that animation completes the view moves back to 0 using another &lt;code&gt;.default&lt;/code&gt; animation.
-&lt;/p&gt;
-&lt;p&gt;
-	I thought I could let the view stay at -100 by just adding another phase with -100 to the array of phases, but unfortunately, that does not work, it just moves from 0 to -100 and back to 0 without staying at -100.
-&lt;/p&gt;
-&lt;p&gt;
-	When I naively tried to reimplement &lt;code&gt;PhaseAnimator&lt;/code&gt; I got the same behavior. My implementation works by first animating from the first to the second phase, and in the completion handler I’d animate to the next phase, and so on.
-&lt;/p&gt;
-&lt;p&gt;
-	It took me a minute to realize why my code was behaving the same way. When you change a view’s position from (say) -100 to -100 the attribute graph does not change. The nodes are exactly the same before and after the update, and there is nothing to be animated. When there are no concrete animations, the animation’s completion handler is called immediately. In other words, we’re moving to the next phase straight away.
-&lt;/p&gt;
-&lt;p&gt;
-	To solve the actual problem I had, I instead added a delayed animation when animating back to the initial phase:
-&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Image(systemName: &amp;quot;globe&amp;quot;)
-    .phaseAnimator([0, -100], trigger: trigger) { view, phase in
-        view.offset(y: phase)
-    } animation: { offset in
-        offset == 0 ? .default.delay(1) : .default
-    }
-    .onTapGesture { trigger += 1}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;
-	This works as expected: the view animates to -100, stays there for a second and then animates back to 0.
-&lt;/p&gt;
-			</description>
-			<pubDate>Sun, 22 Sep 2024 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/phase-animator</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/phase-animator</guid>
 		</item>
 	</channel>
 </rss>

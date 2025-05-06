@@ -7,11 +7,11 @@
 		<link href="/css/style.css" rel="stylesheet"/>
 		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
 		<title>
-			SwiftUI View Model Initialization (Unpublished) — Chris Eidhof
+			SwiftUI View Model Ownership — Chris Eidhof
 		</title>
-		<meta content="SwiftUI View Model Initialization (Unpublished) — Chris Eidhof" property="og:title"/>
+		<meta content="SwiftUI View Model Ownership — Chris Eidhof" property="og:title"/>
 		<meta content="website" property="og:type"/>
-		<meta content="/post/swiftui-view-model/og-image-648b.png" property="og:image"/>
+		<meta content="/post/swiftui-view-model/og-image-b0c2.png" property="og:image"/>
 	</head>
 	<body>
 		<section id="content">
@@ -23,14 +23,9 @@
 					<article class="post">
 						<header>
 							<h1>
-								SwiftUI View Model Initialization
+								SwiftUI View Model Ownership
 							</h1>
 						</header>
-						<div class="unpublished">
-							<p>
-								Please don’t share this, it’s not published yet.
-							</p>
-						</div>
 						<section class="postbody">
 							<p>
 								When we cover SwiftUI’s state system in <a href="https://www.swiftuifieldguide.com/workshops/">our workshops</a>, we often get asked: <em>How can I set up my view model in a view?</em>
@@ -59,7 +54,6 @@
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">count</span>: <span class="hljs-identifier">Int</span> = <span class="hljs-number">0</span>
     <span class="hljs-keyword">init</span>(<span class="hljs-identifier">roomName</span>: <span class="hljs-identifier">String</span>) {
         <span class="hljs-keyword">self</span>.<span class="hljs-identifier">roomName</span> = <span class="hljs-identifier">roomName</span>
-        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">count</span> = <span class="hljs-identifier">count</span>
     }
 }
 </code></pre>
@@ -75,7 +69,7 @@
 }
 </code></pre>
 							<p>
-								When you can’t apply those two rules (marking as private and setting the initial value), you should either reconsider using a <code>@State</code> property or you should make sure to pay extra attention to the code you’re writing. In our case, we want an API that looks like <code>RoomView(name: &quot;Main Room&quot;)</code>.
+								If you are unable to use those two rules (marking as private and setting the initial value), you should either reconsider using a <code>@State</code> property or you should make sure to pay extra attention to the code you’re writing. In our case, we want an API that looks like <code>RoomView(name: &quot;Main Room&quot;)</code>.
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">RoomView0</span>: <span class="hljs-identifier">View</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">name</span>: <span class="hljs-identifier">String</span>
@@ -87,13 +81,16 @@
     }
 }
 </code></pre>
+							<h2>
+								The init Trap
+							</h2>
 							<p>
 								What do we write after the equals sign above? Ideally, we’d write <code>RoomVM(roomName: name)</code> but that doesn’t compile, because the <code>name</code> is not available yet. Luckily after a bit of searching, we’ll find a solution somewhere on a blog, forum post or in a video:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">RoomView1</span>: <span class="hljs-identifier">View</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">name</span>: <span class="hljs-identifier">String</span>
     @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">viewModel</span>: <span class="hljs-identifier">RoomVM</span>
-    <span class="hljs-keyword">init</span>(<span class="hljs-identifier">name</span>: <span class="hljs-identifier">String</span>, <span class="hljs-identifier">viewModel</span>: <span class="hljs-identifier">RoomVM</span>) {
+    <span class="hljs-keyword">init</span>(<span class="hljs-identifier">name</span>: <span class="hljs-identifier">String</span>) {
         <span class="hljs-keyword">self</span>.<span class="hljs-identifier">name</span> = <span class="hljs-identifier">name</span>
         <span class="hljs-keyword">self</span>.<span class="hljs-identifier">viewModel</span> = <span class="hljs-identifier">RoomVM</span>(<span class="hljs-identifier">roomName</span>: <span class="hljs-identifier">name</span>)
     }
@@ -145,14 +142,17 @@
 								When we change the counter for a room, then select a different picker value, we never see the <code>RoomView</code> update: it always will show the initial room (“Main Room”). Why does this happen?
 							</p>
 							<p>
-								In our <code>RoomView1</code>‘s initializer, we’re not actually changing the value of the state property. <em>When we assign to a state property outside of the view’s <code>body</code>, we are changing the initial value that’s used when that view is created in the attribute graph.</em>
+								In our <code>RoomView1</code>‘s initializer, we’re not actually changing the value of the state property. <em>When we assign to a state property outside of the view’s <code>body</code>, we are changing the initial value that’s used when that view is created in the <a href="https://talk.objc.io/episodes/S01E438-attribute-graph-part-10">attribute graph</a>.</em>
 								 You can only modify the state’s value inside the body of a view.
 							</p>
 							<p>
 								This is why I have that personal rule of always making the state property as private (so no one can assign from the outside) and initializing it straight away (so I’m not allowed to initialize it in the view’s <code>init</code>). And yet: we cannot do this for our example above.
 							</p>
+							<h2>
+								Fixing The Issue
+							</h2>
 							<p>
-								There’s no one perfect way to solve this, but here’s one approach. Because we have a dependency on <code>name</code> in our view model expression, we also need to add an <code>onChange(of:)</code>:
+								There’s no one perfect way to solve this, but here’s one approach. Because we have a dependency on <code>name</code> in our view model expression, we also need to add an <code>onChange(of:)</code>. Each time the name changes, we create a new view model.
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">RoomView2</span>: <span class="hljs-identifier">View</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">name</span>: <span class="hljs-identifier">String</span>
@@ -176,7 +176,7 @@
 								Another way to think about this is that the <code>name</code> uniquely determines the identity of our <code>RoomView2</code>. When that name changes, the identity changes and we should recreate our view model. The code above works as expected in all scenarios.
 							</p>
 							<p>
-								One of the hardest parts about this problem is that, initially, our code seemed to work correctly. It seemed to just do the right thing. It’s hard to catch this problem during testing, but as long as you stick to the private/initial value rules, you’ll never have have that problem. If you do need to break the rule, pay extra attention and add on <code>onChange(of:)</code> for every property that your view model depends on.
+								One of the hardest parts about this problem is that, initially, our code seemed to work correctly. It seemed to just do the right thing. It’s hard to catch this problem during testing, but as long as you stick to the private/initial value rules, you’ll never have that problem. If you do need to break the rule, pay extra attention and add on <code>onChange(of:)</code> for every property that your view model depends on.
 							</p>
 						</section>
 						<footer class="group" id="post-meta">
@@ -190,6 +190,8 @@
 					</article>
 					<footer>
 						<nav id="post-nav">
+							<span class="next"><a href="/post/swiftui-alignment-guide-bug">SwiftUI Alignment Guide Bug
+									<span class="arrow">→</span></a></span>
 						</nav>
 					</footer>
 				</section>
