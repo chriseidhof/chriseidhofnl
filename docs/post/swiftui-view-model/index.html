@@ -11,7 +11,7 @@
 		</title>
 		<meta content="SwiftUI View Model Ownership — Chris Eidhof" property="og:title"/>
 		<meta content="website" property="og:type"/>
-		<meta content="/post/swiftui-view-model/og-image-0e31.png" property="og:image"/>
+		<meta content="/post/swiftui-view-model/og-image-b0c2.png" property="og:image"/>
 	</head>
 	<body>
 		<section id="content">
@@ -175,6 +175,11 @@
 							<p>
 								Another way to think about this is that the <code>name</code> uniquely determines the identity of our <code>RoomView2</code>. When that name changes, the identity changes and we should recreate our view model. The code above works as expected in all scenarios.
 							</p>
+							<blockquote>
+								<p>
+									Note: this will recreate a brand new view model everytime the init is run (even though only the first instance is every used). Thanks to <a href="https://m.objc.io/@kyle@mister.computer/114461147374335228">Kyle</a> for catching this. If you don’t want that, you could try something <a href="https://gist.github.com/chriseidhof/503c48aa9d31e61eaa5348962114442b">like this</a>.
+								</p>
+							</blockquote>
 							<p>
 								One of the hardest parts about this problem is that, initially, our code seemed to work correctly. It seemed to just do the right thing. It’s hard to catch this problem during testing, but as long as you stick to the private/initial value rules, you’ll never have that problem. If you do need to break the rule, pay extra attention and add on <code>onChange(of:)</code> for every property that your view model depends on.
 							</p>

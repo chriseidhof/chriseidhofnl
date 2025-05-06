@@ -137,4 +137,6 @@ struct RoomView2: View {
 
 Another way to think about this is that the `name` uniquely determines the identity of our `RoomView2`. When that name changes, the identity changes and we should recreate our view model. The code above works as expected in all scenarios.
 
+> Note: this will recreate a brand new view model everytime the init is run (even though only the first instance is every used). Thanks to [Kyle](https://m.objc.io/@kyle@mister.computer/114461147374335228) for catching this. If you don't want that, you could try something [like this](https://gist.github.com/chriseidhof/503c48aa9d31e61eaa5348962114442b).
+
 One of the hardest parts about this problem is that, initially, our code seemed to work correctly. It seemed to just do the right thing. It's hard to catch this problem during testing, but as long as you stick to the private/initial value rules, you'll never have that problem. If you do need to break the rule, pay extra attention and add on `onChange(of:)` for every property that your view model depends on.

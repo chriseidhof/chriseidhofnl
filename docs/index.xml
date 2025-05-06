@@ -158,6 +158,11 @@
 &lt;p&gt;
 	Another way to think about this is that the &lt;code&gt;name&lt;/code&gt; uniquely determines the identity of our &lt;code&gt;RoomView2&lt;/code&gt;. When that name changes, the identity changes and we should recreate our view model. The code above works as expected in all scenarios.
 &lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		Note: this will recreate a brand new view model everytime the init is run (even though only the first instance is every used). Thanks to &lt;a href=&quot;https://m.objc.io/@kyle@mister.computer/114461147374335228&quot;&gt;Kyle&lt;/a&gt; for catching this. If you don’t want that, you could try something &lt;a href=&quot;https://gist.github.com/chriseidhof/503c48aa9d31e61eaa5348962114442b&quot;&gt;like this&lt;/a&gt;.
+	&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;
 	One of the hardest parts about this problem is that, initially, our code seemed to work correctly. It seemed to just do the right thing. It’s hard to catch this problem during testing, but as long as you stick to the private/initial value rules, you’ll never have that problem. If you do need to break the rule, pay extra attention and add on &lt;code&gt;onChange(of:)&lt;/code&gt; for every property that your view model depends on.
 &lt;/p&gt;
