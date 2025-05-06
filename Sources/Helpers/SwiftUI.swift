@@ -2,9 +2,9 @@ import SwiftUI
 
 @MainActor
 extension View {
-    public func render(size: ProposedViewSize, background: Bool = true, colorScheme: ColorScheme = .dark) -> Data {
+    public func render(size: ProposedViewSize, padding: Bool = true, background: Bool = true, colorScheme: ColorScheme = .dark) -> Data {
         let view = self
-            .padding()
+            .padding(padding ? 16 : 0)
             .background {
                 if background {
                     Rectangle()

@@ -24,7 +24,7 @@ extension BlogPost {
                     Text(h)
                 }
             }
-        }.render(size: .unspecified, colorScheme: .light)
+        }.render(size: .init(shareImageSize), padding: false, colorScheme: .light)
     }
 }
 

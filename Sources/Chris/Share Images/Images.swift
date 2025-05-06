@@ -20,7 +20,6 @@ struct DefaultShareImageContents<Title: View, Subtitle: View>: View {
             subtitle
                 .minimumScaleFactor(0.3)
                 .font(.system(size: 60, weight: .light, design: .default))
-//                .foregroundStyle(.primary.opacity(0.6))
         }
     }
 }
@@ -36,55 +35,39 @@ struct ShareImage<Contents: View>: View {
 
     var contents: Contents
 
+    var theLogo: some View {
+        logo.resizable()
+            .renderingMode(.template)
+            .scaledToFit()
+            .frame(height: 60)
+            .opacity(0.5)
+            .foregroundStyle(.white)
+            .blendMode(.screen)
+    }
+
     var body: some View {
         Rectangle()
             .fill(Color.cyan.gradient)
             .overlay {
                     Color.clear.overlay {
                         VStack(alignment: .leading) {
-//                            logo
-//                                .resizable()
-//                                .renderingMode(.template)
-//                                .scaledToFit()
-//                                .frame(height: 50)
-//                                .padding(.bottom, 60)
                             contents
                                 .frame(maxHeight: .infinity)
                                 .overlay(alignment: .topLeading) {
-                                    logo.resizable()
-                                        .renderingMode(.template)
-                                        .scaledToFit()
-                                        .frame(height: 60)
-                                        .opacity(0.5)
-                                        .foregroundStyle(.white)
-                                        .blendMode(.screen)
+                                    theLogo
                                 }
                         }
                             .bold()
                                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-//                                .padding(.bottom, 100)
-//                                .padding(100)
                         }
-                    .background {
-//                            .blur(radius: 20)
-////                            .rotationEffect(.degrees(/*4*/))
-//                            .opacity(0.2)
-//                            .foregroundStyle(.black)
-//                            .padding(100)
-//                            .blendMode(.colorBurn)
-
-                    }
                     .foregroundStyle(.white)
-//                    Text("Chris Eidhof")
-//                        .font(.system(size: 50, design: .rounded))
-//                        .opacity(0.3)
-//                        .frame(/*height*/: 100)
-                .padding(80)
+                    .padding(80)
             }
-            .frame(width: 1200, height: 630)
-//            .colorScheme(.dark)
+            .frame(idealWidth: shareImageSize.width, idealHeight: shareImageSize.height)
     }
 }
+
+let shareImageSize = CGSize(width: 1200, height: 630)
 
 struct ShareImage_Previews: PreviewProvider {
     static var previews: some View {
