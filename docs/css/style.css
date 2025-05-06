@@ -300,6 +300,29 @@ footer hr {
     color: var(--comment-color);
 }
 
+.hljs-comment.more {
+
+}
+
+.hljs-comment.more {
+  background-color: var(--quaternary-color);  /* Light gray background */
+  border-radius: 12px;        /* Rounded corners for pill shape */
+  padding: 0px 14px;           /* Padding inside the pill */
+  display: inline-block;      /* Ensures the background wraps the content */
+  font-family: monospace;     /* Code-like font */
+  font-size: 0.8em;           /* Slightly smaller text */
+  color: var(--background-color);
+
+}
+
+.hljs-comment.more span {
+    display: none;
+}
+
+.hljs-comment.more::before {
+  content: "⋯";             /* The ellipsis to display */
+}
+
 nav#post-nav {
   display: flex;
   justify-content: space-between;
@@ -319,4 +342,8 @@ nav#post-nav .next {
 ul {
     list-style-type: "→  ";
     list-style-position: outside;
+}
+
+article .unpublished p {
+    color: var(--pink);
 }

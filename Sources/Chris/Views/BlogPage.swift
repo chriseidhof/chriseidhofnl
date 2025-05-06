@@ -132,12 +132,10 @@ var advancedSwiftPromo: HTML.Node {
 }
 
 var unpublished: HTML.Node {
-    footer(class: "group promo", id: "post-meta") {
-        p {
+    div(class: "unpublished") {
             """
             Please don't share this, it's not published yet.
             """.fromMarkdown
 
-        }
     }
 }

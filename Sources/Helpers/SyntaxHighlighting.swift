@@ -37,10 +37,17 @@ class SwiftSyntaxHighlighter: SyntaxVisitor {
     
     func write(trivia: Trivia) {
         for piece in trivia {
+            let moreClassName = piece.isComment && "\(piece)" == "// ..."
             if piece.isComment {
-                html.append("<span class=\"hljs-comment\">")
+                html.append("<span class=\"hljs-comment\(moreClassName ? " more" : "")\">")
+            }
+            if moreClassName {
+                html.append("<span>")
             }
             piece.write(to: &html)
+            if moreClassName {
+                html.append("</span>")
+            }
             if piece.isComment {
                 html.append("</span>")
             }

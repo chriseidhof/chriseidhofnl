@@ -1,0 +1,199 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			SwiftUI View Model Initialization (Unpublished) — Chris Eidhof
+		</title>
+		<meta content="SwiftUI View Model Initialization (Unpublished) — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/swiftui-view-model/og-image-648b.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title">Chris Eidhof</a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								SwiftUI View Model Initialization
+							</h1>
+						</header>
+						<div class="unpublished">
+							<p>
+								Please don’t share this, it’s not published yet.
+							</p>
+						</div>
+						<section class="postbody">
+							<p>
+								When we cover SwiftUI’s state system in <a href="https://www.swiftuifieldguide.com/workshops/">our workshops</a>, we often get asked: <em>How can I set up my view model in a view?</em>
+								 There’s a bit more to this question, so let’s try to spell out the requirements:
+							</p>
+							<ul>
+								<li>
+									<p>
+										We want our view to create a view model and maintain ownership: when the view goes away, the object should go away.
+									</p>
+								</li>
+								<li>
+									<p>
+										We want our view model to be an object (not a struct) and the object should use the <a href="https://developer.apple.com/documentation/observation">Observation</a> framework.
+									</p>
+								</li>
+							</ul>
+							<p>
+								Getting this right is trickier than expected.
+							</p>
+							<p>
+								Let’s consider a view model that counts the number of people in a room. Here’s the model definition:
+							</p>
+							<pre><code class="swift">@<span class="hljs-identifier">Observable</span> <span class="hljs-keyword">class</span> <span class="hljs-identifier">RoomVM</span> {
+    <span class="hljs-keyword">let</span> <span class="hljs-identifier">roomName</span>: <span class="hljs-identifier">String</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">count</span>: <span class="hljs-identifier">Int</span> = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">init</span>(<span class="hljs-identifier">roomName</span>: <span class="hljs-identifier">String</span>) {
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">roomName</span> = <span class="hljs-identifier">roomName</span>
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">count</span> = <span class="hljs-identifier">count</span>
+    }
+}
+</code></pre>
+							<p>
+								When we now want to create a <code>RoomView</code> we are faced with a choice: we need to think about ownership. When the lifetime of our view model is tied to the lifetime of the <code>RoomView</code>, we say that the <code>RoomView</code> is the <em>owner</em>
+								 of our object. That means we should use an <code>@State</code> property. When the view model is passed from the outside, we are not the owner, and we should not use an <code>@State</code> property.
+							</p>
+							<p>
+								In our requirements, we wanted the <code>RoomView</code> to be the owner. This means we should use an <code>@State</code> property. My personal rule of thumb is to always mark all <code>@State</code> properties as private and to always initialize them on the same line as the declaration. For example, for a simple <code>Int</code> property I’d write:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">CounterView</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">value</span> = <span class="hljs-number">0</span>
+}
+</code></pre>
+							<p>
+								When you can’t apply those two rules (marking as private and setting the initial value), you should either reconsider using a <code>@State</code> property or you should make sure to pay extra attention to the code you’re writing. In our case, we want an API that looks like <code>RoomView(name: &quot;Main Room&quot;)</code>.
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">RoomView0</span>: <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">name</span>: <span class="hljs-identifier">String</span>
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">viewModel</span>: <span class="hljs-identifier">RoomVM</span> = <span class="hljs-comment more"><span>// ...</span></span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">LabeledContent</span>(<span class="hljs-identifier">viewModel</span>.<span class="hljs-identifier">roomName</span>) {
+            <span class="hljs-identifier">Stepper</span>(<span class="hljs-string">"</span><span class="hljs-string"></span>\(<span class="hljs-identifier">viewModel</span>.<span class="hljs-identifier">count</span>)<span class="hljs-string"></span><span class="hljs-string">"</span>, <span class="hljs-identifier">value</span>: <span class="hljs-identifier">$viewModel</span>.<span class="hljs-identifier">count</span>)
+        }
+    }
+}
+</code></pre>
+							<p>
+								What do we write after the equals sign above? Ideally, we’d write <code>RoomVM(roomName: name)</code> but that doesn’t compile, because the <code>name</code> is not available yet. Luckily after a bit of searching, we’ll find a solution somewhere on a blog, forum post or in a video:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">RoomView1</span>: <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">name</span>: <span class="hljs-identifier">String</span>
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">viewModel</span>: <span class="hljs-identifier">RoomVM</span>
+    <span class="hljs-keyword">init</span>(<span class="hljs-identifier">name</span>: <span class="hljs-identifier">String</span>, <span class="hljs-identifier">viewModel</span>: <span class="hljs-identifier">RoomVM</span>) {
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">name</span> = <span class="hljs-identifier">name</span>
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">viewModel</span> = <span class="hljs-identifier">RoomVM</span>(<span class="hljs-identifier">roomName</span>: <span class="hljs-identifier">name</span>)
+    }
+
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">LabeledContent</span>(<span class="hljs-identifier">viewModel</span>.<span class="hljs-identifier">roomName</span>) {
+            <span class="hljs-identifier">Stepper</span>(<span class="hljs-string">"</span><span class="hljs-string"></span>\(<span class="hljs-identifier">viewModel</span>.<span class="hljs-identifier">count</span>)<span class="hljs-string"></span><span class="hljs-string">"</span>, <span class="hljs-identifier">value</span>: <span class="hljs-identifier">$viewModel</span>.<span class="hljs-identifier">count</span>)
+        }
+    }
+}
+</code></pre>
+							<p>
+								The code above is broken, and it is not obvious. For example, if you run the following snippet, it works exactly as intended. We can navigate to a room, change the value, and when we navigate away the view model is destroyed.
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">rooms</span> = [<span class="hljs-string">"</span><span class="hljs-string">Main Room</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">Breakout</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">Hallway</span><span class="hljs-string">"</span>]
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">NavigationView</span> {
+            <span class="hljs-identifier">List</span> {
+                <span class="hljs-identifier">ForEach</span>(<span class="hljs-identifier">rooms</span>, <span class="hljs-identifier">id</span>: \.<span class="hljs-keyword">self</span>) { <span class="hljs-identifier">room</span> <span class="hljs-keyword">in</span>
+                    <span class="hljs-identifier">NavigationLink</span>(<span class="hljs-identifier">room</span>) {
+                        <span class="hljs-identifier">RoomView1</span>(<span class="hljs-identifier">name</span>: <span class="hljs-identifier">room</span>)
+                    }
+                }
+            }
+        }
+    }
+}
+</code></pre>
+							<p>
+								Let’s now consider a different way of using our <code>RoomView1</code>:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">rooms</span> = [<span class="hljs-string">"</span><span class="hljs-string">Main Room</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">Breakout</span><span class="hljs-string">"</span>, <span class="hljs-string">"</span><span class="hljs-string">Hallway</span><span class="hljs-string">"</span>]
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">selectedRoom</span>: <span class="hljs-identifier">String</span> = <span class="hljs-string">"</span><span class="hljs-string">Main Room</span><span class="hljs-string">"</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">VStack</span> {
+            <span class="hljs-identifier">RoomView1</span>(<span class="hljs-identifier">name</span>: <span class="hljs-identifier">selectedRoom</span>)
+            <span class="hljs-identifier">Picker</span>(<span class="hljs-string">"</span><span class="hljs-string">Select a room</span><span class="hljs-string">"</span>, <span class="hljs-identifier">selection</span>: <span class="hljs-identifier">$selectedRoom</span>) {
+                <span class="hljs-identifier">ForEach</span>(<span class="hljs-identifier">rooms</span>, <span class="hljs-identifier">id</span>: \.<span class="hljs-keyword">self</span>) { <span class="hljs-identifier">room</span> <span class="hljs-keyword">in</span>
+                    <span class="hljs-identifier">Text</span>(<span class="hljs-identifier">room</span>)
+                }
+            }
+        }
+    }
+}
+</code></pre>
+							<p>
+								When we change the counter for a room, then select a different picker value, we never see the <code>RoomView</code> update: it always will show the initial room (“Main Room”). Why does this happen?
+							</p>
+							<p>
+								In our <code>RoomView1</code>‘s initializer, we’re not actually changing the value of the state property. <em>When we assign to a state property outside of the view’s <code>body</code>, we are changing the initial value that’s used when that view is created in the attribute graph.</em>
+								 You can only modify the state’s value inside the body of a view.
+							</p>
+							<p>
+								This is why I have that personal rule of always making the state property as private (so no one can assign from the outside) and initializing it straight away (so I’m not allowed to initialize it in the view’s <code>init</code>). And yet: we cannot do this for our example above.
+							</p>
+							<p>
+								There’s no one perfect way to solve this, but here’s one approach. Because we have a dependency on <code>name</code> in our view model expression, we also need to add an <code>onChange(of:)</code>:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">RoomView2</span>: <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">name</span>: <span class="hljs-identifier">String</span>
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">viewModel</span>: <span class="hljs-identifier">RoomVM</span>
+    <span class="hljs-keyword">init</span>(<span class="hljs-identifier">name</span>: <span class="hljs-identifier">String</span>) {
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">name</span> = <span class="hljs-identifier">name</span>
+        <span class="hljs-keyword">self</span>.<span class="hljs-identifier">viewModel</span> = <span class="hljs-identifier">RoomVM</span>(<span class="hljs-identifier">roomName</span>: <span class="hljs-identifier">name</span>)
+    }
+
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">LabeledContent</span>(<span class="hljs-identifier">viewModel</span>.<span class="hljs-identifier">roomName</span>) {
+            <span class="hljs-identifier">Stepper</span>(<span class="hljs-string">"</span><span class="hljs-string"></span>\(<span class="hljs-identifier">viewModel</span>.<span class="hljs-identifier">count</span>)<span class="hljs-string"></span><span class="hljs-string">"</span>, <span class="hljs-identifier">value</span>: <span class="hljs-identifier">$viewModel</span>.<span class="hljs-identifier">count</span>)
+        }
+        .<span class="hljs-identifier">onChange</span>(<span class="hljs-identifier">of</span>: <span class="hljs-identifier">name</span>) {
+            <span class="hljs-keyword">self</span>.<span class="hljs-identifier">viewModel</span> = <span class="hljs-identifier">RoomVM</span>(<span class="hljs-identifier">roomName</span>: <span class="hljs-identifier">name</span>)
+        }
+    }
+}
+</code></pre>
+							<p>
+								Another way to think about this is that the <code>name</code> uniquely determines the identity of our <code>RoomView2</code>. When that name changes, the identity changes and we should recreate our view model. The code above works as expected in all scenarios.
+							</p>
+							<p>
+								One of the hardest parts about this problem is that, initially, our code seemed to work correctly. It seemed to just do the right thing. It’s hard to catch this problem during testing, but as long as you stick to the private/initial value rules, you’ll never have have that problem. If you do need to break the rule, pay extra attention and add on <code>onChange(of:)</code> for every property that your view model depends on.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>May 6, 2025</time>
+										 by Chris Eidhof 
+										(<a href="https://m.objc.io/@chris" rel="me">Mastodon</a>, <a href="https://bsky.app/profile/eidhof.nl">BSky</a>).</span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

@@ -86,7 +86,7 @@
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">HybridMap</span>: <span class="hljs-identifier">UIViewRepresentable</span> {
     @<span class="hljs-identifier">Binding</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">position</span>: <span class="hljs-identifier">CLLocationCoordinate2D</span>
 
-    <span class="hljs-comment">// ...</span>
+    <span class="hljs-comment more"><span>// ...</span></span>
 
     <span class="hljs-keyword">func</span> <span class="hljs-identifier">makeUIView</span>(<span class="hljs-identifier">context</span>: <span class="hljs-identifier">Context</span>) -> <span class="hljs-identifier">MKMapView</span> {
         <span class="hljs-keyword">let</span> <span class="hljs-identifier">view</span> = <span class="hljs-identifier">MKMapView</span>()
@@ -95,13 +95,13 @@
         <span class="hljs-keyword">return</span> <span class="hljs-identifier">view</span>
     }
 
-    <span class="hljs-comment">// ...</span>
+    <span class="hljs-comment more"><span>// ...</span></span>
 }
 </code></pre>
 							<p>
 								For the coordinator, there is a nice technique to pass in all properties of <code>HybridMap</code> directly (this is especially useful when we have more than one property). You can simply pass a copy of <code>self</code>, as <code>HybridMap</code> is a struct:
 							</p>
-							<pre><code class="swift"><span class="hljs-comment">// ...</span>
+							<pre><code class="swift"><span class="hljs-comment more"><span>// ...</span></span>
 <span class="hljs-keyword">class</span> <span class="hljs-identifier">Coordinator</span>: <span class="hljs-identifier">NSObject</span>, <span class="hljs-identifier">MKMapViewDelegate</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">parent</span>: <span class="hljs-identifier">HybridMap</span>
     <span class="hljs-keyword">init</span>(<span class="hljs-identifier">parent</span>: <span class="hljs-identifier">HybridMap</span>) {
@@ -116,7 +116,7 @@
 <span class="hljs-keyword">func</span> <span class="hljs-identifier">makeCoordinator</span>() -> <span class="hljs-identifier">Coordinator</span> {
     <span class="hljs-identifier">Coordinator</span>(<span class="hljs-identifier">parent</span>: <span class="hljs-keyword">self</span>)
 }
-<span class="hljs-comment">// ...</span>
+<span class="hljs-comment more"><span>// ...</span></span>
 </code></pre>
 							<p>
 								Finally, here’s our <code>updateUIView</code> method:
@@ -152,7 +152,7 @@
     <span class="hljs-identifier">context</span>.<span class="hljs-identifier">coordinator</span>.<span class="hljs-identifier">parent</span> = <span class="hljs-keyword">self</span>
     <span class="hljs-identifier">view</span>.<span class="hljs-identifier">centerCoordinate</span> = <span class="hljs-identifier">position</span>
 }
-<span class="hljs-comment">// ...</span>
+<span class="hljs-comment more"><span>// ...</span></span>
 <span class="hljs-keyword">func</span> <span class="hljs-identifier">mapViewDidChangeVisibleRegion</span>(_ <span class="hljs-identifier">mapView</span>: <span class="hljs-identifier">MKMapView</span>) {
     <span class="hljs-identifier">print</span>(<span class="hljs-string">"</span><span class="hljs-string">Begin didChange</span><span class="hljs-string">"</span>, <span class="hljs-identifier">mapView</span>.<span class="hljs-identifier">centerCoordinate</span>)
     <span class="hljs-keyword">defer</span> { <span class="hljs-identifier">print</span>(<span class="hljs-string">"</span><span class="hljs-string">End didChange</span><span class="hljs-string">"</span>) }
