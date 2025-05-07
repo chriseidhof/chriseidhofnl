@@ -132,7 +132,7 @@
 	This is why I have that personal rule of always making the state property as private (so no one can assign from the outside) and initializing it straight away (so I’m not allowed to initialize it in the view’s &lt;code&gt;init&lt;/code&gt;). And yet: we cannot do this for our example above.
 &lt;/p&gt;
 &lt;h2&gt;
-	Fixing The Issue
+	Towards a Fix
 &lt;/h2&gt;
 &lt;p&gt;
 	There’s no one perfect way to solve this, but here’s one approach. Because we have a dependency on &lt;code&gt;name&lt;/code&gt; in our view model expression, we also need to add an &lt;code&gt;onChange(of:)&lt;/code&gt;. Each time the name changes, we create a new view model.
@@ -156,15 +156,63 @@
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
-	Another way to think about this is that the &lt;code&gt;name&lt;/code&gt; uniquely determines the identity of our &lt;code&gt;RoomView2&lt;/code&gt;. When that name changes, the identity changes and we should recreate our view model. The code above works as expected in all scenarios.
+	Another way to think about this is that the &lt;code&gt;name&lt;/code&gt; uniquely determines the identity of our &lt;code&gt;RoomView2&lt;/code&gt;. When that name changes, the identity changes and we should recreate our view model. The code above works as expected in all scenarios. It is not quite there yet, though. After I published this article, Kyle asked the following question:
 &lt;/p&gt;
 &lt;blockquote&gt;
 	&lt;p&gt;
-		Note: this will recreate a brand new view model everytime the init is run (even though only the first instance is every used). Thanks to &lt;a href=&quot;https://m.objc.io/@kyle@mister.computer/114461147374335228&quot;&gt;Kyle&lt;/a&gt; for catching this. If you don’t want that, you could try something &lt;a href=&quot;https://gist.github.com/chriseidhof/503c48aa9d31e61eaa5348962114442b&quot;&gt;like this&lt;/a&gt;.
+		@chris In the fixed example, is it correct to say that an instance of the view model object will be needlessly created each time the view’s initializer is called by the parent? As in: when you change the selected room in the parent, the child’s initializer is run, name is set to the new name, the view model object is created and then not used (because of the attribute graph as you mentioned), and then the “original” view model is replaced by a third inside of onChanged?
 	&lt;/p&gt;
+	&lt;p&gt;&lt;a href=&quot;https://m.objc.io/@kyle@mister.computer/114461147374335228&quot;&gt;Source&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;
+	Kyle is absolutely right. The example above does have the correct behavior, but unnecessarily creates and discards new objects everytime the initializer runs.
+&lt;/p&gt;
+&lt;h2&gt;
+	A Final Solution?
+&lt;/h2&gt;
+&lt;p&gt;
+	Here’s a variant that creates the &lt;code&gt;RoomVM&lt;/code&gt; once when the view appears, and only recreates when the &lt;code&gt;name&lt;/code&gt; property changes:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct RoomView3: View {
+    var name: String
+    @State private var viewModel: RoomVM?
+
+    var body: some View {
+        ZStack {
+            if let viewModel {
+                RoomView3Helper(viewModel: viewModel)
+            }
+        }
+        .onChange(of: name, initial: true) {
+            self.viewModel = RoomVM(roomName: name)
+        }
+    }
+}
+
+struct RoomView3Helper: View {
+    @Bindable var viewModel: RoomVM
+
+    var body: some View {
+        LabeledContent(viewModel.roomName) {
+            Stepper(&amp;quot;\(viewModel.count)&amp;quot;, value: $viewModel.count)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	The code is way less clean than what we started with, but at least it’s correct and efficient. I wonder if there’s an cleaner way to write the code above, or if this is really what we need to resort to.
+&lt;/p&gt;
+&lt;h2&gt;
+	Conclusion
+&lt;/h2&gt;
+&lt;p&gt;
 	One of the hardest parts about this problem is that, initially, our code seemed to work correctly. It seemed to just do the right thing. It’s hard to catch this problem during testing, but as long as you stick to the private/initial value rules, you’ll never have that problem. If you do need to break the rule, pay extra attention and add on &lt;code&gt;onChange(of:)&lt;/code&gt; for every property that your view model depends on.
+&lt;/p&gt;
+&lt;h2&gt;
+	Updates
+&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;May 7&lt;/em&gt;
+	: Added a version that doesn’t recreate the model every single time the `init runs.
 &lt;/p&gt;
 			</description>
 			<pubDate>Tue, 06 May 2025 00:00:00 +0200</pubDate>

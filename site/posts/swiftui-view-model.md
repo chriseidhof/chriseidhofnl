@@ -111,7 +111,7 @@ In our `RoomView1`'s initializer, we're not actually changing the value of the s
 
 This is why I have that personal rule of always making the state property as private (so no one can assign from the outside) and initializing it straight away (so I'm not allowed to initialize it in the view's `init`). And yet: we cannot do this for our example above. 
 
-## Fixing The Issue
+## Towards a Fix
 
 There's no one perfect way to solve this, but here's one approach. Because we have a dependency on `name` in our view model expression, we also need to add an `onChange(of:)`. Each time the name changes, we create a new view model.
 
@@ -135,8 +135,52 @@ struct RoomView2: View {
 }
 ```
 
-Another way to think about this is that the `name` uniquely determines the identity of our `RoomView2`. When that name changes, the identity changes and we should recreate our view model. The code above works as expected in all scenarios.
+Another way to think about this is that the `name` uniquely determines the identity of our `RoomView2`. When that name changes, the identity changes and we should recreate our view model. The code above works as expected in all scenarios. It is not quite there yet, though. After I published this article, Kyle asked the following question:
 
-> Note: this will recreate a brand new view model everytime the init is run (even though only the first instance is every used). Thanks to [Kyle](https://m.objc.io/@kyle@mister.computer/114461147374335228) for catching this. If you don't want that, you could try something [like this](https://gist.github.com/chriseidhof/503c48aa9d31e61eaa5348962114442b).
+> @chris In the fixed example, is it correct to say that an instance of the view model object will be needlessly created each time the view’s initializer is called by the parent? As in: when you change the selected room in the parent, the child’s initializer is run, name is set to the new name, the view model object is created and then not used (because of the attribute graph as you mentioned), and then the “original” view model is replaced by a third inside of onChanged?
+> 
+> [Source](https://m.objc.io/@kyle@mister.computer/114461147374335228)
+
+Kyle is absolutely right. The example above does have the correct behavior, but unnecessarily creates and discards new objects everytime the initializer runs.
+
+## A Final Solution?
+
+Here's a variant that creates the `RoomVM` once when the view appears, and only recreates when the `name` property changes:
+
+```swift
+struct RoomView3: View {
+    var name: String
+    @State private var viewModel: RoomVM?
+
+    var body: some View {
+        ZStack {
+            if let viewModel {
+                RoomView3Helper(viewModel: viewModel)
+            }
+        }
+        .onChange(of: name, initial: true) {
+            self.viewModel = RoomVM(roomName: name)
+        }
+    }
+}
+
+struct RoomView3Helper: View {
+    @Bindable var viewModel: RoomVM
+
+    var body: some View {
+        LabeledContent(viewModel.roomName) {
+            Stepper("\(viewModel.count)", value: $viewModel.count)
+        }
+    }
+}
+```
+
+The code is way less clean than what we started with, but at least it's correct and efficient. I wonder if there's an cleaner way to write the code above, or if this is really what we need to resort to.
+
+## Conclusion
 
 One of the hardest parts about this problem is that, initially, our code seemed to work correctly. It seemed to just do the right thing. It's hard to catch this problem during testing, but as long as you stick to the private/initial value rules, you'll never have that problem. If you do need to break the rule, pay extra attention and add on `onChange(of:)` for every property that your view model depends on.
+
+## Updates
+
+*May 7*: Added a version that doesn't recreate the model every single time the `init runs.
