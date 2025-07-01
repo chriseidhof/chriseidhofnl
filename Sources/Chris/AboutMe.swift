@@ -44,8 +44,8 @@ struct AboutMe: Rule {
 
         I enjoy speaking at conferences. Here are two recent talks:
         
-        - [A Day in the Life of a SwiftUI View](/presentations/day-in-the-life) (Toronto, 2023)
         - [SwiftUI Animations](/presentations/swiftui-animations) (Paris, 2024)
+        - [Attribute Graph](/presentations/attribute-graph) (Cupertino, 2025)
         
         I'll try to add more presentations here in the future.
 
