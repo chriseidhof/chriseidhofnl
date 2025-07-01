@@ -8,6 +8,20 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Presentation: Attribute Graph</title>
+			<description>
+				&lt;p&gt;
+	I gave a talk about my understanding of the Attribute Graph. I created a &lt;a href=&quot;http://chris.eidhof.nl/presentations/attribute-graph/&quot;&gt;presentation page&lt;/a&gt; that contains the video, an edited transcript and some references.
+&lt;/p&gt;
+&lt;p&gt;
+	It was really fun creating the talk: I used my “record typing” tool to automate the typing and animate the graph, preview and other bits. The graphs are draw in SwiftUI, but the layout is done in GraphViz.
+&lt;/p&gt;
+			</description>
+			<pubDate>Tue, 01 Jul 2025 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/attribute-graph-presentation</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/attribute-graph-presentation</guid>
+		</item>
+		<item>
 			<title>SwiftUI View Model Ownership</title>
 			<description>
 				&lt;p&gt;
@@ -1060,23 +1074,6 @@ struct RoomView3Helper: View {
 			<pubDate>Mon, 30 Sep 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-39</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-39</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 39</title>
-			<description>
-				&lt;p&gt;
-	I spent most of last week preparing for my talk in Paris (which is this week). I’ll be doing a code-typing-simulation on stage, where it looks as if someone’s typing but in reality it’s me pressing the keys on the presentation clicker. I made big improvements to “both parts” of the technology behind it: it’s now much easier for me to record things, and the playback works better as well. The cool thing is that the presentation fully supports dynamic type on the Mac, so even during the presentation I’m able to resize things if needed.
-&lt;/p&gt;
-&lt;p&gt;
-	I’m still injured and have really been enjoying the gravel riding. Both my technique and my bike-specific endurance get a little better every week, which is always a great feeling. I don’t really miss the running, except when I pack for a trip and don’t bring any running gear.
-&lt;/p&gt;
-&lt;p&gt;
-	I’m trying to fly less, and both of my trips this month have been long international train rides. Even the 10 hour train ride to Paris went really well, I was able to just sit, look out the window, work, listen to things and read. For some reason it felt more relaxing than a short flight.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 23 Sep 2024 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-38</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-38</guid>
 		</item>
 	</channel>
 </rss>
