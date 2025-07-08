@@ -2,7 +2,6 @@
 date: 2025-07-08
 title: Agentic Coding
 headline: Experimenting with SwiftUI
-published: false
 ---
 
 I teach SwiftUI for a living. Through our [workshops](https://www.swiftuifieldguide.com/workshops/), books, and videos we try to help people build a mental model of how SwiftUI works as well as show some of the details. I really, really enjoy doing that and have built a successful lifestyle business doing just that.
@@ -39,7 +38,7 @@ I did find that getting better at prompting really can improve the results you'r
 
 Things are changing *so* quickly. It's hard to keep up with new things, what might have been true last month is not true anymore this month. My setup is pretty simple: I mainly use Claude Code and the Claude desktop app. 
 
-I often "feel bad" about deleting code that was just written. The AI will often just write the wrong thing. I take full responsibility for this (I need to improve my instructions). It's okay to delete the just-generated code, ignore the responses and start over. However, I do still anthropomorphize the LLM: it'd be hard to tell a human to throw away what they just did, and I still feel a bit bad about it when doing that to the LLM.
+I often "feel bad" about deleting code that was just written. The AI will often just write the wrong thing. I take full responsibility for the result (I either need to improve my instructions or write it myself). It's okay to delete the just-generated code, ignore the responses and start over. However, I do still anthropomorphize the LLM: it'd be hard to tell a human to throw away what they just did, and I still feel a bit bad about it when doing that to the LLM.
 
 I'll have the LLM do non-code stuff as well. For example, you can tell Claude Code to create a git commit, to set up parts of your dev environment, and so on.
 
