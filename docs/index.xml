@@ -8,6 +8,40 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>LLMs for &quot;Real Projects&quot;</title>
+			<description>
+				&lt;p&gt;
+	When I have an LLM assistant write prototypes in a language that I don’t know, my prompts are high-level and focused on features, not implementation. For simple projects, often a one-shot approach works. For example, I’ll say:
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		take these notes from my therapist and help me build a simple react app that asks me those questions.
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	For the project I was building above, I didn’t really care about the code, I just wanted it to work.
+&lt;/p&gt;
+&lt;p&gt;
+	When I write SwiftUI, I’d like to have a &lt;em&gt;lot&lt;/em&gt;
+	 more control, because that’s the domain I know. I care about the code. My prompts become a lot more technical and implementation-specific. For example, I said:
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		When hovering over an anchor/socket, propagate that anchor’s bounds, including its unit point up using a preference. The preference should contain an array of all the anchors that are currently hovered over.  I think we should do the bounds as an Anchor&amp;lt;CGRect&amp;gt;. Before we do this, we should extract the socket view out into its own view.
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	My prompts are typically smaller, but still: this prompt worked really well. I was already in the context of making edits to that node view that contained the sockets. The code it generated was very close to what I would’ve written myself.
+&lt;/p&gt;
+&lt;p&gt;
+	One interesting note: somewhat confusingly, I have anchors in my code that represent the sockets a node has (I’m building a small drawing app). Claude Code did not confuse them with SwiftUI’s builtin &lt;code&gt;Anchor&lt;/code&gt; values.
+&lt;/p&gt;
+			</description>
+			<pubDate>Wed, 09 Jul 2025 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/llms-real-code</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/llms-real-code</guid>
+		</item>
+		<item>
 			<title>Agentic Coding</title>
 			<description>
 				&lt;p&gt;
@@ -1200,23 +1234,6 @@ struct RoomView3Helper: View {
 			<pubDate>Mon, 14 Oct 2024 00:00:00 +0200</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-41</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-41</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 41</title>
-			<description>
-				&lt;p&gt;
-	As we are now tied to the school holidays, we made the best off of a few consecutive days off and went to the Netherlands to visit family last week. I did not bring my bike and went for a single bike ride on a mountain bike (on the completely flat roads). I did go for my first run in months, which was awesome. It was much harder than I remember running to be and I definitely had all kinds of soreness, but my injury didn’t get any worse.
-&lt;/p&gt;
-&lt;p&gt;
-	I worked a bit on my presentation for &lt;a href=&quot;https://pragmaconference.com&quot;&gt;Pragma Conference&lt;/a&gt;. Really looking forward to meeting everyone there as well as giving my talk. Because it’s the end of the year, all of a sudden we had a bunch of workshop requests, most of which are still not fully confirmed. Even though there’s just one quarter left, it’s not possible to tell whether the end of this year will be extremely busy or not.
-&lt;/p&gt;
-&lt;p&gt;
-	I also spent last week rewriting some of the internals of my typing recorder. It’s now a little easier for me to edit mistakes. This doesn’t work perfectly yet and there’s always a possibility of an edit breaking the entire document. I should probably at the very least implement undo and redo.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 07 Oct 2024 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-40</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-40</guid>
 		</item>
 	</channel>
 </rss>

@@ -1,0 +1,79 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			LLMs for &quot;Real Projects&quot; — Chris Eidhof
+		</title>
+		<meta content="LLMs for &quot;Real Projects&quot; — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/llms-real-code/og-image-36ec.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title">Chris Eidhof</a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								LLMs for &quot;Real Projects&quot;
+							</h1>
+							<h2 class="headline">
+								Different Kinds of Prompts
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								When I have an LLM assistant write prototypes in a language that I don’t know, my prompts are high-level and focused on features, not implementation. For simple projects, often a one-shot approach works. For example, I’ll say:
+							</p>
+							<blockquote>
+								<p>
+									take these notes from my therapist and help me build a simple react app that asks me those questions.
+								</p>
+							</blockquote>
+							<p>
+								For the project I was building above, I didn’t really care about the code, I just wanted it to work.
+							</p>
+							<p>
+								When I write SwiftUI, I’d like to have a <em>lot</em>
+								 more control, because that’s the domain I know. I care about the code. My prompts become a lot more technical and implementation-specific. For example, I said:
+							</p>
+							<blockquote>
+								<p>
+									When hovering over an anchor/socket, propagate that anchor’s bounds, including its unit point up using a preference. The preference should contain an array of all the anchors that are currently hovered over.  I think we should do the bounds as an Anchor&lt;CGRect&gt;. Before we do this, we should extract the socket view out into its own view.
+								</p>
+							</blockquote>
+							<p>
+								My prompts are typically smaller, but still: this prompt worked really well. I was already in the context of making edits to that node view that contained the sockets. The code it generated was very close to what I would’ve written myself.
+							</p>
+							<p>
+								One interesting note: somewhat confusingly, I have anchors in my code that represent the sockets a node has (I’m building a small drawing app). Claude Code did not confuse them with SwiftUI’s builtin <code>Anchor</code> values.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Jul 9, 2025</time>
+										 by Chris Eidhof 
+										(<a href="https://m.objc.io/@chris" rel="me">Mastodon</a>, <a href="https://bsky.app/profile/eidhof.nl">BSky</a>).</span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/agentic-coding">Agentic Coding
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
