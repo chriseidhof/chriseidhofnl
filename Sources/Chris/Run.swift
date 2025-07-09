@@ -31,6 +31,7 @@ struct Site: Rule {
         AboutMe().outputPath("about")
         Blog(posts: BlogPost.publishedInContext(), unpublished: BlogPost.unpublishedInContext())
         Snippets()
+        Pages(pages: pagesInContext())
 //        SwiftUIViews()
         Write(outputName: ".nojekyll", data: Data())
         Write(outputName: "CNAME", data: "chris.eidhof.nl".data(using: .utf8)!)
@@ -70,6 +71,15 @@ extension Rule {
             let old = g
             g = { env, node in f(env, old(env, node)) }
         })
+    }
+}
+
+func pagesInContext() -> [Page] {
+    do {
+        return try loadPages(in: baseEnvironment.inputBaseURL)
+    } catch {
+        print("Error loading pages: \(error)")
+        return []
     }
 }
 

@@ -1,0 +1,271 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			SwiftUI Best Practices — Chris Eidhof
+		</title>
+		<meta content="SwiftUI Best Practices — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title">Chris Eidhof</a>
+					</header>
+					<article>
+						<div class="prose max-w-none">
+							<div class="mb-8 border-b pb-6">
+								<h1>
+									SwiftUI Best Practices
+								</h1>
+								<p class="text-lg text-gray-600 mt-2">
+									A living guide to SwiftUI patterns, practices, and common pitfalls
+								</p>
+								<div class="flex flex-wrap gap-4 text-sm text-gray-500 mt-4">
+									<span>Created: 
+										<time datetime="2024-01-15">January 15th, 2024</time></span>
+									<span>Last updated: 
+										<time datetime="2025-01-09">January 9th, 2025</time></span>
+								</div>
+							</div>
+							<div class="mb-8 bg-gray-50 p-4 rounded-lg">
+								<details>
+									<summary class="cursor-pointer font-semibold">
+										Version History (4 updates)
+									</summary>
+									<div class="mt-4 space-y-2">
+										<div class="flex gap-4 text-sm">
+											<time class="text-gray-500 min-w-[100px]" datetime="2025-01-09">January 9th, 2025</time>
+											<span>Expanded section on navigation patterns</span>
+										</div>
+										<div class="flex gap-4 text-sm">
+											<time class="text-gray-500 min-w-[100px]" datetime="2024-11-01">November 1st, 2024</time>
+											<span>Added examples for custom view modifiers</span>
+										</div>
+										<div class="flex gap-4 text-sm">
+											<time class="text-gray-500 min-w-[100px]" datetime="2024-06-15">June 15th, 2024</time>
+											<span>Updated performance tips with new Xcode 15 features</span>
+										</div>
+										<div class="flex gap-4 text-sm">
+											<time class="text-gray-500 min-w-[100px]" datetime="2024-03-20">March 20th, 2024</time>
+											<span>Added section on @StateObject vs @ObservedObject</span>
+										</div>
+									</div>
+								</details>
+							</div>
+							<p>
+								This page documents SwiftUI best practices that I’ve learned through experience. It’s updated regularly as new patterns emerge and the framework evolves.
+							</p>
+							<h2>
+								State Management
+							</h2>
+							<h3>
+								@State vs @StateObject
+							</h3>
+							<p>
+								Use <code>@State</code> for simple value types:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">count</span> = <span class="hljs-number">0</span>
+    
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">Button</span>(<span class="hljs-string">"</span><span class="hljs-string">Count: </span>\(<span class="hljs-identifier">count</span>)<span class="hljs-string"></span><span class="hljs-string">"</span>) {
+            <span class="hljs-identifier">count</span> += <span class="hljs-number">1</span>
+        }
+    }
+}
+</code></pre>
+							<p>
+								Use <code>@StateObject</code> for reference types that your view owns:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">StateObject</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">viewModel</span> = <span class="hljs-identifier">ContentViewModel</span>()
+    
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-comment more"><span>// ...</span></span>
+    }
+}
+</code></pre>
+							<h3>
+								Avoid Capturing Self in Closures
+							</h3>
+							<p>
+								When passing closures to child views, be careful about capturing self:
+							</p>
+							<pre><code class="swift"><span class="hljs-comment">// ❌ Bad - captures self</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-identifier">ParentView</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">items</span>: [<span class="hljs-identifier">Item</span>] = []
+    
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">ChildView</span>(<span class="hljs-identifier">onTap</span>: { <span class="hljs-identifier">item</span> <span class="hljs-keyword">in</span>
+            <span class="hljs-identifier">items</span>.<span class="hljs-identifier">append</span>(<span class="hljs-identifier">item</span>) <span class="hljs-comment">// Captures self</span>
+        })
+    }
+}
+
+<span class="hljs-comment">// ✅ Good - use weak self or extract the action</span>
+<span class="hljs-keyword">struct</span> <span class="hljs-identifier">ParentView</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">items</span>: [<span class="hljs-identifier">Item</span>] = []
+    
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">ChildView</span>(<span class="hljs-identifier">onTap</span>: <span class="hljs-identifier">addItem</span>)
+    }
+    
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">addItem</span>(_ <span class="hljs-identifier">item</span>: <span class="hljs-identifier">Item</span>) {
+        <span class="hljs-identifier">items</span>.<span class="hljs-identifier">append</span>(<span class="hljs-identifier">item</span>)
+    }
+}
+</code></pre>
+							<h2>
+								Performance
+							</h2>
+							<h3>
+								Use Equatable for Complex Views
+							</h3>
+							<p>
+								For views with expensive body computations, conform to Equatable:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ExpensiveView</span>: <span class="hljs-identifier">View</span>, <span class="hljs-identifier">Equatable</span> {
+    <span class="hljs-keyword">let</span> <span class="hljs-identifier">data</span>: <span class="hljs-identifier">ComplexData</span>
+    
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-comment">// Expensive computation</span>
+    }
+    
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">func</span> == (<span class="hljs-identifier">lhs</span>: <span class="hljs-keyword">Self</span>, <span class="hljs-identifier">rhs</span>: <span class="hljs-keyword">Self</span>) -> <span class="hljs-identifier">Bool</span> {
+        <span class="hljs-identifier">lhs</span>.<span class="hljs-identifier">data</span>.<span class="hljs-identifier">id</span> == <span class="hljs-identifier">rhs</span>.<span class="hljs-identifier">data</span>.<span class="hljs-identifier">id</span>
+    }
+}
+</code></pre>
+							<h3>
+								Avoid AnyView When Possible
+							</h3>
+							<p><code>AnyView</code> erases type information and can hurt performance:
+							</p>
+							<pre><code class="swift"><span class="hljs-comment">// ❌ Bad</span>
+<span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+    <span class="hljs-identifier">AnyView</span>(
+        <span class="hljs-identifier">condition</span> ? <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">A</span><span class="hljs-string">"</span>) : <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">B</span><span class="hljs-string">"</span>)
+    )
+}
+
+<span class="hljs-comment">// ✅ Good</span>
+<span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">if</span> <span class="hljs-identifier">condition</span> {
+        <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">A</span><span class="hljs-string">"</span>)
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">B</span><span class="hljs-string">"</span>)
+    }
+}
+</code></pre>
+							<h2>
+								Navigation
+							</h2>
+							<h3>
+								NavigationStack Best Practices
+							</h3>
+							<p>
+								Use value-based navigation with NavigationStack:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">path</span> = <span class="hljs-identifier">NavigationPath</span>()
+    
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">NavigationStack</span>(<span class="hljs-identifier">path</span>: <span class="hljs-identifier">$path</span>) {
+            <span class="hljs-identifier">List</span> {
+                <span class="hljs-identifier">NavigationLink</span>(<span class="hljs-string">"</span><span class="hljs-string">Settings</span><span class="hljs-string">"</span>, <span class="hljs-identifier">value</span>: <span class="hljs-identifier">Route</span>.<span class="hljs-identifier">settings</span>)
+                <span class="hljs-identifier">NavigationLink</span>(<span class="hljs-string">"</span><span class="hljs-string">Profile</span><span class="hljs-string">"</span>, <span class="hljs-identifier">value</span>: <span class="hljs-identifier">Route</span>.<span class="hljs-identifier">profile</span>)
+            }
+            .<span class="hljs-identifier">navigationDestination</span>(<span class="hljs-identifier">for</span>: <span class="hljs-identifier">Route</span>.<span class="hljs-keyword">self</span>) { <span class="hljs-identifier">route</span> <span class="hljs-keyword">in</span>
+                <span class="hljs-keyword">switch</span> <span class="hljs-identifier">route</span> {
+                <span class="hljs-keyword">case</span> .<span class="hljs-identifier">settings</span>: <span class="hljs-identifier">SettingsView</span>()
+                <span class="hljs-keyword">case</span> .<span class="hljs-identifier">profile</span>: <span class="hljs-identifier">ProfileView</span>()
+                }
+            }
+        }
+    }
+}
+</code></pre>
+							<h2>
+								Custom View Modifiers
+							</h2>
+							<p>
+								Create reusable view modifiers for consistent styling:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">CardStyle</span>: <span class="hljs-identifier">ViewModifier</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">body</span>(<span class="hljs-identifier">content</span>: <span class="hljs-identifier">Content</span>) -> some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">content</span>
+            .<span class="hljs-identifier">padding</span>()
+            .<span class="hljs-identifier">background</span>(<span class="hljs-identifier">Color</span>.<span class="hljs-identifier">white</span>)
+            .<span class="hljs-identifier">cornerRadius</span>(<span class="hljs-number">10</span>)
+            .<span class="hljs-identifier">shadow</span>(<span class="hljs-identifier">radius</span>: <span class="hljs-number">5</span>)
+    }
+}
+
+<span class="hljs-keyword">extension</span> <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">cardStyle</span>() -> some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">modifier</span>(<span class="hljs-identifier">CardStyle</span>())
+    }
+}
+
+<span class="hljs-comment">// Usage</span>
+<span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Hello</span><span class="hljs-string">"</span>)
+    .<span class="hljs-identifier">cardStyle</span>()
+</code></pre>
+							<h2>
+								Common Pitfalls
+							</h2>
+							<h3>
+								Don’t Create Views in Computed Properties
+							</h3>
+							<pre><code class="swift"><span class="hljs-comment">// ❌ Bad - creates new view instance each time</span>
+<span class="hljs-keyword">var</span> <span class="hljs-identifier">headerView</span>: some <span class="hljs-identifier">View</span> {
+    <span class="hljs-identifier">HStack</span> {
+        <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Title</span><span class="hljs-string">"</span>)
+        <span class="hljs-identifier">Spacer</span>()
+        <span class="hljs-identifier">Button</span>(<span class="hljs-string">"</span><span class="hljs-string">Action</span><span class="hljs-string">"</span>) { }
+    }
+}
+
+<span class="hljs-comment">// ✅ Good - use @ViewBuilder or func</span>
+@<span class="hljs-identifier">ViewBuilder</span>
+<span class="hljs-keyword">var</span> <span class="hljs-identifier">headerView</span>: some <span class="hljs-identifier">View</span> {
+    <span class="hljs-identifier">HStack</span> {
+        <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Title</span><span class="hljs-string">"</span>)
+        <span class="hljs-identifier">Spacer</span>()
+        <span class="hljs-identifier">Button</span>(<span class="hljs-string">"</span><span class="hljs-string">Action</span><span class="hljs-string">"</span>) { }
+    }
+}
+</code></pre>
+							<h2>
+								Testing
+							</h2>
+							<p>
+								Test your view models separately from views:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">class</span> <span class="hljs-identifier">ContentViewModelTests</span>: <span class="hljs-identifier">XCTestCase</span> {
+    <span class="hljs-keyword">func</span> <span class="hljs-identifier">testItemAddition</span>() {
+        <span class="hljs-keyword">let</span> <span class="hljs-identifier">vm</span> = <span class="hljs-identifier">ContentViewModel</span>()
+        <span class="hljs-identifier">vm</span>.<span class="hljs-identifier">addItem</span>(<span class="hljs-string">"</span><span class="hljs-string">Test</span><span class="hljs-string">"</span>)
+        <span class="hljs-identifier">XCTAssertEqual</span>(<span class="hljs-identifier">vm</span>.<span class="hljs-identifier">items</span>.<span class="hljs-identifier">count</span>, <span class="hljs-number">1</span>)
+        <span class="hljs-identifier">XCTAssertEqual</span>(<span class="hljs-identifier">vm</span>.<span class="hljs-identifier">items</span>[<span class="hljs-number">0</span>], <span class="hljs-string">"</span><span class="hljs-string">Test</span><span class="hljs-string">"</span>)
+    }
+}
+</code></pre>
+							<hr/>
+							<p><em>This document is actively maintained. Last major update: January 2025</em>
+							</p>
+						</div>
+					</article>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
