@@ -22,10 +22,8 @@ struct NotesIndex {
                     }
                 } else {
                     h2 { "Recent Edits" }
-                    div {
-                        Node.fragment(pages.prefix(10).map { page in
-                            pageCard(page)
-                        })
+                    pages.prefix(10).map { page in
+                        pageCard(page)
                     }
 
                     h2 { "All Notes"}
@@ -41,33 +39,18 @@ struct NotesIndex {
     }
     
     @NodeBuilder func pageCard(_ page: Note) -> HTML.Node {
-        div {
-            h2 {
-                a(href: page.url) {
-                    page.metadata.title
-                }
+        div(class: "pageCard") {
+            a(href: page.url) {
+                page.metadata.title
             }
-            
-            if let description = page.metadata.description {
-                p { description }
-            }
-            
             div {
-                span {
-                    "Created: "
-                    page.createdDate.dateString
-                }
-
                 if let u = page.updatedDate {
-                    span {
-                        "Updated: "
+                    time {
                         u.dateString
                     }
-                }
-
-                if let changelog = page.metadata.changelog, !changelog.isEmpty {
-                    span {
-                        "\(changelog.count) revision\(changelog.count == 1 ? "" : "s")"
+                } else {
+                    time {
+                        page.createdDate.dateString
                     }
                 }
             }

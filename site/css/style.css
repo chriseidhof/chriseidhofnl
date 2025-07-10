@@ -190,6 +190,10 @@ article blockquote {
 
 }
 
+.pagecard {
+    padding-top: 1em;
+}
+
 article pre {
     background: var(--secondary-background-color);
     padding: 1em 1.5em;
