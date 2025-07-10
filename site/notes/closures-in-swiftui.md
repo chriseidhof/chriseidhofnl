@@ -42,4 +42,4 @@ SwiftUI itself doesn't typically pass functions through the environment. Instead
 
 Another option if you need to pass closures down the environment is to use a (stable) object. The identity of the object doesn't change and SwiftUI won't need to rerender views because of this.
 
-SwiftUI itself could have been modeled as view functions rather than `View` structs. Instead, [views are defunctionalized](http://localhost:8000/note/swiftui-views-are-functions/) to be able to compare for equality.
+SwiftUI itself could have been modeled as view functions rather than `View` structs. Instead, [views are defunctionalized](/note/swiftui-views-are-functions/) to be able to compare for equality.
