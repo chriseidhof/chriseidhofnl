@@ -3,7 +3,7 @@ import StaticSite
 import Yams
 import HTML
 
-struct Page {
+struct Note {
     struct Metadata: Codable {
         let title: String
         let slug: String?  // Optional custom URL
@@ -45,7 +45,7 @@ struct Page {
     }
 }
 
-extension Page {
+extension Note {
     init?(file: String, url: String) throws {
         let (yaml, markdown) = try file.parseMarkdownWithFrontMatter()
         guard let data = yaml else { return nil }
@@ -63,11 +63,11 @@ extension Page {
     }
     
     @NodeBuilder var page: HTML.Node {
-        PageView(page: self).body
+        NoteView(page: self).body
     }
 }
 
-func loadPages(in dir: URL) throws -> [Page] {
+func loadNotes(in dir: URL) throws -> [Note] {
     let fm = FileManager.default
     let pagesDir = dir.appendingPathComponent("notes")
 
@@ -82,16 +82,16 @@ func loadPages(in dir: URL) throws -> [Page] {
         let contents = try String(contentsOf: file, encoding: .utf8)
         let slug = file.deletingPathExtension().lastPathComponent
         let url = "/note/\(slug)/"
-        return try Page(file: contents, url: url)
+        return try Note(file: contents, url: url)
     }
 }
 
 struct Pages: Rule {
-    let pages: [Page]
+    let pages: [Note]
     
     var body: some Rule {
         // Generate index
-        WriteNode(outputName: "index.html", node: PagesIndex(pages: publishedPages).body)
+        WriteNode(outputName: "index.html", node: NotesIndex(pages: publishedPages).body)
             .outputPath("note")
             .title("Pages")
         
@@ -103,7 +103,7 @@ struct Pages: Rule {
         }
     }
     
-    var publishedPages: [Page] {
+    var publishedPages: [Note] {
         pages.filter(\.isPublished).sorted { p1, p2 in
             p1.lastModifiedDate > p2.lastModifiedDate
         }

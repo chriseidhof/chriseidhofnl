@@ -22,7 +22,6 @@ struct Site: Rule {
         Copy(from: "well-known", to: ".well-known")
         Index()
         Presentations()
-        Notes()
         remainder
     }
     
@@ -32,7 +31,7 @@ struct Site: Rule {
         Blog(posts: BlogPost.publishedInContext(), unpublished: BlogPost.unpublishedInContext())
         Snippets()
         Pages(pages: pagesInContext())
-//        SwiftUIViews()
+            .wrap(NotesTemplate())
         Write(outputName: ".nojekyll", data: Data())
         Write(outputName: "CNAME", data: "chris.eidhof.nl".data(using: .utf8)!)
         // TODO: aliases
@@ -74,9 +73,9 @@ extension Rule {
     }
 }
 
-func pagesInContext() -> [Page] {
+func pagesInContext() -> [Note] {
     do {
-        return try loadPages(in: baseEnvironment.inputBaseURL)
+        return try loadNotes(in: baseEnvironment.inputBaseURL)
     } catch {
         print("Error loading pages: \(error)")
         return []

@@ -2,8 +2,8 @@ import Foundation
 import HTML
 import Helpers
 
-struct PageView {
-    let page: Page
+struct NoteView {
+    let page: Note
     
     @NodeBuilder var body: HTML.Node {
         article {

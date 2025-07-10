@@ -2,25 +2,28 @@ import Foundation
 import HTML
 import Helpers
 
-struct PagesIndex {
-    let pages: [Page]
+struct NotesIndex {
+    let pages: [Note]
     
     @NodeBuilder var body: HTML.Node {
         article {
-            div(class: "prose max-w-none") {
-                h1 { "Notes" }
-
-                p(class: "text-lg text-gray-600") {
-                    "Living notes that evolve over time. These pages are updated with new insights, corrections, and improvements."
+            div{
+                p {
+                    "Living notes that evolve over time. These pages are updated with new insights, corrections, and improvements. Similar to a wiki but with a single editor."
                 }
-                
+
+                p {
+                    "These notes are not highly edited or finished articles. They are a collection of ideas, links and thoughts mainly for myself (but made public)."
+                }
+
                 if pages.isEmpty {
-                    p(class: "text-gray-500 italic") {
-                        "No pages available yet."
+                    p {
+                        "No notes available yet."
                     }
                 } else {
-                    div(class: "space-y-6 mt-8") {
-                        Node.fragment(pages.map { page in
+                    h2 { "Recent Edits" }
+                    div {
+                        Node.fragment(pages.prefix(10).map { page in
                             pageCard(page)
                         })
                     }
@@ -29,19 +32,19 @@ struct PagesIndex {
         }
     }
     
-    @NodeBuilder func pageCard(_ page: Page) -> HTML.Node {
-        div(class: "border rounded-lg p-6 hover:shadow-lg transition-shadow") {
-            h2(class: "text-xl font-semibold mb-2") {
-                a(class: "hover:underline", href: page.url) {
+    @NodeBuilder func pageCard(_ page: Note) -> HTML.Node {
+        div {
+            h2 {
+                a(href: page.url) {
                     page.metadata.title
                 }
             }
             
             if let description = page.metadata.description {
-                p(class: "text-gray-600 mb-3") { description }
+                p { description }
             }
             
-            div(class: "flex flex-wrap gap-4 text-sm text-gray-500") {
+            div {
                 span {
                     "Created: "
                     page.createdDate.dateString
@@ -55,7 +58,7 @@ struct PagesIndex {
                 }
 
                 if let changelog = page.metadata.changelog, !changelog.isEmpty {
-                    span(class: "text-blue-600") {
+                    span {
                         "\(changelog.count) revision\(changelog.count == 1 ? "" : "s")"
                     }
                 }
