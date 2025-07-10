@@ -88,13 +88,13 @@ func loadNotes(in dir: URL) throws -> [Note] {
     }
 }
 
-struct Pages: Rule {
+struct Notes: Rule {
     let pages: [Note]
     
     var body: some Rule {
         // Generate index
         WriteNode(outputName: "index.html", node: NotesIndex(pages: publishedPages).body)
-            .title("Pages")
+            .title("Notes")
         
         // Generate all notes page (alphabetically sorted)
         WriteNode(outputName: "index.html", node: AllNotesIndex(pages: pages).body)

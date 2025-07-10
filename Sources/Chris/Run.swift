@@ -30,7 +30,7 @@ struct Site: Rule {
         AboutMe().outputPath("about")
         Blog(posts: BlogPost.publishedInContext(), unpublished: BlogPost.unpublishedInContext())
         Snippets()
-        Pages(pages: pagesInContext())
+        Notes(pages: notesInContext())
             .outputPath("note")
             .wrap(NotesTemplate())
         Write(outputName: ".nojekyll", data: Data())
@@ -74,7 +74,7 @@ extension Rule {
     }
 }
 
-func pagesInContext() -> [Note] {
+func notesInContext() -> [Note] {
     do {
         return try loadNotes(in: baseEnvironment.inputBaseURL)
     } catch {
