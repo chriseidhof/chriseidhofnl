@@ -7,47 +7,39 @@ struct PageView {
     
     @NodeBuilder var body: HTML.Node {
         article {
-            div(class: "prose max-w-none") {
+            div(class: "") {
                 // Page header with title and metadata
-                div(class: "mb-8 border-b pb-6") {
+                div(class: "") {
                     h1 { page.metadata.title }
                     
                     if let description = page.metadata.description {
-                        p(class: "text-lg text-gray-600 mt-2") { description }
-                    }
-                    
-                    // Version information
-                    div(class: "flex flex-wrap gap-4 text-sm text-gray-500 mt-4") {
-                        span {
-                            "Created: "
-                            time(datetime: page.metadata.created) {
-                                page.createdDate.dateString
-                            }
-                        }
-
-                        if let u = page.metadata.updated, let d = page.updatedDate {
-                            span {
-                                "Last updated: "
-                                time(datetime: page.metadata.updated) {
-                                    d.dateString
-                                }
-                            }
-                        }
+                        p(class: "") { description }
                     }
                 }
                 
                 // Changelog section if present
+
+                // Main content
+                switch page.body {
+                case .markdown(let md):
+                    md.fromMarkdown
+                case .pieces(let pieces):
+                    pieces.render(prefix: page.url)
+                }
+
+                metadata
+
                 if let changelog = page.metadata.changelog, !changelog.isEmpty {
-                    div(class: "mb-8 bg-gray-50 p-4 rounded-lg") {
+                    div(class: "") {
                         details {
-                            summary(class: "cursor-pointer font-semibold") {
+                            summary(class: "") {
                                 "Version History (\(changelog.count) updates)"
                             }
-                            
-                            div(class: "mt-4 space-y-2") {
+
+                            div(class: "") {
                                 Node.fragment(changelog.reversed().map { entry in
-                                    div(class: "flex gap-4 text-sm") {
-                                        time(class: "text-gray-500 min-w-[100px]", datetime: entry.date) {
+                                    div(class: "") {
+                                        time(class: "", datetime: entry.date) {
                                             PostDate(string: entry.date).dateString
                                         }
                                         span { entry.summary }
@@ -57,18 +49,34 @@ struct PageView {
                         }
                     }
                 }
-                
-                // Main content
-                switch page.body {
-                case .markdown(let md):
-                    md.fromMarkdown
-                case .pieces(let pieces):
-                    pieces.render(prefix: page.url)
+            }
+        }
+    }
+
+    @NodeBuilder var metadata: HTML.Node {
+        div(class: "metadata") {
+            span {
+                span(class: "key") {
+                    "Created: "
+                }
+                time(datetime: page.metadata.created) {
+                    page.createdDate.dateString
+                }
+            }
+
+            if let u = page.metadata.updated, let d = page.updatedDate {
+                span {
+                    span(class: "key") {
+                        "Last updated: "
+                    }
+                    time(datetime: u) {
+                        d.dateString
+                    }
                 }
             }
         }
     }
-    
+
     
     @NodeBuilder var authorAndDate: HTML.Node {
         address {

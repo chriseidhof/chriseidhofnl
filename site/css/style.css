@@ -174,6 +174,22 @@ article blockquote {
     margin-right: 0;
 }
 
+.metadata {
+    padding: 1em 1em;
+    color: var(--secondary-color);
+    /* Add rounded corners */
+    border-radius: 6px;
+    /* Add background to make it stand out more */
+    background: var(--secondary-background-color);
+    /* Add margin for better spacing */
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 2em;
+
+    font-family: monospace;     /* Code-like font */
+
+}
+
 article pre {
     background: var(--secondary-background-color);
     padding: 1em 1.5em;

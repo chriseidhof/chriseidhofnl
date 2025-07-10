@@ -21,23 +21,19 @@
 					</header>
 					<b>Please don&apos;t share this, it&apos;s an unpublished note</b>
 					<div class="post">
-						<h1>
-							Layout using the Attribute Graph
-						</h1>
+						<hr/>
+						<h2>
+							title: “SwiftUI Views are Functions”
+							created: 2025-07-10
+						</h2>
 						<p>
-							Let’s imagine we have an stack with two children:
+							See also: <a href="/note/defunctionalization">Defunctionalization</a>.
 						</p>
-						<pre><code class="swift"><span class="hljs-identifier">HStack</span> {
-    <span class="hljs-identifier">Color</span>.<span class="hljs-identifier">blue</span>
-    <span class="hljs-identifier">Nested</span>() 
-}
-</code></pre>
 						<p>
-							I think these are the constraints that happen when we lay out the following view:
+							You can think of a SwiftUI view as a defunctionalized function. The parameters to the function are the properties of the struct. The body is the return type of the function. We cannot call the function ourselves: instead, the framework can call it. It passes in things like the environment, the attribute graph handlers (e.g. to create new nodes, etc). The <code>body</code> contains the return type of the function call.
 						</p>
-						<p><img src="/images/media/2024-11-1208-20PastedImage.png" title/></p>
 						<p>
-							In other words, whenever either the color or the nested view changes its structure or internal state (e.g. the nested could have an internal state prop that causes it to reevaluate its body) the layout computer is marked as potentially dirty. It then relayouts. The actual size/position of either child is then dependent on the result of that (captured in <code>ChildGeometries</code>). This way, there is no cycle.
+							SwiftUI views are defunctionalized so that they can be compared for equality and prevent unnecessary view updates.
 						</p>
 					</div>
 				</section>

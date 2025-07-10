@@ -69,8 +69,8 @@ extension Page {
 
 func loadPages(in dir: URL) throws -> [Page] {
     let fm = FileManager.default
-    let pagesDir = dir.appendingPathComponent("pages")
-    
+    let pagesDir = dir.appendingPathComponent("notes")
+
     guard fm.fileExists(atPath: pagesDir.path) else {
         return []
     }
@@ -81,7 +81,7 @@ func loadPages(in dir: URL) throws -> [Page] {
     return try files.compactMap { file in
         let contents = try String(contentsOf: file, encoding: .utf8)
         let slug = file.deletingPathExtension().lastPathComponent
-        let url = "/pages/\(slug)/"
+        let url = "/note/\(slug)/"
         return try Page(file: contents, url: url)
     }
 }
@@ -92,7 +92,7 @@ struct Pages: Rule {
     var body: some Rule {
         // Generate index
         WriteNode(outputName: "index.html", node: PagesIndex(pages: publishedPages).body)
-            .outputPath("pages")
+            .outputPath("note")
             .title("Pages")
         
         // Generate individual pages

@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+		<meta content="Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title">Chris Eidhof</a>
+					</header>
+					<b>Please don&apos;t share this, it&apos;s an unpublished note</b>
+					<div class="post">
+						<hr/>
+						<h2>
+							title: “Defunctionalization”
+							created: 2025-07-10
+						</h2>
+						<p>
+							Defunctionalization is the art of turning a functional program into a defunctionalized one. You can do this by first converting everything to CPS and then turning every continuation into an enum case. The captured variables are values of the enum case. You can also do this without CPS but replace similar calls with an enum + apply function. In order for this to work, all calls need to have the same type.
+						</p>
+						<p>
+							In essence, this is what actions in something like TEA (The Elm Architecture) or TCA represent: defunctionalized method calls (or callbacks). For example, instead of executing some code on a button handler, you return an action (enum value) which then gets interpreted separately. This can make testing and tracing easier.
+						</p>
+						<p>
+							You can also use this technique to serialize continuations or turn recursive programs into iterative ones. When combined with CPS you can turn a complicated recursive program into a state machine. For example, you could use this to take something like Wadler’s pretty printers and turn the (lazy Haskell) functional version into an iterative one.
+						</p>
+						<p>
+							We have used this at least twice in the Swift Talk backend: once to separate route parsing from interpreting (through an intermediate <a href="https://talk.objc.io/episodes/S01E45-routing">route enum</a>) and once to <a href="https://github.com/objcio/swift-talk-backend/blob/4c8a67e7fecaa15d8f4a303abfa7dae978ca4e30/Sources/SwiftTalkServerLib/ScheduledTasks.swift#L43-L46">defunctionalize tasks</a> that are to be run at a later time (the enum captures the closure context).
+						</p>
+						<p>
+							You can think of SwiftUI view structs as <a href="/note/swiftui-views-are-functions">defunctionalized view-building functions</a>. This helps explain some behavior. For example, <code>Color</code> is a function that uses the environment as its input to produce a resolved color.
+						</p>
+						<h2>
+							Techniques
+						</h2>
+						<p>
+							You can create a big enum. What SwiftUI does instead is interesting as well: they create a protocol instead. This will not allow you to check the different cases easily (e.g. like you would do with a parser enum or regex enum) but it does allow you to have an <code>apply</code> method that takes in additional context (e.g. the environment or other things).
+						</p>
+					</div>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

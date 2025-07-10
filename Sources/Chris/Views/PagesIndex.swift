@@ -8,10 +8,10 @@ struct PagesIndex {
     @NodeBuilder var body: HTML.Node {
         article {
             div(class: "prose max-w-none") {
-                h1 { "Pages" }
-                
+                h1 { "Notes" }
+
                 p(class: "text-lg text-gray-600") {
-                    "Living documents that evolve over time. These pages are regularly updated with new insights, corrections, and improvements."
+                    "Living notes that evolve over time. These pages are updated with new insights, corrections, and improvements."
                 }
                 
                 if pages.isEmpty {

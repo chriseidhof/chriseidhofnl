@@ -1,0 +1,105 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Attribute Graph — Chris Eidhof
+		</title>
+		<meta content="Attribute Graph — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title">Chris Eidhof</a>
+					</header>
+					<article>
+						<div class>
+							<div class>
+								<h1>
+									Attribute Graph
+								</h1>
+							</div>
+							<p>
+								The Attribute Graph is the system that turns SwiftUI views into an incremental program. It works by building a Directed Acyclic Graph of dependencies. It is based on the ideas of the <a href="https://repository.gatech.edu/entities/publication/50e6cde9-93e5-41f3-8a69-c7557ac58b2e">eval/vite system</a>. The “big idea” is that when a node in the graph becomes invalid (e.g. a state node changes) it recursively marks all dependent nodes as “potentially invalid”. It also marks its direct outgoing edges as “pending”. Whenever a node is requested (e.g. a display list output node), it goes through the following process to recompute:
+							</p>
+							<ul>
+								<li>
+									<p>
+										If the node isn’t marked as potentially dirty, it uses the previous (cached) value.
+									</p>
+								</li>
+								<li>
+									<p>
+										Otherwise, the node recomputes every incoming edge.
+									</p>
+								</li>
+								<li>
+									<p>
+										If the node now has incoming pending edges, it recomputes itself, otherwise, nothing has changed so it doesn’t need to recompute.
+									</p>
+								</li>
+								<li>
+									<p>
+										The node marks all its incoming edges as not pending
+									</p>
+								</li>
+							</ul>
+							<p>
+								(When there is an edge <code>A -&gt; B</code> we say that <code>A</code> has an outgoing edge to <code>B</code> and <code>B</code> has an incoming edge from <code>A</code>. These are the same edge reference type, e.g. changing the pending state in the outgoing edge also changes the pending state of the corresponding incoming edge).
+							</p>
+							<p>
+								In the paper, an optimization is described for optional/conditional branches. For example, if we have a dependency on an if-statement, we only want to evaluate the body if the condition does not change.
+							</p>
+							<p>
+								The attribute graph is one way to implement <a href="/note/incremental-programming">Incremental Computing</a> by only computing what’s needed. It feels like phase one (marking all dependent nodes as potentially dirty) might be a bit expensive, but somehow that information needs to be propagated anyway. The underlying idea is much more general than just SwiftUI, it’s akin to something like a build system (in fact, you can <a href="https://talk.objc.io/episodes/S01E457-swiftui-as-static-site-generator-part-5">use it as a build system</a>).
+							</p>
+							<h2>
+								Related
+							</h2>
+							<ul>
+								<li>
+									<p><a href="/note/attribute-graph-in-swiftui">Attribute Graph in SwiftUI</a></p>
+								</li>
+								<li>
+									<p><a href="/note/attribute-graph-implementations">Attribute Graph Implementations</a></p>
+								</li>
+								<li>
+									<p><a href="/presentations/attribute-graph/">Presentation: Attribute Graph</a></p>
+								</li>
+							</ul>
+							<h2>
+								External
+							</h2>
+							<ul>
+								<li>
+									<p><a href="https://rensbr.eu/blog/swiftui-attribute-graph/">Untangling the AttributeGraph</a> by Rens Breur. This article really helped me understand things. You can see the three different states (up-to-date, pending and potentially dirty) as different colors in Rens’s diagrams.
+									</p>
+								</li>
+								<li>
+									<p><a href="https://github.com/OpenSwiftUIProject/AGDebugKit">AGDebugKit</a> will help you visualize the <em>real</em>
+										 attribute graph.
+									</p>
+								</li>
+								<li>
+									<p><a href="https://developer.apple.com/videos/play/wwdc2025/306?time=1226">Optimize SwiftUI Performance with Instruments</a> (WWDC Video). This also explicitly talks about the Attribute Graph.
+									</p>
+								</li>
+							</ul>
+							<div class="metadata">
+								<span><span class="key">Created: </span>
+									<time datetime="2025-07-10">July 10th, 2025</time></span>
+							</div>
+						</div>
+					</article>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

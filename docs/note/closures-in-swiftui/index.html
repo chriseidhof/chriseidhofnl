@@ -1,0 +1,93 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Closures in SwiftUI — Chris Eidhof
+		</title>
+		<meta content="Closures in SwiftUI — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title">Chris Eidhof</a>
+					</header>
+					<article>
+						<div class>
+							<div class>
+								<h1>
+									Closures in SwiftUI
+								</h1>
+							</div>
+							<p>
+								Main pages:
+							</p>
+							<ul>
+								<li>
+									<p><a href="/note/attribute-graph">Attribute Graph</a></p>
+								</li>
+								<li>
+									<p><a href="/note/attribute-graph-in-swiftui">Attribute Graph in SwiftUI</a>.
+									</p>
+								</li>
+								<li>
+									<p><a href="/note/swiftui-view-equality">SwiftUI View Equality</a>.
+									</p>
+								</li>
+							</ul>
+							<p>
+								In general, closures cannot be compared for equality. This can cause unnecessary view invalidations. For example, consider the view below. Instead of passing <code>value</code> as an <code>Int</code> we pass a closure that computes the <code>Int</code>. Every time the <code>unrelated</code> state property changes, the <code>Nested</code> body is recomputed (we can see this because of the color change). If we pass the <code>value</code> as an <code>Int</code> instead, the recompution doesn’t happen.
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Nested</span>: <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">value</span>: () -> <span class="hljs-identifier">Int</span>
+
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Value: </span>\(<span class="hljs-identifier">value</span>())<span class="hljs-string"></span><span class="hljs-string">"</span>)
+            .<span class="hljs-identifier">background</span>(<span class="hljs-identifier">Color</span>(<span class="hljs-identifier">hue</span>: .<span class="hljs-identifier">random</span>(<span class="hljs-identifier">in</span>: <span class="hljs-number">0</span>...<span class="hljs-number">1</span>), <span class="hljs-identifier">saturation</span>: <span class="hljs-number">0.8</span>, <span class="hljs-identifier">brightness</span>: <span class="hljs-number">0.8</span>))
+    }
+}
+
+<span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">value</span> = <span class="hljs-number">0</span>
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">unrelated</span> = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">VStack</span> {
+            <span class="hljs-identifier">Nested</span>(<span class="hljs-identifier">value</span>: { <span class="hljs-identifier">value</span> })
+            <span class="hljs-identifier">Button</span>(<span class="hljs-string">"</span><span class="hljs-string">Unrelated: </span>\(<span class="hljs-identifier">unrelated</span>)<span class="hljs-string"></span><span class="hljs-string">"</span>) {
+                <span class="hljs-identifier">unrelated</span> += <span class="hljs-number">1</span>
+            }
+        }
+    }
+}
+</code></pre>
+							<p>
+								In practice, this might not be a big deal for most views, but it could be something to keep in mind if you’re seeing more invalidations than expected.
+							</p>
+							<p>
+								SwiftUI itself doesn’t typically pass functions through the environment. Instead, it uses <a href="/note/defunctionalization">defunctionalization</a> to pass a value that implements <a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/declarations/#Methods-with-Special-Names"><code>callAsFunction</code></a>. This is done by e.g. <a href="https://developer.apple.com/documentation/swiftui/dismissaction/callasfunction()"><code>DismissAction</code></a>, <a href="https://developer.apple.com/documentation/swiftui/refreshaction/callasfunction()"><code>RefreshAction</code></a> and <a href="https://developer.apple.com/documentation/swiftui/openwindowaction"><code>OpenWindowAction</code></a>.
+							</p>
+							<p>
+								Another option if you need to pass closures down the environment is to use a (stable) object. The identity of the object doesn’t change and SwiftUI won’t need to rerender views because of this.
+							</p>
+							<p>
+								SwiftUI itself could have been modeled as view functions rather than <code>View</code> structs. Instead, <a href="http://localhost:8000/note/swiftui-views-are-functions/">views are defunctionalized</a> to be able to compare for equality.
+							</p>
+							<div class="metadata">
+								<span><span class="key">Created: </span>
+									<time datetime="2025-07-10">July 10th, 2025</time></span>
+							</div>
+						</div>
+					</article>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
