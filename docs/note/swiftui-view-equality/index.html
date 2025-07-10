@@ -33,12 +33,13 @@
 								Main pages: <a href="/note/attribute-graph">Attribute Graph</a> and <a href="/note/attribute-graph-in-swiftui">Attribute Graph in SwiftUI</a>.
 							</p>
 							<p>
-								When a view gets marked as potentially dirty in the Attribute Graph, SwiftUI will compare the previous and next values. If it can “prove” the view is the same as before, it doesn’t need to reevaluate the view’s <code>body</code>. I’m not 100% sure how this works, this my current mental model:
+								When a view gets marked as potentially dirty in the Attribute Graph, SwiftUI will compare the current and new value. If it can “prove” the view is the same as before, it doesn’t need to reevaluate the view’s <code>body</code>. I’m not 100% sure how this works, this my current mental model:
 							</p>
 							<ul>
 								<li>
 									<p>
-										SwiftUI will look at all the properties of the struct and try to compare them. To compare it tries <code>Equatable</code>’s <code>==</code>, but will also do <code>memcmp</code></p>
+										SwiftUI will look at all the properties of the struct and try to compare them. To compare it tries <code>Equatable</code>’s <code>==</code>, but will also do <code>memcmp</code>.
+									</p>
 								</li>
 								<li>
 									<p>
@@ -52,6 +53,9 @@
 							<h2>
 								References
 							</h2>
+							<p>
+								John Harper (SwiftUI team) explains this in more detail:
+							</p>
 							<blockquote>
 								<p>
 									SwiftUI assumes any Equatable.== is a true equality check, so for POD views it compares each field directly instead (via reflection). For non-POD views it prefers the view’s == but falls back to its own field compare if no ==. EqView is a way to force the use of ==.

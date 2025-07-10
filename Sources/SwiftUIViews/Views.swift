@@ -33,9 +33,9 @@ struct AnySample {
     var code: String
 }
 
-fileprivate let all: [AnySample] {
+fileprivate let all: [AnySample] = [
     PlainButton().any
-}
+]
 
 struct PlainButton: Sample {
     var code: String {

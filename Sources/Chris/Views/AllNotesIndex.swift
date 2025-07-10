@@ -2,41 +2,36 @@ import Foundation
 import HTML
 import Helpers
 
-struct NotesIndex {
+struct AllNotesIndex {
     let pages: [Note]
     
     @NodeBuilder var body: HTML.Node {
         article {
             div{
+                h1 { "All Notes" }
+                
                 p {
-                    "These notes are updated with new insights, corrections, and improvements. Similar to a wiki but with a single editor, updated on an irregular basis."
+                    "Complete collection of notes, sorted alphabetically by title."
                 }
-
-                p {
-                    "These notes are not highly edited or finished articles. They are a collection of ideas, links and thoughts mainly for myself (but made public)."
-                }
-
+                
                 if pages.isEmpty {
                     p {
                         "No notes available yet."
                     }
                 } else {
-                    h2 { "Recent Edits" }
                     div {
-                        Node.fragment(pages.prefix(10).map { page in
+                        Node.fragment(sortedPages.map { page in
                             pageCard(page)
                         })
                     }
-
-                    h2 { "All Notes"}
-
-                    p {
-                        a(href: "/note/all/") {
-                            "View all notes alphabetically →"
-                        }
-                    }
                 }
             }
+        }
+    }
+    
+    var sortedPages: [Note] {
+        pages.filter(\.isPublished).sorted { p1, p2 in
+            p1.metadata.title.lowercased() < p2.metadata.title.lowercased()
         }
     }
     
@@ -60,18 +55,11 @@ struct NotesIndex {
 
                 if let u = page.updatedDate {
                     span {
-                        "Updated: "
+                        " • Updated: "
                         u.dateString
-                    }
-                }
-
-                if let changelog = page.metadata.changelog, !changelog.isEmpty {
-                    span {
-                        "\(changelog.count) revision\(changelog.count == 1 ? "" : "s")"
                     }
                 }
             }
         }
     }
-    
 }

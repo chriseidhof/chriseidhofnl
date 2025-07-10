@@ -31,6 +31,7 @@ struct Site: Rule {
         Blog(posts: BlogPost.publishedInContext(), unpublished: BlogPost.unpublishedInContext())
         Snippets()
         Pages(pages: pagesInContext())
+            .outputPath("note")
             .wrap(NotesTemplate())
         Write(outputName: ".nojekyll", data: Data())
         Write(outputName: "CNAME", data: "chris.eidhof.nl".data(using: .utf8)!)

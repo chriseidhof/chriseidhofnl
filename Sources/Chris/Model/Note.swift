@@ -4,9 +4,10 @@ import Yams
 import HTML
 
 struct Note {
+    var slug: String
+
     struct Metadata: Codable {
         let title: String
-        let slug: String?  // Optional custom URL
         let created: String
         let updated: String?
         let changelog: [ChangeEntry]?
@@ -46,12 +47,13 @@ struct Note {
 }
 
 extension Note {
-    init?(file: String, url: String) throws {
+    init?(file: String, url: String, slug: String) throws {
         let (yaml, markdown) = try file.parseMarkdownWithFrontMatter()
         guard let data = yaml else { return nil }
         let decoder = YAMLDecoder()
         self.metadata = try decoder.decode(Metadata.self, from: data)
         self.url = url
+        self.slug = slug
         self.body = .markdown(markdown)
     }
     
@@ -82,7 +84,7 @@ func loadNotes(in dir: URL) throws -> [Note] {
         let contents = try String(contentsOf: file, encoding: .utf8)
         let slug = file.deletingPathExtension().lastPathComponent
         let url = "/note/\(slug)/"
-        return try Note(file: contents, url: url)
+        return try Note(file: contents, url: url, slug: slug)
     }
 }
 
@@ -92,13 +94,17 @@ struct Pages: Rule {
     var body: some Rule {
         // Generate index
         WriteNode(outputName: "index.html", node: NotesIndex(pages: publishedPages).body)
-            .outputPath("note")
             .title("Pages")
+        
+        // Generate all notes page (alphabetically sorted)
+        WriteNode(outputName: "index.html", node: AllNotesIndex(pages: pages).body)
+            .outputPath("all")
+            .title("All Notes")
         
         // Generate individual pages
         ForEach(pages.filter(\.isPublished)) { page in
             WriteNode(outputName: "index.html", node: page.page)
-                .outputPath(page.url)
+                .outputPath(page.slug)
                 .title(page.metadata.title)
         }
     }
