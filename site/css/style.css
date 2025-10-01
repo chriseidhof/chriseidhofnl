@@ -367,3 +367,9 @@ ul {
 article .unpublished p {
     color: var(--pink);
 }
+
+img.workshop-sim {
+    width: 50%;
+    border: 3px solid #ccc;
+    border-radius: 32px;
+}

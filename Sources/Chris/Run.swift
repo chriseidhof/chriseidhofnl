@@ -28,6 +28,7 @@ struct Site: Rule {
     @RuleBuilder
     var remainder: some Rule {
         AboutMe().outputPath("about")
+        WorkshopStarter().outputPath("workshop-starter")
         Blog(posts: BlogPost.publishedInContext(), unpublished: BlogPost.unpublishedInContext())
         Snippets()
         Notes(pages: notesInContext())

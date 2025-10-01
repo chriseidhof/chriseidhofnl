@@ -1,0 +1,116 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Chris Eidhof
+		</title>
+		<meta content="Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title">Chris Eidhof</a>
+					</header>
+					<h1>
+						Workshop Starter Project
+					</h1>
+					<p>
+						This is a starter project to get you acquainted with SwiftUI. Depending on your prior experience and time, you can either get very far, but just starting to work on it for even an hour can be a great preparation for the <a href="https://www.swiftuifieldguide.com/workshops">SwiftUI Workshop</a>. Don’t feel the pressure to finish anything, the goal of this project is to explore and spend time with SwiftUI, not to build a fully functional app. If there’s a specific part that interests you more, feel free to focus on that.
+					</p>
+					<h2>
+						Building a Reminders App
+					</h2>
+					<p>
+						In this project, we’ll build an app similar to Apple’s built-in Reminders app on your iPhone. Here’s what we ended up with:
+					</p>
+					<img src="/images/workshop-starter/step3.png" class="workshop-sim">
+
+					<h2>
+						Set up the structure
+					</h2>
+					<p>
+						Start a new Xcode project. Create a basic <code>Reminder</code> model struct that holds the title, whether the reminder is done and an optional date. Then, create some sample data (e.g. an array of sample reminders). Make sure your model conforms to the <a href="https://developer.apple.com/documentation/Swift/Identifiable"><code>Identifiable</code></a> protocol.
+					</p>
+					<h2>
+						Display a read-only version of the reminders
+					</h2>
+					<p>
+						Put the reminders in a <code>List</code>. Start by just display the title of each reminder. Then create a <code>ReminderView</code> view that displays the title, the list name (e.g. “Reminders”) and the date (when provided). At first, it could look like this. (Don’t focus on the styling just yet):
+					</p>
+					<img src="/images/workshop-starter/step0.png" class="workshop-sim">
+
+					<h2>
+						Make the reminders editable
+					</h2>
+					<p>
+						To make a reminder editable, you need to pass a <a href="https://developer.apple.com/documentation/SwiftUI/Binding">binding</a>. Accept a <code>Binding&lt;Reminder&gt;</code> rather than a regular <code>Reminder</code> value in the <code>ReminderView</code>. Then change your list to work on a binding rather than a regular array of reminders.
+					</p>
+					<p>
+						Once everything compiles, change the title to be a text field and add a <code>Toggle</code> to modify the <code>done</code> status.
+					</p>
+					<img src="/images/workshop-starter/step1.png" class="workshop-sim">
+
+					<h2>
+						Style the <code>ReminderView</code></h2>
+					<p>
+						Make sure your title is bold and the date has a secondary foreground style. To style the <code>Toggle</code>, you can create a custom <code>ToggleStyle</code>.
+					</p>
+					<h2>
+						Add an “Add Reminder” button
+					</h2>
+					<p>
+						Add a button to the bottom of the list. You can use the safe area insets to position it at the bottom. Use a custom button style to make it big and blue. The button doesn’t have to do anything.
+					</p>
+					<img src="/images/workshop-starter/step3.png" class="workshop-sim">
+
+					<h2>
+						More Ideas
+					</h2>
+					<p>
+						Can you implement more of the actual reminders app? For example, you could:
+					</p>
+					<ul>
+						<li>
+							<p>
+								Have custom animations (e.g. for checking off a reminder)
+							</p>
+						</li>
+						<li>
+							<p>
+								Have multiple lists of reminders
+							</p>
+						</li>
+						<li>
+							<p>
+								Implement the logic of adding a reminder (use the focus APIs)
+							</p>
+						</li>
+						<li>
+							<p>
+								Store the reminders persistently (e.g. using Codable or using Swift Data)
+							</p>
+						</li>
+						<li>
+							<p>
+								Store the reminders online (e.g. using a quick val.town backend)
+							</p>
+						</li>
+						<li>
+							<p>
+								Make it possible to see the details of a reminder
+							</p>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
