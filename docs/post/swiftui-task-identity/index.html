@@ -31,10 +31,10 @@
 						</header>
 						<section class="postbody">
 							<p>
-								When you write SwiftUI views, one of the big advantages over UIKit is that SwiftUI performs automatic dependency tracking. Whenever your model invalidates or one of your view’s properties change, your view is rerendered.
+								When you write SwiftUI views, one of the big advantages over UIKit is that SwiftUI performs automatic dependency tracking. Whenever your model invalidates or one of your view’s properties change, your view is re-rendered.
 							</p>
 							<p>
-								Consider the following view that loads an image. It runs the image loading code in a <code>task</code>. The task will run the first time the view appears, and everything seems to work fine:
+								Consider the following view that loads an image. It runs the image loading code in a <code>task</code>. The task will run the first time the view appears, and it seems to work:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ImageLoader</span>: <span class="hljs-identifier">View</span> {
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">url</span>: <span class="hljs-identifier">URL</span>
@@ -64,10 +64,10 @@
 }
 </code></pre>
 							<p>
-								However, there is a subtle bug in the initial code that is really hard to spot. The problem is: <code>task</code> runs the code exactly once — when the view appears. When the <code>url</code> property changes, the view’s body will be re-rendered, but the task will not be re-run as the view has already appeared. If you use <code>onAppear</code> instead of <code>task</code> you’ll have exactly the same problem.
+								However, there is a subtle bug in the initial code that is really hard to spot. The problem is that <code>task</code> runs the code exactly once — when the view appears. When the <code>url</code> property changes, the view’s body will be re-rendered, but the task will not be re-run as the view has already appeared. If you use <code>onAppear</code> instead of <code>task</code> you’ll have exactly the same problem.
 							</p>
 							<p>
-								We can verify this by changing our <code>ContentView</code>:
+								We can verify by changing our <code>ContentView</code>:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
     @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">height</span> = <span class="hljs-number">300</span>
@@ -86,8 +86,8 @@
 								The problem is our <code>task</code>: it runs when the view appears. And only when the view appears.
 							</p>
 							<blockquote>
-								<p><strong>Aside</strong>
-									 Unfortunately, <code>task</code> and <code>onAppear</code> are currently the best way to run code when a view gets created in the <a href="https://chris.eidhof.nl/note/attribute-graph/">attribute graph</a>. However, the concept of “view appearance” is not clearly defined in SwiftUI. The task will re-run when you (say) put the image loader in a <code>List</code> and scroll it out of bounds and back into bounds. Likewise, when you put the image loader in a tab view, the task will also run again when switching tabs.
+								<p><strong>Note</strong>
+									 Unfortunately, <code>task</code> and <code>onAppear</code> are currently the best way to run code when a view gets created in the <a href="https://chris.eidhof.nl/note/attribute-graph/">attribute graph</a>. However, the concept of “view appearance” is not clearly defined in SwiftUI. For example, the task will re-run when you put the image loader in a <code>List</code> and scroll it out of bounds and back into bounds. Likewise, when you put the image loader in a tab view, the task will also run again when switching tabs.
 								</p>
 							</blockquote>
 							<p>
@@ -115,13 +115,13 @@
 }
 </code></pre>
 							<p>
-								This now makes our code work correctly.
+								This now makes our code work correctly. The task will run initially, and when the identity changes, the previous task gets cancelled and a new task is created.
 							</p>
 							<h3>
 								Adding More Properties
 							</h3>
 							<p>
-								Let’s consider a slightly more complicated example. Here we have a <code>task</code> that depends on two properties, <code>baseURL</code> and <code>path</code>:
+								Let’s consider a slightly more complicated example. Here we have a <code>task</code> that depends on two properties, <code>baseURL</code> (from the environment) and <code>path</code> (a regular property):
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ImageLoader</span>: <span class="hljs-identifier">View</span> {
     @<span class="hljs-identifier">Environment</span>(\.<span class="hljs-identifier">baseURL</span>) <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">baseURL</span>
@@ -141,7 +141,7 @@
 </code></pre>
 							<p>
 								To make this work correctly, we now need to create a <em>compound</em>
-								 identity that combines both the <code>path</code> and <code>baseURL</code>, as the <code>task</code> depends on both. In general, you could solve this by taking all your dependencies and sticking them into an <code>[AnyHashable]</code>, for example by saying <code>[baseURL as AnyHashable, path as AnyHashable]</code>. In this specific example, we could actually pull out the <code>url</code> property — as it already combines both values — and use that as the identity:
+								 identity that combines both the <code>path</code> and <code>baseURL</code>, as the <code>task</code> depends on both. In addition, this value needs to conform to <code>Equatable</code>. An easy way to solve this is by taking all your dependencies and sticking them into an <code>[AnyHashable]</code>, for example by saying <code>[baseURL as AnyHashable, path as AnyHashable]</code>. In this specific example, we could actually pull out the <code>url</code> property — as it already combines both values — and use that as the identity:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ImageLoader</span>: <span class="hljs-identifier">View</span> {
     <span class="hljs-comment more"><span>// ...</span></span>
@@ -160,7 +160,7 @@
 								Here’s my advice: whenever you use <code>task</code> or <code>onAppear</code> in your code, be extremely careful about the dependencies. Make sure to review your code carefully, and ideally, have someone else review it as well.
 							</p>
 							<blockquote>
-								<p><strong>Aside</strong>
+								<p><strong>Note</strong>
 									 When you use <code>onAppear</code> instead of <code>task</code>, you can replace the <code>onAppear</code> with an <a href="https://developer.apple.com/documentation/swiftui/view/onchange(of:initial:_:)-4psgg"><code>onChange(of:initial:_:)</code></a>. As the <code>value</code>, you’d use the compound identity.
 								</p>
 							</blockquote>

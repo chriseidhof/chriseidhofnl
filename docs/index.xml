@@ -11,10 +11,10 @@
 			<title>Task Identity</title>
 			<description>
 				&lt;p&gt;
-	When you write SwiftUI views, one of the big advantages over UIKit is that SwiftUI performs automatic dependency tracking. Whenever your model invalidates or one of your view’s properties change, your view is rerendered.
+	When you write SwiftUI views, one of the big advantages over UIKit is that SwiftUI performs automatic dependency tracking. Whenever your model invalidates or one of your view’s properties change, your view is re-rendered.
 &lt;/p&gt;
 &lt;p&gt;
-	Consider the following view that loads an image. It runs the image loading code in a &lt;code&gt;task&lt;/code&gt;. The task will run the first time the view appears, and everything seems to work fine:
+	Consider the following view that loads an image. It runs the image loading code in a &lt;code&gt;task&lt;/code&gt;. The task will run the first time the view appears, and it seems to work:
 &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ImageLoader: View {
     var url: URL
@@ -44,10 +44,10 @@
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
-	However, there is a subtle bug in the initial code that is really hard to spot. The problem is: &lt;code&gt;task&lt;/code&gt; runs the code exactly once — when the view appears. When the &lt;code&gt;url&lt;/code&gt; property changes, the view’s body will be re-rendered, but the task will not be re-run as the view has already appeared. If you use &lt;code&gt;onAppear&lt;/code&gt; instead of &lt;code&gt;task&lt;/code&gt; you’ll have exactly the same problem.
+	However, there is a subtle bug in the initial code that is really hard to spot. The problem is that &lt;code&gt;task&lt;/code&gt; runs the code exactly once — when the view appears. When the &lt;code&gt;url&lt;/code&gt; property changes, the view’s body will be re-rendered, but the task will not be re-run as the view has already appeared. If you use &lt;code&gt;onAppear&lt;/code&gt; instead of &lt;code&gt;task&lt;/code&gt; you’ll have exactly the same problem.
 &lt;/p&gt;
 &lt;p&gt;
-	We can verify this by changing our &lt;code&gt;ContentView&lt;/code&gt;:
+	We can verify by changing our &lt;code&gt;ContentView&lt;/code&gt;:
 &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ContentView: View {
     @State private var height = 300
@@ -66,8 +66,8 @@
 	The problem is our &lt;code&gt;task&lt;/code&gt;: it runs when the view appears. And only when the view appears.
 &lt;/p&gt;
 &lt;blockquote&gt;
-	&lt;p&gt;&lt;strong&gt;Aside&lt;/strong&gt;
-		 Unfortunately, &lt;code&gt;task&lt;/code&gt; and &lt;code&gt;onAppear&lt;/code&gt; are currently the best way to run code when a view gets created in the &lt;a href=&quot;https://chris.eidhof.nl/note/attribute-graph/&quot;&gt;attribute graph&lt;/a&gt;. However, the concept of “view appearance” is not clearly defined in SwiftUI. The task will re-run when you (say) put the image loader in a &lt;code&gt;List&lt;/code&gt; and scroll it out of bounds and back into bounds. Likewise, when you put the image loader in a tab view, the task will also run again when switching tabs.
+	&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;
+		 Unfortunately, &lt;code&gt;task&lt;/code&gt; and &lt;code&gt;onAppear&lt;/code&gt; are currently the best way to run code when a view gets created in the &lt;a href=&quot;https://chris.eidhof.nl/note/attribute-graph/&quot;&gt;attribute graph&lt;/a&gt;. However, the concept of “view appearance” is not clearly defined in SwiftUI. For example, the task will re-run when you put the image loader in a &lt;code&gt;List&lt;/code&gt; and scroll it out of bounds and back into bounds. Likewise, when you put the image loader in a tab view, the task will also run again when switching tabs.
 	&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;
@@ -95,13 +95,13 @@
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
-	This now makes our code work correctly.
+	This now makes our code work correctly. The task will run initially, and when the identity changes, the previous task gets cancelled and a new task is created.
 &lt;/p&gt;
 &lt;h3&gt;
 	Adding More Properties
 &lt;/h3&gt;
 &lt;p&gt;
-	Let’s consider a slightly more complicated example. Here we have a &lt;code&gt;task&lt;/code&gt; that depends on two properties, &lt;code&gt;baseURL&lt;/code&gt; and &lt;code&gt;path&lt;/code&gt;:
+	Let’s consider a slightly more complicated example. Here we have a &lt;code&gt;task&lt;/code&gt; that depends on two properties, &lt;code&gt;baseURL&lt;/code&gt; (from the environment) and &lt;code&gt;path&lt;/code&gt; (a regular property):
 &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ImageLoader: View {
     @Environment(\.baseURL) private var baseURL
@@ -121,7 +121,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
 	To make this work correctly, we now need to create a &lt;em&gt;compound&lt;/em&gt;
-	 identity that combines both the &lt;code&gt;path&lt;/code&gt; and &lt;code&gt;baseURL&lt;/code&gt;, as the &lt;code&gt;task&lt;/code&gt; depends on both. In general, you could solve this by taking all your dependencies and sticking them into an &lt;code&gt;[AnyHashable]&lt;/code&gt;, for example by saying &lt;code&gt;[baseURL as AnyHashable, path as AnyHashable]&lt;/code&gt;. In this specific example, we could actually pull out the &lt;code&gt;url&lt;/code&gt; property — as it already combines both values — and use that as the identity:
+	 identity that combines both the &lt;code&gt;path&lt;/code&gt; and &lt;code&gt;baseURL&lt;/code&gt;, as the &lt;code&gt;task&lt;/code&gt; depends on both. In addition, this value needs to conform to &lt;code&gt;Equatable&lt;/code&gt;. An easy way to solve this is by taking all your dependencies and sticking them into an &lt;code&gt;[AnyHashable]&lt;/code&gt;, for example by saying &lt;code&gt;[baseURL as AnyHashable, path as AnyHashable]&lt;/code&gt;. In this specific example, we could actually pull out the &lt;code&gt;url&lt;/code&gt; property — as it already combines both values — and use that as the identity:
 &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ImageLoader: View {
     // ...
@@ -140,7 +140,7 @@
 	Here’s my advice: whenever you use &lt;code&gt;task&lt;/code&gt; or &lt;code&gt;onAppear&lt;/code&gt; in your code, be extremely careful about the dependencies. Make sure to review your code carefully, and ideally, have someone else review it as well.
 &lt;/p&gt;
 &lt;blockquote&gt;
-	&lt;p&gt;&lt;strong&gt;Aside&lt;/strong&gt;
+	&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;
 		 When you use &lt;code&gt;onAppear&lt;/code&gt; instead of &lt;code&gt;task&lt;/code&gt;, you can replace the &lt;code&gt;onAppear&lt;/code&gt; with an &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/view/onchange(of:initial:_:)-4psgg&quot;&gt;&lt;code&gt;onChange(of:initial:_:)&lt;/code&gt;&lt;/a&gt;. As the &lt;code&gt;value&lt;/code&gt;, you’d use the compound identity.
 	&lt;/p&gt;
 &lt;/blockquote&gt;
