@@ -1,0 +1,190 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Task Identity — Chris Eidhof
+		</title>
+		<meta content="Task Identity — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/swiftui-task-identity/og-image-0872.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title">Chris Eidhof</a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Task Identity
+							</h1>
+							<h2 class="headline">
+								No automated dependency tracking
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								When you write SwiftUI views, one of the big advantages over UIKit is that SwiftUI performs automatic dependency tracking. Whenever your model invalidates or one of your view’s properties change, your view is rerendered.
+							</p>
+							<p>
+								Consider the following view that loads an image. It runs the image loading code in a <code>task</code>. The task will run the first time the view appears, and everything seems to work fine:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ImageLoader</span>: <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">url</span>: <span class="hljs-identifier">URL</span>
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">loaded</span>: <span class="hljs-identifier">NSImage</span>? = <span class="hljs-keyword">nil</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">ZStack</span> {
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">loaded</span> {
+                <span class="hljs-identifier">Image</span>(<span class="hljs-identifier">nsImage</span>: <span class="hljs-identifier">loaded</span>)
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-identifier">Text</span>(<span class="hljs-string">"</span><span class="hljs-string">Loading…</span><span class="hljs-string">"</span>)
+            }
+        }
+        .<span class="hljs-identifier">task</span> {
+            <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">data</span> = <span class="hljs-keyword">try</span>? await <span class="hljs-identifier">URLSession</span>.<span class="hljs-identifier">shared</span>.<span class="hljs-identifier">data</span>(<span class="hljs-identifier">from</span>: <span class="hljs-identifier">url</span>).<span class="hljs-number">0</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+            <span class="hljs-identifier">loaded</span> = <span class="hljs-identifier">NSImage</span>(<span class="hljs-identifier">data</span>: <span class="hljs-identifier">data</span>)
+        }
+    }
+}
+</code></pre>
+							<p>
+								When we use the view in our <code>ContentView</code>, everything seems fine:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">ImageLoader</span>(<span class="hljs-identifier">url</span>: <span class="hljs-identifier">URL</span>(<span class="hljs-identifier">string</span>: <span class="hljs-string">"</span><span class="hljs-string">https://picsum.photos/200/300</span><span class="hljs-string">"</span>)!)
+    }
+}
+</code></pre>
+							<p>
+								However, there is a subtle bug in the initial code that is really hard to spot. The problem is: <code>task</code> runs the code exactly once — when the view appears. When the <code>url</code> property changes, the view’s body will be re-rendered, but the task will not be re-run as the view has already appeared. If you use <code>onAppear</code> instead of <code>task</code> you’ll have exactly the same problem.
+							</p>
+							<p>
+								We can verify this by changing our <code>ContentView</code>:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">height</span> = <span class="hljs-number">300</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">ImageLoader</span>(<span class="hljs-identifier">url</span>: <span class="hljs-identifier">URL</span>(<span class="hljs-identifier">string</span>: <span class="hljs-string">"</span><span class="hljs-string">https://picsum.photos/200/</span>\(<span class="hljs-identifier">height</span>)<span class="hljs-string"></span><span class="hljs-string">"</span>)!)
+            .<span class="hljs-identifier">onTapGesture</span> {
+                <span class="hljs-identifier">height</span> = <span class="hljs-identifier">height</span> == <span class="hljs-number">300</span> ? <span class="hljs-number">200</span> : <span class="hljs-number">300</span>
+            }
+    }
+}
+</code></pre>
+							<p>
+								When we run the code above, we can see that the image never loads again (beyond the initial load) even when the URL changes. We can put a print statement or breakpoint in the <code>ImageLoader</code>’s body and verify that the body is actually rerun when the URL changes.
+							</p>
+							<p>
+								The problem is our <code>task</code>: it runs when the view appears. And only when the view appears.
+							</p>
+							<blockquote>
+								<p><strong>Aside</strong>
+									 Unfortunately, <code>task</code> and <code>onAppear</code> are currently the best way to run code when a view gets created in the <a href="https://chris.eidhof.nl/note/attribute-graph/">attribute graph</a>. However, the concept of “view appearance” is not clearly defined in SwiftUI. The task will re-run when you (say) put the image loader in a <code>List</code> and scroll it out of bounds and back into bounds. Likewise, when you put the image loader in a tab view, the task will also run again when switching tabs.
+								</p>
+							</blockquote>
+							<p>
+								To fix our problem, we need to understand the core issue. Let’s look at the code again:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ImageLoader</span>: <span class="hljs-identifier">View</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">url</span>: <span class="hljs-identifier">URL</span>
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">loaded</span>: <span class="hljs-identifier">NSImage</span>? = <span class="hljs-keyword">nil</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-comment more"><span>// ...</span></span>
+        .<span class="hljs-identifier">task</span> {
+            <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">data</span> = <span class="hljs-keyword">try</span>? await <span class="hljs-identifier">URLSession</span>.<span class="hljs-identifier">shared</span>.<span class="hljs-identifier">data</span>(<span class="hljs-identifier">from</span>: <span class="hljs-identifier">url</span>).<span class="hljs-number">0</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+            <span class="hljs-identifier">loaded</span> = <span class="hljs-identifier">NSImage</span>(<span class="hljs-identifier">data</span>: <span class="hljs-identifier">data</span>)
+        }
+    }
+}
+</code></pre>
+							<p>
+								Inside our <code>task</code> <em>we have a dependency on the <code>url</code> property</em>
+								. This is causing our problems: ideally, we want our <code>task</code> to re-run whenever the <code>url</code> changes. We can do so by making the <code>url</code> part of the identity of our <code>task</code>:
+							</p>
+							<pre><code class="swift">.<span class="hljs-identifier">task</span>(<span class="hljs-identifier">id</span>: <span class="hljs-identifier">url</span>) {
+    <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">data</span> = <span class="hljs-keyword">try</span>? await <span class="hljs-identifier">URLSession</span>.<span class="hljs-identifier">shared</span>.<span class="hljs-identifier">data</span>(<span class="hljs-identifier">from</span>: <span class="hljs-identifier">url</span>).<span class="hljs-number">0</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+    <span class="hljs-identifier">loaded</span> = <span class="hljs-identifier">NSImage</span>(<span class="hljs-identifier">data</span>: <span class="hljs-identifier">data</span>)
+}
+</code></pre>
+							<p>
+								This now makes our code work correctly.
+							</p>
+							<h3>
+								Adding More Properties
+							</h3>
+							<p>
+								Let’s consider a slightly more complicated example. Here we have a <code>task</code> that depends on two properties, <code>baseURL</code> and <code>path</code>:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ImageLoader</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">Environment</span>(\.<span class="hljs-identifier">baseURL</span>) <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">baseURL</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">path</span>: <span class="hljs-identifier">String</span>
+
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">loaded</span>: <span class="hljs-identifier">NSImage</span>? = <span class="hljs-keyword">nil</span>
+
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-comment more"><span>// ...</span></span>
+        .<span class="hljs-identifier">task</span> {
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">url</span> = <span class="hljs-identifier">baseURL</span>.<span class="hljs-identifier">appendingPathComponent</span>(<span class="hljs-identifier">path</span>)
+            <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">data</span> = <span class="hljs-keyword">try</span>? await <span class="hljs-identifier">URLSession</span>.<span class="hljs-identifier">shared</span>.<span class="hljs-identifier">data</span>(<span class="hljs-identifier">from</span>: <span class="hljs-identifier">url</span>).<span class="hljs-number">0</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+            <span class="hljs-identifier">loaded</span> = <span class="hljs-identifier">NSImage</span>(<span class="hljs-identifier">data</span>: <span class="hljs-identifier">data</span>)
+        }
+    }
+}
+</code></pre>
+							<p>
+								To make this work correctly, we now need to create a <em>compound</em>
+								 identity that combines both the <code>path</code> and <code>baseURL</code>, as the <code>task</code> depends on both. In general, you could solve this by taking all your dependencies and sticking them into an <code>[AnyHashable]</code>, for example by saying <code>[baseURL as AnyHashable, path as AnyHashable]</code>. In this specific example, we could actually pull out the <code>url</code> property — as it already combines both values — and use that as the identity:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ImageLoader</span>: <span class="hljs-identifier">View</span> {
+    <span class="hljs-comment more"><span>// ...</span></span>
+
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-keyword">let</span> <span class="hljs-identifier">url</span> = <span class="hljs-identifier">baseURL</span>.<span class="hljs-identifier">appendingPathComponent</span>(<span class="hljs-identifier">path</span>)
+        <span class="hljs-comment more"><span>// ...</span></span>
+        .<span class="hljs-identifier">task</span>(<span class="hljs-identifier">id</span>: <span class="hljs-identifier">url</span>) {
+            <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> <span class="hljs-identifier">data</span> = <span class="hljs-keyword">try</span>? await <span class="hljs-identifier">URLSession</span>.<span class="hljs-identifier">shared</span>.<span class="hljs-identifier">data</span>(<span class="hljs-identifier">from</span>: <span class="hljs-identifier">url</span>).<span class="hljs-number">0</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+            <span class="hljs-identifier">loaded</span> = <span class="hljs-identifier">NSImage</span>(<span class="hljs-identifier">data</span>: <span class="hljs-identifier">data</span>)
+        }
+    }
+}
+</code></pre>
+							<p>
+								Here’s my advice: whenever you use <code>task</code> or <code>onAppear</code> in your code, be extremely careful about the dependencies. Make sure to review your code carefully, and ideally, have someone else review it as well.
+							</p>
+							<blockquote>
+								<p><strong>Aside</strong>
+									 When you use <code>onAppear</code> instead of <code>task</code>, you can replace the <code>onAppear</code> with an <a href="https://developer.apple.com/documentation/swiftui/view/onchange(of:initial:_:)-4psgg"><code>onChange(of:initial:_:)</code></a>. As the <code>value</code>, you’d use the compound identity.
+								</p>
+							</blockquote>
+							<p>
+								Clearly, Apple can’t just change the implementation of <code>task</code> or <code>onAppear</code> to make this work automatically, as I’m sure there are many apps that depend on the current behavior. I wonder if it can even be done automatically without introducing cycles in the graph.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Nov 13, 2025</time>
+										 by Chris Eidhof 
+										(<a href="https://m.objc.io/@chris" rel="me">Mastodon</a>, <a href="https://bsky.app/profile/eidhof.nl">BSky</a>).</span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/llms-real-code">LLMs for &quot;Real Projects&quot;
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

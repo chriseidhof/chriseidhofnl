@@ -8,6 +8,151 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Task Identity</title>
+			<description>
+				&lt;p&gt;
+	When you write SwiftUI views, one of the big advantages over UIKit is that SwiftUI performs automatic dependency tracking. Whenever your model invalidates or one of your view’s properties change, your view is rerendered.
+&lt;/p&gt;
+&lt;p&gt;
+	Consider the following view that loads an image. It runs the image loading code in a &lt;code&gt;task&lt;/code&gt;. The task will run the first time the view appears, and everything seems to work fine:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ImageLoader: View {
+    var url: URL
+    @State private var loaded: NSImage? = nil
+    var body: some View {
+        ZStack {
+            if let loaded {
+                Image(nsImage: loaded)
+            } else {
+                Text(&amp;quot;Loading…&amp;quot;)
+            }
+        }
+        .task {
+            guard let data = try? await URLSession.shared.data(from: url).0 else { return }
+            loaded = NSImage(data: data)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	When we use the view in our &lt;code&gt;ContentView&lt;/code&gt;, everything seems fine:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ContentView: View {
+    var body: some View {
+        ImageLoader(url: URL(string: &amp;quot;https://picsum.photos/200/300&amp;quot;)!)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	However, there is a subtle bug in the initial code that is really hard to spot. The problem is: &lt;code&gt;task&lt;/code&gt; runs the code exactly once — when the view appears. When the &lt;code&gt;url&lt;/code&gt; property changes, the view’s body will be re-rendered, but the task will not be re-run as the view has already appeared. If you use &lt;code&gt;onAppear&lt;/code&gt; instead of &lt;code&gt;task&lt;/code&gt; you’ll have exactly the same problem.
+&lt;/p&gt;
+&lt;p&gt;
+	We can verify this by changing our &lt;code&gt;ContentView&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ContentView: View {
+    @State private var height = 300
+    var body: some View {
+        ImageLoader(url: URL(string: &amp;quot;https://picsum.photos/200/\(height)&amp;quot;)!)
+            .onTapGesture {
+                height = height == 300 ? 200 : 300
+            }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	When we run the code above, we can see that the image never loads again (beyond the initial load) even when the URL changes. We can put a print statement or breakpoint in the &lt;code&gt;ImageLoader&lt;/code&gt;’s body and verify that the body is actually rerun when the URL changes.
+&lt;/p&gt;
+&lt;p&gt;
+	The problem is our &lt;code&gt;task&lt;/code&gt;: it runs when the view appears. And only when the view appears.
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;&lt;strong&gt;Aside&lt;/strong&gt;
+		 Unfortunately, &lt;code&gt;task&lt;/code&gt; and &lt;code&gt;onAppear&lt;/code&gt; are currently the best way to run code when a view gets created in the &lt;a href=&quot;https://chris.eidhof.nl/note/attribute-graph/&quot;&gt;attribute graph&lt;/a&gt;. However, the concept of “view appearance” is not clearly defined in SwiftUI. The task will re-run when you (say) put the image loader in a &lt;code&gt;List&lt;/code&gt; and scroll it out of bounds and back into bounds. Likewise, when you put the image loader in a tab view, the task will also run again when switching tabs.
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	To fix our problem, we need to understand the core issue. Let’s look at the code again:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ImageLoader: View {
+    var url: URL
+    @State private var loaded: NSImage? = nil
+    var body: some View {
+        // ...
+        .task {
+            guard let data = try? await URLSession.shared.data(from: url).0 else { return }
+            loaded = NSImage(data: data)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Inside our &lt;code&gt;task&lt;/code&gt; &lt;em&gt;we have a dependency on the &lt;code&gt;url&lt;/code&gt; property&lt;/em&gt;
+	. This is causing our problems: ideally, we want our &lt;code&gt;task&lt;/code&gt; to re-run whenever the &lt;code&gt;url&lt;/code&gt; changes. We can do so by making the &lt;code&gt;url&lt;/code&gt; part of the identity of our &lt;code&gt;task&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;.task(id: url) {
+    guard let data = try? await URLSession.shared.data(from: url).0 else { return }
+    loaded = NSImage(data: data)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	This now makes our code work correctly.
+&lt;/p&gt;
+&lt;h3&gt;
+	Adding More Properties
+&lt;/h3&gt;
+&lt;p&gt;
+	Let’s consider a slightly more complicated example. Here we have a &lt;code&gt;task&lt;/code&gt; that depends on two properties, &lt;code&gt;baseURL&lt;/code&gt; and &lt;code&gt;path&lt;/code&gt;:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ImageLoader: View {
+    @Environment(\.baseURL) private var baseURL
+    var path: String
+
+    @State private var loaded: NSImage? = nil
+
+    var body: some View {
+        // ...
+        .task {
+            let url = baseURL.appendingPathComponent(path)
+            guard let data = try? await URLSession.shared.data(from: url).0 else { return }
+            loaded = NSImage(data: data)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	To make this work correctly, we now need to create a &lt;em&gt;compound&lt;/em&gt;
+	 identity that combines both the &lt;code&gt;path&lt;/code&gt; and &lt;code&gt;baseURL&lt;/code&gt;, as the &lt;code&gt;task&lt;/code&gt; depends on both. In general, you could solve this by taking all your dependencies and sticking them into an &lt;code&gt;[AnyHashable]&lt;/code&gt;, for example by saying &lt;code&gt;[baseURL as AnyHashable, path as AnyHashable]&lt;/code&gt;. In this specific example, we could actually pull out the &lt;code&gt;url&lt;/code&gt; property — as it already combines both values — and use that as the identity:
+&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ImageLoader: View {
+    // ...
+
+    var body: some View {
+        let url = baseURL.appendingPathComponent(path)
+        // ...
+        .task(id: url) {
+            guard let data = try? await URLSession.shared.data(from: url).0 else { return }
+            loaded = NSImage(data: data)
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+	Here’s my advice: whenever you use &lt;code&gt;task&lt;/code&gt; or &lt;code&gt;onAppear&lt;/code&gt; in your code, be extremely careful about the dependencies. Make sure to review your code carefully, and ideally, have someone else review it as well.
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;&lt;strong&gt;Aside&lt;/strong&gt;
+		 When you use &lt;code&gt;onAppear&lt;/code&gt; instead of &lt;code&gt;task&lt;/code&gt;, you can replace the &lt;code&gt;onAppear&lt;/code&gt; with an &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/view/onchange(of:initial:_:)-4psgg&quot;&gt;&lt;code&gt;onChange(of:initial:_:)&lt;/code&gt;&lt;/a&gt;. As the &lt;code&gt;value&lt;/code&gt;, you’d use the compound identity.
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	Clearly, Apple can’t just change the implementation of &lt;code&gt;task&lt;/code&gt; or &lt;code&gt;onAppear&lt;/code&gt; to make this work automatically, as I’m sure there are many apps that depend on the current behavior. I wonder if it can even be done automatically without introducing cycles in the graph.
+&lt;/p&gt;
+			</description>
+			<pubDate>Thu, 13 Nov 2025 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/swiftui-task-identity</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-task-identity</guid>
+		</item>
+		<item>
 			<title>LLMs for &quot;Real Projects&quot;</title>
 			<description>
 				&lt;p&gt;
@@ -1216,24 +1361,6 @@ struct RoomView3Helper: View {
 			<pubDate>Mon, 28 Oct 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-43</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-43</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 41</title>
-			<description>
-				&lt;p&gt;
-	It looks to be quite a busy end-of-the-year, after a few months of focusing on other stuff there’ll be a batch of workshops all at once, mostly on location (which is more time and cost intensive, but also definitely more fun). I’ve been preparing a bunch, and also preparing a lot more background material. I’m hoping to integrate some of the things from my presentations as well, for example, the fake animation debugger from my &lt;a href=&quot;https://chris.eidhof.nl/presentations/swiftui-animations/&quot;&gt;Swift Connection talk&lt;/a&gt;.
-&lt;/p&gt;
-&lt;p&gt;
-	One of the libraries I’ve used throughout the last months is my Mac &lt;a href=&quot;https://github.com/chriseidhof/dynamic-type&quot;&gt;Dynamic Type&lt;/a&gt; library. I took the iOS dynamic type sizes and replicated the dynamic type API so that my Mac apps (or fake simulator previews) can have dynamic type support as well. This has been great for presentations (I can just increase the font size &lt;em&gt;and&lt;/em&gt;
-	 everything else related to that because most things have a &lt;code&gt;@ScaledMetric&lt;/code&gt; in front of them). It’s also super useful in our &lt;a href=&quot;https://www.swiftuifieldguide.com/workshops/&quot;&gt;workshop app&lt;/a&gt;, and we’re working on adding some more support for that as well.
-&lt;/p&gt;
-&lt;p&gt;
-	I’ve played around with a few more “reusable” bonus exercises for our workshop. It’s really hard to find good exercises that teach a subject, are realistic and yet small enough that you can solve it in a short timeframe. However, when you do find good examples, it’s quite rewarding.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 14 Oct 2024 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-41</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-41</guid>
 		</item>
 	</channel>
 </rss>

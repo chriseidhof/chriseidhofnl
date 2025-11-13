@@ -16,7 +16,7 @@ In the paper, an optimization is described for optional/conditional branches. Fo
 
 The attribute graph is one way to implement [Incremental Computing](/note/incremental-programming) by only computing what's needed. It feels like phase one (marking all dependent nodes as potentially dirty) might be a bit expensive, but somehow that information needs to be propagated anyway. The underlying idea is much more general than just SwiftUI, it's akin to something like a build system (in fact, you can [use it as a build system](https://talk.objc.io/episodes/S01E457-swiftui-as-static-site-generator-part-5)).
 
-The name *attribute graph* comes from [/note/attribute-grammars].
+The name *attribute graph* comes from [attribute grammars](/note/attribute-grammars).
 
 ## Related
 
