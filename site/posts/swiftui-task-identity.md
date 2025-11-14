@@ -131,3 +131,15 @@ Here's my advice: whenever you use `task` or `onAppear` in your code, be extreme
 > **Note** When you use `onAppear` instead of `task`, you can replace the `onAppear` with an [`onChange(of:initial:_:)`](https://developer.apple.com/documentation/swiftui/view/onchange(of:initial:_:)-4psgg). As the `value`, you'd use the compound identity.
 
 Clearly, Apple can't just change the implementation of `task` or `onAppear` to make this work automatically, as I'm sure there are many apps that depend on the current behavior. I wonder if it can even be done automatically without introducing cycles in the graph.
+
+### Update
+
+[Matt Ricketson](https://m.objc.io/@ricketson@hachyderm.io/115543342730322506) (SwiftUI Engineering Manager) wrote a very thoughtful response on Mastodon. I'll quote it here so that it's persistent in the future as well:
+
+> It was intentional to not have automatic dependency tracking with this API, as originally designed — that can very easily become an unintended (and equally unintuitive) footgun in other ways when applied to imperative code with side effects (which View.body is not):
+>
+> 1. First, as you mention at the end, automatic dependency cycle detection is more problematic, and if cycles do occur they can be much more difficult for a developer to detect and debug on their own.
+> 2. There are common kinds of view tasks that are intended to only be run once, relative to the view’s lifetime, such as continuous tasks that manually track other values (e.g. a `for await` on an AsyncSequence of some kind, and note that task() predates the existence of Observable).
+> 3. There are many cases where a view task will read/write cached values that should not participate in dependency tracking, so you would still need a similar API but inverted, to be able to specify the values that should be ignored (similar to purpose of @ObservationIgnored).
+>
+> Of course, none of that contradicts your blog post! The image loading example is a great example of a common type of “pure function” task where it *would* be convenient and intuitive for automatic dependency tracking to occur, and the point about compound dependencies is a legitimate ergonomic problem!

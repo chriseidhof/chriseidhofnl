@@ -167,6 +167,37 @@
 							<p>
 								Clearly, Apple can’t just change the implementation of <code>task</code> or <code>onAppear</code> to make this work automatically, as I’m sure there are many apps that depend on the current behavior. I wonder if it can even be done automatically without introducing cycles in the graph.
 							</p>
+							<h3>
+								Update
+							</h3>
+							<p><a href="https://m.objc.io/@ricketson@hachyderm.io/115543342730322506">Matt Ricketson</a> (SwiftUI Engineering Manager) wrote a very thoughtful response on Mastodon. I’ll quote it here so that it’s persistent in the future as well:
+							</p>
+							<blockquote>
+								<p>
+									It was intentional to not have automatic dependency tracking with this API, as originally designed — that can very easily become an unintended (and equally unintuitive) footgun in other ways when applied to imperative code with side effects (which View.body is not):
+								</p>
+								<ol>
+									<li>
+										<p>
+											First, as you mention at the end, automatic dependency cycle detection is more problematic, and if cycles do occur they can be much more difficult for a developer to detect and debug on their own.
+										</p>
+									</li>
+									<li>
+										<p>
+											There are common kinds of view tasks that are intended to only be run once, relative to the view’s lifetime, such as continuous tasks that manually track other values (e.g. a <code>for await</code> on an AsyncSequence of some kind, and note that task() predates the existence of Observable).
+										</p>
+									</li>
+									<li>
+										<p>
+											There are many cases where a view task will read/write cached values that should not participate in dependency tracking, so you would still need a similar API but inverted, to be able to specify the values that should be ignored (similar to purpose of @ObservationIgnored).
+										</p>
+									</li>
+								</ol>
+								<p>
+									Of course, none of that contradicts your blog post! The image loading example is a great example of a common type of “pure function” task where it <em>would</em>
+									 be convenient and intuitive for automatic dependency tracking to occur, and the point about compound dependencies is a legitimate ergonomic problem!
+								</p>
+							</blockquote>
 						</section>
 						<footer class="group" id="post-meta">
 							<div>
