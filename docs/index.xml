@@ -8,6 +8,35 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Food Assistant</title>
+			<description>
+				&lt;p&gt;
+	This month, I want to focus on using LLMs more, and AI in general, so I’m working on a bunch of projects. I’ve been using Claude (and more recently Codex) over the last year or so, but now I’m actually using them very intentionally with the goal of understanding how to work with them better and to understand what the possibilities are.
+&lt;/p&gt;
+&lt;p&gt;
+	This morning I built a small custom agent. I used the new Codex Mac app to build this agent from scratch, and of course I’ve been inspired by the work that &lt;a href=&quot;https://steipete.me&quot;&gt;Peter&lt;/a&gt; has been doing with &lt;a href=&quot;https://openclaw.ai&quot;&gt;OpenClaw&lt;/a&gt;. This agent is taking care of my food, so it has an idea of what I have in stock. It knows about my allergies, my dietary wishes, and it has recipes and a grocery list. It also has a list of dishes I enjoy making and eating. I managed to get it up and running in about half a day.
+&lt;/p&gt;
+&lt;p&gt;
+	I started by creating a new TypeScript project and using the &lt;a href=&quot;https://openai.github.io/openai-agents-js/&quot;&gt;Agents SDK&lt;/a&gt; from OpenAI. The main interface is a Telegram bot because Telegram has strong support for bots, and that way I have both a text and a voice interface for free. If I send it a voice message, it uses ffmpeg to convert the audio, then I send it over to OpenAI to get it transcribed.
+&lt;/p&gt;
+&lt;p&gt;
+	The agent operates on Markdown files; they all live in a Git repository, and every time I change something it gets committed automatically. Also, the agent pulls from Git automatically. I’ve used a &lt;a href=&quot;https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys&quot;&gt;GitHub deploy key&lt;/a&gt; to give the agent access to just the one repository. This gives me persistent memory, change tracking, and I can just host my agent on Fly.io. I’m really liking this pattern. I wonder if I could extract it out into something more reusable. I
+&lt;/p&gt;
+&lt;p&gt;
+	One of the fun things is that the system prompt is in a Markdown file as well, so I can actually tell my agent to change its prompt and that will automatically get reloaded. This is a powerful concept. Of course, things like OpenClaw can completely rebuild and rewrite themselves, which is even more powerful. I did not want that for this project, but being able to talk and chat to my software in order to then rewrite itself is very powerful.
+&lt;/p&gt;
+&lt;p&gt;
+	I finally added some support for images and meal planning as well, so I can be a little bit smarter about going shopping and reusing things and meal prepping certain ingredients. All in all, it was half a day of work, and it’s already very useful. It’s online all the time, I can talk to it, it has no access beyond the files it needs, and we’ll see how I will use this in the future.
+&lt;/p&gt;
+&lt;p&gt;
+	Today, I used it to plan my next four meals and my shopping list. It updated my plan, gave me a few recipe ideas and made me a shopping list.
+&lt;/p&gt;
+			</description>
+			<pubDate>Tue, 03 Feb 2026 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/llm-month-food-assistant</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/llm-month-food-assistant</guid>
+		</item>
+		<item>
 			<title>2025</title>
 			<description>
 				&lt;p&gt;
@@ -1335,66 +1364,6 @@ struct RoomView3Helper: View {
 			<pubDate>Mon, 11 Nov 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-45</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-45</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 44</title>
-			<description>
-				&lt;p&gt;
-	Going to &lt;a href=&quot;http://pragmamark.org&quot;&gt;pragma&lt;/a&gt; was awesome as always. We went with the whole family and took so many trains! (I even got a status upgrade by Deutsche Bahn and am now a gold member.)
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Fürstenberg → Berlin
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Berlin → München
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			München → Kufstein
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Kufstein → Innsbruck
-		&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;
-	We then stayed in Innsbruck for two nights, and went on to Verona by taking two more trains:
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Innsbrück → Brenner
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;
-			Brenner → Verona
-		&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;
-	After a night in Verona, we took a train straight to Bologna and a bus to top it off. The kids also really enjoyed all the travel. We did a reasonable job with packing, but should probably have packed lighter still. Our way back from Bologna was much easier: it only took us one train to get to Munich, and two more trains the next day to get home. We would definitely do something like this again.
-&lt;/p&gt;
-&lt;p&gt;
-	I managed to implement a very basic version of the attribute graph based on &lt;a href=&quot;https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=9609985dbef43633f4deb88c949a9776e0cd766b&quot;&gt;this paper&lt;/a&gt;. It seems to work for basic stuff, but I’m not 100% sure yet how to do all the SwiftUI-specific things. For example, how does layout work? The parent proposes a size, so the child is dependent on that. Yet the child may at a later point change its state and the parent needs to relayout.
-&lt;/p&gt;
-&lt;p&gt;
-	My talk at Pragma went well. I had my talk ready a few weeks before the conference, yet like to practice a lot in the days before the actual talk. Due to the kids and traveling, I was only able to go through my talk twice in the final week, but it still went okay. In general, there were a lot of great talks and conversations at the conference.
-&lt;/p&gt;
-&lt;p&gt;
-	For most things I have been using &lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;jj&lt;/a&gt; instead of git as my daily driver. It works surprisingly well. In my career I’ve used CVS, SVN and git. Each always felt like a big step forward and somehow made the previous tool feel old and outdated. jj has a similar effect for me.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 04 Nov 2024 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-44</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-44</guid>
 		</item>
 	</channel>
 </rss>

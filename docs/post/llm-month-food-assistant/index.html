@@ -1,0 +1,74 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<title>
+			Food Assistant — Chris Eidhof
+		</title>
+		<meta content="Food Assistant — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/llm-month-food-assistant/og-image-5dca.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title">Chris Eidhof</a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Food Assistant
+							</h1>
+							<h2 class="headline">
+								Month of LLMs
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								This month, I want to focus on using LLMs more, and AI in general, so I’m working on a bunch of projects. I’ve been using Claude (and more recently Codex) over the last year or so, but now I’m actually using them very intentionally with the goal of understanding how to work with them better and to understand what the possibilities are.
+							</p>
+							<p>
+								This morning I built a small custom agent. I used the new Codex Mac app to build this agent from scratch, and of course I’ve been inspired by the work that <a href="https://steipete.me">Peter</a> has been doing with <a href="https://openclaw.ai">OpenClaw</a>. This agent is taking care of my food, so it has an idea of what I have in stock. It knows about my allergies, my dietary wishes, and it has recipes and a grocery list. It also has a list of dishes I enjoy making and eating. I managed to get it up and running in about half a day.
+							</p>
+							<p>
+								I started by creating a new TypeScript project and using the <a href="https://openai.github.io/openai-agents-js/">Agents SDK</a> from OpenAI. The main interface is a Telegram bot because Telegram has strong support for bots, and that way I have both a text and a voice interface for free. If I send it a voice message, it uses ffmpeg to convert the audio, then I send it over to OpenAI to get it transcribed.
+							</p>
+							<p>
+								The agent operates on Markdown files; they all live in a Git repository, and every time I change something it gets committed automatically. Also, the agent pulls from Git automatically. I’ve used a <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys">GitHub deploy key</a> to give the agent access to just the one repository. This gives me persistent memory, change tracking, and I can just host my agent on Fly.io. I’m really liking this pattern. I wonder if I could extract it out into something more reusable. I
+							</p>
+							<p>
+								One of the fun things is that the system prompt is in a Markdown file as well, so I can actually tell my agent to change its prompt and that will automatically get reloaded. This is a powerful concept. Of course, things like OpenClaw can completely rebuild and rewrite themselves, which is even more powerful. I did not want that for this project, but being able to talk and chat to my software in order to then rewrite itself is very powerful.
+							</p>
+							<p>
+								I finally added some support for images and meal planning as well, so I can be a little bit smarter about going shopping and reusing things and meal prepping certain ingredients. All in all, it was half a day of work, and it’s already very useful. It’s online all the time, I can talk to it, it has no access beyond the files it needs, and we’ll see how I will use this in the future.
+							</p>
+							<p>
+								Today, I used it to plan my next four meals and my shopping list. It updated my plan, gave me a few recipe ideas and made me a shopping list.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Feb 3, 2026</time>
+										 by Chris Eidhof 
+										(<a href="https://m.objc.io/@chris" rel="me">Mastodon</a>, <a href="https://bsky.app/profile/eidhof.nl">BSky</a>).</span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/2025">2025
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>
