@@ -10,8 +10,6 @@ This is very different from having a dependency manager where you depend on the 
 
 Even Donald Knuth was skeptical about reusable code:
 
-> I also must confess to a strong bias against the fashion for reusable code. To me, "re‐editable code" is much, much better than an untouchable black box or toolkit. [...]
-
-([Source](https://mmix.cs.hm.edu/other/knuth-interview.pdf))
+> I also must confess to a strong bias against the fashion for reusable code. To me, "re‐editable code" is much, much better than an untouchable black box or toolkit. [...] ([Source](https://mmix.cs.hm.edu/other/knuth-interview.pdf))
 
 In any case, I've been moving towards [fewer dependencies](https://chris.eidhof.nl/post/fewer-dependencies/) for years, maybe now even more? I'm curious about other changes that might happen as well.
