@@ -1,7 +1,7 @@
 ---
 date: 2026-02-05
 title: Integrating Dependencies into LLM-Assisted Projects
-headline: A New Way
+headline: Melting Code into your Codebase
 published: false
 ---
 
