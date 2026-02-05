@@ -2,10 +2,9 @@
 date: 2026-02-05
 title: Integrating Dependencies into LLM-Assisted Projects
 headline: Melting Code into your Codebase
-published: false
 ---
 
-The other week I met [Orta](https://orta.io) again. When talking about LLM-assisted coding, we also discussed dependencies. He told me about an approach he's been taking: he just integrates dependencies into his code by literally pasting in the files and then adjusting them as needed. To me, it almost feels like "melting" the dependency into the codebase. You start owning the code the moment you integrate.
+The other week I met [Orta](https://orta.io) again. When talking about LLM-assisted coding, we also discussed dependencies. He told me about an approach he's been taking: he just integrates dependencies into his code by literally pasting in the files and then adjusting them as needed. He also [recommends this](https://github.com/puzzmo-com/tapped?tab=readme-ov-file#what-is-tapped) way of integrating for one of his projects. To me, it almost feels like "melting" the dependency into the codebase. You start owning the code the moment you integrate.
 
 This is very different from having a dependency manager where you depend on the code other people maintain. Over the years, even before LLMs, I've done the same with my own code. Rather than abstracting things out, I often would just paste in existing code and modify it for that project. With LLMs, it's now become even easier to do that.
 

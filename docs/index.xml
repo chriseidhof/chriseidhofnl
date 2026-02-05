@@ -8,6 +8,34 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Integrating Dependencies into LLM-Assisted Projects</title>
+			<description>
+				&lt;p&gt;
+	The other week I met &lt;a href=&quot;https://orta.io&quot;&gt;Orta&lt;/a&gt; again. When talking about LLM-assisted coding, we also discussed dependencies. He told me about an approach he’s been taking: he just integrates dependencies into his code by literally pasting in the files and then adjusting them as needed. He also &lt;a href=&quot;https://github.com/puzzmo-com/tapped?tab=readme-ov-file#what-is-tapped&quot;&gt;recommends this&lt;/a&gt; way of integrating for one of his projects. To me, it almost feels like “melting” the dependency into the codebase. You start owning the code the moment you integrate.
+&lt;/p&gt;
+&lt;p&gt;
+	This is very different from having a dependency manager where you depend on the code other people maintain. Over the years, even before LLMs, I’ve done the same with my own code. Rather than abstracting things out, I often would just paste in existing code and modify it for that project. With LLMs, it’s now become even easier to do that.
+&lt;/p&gt;
+&lt;p&gt;
+	Even Donald Knuth was skeptical about reusable code:
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		I also must confess to a strong bias against the fashion for reusable code. To me, “re‐editable code” is much, much better than an untouchable black box or toolkit. […]
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	(&lt;a href=&quot;https://mmix.cs.hm.edu/other/knuth-interview.pdf&quot;&gt;Source&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+	In any case, I’ve been moving towards &lt;a href=&quot;https://chris.eidhof.nl/post/fewer-dependencies/&quot;&gt;fewer dependencies&lt;/a&gt; for years, maybe now even more? I’m curious about other changes that might happen as well.
+&lt;/p&gt;
+			</description>
+			<pubDate>Thu, 05 Feb 2026 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/integrating-dependencies-into-llm-assistant-projects</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/integrating-dependencies-into-llm-assistant-projects</guid>
+		</item>
+		<item>
 			<title>Food Assistant</title>
 			<description>
 				&lt;p&gt;
@@ -1344,29 +1372,6 @@ struct RoomView3Helper: View {
 			<pubDate>Mon, 18 Nov 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-46</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-46</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 45</title>
-			<description>
-				&lt;p&gt;
-	Last week I mostly spent preparing for two upcoming workshops. We have a good outline for our &lt;a href=&quot;https://www.swiftuifieldguide.com/workshops/&quot;&gt;SwiftUI Workshop&lt;/a&gt;, yet customize each workshop heavily for the client we work with. Once we know what exercises to do, we create a new repository with the starting point for exercise 1, then a commit for each exercies. It’s been helpful to use either &lt;a href=&quot;https://retcon.app&quot;&gt;Retcon&lt;/a&gt; or &lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;Jujutsu&lt;/a&gt; to rewrite history and add pieces to older commits.
-&lt;/p&gt;
-&lt;p&gt;
-	I spent more time exploring how the attribute graph works in SwiftUI. One useful thing I did was extracting all the named symbols using &lt;code&gt;nm -C&lt;/code&gt;, then feeding that into an LLM to get a description of &lt;code&gt;AttributeGraph.framework&lt;/code&gt;. This is what came out: &lt;a href=&quot;https://gist.github.com/chriseidhof/c6037948c1e6c1639fa19f891dfa368c&quot;&gt;transcript.md&lt;/a&gt;. I’ve also tried modeling an AG-based SwiftUI layout system with some success. At first, I was stumped about how to do this in an acyclic way, but I think I have something figured out now (not sure if it’s how SwiftUI does it, though). Once I feel more comfortable that it’s correct, I’ll try to write about it.
-&lt;/p&gt;
-&lt;p&gt;
-	I still have my foot injury and hope it will go away by waiting it out, so can’t do any running. This has easily been the longest I’ve been without running, but luckily, I’ve been really enjoying gravel biking. I went for a few nice rides last week. I got a new bike as well (Canyon Grizl), I think I’ll prepare my older bike for indoor training and then for road cycling. On Sunday I rode for quite a long time in the cold and after about an hour and a half I noticed I was starting to get a little cold, slightly drowsy and (in hindsight) some other signs of early hypothermia. I thought I’d dressed warm enough, but will definitely need to up my layering for long rides.
-&lt;/p&gt;
-&lt;p&gt;
-	I had an appointment to get my passport renewed and had to go to Berlin. One of the best parts was getting coffee with &lt;a href=&quot;https://nicholaschristowitz.com&quot;&gt;Nicholas&lt;/a&gt; afterwards. I had a miso chocolate chip cookie which was absolutely delicious. A few days later I tried baking some myself and they turned out quite nice but not nearly as good as the ones I had in Berlin. I’ll try some other recipes as well, there’s definitely room for improvement.
-&lt;/p&gt;
-&lt;p&gt;
-	I’m trying out yet another note taking form, Zettelkasten. So far it seems to work well and I like the things it promises (better/easier writing). Often, I’m most excited about tools as I start using them, let’s see how this holds up in a few months.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 11 Nov 2024 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-45</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-45</guid>
 		</item>
 	</channel>
 </rss>
