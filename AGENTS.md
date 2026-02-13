@@ -10,6 +10,9 @@ When asked to create a new blog post, use this template and rules.
 - Use a short, readable filename (slug-like, kebab-case).
 - Include `title` and `headline` in frontmatter.
 - If title/headline/slug are missing, ask the user.
+- If the user provides a clear post title in the content, use that for `title` and derive the slug from it.
+- If the user provides a relative date like "tomorrow", convert it to an explicit `YYYY-MM-DD` date.
+- When in doubt about formatting, check recent posts in `site/posts/` to match the established style.
 
 ### Template
 ```markdown
