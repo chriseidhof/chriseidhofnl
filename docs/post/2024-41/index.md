@@ -1,0 +1,13 @@
+---
+headline: Workshop Prep
+title: "Weeknotes \u2116 41"
+date: 2024-10-14
+---
+
+
+
+It looks to be quite a busy end-of-the-year, after a few months of focusing on other stuff there'll be a batch of workshops all at once, mostly on location (which is more time and cost intensive, but also definitely more fun). I've been preparing a bunch, and also preparing a lot more background material. I'm hoping to integrate some of the things from my presentations as well, for example, the fake animation debugger from my [Swift Connection talk](https://chris.eidhof.nl/presentations/swiftui-animations/).
+
+One of the libraries I've used throughout the last months is my Mac [Dynamic Type](https://github.com/chriseidhof/dynamic-type) library. I took the iOS dynamic type sizes and replicated the dynamic type API so that my Mac apps (or fake simulator previews) can have dynamic type support as well. This has been great for presentations (I can just increase the font size *and* everything else related to that because most things have a `@ScaledMetric` in front of them). It's also super useful in our [workshop app](https://www.swiftuifieldguide.com/workshops/), and we're working on adding some more support for that as well.
+
+I've played around with a few more "reusable" bonus exercises for our workshop. It's really hard to find good exercises that teach a subject, are realistic and yet small enough that you can solve it in a short timeframe. However, when you do find good examples, it's quite rewarding.

@@ -1,0 +1,9 @@
+---
+headline: Break
+title: "Weeknotes \u2116 42"
+date: 2023-10-23
+---
+
+
+
+Still on my time off. We're away in a holiday park, so I'm keeping the laptop mostly shut. I've done a tiny bit of work at the beginning of the week, hopefully I can share some of that soon. Mainly writing this post as to not break the streak.

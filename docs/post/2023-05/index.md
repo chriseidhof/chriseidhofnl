@@ -1,0 +1,21 @@
+---
+headline: Routing and Workshops
+title: "Weeknotes \u2116 5"
+date: 2023-02-03
+---
+
+
+
+During the first three days of this week we ran a workshop in PST. This was actually a two-day workshop, split into three days because of the timezone difference. I'm an early riser by nature, and staying up until midnight isn't really my strength. While it's pretty easy during the workshop as we are constantly either helping people work through exercises or explaining things, I did have to take some extra rest the day after.
+
+It is always kind of nice to start working at 6pm, as the day before is very long. I do find it hard to relax before work, my natural mode is to do all the things I need to do before early afternoon. I didn't manage to really do nothing, so instead I spent a lot of time doing things around the new house, sorting out things in our current house.
+
+The house renovation has been pretty stressful for me, as there are so many dependencies and things going on that I don't have a clue about. I think we mostly have been pretty lucky with the contractors. I also learned so much during the build, doing plastering, building drywalls, bricklaying, and so on. It's a lot of fun but stressful. Luckily there's a very clear end in sight.
+
+To me, having built and helped with many parts of our house gives the house a lot of "personal quality". In our current house, I designed and built a very simple kitchen completely from scratch. Any store bought kitchen is probably better, but for me personally, having built the kitchen all by myself brings me much more satisfaction than the nicest store bought kitchen could ever give me. Of course, my wife doesn't agree and so we bought a proper kitchen for the new house.
+
+Since the birth of our second daughter (and the house renovation) I cut down my running a lot. Instead of running twice a day most days, now I'm not even running every day. I'm not sure what I'll do with that once we've moved. Part of me wants to get back into the groove of high mileage marathon training, and part of me wants to have more breadth: running, cycling, swimming, canoeing are all activities that we have the perfect surroundings for.
+
+Last week we started experimenting with a different kind of server-side library (it's super small, actually) that will look familiar if you have used SwiftUI. The big advantage is that the SwiftUI style of building views (or endpoints, or static site pages, or...) allows you to automatically inject the environment without any effort on the side of the framework user. For server-side pages, this would often contain the current session, the database connection (or an abstraction), and possibly a bunch of other stuff. We have currently solved this in our Swift Talk using [a reader pattern](https://talk.objc.io/episodes/S01E141-functional-dependencies), but the SwiftUI way is much nicer to use.
+
+I didn't cook many fancy things, but I did make bagels. Last time, my bagels turned out to be really tasty but didn't look right. This time around, the bagels looked perfect but were a bit bland. I'll try again this weekend.

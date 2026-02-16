@@ -5,6 +5,7 @@ struct Main: Template {
     @Environment(\.title) var title
     @Environment(\.extraFooterContent) var extraFooterContent
     @Environment(\.openGraphImage) var openGraphImage
+    @Environment(\.markdownAlternate) var markdownAlternate
 
     func run(content: Node) -> Node {
         let theTitle = title!.map { "\($0) — Chris Eidhof" } ?? "Chris Eidhof"
@@ -16,6 +17,9 @@ struct Main: Template {
                 link(href: "/images/favicon.ico", rel: "shortcut icon")
                 link(href: "/css/style.css", rel: "stylesheet")
                 link(href: "http://chris.eidhof.nl//index.xml", rel: "alternate", title: "RSS", type: "application/rss+xml")
+                if let md = markdownAlternate, let md {
+                    link(href: md, rel: "alternate", title: "Markdown", type: "text/markdown")
+                }
                 HTML.title {
                     theTitle
                 }

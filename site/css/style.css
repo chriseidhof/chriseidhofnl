@@ -243,6 +243,19 @@ footer hr {
     margin: 2em 0;
 }
 
+#post-meta a.markdown-link {
+    border-bottom: none;
+    color: var(--quaternary-color);
+    font-size: 0.85em;
+    letter-spacing: 0.02em;
+    opacity: 0.7;
+}
+
+#post-meta a.markdown-link:hover {
+    color: var(--accent-color);
+    opacity: 1;
+}
+
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #222;

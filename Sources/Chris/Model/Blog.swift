@@ -23,6 +23,30 @@ extension BlogPost {
 }
 
 extension BlogPost {
+    var markdownBody: String {
+        switch body {
+        case .markdown(let s):
+            return s
+        case .pieces(let pieces):
+            return pieces.renderMarkdown(prefix: link)
+        }
+    }
+
+    var markdownDocument: String {
+        let encoder = YAMLEncoder()
+        let yaml = (try? encoder.encode(metadata)) ?? ""
+        return """
+        ---
+        \(yaml)---
+
+        \(markdownBody)
+        """
+    }
+
+    var markdownLink: String {
+        link + "/index.md"
+    }
+
     var bodyNode: HTML.Node {
         switch body {
         case .markdown(let s): return s.fromMarkdown
@@ -107,9 +131,12 @@ struct Blog: Rule {
             }
         }
         .outputPath(post.post.link)
+        Write(outputName: "index.md", data: post.post.markdownDocument.data(using: .utf8)!)
+            .outputPath(post.post.link)
         WriteNode(outputName: "index.html", node: post.page)
             .title(post.post.metadata.title + (post.post.metadata.published == false ? " (Unpublished)" : ""))
             .environment(keyPath: \.openGraphImage, value: post.post.shareImageLink)
+            .environment(keyPath: \.markdownAlternate, value: post.post.markdownLink)
             .outputPath(post.post.link)
     }
 

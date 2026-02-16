@@ -10,6 +10,10 @@ struct ExtraFooterContent: EnvironmentKey {
     static var defaultValue: Node? = nil
 }
 
+struct MarkdownAlternate: EnvironmentKey {
+    static var defaultValue: String? = nil
+}
+
 extension EnvironmentValues {
     public var openGraphImage: String? {
         get { self[OpenGraphImage.self] }
@@ -19,6 +23,11 @@ extension EnvironmentValues {
     public var extraFooterContent: Node? {
         get { self[ExtraFooterContent.self] }
         set { self[ExtraFooterContent.self] = newValue }
+    }
+
+    public var markdownAlternate: String? {
+        get { self[MarkdownAlternate.self] }
+        set { self[MarkdownAlternate.self] = newValue }
     }
 }
 

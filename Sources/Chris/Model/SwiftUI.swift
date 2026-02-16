@@ -17,6 +17,10 @@ struct SwiftUIView<V: View>: PostPiece {
         }
     }
 
+    func renderMarkdown(id: Int, prefix: String) -> String {
+        "![](\(prefix)/\(id).png)"
+    }
+
     func generateImages(id: Int) -> some Rule {
         Write(outputName: "\(id).png", data: view.render(size: size, background: background, colorScheme: .light))
         Write(outputName: "\(id)-dark.png", data: view.render(size: size, background: background, colorScheme: .dark))

@@ -101,6 +101,11 @@ extension BlogPost {
                                 }
                                 ")"
                         }
+                        " "
+                        a(class: "markdown-link", href: markdownLink, title: "View as Markdown") {
+                            "M↓"
+                        }
+                        "."
                     }
                 }
             }
