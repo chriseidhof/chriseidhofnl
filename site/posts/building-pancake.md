@@ -1,5 +1,5 @@
 ---
-date: 2026-02-16
+date: 2026-02-20
 title: Building Pancake
 headline: A Mac App in a Month
 published: false
