@@ -13,9 +13,9 @@ Our goal was to build and ship an app in a month. This is slightly ambitious, an
 
 We decided that we wanted to scope it down to just creating blogs (initially) and speed was a core consideration: it should be extremely fast to create a new website (creating a new file), to write something (integrated editor) and also to publish it (our own server). Because we use a native text editor, adding images is as easy as just dragging the image in. In the video below, you can see exactly this process with Pancake, our new app:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/A22kuc9k0Os?si=YYXs1_abT-Ci4pRy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> r
+<iframe width="560" height="315" src="https://www.youtube.com/embed/A22kuc9k0Os?si=YYXs1_abT-Ci4pRy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-We decided beforehand that we wanted to release this at the end of the month. In our case, this meant sharing the download link with just a few close friends. While we both have other obligations this month and next, we haven't found the time to polish this in a way that we feel comfortable putting this out as a "public" release. But if you want to have a look, just send one of us a message and we'll share the download link.
+We decided beforehand that we wanted to release this at the end of the month. In our case, this meant sharing the download link with just a few close friends. While we both have other obligations this month and next, we haven't found the time to polish this in a way that we feel comfortable putting this out as a "public" release. But if you are interested, just send one of us a message.
 
 I'm proud of what we built in a month. I do think we made a few mistakes. First of all, I think we had too big of a scope given the constraints. Second, including a server component means a lot of responsibility (what if people upload malicious content? what if the server goes down?) that feels unrealistic to support as a side project.
 
