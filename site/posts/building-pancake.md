@@ -2,7 +2,6 @@
 date: 2026-02-20
 title: Building Pancake
 headline: A Mac App in a Month
-published: false
 ---
 
 In January, Nathan and I built a Mac app over the course of a month. Last year, I set the goal to collaborate more with other people in 2026, and Nathan was the first person I thought of. We've been doing SwiftUI workshops together throughout last year, and I really enjoy working with him. This post is a short story of what we've built and how we did it.

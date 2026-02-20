@@ -8,6 +8,34 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Building Pancake</title>
+			<description>
+				&lt;p&gt;
+	In January, Nathan and I built a Mac app over the course of a month. Last year, I set the goal to collaborate more with other people in 2026, and Nathan was the first person I thought of. We’ve been doing SwiftUI workshops together throughout last year, and I really enjoy working with him. This post is a short story of what we’ve built and how we did it.
+&lt;/p&gt;
+&lt;p&gt;
+	Our goal was to build and ship an app in a month. This is slightly ambitious, and we both succeeded and failed at the same time. We decided last minute that we’d build a Mac app to build static sites. Many static site generators come with all kinds of dependencies that eventually fail to resolve, and installation can be messy. With Mac apps, everything comes bundled and you get the experience of “batteries included”.
+&lt;/p&gt;
+&lt;p&gt;
+	We decided that we wanted to scope it down to just creating blogs (initially) and speed was a core consideration: it should be extremely fast to create a new website (creating a new file), to write something (integrated editor) and also to publish it (our own server). Because we use a native text editor, adding images is as easy as just dragging the image in. In the video below, you can see exactly this process with Pancake, our new app:
+&lt;/p&gt;
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/A22kuc9k0Os?si=YYXs1_abT-Ci4pRy&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; referrerpolicy=&quot;strict-origin-when-cross-origin&quot; allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;p&gt;
+	We decided beforehand that we wanted to release this at the end of the month. In our case, this meant sharing the download link with just a few close friends. While we both have other obligations this month and next, we haven’t found the time to polish this in a way that we feel comfortable putting this out as a “public” release. But if you are interested, just send one of us a message.
+&lt;/p&gt;
+&lt;p&gt;
+	I’m proud of what we built in a month. I do think we made a few mistakes. First of all, I think we had too big of a scope given the constraints. Second, including a server component means a lot of responsibility (what if people upload malicious content? what if the server goes down?) that feels unrealistic to support as a side project.
+&lt;/p&gt;
+&lt;p&gt;
+	We’re not sure yet how we’ll proceed from here. Is this a portfolio piece? Will we keep working on it? In any case, it has been a lot of fun. For me, the highlight was actually working together with Nathan, in person, in Paris.
+&lt;/p&gt;
+			</description>
+			<pubDate>Fri, 20 Feb 2026 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/building-pancake</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/building-pancake</guid>
+		</item>
+		<item>
 			<title>Self-Forking Agents</title>
 			<description>
 				&lt;p&gt;
@@ -1345,29 +1373,6 @@ struct RoomView3Helper: View {
 			<pubDate>Mon, 02 Dec 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-48</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-48</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 47</title>
-			<description>
-				&lt;p&gt;
-	Last week was intense but really fun. We taught a SwiftUI workshop on site which is always quite involved (with travel) but so worth it. There’s just no substitute for real face-to-face interaction. I think most people really appreciated our visualizations and explanations. We put a lot of time and effort into these, so it’s always great when this gets appreciated. This week we’ll do another on-site workshop but closer to home (in Hamburg)
-&lt;/p&gt;
-&lt;p&gt;
-	To prepare the exercises I’ve used &lt;a href=&quot;https://github.com/martinvonz/jj&quot;&gt;jj&lt;/a&gt; (instead of git) extensively. It’s such a time saver because we need to rewrite commits all the time.
-&lt;/p&gt;
-&lt;p&gt;
-	After getting back from London I took an extra day off (for the most part, at least) to spend more time with the family. We also went to the Dutch embassy in The Netherlands to celebrate “Sinterklaas”, which was a lot of fun. I had quite the persistent cold so hardly did any exercise. Now it’s time for more traveling.
-&lt;/p&gt;
-&lt;p&gt;
-	I took a minute to at least provide a brief update to my post about &lt;a href=&quot;http://chris.eidhof.nl/post/variadic-views/&quot;&gt;variadic views&lt;/a&gt; and how they relate to the new &lt;code&gt;Group(subviews:transform:)&lt;/code&gt; API. It’s pretty cool that you can still use variadic views as a drop-in replacement for targeting older platforms.
-&lt;/p&gt;
-&lt;p&gt;
-	I spent more time trying to implement the SwiftUI part of the attribute graph but couldn’t quite get it right. It’s definitely proven to be a bit tricky to write all of this code without any cycles. Specifically, I was trying to implement the node in the graph that allows you to attach an arbitrary &lt;code&gt;Layout&lt;/code&gt;. Once that works, things like &lt;code&gt;.frame&lt;/code&gt;, &lt;code&gt;.padding&lt;/code&gt; or even &lt;code&gt;HStack&lt;/code&gt; will be really easy to port over.
-&lt;/p&gt;
-			</description>
-			<pubDate>Sun, 24 Nov 2024 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-47</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-47</guid>
 		</item>
 	</channel>
 </rss>

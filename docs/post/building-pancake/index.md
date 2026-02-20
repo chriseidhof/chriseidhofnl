@@ -2,7 +2,6 @@
 headline: A Mac App in a Month
 title: Building Pancake
 date: 2026-02-20
-published: false
 ---
 
 
