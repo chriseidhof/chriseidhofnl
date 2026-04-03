@@ -37,3 +37,8 @@ headline: A Short Headline
 Write the post here.
 EOF
 ```
+
+## Build And Preview
+
+- To generate the site, run `swift run`.
+- To preview the generated site locally, run `cd docs && python3 -m http.server`.
