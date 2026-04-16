@@ -1,0 +1,78 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<link href="/post/format-style-guide/index.md" rel="alternate" title="Markdown" type="text/markdown"/>
+		<title>
+			FormatStyle Guide — Chris Eidhof
+		</title>
+		<meta content="FormatStyle Guide — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/format-style-guide/og-image-cd53.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title">Chris Eidhof</a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								FormatStyle Guide
+							</h1>
+							<h2 class="headline">
+								An Interactive Guide to Swift Foundation FormatStyle APIs
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								I just launched the <a href="https://formatstyle.guide/">FormatStyle Guide</a>, a new project that explores Swift Foundation’s <code>FormatStyle</code> APIs in the browser via WebAssembly.
+							</p>
+							<p>
+								Similar in spirit to the <a href="https://www.swiftuifieldguide.com/">SwiftUI Field Guide</a>, I always wanted a quick visual overview of the available APIs. Unlike the SwiftUI Field Guide, I didn’t want to reimplement all of the APIs in TypeScript.
+							</p>
+							<p>
+								However, now that Wasm support is <a href="https://www.swift.org/documentation/articles/wasm-getting-started.html">officially part of Swift</a> I realized we could just do it interactively in the browser.
+							</p>
+							<p>
+								Doing this with Wasm is great because I don’t need a server. What’s not so great is that the binary size is big (47 MB). The setup was extremely easy for me (just prompting the LLM).
+							</p>
+							<p>
+								The guide contains interactive samples for formatting numeric values, dates and measurements that you can see and manipulate. It also contains advice about how to use this with SwiftUI, which has deep integration for <code>FormatStyle</code>. Finally, there are some examples in there that show parsing using the formatters as well.
+							</p>
+							<p>
+								I’ve added a beta badge because it’s not quite finished yet, but I’m happy to hear your thoughts. There are some more things I’d like to add, but for now I think it’s good enough for people to have a first look.
+							</p>
+							<p>
+								This was also an experiment in using an LLM to write the code. I wrote very little of this by hand. The quality is not the same as hand-written code, but: I was able to build and release this in two days.
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Apr 16, 2026</time>
+										 by Chris Eidhof 
+										(<a href="https://m.objc.io/@chris" rel="me">Mastodon</a>, <a href="https://bsky.app/profile/eidhof.nl">BSky</a>).
+										 
+										<a class="markdown-link" href="/post/format-style-guide/index.md" title="View as Markdown">M↓</a>
+										.</span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/alt-tech-talks">Alt Tech Talks
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

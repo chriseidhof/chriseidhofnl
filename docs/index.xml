@@ -8,6 +8,35 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>FormatStyle Guide</title>
+			<description>
+				&lt;p&gt;
+	I just launched the &lt;a href=&quot;https://formatstyle.guide/&quot;&gt;FormatStyle Guide&lt;/a&gt;, a new project that explores Swift Foundation’s &lt;code&gt;FormatStyle&lt;/code&gt; APIs in the browser via WebAssembly.
+&lt;/p&gt;
+&lt;p&gt;
+	Similar in spirit to the &lt;a href=&quot;https://www.swiftuifieldguide.com/&quot;&gt;SwiftUI Field Guide&lt;/a&gt;, I always wanted a quick visual overview of the available APIs. Unlike the SwiftUI Field Guide, I didn’t want to reimplement all of the APIs in TypeScript.
+&lt;/p&gt;
+&lt;p&gt;
+	However, now that Wasm support is &lt;a href=&quot;https://www.swift.org/documentation/articles/wasm-getting-started.html&quot;&gt;officially part of Swift&lt;/a&gt; I realized we could just do it interactively in the browser.
+&lt;/p&gt;
+&lt;p&gt;
+	Doing this with Wasm is great because I don’t need a server. What’s not so great is that the binary size is big (47 MB). The setup was extremely easy for me (just prompting the LLM).
+&lt;/p&gt;
+&lt;p&gt;
+	The guide contains interactive samples for formatting numeric values, dates and measurements that you can see and manipulate. It also contains advice about how to use this with SwiftUI, which has deep integration for &lt;code&gt;FormatStyle&lt;/code&gt;. Finally, there are some examples in there that show parsing using the formatters as well.
+&lt;/p&gt;
+&lt;p&gt;
+	I’ve added a beta badge because it’s not quite finished yet, but I’m happy to hear your thoughts. There are some more things I’d like to add, but for now I think it’s good enough for people to have a first look.
+&lt;/p&gt;
+&lt;p&gt;
+	This was also an experiment in using an LLM to write the code. I wrote very little of this by hand. The quality is not the same as hand-written code, but: I was able to build and release this in two days.
+&lt;/p&gt;
+			</description>
+			<pubDate>Thu, 16 Apr 2026 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/format-style-guide</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/format-style-guide</guid>
+		</item>
+		<item>
 			<title>Alt Tech Talks</title>
 			<description>
 				&lt;p&gt;
@@ -1351,43 +1380,6 @@ struct RoomView3Helper: View {
 			<pubDate>Mon, 16 Dec 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-50</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-50</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 49</title>
-			<description>
-				&lt;p&gt;
-	Last week was more personal stuff and less work. I spent a morning teaching a zine workshop to primary school kids, which was really fun. One of our kids was sick and I had to take care of her for a day, which only left three short days of work time. I spent an evening rehearsing a short play with other parents for the day care. I think the last time I was in a play was almost thirty years ago.
-&lt;/p&gt;
-&lt;p&gt;
-	Because of weather and responsibilities, I cycled indoors quite a bit (instead of in the forest). This is definitely better than running on the treadmill (which I used to do a few years ago). A lot more comfortable and not as loud.
-&lt;/p&gt;
-&lt;p&gt;
-	I recorded short videos and posted them on Bluesky and Mastodon (hope to keep doing that for the rest of December):
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3lccp3fl2xs2z&quot;&gt;How to use Flexible Frames&lt;/a&gt;&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3lcf64ao7vk2n&quot;&gt;Image Resizing and Aspect Ratio&lt;/a&gt;&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3lchrl3jtbs2v&quot;&gt;Scaled Metric&lt;/a&gt;&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3lcmrzsuyl22u&quot;&gt;Text&lt;/a&gt;&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;
-	I spent more time figuring out how the attribute graph works. At the same time, I tried porting some of GraphViz’s layout algorithm to SwiftUI.
-&lt;/p&gt;
-&lt;p&gt;
-	I had a call with Nathan from &lt;a href=&quot;https://retcon.app&quot;&gt;Retcon&lt;/a&gt;. We talked about a bunch of stuff, but one quote really stuck with me: “when designing puzzles in games, the designers want people to try the wrong solution first”. I always feel anytime we make a mistake and later do it right, learning is much better. Maybe I could use this as inspiration for my teaching.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 09 Dec 2024 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-49</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-49</guid>
 		</item>
 	</channel>
 </rss>
