@@ -8,6 +8,39 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Deep Understanding while using LLMs</title>
+			<description>
+				&lt;p&gt;
+	In our recent SwiftUI workshops, we have told people at the start to not use an LLM during the workshop. We think LLMs are great and help us to get to the results we want much quicker — for some tasks we easily get a ten times speedup. We tell the workshop attendees that they could solve all exercises within twenty minutes using an LLM, rather than two days of working through it by hand.
+&lt;/p&gt;
+&lt;p&gt;
+	The goal of our workshop is not to solve the exercises, but instead, the goal is to build a very deep understanding of how SwiftUI works. We do this through multiple steps: first, we struggle through exercises. Then we talk about how we solved the exercises. Finally, we look at the theory behind it, we answer questions and look at visualizations of how SwiftUI works.
+&lt;/p&gt;
+&lt;p&gt;
+	There is no shortcut to building deep understanding. Just reading a book or watching a video will not help. We often see that the explanations we give &lt;em&gt;before&lt;/em&gt;
+	 the exercise don’t really sink in until people work their way through it themselves.
+&lt;/p&gt;
+&lt;p&gt;
+	From our perspective, the people that seem very successful in using LLMs have a deep knowledge of programming. They understand exactly how things work. This is what our SwiftUI workshops focus on as well. Building really deep knowledge so that you can work more effectively, with or without assistance. Many of my very experienced engineering friends who are into LLMs told us they mostly do shallow thinking nowadays. We just prompt away until we end up with something we don’t really understand anymore, and making progress becomes increasingly harder.
+&lt;/p&gt;
+&lt;p&gt;
+	The principles of software design still apply, more than ever. We need fundamental understanding. We need clear design and architecture. Many of the ideas from functional programming are a massive help in times of LLMs: clear boundaries, interfaces. Modeling your data so that it is correct by construction and impossible states are impossible. All of this helps with testability, which in turn makes the LLMs more effective. For example, I believe the constraints that the &lt;a href=&quot;https://github.com/pointfreeco/swift-composable-architecture&quot;&gt;The Composable Architecture&lt;/a&gt; puts in place make everything easier for building with LLMs.
+&lt;/p&gt;
+&lt;p&gt;
+	When you’re vibe coding a grocery list app for your family (as I have done) you can easily get away without any of this. A few prompts and it’s done. But for robust software you’ll still have to engineer it. LLMs do not replace understanding and engineering, they amplify it.
+&lt;/p&gt;
+&lt;p&gt;
+	One of my favorite exercises during the SwiftUI workshop involves working your way through how state management works in SwiftUI, similar to the problem described in &lt;a href=&quot;https://chris.eidhof.nl/post/swiftui-task-identity/&quot;&gt;task identity&lt;/a&gt;. Most people that read that post might think they understand it. But the literal (sometimes loud!) a-ha’s that we hear during the workshop are one of the things that make me happiest when teaching. Even the people that thought they understood often get to a way deeper understanding by working through every step of the problem themselves.
+&lt;/p&gt;
+&lt;p&gt;
+	Going forward, our workshops will mostly be hand-written code. Not because it’s faster – it’s not. The main goal of our workshop is to deepen people’s understanding and mental model. That’s what we optimize for.
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 04 May 2026 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/deep-understanding-while-using-llms</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/deep-understanding-while-using-llms</guid>
+		</item>
+		<item>
 			<title>FormatStyle Guide</title>
 			<description>
 				&lt;p&gt;
@@ -1312,74 +1345,6 @@ struct RoomView3Helper: View {
 			<pubDate>Mon, 23 Dec 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-51</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-51</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 50</title>
-			<description>
-				&lt;p&gt;
-	Last week I again tried to not focus too much on work, and instead went to Berlin to meet friends and get my passport renewed. I also played my first theatre role in almost thirty years. The previous role was at the closing play of primary school, this time it was at the youngest’s day care.
-&lt;/p&gt;
-&lt;p&gt;
-	I put out new videos last week with a focus on alignment:
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3lcuimlkuhs2a&quot;&gt;Aligning stacks, frames and overlays&lt;/a&gt;&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3lcwqelejhs2b&quot;&gt;First Text Baseline alignment&lt;/a&gt;&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3lczc2omr622z&quot;&gt;Explicit Alignment Guides&lt;/a&gt;&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3ld3zsqzi6s2y&quot;&gt;Sizing of ZStack vs overlay&lt;/a&gt;&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3ld6jo2xk5s22&quot;&gt;Aligning custom icons&lt;/a&gt;&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;
-	I am still going strong on the Zettelkasten note taking method. My note with attribute graph questions is getting quite long, hopefully at some point I’ll be able to ask someone about it.
-&lt;/p&gt;
-&lt;p&gt;
-	I read a bit about &lt;a href=&quot;http://peterfadde.com/Research/Deliberate_Performance-PI-1011.pdf&quot;&gt;deliberate performance&lt;/a&gt;. In short, you can increase performance by:
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;strong&gt;Experimenting&lt;/strong&gt;
-			. Form hypotheses and these these out.
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;strong&gt;Estimating&lt;/strong&gt;
-			. How long will this take me? How big / expensive will this thing take me?
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;strong&gt;Extrapolition&lt;/strong&gt;
-			. How can you apply the learned things to other areas? How does this concept generalize?
-		&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;strong&gt;Explanation&lt;/strong&gt;
-			 Writing, teaching, etc.
-		&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;
-	It’s fun to see how we apply these in our workshops as well. We give a quick intro, let the attendees solve a solution, have them explain their solution and then try to discuss the theory or what it means in the abstract.
-&lt;/p&gt;
-&lt;p&gt;
-	I read more about &lt;a href=&quot;https://www.pathsensitive.com/2019/07/the-best-refactoring-youve-never-heard.html&quot;&gt;defunctionalization&lt;/a&gt;. We also &lt;a href=&quot;https://www.objc.io/blog/2019/09/10/defunctionalization/&quot;&gt;wrote about this&lt;/a&gt; in 2019. It’s been a pattern I keep seeing everywhere: in the Elm Architecture, in TCA and while thinking about building virtual machines (you can start with a naive functional implementation of whatever it is you want to build and then use CPS + defunctionalization to build a very efficient iterative implementation).
-&lt;/p&gt;
-&lt;p&gt;
-	I’ve been thinking about using the stuff I learned about the attribute graph implementation to take yet another stab at an incremental static site generator (just for fun). Not sure when I’ll have time for that.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 16 Dec 2024 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-50</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-50</guid>
 		</item>
 	</channel>
 </rss>
