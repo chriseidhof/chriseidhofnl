@@ -1,5 +1,5 @@
 ---
-headline: The benefit of writing code by hand
+headline: The benefits of writing code by hand
 title: Learning in the age of LLMs
 date: 2026-06-02
 ---
@@ -20,7 +20,7 @@ What does learning look like in this new age? I find it hard to imagine that tem
 
 This quote really summed it up for me:
 
-> you can outsource your thinking
+> you can outsource your thinking  
 > but you cannot outsource your understanding
 
 (Source: <https://x.com/karpathy/status/2049907410303865030>)
