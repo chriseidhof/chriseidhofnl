@@ -1,0 +1,90 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<link href="/post/learning-in-the-age-of-llms/index.md" rel="alternate" title="Markdown" type="text/markdown"/>
+		<title>
+			Learning in the age of LLMs — Chris Eidhof
+		</title>
+		<meta content="Learning in the age of LLMs — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/learning-in-the-age-of-llms/og-image-5586.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title">Chris Eidhof</a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Learning in the age of LLMs
+							</h1>
+							<h2 class="headline">
+								The benefit of writing code by hand
+							</h2>
+						</header>
+						<section class="postbody">
+							<p>
+								I’ve been working on an experimental project with a friend, a static analyzer. This project has been in my head for years now, but it’s quite ambitious and in my estimate, it’d take at least a few months before you’d have something decent.
+							</p>
+							<p>
+								My friend used AI to build it in a few days. He used a very sophisticated workflow (using <a href="https://github.com/Dicklesworthstone/beads_rust">beads_rust</a>) so that multiple agents could work on tickets at the same time, almost completely unsupervised. The result was very impressive. However, some things were too complicated and it became hard to make progress.
+							</p>
+							<p>
+								We actually went through this loop three times. He threw everything away, started from scratch, and each time it got better. The results kept being more impressive but we always ended up throwing everything away.
+							</p>
+							<p>
+								At some point, we realized that our algorithm was too inefficient, walking the syntax tree many times, rather than doing a single pass. What really helped was sitting down together – no LLM – and writing a few sample implementations by hand. It felt very strange, as our progress was extremely slow, but we did walk away with a much deeper understanding, and if we do another iteration, we now know how to prompt the LLM.
+							</p>
+							<p>
+								As I make my money by educating people (writing books, running workshops, making videos) I think about this a lot.
+							</p>
+							<p>
+								What does learning look like in this new age? I find it hard to imagine that temporarily throwing out the LLM and doing stuff by hand is the best way, and yet, I don’t know anything that’s better currently. I tried letting the LLM teach me, give me exercises, ask me questions, and while it was helpful, it didn’t make a big difference.
+							</p>
+							<p>
+								This quote really summed it up for me:
+							</p>
+							<blockquote>
+								<p>
+									you can outsource your thinking
+									but you cannot outsource your understanding
+								</p>
+							</blockquote>
+							<p>
+								(Source: <a href="https://x.com/karpathy/status/2049907410303865030">https://x.com/karpathy/status/2049907410303865030</a>)
+							</p>
+							<p>
+								This is also written after thinking more about my <a href="/post/deep-understanding-while-using-llms/">last post</a>. How can we teach better in the age of LLMs? What skills do you need to have to build complicated software with these new techniques? I don’t have the answers yet, and I’d love to know what your experiences are. Build faster, learn slower?
+							</p>
+						</section>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Jun 2, 2026</time>
+										 by Chris Eidhof 
+										(<a href="https://m.objc.io/@chris" rel="me">Mastodon</a>, <a href="https://bsky.app/profile/eidhof.nl">BSky</a>).
+										 
+										<a class="markdown-link" href="/post/learning-in-the-age-of-llms/index.md" title="View as Markdown">M↓</a>
+										.</span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+							<span class="next"><a href="/post/deep-understanding-while-using-llms">Deep Understanding while using LLMs
+									<span class="arrow">→</span></a></span>
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

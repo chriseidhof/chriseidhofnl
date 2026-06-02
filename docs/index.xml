@@ -8,6 +8,47 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Learning in the age of LLMs</title>
+			<description>
+				&lt;p&gt;
+	I’ve been working on an experimental project with a friend, a static analyzer. This project has been in my head for years now, but it’s quite ambitious and in my estimate, it’d take at least a few months before you’d have something decent.
+&lt;/p&gt;
+&lt;p&gt;
+	My friend used AI to build it in a few days. He used a very sophisticated workflow (using &lt;a href=&quot;https://github.com/Dicklesworthstone/beads_rust&quot;&gt;beads_rust&lt;/a&gt;) so that multiple agents could work on tickets at the same time, almost completely unsupervised. The result was very impressive. However, some things were too complicated and it became hard to make progress.
+&lt;/p&gt;
+&lt;p&gt;
+	We actually went through this loop three times. He threw everything away, started from scratch, and each time it got better. The results kept being more impressive but we always ended up throwing everything away.
+&lt;/p&gt;
+&lt;p&gt;
+	At some point, we realized that our algorithm was too inefficient, walking the syntax tree many times, rather than doing a single pass. What really helped was sitting down together – no LLM – and writing a few sample implementations by hand. It felt very strange, as our progress was extremely slow, but we did walk away with a much deeper understanding, and if we do another iteration, we now know how to prompt the LLM.
+&lt;/p&gt;
+&lt;p&gt;
+	As I make my money by educating people (writing books, running workshops, making videos) I think about this a lot.
+&lt;/p&gt;
+&lt;p&gt;
+	What does learning look like in this new age? I find it hard to imagine that temporarily throwing out the LLM and doing stuff by hand is the best way, and yet, I don’t know anything that’s better currently. I tried letting the LLM teach me, give me exercises, ask me questions, and while it was helpful, it didn’t make a big difference.
+&lt;/p&gt;
+&lt;p&gt;
+	This quote really summed it up for me:
+&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;
+		you can outsource your thinking
+		but you cannot outsource your understanding
+	&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+	(Source: &lt;a href=&quot;https://x.com/karpathy/status/2049907410303865030&quot;&gt;https://x.com/karpathy/status/2049907410303865030&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+	This is also written after thinking more about my &lt;a href=&quot;http://chris.eidhof.nl/post/deep-understanding-while-using-llms/&quot;&gt;last post&lt;/a&gt;. How can we teach better in the age of LLMs? What skills do you need to have to build complicated software with these new techniques? I don’t have the answers yet, and I’d love to know what your experiences are. Build faster, learn slower?
+&lt;/p&gt;
+			</description>
+			<pubDate>Tue, 02 Jun 2026 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/learning-in-the-age-of-llms</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/learning-in-the-age-of-llms</guid>
+		</item>
+		<item>
 			<title>Deep Understanding while using LLMs</title>
 			<description>
 				&lt;p&gt;
@@ -1302,49 +1343,6 @@ struct RoomView3Helper: View {
 			<pubDate>Tue, 24 Dec 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-review</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-review</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 51</title>
-			<description>
-				&lt;p&gt;
-	Last week I finished almost all preparation for the first workshop of next year. There was a weird crash in the Workshop app. This app has evolved a lot over the last few years, and I didn’t quite understand the reason it was crashing (duplicate symbols?). I did remove the last remaining static framework by changing it into a Swift package and that finally got rid of the crash.
-&lt;/p&gt;
-&lt;p&gt;
-	We researched more attribute graph stuff for &lt;a href=&quot;https://talk.objc.io&quot;&gt;Swift Talk&lt;/a&gt;. There are six episodes already and we could easily do ten more, but not sure yet where we’ll draw the line. It’d definitely be fun to do state management, the environment, preferences, etc.
-&lt;/p&gt;
-&lt;p&gt;
-	I thought more about some patterns that I’ve used over the years: defunctionalization, explicit witnesses and incremental programming systems. I also have some more ideas written down about the incremental static site generator I’d like to build. I experimented a bit with some of those topics, hopefully I’ll be able to at least write about some of that.
-&lt;/p&gt;
-&lt;p&gt;
-	I created four more one-minute videos:
-&lt;/p&gt;
-&lt;ul&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3ldftzlvzxc2m&quot;&gt;Basic Animations&lt;/a&gt;&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3ldiqmhcsys2z&quot;&gt;Phase Animations&lt;/a&gt;&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3ldkwkcr5322k&quot;&gt;Keyframe Animations&lt;/a&gt;&lt;/p&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;p&gt;&lt;a href=&quot;https://bsky.app/profile/eidhof.nl/post/3ldnv7ikcdk2z&quot;&gt;Animatable&lt;/a&gt;&lt;/p&gt;
-	&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;
-	I’ve been thinking a bit about how to build a workflow system in Swift. This is a system that would have long-running tasks (think days or months) with discrete steps that also include user-input. For example: an email arrives, triggers a new workflow instance, some automated stuff happens but before a reply gets sent I get to review and edit it. I’d like to come up with a simple core model for describing these workflows, but it turns out to not be all that easy. I think I’ll ultimately have to go for a graph structure as I’d want forks and joins in the workflows. In writing about it just now, I realized I should start with a simpler (non-persistent) implementation to test out what the API would feel like.
-&lt;/p&gt;
-&lt;p&gt;
-	I started reading “Stories Sell” by Matthew Dicks. So far it seems quite interesting.
-&lt;/p&gt;
-&lt;p&gt;
-	I went for two longer gravel rides on the weekend: one was 53km and the other one 86km. It’s definitely more challenging in low temperatures, on the longer one I even got rained on quite a bit. I did bring an extra jacket and a thermos flask of tea, next time I’ll bring a spare pair of dry gloves as well. I rode some beautiful new (to me) trails.
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 23 Dec 2024 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-51</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-51</guid>
 		</item>
 	</channel>
 </rss>

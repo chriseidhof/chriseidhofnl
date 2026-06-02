@@ -8,6 +8,7 @@ let package = Package(
     platforms: [.macOS(.v13)],
     products: [
         .executable(name: "Website", targets: ["Website"]),
+        .executable(name: "PreviewServer", targets: ["PreviewServer"]),
         .library(
             name: "Chris",
             targets: ["Chris"]),
@@ -22,6 +23,8 @@ let package = Package(
         .executableTarget(
             name: "Website",
             dependencies: ["Chris"]),
+        .executableTarget(
+            name: "PreviewServer"),
         .target(
             name: "Helpers",
             dependencies: [
@@ -60,4 +63,3 @@ let package = Package(
             dependencies: ["Chris"]),
     ]
 )
-
