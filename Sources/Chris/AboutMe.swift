@@ -49,7 +49,7 @@ struct AboutMe: Rule {
         
         I'll try to add more presentations here in the future.
 
-        ## Bio
+        <h2 id="bio"><a href="#bio">Bio</a></h2>
         
         > Chris is the founder of [objc.io](https://www.objc.io) and creator of [SwiftUI Field Guide](https://www.swiftuifieldguide.com/). He wrote multiple books about Swift, runs the [Swift Talk](https://www.objc.io) video series and organizes [SwiftUI workshops](https://swiftuifieldguide.com/workshops/).
         
