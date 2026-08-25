@@ -178,4 +178,4 @@ VStack {
 .onAppear {  } /* works */
 ```
 
-Note: all of this is tested with iOS 18.2, hopefully some of this will be fixed in the future.
+When writing I tested all of this with iOS 18.2, hopefully some of this will be fixed in the future. In Xcode 27 the problem still exists.

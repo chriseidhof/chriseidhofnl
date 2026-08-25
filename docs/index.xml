@@ -1193,7 +1193,7 @@ struct RoomView3Helper: View {
 .onAppear {  } /* works */
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
-	Note: all of this is tested with iOS 18.2, hopefully some of this will be fixed in the future.
+	When writing I tested all of this with iOS 18.2, hopefully some of this will be fixed in the future. In Xcode 27 the problem still exists.
 &lt;/p&gt;
 			</description>
 			<pubDate>Wed, 19 Mar 2025 00:00:00 +0100</pubDate>
