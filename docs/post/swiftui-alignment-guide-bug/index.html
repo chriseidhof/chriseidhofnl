@@ -32,7 +32,6 @@
 								For the last few years SwiftUI’s <a href="https://www.swiftuifieldguide.com/layout/alignment/">alignment guides</a> have been broken in combination with <code>if</code>-statements. Here’s a small example:
 							</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
-    <span class="hljs-keyword">var</span> <span class="hljs-identifier">value</span> = <span class="hljs-keyword">true</span>
     <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
         <span class="hljs-identifier">Color</span>.<span class="hljs-identifier">green</span>
             .<span class="hljs-identifier">frame</span>(<span class="hljs-identifier">width</span>: <span class="hljs-number">100</span>, <span class="hljs-identifier">height</span>: <span class="hljs-number">100</span>)
@@ -52,14 +51,14 @@
 								</picture>
 							</p>
 							<p>
-								I expected the horizontal center of the circle to be aligned with the leading edge of the green color. Instead, both views are centered on top of each other. When you remove the <code>if</code> it works as expected. If you replace the <code>if</code> with an <code>if/else</code> it’s still broken, but if you replace the <code>if</code> with a <code>switch</code> it does work as expected.
+								I expected the horizontal center of the circle to be aligned with the leading edge of the green color. Instead, both views are centered on top of each other. When you remove the <code>if</code> it works as expected. If you replace the <code>if</code> with an <code>if/else</code> or a <code>switch</code> it’s still broken.
 							</p>
 							<p>
-								Depending on your use case you can also replace the <code>if</code> statement with an opacity modifier or something similar.
+								To fix this (depending on your use case) you can replace the <code>if</code> statement with an opacity modifier or something similar.
 							</p>
 							<p>
 								(<em>FB13676056</em>
-								 for Apple folks. Last tested on Xcode 16.3).
+								 for Apple folks. Last tested on Xcode 27).
 							</p>
 						</section>
 						<footer class="group" id="post-meta">

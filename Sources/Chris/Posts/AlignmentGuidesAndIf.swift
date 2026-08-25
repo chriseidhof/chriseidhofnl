@@ -25,7 +25,6 @@ fileprivate var myPostBody: [any PostPiece] {
 
     ```swift
     struct ContentView: View {
-        var value = true
         var body: some View {
             Color.green
                 .frame(width: 100, height: 100)
@@ -64,10 +63,10 @@ fileprivate var myPostBody: [any PostPiece] {
         }
     }
     Markdown("""
-    I expected the horizontal center of the circle to be aligned with the leading edge of the green color. Instead, both views are centered on top of each other. When you remove the `if` it works as expected. If you replace the `if` with an `if/else` it's still broken, but if you replace the `if` with a `switch` it does work as expected.
+    I expected the horizontal center of the circle to be aligned with the leading edge of the green color. Instead, both views are centered on top of each other. When you remove the `if` it works as expected. If you replace the `if` with an `if/else` or a `switch` it's still broken.
 
-    Depending on your use case you can also replace the `if` statement with an opacity modifier or something similar.
+    To fix this (depending on your use case) you can replace the `if` statement with an opacity modifier or something similar.
 
-    (*FB13676056* for Apple folks. Last tested on Xcode 16.3).
+    (*FB13676056* for Apple folks. Last tested on Xcode 27).
     """)
 }

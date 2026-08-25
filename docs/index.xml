@@ -890,7 +890,6 @@ struct RoomView3Helper: View {
 	For the last few years SwiftUI’s &lt;a href=&quot;https://www.swiftuifieldguide.com/layout/alignment/&quot;&gt;alignment guides&lt;/a&gt; have been broken in combination with &lt;code&gt;if&lt;/code&gt;-statements. Here’s a small example:
 &lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct ContentView: View {
-    var value = true
     var body: some View {
         Color.green
             .frame(width: 100, height: 100)
@@ -910,14 +909,14 @@ struct RoomView3Helper: View {
 	&lt;/picture&gt;
 &lt;/p&gt;
 &lt;p&gt;
-	I expected the horizontal center of the circle to be aligned with the leading edge of the green color. Instead, both views are centered on top of each other. When you remove the &lt;code&gt;if&lt;/code&gt; it works as expected. If you replace the &lt;code&gt;if&lt;/code&gt; with an &lt;code&gt;if/else&lt;/code&gt; it’s still broken, but if you replace the &lt;code&gt;if&lt;/code&gt; with a &lt;code&gt;switch&lt;/code&gt; it does work as expected.
+	I expected the horizontal center of the circle to be aligned with the leading edge of the green color. Instead, both views are centered on top of each other. When you remove the &lt;code&gt;if&lt;/code&gt; it works as expected. If you replace the &lt;code&gt;if&lt;/code&gt; with an &lt;code&gt;if/else&lt;/code&gt; or a &lt;code&gt;switch&lt;/code&gt; it’s still broken.
 &lt;/p&gt;
 &lt;p&gt;
-	Depending on your use case you can also replace the &lt;code&gt;if&lt;/code&gt; statement with an opacity modifier or something similar.
+	To fix this (depending on your use case) you can replace the &lt;code&gt;if&lt;/code&gt; statement with an opacity modifier or something similar.
 &lt;/p&gt;
 &lt;p&gt;
 	(&lt;em&gt;FB13676056&lt;/em&gt;
-	 for Apple folks. Last tested on Xcode 16.3).
+	 for Apple folks. Last tested on Xcode 27).
 &lt;/p&gt;
 			</description>
 			<pubDate>Mon, 05 May 2025 00:00:00 +0200</pubDate>
