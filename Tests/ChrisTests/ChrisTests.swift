@@ -36,4 +36,27 @@
             XCTAssertTrue(rendered.contains(#"src="/js/shake-comparison.js""#))
             XCTAssertTrue(rendered.contains("defer"))
         }
+
+        func testShakePostEmbedsEachImplementationSeparately() throws {
+            let post = try String(
+                contentsOfFile: "site/posts/four-ways-to-shake.md",
+                encoding: .utf8
+            )
+            let methods = [
+                "customAnimatable",
+                "phaseAnimator",
+                "keyframeAnimator",
+                "timelineView",
+            ]
+
+            XCTAssertFalse(post.contains("data-swiftui-shake-comparison"))
+            for method in methods {
+                XCTAssertEqual(
+                    post.components(
+                        separatedBy: "data-swiftui-shake-example=\"\(method)\""
+                    ).count - 1,
+                    1
+                )
+            }
+        }
     }
