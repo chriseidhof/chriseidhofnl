@@ -31,45 +31,27 @@
 							</h2>
 						</header>
 						<section class="postbody">
-							<p>
-								Recently, <a href="http://inessential.com">Brent</a> and others wrote a lot about the lack of dynamic features
+							<p>Recently, <a href="http://inessential.com">Brent</a> and others wrote a lot about the lack of dynamic features
 <sup><a href="#fnref1" name="fnref-rev1">1</a></sup>
- in Swift. I tried distilling Brent’s thoughts, and came up with the following summary:
-							</p>
+ in Swift. I tried distilling Brent’s thoughts, and came up with the following summary:</p>
 							<ul>
 								<li>
-									<p>
-										It’s easy to write code in AppKit and UIKit, because many things just work, without having to write a lot of code.
-									</p>
+									<p>It’s easy to write code in AppKit and UIKit, because many things just work, without having to write a lot of code.</p>
 								</li>
 								<li>
-									<p>
-										AppKit/UIKit are written in Objective-C, and use runtime programming to remove boilerplate.
-									</p>
+									<p>AppKit/UIKit are written in Objective-C, and use runtime programming to remove boilerplate.</p>
 								</li>
 								<li>
-									<p>
-										Therefore, we either need these same features in Swift, or need to find a different way of solving some problems.
-									</p>
+									<p>Therefore, we either need these same features in Swift, or need to find a different way of solving some problems.</p>
 								</li>
 							</ul>
-							<p>
-								I think we don’t need all the runtime programming features from Objective-C.
-							</p>
-							<p>
-								As long as AppKit and UIKit will be around, we’ll have Objective-C and its runtime. If Apple releases a Swift-only successor to either one of these frameworks, I’m confident that they will do a good job: they’ll make us write less boilerplate, rather than more.
-							</p>
-							<p>
-								Let’s look at a completely different context: web programming. I’ve seen amazing web frameworks that rely a lot on runtime programming (stuff like Rails, but also <a href="http://seaside.st">Seaside</a>, back in its day). But, there are web frameworks in languages like Haskell, Scala and C# that use features like protocols, datatype-generic programming
+							<p>I think we don’t need all the runtime programming features from Objective-C.</p>
+							<p>As long as AppKit and UIKit will be around, we’ll have Objective-C and its runtime. If Apple releases a Swift-only successor to either one of these frameworks, I’m confident that they will do a good job: they’ll make us write less boilerplate, rather than more.</p>
+							<p>Let’s look at a completely different context: web programming. I’ve seen amazing web frameworks that rely a lot on runtime programming (stuff like Rails, but also <a href="http://seaside.st">Seaside</a>, back in its day). But, there are web frameworks in languages like Haskell, Scala and C# that use features like protocols, datatype-generic programming
 <sup><a href="#fnref2" name="fnref-rev2">2</a></sup>
- and passing around functions to reduce boilerplate. With both approaches you can get short, simple, maintainable code that’s easy to write.
-							</p>
-							<p>
-								Yet, techniques you don’t know will almost always seem more complicated at first. I tried arguing with a Haskell programmer that runtime programming can be useful. I tried arguing with a Ruby programmer that static types can be helpful. To both, it seemed unnecessary and complicated. They’ve been writing great code without those features.
-							</p>
-							<p>
-								Brent, if you read this, I’d like to offer you a free copy of my books. Just send me an email. There are some techniques in there that will show how to replace runtime programming with things like functions, or protocols. These techniques definitely won’t solve all your problems. I do think they will show you some ways in which you can write short, simple, and maintainable code in Swift today, without having to resort to runtime programming.
-							</p>
+ and passing around functions to reduce boilerplate. With both approaches you can get short, simple, maintainable code that’s easy to write.</p>
+							<p>Yet, techniques you don’t know will almost always seem more complicated at first. I tried arguing with a Haskell programmer that runtime programming can be useful. I tried arguing with a Ruby programmer that static types can be helpful. To both, it seemed unnecessary and complicated. They’ve been writing great code without those features.</p>
+							<p>Brent, if you read this, I’d like to offer you a free copy of my books. Just send me an email. There are some techniques in there that will show how to replace runtime programming with things like functions, or protocols. These techniques definitely won’t solve all your problems. I do think they will show you some ways in which you can write short, simple, and maintainable code in Swift today, without having to resort to runtime programming.</p>
 							<div class="footnotes">
 								<hr/>
 								<ol>

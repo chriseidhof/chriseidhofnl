@@ -164,6 +164,6 @@ I'm hoping to do a few more of these blog posts and maybe even add this to the [
 
 One of the videos that got me really interested in this topic is [The continuity of splines](https://www.youtube.com/watch?v=jvPPXbo87ds) by Freya Holmér. It's really worth a watch.
 
-Disclaimer: I wrote all text myself. I did use an LLM to build the visualizations.
+AI Disclaimer: I wrote all text by hand. I used an LLM to build the visualizations and find mistakes.
 
 [^1]: Yes, that's Edwin Catmull who also co-founded Pixar.

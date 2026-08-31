@@ -31,17 +31,11 @@
 							</h2>
 						</header>
 						<section class="postbody">
-							<p>
-								When you’re writing SwiftUI views, you definitely don’t want to run expensive tasks in the view’s initializer, as it might get called very often. Also, since the view doesn’t have structural identity yet when the initializer runs, you can’t reliably store data. Instead, you want to load data in the view’s body before the view will be drawn on screen.
-							</p>
-							<p>
-								You can achieve this with <code>.task</code> or <code>.onAppear</code>. The <code>onAppear</code> modifier has been around since the beginning. It takes a regular closure that is called whenever the view appears on screen
+							<p>When you’re writing SwiftUI views, you definitely don’t want to run expensive tasks in the view’s initializer, as it might get called very often. Also, since the view doesn’t have structural identity yet when the initializer runs, you can’t reliably store data. Instead, you want to load data in the view’s body before the view will be drawn on screen.</p>
+							<p>You can achieve this with <code>.task</code> or <code>.onAppear</code>. The <code>onAppear</code> modifier has been around since the beginning. It takes a regular closure that is called whenever the view appears on screen
 <sup><a href="#fnref1" name="fnref-rev1">1</a></sup>
-. The <code>task</code> modifier supports async/await without you having to create a manual <code>Task</code>. The task also gets cancelled automatically when the view disappears.
-							</p>
-							<p>
-								Because <code>task</code> can do anything that <code>onAppear</code> can, is there still any reason to use <code>onAppear</code>? Or can we just move to <code>task</code>? At first, I thought the two are the same, it seems like <code>task</code> is built on top of <code>onAppear</code>. There is a small difference, however (which might be an essential difference depending on how you use it). Consider the following view:
-							</p>
+. The <code>task</code> modifier supports async/await without you having to create a manual <code>Task</code>. The task also gets cancelled automatically when the view disappears.</p>
+							<p>Because <code>task</code> can do anything that <code>onAppear</code> can, is there still any reason to use <code>onAppear</code>? Or can we just move to <code>task</code>? At first, I thought the two are the same, it seems like <code>task</code> is built on top of <code>onAppear</code>. There is a small difference, however (which might be an essential difference depending on how you use it). Consider the following view:</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">ContentView</span>: <span class="hljs-identifier">View</span> {
     @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">color0</span> = <span class="hljs-identifier">Color</span>.<span class="hljs-identifier">red</span>
     @<span class="hljs-identifier">State</span> <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">color1</span> = <span class="hljs-identifier">Color</span>.<span class="hljs-identifier">red</span>
@@ -55,20 +49,12 @@
     }
 }
 </code></pre>
-							<p>
-								When you launch this app, you can see that the topmost view in the <code>VStack</code> never renders in red, whereas the bottom view quickly flickers red before turning green. If you can’t see it, you can use QuickTime to create a screen recording and verify it that way.
-							</p>
+							<p>When you launch this app, you can see that the topmost view in the <code>VStack</code> never renders in red, whereas the bottom view quickly flickers red before turning green. If you can’t see it, you can use QuickTime to create a screen recording and verify it that way.</p>
 							<blockquote>
-								<p>
-									We first noticed this behavior when implementing our own version of AsyncImage. We wanted to take a cached image, but when you use <code>task</code>, you’ll always see the placeholder.
-								</p>
+								<p>We first noticed this behavior when implementing our own version of AsyncImage. We wanted to take a cached image, but when you use <code>task</code>, you’ll always see the placeholder.</p>
 							</blockquote>
-							<p>
-								When you use <code>onAppear</code> or <code>onPreferenceChange</code> (possibly more modifiers), SwiftUI can execute your code before it even renders a single frame. Initially, the body executes, calls <code>onAppear</code> and then runs the closure inside <code>onAppear</code>. If this changes any state, the body is re-rendered before the view is even drawn on screen.
-							</p>
-							<p>
-								I’m not sure why task behaves differently and if the source of this “problem” is with SwiftUI or the concurrency system. I’m not sure if it’s meant to be or considered a bug, but at least, at this moment in time, it does work differently.
-							</p>
+							<p>When you use <code>onAppear</code> or <code>onPreferenceChange</code> (possibly more modifiers), SwiftUI can execute your code before it even renders a single frame. Initially, the body executes, calls <code>onAppear</code> and then runs the closure inside <code>onAppear</code>. If this changes any state, the body is re-rendered before the view is even drawn on screen.</p>
+							<p>I’m not sure why task behaves differently and if the source of this “problem” is with SwiftUI or the concurrency system. I’m not sure if it’s meant to be or considered a bug, but at least, at this moment in time, it does work differently.</p>
 							<div class="footnotes">
 								<hr/>
 								<ol>
