@@ -68,6 +68,9 @@ extension BlogPost {
                     pieces.render(prefix: link)
                 }
             }
+            if let source = metadata.script {
+                HTML.script(defer: true, src: source)
+            }
             footer
         }
     }

@@ -1,0 +1,102 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<link href="/images/favicon.ico" rel="shortcut icon"/>
+		<link href="/css/style.css" rel="stylesheet"/>
+		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
+		<link href="/post/four-ways-to-shake/index.md" rel="alternate" title="Markdown" type="text/markdown"/>
+		<title>
+			Four Ways to Shake (Unpublished) — Chris Eidhof
+		</title>
+		<meta content="Four Ways to Shake (Unpublished) — Chris Eidhof" property="og:title"/>
+		<meta content="website" property="og:type"/>
+		<meta content="/post/four-ways-to-shake/og-image-9105.png" property="og:image"/>
+	</head>
+	<body>
+		<section id="content">
+			<section id="outer-container">
+				<section id="wrapper">
+					<header id="header">
+						<a href="/" id="title">Chris Eidhof</a>
+					</header>
+					<article class="post">
+						<header>
+							<h1>
+								Four Ways to Shake
+							</h1>
+							<h2 class="headline">
+								Comparing SwiftUI Animation Tools
+							</h2>
+						</header>
+						<div class="unpublished">
+							<p>
+								Please don’t share this, it’s not published yet.
+							</p>
+						</div>
+						<section class="postbody">
+							<p>
+								SwiftUI gives us several very different ways to describe the same animation.
+								To compare them, I implemented one small shake four times: the box moves from
+								the center to the left, then to the right, and finally back to the center.
+							</p>
+							<p>
+								The examples below use a custom <code>Animatable</code>, a <code>PhaseAnimator</code>, a <code>KeyframeAnimator</code>, and a <code>TimelineView</code>. Tap a red box to run one animation.
+								You can also drag the headed line in its position graph to inspect the exact
+								position and velocity at any point in time.
+							</p>
+							<div data-swiftui-shake-comparison data-wide data-hide-introduction></div>
+
+							<h2>
+								The Four Implementations
+							</h2>
+							<p>
+								These declarations are loaded from the same generated data as the interactive
+								comparison. This keeps the source shown in the article identical to the source
+								used to produce the traces.
+							</p>
+							<h3>
+								Custom Animatable
+							</h3>
+							<pre><code data-swiftui-shake-source="customAnimatable">Loading source…</code></pre>
+
+							<h3>
+								Phase Animator
+							</h3>
+							<pre><code data-swiftui-shake-source="phaseAnimator">Loading source…</code></pre>
+
+							<h3>
+								Keyframe Animator
+							</h3>
+							<pre><code data-swiftui-shake-source="keyframeAnimator">Loading source…</code></pre>
+
+							<h3>
+								Timeline View
+							</h3>
+							<pre><code data-swiftui-shake-source="timelineView">Loading source…</code></pre>
+
+						</section>
+						<script defer src="/js/shake-comparison.js">
+						</script>
+						<footer class="group" id="post-meta">
+							<div>
+								<span>Posted on 
+									<span><time>Aug 31, 2026</time>
+										 by Chris Eidhof 
+										(<a href="https://m.objc.io/@chris" rel="me">Mastodon</a>, <a href="https://bsky.app/profile/eidhof.nl">BSky</a>).
+										 
+										<a class="markdown-link" href="/post/four-ways-to-shake/index.md" title="View as Markdown">M↓</a>
+										.</span></span>
+							</div>
+						</footer>
+					</article>
+					<footer>
+						<nav id="post-nav">
+						</nav>
+					</footer>
+				</section>
+			</section>
+		</section>
+	</body>
+</html>

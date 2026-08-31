@@ -247,6 +247,7 @@ struct BlogPost {
         var aliases: [String]?
         var advanced_swift: Bool?
         var published: Bool?
+        var script: String?
     }
 
 }
