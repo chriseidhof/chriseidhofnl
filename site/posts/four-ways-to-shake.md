@@ -7,7 +7,7 @@ script: /js/shake-comparison.js
 
 In SwiftUI, you can often achieve the same thing in many different ways. For example, if you wanted a shake animation in SwiftUI, there are at least four obvious ways to do it. These are not equivalent, both in terms of what's technically possible and also the smoothness of the animation.
 
-Here's one example with four different implementations. Can you spot the differences?
+Here's one example with four different implementations. Tap the box to shake it. Can you spot the differences?
 
 <div data-swiftui-shake-preview data-wide></div>
 
