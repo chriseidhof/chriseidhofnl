@@ -10,7 +10,7 @@ SwiftUI gives us several very different ways to describe the same animation.
 To compare them, I implemented one small shake four times: the box moves from
 the center to the left, then to the right, and finally back to the center.
 
-The examples below use a custom `Animatable`, a `PhaseAnimator`, a `KeyframeAnimator`, and a `TimelineView`. Tap a red box to run one animation.
+The examples below use a custom `Animatable`, a `PhaseAnimator`, a `KeyframeAnimator`, and a `TimelineView`. Tap a box to run one animation.
 You can also drag the headed line in its position graph to inspect the exact
 position and velocity at any point in time.
 
