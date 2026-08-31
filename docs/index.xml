@@ -8,6 +8,152 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Four Ways to Shake</title>
+			<description>
+				&lt;p&gt;In SwiftUI, you can often achieve the same thing in many different ways. For example, if you wanted a shake animation in SwiftUI, there are at least four obvious ways to do it. These are not equivalent, both in terms of what’s technically possible and also the smoothness of the animation.&lt;/p&gt;
+&lt;p&gt;Here’s one example with four different implementations. Can you spot the differences?&lt;/p&gt;
+&lt;div data-swiftui-shake-preview data-wide&gt;&lt;/div&gt;
+
+&lt;p&gt;It might be a bit hard to spot, but each of these animates in a slightly different way. In general, we want animations to have a smooth curve. For example, in the real world, when an object moves, it starts slowly, then becomes faster and finally slows down to a halt. In SwiftUI, this is typically done with the &lt;code&gt;easeInOut&lt;/code&gt; timing curve.&lt;/p&gt;
+&lt;p&gt;When you animate the position of objects, it often “feels more natural” if that animation is somewhat like things happen in the real world. Start slowly, pick up speed, slow down again. Rather than only relying on what “feels natural”, we can also get technical about this.&lt;/p&gt;
+&lt;p&gt;If we consider the x position of our gray box as a function that takes time as the input, and the x position as the output, we can talk about the &lt;em&gt;continuity&lt;/em&gt; of that function. Ideally, we want no sudden jumps in the output values as time increases. This is C&lt;sup&gt;0&lt;/sup&gt; continuity. Going one level higher, we also want the &lt;em&gt;velocity&lt;/em&gt; to be continuous: if the object has a lot of motion all of a sudden, that feels unnatural. This is C&lt;sup&gt;1&lt;/sup&gt; continuity. If we then go yet another level higher, we also ideally don’t want jumps in the acceleration. This is C&lt;sup&gt;2&lt;/sup&gt; continuity. We’ll look at these in more detail.&lt;/p&gt;
+&lt;h2&gt;The Four Implementations&lt;/h2&gt;
+&lt;p&gt;Perhaps the simplest way to implement this in modern SwiftUI is through a phase animator. A phase animator is essentially a bunch of chained animations. In the example below, we first animate our offset from 0 to -60 (in 0.25 seconds). When that animation completes, we then animate (in 0.5 seconds, as it takes longer to travel) to 60, and when that finally completes we animate back to zero (in 0.25 seconds).&lt;/p&gt;
+&lt;h3&gt;Phase Animator&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Example: View {
+    @State var trigger = 0
+
+    var body: some View {
+        Color.gray
+            .frame(width: 48, height: 48)
+            .onTapGesture { trigger += 1 }
+            .phaseAnimator(
+                [0.0, -60, 60, 0],
+                trigger: trigger
+            ) { content, offset in
+                content.offset(x: offset)
+            } animation: { offset in
+                .easeInOut(duration: offset == 60 ? 0.5 : 0.25)
+            }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In the graph, we can see that the x position of the box follows a smooth curve. We also can look at the velocity, which is the &lt;em&gt;derivative&lt;/em&gt; of the function that plots the x position. At the points where a next phase starts, we can see that the velocity is continuous but not smooth (the slope changes abruptly). Hence, our animation is C&lt;sup&gt;1&lt;/sup&gt; continuous but not C&lt;sup&gt;2&lt;/sup&gt; continuous.&lt;/p&gt;
+&lt;div data-swiftui-shake-example=&quot;phaseAnimator&quot; data-wide&gt;&lt;/div&gt;
+
+&lt;h3&gt;Custom Animatable&lt;/h3&gt;
+&lt;p&gt;We can also create a custom &lt;code&gt;Animatable&lt;/code&gt; view. This technique has been supported since the beginning of SwiftUI, whereas the other three techniques have been added later. The essence is to have a view that conforms to the &lt;code&gt;Animatable&lt;/code&gt; protocol which then gets updated using an animation.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct AnimatableShake: View, Animatable {
+    var progress: Double
+
+    var animatableData: Double {
+        get { progress }
+        set { progress = newValue }
+    }
+
+    var body: some View {
+        Color.gray
+            .frame(width: 48, height: 48)
+            .offset(x: -sin(progress * 2 * .pi) * 60)
+    }
+}
+
+struct Example: View {
+    @State var progress = 0.0
+
+    var body: some View {
+        AnimatableShake(progress: progress)
+            .onTapGesture {
+                withAnimation(.linear(duration: 1)) {
+                    progress += 1
+                }
+            }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Because we chose a sine wave to compute the animation our derivative is the cosine. Both functions are smooth and have no sudden jumps.&lt;/p&gt;
+&lt;div data-swiftui-shake-example=&quot;customAnimatable&quot; data-wide&gt;&lt;/div&gt;
+
+&lt;p&gt;Unfortunately, our animation is &lt;em&gt;not&lt;/em&gt; C&lt;sup&gt;1&lt;/sup&gt; continuous, even though the plotted velocity looks very smooth. This is because the initial velocity is not zero, instead, it starts with a high (negative) velocity. One way to fix this would be to first apply a smoothing function to &lt;code&gt;progress&lt;/code&gt; (e.g. &lt;code&gt;UnitCurve.easeInOut&lt;/code&gt;).&lt;/p&gt;
+&lt;h3&gt;Keyframe Animator&lt;/h3&gt;
+&lt;p&gt;A third way to implement this is using a keyframe animation. This technique is a bit more low-level, but really powerful: we can have it animate through multiple values over time. We can specify multiple &lt;em&gt;tracks&lt;/em&gt;, for example, we could animate both the rotation and the offset together in a coordinated way. In the example below, we only animate the x position, so there is no need for multiple tracks.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Example: View {
+    @State var trigger = 0
+
+    var body: some View {
+        Color.gray
+            .frame(width: 48, height: 48)
+            .onTapGesture { trigger += 1 }
+            .keyframeAnimator(
+                initialValue: 0.0,
+                trigger: trigger
+            ) { content, offset in
+                content.offset(x: offset)
+            } keyframes: { _ in
+                KeyframeTrack(\.self) {
+                    CubicKeyframe(-60, duration: 0.25)
+                    CubicKeyframe(60, duration: 0.5)
+                    CubicKeyframe(0, duration: 0.25)
+                }
+            }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The unique feature that keyframes have is when you specify &lt;em&gt;cubic keyframes&lt;/em&gt;: the animator will then use that to build a &lt;a href=&quot;https://en.wikipedia.org/wiki/Catmull–Rom_spline&quot;&gt;Catmull-Rom spline&lt;/a&gt;
+&lt;sup&gt;&lt;a href=&quot;#fnref1&quot; name=&quot;fnref-rev1&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;
+. The intuition for this is very simple: it will try to draw a smooth line through all the control points (keyframe values) we provide:&lt;/p&gt;
+&lt;div data-swiftui-shake-example=&quot;keyframeAnimator&quot; data-wide&gt;&lt;/div&gt;
+
+&lt;p&gt;Unfortunately, these are also only C&lt;sup&gt;1&lt;/sup&gt; continuous — we can clearly see a change in the slope of the velocity at exactly the control points.&lt;/p&gt;
+&lt;blockquote&gt;
+	&lt;p&gt;Another interesting observation is that because of how Catmull-Rom works, it overshoots a little beyond 60. For the position, this is a perfectly natural thing to happen, but for other properties, that might yield strange results (e.g. overshooting an opacity is typically not something we’d want).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;Timeline View&lt;/h3&gt;
+&lt;p&gt;Perhaps the approach that gives us the most control is a &lt;code&gt;TimelineView&lt;/code&gt;. An animation timeline updates its closure at most once per animation frame, and we are free to calculate the value ourselves:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;swift&quot;&gt;struct Example: View {
+    @State var startedAt: Date?
+
+    var body: some View {
+        TimelineView(.animation(paused: startedAt == nil)) { context in
+            let elapsed = startedAt.map {
+                context.date.timeIntervalSince($0)
+            } ?? 0
+            let progress = min(1, max(0, elapsed))
+            Color.gray
+                .frame(width: 48, height: 48)
+                .offset(x: -sin(progress * 2 * .pi) * 60)
+                .onTapGesture { startedAt = context.date }
+                .onChange(of: progress &amp;gt;= 1) { _, finished in
+                    if finished { startedAt = nil }
+                }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As we used the same sine wave as before, both our position and velocity functions are smooth, and just like with the custom &lt;code&gt;Animatable&lt;/code&gt;, the initial velocity of the sine’s derivative makes this only C&lt;sup&gt;0&lt;/sup&gt; continuous.&lt;/p&gt;
+&lt;div data-swiftui-shake-example=&quot;timelineView&quot; data-wide&gt;&lt;/div&gt;
+
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;All of these approaches have a time and place to be used. I try to start with just regular animations, then move to phase animations. If I need more control over the curve or need to animate multiple properties in sync, I’ll use keyframe animations. I hardly ever reach for &lt;code&gt;TimelineView&lt;/code&gt; unless I’m doing something really custom.&lt;/p&gt;
+&lt;p&gt;I’m hoping to do a few more of these blog posts and maybe even add this to the &lt;a href=&quot;https://www.swiftuifieldguide.com&quot;&gt;SwiftUI Field Guide&lt;/a&gt;. We cover animations in our &lt;a href=&quot;https://www.swiftuifieldguide.com/workshops/&quot;&gt;SwiftUI Workshop&lt;/a&gt;. I have also offered specific one-day SwiftUI Animation workshops before, but don’t currently have a page for that. If your company is interested in this, do let me know.&lt;/p&gt;
+&lt;p&gt;One of the videos that got me really interested in this topic is &lt;a href=&quot;https://www.youtube.com/watch?v=jvPPXbo87ds&quot;&gt;The continuity of splines&lt;/a&gt; by Freya Holmér. It’s really worth a watch.&lt;/p&gt;
+&lt;p&gt;AI Disclaimer: I wrote this post myself. I used an LLM to build the visualizations and find mistakes.&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+	&lt;hr/&gt;
+	&lt;ol&gt;
+		&lt;li id=&quot;fnref1&quot;&gt;
+			&lt;p&gt;
+				Yes, that’s Edwin Catmull who also co-founded Pixar.
+				 &lt;a href=&quot;#fnref-rev1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+		&lt;/li&gt;
+	&lt;/ol&gt;
+&lt;/div&gt;
+			</description>
+			<pubDate>Mon, 31 Aug 2026 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/four-ways-to-shake</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/four-ways-to-shake</guid>
+		</item>
+		<item>
 			<title>Learning in the age of LLMs</title>
 			<description>
 				&lt;p&gt;
@@ -1302,47 +1448,6 @@ struct RoomView3Helper: View {
 			<pubDate>Mon, 30 Dec 2024 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/2024-52</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-52</guid>
-		</item>
-		<item>
-			<title>2024 in Review</title>
-			<description>
-				&lt;p&gt;
-	This was a fun and busy year that flew by. At a personal level, a lot has happened (the oldest started school, we went on a bicycle holiday, and I started therapy again.)
-&lt;/p&gt;
-&lt;p&gt;
-	Work-wise, the biggest thing is that I started a new company in addition to objc.io. This is the new home for our workshops as well as new projects.
-&lt;/p&gt;
-&lt;p&gt;
-	The first project under the new company is the &lt;a href=&quot;https://www.swiftuifieldguide.com&quot;&gt;SwiftUI Field Guide&lt;/a&gt;. This is a website that tries to show how the SwiftUI layout system works by providing interactive examples. A lot of work went into it, and I’m very proud of how it turned out. I essentially reimplemented (a small part of) SwiftUI in TypeScript. It’s what I wished SwiftUI documentation would be like: way more visual and interactive. I went into all kinds of rabbit holes in order to build this. For example, just trying to implement gradients (which are used in one or two places) sent me off deep into color space land where I learned about &lt;a href=&quot;https://bottosson.github.io/posts/oklab/&quot;&gt;OKlab&lt;/a&gt; and other things.
-&lt;/p&gt;
-&lt;p&gt;
-	I gave presentations in Hamburg, Prague, Cupertino, Paris and Bologna. They focused on the SwiftUI Layout system as well as animations. For the newer presentations, I used a new tool that lets me record me typing (during preparation) and play it back smoothly (during the actual presentation) while making sure previews are directly visible. This has been a lot of fun to work on. I used that same tool in my recent videos on Bluesky and Mastodon to give one-minute overviews of SwiftUI topics.
-&lt;/p&gt;
-&lt;p&gt;
-	I held workshops at companies like DKB, Rossmann, Dexcom, Etsy, Wallapop, Sketch, Atlassian, Amex and StarFinanz. The learning has been tremendous from all sides – obviously the goal of a workshop is that the attendees learn, yet I learn a lot as well. It’s been really great doing more in-person workshops this year.
-&lt;/p&gt;
-&lt;p&gt;
-	Except for Cupertino I traveled everywhere by train: London, Paris, Bologna and within Germany. It felt good to do that and I was able to use a lot of that time productively (I find that much harder when traveling by car or plane).
-&lt;/p&gt;
-&lt;p&gt;
-	I moved to &lt;a href=&quot;https://jj-vcs.github.io/jj/latest/&quot;&gt;jujutsu&lt;/a&gt; over the last months as my main way of interacting with Git, although I still love &lt;a href=&quot;https://retcon.app&quot;&gt;Retcon&lt;/a&gt;. Both of these make rewriting history a lot simpler. With jujutsu, even the mental model is greatly simplified compared to regular git, which really helps me. Beyond that, I haven’t used a lot of new technology: I did write a lot of TypeScript in VSCode which was okay but I still strongly prefer Swift and Xcode. As an experiment, I’m using the helix editor to write this post, I do feel it has the potential to be a vim replacement for me. One new workflow I’ve gotten used to is using the Zettelkasten note taking strategy (using &lt;a href=&quot;https://zettelkasten.de/the-archive/&quot;&gt;The Archive&lt;/a&gt;).
-&lt;/p&gt;
-&lt;p&gt;
-	At objc.io, we recorded weekly Swift Talk episodes and moved our office from Berlin to Fürstenberg. Our Berlin studio had water damage that the landlord wasn’t interested in fixing, and after half a year we had enough of that. For me, it also means I can actually cycle to and work from an office, which feels nice (I’ve worked from home for almost all of the last twenty years).
-&lt;/p&gt;
-&lt;p&gt;
-	Out of all the code I wrote this year, maybe the &lt;a href=&quot;https://github.com/chriseidhof/dynamic-type&quot;&gt;Dynamic Type&lt;/a&gt; package has been the simplest and most useful. I’m using this package in my presentations, in our Workshop app and for a number of internal tools. It’s been pretty incredible to just have iOS-like dynamic type (including things like ScaledMetric) everywhere. During a presentation, I can increase or decrease the font size. When I’m demoing the workshop app in a conference room at a client, I can just scale things up and down where needed.
-&lt;/p&gt;
-&lt;p&gt;
-	Ever since getting back from our cycling holiday I’ve had a foot injury, I think because I walked on flip-flops too much. While I am now mostly pain-free, I still have issues when running. Somewhere towards the end of summer, I switched to cycling, mostly gravel but some road cycling as well. Running has been a massive part of my identity for the last twenty years, but it’s been surprisingly easy and fun to replace it with cycling. I’m not quite sure what 2025 will look like exercise-wise. If I can keep up the cycling, I do want to do a longer bikepacking trip.
-&lt;/p&gt;
-&lt;p&gt;
-	Here’s to a fun and productive 2025!
-&lt;/p&gt;
-			</description>
-			<pubDate>Tue, 24 Dec 2024 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-review</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-review</guid>
 		</item>
 	</channel>
 </rss>

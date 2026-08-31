@@ -8,11 +8,11 @@
 		<link href="http://chris.eidhof.nl//index.xml" rel="alternate" title="RSS" type="application/rss+xml"/>
 		<link href="/post/four-ways-to-shake/index.md" rel="alternate" title="Markdown" type="text/markdown"/>
 		<title>
-			Four Ways to Shake (Unpublished) — Chris Eidhof
+			Four Ways to Shake — Chris Eidhof
 		</title>
-		<meta content="Four Ways to Shake (Unpublished) — Chris Eidhof" property="og:title"/>
+		<meta content="Four Ways to Shake — Chris Eidhof" property="og:title"/>
 		<meta content="website" property="og:type"/>
-		<meta content="/post/four-ways-to-shake/og-image-9105.png" property="og:image"/>
+		<meta content="/post/four-ways-to-shake/og-image-7163.png" property="og:image"/>
 	</head>
 	<body>
 		<section id="content">
@@ -27,14 +27,9 @@
 								Four Ways to Shake
 							</h1>
 							<h2 class="headline">
-								Comparing SwiftUI Animation Tools
+								Comparing SwiftUI Animation Techniques
 							</h2>
 						</header>
-						<div class="unpublished">
-							<p>
-								Please don’t share this, it’s not published yet.
-							</p>
-						</div>
 						<section class="postbody">
 							<p>In SwiftUI, you can often achieve the same thing in many different ways. For example, if you wanted a shake animation in SwiftUI, there are at least four obvious ways to do it. These are not equivalent, both in terms of what’s technically possible and also the smoothness of the animation.</p>
 							<p>Here’s one example with four different implementations. Can you spot the differences?</p>
@@ -100,7 +95,7 @@
 							<p>Because we chose a sine wave to compute the animation our derivative is the cosine. Both functions are smooth and have no sudden jumps.</p>
 							<div data-swiftui-shake-example="customAnimatable" data-wide></div>
 
-							<p>Unfortunately, our animation is <em>not</em> C<sup>1</sup> continuous, even though the plotted velocity looks very smooth. This is because the initial velocity is not zero, instead, it starts with a low velocity. One way to fix this would be to first apply a smoothing function to <code>progress</code> (e.g. <code>UnitCurve.easeInOut</code>).</p>
+							<p>Unfortunately, our animation is <em>not</em> C<sup>1</sup> continuous, even though the plotted velocity looks very smooth. This is because the initial velocity is not zero, instead, it starts with a high (negative) velocity. One way to fix this would be to first apply a smoothing function to <code>progress</code> (e.g. <code>UnitCurve.easeInOut</code>).</p>
 							<h3>Keyframe Animator</h3>
 							<p>A third way to implement this is using a keyframe animation. This technique is a bit more low-level, but really powerful: we can have it animate through multiple values over time. We can specify multiple <em>tracks</em>, for example, we could animate both the rotation and the offset together in a coordinated way. In the example below, we only animate the x position, so there is no need for multiple tracks.</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Example</span>: <span class="hljs-identifier">View</span> {
@@ -130,12 +125,12 @@
 . The intuition for this is very simple: it will try to draw a smooth line through all the control points (keyframe values) we provide:</p>
 							<div data-swiftui-shake-example="keyframeAnimator" data-wide></div>
 
-							<p>Unfortunately, these are also only C<sup>1</sup> continuous, we can clearly see a change in the slope of the velocity at exactly the control points.</p>
+							<p>Unfortunately, these are also only C<sup>1</sup> continuous — we can clearly see a change in the slope of the velocity at exactly the control points.</p>
 							<blockquote>
 								<p>Another interesting observation is that because of how Catmull-Rom works, it overshoots a little beyond 60. For the position, this is a perfectly natural thing to happen, but for other properties, that might yield strange results (e.g. overshooting an opacity is typically not something we’d want).</p>
 							</blockquote>
 							<h3>Timeline View</h3>
-							<p>Perhaps the approach that gives us the most control is a <code>TimelineView</code>. This just calls the closure for every animation frame, and we are free to do whatever we want:</p>
+							<p>Perhaps the approach that gives us the most control is a <code>TimelineView</code>. An animation timeline updates its closure at most once per animation frame, and we are free to calculate the value ourselves:</p>
 							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Example</span>: <span class="hljs-identifier">View</span> {
     @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">startedAt</span>: <span class="hljs-identifier">Date</span>?
 
@@ -149,6 +144,9 @@
                 .<span class="hljs-identifier">frame</span>(<span class="hljs-identifier">width</span>: <span class="hljs-number">48</span>, <span class="hljs-identifier">height</span>: <span class="hljs-number">48</span>)
                 .<span class="hljs-identifier">offset</span>(<span class="hljs-identifier">x</span>: -<span class="hljs-identifier">sin</span>(<span class="hljs-identifier">progress</span> * <span class="hljs-number">2</span> * .<span class="hljs-identifier">pi</span>) * <span class="hljs-number">60</span>)
                 .<span class="hljs-identifier">onTapGesture</span> { <span class="hljs-identifier">startedAt</span> = <span class="hljs-identifier">context</span>.<span class="hljs-identifier">date</span> }
+                .<span class="hljs-identifier">onChange</span>(<span class="hljs-identifier">of</span>: <span class="hljs-identifier">progress</span> >= <span class="hljs-number">1</span>) { _, <span class="hljs-identifier">finished</span> <span class="hljs-keyword">in</span>
+                    <span class="hljs-keyword">if</span> <span class="hljs-identifier">finished</span> { <span class="hljs-identifier">startedAt</span> = <span class="hljs-keyword">nil</span> }
+                }
         }
     }
 }
@@ -160,7 +158,7 @@
 							<p>All of these approaches have a time and place to be used. I try to start with just regular animations, then move to phase animations. If I need more control over the curve or need to animate multiple properties in sync, I’ll use keyframe animations. I hardly ever reach for <code>TimelineView</code> unless I’m doing something really custom.</p>
 							<p>I’m hoping to do a few more of these blog posts and maybe even add this to the <a href="https://www.swiftuifieldguide.com">SwiftUI Field Guide</a>. We cover animations in our <a href="https://www.swiftuifieldguide.com/workshops/">SwiftUI Workshop</a>. I have also offered specific one-day SwiftUI Animation workshops before, but don’t currently have a page for that. If your company is interested in this, do let me know.</p>
 							<p>One of the videos that got me really interested in this topic is <a href="https://www.youtube.com/watch?v=jvPPXbo87ds">The continuity of splines</a> by Freya Holmér. It’s really worth a watch.</p>
-							<p>AI Disclaimer: I wrote all text by hand. I used an LLM to build the visualizations and find mistakes.</p>
+							<p>AI Disclaimer: I wrote this post myself. I used an LLM to build the visualizations and find mistakes.</p>
 							<div class="footnotes">
 								<hr/>
 								<ol>
@@ -188,6 +186,8 @@
 					</article>
 					<footer>
 						<nav id="post-nav">
+							<span class="next"><a href="/post/learning-in-the-age-of-llms">Learning in the age of LLMs
+									<span class="arrow">→</span></a></span>
 						</nav>
 					</footer>
 				</section>

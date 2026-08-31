@@ -1,8 +1,7 @@
 ---
-headline: Comparing SwiftUI Animation Tools
+headline: Comparing SwiftUI Animation Techniques
 title: Four Ways to Shake
 date: 2026-08-31
-published: false
 script: /js/shake-comparison.js
 ---
 
@@ -89,7 +88,7 @@ Because we chose a sine wave to compute the animation our derivative is the cosi
 
 <div data-swiftui-shake-example="customAnimatable" data-wide></div>
 
-Unfortunately, our animation is *not* C<sup>1</sup> continuous, even though the plotted velocity looks very smooth. This is because the initial velocity is not zero, instead, it starts with a low velocity. One way to fix this would be to first apply a smoothing function to `progress` (e.g. `UnitCurve.easeInOut`).
+Unfortunately, our animation is *not* C<sup>1</sup> continuous, even though the plotted velocity looks very smooth. This is because the initial velocity is not zero, instead, it starts with a high (negative) velocity. One way to fix this would be to first apply a smoothing function to `progress` (e.g. `UnitCurve.easeInOut`).
 
 ### Keyframe Animator
 
@@ -124,13 +123,13 @@ The unique feature that keyframes have is when you specify *cubic keyframes*: th
 
 <div data-swiftui-shake-example="keyframeAnimator" data-wide></div>
 
-Unfortunately, these are also only C<sup>1</sup> continuous, we can clearly see a change in the slope of the velocity at exactly the control points.
+Unfortunately, these are also only C<sup>1</sup> continuous — we can clearly see a change in the slope of the velocity at exactly the control points.
 
 > Another interesting observation is that because of how Catmull-Rom works, it overshoots a little beyond 60. For the position, this is a perfectly natural thing to happen, but for other properties, that might yield strange results (e.g. overshooting an opacity is typically not something we'd want).
 
 ### Timeline View
 
-Perhaps the approach that gives us the most control is a `TimelineView`. This just calls the closure for every animation frame, and we are free to do whatever we want:
+Perhaps the approach that gives us the most control is a `TimelineView`. An animation timeline updates its closure at most once per animation frame, and we are free to calculate the value ourselves:
 
 ```swift
 struct Example: View {
@@ -146,6 +145,9 @@ struct Example: View {
                 .frame(width: 48, height: 48)
                 .offset(x: -sin(progress * 2 * .pi) * 60)
                 .onTapGesture { startedAt = context.date }
+                .onChange(of: progress >= 1) { _, finished in
+                    if finished { startedAt = nil }
+                }
         }
     }
 }
@@ -164,6 +166,6 @@ I'm hoping to do a few more of these blog posts and maybe even add this to the [
 
 One of the videos that got me really interested in this topic is [The continuity of splines](https://www.youtube.com/watch?v=jvPPXbo87ds) by Freya Holmér. It's really worth a watch.
 
-AI Disclaimer: I wrote all text by hand. I used an LLM to build the visualizations and find mistakes.
+AI Disclaimer: I wrote this post myself. I used an LLM to build the visualizations and find mistakes.
 
 [^1]: Yes, that's Edwin Catmull who also co-founded Pixar.
