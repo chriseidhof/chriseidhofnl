@@ -40,5 +40,22 @@ EOF
 
 ## Build And Preview
 
-- To generate the site, run `swift run`.
-- To preview the generated site locally, run `cd docs && python3 -m http.server`.
+- To generate the site, run `swift run Website`. Plain `swift run` is
+  ambiguous because this package also contains `PreviewServer`.
+- Run the test suite with `swift test`.
+- To preview the generated site locally, run
+  `python3 -m http.server 8765 --bind 127.0.0.1 --directory docs`.
+
+## Generated Interactive Assets
+
+- `site/js/shake-comparison.js` and `docs/js/shake-comparison.js` are generated
+  by the SwiftUI reimplementation repository. Do not edit either copy by hand.
+- From `/Users/chris/gmbh/code/SwiftUIReimplNew`, run
+  `./Scripts/sync-shake-review.sh /Users/chris/Sites/chriseidhofnl` to regenerate
+  the review and update both copies from one source.
+- If only those JavaScript copies changed, a full website rebuild is not
+  required. If post Markdown or templates changed, run `swift run Website` so
+  `docs/` and feeds stay synchronized.
+- Inspect `git status` before staging. Post prose may be an intentional author
+  edit made alongside generated-asset work; do not include it in an asset-only
+  commit unless requested.
