@@ -161,8 +161,7 @@ As we used the same sine wave as before, both our position and velocity function
 
 All of these approaches have a time and place to be used. I try to start with just regular animations, then move to phase animations. If I need more control over the curve or need to animate multiple properties in sync, I'll use keyframe animations. I hardly ever reach for `TimelineView` unless I'm doing something really custom.
 
-I'm hoping to do a few more of these blog posts and maybe even add this to the [SwiftUI Field Guide](https://www.swiftuifieldguide.com). We cover animations in our [SwiftUI Workshop](https://www.swiftuifieldguide.com/workshops/). I have also offered specific one-day SwiftUI Animation workshops before, but don't currently have a page for that. If your company is interested in this, do let me know.
-
+I'm hoping to do a few more of these blog posts and maybe even add this to the [SwiftUI Field Guide](https://www.swiftuifieldguide.com). We cover animations in our [SwiftUI Workshop](https://www.swiftuifieldguide.com/workshops/). We have also offered specific one-day SwiftUI Animation workshops before, but don't currently have a page for that. If your company is interested in this, get in touch.
 
 One of the videos that got me really interested in this topic is [The continuity of splines](https://www.youtube.com/watch?v=jvPPXbo87ds) by Freya Holmér. It's really worth a watch.
 
