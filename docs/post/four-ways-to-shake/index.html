@@ -37,51 +37,219 @@
 						</div>
 						<section class="postbody">
 							<p>
-								SwiftUI gives us several very different ways to describe the same animation.
-								To compare them, I implemented one small shake four times: the box moves from
-								the center to the left, then to the right, and finally back to the center.
+								In SwiftUI, you can often achieve the same thing in many different ways. For example, if you wanted a shake animation in SwiftUI, there at least four obvious ways to do it. These are not equivalent, both in terms of what’s technically possible but also the smoothness of the animation.
 							</p>
 							<p>
-								The examples below use a custom <code>Animatable</code>, a <code>PhaseAnimator</code>, a <code>KeyframeAnimator</code>, and a <code>TimelineView</code>. Tap a box to run that animation.
-								You can also drag the headed line in its position graph to inspect the exact
-								position and velocity at any point in time.
+								Here’s one example with four different implementations:
+							</p>
+							<div data-swiftui-shake-preview data-wide></div>
+
+							<p>
+								It might be a bit hard to spot, but each of these animate in a slightly different way. In general, we want animations to have a smooth curve. For example, in the real world, when an object moves, it starts slowly, then becomes faster and finally slows down to a halt. In SwiftUI, this is typically done with the <code>easeInOut</code> timing curve.
+							</p>
+							<p>
+								When you animate the position of objects, it often “feels more natural” if that animation is somewhat like things happen in the real world. Start slowly, pick up speed, slow down again. Rather than only relying on what “feels natural”, we can also get technical about this.
+							</p>
+							<p>
+								If we consider the x position of our gray box as a function that takes time as the input, and the x position as the output, we can talk about the <em>continuity</em>
+								 of that function. Ideally, we want no sudden jumps in the output values as time increases. This is C
+								<sup>
+								0
+								</sup>
+								 continuity. Going one level higher, we also want the <em>velocity</em>
+								 to be continuous: if the object has a lot of motion all of a sudden, that feels unnatural. This is C
+								<sup>
+								1
+								</sup>
+								 continuity. If we then go yet another level higher, we also ideally don’t want jumps in the acceleration. This is C
+								<sup>
+								2
+								</sup>
+								 continuity. We’ll look at these in more detail.
 							</p>
 							<h2>
 								The Four Implementations
 							</h2>
 							<p>
-								These declarations are loaded from the same generated data as the interactive
-								examples. This keeps the source shown in the article identical to the source
-								used to produce the traces.
+								Perhaps the simplest way to implement this in modern SwiftUI is through a phase animator. A phase animator is essentially a bunch of chained animations. In the example below, we first animate our offset from 0 to -60 (in 0.25 seconds). When that animation completes, we then animate (in 0.5 seconds, as it takes longer to travel) to 60, and when that finally completes we animate back to zero (in 0.25 seconds).
 							</p>
-							<h3>
-								Custom Animatable
-							</h3>
-							<pre><code data-swiftui-shake-source="customAnimatable">Loading source…</code></pre>
-
-							<div data-swiftui-shake-example="customAnimatable" data-wide></div>
-
 							<h3>
 								Phase Animator
 							</h3>
-							<pre><code data-swiftui-shake-source="phaseAnimator">Loading source…</code></pre>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Example</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">trigger</span> = <span class="hljs-number">0</span>
 
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">Color</span>.<span class="hljs-identifier">gray</span>
+            .<span class="hljs-identifier">frame</span>(<span class="hljs-identifier">width</span>: <span class="hljs-number">48</span>, <span class="hljs-identifier">height</span>: <span class="hljs-number">48</span>)
+            .<span class="hljs-identifier">onTapGesture</span> { <span class="hljs-identifier">trigger</span> += <span class="hljs-number">1</span> }
+            .<span class="hljs-identifier">phaseAnimator</span>(
+                [<span class="hljs-number">0.0</span>, -<span class="hljs-number">60</span>, <span class="hljs-number">60</span>, <span class="hljs-number">0</span>],
+                <span class="hljs-identifier">trigger</span>: <span class="hljs-identifier">trigger</span>
+            ) { <span class="hljs-identifier">content</span>, <span class="hljs-identifier">offset</span> <span class="hljs-keyword">in</span>
+                <span class="hljs-identifier">content</span>.<span class="hljs-identifier">offset</span>(<span class="hljs-identifier">x</span>: <span class="hljs-identifier">offset</span>)
+            } <span class="hljs-identifier">animation</span>: { <span class="hljs-identifier">offset</span> <span class="hljs-keyword">in</span>
+                .<span class="hljs-identifier">easeInOut</span>(<span class="hljs-identifier">duration</span>: <span class="hljs-identifier">offset</span> == <span class="hljs-number">60</span> ? <span class="hljs-number">0.5</span> : <span class="hljs-number">0.25</span>)
+            }
+    }
+}
+</code></pre>
+							<p>
+								In the graph, we can see that the x position of the box follows a smooth curve. We also can look at the velocity, which is the <em>derivative</em>
+								 of the function that plots the x position. At the points where a next phase starts, we can see that the velocity is not smooth. Hence, our animation is C
+								<sup>
+								1
+								</sup>
+								 continuous but not C
+								<sup>
+								2
+								</sup>
+								 continuous.
+							</p>
 							<div data-swiftui-shake-example="phaseAnimator" data-wide></div>
+
+							<h3>
+								Custom Animatable
+							</h3>
+							<p>
+								We can also create a custom <code>Animatable</code> view. This technique has been supported since the beginning of SwiftUI, whereas the other three techniques have been added later. The essence is to have a view that conforms to the <code>Animatable</code> protocol which then gets updated using an animation.
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">AnimatableShake</span>: <span class="hljs-identifier">View</span>, <span class="hljs-identifier">Animatable</span> {
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">progress</span>: <span class="hljs-identifier">Double</span>
+
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">animatableData</span>: <span class="hljs-identifier">Double</span> {
+        get { <span class="hljs-identifier">progress</span> }
+        set { <span class="hljs-identifier">progress</span> = <span class="hljs-identifier">newValue</span> }
+    }
+
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">Color</span>.<span class="hljs-identifier">gray</span>
+            .<span class="hljs-identifier">frame</span>(<span class="hljs-identifier">width</span>: <span class="hljs-number">48</span>, <span class="hljs-identifier">height</span>: <span class="hljs-number">48</span>)
+            .<span class="hljs-identifier">offset</span>(<span class="hljs-identifier">x</span>: -<span class="hljs-identifier">sin</span>(<span class="hljs-identifier">progress</span> * <span class="hljs-number">2</span> * .<span class="hljs-identifier">pi</span>) * <span class="hljs-number">60</span>)
+    }
+}
+
+<span class="hljs-keyword">struct</span> <span class="hljs-identifier">Example</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">progress</span> = <span class="hljs-number">0.0</span>
+
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">AnimatableShake</span>(<span class="hljs-identifier">progress</span>: <span class="hljs-identifier">progress</span>)
+            .<span class="hljs-identifier">onTapGesture</span> {
+                <span class="hljs-identifier">withAnimation</span>(.<span class="hljs-identifier">linear</span>(<span class="hljs-identifier">duration</span>: <span class="hljs-number">1</span>)) {
+                    <span class="hljs-identifier">progress</span> += <span class="hljs-number">1</span>
+                }
+            }
+    }
+}
+</code></pre>
+							<p>
+								Because we chose a sine wave to compute the animation our derivative is the cosine. Both functions are smooth and have no sudden jumps. Unfortunately, our animation is <em>not</em>
+								 C
+								<sup>
+								2
+								</sup>
+								 continuous, even though the plotted velocity looks very smooth. This is because the initial velocity is not zero, instead, it starts high:
+							</p>
+							<div data-swiftui-shake-example="customAnimatable" data-wide></div>
 
 							<h3>
 								Keyframe Animator
 							</h3>
-							<pre><code data-swiftui-shake-source="keyframeAnimator">Loading source…</code></pre>
+							<p>
+								A third way to implement this is using a keyframe animation. This technique is a bit more low- level, but really powerful: we can have it animate through multiple values over time. We can specify multiple <em>tracks</em>
+								, for example, we could animate both the rotation and the offset together in a coordinated way. In the example below, we only animate the x position, so there is no need for multiple tracks.
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Example</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">trigger</span> = <span class="hljs-number">0</span>
 
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">Color</span>.<span class="hljs-identifier">gray</span>
+            .<span class="hljs-identifier">frame</span>(<span class="hljs-identifier">width</span>: <span class="hljs-number">48</span>, <span class="hljs-identifier">height</span>: <span class="hljs-number">48</span>)
+            .<span class="hljs-identifier">onTapGesture</span> { <span class="hljs-identifier">trigger</span> += <span class="hljs-number">1</span> }
+            .<span class="hljs-identifier">keyframeAnimator</span>(
+                <span class="hljs-identifier">initialValue</span>: <span class="hljs-number">0.0</span>,
+                <span class="hljs-identifier">trigger</span>: <span class="hljs-identifier">trigger</span>
+            ) { <span class="hljs-identifier">content</span>, <span class="hljs-identifier">offset</span> <span class="hljs-keyword">in</span>
+                <span class="hljs-identifier">content</span>.<span class="hljs-identifier">offset</span>(<span class="hljs-identifier">x</span>: <span class="hljs-identifier">offset</span>)
+            } <span class="hljs-identifier">keyframes</span>: { _ <span class="hljs-keyword">in</span>
+                <span class="hljs-identifier">KeyframeTrack</span>(\.<span class="hljs-keyword">self</span>) {
+                    <span class="hljs-identifier">CubicKeyframe</span>(-<span class="hljs-number">60</span>, <span class="hljs-identifier">duration</span>: <span class="hljs-number">0.25</span>)
+                    <span class="hljs-identifier">CubicKeyframe</span>(<span class="hljs-number">60</span>, <span class="hljs-identifier">duration</span>: <span class="hljs-number">0.5</span>)
+                    <span class="hljs-identifier">CubicKeyframe</span>(<span class="hljs-number">0</span>, <span class="hljs-identifier">duration</span>: <span class="hljs-number">0.25</span>)
+                }
+            }
+    }
+}
+</code></pre>
+							<p>
+								The unique feature that keyframes have is when you specify <em>cubic keyframes</em>
+								: the animator will then use that to build a <a href="https://en.wikipedia.org/wiki/Catmull–Rom_spline">Catmull-Rom spline</a>
+<sup><a href="#fnref1" name="fnref-rev1">1</a></sup>
+. The intuition for this is very simple: it will try to draw a smooth line through all the control points (keyframe values) we provide:
+							</p>
 							<div data-swiftui-shake-example="keyframeAnimator" data-wide></div>
 
+							<p>
+								Unfortunately, these are also only C
+								<sup>
+								1
+								</sup>
+								 continuous, we can clearly see a change of velocity at the control points.
+							</p>
 							<h3>
 								Timeline View
 							</h3>
-							<pre><code data-swiftui-shake-source="timelineView">Loading source…</code></pre>
+							<p>
+								Perhaps the approach that gives us the most control is a <code>TimelineView</code>. This just calls the closure for every animation frame, and we are free to do whatever we want:
+							</p>
+							<pre><code class="swift"><span class="hljs-keyword">struct</span> <span class="hljs-identifier">Example</span>: <span class="hljs-identifier">View</span> {
+    @<span class="hljs-identifier">State</span> <span class="hljs-keyword">var</span> <span class="hljs-identifier">startedAt</span>: <span class="hljs-identifier">Date</span>?
 
+    <span class="hljs-keyword">var</span> <span class="hljs-identifier">body</span>: some <span class="hljs-identifier">View</span> {
+        <span class="hljs-identifier">TimelineView</span>(.<span class="hljs-identifier">animation</span>(<span class="hljs-identifier">paused</span>: <span class="hljs-identifier">startedAt</span> == <span class="hljs-keyword">nil</span>)) { <span class="hljs-identifier">context</span> <span class="hljs-keyword">in</span>
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">elapsed</span> = <span class="hljs-identifier">startedAt</span>.<span class="hljs-identifier">map</span> {
+                <span class="hljs-identifier">context</span>.<span class="hljs-identifier">date</span>.<span class="hljs-identifier">timeIntervalSince</span>($0)
+            } ?? <span class="hljs-number">0</span>
+            <span class="hljs-keyword">let</span> <span class="hljs-identifier">progress</span> = <span class="hljs-identifier">min</span>(<span class="hljs-number">1</span>, <span class="hljs-identifier">max</span>(<span class="hljs-number">0</span>, <span class="hljs-identifier">elapsed</span>))
+            <span class="hljs-identifier">Color</span>.<span class="hljs-identifier">gray</span>
+                .<span class="hljs-identifier">frame</span>(<span class="hljs-identifier">width</span>: <span class="hljs-number">48</span>, <span class="hljs-identifier">height</span>: <span class="hljs-number">48</span>)
+                .<span class="hljs-identifier">offset</span>(<span class="hljs-identifier">x</span>: -<span class="hljs-identifier">sin</span>(<span class="hljs-identifier">progress</span> * <span class="hljs-number">2</span> * .<span class="hljs-identifier">pi</span>) * <span class="hljs-number">60</span>)
+                .<span class="hljs-identifier">onTapGesture</span> { <span class="hljs-identifier">startedAt</span> = <span class="hljs-identifier">context</span>.<span class="hljs-identifier">date</span> }
+        }
+    }
+}
+</code></pre>
+							<p>
+								As we used the same sine wave as before, both our position and velocity functions are smooth, and just like with the custom <code>Animatable</code>, the initial velocity of the sine’s derivative makes this only C
+								<sup>
+								1
+								</sup>
+								 continuous.
+							</p>
 							<div data-swiftui-shake-example="timelineView" data-wide></div>
 
+							<h2>
+								Conclusion
+							</h2>
+							<p>
+								All of these approaches have a time and place to be used. I try to start with just regular animations, then move to phase animations. If I need more control over the curve or need to animate multiple properties in sync, I’ll use keyframe animations. I hardly ever reach for <code>TimelineView</code> unless I’m doing something really custom.
+							</p>
+							<p>
+								I’m hoping to do a few more of these blog posts and maybe even add this to the <a href="https://www.swiftuifieldguide.com">SwiftUI Field Guide</a>. We cover this topic in our <a href="https://www.swiftuifieldguide.com/workshops/">SwiftUI Workshop</a>. Last year, I also did a specific one-day SwiftUI Animation workshop. If your company is interested in this, do let me know.
+							</p>
+							<p>
+								One of the videos that got me really interested in this topic is <a href="https://www.youtube.com/watch?v=jvPPXbo87ds">The continuity of splines</a> by Freya Holmér. It’s really worth a watch.
+							</p>
+							<div class="footnotes">
+								<hr/>
+								<ol>
+									<li id="fnref1">
+										<p>
+											Yes, that’s Edwin Catmull who also co-founded Pixar.
+											 <a href="#fnref-rev1">↩</a></p>
+									</li>
+								</ol>
+							</div>
 						</section>
 						<script defer src="/js/shake-comparison.js">
 						</script>

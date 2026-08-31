@@ -59,4 +59,25 @@
                 )
             }
         }
+
+        func testShakePostStartsWithThePickerPreview() throws {
+            let post = try String(
+                contentsOfFile: "site/posts/four-ways-to-shake.md",
+                encoding: .utf8
+            )
+            let preview = try XCTUnwrap(
+                post.range(of: "data-swiftui-shake-preview")
+            )
+            let firstExample = try XCTUnwrap(
+                post.range(of: "data-swiftui-shake-example")
+            )
+
+            XCTAssertEqual(
+                post.components(
+                    separatedBy: "data-swiftui-shake-preview"
+                ).count - 1,
+                1
+            )
+            XCTAssertLessThan(preview.lowerBound, firstExample.lowerBound)
+        }
     }
