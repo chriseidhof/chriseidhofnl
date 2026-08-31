@@ -52,7 +52,7 @@ fileprivate var myPostBody: [any PostPiece] {
 
     If you create a new Xcode project and add this as the `body` of your `ContentView`, it will look like this in the previews:
     """)
-    SwiftUIView {
+    SwiftUIView(background: false) {
         VStack {
             Group {
                 Text("One")
@@ -66,7 +66,7 @@ fileprivate var myPostBody: [any PostPiece] {
     Markdown("""
     However, if you then run that very same app in the Simulator, it looks very different:
     """)
-    SwiftUIView {
+    SwiftUIView(background: false) {
         VStack {
             Group {
                 Text("One")
