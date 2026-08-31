@@ -50,6 +50,14 @@ body {
     font-size: 16px;
 }
 
+sup {
+    position: relative;
+    top: -0.45em;
+    vertical-align: baseline;
+    line-height: 0;
+    font-size: 0.75em;
+}
+
 h1,
 h2,
 h3,

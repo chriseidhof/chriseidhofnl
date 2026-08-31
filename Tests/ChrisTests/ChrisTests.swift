@@ -80,4 +80,16 @@
             )
             XCTAssertLessThan(preview.lowerBound, firstExample.lowerBound)
         }
+
+        func testSuperscriptsDoNotChangeParagraphLineHeight() throws {
+            let stylesheet = try String(
+                contentsOfFile: "site/css/style.css",
+                encoding: .utf8
+            )
+
+            XCTAssertTrue(stylesheet.contains("sup {"))
+            XCTAssertTrue(stylesheet.contains("line-height: 0;"))
+            XCTAssertTrue(stylesheet.contains("vertical-align: baseline;"))
+            XCTAssertTrue(stylesheet.contains("top: -0.45em;"))
+        }
     }
