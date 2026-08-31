@@ -8,13 +8,13 @@ script: /js/shake-comparison.js
 
 
 
-In SwiftUI, you can often achieve the same thing in many different ways. For example, if you wanted a shake animation in SwiftUI, there at least four obvious ways to do it. These are not equivalent, both in terms of what's technically possible but also the smoothness of the animation.
+In SwiftUI, you can often achieve the same thing in many different ways. For example, if you wanted a shake animation in SwiftUI, there are at least four obvious ways to do it. These are not equivalent, both in terms of what's technically possible and also the smoothness of the animation.
 
-Here's one example with four different implementations:
+Here's one example with four different implementations. Can you spot the differences?
 
 <div data-swiftui-shake-preview data-wide></div>
 
-It might be a bit hard to spot, but each of these animate in a slightly different way. In general, we want animations to have a smooth curve. For example, in the real world, when an object moves, it starts slowly, then becomes faster and finally slows down to a halt. In SwiftUI, this is typically done with the `easeInOut` timing curve.
+It might be a bit hard to spot, but each of these animates in a slightly different way. In general, we want animations to have a smooth curve. For example, in the real world, when an object moves, it starts slowly, then becomes faster and finally slows down to a halt. In SwiftUI, this is typically done with the `easeInOut` timing curve.
 
 When you animate the position of objects, it often "feels more natural" if that animation is somewhat like things happen in the real world. Start slowly, pick up speed, slow down again. Rather than only relying on what "feels natural", we can also get technical about this.
 
@@ -46,7 +46,7 @@ struct Example: View {
 }
 ```
 
-In the graph, we can see that the x position of the box follows a smooth curve. We also can look at the velocity, which is the *derivative* of the function that plots the x position. At the points where a next phase starts, we can see that the velocity is not smooth. Hence, our animation is C<sup>1</sup> continuous but not C<sup>2</sup> continuous.
+In the graph, we can see that the x position of the box follows a smooth curve. We also can look at the velocity, which is the *derivative* of the function that plots the x position. At the points where a next phase starts, we can see that the velocity is continuous but not smooth (the slope changes abruptly). Hence, our animation is C<sup>1</sup> continuous but not C<sup>2</sup> continuous.
 
 <div data-swiftui-shake-example="phaseAnimator" data-wide></div>
 
@@ -85,13 +85,15 @@ struct Example: View {
 }
 ```
 
-Because we chose a sine wave to compute the animation our derivative is the cosine. Both functions are smooth and have no sudden jumps. Unfortunately, our animation is *not* C<sup>2</sup> continuous, even though the plotted velocity looks very smooth. This is because the initial velocity is not zero, instead, it starts high:
+Because we chose a sine wave to compute the animation our derivative is the cosine. Both functions are smooth and have no sudden jumps.
 
 <div data-swiftui-shake-example="customAnimatable" data-wide></div>
 
+Unfortunately, our animation is *not* C<sup>1</sup> continuous, even though the plotted velocity looks very smooth. This is because the initial velocity is not zero, instead, it starts with a low velocity. One way to fix this would be to first apply a smoothing function to `progress` (e.g. `UnitCurve.easeInOut`).
+
 ### Keyframe Animator
 
-A third way to implement this is using a keyframe animation. This technique is a bit more low- level, but really powerful: we can have it animate through multiple values over time. We can specify multiple *tracks*, for example, we could animate both the rotation and the offset together in a coordinated way. In the example below, we only animate the x position, so there is no need for multiple tracks.
+A third way to implement this is using a keyframe animation. This technique is a bit more low-level, but really powerful: we can have it animate through multiple values over time. We can specify multiple *tracks*, for example, we could animate both the rotation and the offset together in a coordinated way. In the example below, we only animate the x position, so there is no need for multiple tracks.
 
 
 ```swift
@@ -122,7 +124,9 @@ The unique feature that keyframes have is when you specify *cubic keyframes*: th
 
 <div data-swiftui-shake-example="keyframeAnimator" data-wide></div>
 
-Unfortunately, these are also only C<sup>1</sup> continuous, we can clearly see a change of velocity at the control points.
+Unfortunately, these are also only C<sup>1</sup> continuous, we can clearly see a change in the slope of the velocity at exactly the control points.
+
+> Another interesting observation is that because of how Catmull-Rom works, it overshoots a little beyond 60. For the position, this is a perfectly natural thing to happen, but for other properties, that might yield strange results (e.g. overshooting an opacity is typically not something we'd want).
 
 ### Timeline View
 
@@ -147,7 +151,7 @@ struct Example: View {
 }
 ```
 
-As we used the same sine wave as before, both our position and velocity functions are smooth, and just like with the custom `Animatable`, the initial velocity of the sine's derivative makes this only C<sup>1</sup> continuous.
+As we used the same sine wave as before, both our position and velocity functions are smooth, and just like with the custom `Animatable`, the initial velocity of the sine's derivative makes this only C<sup>0</sup> continuous.
 
 <div data-swiftui-shake-example="timelineView" data-wide></div>
 
@@ -155,8 +159,11 @@ As we used the same sine wave as before, both our position and velocity function
 
 All of these approaches have a time and place to be used. I try to start with just regular animations, then move to phase animations. If I need more control over the curve or need to animate multiple properties in sync, I'll use keyframe animations. I hardly ever reach for `TimelineView` unless I'm doing something really custom.
 
-I'm hoping to do a few more of these blog posts and maybe even add this to the [SwiftUI Field Guide](https://www.swiftuifieldguide.com). We cover this topic in our [SwiftUI Workshop](https://www.swiftuifieldguide.com/workshops/). Last year, I also did a specific one-day SwiftUI Animation workshop. If your company is interested in this, do let me know.
+I'm hoping to do a few more of these blog posts and maybe even add this to the [SwiftUI Field Guide](https://www.swiftuifieldguide.com). We cover animations in our [SwiftUI Workshop](https://www.swiftuifieldguide.com/workshops/). I have also offered specific one-day SwiftUI Animation workshops before, but don't currently have a page for that. If your company is interested in this, do let me know.
+
 
 One of the videos that got me really interested in this topic is [The continuity of splines](https://www.youtube.com/watch?v=jvPPXbo87ds) by Freya Holmér. It's really worth a watch.
+
+Disclaimer: I wrote all text myself. I did use an LLM to build the visualizations.
 
 [^1]: Yes, that's Edwin Catmull who also co-founded Pixar.
