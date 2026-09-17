@@ -8,6 +8,35 @@
 		<link>http://chris.eidhof.nl</link>
 		<atom:link href="http://chris.eidhof.nl/feed.xml" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Animations in the SwiftUI Field Guide</title>
+			<description>
+				&lt;p&gt;
+	Two years ago, I created the &lt;a href=&quot;https://www.swiftuifieldguide.com/&quot;&gt;SwiftUI Field Guide&lt;/a&gt; together with &lt;a href=&quot;https://nicholaschristowitz.com/&quot;&gt;Nicholas&lt;/a&gt;, who did the design. It’s one of the things I’m most proud of. It contains a small SwiftUI reimplementation in TypeScript, and everything works on the web and is interactive. I deliberately chose to keep the text very minimal and let the examples do the work. Building it taught me a lot, but after the release I eventually focused on other things.
+&lt;/p&gt;
+&lt;p&gt;
+	A few weeks ago, I started integrating all kinds of components and pieces we’ve built over the years into a single reimplementation of SwiftUI in Swift. This reimplementation is very far from production ready, and that’s not the goal at all. I want to use it for teaching. It contains instrumentation and tracing so you can see the layout process, the animation process, and inspect and debug the entire attribute graph.
+&lt;/p&gt;
+&lt;p&gt;
+	I then compiled this to WebAssembly and integrated it into the Field Guide in a &lt;a href=&quot;https://www.swiftuifieldguide.com/animations/&quot;&gt;new section on animations&lt;/a&gt;. All the examples there run through WebAssembly and show how animations work in SwiftUI. I haven’t made the section “public” yet.
+&lt;/p&gt;
+&lt;p&gt;
+	It’s still a work in progress, but I wanted to release it anyway, in a build-in-public kind of way. I hope that in the next few weeks I can get all the pages out that I wanted to do, and then do more editing passes.
+&lt;/p&gt;
+&lt;p&gt;
+	I’ve been able to move really quickly because of LLMs, building new examples and making edits to them with a much higher velocity than doing everything by hand. I spend most of my time thinking about the writing, which I do myself, and what examples I actually want to show.
+&lt;/p&gt;
+&lt;p&gt;
+	It took quite a while to teach the LLM what the examples should look like. Most of its initial output was quite bloated and overcomplicated, but now we’ve settled into something that’s mostly right the first time around.
+&lt;/p&gt;
+&lt;p&gt;
+	In any case, I wanted to let people know that this now exists, and would love to hear any feedback on this work. I also added an animations workshop to the &lt;a href=&quot;https://www.swiftuifieldguide.com/workshops/&quot;&gt;workshops page&lt;/a&gt; in addition to the regular SwiftUI Workshop.
+&lt;/p&gt;
+			</description>
+			<pubDate>Thu, 17 Sep 2026 00:00:00 +0200</pubDate>
+			<link>http://chris.eidhof.nl/post/animations-in-the-field-guide</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/animations-in-the-field-guide</guid>
+		</item>
+		<item>
 			<title>Four Ways to Shake</title>
 			<description>
 				&lt;p&gt;In SwiftUI, you can often achieve the same thing in many different ways. For example, if you wanted a shake animation in SwiftUI, there are at least four obvious ways to do it. These are not equivalent, both in terms of what’s technically possible and also the smoothness of the animation.&lt;/p&gt;
@@ -1431,23 +1460,6 @@ struct RoomView3Helper: View {
 			<pubDate>Mon, 03 Mar 2025 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/swiftui-phase-animation-bug</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-phase-animation-bug</guid>
-		</item>
-		<item>
-			<title>Weeknotes № 52</title>
-			<description>
-				&lt;p&gt;
-	Just to be consistent I’ll add the notes for this week as well. Mostly had family time and managed to put in a few longer but very cold bike rides.
-&lt;/p&gt;
-&lt;p&gt;
-	We took the train to The Netherlands, the bike rides here are cold as well. I rented a gravel bike which is really nice (even though the brakes don’t really work all that well, so I’ll bring my own bike next time).
-&lt;/p&gt;
-&lt;p&gt;
-	I’ve spent a bit of time on preparing upcoming workshops, we recorded another Swift Talk episode and I played around a bit with Helix. For Helix, I installed &lt;a href=&quot;https://github.com/artempyanykh/marksman&quot;&gt;Marksman&lt;/a&gt; to get nice Markdown autocompletion. It supports wiki-like syntax so that I can edit my Zettelkasten notes as well (although I prefer the more integrated workflow of The Archive).
-&lt;/p&gt;
-			</description>
-			<pubDate>Mon, 30 Dec 2024 00:00:00 +0100</pubDate>
-			<link>http://chris.eidhof.nl/post/2024-52</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-52</guid>
 		</item>
 	</channel>
 </rss>
