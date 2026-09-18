@@ -61,7 +61,7 @@ Color.red
 
 While the outer frame and offset will have an effect on where the view is positioned, we can see that the inner frame will ultimately control the size, overriding the proposed size of the outer frame modifier. In other words: the red square will *always* render at 100⨉100.
 
-To fix this, we need to change the order of our modifiers so that the `matchedGeometryEffect` is directly applied to the color. As the color is completely flexible, this doesn't cause any problems. Here's the changed `if` branch, the `else` branch needs to change as well:
+To fix this, we need to [change the order of our modifiers](https://www.swiftuifieldguide.com/animations/matched-geometry-effect/#modifierOrder) so that the `matchedGeometryEffect` is directly applied to the color. As the color is completely flexible, this doesn't cause any problems. Here's the changed `if` branch, the `else` branch needs to change as well:
 
 ```swift
 Color.red

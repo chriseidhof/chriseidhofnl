@@ -8,7 +8,7 @@ date: 2024-09-22
 
 I'm currently still busy researching all the animation APIs in SwiftUI. I'd like to understand them at such a level that I have either my own working implementation or know how to build it.
 
-With `PhaseAnimator`, I always was a little confused as to how it actually works and why it sometimes seems to skip phases. Here's what I think is going on:
+With `PhaseAnimator`, I always was a little confused as to how it actually works and why it sometimes seems to [skip phases](https://www.swiftuifieldguide.com/animations/phase-animations/#gotchas). Here's what I think is going on:
 
 - Initially the content closure of the phase animation is rendered using the first phase provided
 - When you start a phase animation (either using the trigger or automatically by not providing a trigger), it calls the animation closure to determine the timing curve and animates to the next phase.

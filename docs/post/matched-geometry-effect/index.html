@@ -89,7 +89,7 @@
 								 render at 100⨉100.
 							</p>
 							<p>
-								To fix this, we need to change the order of our modifiers so that the <code>matchedGeometryEffect</code> is directly applied to the color. As the color is completely flexible, this doesn’t cause any problems. Here’s the changed <code>if</code> branch, the <code>else</code> branch needs to change as well:
+								To fix this, we need to <a href="https://www.swiftuifieldguide.com/animations/matched-geometry-effect/#modifierOrder">change the order of our modifiers</a> so that the <code>matchedGeometryEffect</code> is directly applied to the color. As the color is completely flexible, this doesn’t cause any problems. Here’s the changed <code>if</code> branch, the <code>else</code> branch needs to change as well:
 							</p>
 							<pre><code class="swift"><span class="hljs-identifier">Color</span>.<span class="hljs-identifier">red</span>
      .<span class="hljs-identifier">matchedGeometryEffect</span>(<span class="hljs-identifier">id</span>: <span class="hljs-string">"</span><span class="hljs-string">rect</span><span class="hljs-string">"</span>, <span class="hljs-identifier">in</span>: <span class="hljs-identifier">ns</span>)

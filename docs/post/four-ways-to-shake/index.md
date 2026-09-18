@@ -9,11 +9,11 @@ script: /js/shake-comparison.js
 
 In SwiftUI, you can often achieve the same thing in many different ways. For example, if you wanted a shake animation in SwiftUI, there are at least four obvious ways to do it. These are not equivalent, both in terms of what's technically possible and also the smoothness of the animation.
 
-Here's one example with four different implementations. Can you spot the differences?
+Here's one example with four different implementations. Tap the box to shake it. Can you spot the differences?
 
 <div data-swiftui-shake-preview data-wide></div>
 
-It might be a bit hard to spot, but each of these animates in a slightly different way. In general, we want animations to have a smooth curve. For example, in the real world, when an object moves, it starts slowly, then becomes faster and finally slows down to a halt. In SwiftUI, this is typically done with the `easeInOut` timing curve.
+It might be a bit hard to spot, but each of these animates in a slightly different way. In general, we want animations to have a smooth curve. For example, in the real world, when an object moves, it starts slowly, then becomes faster and finally slows down to a halt. In SwiftUI, this is typically done with the [`easeInOut` timing curve](https://www.swiftuifieldguide.com/animations/animation-curves/).
 
 When you animate the position of objects, it often "feels more natural" if that animation is somewhat like things happen in the real world. Start slowly, pick up speed, slow down again. Rather than only relying on what "feels natural", we can also get technical about this.
 
@@ -21,7 +21,7 @@ If we consider the x position of our gray box as a function that takes time as t
 
 ## The Four Implementations
 
-Perhaps the simplest way to implement this in modern SwiftUI is through a phase animator. A phase animator is essentially a bunch of chained animations. In the example below, we first animate our offset from 0 to -60 (in 0.25 seconds). When that animation completes, we then animate (in 0.5 seconds, as it takes longer to travel) to 60, and when that finally completes we animate back to zero (in 0.25 seconds).
+Perhaps the simplest way to implement this in modern SwiftUI is through a [phase animator](https://www.swiftuifieldguide.com/animations/phase-animations/). A phase animator is essentially a bunch of chained animations. In the example below, we first animate our offset from 0 to -60 (in 0.25 seconds). When that animation completes, we then animate (in 0.5 seconds, as it takes longer to travel) to 60, and when that finally completes we animate back to zero (in 0.25 seconds).
 
 ### Phase Animator
 
@@ -52,7 +52,7 @@ In the graph, we can see that the x position of the box follows a smooth curve. 
 
 ### Custom Animatable
 
-We can also create a custom `Animatable` view. This technique has been supported since the beginning of SwiftUI, whereas the other three techniques have been added later. The essence is to have a view that conforms to the `Animatable` protocol which then gets updated using an animation.
+We can also create a [custom `Animatable` view](https://www.swiftuifieldguide.com/animations/animatable/#wiggle). This technique has been supported since the beginning of SwiftUI, whereas the other three techniques have been added later. The essence is to have a view that conforms to the `Animatable` protocol which then gets updated using an animation.
 
 ```swift
 struct AnimatableShake: View, Animatable {
@@ -88,11 +88,11 @@ Because we chose a sine wave to compute the animation our derivative is the cosi
 
 <div data-swiftui-shake-example="customAnimatable" data-wide></div>
 
-Unfortunately, our animation is *not* C<sup>1</sup> continuous, even though the plotted velocity looks very smooth. This is because the initial velocity is not zero, instead, it starts with a high (negative) velocity. One way to fix this would be to first apply a smoothing function to `progress` (e.g. `UnitCurve.easeInOut`).
+Unfortunately, our animation is *not* C<sup>1</sup> continuous, even though the plotted velocity looks very smooth. This is because the initial velocity is not zero, instead, it starts with a high (negative) velocity. One way to fix this would be to first apply a smoothing function to `progress` (e.g. [`UnitCurve.easeInOut`](https://www.swiftuifieldguide.com/animations/animation-curves/#unitCurves)).
 
 ### Keyframe Animator
 
-A third way to implement this is using a keyframe animation. This technique is a bit more low-level, but really powerful: we can have it animate through multiple values over time. We can specify multiple *tracks*, for example, we could animate both the rotation and the offset together in a coordinated way. In the example below, we only animate the x position, so there is no need for multiple tracks.
+A third way to implement this is using a [keyframe animation](https://www.swiftuifieldguide.com/animations/keyframe-animations/). This technique is a bit more low-level, but really powerful: we can have it animate through multiple values over time. We can specify multiple *tracks*, for example, we could animate both the rotation and the offset together in a coordinated way. In the example below, we only animate the x position, so there is no need for multiple tracks.
 
 
 ```swift
@@ -119,7 +119,7 @@ struct Example: View {
 }
 ```
 
-The unique feature that keyframes have is when you specify *cubic keyframes*: the animator will then use that to build a [Catmull-Rom spline](https://en.wikipedia.org/wiki/Catmull–Rom_spline)[^1]. The intuition for this is very simple: it will try to draw a smooth line through all the control points (keyframe values) we provide:
+The unique feature that keyframes have is when you specify *cubic keyframes*: the animator will then use that to build a [Catmull-Rom spline](https://www.swiftuifieldguide.com/animations/catmull-rom-splines/)[^1]. The intuition for this is very simple: it will try to draw a smooth line through all the control points (keyframe values) we provide:
 
 <div data-swiftui-shake-example="keyframeAnimator" data-wide></div>
 
