@@ -287,43 +287,6 @@ struct Example: View {
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/format-style-guide</guid>
 		</item>
 		<item>
-			<title>Alt Tech Talks</title>
-			<description>
-				&lt;p&gt;
-	In 2013, I got rejected for Apple’s “Tech Talks”. At the time, with objc.io doing well, I assumed I would have been accepted.
-&lt;/p&gt;
-&lt;p&gt;
-	I jumped on my bike, cycled to the nearest cinema, and walked in asking what it would cost to rent the place for a day.
-&lt;/p&gt;
-&lt;p&gt;
-	They said €3,000.
-&lt;/p&gt;
-&lt;p&gt;
-	I realised I could probably get sponsors, and even if not, I could afford to lose it. So I said yes.
-&lt;/p&gt;
-&lt;p&gt;
-	I called Microsoft and asked them to sponsor my alternative conference. I started asking friends to speak. I couldn’t pay them, but tickets would be free. The line-up filled up quickly.
-&lt;/p&gt;
-&lt;p&gt;
-	On the day itself, I got out of the subway. It was still dark, and I saw “Alt Tech Talks” on the cinema lightbox. That was the first moment it felt real—and slightly terrifying. People were flying in from all over Europe.
-&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://chris.eidhof.nl/images/alt-tech-talks.jpg&quot; title/&gt;&lt;/p&gt;
-&lt;p&gt;
-	The room filled up. The talks were great, but more importantly, the atmosphere was different. People meeting, talking, forming connections and making friends. It felt like a real coming together of the community.
-&lt;/p&gt;
-&lt;p&gt;
-	Looking back, I didn’t actually need a ticket for Apple’s event. I needed a way to meet the community.
-	And it turns out you can just build one.
-&lt;/p&gt;
-&lt;p&gt;
-	What I didn’t expect was that others would pick it up. People started organizing their own versions of Alt Tech Talks. &lt;a href=&quot;https://github.com/Daniel1of1&quot;&gt;Daniel&lt;/a&gt; ran one in London. At that point, it stopped being about my rejection and became something bigger than that.
-&lt;/p&gt;
-			</description>
-			<pubDate>Fri, 03 Apr 2026 00:00:00 +0200</pubDate>
-			<link>http://chris.eidhof.nl/post/alt-tech-talks</link>
-			<guid isPermaLink="true">http://chris.eidhof.nl/post/alt-tech-talks</guid>
-		</item>
-		<item>
 			<title>Building Pancake</title>
 			<description>
 				&lt;p&gt;
@@ -1460,6 +1423,23 @@ struct RoomView3Helper: View {
 			<pubDate>Mon, 03 Mar 2025 00:00:00 +0100</pubDate>
 			<link>http://chris.eidhof.nl/post/swiftui-phase-animation-bug</link>
 			<guid isPermaLink="true">http://chris.eidhof.nl/post/swiftui-phase-animation-bug</guid>
+		</item>
+		<item>
+			<title>Weeknotes № 52</title>
+			<description>
+				&lt;p&gt;
+	Just to be consistent I’ll add the notes for this week as well. Mostly had family time and managed to put in a few longer but very cold bike rides.
+&lt;/p&gt;
+&lt;p&gt;
+	We took the train to The Netherlands, the bike rides here are cold as well. I rented a gravel bike which is really nice (even though the brakes don’t really work all that well, so I’ll bring my own bike next time).
+&lt;/p&gt;
+&lt;p&gt;
+	I’ve spent a bit of time on preparing upcoming workshops, we recorded another Swift Talk episode and I played around a bit with Helix. For Helix, I installed &lt;a href=&quot;https://github.com/artempyanykh/marksman&quot;&gt;Marksman&lt;/a&gt; to get nice Markdown autocompletion. It supports wiki-like syntax so that I can edit my Zettelkasten notes as well (although I prefer the more integrated workflow of The Archive).
+&lt;/p&gt;
+			</description>
+			<pubDate>Mon, 30 Dec 2024 00:00:00 +0100</pubDate>
+			<link>http://chris.eidhof.nl/post/2024-52</link>
+			<guid isPermaLink="true">http://chris.eidhof.nl/post/2024-52</guid>
 		</item>
 	</channel>
 </rss>
